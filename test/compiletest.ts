@@ -18,7 +18,7 @@ let propname = cookies.propname;
 let product = ProductMgr.getProduct('x');
 let customattribute = product.custom.test;
 
-// let list: dw.util.List<SortingOption> = dw.catalog.CatalogMgr.getSortingOptions();
-// list.toArray().forEach(element => {
-
-// });
+let list: dw.util.List<dw.catalog.SortingOption> = dw.catalog.CatalogMgr.getSortingOptions();
+list.toArray().forEach(element => {
+  let displayname = element.displayName;
+});

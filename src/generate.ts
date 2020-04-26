@@ -14,7 +14,7 @@ const config: any = {
     Boolean: "boolean",
     Object: "any",
     arguments: "IArguments",
-    Array: "Array<any>"
+    Array: "Array"
   },
   generics: [
     "dw.util.Collection",
@@ -24,7 +24,8 @@ const config: any = {
     "dw.util.Iterator",
     "dw.util.LinkedHashSet",
     "dw.util.Set",
-    "dw.util.SortedSet"
+    "dw.util.SortedSet",
+    "Array"
   ],
   argsMapping: {
     function: "fn",
@@ -244,7 +245,7 @@ const generateCodeForClass = (theClass: any) => {
       (methodSource: any, method: any) =>
         `${methodSource}${doc(method)}${isGlobal ? "declare function " : ""}${
         method.static && !isGlobal ? isStatic : ""
-        }${method.name}(${method.argsSource}): ${sanitizeType(method.class.name, method.class.generics, isGeneric)};\n`,
+        }${method.name}(${method.argsSource}): ${sanitizeType(method.class.name, method.class.generics, isGeneric)}; // method\n`,
       ""
     );
   source += "\n";
