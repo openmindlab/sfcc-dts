@@ -3,9 +3,12 @@ import fs from "fs";
 import path from "path";
 import prettier from "prettier";
 import jsonmergepatch from "json-merge-patch";
+import propertiesReader from 'properties-reader';
 
 const basePathGenerated = path.join(process.cwd(), "./@types", "sfcc");
 const sfccApi: any = jsonmergepatch.apply(JSON.parse(fs.readFileSync("./api/sfcc-api.json", "utf8")), JSON.parse(fs.readFileSync("./api/patches.json", "utf8")));
+
+var genericsremap = propertiesReader('./api/generics.properties');
 
 const config: any = {
   typesMapping: {
@@ -242,10 +245,28 @@ const generateCodeForClass = (theClass: any) => {
       return method;
     })
     .reduce(
-      (methodSource: any, method: any) =>
-        `${methodSource}${doc(method)}${isGlobal ? "declare function " : ""}${
-        method.static && !isGlobal ? isStatic : ""
-        }${method.name}(${method.argsSource}): ${sanitizeType(method.class.name, method.class.generics, isGeneric)}; // method\n`,
+      (methodSource: any, method: any) => {
+
+        // theClass.fullClassName
+
+        let returnType = sanitizeType(method.class.name, method.class.generics, isGeneric);
+
+        genericsremap
+
+        if (!isGeneric && returnType.indexOf('<any>') > -1) {
+
+          let propkey = `${theClass.fullClassName}.${method.name}`;
+          // @ts-ignore
+          returnType = genericsremap.get(propkey) || returnType;
+
+          if (returnType.indexOf('<any>') > -1) {
+            console.log(`Unmapped generics: ${propkey}=${returnType}`);
+          }
+        }
+
+        return `${methodSource}${doc(method)}${isGlobal ? "declare function " : ""}${method.static && !isGlobal ? isStatic : ""
+          }${method.name}(${method.argsSource}): ${returnType};\n`
+      },
       ""
     );
   source += "\n";
