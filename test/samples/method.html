@@ -1,0 +1,92 @@
+<div class="detailItem">
+  <a name="dw_catalog_StoreMgr_searchStoresByCoordinates_Number_Number_String_Number_String_Object_DetailAnchor"></a>
+  <div class="detailName 
+              ">searchStoresByCoordinates</div>
+  <div class="detailSignature
+                ">static&nbsp;<span class="emphasis">searchStoresByCoordinates</span>(latitude
+                   : 
+                   
+                  <a href="class_TopLevel_Number.html"><span class="">Number</span></a>, longitude
+                   : 
+                   
+                  <a href="class_TopLevel_Number.html"><span class="">Number</span></a>, distanceUnit
+                   : 
+                   
+                  <a href="class_TopLevel_String.html"><span class="">String</span></a>, maxDistance
+                   : 
+                   
+                  <a href="class_TopLevel_Number.html"><span class="">Number</span></a>, queryString
+                   : 
+                   
+                  <a href="class_TopLevel_String.html"><span class="">String</span></a>, args
+                   : 
+                   
+                  <a href="class_TopLevel_Object.html"><span class="">Object</span></a>...)
+             : 
+            <a href="class_dw_util_LinkedHashMap.html"><span class="">LinkedHashMap</span></a>
+  </div>
+  <div class="description">Search for stores based on geo-coordinates. The method returns a list of
+   stores for the current site that are within a specified distance of a
+   location on the earth and which optionally satisfy additional filter
+   criteria. If no additional criteria are specified, then this method
+   behaves similar to GetNearestStores pipelet. The criteria are specified
+   as a querystring, using the same syntax as
+   <a href="class_dw_object_SystemObjectMgr.html#dw_object_SystemObjectMgr_querySystemObjects_String_String_String_Object_DetailAnchor">SystemObjectMgr.querySystemObjects(String, String, String, Object...)</a>
+   <p>
+   The stores and their distance from the specified location are returned as
+   a LinkedHashMap of Store objects to distances, sorting in ascending order
+   by distance. The distance is interpreted either in miles or kilometers
+   depending on the "distanceUnit" parameter.
+   </p><p>
+   The latitude and longitude of each store is determined by first looking
+   at <a href="class_dw_catalog_Store.html#dw_catalog_Store_getLatitude_DetailAnchor">Store.getLatitude()</a> and
+   <a href="class_dw_catalog_Store.html#dw_catalog_Store_getLongitude_DetailAnchor">Store.getLongitude()</a>. If these are not set, then the
+   system deduces the location of the store by looking for a configured
+   geolocation matching the store's postal and country codes.</p></div>
+  <div class="parameters">
+  <span class="parameterTitle">Parameters:</span>
+  <div class="parameterDetail">
+  <span class="parameterName">latitude</span>
+               - 
+              <span class="parameterDesc">Latitude coordinate which is the center of the search area. Must not be null or an exception is thrown.</span>
+  </div>
+  <div class="parameterDetail">
+  <span class="parameterName">longitude</span>
+               - 
+              <span class="parameterDesc">Longitude coordinate which is the center of the search area. Must not be null or an exception is thrown.</span>
+  </div>
+  <div class="parameterDetail">
+  <span class="parameterName">distanceUnit</span>
+               - 
+              <span class="parameterDesc">The distance unit to be used for the calculation. Supported values are 'mi' and 'km' (for miles and kilometers respectively). If an invalid value is passed then 'km' will be used.</span>
+  </div>
+  <div class="parameterDetail">
+  <span class="parameterName">maxDistance</span>
+               - 
+              <span class="parameterDesc">Area (radius) in DistanceUnit where Stores will be searched for. If null is passed, a system default is used.</span>
+  </div>
+  <div class="parameterDetail">
+  <span class="parameterName">queryString</span>
+               - 
+              <span class="parameterDesc">optional filter criteria specified as querystring.</span>
+  </div>
+  <div class="parameterDetail">
+  <span class="parameterName">args</span>
+               - 
+              <span class="parameterDesc">the arguments to fill in the values in the querystring.</span>
+  </div>
+  </div>
+  <div class="parameters">
+  <span class="parameterTitle">Returns:</span>
+  <div class="parameterDetail"></div>
+  <div class="parameterDetail"></div>
+  <div class="parameterDetail"></div>
+  <div class="parameterDetail"></div>
+  <div class="parameterDetail"></div>
+  <div class="parameterDetail"></div>
+  <div class="parameterDetail">
+  <span class="parameterDesc">The stores and their distance from the specified location, sorted in ascending order by distance.</span>
+  </div>
+  </div>
+  <hr>
+  </div>

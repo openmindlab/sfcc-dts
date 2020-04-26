@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist/",
+    "noImplicitAny": false,
+    "target": "es5",
+    "lib": ["es5", "es6", "dom"],
+    "jsx": "react",
+    "module": "commonjs",
+    "removeComments": false,
+    "alwaysStrict": true,
+    "declaration": true,
+    "noEmit": true,
+    "emitDeclarationOnly": false,
+    "allowJs": true,
+    "checkJs": true,
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "baseUrl": "."
+  },
+  "exclude": ["@tXXypes/**/*", "test/**/*", "dist/**/*"]
+}

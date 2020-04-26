@@ -1,0 +1,92 @@
+{
+  "api": {
+    "dw": {
+      "catalog": {
+        "ProductSearchRefinements": {
+          "methods": {
+            "getAllRefinementValues": null,
+            "getRefinementValues": null
+          }
+        },
+        "Variant": {
+          "methods": {
+            "getRecommendations": null
+          }
+        },
+        "VariationGroup": {
+          "methods": {
+            "getRecommendations": null
+          }
+        }
+      },
+      "content": {
+        "ContentSearchRefinements": {
+          "methods": {
+            "getAllRefinementValues": null,
+            "getRefinementValues": null
+          }
+        }
+      },
+      "util": {
+        "Map": {
+          "properties": {
+            "[name: string]": {
+              "name": "[name: string]",
+              "class": {
+                "name": "any"
+              },
+              "static": false,
+              "readOnly": true,
+              "description": "Returns the value associated with the key or null",
+              "deprecated": 0
+            }
+          }
+        },
+        "SeekableIterator": {
+          "methods": {
+            "asList": null
+          }
+        }
+      },
+      "web": {
+        "Cookies": {
+          "properties": {
+            "[name: string]": {
+              "name": "[name: string]",
+              "class": {
+                "name": "any"
+              },
+              "static": false,
+              "readOnly": true,
+              "description": "Returns the dw.web.Cookie with this name or null",
+              "deprecated": 0
+            }
+          }
+        }
+      },
+      "object": {
+        "CustomAttributes": {
+          "properties": {
+            "[name: string]": {
+              "name": "[name: string]",
+              "class": {
+                "name": "any"
+              },
+              "static": false,
+              "readOnly": true,
+              "description": "Returns the custom attribute with this name. Throws an exception if attribute is not defined",
+              "deprecated": 0
+            }
+          }
+        }
+      },
+      "order": {
+        "PriceAdjustment": {
+          "properties": {
+            "custom": null
+          }
+        }
+      }
+    }
+  }
+}
