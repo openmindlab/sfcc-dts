@@ -2,9 +2,8 @@
   "compilerOptions": {
     "outDir": "./dist/",
     "noImplicitAny": true,
-    "target": "es5",
+    "target": "ESNext",
     "lib": ["es5", "es6", "dom"],
-    "jsx": "react",
     "module": "commonjs",
     "removeComments": false,
     "alwaysStrict": true,
@@ -19,10 +18,10 @@
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "baseUrl": ".",
-    "typeRoots": ["@types"],
+    "typeRoots": ["@types", "node_modules/@types"],
     "paths": {
       "dw/*": ["@types/sfcc/dw/*"]
     }
   },
-  "exclude": ["dist/**/*"]
+  "exclude": ["dist/**/*", "test/**/*"]
 }

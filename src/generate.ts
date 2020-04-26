@@ -1,3 +1,4 @@
+
 import fs from "fs";
 import path from "path";
 import prettier from "prettier";
@@ -15,6 +16,16 @@ const config: any = {
     arguments: "IArguments",
     Array: "Array<any>"
   },
+  generics: [
+    "dw.util.Collection",
+    "dw.util.List",
+    "dw.util.ArrayList",
+    "dw.util.FilteringCollection",
+    "dw.util.Iterator",
+    "dw.util.LinkedHashSet",
+    "dw.util.Set",
+    "dw.util.SortedSet"
+  ],
   argsMapping: {
     function: "fn",
   },
@@ -28,9 +39,24 @@ const config: any = {
   },
 };
 
-const sanitizeType = (type: string) => {
+const isCollection = (fullclassname: string) => {
+  return config.generics.includes(fullclassname);
+}
+
+const sanitizeType = (type: string, generics: string, isGeneric: boolean) => {
   var sanitizedType = (sfccApi.mapping[type] || type).replace("TopLevel.", "");
-  return config.typesMapping[sanitizedType] || sanitizedType;
+  let mapped = config.typesMapping[sanitizedType] || sanitizedType;
+  if (generics) {
+    return `${mapped}<${generics}>`
+  }
+  let result = isGeneric && mapped === 'any' ? 'T' : mapped;
+  if (isGeneric && isCollection(result)) {
+    return `${result}<T>`;
+  }
+  if (isCollection(result)) {
+    return `${result}<any>`;
+  }
+  return result;
 };
 
 const sanitizeArg = (arg: string) => config.argsMapping[arg] || arg;
@@ -86,10 +112,8 @@ const doc = (obj: any) => {
     .join("\n")}\n*/\n`;
 };
 
-const formatArgument = (arg: any) =>
-  `${arg.multiple ? "..." : ""}${sanitizeArg(arg.name)}: ${sanitizeType(
-    arg.class.name
-  )}${arg.multiple ? "[]" : ""}`;
+const formatArgument = (arg: any, isGeneric: boolean) =>
+  `${arg.multiple ? "..." : ""}${sanitizeArg(arg.name)}: ${sanitizeType(arg.class.name, arg.class.generics, isGeneric)}${arg.multiple ? "[]" : ""}`;
 
 const filterComponent = (key: string, prop: string) => {
   return (element: any) =>
@@ -153,13 +177,16 @@ const generateCodeForClass = (theClass: any) => {
     readonly = "";
   }
 
+  let isGeneric: boolean = config.generics.includes(theClass.fullClassName);
+
   if (!isGlobal) {
     if (theClass.description) {
       source += doc(theClass);
     }
-    source += `${isTopLevel ? 'declare ' : ''}class ${className} `;
+
+    source += `${isTopLevel ? 'declare ' : ''}class ${className}${isGeneric ? '<T>' : ''} `;
     if (theClass.hierarchy.length > 1) {
-      source += `extends ${sanitizeType(theClass.hierarchy.pop().name)} `;
+      source += `extends ${sanitizeType(theClass.hierarchy.pop().name, null, isGeneric)} `;
     }
     source += "{\n";
   }
@@ -170,7 +197,7 @@ const generateCodeForClass = (theClass: any) => {
       (constantSource: any, constant: any) =>
         `${constantSource}${doc(constant)}${isGlobal ? 'declare ' : ''}${isStatic}${readonly}${
         constant.name
-        }${!constant.value ? ": " + sanitizeType(constant.class.name) : ""}${
+        }${!constant.value ? ": " + sanitizeType(constant.class.name, constant.class.generics, isGeneric && !isStatic) : ""}${
         constant.value ? " = " + sanitizeValue(constant) : ""
         };\n`,
       ""
@@ -183,7 +210,7 @@ const generateCodeForClass = (theClass: any) => {
       (propSource: any, property: any) =>
         `${propSource}${doc(property)}${isGlobal ? 'declare ' : ''}${property.static ? isStatic : ""}${
         property.readonly ? readonly : ""
-        }${property.name}: ${sanitizeType(property.class.name)};\n`,
+        }${property.name}: ${sanitizeType(property.class.name, property.class.generics, isGeneric && !property.static)};\n`,
       ""
     );
   source += "\n";
@@ -191,7 +218,7 @@ const generateCodeForClass = (theClass: any) => {
   if (!isInterface) {
     source += objbToArray(theClass.constructors)
       .map((constructor: any) => {
-        constructor.argsSource = constructor.args.map(formatArgument).join(", ");
+        constructor.argsSource = constructor.args.map((m: any) => formatArgument(m, isGeneric)).join(", ");
         return constructor;
       })
       .reduce(
@@ -210,16 +237,14 @@ const generateCodeForClass = (theClass: any) => {
   source += objbToArray(theClass.methods)
     .filter(filterMethods(className))
     .map((method: any) => {
-      method.argsSource = method.args.map(formatArgument).join(", ");
+      method.argsSource = method.args.map((m: any) => formatArgument(m, isGeneric)).join(", ");
       return method;
     })
     .reduce(
       (methodSource: any, method: any) =>
         `${methodSource}${doc(method)}${isGlobal ? "declare function " : ""}${
         method.static && !isGlobal ? isStatic : ""
-        }${method.name}(${method.argsSource}): ${sanitizeType(
-          method.class.name
-        )};\n`,
+        }${method.name}(${method.argsSource}): ${sanitizeType(method.class.name, method.class.generics, isGeneric)};\n`,
       ""
     );
   source += "\n";
@@ -258,9 +283,16 @@ source += generateCode(sfccApi.api.dw);
 source += "}\n";
 //source += "}\n";
 
+let formatted = source;
+try {
+  formatted = prettier.format(source, { parser: "typescript" });
+}
+catch (e) {
+  console.error(e);
+}
 fs.writeFileSync(
   path.join(basePathGenerated, "index.d.ts"),
-  prettier.format(source, { parser: "typescript" })
+  formatted
 );
 //
 //   generateDts
