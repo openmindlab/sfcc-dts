@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "outDir": "./dist/",
-    "noImplicitAny": false,
+    "noImplicitAny": true,
     "target": "es5",
     "lib": ["es5", "es6", "dom"],
     "jsx": "react",
@@ -18,7 +18,11 @@
     "forceConsistentCasingInFileNames": true,
     "esModuleInterop": true,
     "resolveJsonModule": true,
-    "baseUrl": "."
+    "baseUrl": ".",
+    "typeRoots": ["@types"],
+    "paths": {
+      "dw/*": ["@types/sfcc/dw/*"]
+    }
   },
-  "exclude": ["@tXXypes/**/*", "test/**/*", "dist/**/*"]
+  "exclude": ["dist/**/*"]
 }

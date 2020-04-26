@@ -17,13 +17,3 @@ let propname = cookies.propname;
 
 let product = ProductMgr.getProduct('x');
 let customattribute = product.custom.test;
-
-
-
-
-
-interface Collection<T> {
-    [k: number]: T;
-    add(T): void;
-    empty: boolean;
-}

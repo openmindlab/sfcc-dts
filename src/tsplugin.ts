@@ -1,17 +1,8 @@
-
 function init(modules: { typescript: typeof import("typescript/lib/tsserverlibrary") }) {
-  const ts = modules.typescript;
 
-
-  //function init({ typescript: ts } : {typescript: typeof ts_module}) {
   function create(info: ts.server.PluginCreateInfo): ts.LanguageService {
-    const log = (text: string, level: string = "info") => {
-      info.project.projectService.logger[level](`[sfccstar]: ${text}`);
-      const fs = require('fs');
-      fs.appendFile('/Users/fgiust/data/apps/itabus/itabus-ecomm/sfccstar.log', text + '\n', function (err) {
-        if (err) throw err;
-        console.log('sfccstar Saved!');
-      });
+    const log = (text: string) => {
+      info.project.projectService.logger.info(`[sfccstar]: ${text}`);
     }
     log("starting plugin");
 

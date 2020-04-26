@@ -4,9 +4,9 @@ import prettier from "prettier";
 import jsonmergepatch from "json-merge-patch";
 
 const basePathGenerated = path.join(process.cwd(), "./@types", "sfcc");
-const sfccApi = jsonmergepatch.apply(JSON.parse(fs.readFileSync("./api/sfcc-api.json", "utf8")), JSON.parse(fs.readFileSync("./api/patches.json", "utf8")));
+const sfccApi: any = jsonmergepatch.apply(JSON.parse(fs.readFileSync("./api/sfcc-api.json", "utf8")), JSON.parse(fs.readFileSync("./api/patches.json", "utf8")));
 
-const config = {
+const config: any = {
   typesMapping: {
     Number: "number",
     String: "string",
@@ -36,7 +36,7 @@ const sanitizeType = (type: string) => {
 const sanitizeArg = (arg: string) => config.argsMapping[arg] || arg;
 
 
-const objbToArray = (obj): any => {
+const objbToArray = (obj: any): any => {
   return Object.values(obj);
 };
 
@@ -74,7 +74,7 @@ const doc = (obj: any) => {
   let description = obj.description;
 
   if (obj.args) {
-    description += '\n' + obj.args.map(param => `@param ${param.name} ${param.description}`).join("\n");
+    description += '\n' + obj.args.map((param: any) => `@param ${param.name} ${param.description}`).join("\n");
   }
 
   if (obj.class && obj.class.description) {
@@ -82,7 +82,7 @@ const doc = (obj: any) => {
   }
   return `/**\n${description
     .split("\n")
-    .map((line) => ` * ${line}`)
+    .map((line: string) => ` * ${line}`)
     .join("\n")}\n*/\n`;
 };
 
@@ -167,7 +167,7 @@ const generateCodeForClass = (theClass: any) => {
   source += objbToArray(theClass.constants)
     .filter(filterConstants(className))
     .reduce(
-      (constantSource, constant) =>
+      (constantSource: any, constant: any) =>
         `${constantSource}${doc(constant)}${isGlobal ? 'declare ' : ''}${isStatic}${readonly}${
         constant.name
         }${!constant.value ? ": " + sanitizeType(constant.class.name) : ""}${
@@ -180,7 +180,7 @@ const generateCodeForClass = (theClass: any) => {
   source += objbToArray(theClass.properties)
     .filter(filterProperties(className))
     .reduce(
-      (propSource, property) =>
+      (propSource: any, property: any) =>
         `${propSource}${doc(property)}${isGlobal ? 'declare ' : ''}${property.static ? isStatic : ""}${
         property.readonly ? readonly : ""
         }${property.name}: ${sanitizeType(property.class.name)};\n`,
@@ -190,12 +190,12 @@ const generateCodeForClass = (theClass: any) => {
 
   if (!isInterface) {
     source += objbToArray(theClass.constructors)
-      .map((constructor) => {
+      .map((constructor: any) => {
         constructor.argsSource = constructor.args.map(formatArgument).join(", ");
         return constructor;
       })
       .reduce(
-        (constructorSource, constructor) =>
+        (constructorSource: any, constructor: any) =>
           `${constructorSource}${doc(constructor)}constructor(${
           constructor.argsSource
           });\n`,
@@ -209,12 +209,12 @@ const generateCodeForClass = (theClass: any) => {
 
   source += objbToArray(theClass.methods)
     .filter(filterMethods(className))
-    .map((method) => {
+    .map((method: any) => {
       method.argsSource = method.args.map(formatArgument).join(", ");
       return method;
     })
     .reduce(
-      (methodSource, method) =>
+      (methodSource: any, method: any) =>
         `${methodSource}${doc(method)}${isGlobal ? "declare function " : ""}${
         method.static && !isGlobal ? isStatic : ""
         }${method.name}(${method.argsSource}): ${sanitizeType(

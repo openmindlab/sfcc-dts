@@ -6,17 +6,17 @@ import cliProgress from 'cli-progress';
 const progress = new cliProgress.SingleBar({}, cliProgress.Presets.rect);
 const api = {};
 
-const propKey = (item, key) => {
+const propKey = (item: any, key: string) => {
   let count = 0;
- 
+
   while (item[key]) {
     key += count++;
   }
   return key;
 }
 
-const arrayToObj = (array) => {
-  const initialValue = {};
+const arrayToObj = (array: any[]) => {
+  const initialValue: any = {};
   for (let j = 0; j < array.length; j++) {
     const element = array[j];
     initialValue[propKey(initialValue, element.name)] = element;
@@ -49,7 +49,7 @@ const arrayToObj = (array) => {
           let fullClassName = $class.eq(0).attr("id").split("_")[1];
           let className = fullClassName.split('.').slice(-1)[0];
           var packageName = $('.packageName').text().trim();
-          var classes = packageName.split('.').reduce((classesInPackage, packageName) => {
+          var classes = packageName.split('.').reduce((classesInPackage: any, packageName: string) => {
             return classesInPackage[packageName] || (classesInPackage[packageName] = {});
           }, api);
           if (!(className in classes)) {
@@ -215,15 +215,15 @@ const arrayToObj = (array) => {
   const fs = require('fs');
   const path = require('path');
 
-  const sort = (obj) => {
+  const sort = (obj: any) => {
     if (obj.fullClassName) return obj;
-    return Object.keys(obj).sort().reduce(function (sortedObj, key) {
+    return Object.keys(obj).sort().reduce(function (sortedObj: any, key: string) {
       sortedObj[key] = sort(obj[key]);
       return sortedObj;
     }, {});
   };
   const apiSorted = sort(api);
-  const collectClasses = (obj, mapping) => {
+  const collectClasses = (obj: any, mapping: any) => {
     if (obj.fullClassName) {
       if (!obj.fullClassName.startsWith('TopLevel.')) {
         mapping[obj.fullClassName.split('.').pop()] = obj.fullClassName;
@@ -235,9 +235,9 @@ const arrayToObj = (array) => {
   }
   const apiMapping = collectClasses(apiSorted, {});
 
-  const collectInterfaces = (obj, interfaces) => {
+  const collectInterfaces = (obj: any, interfaces: string[]) => {
     if (obj.hierarchy) {
-      obj.hierarchy.forEach(el => {
+      obj.hierarchy.forEach((el: any) => {
         if (!interfaces.includes(el.name)) {
           interfaces.push(el.name);
         }
