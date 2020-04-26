@@ -870,7 +870,7 @@ declare class XML {
    *
    * @return an Array of Namespace objects representing the namespaces in scope for this XML object in the context of its parent.
    */
-  inScopeNamespaces(): Array<any>;
+  inScopeNamespaces(): Array<Namespace>;
   /**
    * Inserts the specified child2 after the specified child1
    *  in this XML object and returns this XML object. If child1 is null,
@@ -932,7 +932,7 @@ declare class XML {
    *
    * @return an Array of namespace declarations associated with the XML Obnject in the context of its parent.
    */
-  namespaceDeclarations(): Array<any>;
+  namespaceDeclarations(): Array<Namespace>;
   /**
    * Returns the type of the XML object, such
    *  as text, comment, processing-instruction,
@@ -1512,7 +1512,9 @@ declare namespace dw {
        * @param alertDescriptorIDs the IDs of the referenced alert descriptions
        * @return the list of alerts (of type Alert)
        */
-      static getAlerts(...alertDescriptorIDs: string[]): dw.util.List<any>;
+      static getAlerts(
+        ...alertDescriptorIDs: string[]
+      ): dw.util.List<dw.alert.Alert>;
       /**
        * Retrieves all alerts for a set of alert descriptor ID and the given context object ID.
        * @param contextObjectID the ID of the referenced object
@@ -1522,7 +1524,7 @@ declare namespace dw {
       static getAlertsForContextObject(
         contextObjectID: string,
         ...alertDescriptorIDs: string[]
-      ): dw.util.List<any>;
+      ): dw.util.List<dw.alert.Alert>;
       /**
        * Retrieves all alerts for a set of alert descriptor ID and the given context object.
        * @param contextObject the context object
@@ -1532,7 +1534,7 @@ declare namespace dw {
       static getAlertsForContextObject(
         contextObject: dw.object.PersistentObject,
         ...alertDescriptorIDs: string[]
-      ): dw.util.List<any>;
+      ): dw.util.List<dw.alert.Alert>;
       /**
        * Removes all alerts for the given alert descriptor ID. This method will remove also alert referencing
        *  context objects, as long as they reference the same alert description.
@@ -1654,7 +1656,9 @@ declare namespace dw {
        *
        * @return unordered collection of ABTestSegment instances representing the AB-test segments to which the current customer is assigned.
        */
-      static getAssignedTestSegments(): dw.util.Collection<any>;
+      static getAssignedTestSegments(): dw.util.Collection<
+        dw.campaign.ABTestSegment
+      >;
       /**
        * Test whether the current customer is a member of the specified AB-test
        *  segment. This method can be used to customize the storefront experience
@@ -1900,7 +1904,7 @@ declare namespace dw {
        *
        * @return An ordered list of bonus products that the customer may choose from for this discount.
        */
-      getBonusProducts(): dw.util.List<any>;
+      getBonusProducts(): dw.util.List<dw.catalog.Product>;
       /**
        * Returns the maximum number of bonus items that a customer is entitled to
        *  select for this discount.
@@ -1943,7 +1947,7 @@ declare namespace dw {
        *
        * @return Collection of bonus products
        */
-      getBonusProducts(): dw.util.Collection<any>;
+      getBonusProducts(): dw.util.Collection<dw.catalog.Product>;
     }
 
     /**
@@ -2227,7 +2231,7 @@ declare namespace dw {
        */
       static getApplicableConditionalPromotions(
         product: dw.catalog.Product
-      ): dw.util.Collection<any>;
+      ): dw.util.Collection<dw.campaign.Promotion>;
       /**
        * Returns the enabled promotions of active campaigns applicable for the
        *  current customer and source code for which the specified product is
@@ -2248,7 +2252,7 @@ declare namespace dw {
        */
       static getApplicablePromotions(
         product: dw.catalog.Product
-      ): dw.util.Collection<any>;
+      ): dw.util.Collection<dw.campaign.Promotion>;
       /**
        * Returns the enabled promotions of active campaigns applicable for the
        *  current customer, source code and any coupon contained in the specified
@@ -2261,7 +2265,7 @@ declare namespace dw {
        */
       static getApplicablePromotions(
         lineItemCtnr: dw.order.LineItemCtnr
-      ): dw.util.Collection<any>;
+      ): dw.util.Collection<dw.campaign.Promotion>;
       /**
        * Returns the enabled promotions of active campaigns applicable for the
        *  current customer and source code.
@@ -2270,7 +2274,9 @@ declare namespace dw {
        *
        * @return List of active promotions
        */
-      static getApplicablePromotions(): dw.util.Collection<any>;
+      static getApplicablePromotions(): dw.util.Collection<
+        dw.campaign.Promotion
+      >;
       /**
        * Returns the campaign identified by the specified ID.
        * @param id Campaign ID
@@ -2295,7 +2301,7 @@ declare namespace dw {
        */
       static getConditionalPromotions(
         product: dw.catalog.Product
-      ): dw.util.Collection<any>;
+      ): dw.util.Collection<dw.campaign.Promotion>;
       /**
        * Returns the promotion associated with the specified coupon code.
        * @param couponCode The coupon code used to lookup the promotion
@@ -2335,7 +2341,7 @@ declare namespace dw {
        */
       static getPromotions(
         product: dw.catalog.Product
-      ): dw.util.Collection<any>;
+      ): dw.util.Collection<dw.campaign.Promotion>;
     }
 
     /**
@@ -2471,7 +2477,7 @@ declare namespace dw {
        *
        * @return Promotions assigned to the coupon in no particular order.
        */
-      getPromotions(): dw.util.Collection<any>;
+      getPromotions(): dw.util.Collection<dw.campaign.Promotion>;
       /**
        * Returns the defined limit on redemption per coupon code. Null is
        *  returned if no limit is defined, which means that each code can be
@@ -2557,7 +2563,7 @@ declare namespace dw {
        *
        * @return Coupons in current site
        */
-      static getCoupons(): dw.util.Collection<any>;
+      static getCoupons(): dw.util.Collection<dw.campaign.Coupon>;
       /**
        * Returns list of CouponRedemptions for the specified coupon and coupon code,
        *  sorted by redemption date descending (i.e. last redemption first).
@@ -2571,7 +2577,7 @@ declare namespace dw {
       static getRedemptions(
         couponID: string,
         couponCode: string
-      ): dw.util.Collection<any>;
+      ): dw.util.Collection<dw.campaign.CouponRedemption>;
       /**
        * Mask customer email address in coupon redemptions for the given siteID and email address
        * @param siteID the site ID
@@ -2854,7 +2860,7 @@ declare namespace dw {
        *
        * @return Collection of approaching order discounts ordered by the condition threshold of the promotion ascending.
        */
-      getApproachingOrderDiscounts(): dw.util.Collection<any>;
+      getApproachingOrderDiscounts(): dw.util.Collection<dw.campaign.Discount>;
       /**
        * Get the collection of shipping discounts that the passed shipment
        *  "almost" qualifies for based on the merchandise total in the shipment.
@@ -2872,7 +2878,7 @@ declare namespace dw {
        */
       getApproachingShippingDiscounts(
         shipment: dw.order.Shipment
-      ): dw.util.Collection<any>;
+      ): dw.util.Collection<dw.campaign.Discount>;
       /**
        * Get the collection of shipping discounts that the passed shipment
        *  "almost" qualifies for based on the merchandise total in the shipment.
@@ -2896,7 +2902,7 @@ declare namespace dw {
       getApproachingShippingDiscounts(
         shipment: dw.order.Shipment,
         shippingMethod: dw.order.ShippingMethod
-      ): dw.util.Collection<any>;
+      ): dw.util.Collection<dw.campaign.Discount>;
       /**
        * Get the collection of shipping discounts that the passed shipment
        *  "almost" qualifies for based on the merchandise total in the shipment.
@@ -2920,13 +2926,13 @@ declare namespace dw {
       getApproachingShippingDiscounts(
         shipment: dw.order.Shipment,
         shippingMethods: dw.util.Collection<any>
-      ): dw.util.Collection<any>;
+      ): dw.util.Collection<dw.campaign.Discount>;
       /**
        * Returns all bonus discounts contained in the discount plan.
        *
        * @return All bonus discounts contained in discount plan
        */
-      getBonusDiscounts(): dw.util.Collection<any>;
+      getBonusDiscounts(): dw.util.Collection<dw.campaign.BonusDiscount>;
       /**
        * Returns line item container associated with discount plan.
        *  A discount plan is created from and associated with a line item container.
@@ -2941,7 +2947,7 @@ declare namespace dw {
        *
        * @return Order discounts contained in the discount plan
        */
-      getOrderDiscounts(): dw.util.Collection<any>;
+      getOrderDiscounts(): dw.util.Collection<dw.campaign.Discount>;
       /**
        * Returns the percentage, amount and fix price discounts associated
        *  with the specified product line item. If the specified product line
@@ -2952,7 +2958,7 @@ declare namespace dw {
        */
       getProductDiscounts(
         productLineItem: dw.order.ProductLineItem
-      ): dw.util.Collection<any>;
+      ): dw.util.Collection<dw.campaign.Discount>;
       /**
        * Returns the product-shipping discounts associated with the specified
        *  product line item. If the specified product line item is not contained in
@@ -2962,7 +2968,7 @@ declare namespace dw {
        */
       getProductShippingDiscounts(
         productLineItem: dw.order.ProductLineItem
-      ): dw.util.Collection<any>;
+      ): dw.util.Collection<dw.campaign.Discount>;
       /**
        * Returns the percentage, amount and fix price discounts associated with
        *  the specified shipment. If the specified shipment is not contained in
@@ -2972,7 +2978,7 @@ declare namespace dw {
        */
       getShippingDiscounts(
         shipment: dw.order.Shipment
-      ): dw.util.Collection<any>;
+      ): dw.util.Collection<dw.campaign.Discount>;
       /**
        * Removes the specified discount from the discount plan.
        *
@@ -3385,7 +3391,7 @@ declare namespace dw {
        *
        * @return Coupons assigned to promotion in no particular order.
        */
-      getCoupons(): dw.util.Collection<any>;
+      getCoupons(): dw.util.Collection<dw.campaign.Coupon>;
       /**
        * Returns the custom attributes for this extensible object.
        *
@@ -3398,7 +3404,7 @@ declare namespace dw {
        *
        * @return Customer groups assigned to promotion in no particular order.
        */
-      getCustomerGroups(): dw.util.Collection<any>;
+      getCustomerGroups(): dw.util.Collection<dw.customer.CustomerGroup>;
       /**
        * Returns the description of the promotion.
        *
@@ -3547,7 +3553,7 @@ declare namespace dw {
        *
        * @return Source code groups assigned to promotion in no particular order.
        */
-      getSourceCodeGroups(): dw.util.Collection<any>;
+      getSourceCodeGroups(): dw.util.Collection<dw.campaign.SourceCodeGroup>;
       /**
        * Returns the effective start date of this instance of the promotion. If no
        *  explicit start date is defined for this instance, the start date of the
@@ -3808,7 +3814,7 @@ declare namespace dw {
        *
        * @return All campaigns of current site
        */
-      static getCampaigns(): dw.util.Collection<any>;
+      static getCampaigns(): dw.util.Collection<dw.campaign.Campaign>;
       /**
        * Returns the discounts applicable for the current customer, active
        *  source code and specified line item container.
@@ -3863,7 +3869,7 @@ declare namespace dw {
        *
        * @return All promotions of current site
        */
-      static getPromotions(): dw.util.Collection<any>;
+      static getPromotions(): dw.util.Collection<dw.campaign.Promotion>;
       /**
        * Returns all promotions currently inactive, but scheduled
        *  for any time between now and now + previewTime(hours),
@@ -3962,7 +3968,7 @@ declare namespace dw {
        *
        * @return The sorted collection of order promotions contained in the promotion plan.
        */
-      getOrderPromotions(): dw.util.Collection<any>;
+      getOrderPromotions(): dw.util.Collection<dw.campaign.Promotion>;
       /**
        * Returns the order promotions explicitly associated to the specified
        *  discounted payment card.
@@ -3974,7 +3980,7 @@ declare namespace dw {
        */
       getPaymentCardPromotions(
         paymentCard: dw.order.PaymentCard
-      ): dw.util.Collection<any>;
+      ): dw.util.Collection<dw.campaign.Promotion>;
       /**
        * Returns the order promotions explicitly associated to the specified
        *  discounted payment method.
@@ -3986,13 +3992,13 @@ declare namespace dw {
        */
       getPaymentMethodPromotions(
         paymentMethod: dw.order.PaymentMethod
-      ): dw.util.Collection<any>;
+      ): dw.util.Collection<dw.campaign.Promotion>;
       /**
        * Returns all product promotions contained in this plan.
        *
        * @return The sorted collection of product promotions contained in the promotion plan.
        */
-      getProductPromotions(): dw.util.Collection<any>;
+      getProductPromotions(): dw.util.Collection<dw.campaign.Promotion>;
       /**
        * Returns the promotions related to the specified product.
        *  The method returns all promotions where the product is either a
@@ -4009,7 +4015,7 @@ declare namespace dw {
        */
       getProductPromotions(
         product: dw.catalog.Product
-      ): dw.util.Collection<any>;
+      ): dw.util.Collection<dw.campaign.Promotion>;
       /**
        * Returns the product promotions for which the specified product is a
        *  discounted (and possibly also a qualifying) product. It also returns
@@ -4027,7 +4033,7 @@ declare namespace dw {
        */
       getProductPromotionsForDiscountedProduct(
         product: dw.catalog.Product
-      ): dw.util.Collection<any>;
+      ): dw.util.Collection<dw.campaign.Promotion>;
       /**
        * Returns the product promotions for which the specified product is a
        *  qualifying but NOT a discounted product.
@@ -4044,13 +4050,13 @@ declare namespace dw {
        */
       getProductPromotionsForQualifyingProduct(
         product: dw.catalog.Product
-      ): dw.util.Collection<any>;
+      ): dw.util.Collection<dw.campaign.Promotion>;
       /**
        * Returns all promotions contained in this plan sorted by exclusivity.
        *
        * @return The sorted collection of promotions contained in the promotion plan.
        */
-      getPromotions(): dw.util.Collection<any>;
+      getPromotions(): dw.util.Collection<dw.campaign.Promotion>;
       /**
        * Returns all promotions contained in this plan sorted according to the
        *  specified sort order. If the passed sort order is invalid, then the
@@ -4058,7 +4064,9 @@ declare namespace dw {
        * @param sortOrder the sort order to use. Must be SORT_BY_EXCLUSIVITY or SORT_BY_START_DATE. If an invalid value is passed, SORT_BY_EXCLUSIVITY is used.
        * @return The sorted collection of promotions contained in the promotion plan.
        */
-      getPromotions(sortOrder: number): dw.util.Collection<any>;
+      getPromotions(
+        sortOrder: number
+      ): dw.util.Collection<dw.campaign.Promotion>;
       /**
        * Returns the promotions related to the specified product.
        *  The method returns all promotions where the product is either
@@ -4070,13 +4078,15 @@ declare namespace dw {
        * @param product Product associated with promotion
        * @return The sorted collection of promotions related to the specified discounted product.
        */
-      getPromotions(product: dw.catalog.Product): dw.util.Collection<any>;
+      getPromotions(
+        product: dw.catalog.Product
+      ): dw.util.Collection<dw.campaign.Promotion>;
       /**
        * Returns all shipping promotions contained in this plan.
        *
        * @return The sorted collection of shipping promotions contained in promotion plan.
        */
-      getShippingPromotions(): dw.util.Collection<any>;
+      getShippingPromotions(): dw.util.Collection<dw.campaign.Promotion>;
       /**
        * Returns the shipping promotions related to the specified discounted
        *  shipping method, i.e. the returned promotions apply a discount on
@@ -4089,7 +4099,7 @@ declare namespace dw {
        */
       getShippingPromotions(
         shippingMethod: dw.order.ShippingMethod
-      ): dw.util.Collection<any>;
+      ): dw.util.Collection<dw.campaign.Promotion>;
       /**
        * Remove promotion from promotion plan.
        *  Please note that this is the only way to remove promotions from the
@@ -4192,7 +4202,7 @@ declare namespace dw {
        *
        * @return Collection of PriceBooks the SourceCodeGroup is assigned to.
        */
-      getPriceBooks(): dw.util.Collection<any>;
+      getPriceBooks(): dw.util.Collection<dw.catalog.PriceBook>;
     }
 
     /**
@@ -4449,7 +4459,7 @@ declare namespace dw {
        *
        * @return a list of SortingOption objects
        */
-      static getSortingOptions(): dw.util.List<any>;
+      static getSortingOptions(): dw.util.List<dw.catalog.SortingOption>;
       /**
        * Returns the sorting rule with the given ID for this site,
        *  or null if there is no such rule.
@@ -4462,7 +4472,7 @@ declare namespace dw {
        *
        * @return a collection of SortingRule objects
        */
-      static getSortingRules(): dw.util.Collection<any>;
+      static getSortingRules(): dw.util.Collection<dw.catalog.SortingRule>;
     }
 
     /**
@@ -4719,7 +4729,7 @@ declare namespace dw {
        *
        * @return the sorted collection of recommendations, never null but possibly empty.
        */
-      getAllRecommendations(): dw.util.Collection<any>;
+      getAllRecommendations(): dw.util.Collection<dw.catalog.Recommendation>;
       /**
        * Returns all outgoing recommendations for this category which are of the
        *  specified type. The recommendations are sorted by their explicitly set
@@ -4727,13 +4737,17 @@ declare namespace dw {
        * @param type the recommendation type.
        * @return the sorted collection of recommendations, never null but possibly empty.
        */
-      getAllRecommendations(type: number): dw.util.Collection<any>;
+      getAllRecommendations(
+        type: number
+      ): dw.util.Collection<dw.catalog.Recommendation>;
       /**
        * Returns a collection of category assignments of the category.
        *
        * @return Collection of category assignments of the category.
        */
-      getCategoryAssignments(): dw.util.Collection<any>;
+      getCategoryAssignments(): dw.util.Collection<
+        dw.catalog.CategoryAssignment
+      >;
       /**
        * Returns the default sorting rule configured for this category,
        *  or null if there is no default rule to be applied for it.
@@ -4788,7 +4802,7 @@ declare namespace dw {
        *
        * @return a collection of CategoryLink objects, possibly empty but not null.
        */
-      getIncomingCategoryLinks(): dw.util.Collection<any>;
+      getIncomingCategoryLinks(): dw.util.Collection<dw.catalog.CategoryLink>;
       /**
        * Returns the collection of CategoryLink objects for which this category
        *  is the target and which are of the specified type.  If the source
@@ -4797,7 +4811,9 @@ declare namespace dw {
        * @param type the link type type.
        * @return a collection of CategoryLink objects, possibly empty but not null.
        */
-      getIncomingCategoryLinks(type: number): dw.util.Collection<any>;
+      getIncomingCategoryLinks(
+        type: number
+      ): dw.util.Collection<dw.catalog.CategoryLink>;
       /**
        * Returns a collection of category assignments of the category where the
        *  referenced product is currently online. When checking the online status
@@ -4807,7 +4823,9 @@ declare namespace dw {
        *
        * @return Collection of online category assignments of the category.
        */
-      getOnlineCategoryAssignments(): dw.util.Collection<any>;
+      getOnlineCategoryAssignments(): dw.util.Collection<
+        dw.catalog.CategoryAssignment
+      >;
       /**
        * Returns the online status flag of the category.
        *
@@ -4831,7 +4849,9 @@ declare namespace dw {
        *
        * @return a collection of CategoryLink objects, possibly empty but not null.
        */
-      getOnlineIncomingCategoryLinks(): dw.util.Collection<any>;
+      getOnlineIncomingCategoryLinks(): dw.util.Collection<
+        dw.catalog.CategoryLink
+      >;
       /**
        * Returns the collection of CategoryLink objects for
        *  which this category is the source. If the target category of a link
@@ -4857,7 +4877,7 @@ declare namespace dw {
        *
        * @return a sorted collection of online products of this category.
        */
-      getOnlineProducts(): dw.util.Collection<any>;
+      getOnlineProducts(): dw.util.Collection<dw.catalog.Product>;
       /**
        * Returns a sorted collection of currently online subcategories of this
        *  catalog category.
@@ -4877,7 +4897,7 @@ declare namespace dw {
        *
        * @return a sorted collection of currently online subcategories.
        */
-      getOnlineSubCategories(): dw.util.Collection<any>;
+      getOnlineSubCategories(): dw.util.Collection<dw.catalog.Category>;
       /**
        * Returns the date until which the category is online or valid.
        *
@@ -4892,7 +4912,9 @@ declare namespace dw {
        *
        * @return the sorted collection of recommendations, never null but possibly empty.
        */
-      getOrderableRecommendations(): dw.util.Collection<any>;
+      getOrderableRecommendations(): dw.util.Collection<
+        dw.catalog.Recommendation
+      >;
       /**
        * Returns a list of outgoing recommendations for this category. This method
        *  behaves similarly to getRecommendations(Number) but additionally
@@ -4901,7 +4923,9 @@ declare namespace dw {
        * @param type the recommendation type.
        * @return the sorted collection of recommendations, never null but possibly empty.
        */
-      getOrderableRecommendations(type: number): dw.util.Collection<any>;
+      getOrderableRecommendations(
+        type: number
+      ): dw.util.Collection<dw.catalog.Recommendation>;
       /**
        * Returns the collection of CategoryLink objects for which this category
        *  is the source.  If the target category of a link belongs to a different
@@ -4911,7 +4935,7 @@ declare namespace dw {
        *
        * @return a collection of CategoryLink objects, possibly empty but not null.
        */
-      getOutgoingCategoryLinks(): dw.util.Collection<any>;
+      getOutgoingCategoryLinks(): dw.util.Collection<dw.catalog.CategoryLink>;
       /**
        * Returns the collection of CategoryLink objects for which this category
        *  is the source and which are of the specified type.  If the target
@@ -4922,7 +4946,9 @@ declare namespace dw {
        * @param type the link type type.
        * @return a collection of CategoryLink objects, possibly empty but not null.
        */
-      getOutgoingCategoryLinks(type: number): dw.util.Collection<any>;
+      getOutgoingCategoryLinks(
+        type: number
+      ): dw.util.Collection<dw.catalog.CategoryLink>;
       /**
        * Returns the page description of this category for the default locale or null if not defined.
        *
@@ -4969,7 +4995,7 @@ declare namespace dw {
        *
        * @return a sorted collection of all products of this category.
        */
-      getProducts(): dw.util.Collection<any>;
+      getProducts(): dw.util.Collection<dw.catalog.Product>;
       /**
        * Returns the outgoing recommendations for this category.  If this category
        *  is not in the site catalog, or there is no site catalog, an empty
@@ -4979,7 +5005,7 @@ declare namespace dw {
        *
        * @return the sorted collection of recommendations, never null but possibly empty.
        */
-      getRecommendations(): dw.util.Collection<any>;
+      getRecommendations(): dw.util.Collection<dw.catalog.Recommendation>;
       /**
        * Returns the outgoing recommendations for this category which are of the
        *  specified type.  Behaves the same as getRecommendations() but
@@ -4987,7 +5013,9 @@ declare namespace dw {
        * @param type the recommendation type.
        * @return the sorted collection of recommendations, never null but possibly empty.
        */
-      getRecommendations(type: number): dw.util.Collection<any>;
+      getRecommendations(
+        type: number
+      ): dw.util.Collection<dw.catalog.Recommendation>;
       /**
        * Returns the search placement of the category or null of no search placement is defined.
        *
@@ -5032,7 +5060,7 @@ declare namespace dw {
        *
        * @return a sorted collection of the subcategories.
        */
-      getSubCategories(): dw.util.Collection<any>;
+      getSubCategories(): dw.util.Collection<dw.catalog.Category>;
       /**
        * Returns the template property value , which is the file name of the template
        *  used to display the catalog category.
@@ -5386,13 +5414,15 @@ declare namespace dw {
        *
        * @return All price books of the organization.
        */
-      static getAllPriceBooks(): dw.util.Collection<any>;
+      static getAllPriceBooks(): dw.util.Collection<dw.catalog.PriceBook>;
       /**
        * Returns a collection of price books that are set in the user session.
        *
        * @return Collection of applicable price books set in the session.
        */
-      static getApplicablePriceBooks(): dw.util.Collection<any>;
+      static getApplicablePriceBooks(): dw.util.Collection<
+        dw.catalog.PriceBook
+      >;
       /**
        * Returns the price book of the current organization matching the
        *  specified ID.
@@ -5408,7 +5438,7 @@ declare namespace dw {
        *
        * @return All price books assigned to the current site.
        */
-      static getSitePriceBooks(): dw.util.Collection<any>;
+      static getSitePriceBooks(): dw.util.Collection<dw.catalog.PriceBook>;
       /**
        * Sets one or more price books to be considered by the product price lookup. The information is
        *  stored in the user session. If no price book is set in the user session, all active and valid price books assigned to
@@ -5880,37 +5910,43 @@ declare namespace dw {
        *
        * @return Collection of categories.
        */
-      getAllCategories(): dw.util.Collection<any>;
+      getAllCategories(): dw.util.Collection<dw.catalog.Category>;
       /**
        * Returns all category assignments for this product in any catalog.
        *
        * @return Collection of category assignments of the product in any catalog.
        */
-      getAllCategoryAssignments(): dw.util.Collection<any>;
+      getAllCategoryAssignments(): dw.util.Collection<
+        dw.catalog.CategoryAssignment
+      >;
       /**
        * Returns all incoming ProductLinks.
        *
        * @return a collection of all incoming ProductLinks.
        */
-      getAllIncomingProductLinks(): dw.util.Collection<any>;
+      getAllIncomingProductLinks(): dw.util.Collection<dw.catalog.ProductLink>;
       /**
        * Returns all incoming ProductLinks of a specific type.
        * @param type the type of ProductLinks to use.
        * @return a collection of all incoming ProductLinks of a specific type.
        */
-      getAllIncomingProductLinks(type: number): dw.util.Collection<any>;
+      getAllIncomingProductLinks(
+        type: number
+      ): dw.util.Collection<dw.catalog.ProductLink>;
       /**
        * Returns all outgoing ProductLinks.
        *
        * @return a collection of all outgoing ProductLinks.
        */
-      getAllProductLinks(): dw.util.Collection<any>;
+      getAllProductLinks(): dw.util.Collection<dw.catalog.ProductLink>;
       /**
        * Returns all outgoing ProductLinks of a specific type.
        * @param type the type of ProductLinks to fetch.
        * @return a collection of all outgoing ProductLinks of a specific type.
        */
-      getAllProductLinks(type: number): dw.util.Collection<any>;
+      getAllProductLinks(
+        type: number
+      ): dw.util.Collection<dw.catalog.ProductLink>;
       /**
        * Returns the outgoing recommendations for this product which belong to the
        *  specified catalog. The recommendations are sorted by their explicitly set
@@ -5920,7 +5956,7 @@ declare namespace dw {
        */
       getAllRecommendations(
         catalog: dw.catalog.Catalog
-      ): dw.util.Collection<any>;
+      ): dw.util.Collection<dw.catalog.Recommendation>;
       /**
        * Returns the outgoing recommendations for this product which are of the
        *  specified type and which belong to the specified catalog.
@@ -5932,7 +5968,7 @@ declare namespace dw {
       getAllRecommendations(
         catalog: dw.catalog.Catalog,
         type: number
-      ): dw.util.Collection<any>;
+      ): dw.util.Collection<dw.catalog.Recommendation>;
       /**
        * Returns this product's ProductAttributeModel, which makes access to the
        *  product attribute information convenient. The model is calculated based
@@ -5990,7 +6026,7 @@ declare namespace dw {
        *
        * @return A collection containing all products of the product bundle.
        */
-      getBundledProducts(): dw.util.Collection<any>;
+      getBundledProducts(): dw.util.Collection<dw.catalog.Product>;
       /**
        * Returns a collection of all bundles in which this product is included.
        *  The method only returns bundles assigned to the current site.
@@ -6004,7 +6040,7 @@ declare namespace dw {
        *
        * @return Collection of categories to which this product is assigned and which are also available through the current site.
        */
-      getCategories(): dw.util.Collection<any>;
+      getCategories(): dw.util.Collection<dw.catalog.Category>;
       /**
        * Returns the category assignment for a specific category.
        * @param category the category to use when fetching assignments.
@@ -6019,7 +6055,9 @@ declare namespace dw {
        *
        * @return Collection of category assignments.
        */
-      getCategoryAssignments(): dw.util.Collection<any>;
+      getCategoryAssignments(): dw.util.Collection<
+        dw.catalog.CategoryAssignment
+      >;
       /**
        * Returns the classification category associated with this Product. A
        *  product has a single classification category which may or may not be in
@@ -6081,20 +6119,22 @@ declare namespace dw {
        * @param viewtype the view type annotated to images
        * @return a list of MediaFile objects, possibly empty
        */
-      getImages(viewtype: string): dw.util.List<any>;
+      getImages(viewtype: string): dw.util.List<dw.content.MediaFile>;
       /**
        * Returns incoming ProductLinks, where the source product is a site product.
        *
        * @return a collection of incoming ProductLinks, where the source product is a site product.
        */
-      getIncomingProductLinks(): dw.util.Collection<any>;
+      getIncomingProductLinks(): dw.util.Collection<dw.catalog.ProductLink>;
       /**
        * Returns incoming ProductLinks, where the source product is a site product
        *  of a specific type.
        * @param type the type of ProductLinks to fetch.
        * @return a collection of incoming ProductLinks, where the source product is a site product of a specific type.
        */
-      getIncomingProductLinks(type: number): dw.util.Collection<any>;
+      getIncomingProductLinks(
+        type: number
+      ): dw.util.Collection<dw.catalog.ProductLink>;
       /**
        * Returns the product's long description in the current locale.
        *
@@ -6134,7 +6174,7 @@ declare namespace dw {
        *
        * @return Collection of currently online categories to which this product is assigned and which are also available through the current site.
        */
-      getOnlineCategories(): dw.util.Collection<any>;
+      getOnlineCategories(): dw.util.Collection<dw.catalog.Category>;
       /**
        * Returns the online status flag of the product.
        *
@@ -6169,7 +6209,9 @@ declare namespace dw {
        *
        * @return the sorted collection of recommendations, never null but possibly empty.
        */
-      getOrderableRecommendations(): dw.util.Collection<any>;
+      getOrderableRecommendations(): dw.util.Collection<
+        dw.catalog.Recommendation
+      >;
       /**
        * Returns a list of outgoing recommendations for this product. This method
        *  behaves similarly to getRecommendations(Number) but additionally
@@ -6178,7 +6220,9 @@ declare namespace dw {
        * @param type the recommendation type.
        * @return the sorted collection of recommendations, never null but possibly empty.
        */
-      getOrderableRecommendations(type: number): dw.util.Collection<any>;
+      getOrderableRecommendations(
+        type: number
+      ): dw.util.Collection<dw.catalog.Recommendation>;
       /**
        * Returns product's page description in the default locale.
        *
@@ -6213,7 +6257,7 @@ declare namespace dw {
        *
        * @return page meta tags defined for this instance, containing content generated based on rules
        */
-      getPageMetaTags(): Array<any>;
+      getPageMetaTags(): Array<dw.web.PageMetaTag>;
       /**
        * Returns the product's page title in the default locale.
        *
@@ -6264,7 +6308,7 @@ declare namespace dw {
        *
        * @return a collection of outgoing ProductLinks where the target product is also available in the current site.
        */
-      getProductLinks(): dw.util.Collection<any>;
+      getProductLinks(): dw.util.Collection<dw.catalog.ProductLink>;
       /**
        * Returns all outgoing ProductLinks of a specific type, where the target
        *  product is also available in the current site. The ProductLinks are
@@ -6272,7 +6316,7 @@ declare namespace dw {
        * @param type the type of ProductLinks to fetch.
        * @return a collection of outgoing ProductLinks where the target product is also available in the current site.
        */
-      getProductLinks(type: number): dw.util.Collection<any>;
+      getProductLinks(type: number): dw.util.Collection<dw.catalog.ProductLink>;
       /**
        * Returns a collection of all products which are assigned to this product
        *  and which are also available through the current site.  If this product
@@ -6281,7 +6325,7 @@ declare namespace dw {
        *
        * @return Collection of products which are assigned to this product and which are also available through the current site.
        */
-      getProductSetProducts(): dw.util.Collection<any>;
+      getProductSetProducts(): dw.util.Collection<dw.catalog.Product>;
       /**
        * Returns a collection of all product sets in which this product is included.
        *  The method only returns product sets assigned to the current site.
@@ -6299,7 +6343,7 @@ declare namespace dw {
        *
        * @return the sorted collection of recommendations, never null but possibly empty.
        */
-      getRecommendations(): dw.util.Collection<any>;
+      getRecommendations(): dw.util.Collection<dw.catalog.Recommendation>;
       /**
        * Returns the outgoing recommendations for this product which are of the
        *  specified type and which belong to the site catalog.  Behaves the same as
@@ -6308,7 +6352,9 @@ declare namespace dw {
        * @param type the recommendation type.
        * @return the sorted collection of recommendations, never null but possibly empty.
        */
-      getRecommendations(type: number): dw.util.Collection<any>;
+      getRecommendations(
+        type: number
+      ): dw.util.Collection<dw.catalog.Recommendation>;
       /**
        * Returns, whether the product is currently searchable.
        *
@@ -6426,7 +6472,7 @@ declare namespace dw {
        *
        * @return Collection of variants associated with this variation master or variation group product.
        */
-      getVariants(): dw.util.Collection<any>;
+      getVariants(): dw.util.Collection<dw.catalog.Variant>;
       /**
        * Returns a collection of all variation groups assigned to this variation
        *  master product. All variation groups are returned regardless of whether
@@ -6437,7 +6483,7 @@ declare namespace dw {
        *
        * @return Collection of variation groups associated with this variation master product.
        */
-      getVariationGroups(): dw.util.Collection<any>;
+      getVariationGroups(): dw.util.Collection<dw.catalog.VariationGroup>;
       /**
        * Returns the variation model of this product. If this product is a master
        *  product, then the returned model will encapsulate all the information
@@ -9956,7 +10002,7 @@ declare namespace dw {
        *
        * @return page meta tags defined for this instance, containing content generated based on rules
        */
-      getPageMetaTags(): Array<any>;
+      getPageMetaTags(): Array<dw.web.PageMetaTag>;
       /**
        * Returns the maximum price by which the search result is refined.
        *
@@ -9980,7 +10026,7 @@ declare namespace dw {
        *
        * @return the list of product IDs that were specified in the search query or an empty list if no product ID set.
        */
-      getProductIDs(): dw.util.List<any>;
+      getProductIDs(): dw.util.List<string>;
       /**
        * Returns all products in the search result.
        *  Note that products that were removed or went offline since the last index
@@ -9988,7 +10034,7 @@ declare namespace dw {
        *
        * @return Products in search result
        */
-      getProducts(): dw.util.Iterator<any>;
+      getProducts(): dw.util.Iterator<dw.catalog.Product>;
       /**
        * Returns the underlying ProductSearchHit for a product, or null if no
        *  ProductSearchHit found for this product.
@@ -24025,7 +24071,7 @@ declare namespace dw {
        *
        * @return a list of File objects or null if this is not a directory.
        */
-      listFiles(): dw.util.List<any>;
+      listFiles(): dw.util.List<dw.io.File>;
       /**
        * Returns an array of File objects denoting the files and
        *  directories in the directory denoted by this object that satisfy the
@@ -24054,7 +24100,7 @@ declare namespace dw {
        * @param filter a Javascript function which accepts a File argument and returns true or false.
        * @return list of File objects or null if this is not a directory
        */
-      listFiles(filter: Function): dw.util.List<any>;
+      listFiles(filter: Function): dw.util.List<dw.io.File>;
       /**
        * Returns an MD5 hash of the content of the file of this instance.
        *
@@ -47557,7 +47603,7 @@ declare namespace dw {
        *
        * @return all sites for the current instance
        */
-      static getAllSites(): dw.util.List<any>;
+      static getAllSites(): dw.util.List<dw.system.Site>;
       /**
        * Returns a new Calendar object in the time zone of the
        *  current site.
@@ -47661,7 +47707,7 @@ declare namespace dw {
        *
        * @return page meta tags defined for this instance, containing content generated based on rules
        */
-      getPageMetaTags(): Array<any>;
+      getPageMetaTags(): Array<dw.web.PageMetaTag>;
       /**
        * This method returns a container of all site preferences of this site.
        *
