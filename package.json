@@ -21,6 +21,13 @@
     "ts-node": "8.9.1",
     "typescript": "3.8.3"
   },
+  "files": [
+    "dist/**/*",
+    "README.md",
+    "LICENSE",
+    "openmind.svg",
+    "CHANGELOG.md"
+  ],
   "scripts": {
     "build": "tsc",
     "postversion": "git push && git push --tags",
