@@ -28,6 +28,7 @@ const config: any = {
     "dw.util.LinkedHashSet",
     "dw.util.Set",
     "dw.util.SortedSet",
+    "dw.web.PagingModel",
     "Array"
   ],
   argsMapping: {
