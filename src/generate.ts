@@ -105,7 +105,7 @@ const doc = (obj: any) => {
   let description = obj.description;
 
   if (obj.args) {
-    description += '\n' + obj.args.map((param: any) => `@param ${param.name} ${param.description}`).join("\n");
+    description += '\n' + obj.args.map((param: any) => `@param ${param.name} ${param.description || ''}`).join("\n");
   }
 
   if (obj.class && obj.class.description) {
