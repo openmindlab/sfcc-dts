@@ -160,8 +160,9 @@ declare class ConversionError extends Error {
    */
   constructor();
   /**
-   * Constructs the error with the specified message.
-   * @param msg
+   * Constructs the error with the
+   *  specified message.
+   * @param msg the conversion error message.
    */
   constructor(msg: string);
 }
@@ -342,8 +343,9 @@ declare class InternalError extends Error {
    */
   constructor();
   /**
-   * Constructs the error with the specified message.
-   * @param msg
+   * Constructs the error with the
+   *  specified message.
+   * @param msg the internal error message.
    */
   constructor(msg: string);
 }
@@ -464,19 +466,49 @@ declare class Namespace {
   uri: string;
 
   /**
-   * Constructs a simple namespace where the uri and prefix properties are set to an empty string.
+   * Constructs a simple namespace where the
+   *  uri and prefix properties are set to an empty string.
+   *  A namespace with URI set to the empty string represents no namespace.
+   *  No namespace is used in XML objects to explicitly specify
+   *  that a name is not inside a namespace and may never be
+   *  associated with a prefix other than the empty string.
    *
    */
   constructor();
   /**
-   * Constructs a Namespace object and assigns values to the uri and prefix properties based on the type of uriValue.
-   * @param uriValue
+   * Constructs a Namespace object and assigns values to the
+   *  uri and prefix properties based on the type
+   *  of uriValue. If uriValue is a
+   *  Namespace object, a copy of the Namespace is constructed.
+   *  If uriValue is a QName object, the uri property is
+   *  set to the QName object's uri property.
+   *  Otherwise, uriValue is converted into a string and
+   *  assigned to the uri property.
+   * @param uriValue the value to use when constructing the Namespace.
    */
   constructor(uriValue: any);
   /**
-   * Constructs a Namespace object and assigns values to the uri and prefix properties.
-   * @param prefixValue
-   * @param uriValue
+   * Constructs a Namespace object and assigns values to the
+   *  uri and prefix properties.
+   *
+   *  The value of the prefixValue parameter is assigned to the
+   *  prefix property in the following manner:
+   *
+   *  If undefined is passed, prefix is set to undefined.
+   *  If the argument is a valid XML name, it is converted
+   *  to a string and assigned to the prefix property.
+   *  If the argument is not a valid XML name, the prefix
+   *  property is set to undefined.
+   *
+   *  The value of the uriValue parameter is assigned
+   *  to the uri property in the following manner:
+   *
+   *  If a QName object is passed for the uriValue parameter,
+   *  the uri property is set to the value of the QName object's uri property.
+   *  If a QName object is not passed for the uriValue parameter,
+   *  the uriValue parameter is converted to a string and assigned to the uri property.
+   * @param prefixValue the prefix value to use when constructing the Namespace.
+   * @param uriValue the value to use when constructing the Namespace.
    */
   constructor(prefixValue: any, uriValue: any);
 
@@ -525,19 +557,26 @@ declare class QName {
   uri: string;
 
   /**
-   * Constructs a QName object where localName is set to an empty String.
+   * Constructs a QName object where localName
+   *  is set to an empty String.
    *
    */
   constructor();
   /**
-   * Constructs a QName object that is a copy of the specified qname.
-   * @param qname
+   * Constructs a QName object that is a copy of the specified
+   *  qname. If the argument is not
+   *  a QName object, the argument is converted to a string and assigned
+   *  to the localName property of the new QName instance.
+   * @param qname the QName from which this QName will be constructed.
    */
   constructor(qname: QName);
   /**
-   * Creates a QName object with a uri from a Namespace object and a localName from a QName object.
-   * @param uri
-   * @param localName
+   * Creates a QName object with a uri from a Namespace object and
+   *  a localName from a QName object. If either argument is not
+   *  the expected data type, the argument is converted to a string
+   *  and assigned to the corresponding property of the new QName object.
+   * @param uri a Namespace object from which to copy the uri value. An argument of any other type is converted to a string.
+   * @param localName a QName object from which to copy the localName value. An argument of any other type is converted to a string.
    */
   constructor(uri: Namespace, localName: QName);
 
@@ -700,7 +739,12 @@ declare class XML {
   constructor();
   /**
    * Creates a new XML object.
-   * @param value
+   *  You must use the constructor to create an XML object before you
+   *  call any of the methods of the XML class.
+   *  Use the toXMLString() method to return a string representation
+   *  of the XML object regardless of whether the XML object has simple
+   *  content or complex content.
+   * @param value any Object that can be converted to XML via the top-level XML() function.
    */
   constructor(value: any);
 
@@ -1115,8 +1159,9 @@ declare class XML {
  */
 declare class XMLList {
   /**
-   * Creates a new XMLList object using the specified value.
-   * @param value
+   * Creates a new XMLList object using the
+   *  specified value.
+   * @param value the value to use.
    */
   constructor(value: any);
 
@@ -1729,8 +1774,8 @@ declare namespace dw {
       amount: number;
 
       /**
-       * Create an amount-discount on the fly.
-       * @param amount
+       * Create an amount-discount on the fly. Can be used to create a custom price adjustment.
+       * @param amount amount off, e.g. 15.00 for a "15$ off" discount
        */
       constructor(amount: number);
 
@@ -3004,8 +3049,8 @@ declare namespace dw {
       fixedPrice: number;
 
       /**
-       * Create a fixed-price-discount on the fly.
-       * @param amount
+       * Create a fixed-price-discount on the fly. Can be used to create a custom price adjustment.
+       * @param amount fixed price e.g. 10.00
        */
       constructor(amount: number);
 
@@ -3030,8 +3075,8 @@ declare namespace dw {
       fixedPrice: number;
 
       /**
-       * Create a fixed-price-shipping-discount on the fly.
-       * @param amount
+       * Create a fixed-price-shipping-discount on the fly. Can be used to create a custom price adjustment.
+       * @param amount fixed price for shipping e.g. 10.00
        */
       constructor(amount: number);
 
@@ -3068,8 +3113,8 @@ declare namespace dw {
       percentage: number;
 
       /**
-       * Create a percentage-discount on the fly.
-       * @param percentage
+       * Create a percentage-discount on the fly. Can be used to create a custom price adjustment.
+       * @param percentage percentage value, e.g. 15.00 for 15%
        */
       constructor(percentage: number);
 
@@ -7474,7 +7519,9 @@ declare namespace dw {
       >;
 
       /**
-       * Constructs a product attribute model that is not based on a product nor a category.
+       * Constructs a product attribute model that is not based on a product nor
+       *  a category. Therefore, the model only describes the product attributes
+       *  globally defined for the system object type 'Product'.
        *
        */
       constructor();
@@ -15274,8 +15321,10 @@ declare namespace dw {
      */
     class CertificateRef {
       /**
-       * Creates a CertificateRef from the passed alias.
-       * @param alias
+       * Creates a CertificateRef from the passed alias. No check
+       *  is made whether the alias is actually referring to a certificate in the keystore,
+       *  this check is made when the CertificateRef is used.
+       * @param alias an alias that should refer to a certificate in the keystore.
        */
       constructor(alias: string);
 
@@ -15972,14 +16021,18 @@ declare namespace dw {
      */
     class KeyRef {
       /**
-       * Creates a KeyRef from the passed alias.
-       * @param alias
+       * Creates a KeyRef from the passed alias. No check
+       *  is made whether the alias is actually referring to a key in the keystore,
+       *  this check is made when the KeyRef is used.
+       * @param alias an alias that should refer to a key in the keystore.
        */
       constructor(alias: string);
       /**
-       * Creates a KeyRef from the passed alias.
-       * @param alias
-       * @param password
+       * Creates a KeyRef from the passed alias. No check
+       *  is made whether the alias is actually referring to a key in the keystore,
+       *  this check is made when the KeyRef is used.
+       * @param alias an alias that should refer to a key in the keystore.
+       * @param password the password that should be used to get the key from the keystore.
        */
       constructor(alias: string, password: string);
 
@@ -16032,8 +16085,14 @@ declare namespace dw {
       static readonly HMAC_SHA_512 = "HmacSHA512";
 
       /**
-       * Construct a Mac encryption instance with the specified algorithm name.
-       * @param algorithm
+       * Construct a Mac encryption instance with the specified algorithm name. The
+       *  supported algorithms are:
+       *
+       *
+       *  SHA 256
+       *  SHA 384
+       *  SHA 512
+       * @param algorithm the standard name of the digest algorithm, must not be null.
        */
       constructor(algorithm: string);
 
@@ -16101,8 +16160,13 @@ declare namespace dw {
       static readonly DIGEST_SHA_512 = "SHA-512";
 
       /**
-       * Construct a MessageDigest with the specified algorithm name.
-       * @param algorithm
+       * Construct a MessageDigest with the specified algorithm name. The
+       *  supported algorithms are:
+       *
+       *
+       *  SHA-256
+       *  SHA-512
+       * @param algorithm The standard name of the digest algorithm, must not be null and must be a supported algorithm.
        */
       constructor(algorithm: string);
 
@@ -20686,7 +20750,9 @@ declare namespace dw {
       tagName: string;
 
       /**
-       * Creates region render settings which can then be configured further.
+       * Creates region render settings which can then be configured further. They are to be used for detailed
+       *  configuration of a RegionRenderSettings which is subsequently used for
+       *  PageMgr.renderRegion(Region, RegionRenderSettings) calls.
        *
        */
       constructor();
@@ -21373,7 +21439,8 @@ declare namespace dw {
       tagName: string;
 
       /**
-       * Creates region render settings which can then be configured further.
+       * Creates region render settings which can then be configured further. They are to be used for
+       *  PageMgr.renderRegion(Region, RegionRenderSettings) calls.
        *
        */
       constructor();
@@ -21698,8 +21765,8 @@ declare namespace dw {
 
         /**
          * Constructs a result with the given outcome information.
-         * @param status
-         * @param redirect
+         * @param status status of the result
+         * @param redirect optional URL to which to navigate to in response to this outcome
          */
         constructor(status: dw.system.Status, redirect: dw.web.URL);
 
@@ -22881,8 +22948,8 @@ declare namespace dw {
 
         /**
          * Constructs a result with the given outcome information.
-         * @param status
-         * @param redirect
+         * @param status status of the result
+         * @param redirect optional URL to which to navigate to in response to this outcome
          */
         constructor(status: dw.system.Status, redirect: dw.web.URL);
 
@@ -23760,29 +23827,33 @@ declare namespace dw {
      */
     class CSVStreamReader {
       /**
-       * Creates a new CSVReader with a ',' as separator character and a '"' as quote character.
-       * @param ioreader
+       * Creates a new CSVReader with a ',' as separator character and a '"' as
+       *  quote character. The reader doesn't skip any header lines.
+       * @param ioreader the reader to use.
        */
       constructor(ioreader: dw.io.Reader);
       /**
-       * Creates a new CSVReader with the specified separator character and a '"' as quote character.
-       * @param ioreader
-       * @param separator
+       * Creates a new CSVReader with the specified separator character and a '"'
+       *  as quote character. The reader doesn't skip any header lines.
+       * @param ioreader the reader to use.
+       * @param separator a string, which represents the separator character.
        */
       constructor(ioreader: dw.io.Reader, separator: string);
       /**
-       * Creates a new CSVReader with the specified separator character and the specified quote character.
-       * @param ioreader
-       * @param separator
-       * @param quote
+       * Creates a new CSVReader with the specified separator character and the
+       *  specified quote character. The reader doesn't skip any header lines.
+       * @param ioreader the reader to use.
+       * @param separator a string, which represents the separator character.
+       * @param quote a string, which represents the quote character.
        */
       constructor(ioreader: dw.io.Reader, separator: string, quote: string);
       /**
-       * Creates a new CSVReader.
-       * @param ioreader
-       * @param separator
-       * @param quote
-       * @param skip
+       * Creates a new CSVReader. The separator character, the quote character and
+       *  the number of header lines can be specified in the call.
+       * @param ioreader the reader to use.
+       * @param separator a string, which represents the separator character.
+       * @param quote a string, which represents the quote character.
+       * @param skip the number of lines to skip at the beginning of the file.
        */
       constructor(
         ioreader: dw.io.Reader,
@@ -23824,21 +23895,24 @@ declare namespace dw {
      */
     class CSVStreamWriter {
       /**
-       * Create a new CSVStreamWriter with a ',' as separator and '"' as quote character.
-       * @param writer
+       * Create a new CSVStreamWriter with a ',' as separator and '"'
+       *  as quote character.
+       * @param writer the writer to use.
        */
       constructor(writer: dw.io.Writer);
       /**
-       * Create a new CSVStreamWriter with the specified separator and '"' as quote character.
-       * @param writer
-       * @param separator
+       * Create a new CSVStreamWriter with the specified separator and '"'
+       *  as quote character.
+       * @param writer the writer to use.
+       * @param separator the separator to use.
        */
       constructor(writer: dw.io.Writer, separator: string);
       /**
-       * Create a new CSVStreamWriter with the specified separator and the specified quote character.
-       * @param writer
-       * @param separator
-       * @param quote
+       * Create a new CSVStreamWriter with the specified separator and the
+       *  specified quote character.
+       * @param writer the writer to use.
+       * @param separator the separator to use.
+       * @param quote the quote to use.
        */
       constructor(writer: dw.io.Writer, separator: string, quote: string);
 
@@ -23959,14 +24033,22 @@ declare namespace dw {
       rootDirectoryType: string;
 
       /**
-       * Creates a File from the given absolute file path in the file namespace.
-       * @param absPath
+       * Creates a File from the given absolute file path in the
+       *  file namespace.  If the specified path is not a valid accessible path,
+       *  an exception will be thrown.
+       *
+       *  The passed path should use the forward slash '/' as the path
+       *  separator and begin with a leading slash.  However, if a leading slash
+       *  is not provided, or the backslash character is used as the separator,
+       *  these problems will be fixed.  The normalized value will then be returned
+       *  by getFullPath().
+       * @param absPath the absolute file path throws IOException
        */
       constructor(absPath: string);
       /**
        * Creates a File given a root directory and a relative path.
-       * @param rootDir
-       * @param relPath
+       * @param rootDir File object representing root directory
+       * @param relPath relative file path
        */
       constructor(rootDir: dw.io.File, relPath: string);
 
@@ -24211,13 +24293,17 @@ declare namespace dw {
     class FileReader extends dw.io.Reader {
       /**
        * Constructs the reader.
-       * @param file
+       *
+       *  To release system resources, close the reader by calling close().
+       * @param file the file object to read.
        */
       constructor(file: dw.io.File);
       /**
        * Constructs the reader.
-       * @param file
-       * @param encoding
+       *
+       *  To release system resources, close the reader by calling close().
+       * @param file the file object to read.
+       * @param encoding the character encoding to use.
        */
       constructor(file: dw.io.File, encoding: string);
 
@@ -24244,27 +24330,37 @@ declare namespace dw {
       lineSeparator: string;
 
       /**
-       * Constructs the writer for the specified file.
-       * @param file
+       * Constructs the writer for the specified file. Uses "UTF-8" as encoding.
+       *
+       *  To release system resources, close the writer by calling close().
+       * @param file the file object to write to.
        */
       constructor(file: dw.io.File);
       /**
-       * Constructs the writer for the specified file.
-       * @param file
-       * @param append
+       * Constructs the writer for the specified file. Optional file append mode
+       *  is supported. Uses "UTF-8" as encoding.
+       *
+       *  To release system resources, close the writer by calling close().
+       * @param file the file object to write to.
+       * @param append flag, whether the file should be written in append mode
        */
       constructor(file: dw.io.File, append: boolean);
       /**
        * Constructs the writer for the specified file with the specified encoding.
-       * @param file
-       * @param encoding
+       *
+       *  To release system resources, close the writer by calling close().
+       * @param file the file object to write to.
+       * @param encoding the character encoding to use.
        */
       constructor(file: dw.io.File, encoding: string);
       /**
        * Constructs the writer for the specified file with the specified encoding.
-       * @param file
-       * @param encoding
-       * @param append
+       *  Optional file append mode is supported.
+       *
+       *  To release system resources, close the writer by calling close().
+       * @param file the file object to write to.
+       * @param encoding the character encoding to use.
+       * @param append flag indicating whether the file should be written in append mode.
        */
       constructor(file: dw.io.File, encoding: string, append: boolean);
 
@@ -24364,7 +24460,9 @@ declare namespace dw {
 
       /**
        * Construct a reader for random read access to the provided file.
-       * @param file
+       *
+       *  To release system resources, close the reader by calling close().
+       * @param file The file to be read. Must not be null.
        */
       constructor(file: dw.io.File);
 
@@ -24605,7 +24703,7 @@ declare namespace dw {
 
       /**
        * Constructs the writer for the specified writer.
-       * @param writer
+       * @param writer the writer to use.
        */
       constructor(writer: dw.io.Writer);
 
@@ -25009,7 +25107,7 @@ declare namespace dw {
 
       /**
        * Constructs the stream readon on behalf of the reader.
-       * @param reader
+       * @param reader the reader to use.
        */
       constructor(reader: dw.io.Reader);
 
@@ -26177,10 +26275,10 @@ declare namespace dw {
 
       /**
        * Constructs the FTPFileInfo instance.
-       * @param name
-       * @param size
-       * @param directory
-       * @param timestamp
+       * @param name the name of the file.
+       * @param size the size of the file.
+       * @param directory controls if the file is a directory.
+       * @param timestamp the timestamp of the file.
        */
       constructor(
         name: string,
@@ -26522,30 +26620,41 @@ declare namespace dw {
       stringValue: string;
 
       /**
-       * Construct a part representing a simple string name/value pair.
-       * @param name
-       * @param value
+       * Construct a part representing a simple string name/value pair. The HTTP
+       *  message uses "US-ASCII" as the default character set for the part.
+       * @param name The name of the part.
+       * @param value The string to post.
        */
       constructor(name: string, value: string);
       /**
-       * Construct a part representing a simple string name/value pair.
-       * @param name
-       * @param value
-       * @param encoding
+       * Construct a part representing a simple string name/value pair. The HTTP
+       *  message uses the specified encoding or "US-ASCII" if null is passed
+       *  for the part.
+       * @param name The name of the part.
+       * @param value The string to post.
+       * @param encoding The charset to be used to encode the string, if null the default is used.
        */
       constructor(name: string, value: string, encoding: string);
       /**
-       * Construct a part representing a name/File pair.
-       * @param name
-       * @param file
+       * Construct a part representing a name/File pair. The HTTP message will use
+       *  "application/octet-stream" as the content type and "ISO-8859-1" as the character
+       *  set for the part.
+       * @param name The name of the file part
+       * @param file The file to post
        */
       constructor(name: string, file: dw.io.File);
       /**
        * Construct a part representing a name/File pair.
-       * @param name
-       * @param file
-       * @param contentType
-       * @param encoding
+       *
+       *
+       *  If both contentType and encoding are null, then the part will be defaulted to use "application/octet-stream"
+       *  as the content-type and "ISO-8859-1" as the encoding.
+       *  If only the encoding is null, then the contentType will be used without an encoding.
+       *  If only the contentType is null, then it will be defaulted to "text/plain".
+       * @param name The name of the file part
+       * @param file The file to post
+       * @param contentType The content type for this part, if null or blank the default is used.
+       * @param encoding the charset encoding for this part, if null or blank the default is used
        */
       constructor(
         name: string,
@@ -26606,8 +26715,8 @@ declare namespace dw {
      *
      *   var content: MimeEncodedText = template.render(o);
      *   var mail: Mail = new dw.net.Mail();
-     *   mail.addTo(&quot;<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="d9adb699bca1b8b4a9b5bcf7b6abbe">[email&#xA0;protected]</a>&quot;);
-     *   mail.setFrom(&quot;<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="c0a6b2afad80a5b8a1adb0aca5eeafb2a7">[email&#xA0;protected]</a>&quot;);
+     *   mail.addTo(&quot;<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="abdfc4ebced3cac6dbc7ce85c4d9cc">[email&#xA0;protected]</a>&quot;);
+     *   mail.setFrom(&quot;<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="bcdaced3d1fcd9c4ddd1ccd0d992d3cedb">[email&#xA0;protected]</a>&quot;);
      *   mail.setSubject(&quot;Example Email&quot;);
      *   mail.setContent(content);
      *
@@ -27040,10 +27149,10 @@ declare namespace dw {
 
       /**
        * Constructs the SFTPFileInfo instance.
-       * @param name
-       * @param size
-       * @param directory
-       * @param mtime
+       * @param name the name of the file.
+       * @param size the size of the file.
+       * @param directory controls if the file is a directory.
+       * @param mtime last modification time.
        */
       constructor(
         name: string,
@@ -27177,15 +27286,20 @@ declare namespace dw {
       statusText: string;
 
       /**
-       * Creates a new client for the use at a server which requires authentication.
-       * @param rootUrl
-       * @param username
-       * @param password
+       * Creates a new client for the use at a server which requires
+       *  authentication.
+       *  The client supports the following authentication schemes:
+       *       - Basic authentication scheme
+       *       - Digest authentication scheme
+       * @param rootUrl the url of the server one wants to connect to. All commands will be executed by the client relative to that url.
+       * @param username username of the user for server authentication.
+       * @param password password of the user for server authentication.
        */
       constructor(rootUrl: string, username: string, password: string);
       /**
-       * Creates a new client for the use at a server which does not require authentication.
-       * @param rootUrl
+       * Creates a new client for the use at a server which does not require
+       *  authentication.
+       * @param rootUrl the url of the server one wants to connect to. All commands will be executed by the client relative to that url.
        */
       constructor(rootUrl: string);
 
@@ -27639,7 +27753,7 @@ declare namespace dw {
      *  var s : String = eo.custom.svalue;
      *
      *  // attribute of value type &apos;Email&apos;
-     *  eo.custom.emailvalue = &quot;<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="1b7e767a72775b7f7e767a757f6c7a697e35787476">[email&#xA0;protected]</a>&quot;;
+     *  eo.custom.emailvalue = &quot;<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="b7d2dad6dedbf7d3d2dad6d9d3c0d6c5d299d4d8da">[email&#xA0;protected]</a>&quot;;
      *  var e : String = eo.custom.emailvalue;
      *
      *  // attribute of value type &apos;Text&apos;
@@ -41165,13 +41279,15 @@ declare namespace dw {
        */
       constructor();
       /**
-       * Constructs a new shipping location and initializes it with the values of the specified address object.
-       * @param address
+       * Constructs a new shipping location and initializes it with the values of the
+       *  specified address object.
+       * @param address the address that the shipping location represents.
        */
       constructor(address: dw.customer.CustomerAddress);
       /**
-       * Constructs a new shipping location and initializes it with the values of the specified address object.
-       * @param address
+       * Constructs a new shipping location and initializes it with the values of the
+       *  specified address object.
+       * @param address the address that the shipping location represents.
        */
       constructor(address: dw.order.OrderAddress);
 
@@ -47992,22 +48108,25 @@ declare namespace dw {
        */
       constructor();
       /**
-       * Creates a Status with a single StatusItem.
-       * @param status
+       * Creates a Status with a single StatusItem. The status is set to the given
+       *  value.
+       * @param status either OK or ERROR
        */
       constructor(status: number);
       /**
-       * Creates a Status with a single StatusItem.
-       * @param status
-       * @param code
+       * Creates a Status with a single StatusItem. The StatusItem is initialized
+       *  with the given values.
+       * @param status either OK or ERROR
+       * @param code a string representing a more detailed status code, e.g. "IMPEX-120"
        */
       constructor(status: number, code: string);
       /**
-       * Creates a Status with a single StatusItem.
-       * @param status
-       * @param code
-       * @param message
-       * @param parameters
+       * Creates a Status with a single StatusItem. The StatusItem is initialized
+       *  with the given values.
+       * @param status either OK or ERROR
+       * @param code a string representing a more detailed status code, e.g. "IMPEX-120".
+       * @param message a default human readable message
+       * @param parameters a list of parameters to construct a custom message
        */
       constructor(
         status: number,
@@ -48137,21 +48256,21 @@ declare namespace dw {
       constructor();
       /**
        * Constructs a new StatusItem with the given status.
-       * @param status
+       * @param status either Status.OK or Status.ERROR.
        */
       constructor(status: number);
       /**
        * Constructs a new StatusItem with the given status and code.
-       * @param status
-       * @param code
+       * @param status either Status.OK or Status.ERROR.
+       * @param code a string representing a more detailed status code, e.g. "IMPEX-120".
        */
       constructor(status: number, code: string);
       /**
        * Constructs a new StatusItem with the given values.
-       * @param status
-       * @param code
-       * @param message
-       * @param parameters
+       * @param status Status.OK or Status.ERROR.
+       * @param code a string representing a more detailed status code, e.g. "IMPEX-120".
+       * @param message a default human readable message
+       * @param parameters a list of parameters to construct a custom message
        */
       constructor(
         status: number,
@@ -48531,18 +48650,27 @@ declare namespace dw {
        */
       constructor();
       /**
-       * Constructor for a new ArrayList.
-       * @param collection
+       * Constructor for a new ArrayList. The constructor initializes the
+       *  ArrayList with the elements of the given collection.
+       * @param collection the elements to insert into the list.
        */
       constructor(collection: dw.util.Collection<T>);
       /**
-       * Constructor for a new ArrayList.
-       * @param iterator
+       * Constructor for a new ArrayList. The constructor initializes the
+       *  ArrayList with the elements of the given iterator.
+       * @param iterator the iterator that provides access to the elements to insert into the list.
        */
       constructor(iterator: dw.util.Iterator<T>);
       /**
-       * Constructor for a new ArrayList.
-       * @param values
+       * Constructor for a new ArrayList. The constructor initializes the
+       *  ArrayList with the arguments given as constructor parameters. The method
+       *  can also be called with an ECMA array as argument.
+       *
+       *  If called with a single ECMA array as argument the individual elements of
+       *  that array are used to initialize the ArrayList. To create an ArrayList
+       *  with a single array as element, create an empty ArrayList and then call
+       *  the method add1() on it.
+       * @param values the set of objects to insert into the list.
        */
       constructor(...values: T[]);
 
@@ -48752,12 +48880,13 @@ declare namespace dw {
       constructor();
       /**
        * Constructs a new Integer using the specified Number value.
-       * @param value
+       * @param value the value to use.
        */
       constructor(value: number);
       /**
-       * Constructs a new Integer using the specified string representation of a number.
-       * @param value
+       * Constructs a new Integer using the specified string representation of
+       *  a number.
+       * @param value the value to use.
        */
       constructor(value: string);
 
@@ -48880,14 +49009,17 @@ declare namespace dw {
       length: number;
 
       /**
-       * Construct a Bytes object from the given string using the default encoding.
-       * @param string
+       * Construct a Bytes object from the given string using the default
+       *  encoding. Convenience for Bytes( string, "UTF-8" ).
+       * @param string The string to encode into a Bytes object, must not be null.
        */
       constructor(string: string);
       /**
        * Construct a Bytes object from the given string using the given encoding.
-       * @param string
-       * @param encoding
+       *  This method always replaces malformed input and unmappable character
+       *  sequences with encoding defaults.
+       * @param string The string to encode into a Bytes object, must not be null.
+       * @param encoding The name of a supported encoding, or null in which case the default encoding (UTF-8) is used.
        */
       constructor(string: string, encoding: string);
 
@@ -49152,13 +49284,25 @@ declare namespace dw {
       timeZone: string;
 
       /**
-       * Creates a new Calendar object that is set to the current time.
+       * Creates a new Calendar object that is set to the current
+       *  time. The default time zone of the Calendar object is GMT.
+       *
+       *  WARNING: Keep in mind that the time stamp represented by the new calendar
+       *           is always interpreted in the time zone GMT. This means time zone
+       *           information at the calendar object needs to be set separately by
+       *           using the setTimeZone(String) method.
        *
        */
       constructor();
       /**
-       * Creates a new Calendar object for the given Date object.
-       * @param date
+       * Creates a new Calendar object for the given Date object. The time is set to
+       *  the given Date object's time. The default time zone of the Calendar object is GMT.
+       *
+       *  WARNING: Keep in mind that the given Date object is always
+       *           interpreted in the time zone GMT. This means time zone
+       *           information at the calendar object needs to be set separately by
+       *           using the setTimeZone(String) method.
+       * @param date the date for which the calendar will be set.
        */
       constructor(date: Date);
 
@@ -49677,12 +49821,13 @@ declare namespace dw {
       constructor();
       /**
        * Constructs a new decimal using the specified Number value.
-       * @param value
+       * @param value the value to use.
        */
       constructor(value: number);
       /**
-       * Constructs a new Decimal using the specified string representation of a number.
-       * @param value
+       * Constructs a new Decimal using the specified string representation of
+       *  a number.
+       * @param value the value to use.
        */
       constructor(value: string);
 
@@ -49972,15 +50117,15 @@ declare namespace dw {
 
       /**
        * Constructor for a Geolocation object
-       * @param countryCode
-       * @param countryName
-       * @param regionCode
-       * @param regionName
-       * @param metroCode
-       * @param city
-       * @param postalCode
-       * @param latitude
-       * @param longitude
+       * @param countryCode the ISO country code associated with this location. The two-character ISO 3166-1 alpha code for the country.
+       * @param countryName the country name in English that the system associates with this location on the earth.
+       * @param regionCode the region (e.g. province or state) code for this location. This is a string up to three characters long containing the subdivision portion of the code.
+       * @param regionName the region (e.g. province in state) name in English that the system associates with this location.
+       * @param metroCode the metro code associated with this location. The metro code of the location if the location is in the US. See the  Google AdWords API for values
+       * @param city the city name in English associated with this location.
+       * @param postalCode the postal code associated with this location.
+       * @param latitude the latitude coordinate associated with this location which is a number between -90.0 and +90.0.
+       * @param longitude the longitude coordinate associated with this location which is a number between -180.0 and +180.0.
        */
       constructor(
         countryCode: string,
@@ -50089,8 +50234,10 @@ declare namespace dw {
        */
       constructor();
       /**
-       * Construct a new HashSet by initializing the HashSet with the elements of the given collection.
-       * @param collection
+       * Construct a new HashSet by
+       *  initializing the HashSet with the elements of the
+       *  given collection.
+       * @param collection the collection to add to the set.
        */
       constructor(collection: dw.util.Collection<any>);
 
@@ -50173,8 +50320,10 @@ declare namespace dw {
        */
       constructor();
       /**
-       * Constructor for a new LinkedHashSet.
-       * @param collection
+       * Constructor for a new LinkedHashSet. The constructor
+       *  initializes the LinkedHashSet with the elements of the
+       *  given collection.
+       * @param collection the collection of items to insert into this set.
        */
       constructor(collection: dw.util.Collection<T>);
 
@@ -50682,8 +50831,10 @@ declare namespace dw {
       singleComponentKey: string;
 
       /**
-       * Instantiates a new key using compound key components.
-       * @param keyComponents
+       * Instantiates a new key using compound key components. A key can consist of a single string (e.g. product id) or
+       *  multiple string components (e.g. product id and site). Ctor accepts single string or multiple components for a
+       *  compound key.
+       * @param keyComponents the key components
        */
       constructor(...keyComponents: string[]);
 
@@ -50758,22 +50909,50 @@ declare namespace dw {
      */
     class PropertyComparator {
       /**
-       * Constructs the comparator from the variable length argument list.
-       * @param property
-       * @param otherProperties
+       * Constructs the comparator from the variable length argument list. The
+       *  parameters are property names that are to be used for the comparison.
+       *  When comparing two objects, the comparator first compares them by the
+       *  first property. If the two objects have equal values for the first
+       *  property, the comparator then compares them by the second property,
+       *  etc, until one object is determined to be less than the other or they are
+       *  equal. Each parameter must be either a simple name like "totalSum" or can
+       *  be a reference to a custom attribute like "custom.mytotal". Each
+       *  parameter may also be prefixed with an optional '+' or '-' character to
+       *  indicate that the objects should be sorted ascending or descending
+       *  respectively by that property. If not specified for a given property then
+       *  '+' (ascending sort) is assumed.
+       *
+       *  For example: new PropertyComparator("+prop1", "-prop2", "prop3")
+       *  constructs a Comparator which sorts by prop1 ascending, prop2 descending,
+       *  and finally prop3 ascending.
+       *
+       *  The comparator created with this constructor treats null values as
+       *  greater than any other value.
+       * @param property The property name to compare by first.
+       * @param otherProperties Additional property names to sort by if two objects have the same values for the first property.
        */
       constructor(property: string, ...otherProperties: string[]);
       /**
-       * Constructs the comparator.
-       * @param propertyName
-       * @param sortOrder
+       * Constructs the comparator. The specified parameter is the name of the
+       *  property that is used for the comparison. The parameter must be either a
+       *  simple name like "totalSum" or can be a reference to a custom attribute
+       *  like "custom.mytotal".
+       *
+       *  The comparator created with this constructor is setup with ascending or
+       *  descending sort order depending on value of sortOrder and null values
+       *  being greater than any other value.
+       * @param propertyName the name of the property that is used for the comparison.
+       * @param sortOrder the sort order to use where true means ascending and false means descending.
        */
       constructor(propertyName: string, sortOrder: boolean);
       /**
-       * Constructs the comparator.
-       * @param propertyName
-       * @param sortOrder
-       * @param nullGreater
+       * Constructs the comparator. The specified parameter is the name of the
+       *  property that is used for the comparison. The parameter must be either a
+       *  simple name like "totalSum" or can be a reference to a custom attribute
+       *  like "custom.mytotal".
+       * @param propertyName the name of the property that is used for the comparison.
+       * @param sortOrder the sort order to use where true means ascending and false means descending.
+       * @param nullGreater true means null is greater than any other value
        */
       constructor(
         propertyName: string,
@@ -51570,7 +51749,15 @@ declare namespace dw {
       constructor();
       /**
        * Constructor to create a new SortedMap.
-       * @param comparator
+       *
+       *  The constructor takes a compare function as additional parameter. This comparator
+       *  determines identity and the order of the element keys for this map.
+       *  The order of the elements is determined with a comparator (see PropertyComparator)
+       *  or with the help of the given function. The function must take two parameters
+       *  and return a value <=-1 if the first parameter is smaller than the second,
+       *  a value if >=1 if the first one is greater than the second parameter
+       *  and a value in between like 0 if both are equal.
+       * @param comparator an instance of a PropertyComparator or a comparison function
        */
       constructor(comparator: any);
 
@@ -51633,12 +51820,22 @@ declare namespace dw {
       constructor();
       /**
        * Constructor to create a new SortedSet.
-       * @param comparator
+       *
+       *  The constructor takes a compare function as additional parameter. This comparator
+       *  determines identity and the order of the elements for this set.
+       *  The order of the elements is determined with a comparator (see PropertyComparator)
+       *  or with the help of the given function. The function must take two parameters
+       *  and return a value <=-1 if the first parameter is smaller than the second,
+       *  a value if >=1 if the first one is greater than the second parameter
+       *  and a value in between like 0 if both are equal.
+       * @param comparator an instance of a PropertyComparator or a comparison function
        */
       constructor(comparator: T);
       /**
-       * Constructor for a new SortedSet.
-       * @param collection
+       * Constructor for a new SortedSet. The constructor
+       *  initializes the SortedSet with the elements of the
+       *  given collection.
+       * @param collection the collection of objects that are inserted into the set.
        */
       constructor(collection: dw.util.Collection<T>);
 
@@ -52002,14 +52199,18 @@ declare namespace dw {
      */
     class Template {
       /**
-       * Creates a new template.
-       * @param templateName
+       * Creates a new template. Doesn't render the template until
+       *  render() or render(Map)
+       *  is invoked. The current request localeID will be used for Rendering.
+       * @param templateName file system path to the ISML template
        */
       constructor(templateName: string);
       /**
        * Creates a new template with the locale being set to the given localeID.
-       * @param templateName
-       * @param localeID
+       *  Rendering doesn't happen until render() or
+       *  render(Map) is invoked.
+       * @param templateName file system path to the ISML template
+       * @param localeID localeID to be used for Rendering
        */
       constructor(templateName: string, localeID: string);
 
@@ -52133,15 +52334,17 @@ declare namespace dw {
       text: string;
 
       /**
-       * Creates a new MimeEncodedText with explicit values for mime type and encoding.
-       * @param text
-       * @param mimeType
-       * @param encoding
+       * Creates a new MimeEncodedText with explicit values for mime type and
+       *  encoding.
+       * @param text text to be stored
+       * @param mimeType mime type of the text. For example, "text/plain" or "text/html"
+       * @param encoding Encoding of the text. For example, "UTF-8" or "ISO-8859-1"
        */
       constructor(text: string, mimeType: string, encoding: string);
       /**
-       * Creates a new MimeEncodedText with the given String as text, mime type of "text/plain;charset=UTF-8" and encoding of "UTF-8"
-       * @param text
+       * Creates a new MimeEncodedText with the given String as text, mime type of
+       *  "text/plain;charset=UTF-8" and encoding of "UTF-8"
+       * @param text text to be stored
        */
       constructor(text: string);
 
@@ -52204,9 +52407,12 @@ declare namespace dw {
       valueOrNull: number;
 
       /**
-       * Constructs a new money instance with the specified amount for the specified currency.
-       * @param value
-       * @param currencyCode
+       * Constructs a new money instance with the specified amount for the specified
+       *  currency. Note that each currency has a precision (number of digits after the
+       *  decimal point) and that values beyond the precision are "rounded up" to their
+       *  "nearest neighbor" following the rules of java.math.RoundingMode.HALF_UP.
+       * @param value The value of the money instance. Must not be null.
+       * @param currencyCode The ISO 4217 mnemonic of currency the amount is specified in. Must not be null.
        */
       constructor(value: number, currencyCode: string);
 
@@ -52436,8 +52642,8 @@ declare namespace dw {
 
       /**
        * Creates a new quantity instance with the specified value and unit.
-       * @param value
-       * @param unit
+       * @param value the actual quantity, must not be null
+       * @param unit the unit identifier for the quantity, must not be null
        */
       constructor(value: number, unit: string);
 
@@ -52875,8 +53081,8 @@ declare namespace dw {
 
       /**
        * Constructs a new cookie using the specified name and value.
-       * @param name
-       * @param value
+       * @param name the name for the cookie.
+       * @param value the cookie's value.
        */
       constructor(name: string, value: string);
 
@@ -53270,20 +53476,23 @@ declare namespace dw {
 
       /**
        * Creates a FormElementValidationResult with given setting for the validity but without any message.
-       * @param valid
+       * @param valid the desired validity
        */
       constructor(valid: boolean);
       /**
        * Creates a FormElementValidationResult with given setting for the validity and corresponding message.
-       * @param valid
-       * @param message
+       *  This is especially useful to represent a failed validation including some error message.
+       * @param valid the desired validity
+       * @param message the desired message
        */
       constructor(valid: boolean, message: string);
       /**
        * Creates a FormElementValidationResult with given setting for the validity and corresponding message.
-       * @param valid
-       * @param message
-       * @param data
+       *  This is especially useful to represent a failed validation including some error message. Additional
+       *  data can be stored, too.
+       * @param valid the desired validity
+       * @param message the desired message
+       * @param data the desired data
        */
       constructor(valid: boolean, message: string, data: dw.util.Map);
 
@@ -54727,13 +54936,20 @@ declare namespace dw {
 
       /**
        * Constructs the PagingModel using the specified iterator and count value.
-       * @param elements
-       * @param count
+       *  Count must not be negative.
+       *
+       *  Note: A valid count must be provided. The PageModel class can not be used
+       *  if the number of elements is unknown. Without knowning the number of
+       *  elements it still would be possible to return the elements of a particular
+       *  page, but it would be not possible to calculate data like the total number
+       *  of pages or to construct an URL to jump to a particular page.
+       * @param elements the iterator containing the model elements.
+       * @param count the count of elements.
        */
       constructor(elements: dw.util.Iterator<T>, count: number);
       /**
        * Constructs the PagingModel using the specified collection.
-       * @param elements
+       * @param elements the collection containing the model elements.
        */
       constructor(elements: dw.util.Collection<T>);
 
@@ -55039,28 +55255,31 @@ declare namespace dw {
     class URLAction {
       /**
        * Constructs an action for the current site and locale.
-       * @param action
+       * @param action the target pipeline/controller, e.g. 'Default-Start'
        */
       constructor(action: string);
       /**
        * Constructs an action for the specified site and the current locale.
-       * @param action
-       * @param siteName
+       * @param action the target pipeline/controller, e.g. 'Default-Start'
+       * @param siteName the target site, e.g. 'SampleSite'
        */
       constructor(action: string, siteName: string);
       /**
        * Constructs an action for the specified site and locale.
-       * @param action
-       * @param siteName
-       * @param locale
+       * @param action the target pipeline/controller, e.g.: 'Default-Start'
+       * @param siteName the target site, e.g. 'SampleSite'
+       * @param locale the target locale, e.g. 'default'
        */
       constructor(action: string, siteName: string, locale: string);
       /**
        * Constructs an URL action for the specified site, locale and hostname.
-       * @param action
-       * @param siteName
-       * @param locale
-       * @param hostName
+       *  The hostname must be defined in the site alias settings. If no hostname is provided, the HTTP/HTTPS
+       *  host defined in the site alias settings will be used. If no HTTP/HTTPS host is defined in the site alias
+       *  settings, the hostname of the current request is used.
+       * @param action the target pipeline/controller, e.g.: 'Default-Start'
+       * @param siteName the target site, e.g. 'SampleSite'
+       * @param locale the target locale, e.g. 'default'
+       * @param hostName the host name, e.g. ‘www.shop.com'
        */
       constructor(
         action: string,
@@ -55075,16 +55294,19 @@ declare namespace dw {
      */
     class URLParameter {
       /**
-       * Constructs the parameter using the specified name and value and endocded in the form "name=value".
-       * @param aName
-       * @param aValue
+       * Constructs the parameter using the specified name and value and endocded
+       *  in the form "name=value".
+       * @param aName the name
+       * @param aValue the value
        */
       constructor(aName: string, aValue: string);
       /**
-       * Constructs the parameter using the specified name and value.
-       * @param aName
-       * @param aValue
-       * @param encodeName
+       * Constructs the parameter using the specified name and value. If the "encodeName" is set to true,
+       *  the parameter is encoded in the form "name=value". Otherwise, it only
+       *  contains the "value" (needed for URL patterns).
+       * @param aName the name
+       * @param aValue the value
+       * @param encodeName if true, the name will be part of the string form
        */
       constructor(aName: string, aValue: string, encodeName: boolean);
     }

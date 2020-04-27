@@ -24,6 +24,45 @@ const arrayToObj = (array: any[]) => {
   return initialValue;
 };
 
+
+const mapDetail = ($: CheerioStatic, el: CheerioElement) => {
+  let detailSignature = $(el).find('.detailSignature').text().trim();
+  let parsedPropertyText = /^(?:\n|\s)*(static)?(?:public[\s\t])?(?:\n|\s)*([^\s\t]+)\(([^\)]*)\)(?:\n|\t|\s|:)*([^\s\t]+)?/.exec(detailSignature);
+  if (!parsedPropertyText) {
+    console.log('cannot parse ' + detailSignature);
+    return;
+  }
+  let staticprefix = parsedPropertyText[1];
+  let params = parsedPropertyText[3];
+  let returnValue = parsedPropertyText[4];
+  let returnDesc = $(el).find(".parameters").filter((i, el) => $(el).find(".parameterTitle").text().indexOf("Returns:") >= 0).find('.parameterDesc').text().trim();
+  let paramsDoc = $(el).find(".parameters").filter((i, el) => $(el).find(".parameterTitle").text().indexOf("Parameters:") >= 0).find('.parameterDetail');
+  return {
+    name: $(el).find(".detailName").text().trim(),
+    args: params.split(",").filter(arg => arg && arg.trim().length).map((arg) => {
+      let argTouple = arg.split(":");
+      let argType = argTouple[1].trim().split('...');
+      let argName = argTouple[0].trim();
+      return {
+        name: argName,
+        description: paramsDoc.filter((i, el) => $(el).find(".parameterName").text().trim() == argName).find('.parameterDesc').text().trim(),
+        class: {
+          name: argType[0].trim(),
+        },
+        multiple: argType.length > 1
+      };
+    }),
+    static: staticprefix && staticprefix.indexOf('static') == 0,
+    class: {
+      name: returnValue,
+      description: returnDesc
+    },
+    description: $(el).find(".description").text().trim(),
+    deprecated: !!$(el).find(".dep").length
+  };
+}
+
+
 (async () => {
   const baseUrl =
     "https://documentation.b2c.commercecloud.salesforce.com/DOC1/topic/com.demandware.dochelp/DWAPI/scriptapi/html/api/";
@@ -126,31 +165,12 @@ const arrayToObj = (array: any[]) => {
                     $(el)
                       .find(".header")
                       .text()
-                      .indexOf("Constructor Summary") >= 0
+                      .indexOf("Constructor Detail") >= 0
                     && $(el).find('.summaryItem').eq(0).text().indexOf('This class does not have a constructor') < 0
                 )
-                .find(".summaryItem")
+                .find(".detailItem")
                 .map((i, el) => {
-                  let propertyText = $(el).text().trim();
-                  let parsedPropertyText = /^(\n|\s)*(public)?(\n|\s)*([^\s\t\(]+)\(([^\)]*)\)/.exec(
-                    propertyText
-                  );
-                  return {
-                    name: $(el).find(".emphasis").text().trim(),
-                    args: parsedPropertyText[5].split(",").filter(arg => arg && arg.trim().length).map((arg) => {
-                      let argTouple = arg.split(":");
-                      let argType = argTouple[1].trim().split('...');
-                      return {
-                        name: argTouple[0].trim(),
-                        class: {
-                          name: argType[0].trim(),
-                        },
-                        multiple: argType.length > 1
-                      };
-                    }),
-                    description: $(el).find(".description").text().trim(),
-                    deprecated: $(el).find(".dep").length
-                  };
+                  return mapDetail($, el);
                 })
                 .get()),
               methods: arrayToObj($(".section")
@@ -160,45 +180,7 @@ const arrayToObj = (array: any[]) => {
                 )
                 .find(".detailItem")
                 .map((i, el) => {
-
-                  let detailSignature = $(el).find('.detailSignature').text().trim();
-                  let parsedPropertyText = /^(?:\n|\s)*(static)?(?:\n|\s)*([^\s\t]+)\(([^\)]*)\)(?:\n|\t|\s|:)*([^\s\t]+)/.exec(
-                    detailSignature
-                  );
-
-                  let staticprefix = parsedPropertyText[1];
-                  let params = parsedPropertyText[3];
-                  let returnValue = parsedPropertyText[4];
-                  let returnDesc = $(el).find(".parameters").filter(
-                    (i, el) =>
-                      $(el).find(".parameterTitle").text().indexOf("Returns:") >= 0
-                  ).find('.parameterDesc').text().trim();
-
-                  let paramsDoc = $(el).find(".parameters").filter((i, el) => $(el).find(".parameterTitle").text().indexOf("Parameters:") >= 0).find('.parameterDetail');
-
-                  return {
-                    name: $(el).find(".detailName").text().trim(),
-                    args: params.split(",").filter(arg => arg && arg.trim().length).map((arg) => {
-                      let argTouple = arg.split(":");
-                      let argType = argTouple[1].trim().split('...');
-                      let argName = argTouple[0].trim();
-                      return {
-                        name: argName,
-                        description: paramsDoc.filter((i, el) => $(el).find(".parameterName").text().trim() == argName).find('.parameterDesc').text().trim(),
-                        class: {
-                          name: argType[0].trim(),
-                        },
-                        multiple: argType.length > 1
-                      };
-                    }),
-                    static: staticprefix && staticprefix.indexOf('static') == 0,
-                    class: {
-                      name: returnValue,
-                      description: returnDesc
-                    },
-                    description: $(el).find(".description").text().trim(),
-                    deprecated: !!$(el).find(".dep").length
-                  };
+                  return mapDetail($, el);
                 })
                 .get()),
             };
@@ -256,3 +238,4 @@ const arrayToObj = (array: any[]) => {
     interfaces: apiInterfaces
   }, null, 2));
 });
+
