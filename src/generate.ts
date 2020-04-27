@@ -212,10 +212,24 @@ const generateCodeForClass = (theClass: any) => {
   source += objbToArray(theClass.properties)
     .filter(filterProperties(className))
     .reduce(
-      (propSource: any, property: any) =>
-        `${propSource}${doc(property)}${isGlobal ? 'declare ' : ''}${property.static ? isStatic : ""}${
-        property.readonly ? readonly : ""
-        }${property.name}: ${sanitizeType(property.class.name, property.class.generics, isGeneric && !property.static)};\n`,
+      (propSource: any, property: any) => {
+
+        let returnType = sanitizeType(property.class.name, property.class.generics, isGeneric && !property.static);
+
+        if (!isGeneric && returnType.indexOf('<any>') > -1) {
+
+          let propkey = `${theClass.fullClassName}.get${property.name.charAt(0).toUpperCase()}${property.name.substring(1)}`;
+          // @ts-ignore
+          returnType = genericsremap.get(propkey) || returnType;
+
+          if (returnType.indexOf('<any>') > -1) {
+            console.log(`Unmapped generics: ${propkey}=${returnType}`);
+          }
+        }
+
+        return `${propSource}${doc(property)}${isGlobal ? 'declare ' : ''}${property.static ? isStatic : ""}${
+          property.readonly ? readonly : ""}${property.name}: ${returnType};\n`
+      },
       ""
     );
   source += "\n";
@@ -247,12 +261,7 @@ const generateCodeForClass = (theClass: any) => {
     })
     .reduce(
       (methodSource: any, method: any) => {
-
-        // theClass.fullClassName
-
         let returnType = sanitizeType(method.class.name, method.class.generics, isGeneric);
-
-        genericsremap
 
         if (!isGeneric && returnType.indexOf('<any>') > -1) {
 
