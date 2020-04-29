@@ -22,3 +22,7 @@ let list: dw.util.List<dw.catalog.SortingOption> = dw.catalog.CatalogMgr.getSort
 list.toArray().forEach(element => {
   let displayname = element.displayName;
 });
+
+if (dw.system.System.getInstanceHostname() === dw.system.System.instanceHostname) {
+  // it's ok
+}
