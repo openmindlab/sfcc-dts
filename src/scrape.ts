@@ -94,6 +94,17 @@ const mapDetail = ($: CheerioStatic, el: CheerioElement) => {
           if (!(className in classes)) {
             // console.log('Parsing ' + className);
 
+            let methods = arrayToObj($(".section")
+              .filter(
+                (i, el) =>
+                  $(el).find(".header").text().indexOf("Method Detail") >= 0
+              )
+              .find(".detailItem")
+              .map((i, el) => {
+                return mapDetail($, el);
+              })
+              .get());
+
             classes[className] = {
               fullClassName: fullClassName,
               package: packageName,
@@ -144,15 +155,24 @@ const mapDetail = ($: CheerioStatic, el: CheerioElement) => {
                   let parsedPropertyText = /^(\n|\s)*(static)?(\n|\s)*([^\s\t]+)(\n|\t|\s|:)*([^\s\t]+)/.exec(
                     propertyText
                   );
+
+                  let name = parsedPropertyText[4].trim();
+                  let isStatic = !!parsedPropertyText[2];
+                  let getter = methods[`get${name.charAt(0).toUpperCase()}${name.substring(1)}`];
+                  if (getter && getter.static) {
+                    // properties don't have the "static" modifier in docs, try to determine it from the getter
+                    isStatic = true; // e.g. dw.system.System.instanceHostname
+                  }
+
                   return {
-                    name: parsedPropertyText[4].trim(),
+                    name: name,
                     class: {
                       name:
                         $(el).find("a[href] span").text().trim() ||
                         parsedPropertyText[6].trim(),
                       // link: $(el).find("a[href]").attr("href"),
                     },
-                    static: !!parsedPropertyText[2],
+                    static: isStatic,
                     readOnly: propertyText.indexOf("Read Only") > 0,
                     description: $(el).find(".description").text().trim(),
                     deprecated: $(el).find(".dep").length
@@ -173,16 +193,7 @@ const mapDetail = ($: CheerioStatic, el: CheerioElement) => {
                   return mapDetail($, el);
                 })
                 .get()),
-              methods: arrayToObj($(".section")
-                .filter(
-                  (i, el) =>
-                    $(el).find(".header").text().indexOf("Method Detail") >= 0
-                )
-                .find(".detailItem")
-                .map((i, el) => {
-                  return mapDetail($, el);
-                })
-                .get()),
+              methods: methods
             };
           }
         }

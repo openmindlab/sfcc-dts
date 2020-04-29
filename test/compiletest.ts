@@ -26,3 +26,8 @@ list.toArray().forEach(element => {
 if (dw.system.System.getInstanceHostname() === dw.system.System.instanceHostname) {
   // it's ok
 }
+
+if (dw.system.Site.getCurrent() === dw.system.Site.current) {
+  // it's ok
+}
+

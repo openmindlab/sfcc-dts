@@ -1693,7 +1693,9 @@ declare namespace dw {
        * Return the AB-test segments to which the current customer is assigned.
        *  AB-test segments deleted in the meantime will not be returned.
        */
-      assignedTestSegments: dw.util.Collection<dw.campaign.ABTestSegment>;
+      static assignedTestSegments: dw.util.Collection<
+        dw.campaign.ABTestSegment
+      >;
 
       /**
        * Return the AB-test segments to which the current customer is assigned.
@@ -2185,7 +2187,7 @@ declare namespace dw {
        *
        *  Note that this method does not return any coupon-based promotions.
        */
-      applicablePromotions: dw.util.Collection<dw.campaign.Promotion>;
+      static applicablePromotions: dw.util.Collection<dw.campaign.Promotion>;
 
       /**
        * This method has been deprecated and should not be used anymore.
@@ -2585,7 +2587,7 @@ declare namespace dw {
       /**
        * All coupons in the current site in no specific order.
        */
-      coupons: dw.util.Collection<dw.campaign.Coupon>;
+      static coupons: dw.util.Collection<dw.campaign.Coupon>;
 
       /**
        * Returns the coupon with the specified ID.
@@ -3734,21 +3736,21 @@ declare namespace dw {
        *  promotions assigned to any customer group of the current customer, the
        *  current source code, or coupons in the current session basket.
        */
-      activeCustomerPromotions: dw.campaign.PromotionPlan;
+      static activeCustomerPromotions: dw.campaign.PromotionPlan;
       /**
        * All promotions scheduled for now, and applicable for the
        *  session currency but regardless of current customer or source code.
        *  The active promotions are returned in an instance of PromotionPlan.
        */
-      activePromotions: dw.campaign.PromotionPlan;
+      static activePromotions: dw.campaign.PromotionPlan;
       /**
        * All campaigns of the current site in no specific order.
        */
-      campaigns: dw.util.Collection<dw.campaign.Campaign>;
+      static campaigns: dw.util.Collection<dw.campaign.Campaign>;
       /**
        * All promotions of the current site in no specific order.
        */
-      promotions: dw.util.Collection<dw.campaign.Promotion>;
+      static promotions: dw.util.Collection<dw.campaign.Promotion>;
 
       /**
        * Identifies active promotions, calculates the applicable
@@ -4470,15 +4472,15 @@ declare namespace dw {
       /**
        * The catalog of the current site or null if no catalog is assigned to the site.
        */
-      siteCatalog: dw.catalog.Catalog;
+      static siteCatalog: dw.catalog.Catalog;
       /**
        * A list containing the sorting options configured for this site.
        */
-      sortingOptions: dw.util.List<dw.catalog.SortingOption>;
+      static sortingOptions: dw.util.List<dw.catalog.SortingOption>;
       /**
        * A collection containing all of the sorting rules for this site, including global sorting rules.
        */
-      sortingRules: dw.util.Collection<dw.catalog.SortingRule>;
+      static sortingRules: dw.util.Collection<dw.catalog.SortingRule>;
 
       /**
        * Returns the catalog identified by the specified catalog id.
@@ -5455,18 +5457,18 @@ declare namespace dw {
       /**
        * All price books defined for the organization.
        */
-      allPriceBooks: dw.util.Collection<dw.catalog.PriceBook>;
+      static allPriceBooks: dw.util.Collection<dw.catalog.PriceBook>;
       /**
        * A collection of price books that are set in the user session.
        */
-      applicablePriceBooks: dw.util.Collection<dw.catalog.PriceBook>;
+      static applicablePriceBooks: dw.util.Collection<dw.catalog.PriceBook>;
       /**
        * All price books assigned to the current site.
        *
        *  Please note that this doesn't include parent price books not assigned
        *  to the site, but considered by the price lookup.
        */
-      sitePriceBooks: dw.util.Collection<dw.catalog.PriceBook>;
+      static sitePriceBooks: dw.util.Collection<dw.catalog.PriceBook>;
 
       /**
        * Returns all price books defined for the organization.
@@ -8151,7 +8153,7 @@ declare namespace dw {
        * The inventory list assigned to the current site or null if no
        *  inventory list is assigned to the current site.
        */
-      inventoryList: dw.catalog.ProductInventoryList;
+      static inventoryList: dw.catalog.ProductInventoryList;
 
       /**
        * Returns the inventory list assigned to the current site or null if no
@@ -12785,7 +12787,7 @@ declare namespace dw {
       /**
        * All the store groups of the current site.
        */
-      allStoreGroups: dw.util.Collection<dw.catalog.StoreGroup>;
+      static allStoreGroups: dw.util.Collection<dw.catalog.StoreGroup>;
 
       /**
        * Returns all the store groups of the current site.
@@ -14133,7 +14135,7 @@ declare namespace dw {
       /**
        * The content library of the current site.
        */
-      siteLibrary: dw.content.Library;
+      static siteLibrary: dw.content.Library;
 
       /**
        * Returns the content with the corresponding identifier within the current
@@ -17969,21 +17971,21 @@ declare namespace dw {
       /**
        * The customer groups of the current site.
        */
-      customerGroups: dw.util.Collection<dw.customer.CustomerGroup>;
+      static customerGroups: dw.util.Collection<dw.customer.CustomerGroup>;
       /**
        * An instance of CustomerPasswordConstraints
        *  for the customer list assigned to the current site.
        */
-      passwordConstraints: dw.customer.CustomerPasswordConstraints;
+      static passwordConstraints: dw.customer.CustomerPasswordConstraints;
       /**
        * The number of registered customers in the system. This number can be used for reporting
        *  purposes.
        */
-      registeredCustomerCount: number;
+      static registeredCustomerCount: number;
       /**
        * The customer list of the current site.
        */
-      siteCustomerList: dw.customer.CustomerList;
+      static siteCustomerList: dw.customer.CustomerList;
 
       /**
        * This method authenticates a customer using the supplied login and password. It will not log in the customer into
@@ -18654,11 +18656,11 @@ declare namespace dw {
       /**
        * The minimum length.
        */
-      minLength: number;
+      static minLength: number;
       /**
        * The minimum number of special characters.
        */
-      minSpecialChars: number;
+      static minSpecialChars: number;
 
       /**
        * Returns the minimum length.
@@ -26715,8 +26717,8 @@ declare namespace dw {
      *
      *   var content: MimeEncodedText = template.render(o);
      *   var mail: Mail = new dw.net.Mail();
-     *   mail.addTo(&quot;<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="abdfc4ebced3cac6dbc7ce85c4d9cc">[email&#xA0;protected]</a>&quot;);
-     *   mail.setFrom(&quot;<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="bcdaced3d1fcd9c4ddd1ccd0d992d3cedb">[email&#xA0;protected]</a>&quot;);
+     *   mail.addTo(&quot;<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="d3a7bc93b6abb2bea3bfb6fdbca1b4">[email&#xA0;protected]</a>&quot;);
+     *   mail.setFrom(&quot;<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="4a2c3825270a2f322b273a262f6425382d">[email&#xA0;protected]</a>&quot;);
      *   mail.setSubject(&quot;Example Email&quot;);
      *   mail.setContent(content);
      *
@@ -27753,7 +27755,7 @@ declare namespace dw {
      *  var s : String = eo.custom.svalue;
      *
      *  // attribute of value type &apos;Email&apos;
-     *  eo.custom.emailvalue = &quot;<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="b7d2dad6dedbf7d3d2dad6d9d3c0d6c5d299d4d8da">[email&#xA0;protected]</a>&quot;;
+     *  eo.custom.emailvalue = &quot;<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="4c29212d25200c2829212d22283b2d3e29622f2321">[email&#xA0;protected]</a>&quot;;
      *  var e : String = eo.custom.emailvalue;
      *
      *  // attribute of value type &apos;Text&apos;
@@ -29938,7 +29940,7 @@ declare namespace dw {
        *
        *  Please notice that baskets are invalidated after a certain amount of time and may not be returned anymore.
        */
-      baskets: dw.util.List<dw.order.BasketMgr>;
+      static baskets: dw.util.List<dw.order.BasketMgr>;
       /**
        * This method returns the current valid basket of the session customer or null if no current valid
        *  basket exists.
@@ -29995,12 +29997,12 @@ declare namespace dw {
        *  Method getCurrentOrNewBasket() only creates a basket when method getCurrentBasket() returns
        *  null.
        */
-      currentBasket: dw.order.Basket;
+      static currentBasket: dw.order.Basket;
       /**
        * This method returns the current valid basket of the session customer or creates a new one if no current valid
        *  basket exists. See getCurrentBasket() for more details.
        */
-      currentOrNewBasket: dw.order.Basket;
+      static currentOrNewBasket: dw.order.Basket;
       /**
        * This method returns the stored basket of the session customer or null if none is found. A stored
        *  basket is returned in the following situation: - During one visit, a customer-X logs in and receives a basket-A -
@@ -30019,7 +30021,7 @@ declare namespace dw {
        *      // transfer all the data needed from the stored to the active basket
        *  }
        */
-      storedBasket: dw.order.Basket;
+      static storedBasket: dw.order.Basket;
 
       /**
        * Creates a new agent basket for the current session customer.
@@ -37468,7 +37470,7 @@ declare namespace dw {
        *  restrictions. The payment methods are sorted as defined in the Business
        *  Manager.
        */
-      activePaymentMethods: dw.util.List<dw.order.PaymentMethod>;
+      static activePaymentMethods: dw.util.List<dw.order.PaymentMethod>;
 
       /**
        * Returns the sorted list of all enabled payment methods of the current
@@ -41506,14 +41508,14 @@ declare namespace dw {
       /**
        * The active shipping methods of the current site applicable to the session currency and current customer group.
        */
-      allShippingMethods: dw.util.Collection<dw.order.ShippingMethod>;
+      static allShippingMethods: dw.util.Collection<dw.order.ShippingMethod>;
       /**
        * The default shipping method of the current site applicable to the session currency.
        *
        *  Does an additional check if there is a base method and if their currencies are
        *  the same. Returns NULL if the two currencies are different.
        */
-      defaultShippingMethod: dw.order.ShippingMethod;
+      static defaultShippingMethod: dw.order.ShippingMethod;
 
       /**
        * Applies product and shipment-level shipping cost to the specified line
@@ -42386,25 +42388,25 @@ declare namespace dw {
        *  Note that this tax class does not appear in the Business Manager
        *  tax module.
        */
-      customRateTaxClassID: string;
+      static customRateTaxClassID: string;
       /**
        * The ID of the default tax class defined for the site.
        *  This class might be used in case a product or service does not define
        *  a tax class.
        *  If no default tax class is defined, the method returns null.
        */
-      defaultTaxClassID: string;
+      static defaultTaxClassID: string;
       /**
        * The ID of the default tax jurisdiction defined for the site.
        *  This jurisdiction might be used in case no jurisdiction is defined for
        *  a specific address.
        *  If no default tax jurisdiction is defined, this method returns null.
        */
-      defaultTaxJurisdictionID: string;
+      static defaultTaxJurisdictionID: string;
       /**
        * The taxation policy (net/gross) configured for the current site.
        */
-      taxationPolicy: number;
+      static taxationPolicy: number;
       /**
        * The ID of the tax class that represents tax exempt items.
        *  The tax manager will return a tax rate of 0.0 for this tax class.
@@ -42412,7 +42414,7 @@ declare namespace dw {
        *  Note that this tax class does not appear in the Business Manager
        *  tax module.
        */
-      taxExemptTaxClassID: string;
+      static taxExemptTaxClassID: string;
 
       /**
        * Returns the ID of the tax class that represents items with a custom tax rate.
@@ -44201,7 +44203,7 @@ declare namespace dw {
        *  Hostname 1 => [SitemapFile hostname1_sitemapfile1, SitemapFile hostname1_sitemapfile2]
        *  Hostname 2 => [SitemapFile hostname2_sitemapfile1]
        */
-      customSitemapFiles: dw.util.Map;
+      static customSitemapFiles: dw.util.Map;
 
       /**
        * Adds the given File to the appservers custom sitemap directory. All content of the appservers
@@ -46497,7 +46499,7 @@ declare namespace dw {
       /**
        * The Nested Diagnostic Context for this script call.
        */
-      NDC: dw.system.LogNDC;
+      static NDC: dw.system.LogNDC;
       /**
        * This method returns true if warning logging is enabled for this logging instance.
        */
@@ -46626,7 +46628,7 @@ declare namespace dw {
       /**
        * The root logger object.
        */
-      rootLogger: dw.system.Log;
+      static rootLogger: dw.system.Log;
       /**
        * This method returns true if warning logging is enabled.
        */
@@ -47754,12 +47756,12 @@ declare namespace dw {
       /**
        * All sites.
        */
-      allSites: dw.util.List<dw.system.Site>;
+      static allSites: dw.util.List<dw.system.Site>;
       /**
        * A new Calendar object in the time zone of the
        *  current site.
        */
-      calendar: dw.util.Calendar;
+      static calendar: dw.util.Calendar;
       /**
        * The default currency code for the current site.
        */
@@ -47767,7 +47769,7 @@ declare namespace dw {
       /**
        * The current site.
        */
-      current: dw.system.Site;
+      static current: dw.system.Site;
       /**
        * The default currency code for the current site.
        */
@@ -48374,34 +48376,34 @@ declare namespace dw {
        * A new Calendar object in the time zone of the
        *  current instance.
        */
-      calendar: dw.util.Calendar;
+      static calendar: dw.util.Calendar;
       /**
        * The compatibility mode of the custom code version that is currently active. The compatibility mode is
        *  returned as a number, e.g. compatibility mode "15.5" is returned as 1505.
        */
-      compatibilityMode: number;
+      static compatibilityMode: number;
       /**
        * Returns instance hostname.
        */
-      instanceHostname: string;
+      static instanceHostname: string;
       /**
        * The instance time zone. The instance time zone is the time zone in which global actions like jobs or
        *  reporting are specified in the system. Keep in mind that the instance time zone is cached at the current session.
        *  Changes will affect only new sessions.
        */
-      instanceTimeZone: string;
+      static instanceTimeZone: string;
       /**
        * The type of the instance. An application server instance is configured to be of one of three types,
        *  "development system", "staging system" or "production system".
        *  This method returns a constant representing the instance type of this
        *  application server.
        */
-      instanceType: number;
+      static instanceType: number;
       /**
        * This method returns a container of all global preferences of this
        *  organization (instance).
        */
-      preferences: dw.system.OrganizationPreferences;
+      static preferences: dw.system.OrganizationPreferences;
 
       /**
        * Returns a new Calendar object in the time zone of the
@@ -50870,7 +50872,7 @@ declare namespace dw {
       /**
        * List all known mappings.
        */
-      mappingNames: dw.util.Collection<string>;
+      static mappingNames: dw.util.Collection<string>;
 
       /**
        * Returns a map containing value(s) associated to the specified key for the specified mapping.
@@ -52779,7 +52781,7 @@ declare namespace dw {
        * The system generated CSRF token name. Currently, this name is not user configurable. Must be used for
        *  validateRequest() to work
        */
-      tokenName: string;
+      static tokenName: string;
 
       /**
        * Constructs a new unique CSRF token for this session.
@@ -55354,12 +55356,12 @@ declare namespace dw {
        *  based on origin url of current request and the configured Static, Dynamic and URLRedirect mappings for
        *  the requested site.
        */
-      redirect: dw.web.URLRedirect;
+      static redirect: dw.web.URLRedirect;
       /**
        * The relative origin url (without protocol, port, hostname and site path information)
        *  which will be used in getRedirect() to calculate a redirect location for.
        */
-      redirectOrigin: string;
+      static redirectOrigin: string;
 
       /**
        * Returns an URLRedirect object, containing a location and status. The redirect is calculated
