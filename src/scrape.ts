@@ -134,7 +134,8 @@ const mapDetail = ($: CheerioStatic, el: CheerioElement) => {
                       // link: $(el).find("a[href]").attr("href"),
                     },
                     description: description.trim(),
-                    deprecated: $(el).find(".dep").length
+                    deprecated: !!$(el).find(".dep").length,
+                    type: "constant"
                   };
                 })
                 .get()),
@@ -175,7 +176,8 @@ const mapDetail = ($: CheerioStatic, el: CheerioElement) => {
                     static: isStatic,
                     readOnly: propertyText.indexOf("Read Only") > 0,
                     description: $(el).find(".description").text().trim(),
-                    deprecated: $(el).find(".dep").length
+                    deprecated: !!$(el).find(".dep").length,
+                    type: "property"
                   };
                 })
                 .get()),

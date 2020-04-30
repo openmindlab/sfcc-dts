@@ -2784,7 +2784,7 @@ declare namespace dw {
        *  quantity index to the index of tier of the promotion that item received. For more information about tier indexes,
        *  see getPromotionTier()  method.
        */
-      itemPromotionTiers: dw.util.Map;
+      itemPromotionTiers: dw.util.Map<number, number>;
       /**
        * The promotion this discount is based on.
        */
@@ -2819,7 +2819,7 @@ declare namespace dw {
        *
        * @return Map of Tier index by quantity Id or empty map
        */
-      getItemPromotionTiers(): dw.util.Map;
+      getItemPromotionTiers(): dw.util.Map<number, number>;
       /**
        * Returns the promotion this discount is based on.
        *
@@ -4180,7 +4180,7 @@ declare namespace dw {
       /**
        * The custom attributes for the slot.
        */
-      custom: dw.util.Map;
+      custom: dw.util.Map<string, any>;
       /**
        * The recommender name for slot configurations of type 'Recommendation'
        */
@@ -4214,7 +4214,7 @@ declare namespace dw {
        *
        * @return Custom attributes of the slot.
        */
-      getCustom(): dw.util.Map;
+      getCustom(): dw.util.Map<string, any>;
       /**
        * Returns the recommender name for slot configurations of type 'Recommendation'
        *
@@ -11376,7 +11376,7 @@ declare namespace dw {
        * @return the collection of variants that match the specified filter conditions.
        */
       getVariants(
-        filter: dw.util.HashMap
+        filter: dw.util.HashMap<any, any>
       ): dw.util.Collection<dw.catalog.Variant>;
       /**
        * Returns the collection of variation groups of this variation model.
@@ -12842,7 +12842,7 @@ declare namespace dw {
         maxDistance: number,
         queryString: string,
         ...args: any[]
-      ): dw.util.LinkedHashMap;
+      ): dw.util.LinkedHashMap<Store, number>;
       /**
        * Convenience method.  Same as searchStoresByCoordinates(latitude, longitude, distanceUnit, maxDistance, null).
        * @param latitude Latitude coordinate which is the center of the search area. Must not be null or an exception is thrown.
@@ -12856,7 +12856,7 @@ declare namespace dw {
         longitude: number,
         distanceUnit: string,
         maxDistance: number
-      ): dw.util.LinkedHashMap;
+      ): dw.util.LinkedHashMap<Store, number>;
       /**
        * Search for stores by country/postal code and optionally by additional
        *  filter criteria. This method is analagous to
@@ -12882,7 +12882,7 @@ declare namespace dw {
         maxDistance: number,
         queryString: string,
         ...args: any[]
-      ): dw.util.LinkedHashMap;
+      ): dw.util.LinkedHashMap<Store, number>;
       /**
        * Convenience method.  Same as searchStoresByPostalCode(countryCode, postalCode, distanceUnit, maxDistance, null).
        * @param countryCode The country code for the search area, must not be null.
@@ -12896,7 +12896,7 @@ declare namespace dw {
         postalCode: string,
         distanceUnit: string,
         maxDistance: number
-      ): dw.util.LinkedHashMap;
+      ): dw.util.LinkedHashMap<Store, number>;
     }
 
     /**
@@ -18438,7 +18438,7 @@ declare namespace dw {
        * @return SeekableIterator containing the result set of the query.
        */
       static queryProfiles(
-        queryAttributes: dw.util.Map,
+        queryAttributes: dw.util.Map<any, any>,
         sortString: string
       ): dw.util.SeekableIterator;
       /**
@@ -18632,7 +18632,7 @@ declare namespace dw {
        * @return SeekableIterator containing the result set of the query.
        */
       static searchProfiles(
-        queryAttributes: dw.util.Map,
+        queryAttributes: dw.util.Map<any, any>,
         sortString: string
       ): dw.util.SeekableIterator;
     }
@@ -19773,7 +19773,7 @@ declare namespace dw {
        * @return SeekableIterator containing the result set of the query.
        */
       static queryProductLists(
-        queryAttributes: dw.util.Map,
+        queryAttributes: dw.util.Map<any, any>,
         sortString: string
       ): dw.util.SeekableIterator;
       /**
@@ -20810,7 +20810,7 @@ declare namespace dw {
        * The content attributes of the component. Currently those are setup by the merchant
        *  using page designer and can be processed in your respective component type render function.
        */
-      content: dw.util.Map;
+      content: dw.util.Map<string, any>;
 
       /**
        * Returns the component for which the corresponding component type script is currently executed.
@@ -20835,7 +20835,7 @@ declare namespace dw {
        *
        * @return content attributes of the component
        */
-      getContent(): dw.util.Map;
+      getContent(): dw.util.Map<string, any>;
     }
 
     /**
@@ -20864,7 +20864,7 @@ declare namespace dw {
        *  properly serializable. Do not use complex DWScript classes that do not support JSON serialization
        *  like for instance Product.
        */
-      configuration: dw.util.Map;
+      configuration: dw.util.Map<string, any>;
       /**
        * Returns the dependencies to other custom editors, e.g. used as breakout elements. You can use
        *  this mapping to add more custom editor dependencies as needed. For this purpose you want to create
@@ -20877,7 +20877,7 @@ declare namespace dw {
        *  e.g. for a separate picker required by your custom editor. This picker could be another custom editor,
        *  i.e. the one you declare as dependency here.
        */
-      dependencies: dw.util.Map;
+      dependencies: dw.util.Map<string, dw.experience.CustomEditor>;
       /**
        * The resources of the custom editor. This is initialized with the values as specified
        *  by the custom editor type json (see the respective styles and scripts section).
@@ -20894,7 +20894,7 @@ declare namespace dw {
        *
        * @return the configuration of the custom editor
        */
-      getConfiguration(): dw.util.Map;
+      getConfiguration(): dw.util.Map<string, any>;
       /**
        * Returns the dependencies to other custom editors, e.g. used as breakout elements. You can use
        *  this mapping to add more custom editor dependencies as needed. For this purpose you want to create
@@ -20909,7 +20909,7 @@ declare namespace dw {
        *
        * @return an ID to CustomEditor mapping
        */
-      getDependencies(): dw.util.Map;
+      getDependencies(): dw.util.Map<string, dw.experience.CustomEditor>;
       /**
        * Returns the resources of the custom editor. This is initialized with the values as specified
        *  by the custom editor type json (see the respective styles and scripts section).
@@ -21181,7 +21181,7 @@ declare namespace dw {
        */
       static getCustomEditor(
         customEditorTypeID: string,
-        configuration: dw.util.Map
+        configuration: dw.util.Map<any, any>
       ): dw.experience.CustomEditor;
       /**
        * Returns the page identified by the specified id.
@@ -21322,7 +21322,7 @@ declare namespace dw {
        * The content attributes of the page. Currently those are not merchant manageable but
        *  are solely set in your respective page type render function.
        */
-      content: dw.util.Map;
+      content: dw.util.Map<string, any>;
       /**
        * The page for which the corresponding page type script is currently executed.
        */
@@ -21338,7 +21338,7 @@ declare namespace dw {
        *
        * @return content attributes of the page
        */
-      getContent(): dw.util.Map;
+      getContent(): dw.util.Map<string, any>;
       /**
        * Returns the page for which the corresponding page type script is currently executed.
        *
@@ -21537,7 +21537,7 @@ declare namespace dw {
          *  The attributes are also conveniently accessible through named property support. That means if myCmsRecord.getAttributes().get('foo') yields value 'bar',
          *  then myCmsRecord.foo will give the same results.
          */
-        attributes: dw.util.Map;
+        attributes: dw.util.Map<string, any>;
         /**
          * Return the id of the Salesforce CMS record.
          */
@@ -21550,7 +21550,7 @@ declare namespace dw {
          *      getType().name : string
          *      getType().attribute_definitions : Map (see content/schema/attributedefinition.json)
          */
-        type: dw.util.Map;
+        type: dw.util.Map<string, any>;
 
         /**
          * Return the Salesforce CMS record attributes as key value pairs:
@@ -21565,7 +21565,7 @@ declare namespace dw {
          *
          * @return the cms record attributes
          */
-        getAttributes(): dw.util.Map;
+        getAttributes(): dw.util.Map<string, any>;
         /**
          * Return the id of the Salesforce CMS record.
          *
@@ -21582,7 +21582,7 @@ declare namespace dw {
          *
          * @return the type of the cms record
          */
-        getType(): dw.util.Map;
+        getType(): dw.util.Map<string, any>;
       }
     }
 
@@ -25858,7 +25858,7 @@ declare namespace dw {
        *  job context should only be used when necessary and with caution. If two steps which are running in parallel in
        *  the same job store data in the job context using the same key the result is undefined.
        */
-      context: dw.util.Map;
+      context: dw.util.Map<string, any>;
       /**
        * The ID of this job execution.
        */
@@ -25875,7 +25875,7 @@ declare namespace dw {
        *
        * @return the map that represents the job context.
        */
-      getContext(): dw.util.Map;
+      getContext(): dw.util.Map<string, any>;
       /**
        * Returns the ID of this job execution.
        *
@@ -26360,7 +26360,7 @@ declare namespace dw {
       /**
        * All response headers as a map containing the name and value of the response header.
        */
-      allResponseHeaders: dw.util.HashMap;
+      allResponseHeaders: dw.util.HashMap<string, dw.util.List<string>>;
       /**
        * The returned message body as text for HTTP status code greater or equal to 400. Error messages are not
        *  written to the response file.
@@ -26370,7 +26370,7 @@ declare namespace dw {
        * All response headers as a map in which each entry represents an individual header. The key of the entry
        *  holds the header name and the entry value holds a list of all header values.
        */
-      responseHeaders: dw.util.Map;
+      responseHeaders: dw.util.List<string>;
       /**
        * The status code of the last HTTP operation.
        */
@@ -26411,7 +26411,7 @@ declare namespace dw {
        *
        * @return a map containing the names and corresponding values of the response headers.
        */
-      getAllResponseHeaders(): dw.util.HashMap;
+      getAllResponseHeaders(): dw.util.HashMap<string, dw.util.List<string>>;
       /**
        * Returns the returned message body as text for HTTP status code greater or equal to 400. Error messages are not
        *  written to the response file.
@@ -26440,7 +26440,7 @@ declare namespace dw {
        *
        * @return A map containing the names and corresponding values of the response headers.
        */
-      getResponseHeaders(): dw.util.Map;
+      getResponseHeaders(): dw.util.List<string>;
       /**
        * Returns the status code of the last HTTP operation.
        *
@@ -26717,8 +26717,8 @@ declare namespace dw {
      *
      *   var content: MimeEncodedText = template.render(o);
      *   var mail: Mail = new dw.net.Mail();
-     *   mail.addTo(&quot;<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="d3a7bc93b6abb2bea3bfb6fdbca1b4">[email&#xA0;protected]</a>&quot;);
-     *   mail.setFrom(&quot;<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="4a2c3825270a2f322b273a262f6425382d">[email&#xA0;protected]</a>&quot;);
+     *   mail.addTo(&quot;<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="fe8a91be9b869f938e929bd0918c99">[email&#xA0;protected]</a>&quot;);
+     *   mail.setFrom(&quot;<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="f395819c9eb3968b929e839f96dd9c8194">[email&#xA0;protected]</a>&quot;);
      *   mail.setSubject(&quot;Example Email&quot;);
      *   mail.setContent(content);
      *
@@ -27277,7 +27277,7 @@ declare namespace dw {
       /**
        * A HashMap of all response headers.
        */
-      allResponseHeaders: dw.util.HashMap;
+      allResponseHeaders: dw.util.HashMap<string, dw.util.List<string>>;
       /**
        * The status code after the execution of a method.
        */
@@ -27457,7 +27457,7 @@ declare namespace dw {
        *
        * @return all headers in a HashMap.
        */
-      getAllResponseHeaders(): dw.util.HashMap;
+      getAllResponseHeaders(): dw.util.HashMap<string, dw.util.List<string>>;
       /**
        * Reads the content of a remote binary file that can be found under
        *  rootUrl/path and creates a local copy
@@ -27755,7 +27755,7 @@ declare namespace dw {
      *  var s : String = eo.custom.svalue;
      *
      *  // attribute of value type &apos;Email&apos;
-     *  eo.custom.emailvalue = &quot;<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="4c29212d25200c2829212d22283b2d3e29622f2321">[email&#xA0;protected]</a>&quot;;
+     *  eo.custom.emailvalue = &quot;<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="6a0f070b03062a0e0f070b040e1d0b180f44090507">[email&#xA0;protected]</a>&quot;;
      *  var e : String = eo.custom.emailvalue;
      *
      *  // attribute of value type &apos;Text&apos;
@@ -28134,7 +28134,7 @@ declare namespace dw {
        */
       static queryCustomObjects(
         type: string,
-        queryAttributes: dw.util.Map,
+        queryAttributes: dw.util.Map<any, any>,
         sortString: string
       ): dw.util.SeekableIterator;
       /**
@@ -29106,7 +29106,7 @@ declare namespace dw {
        */
       static querySystemObjects(
         type: string,
-        queryAttributes: dw.util.Map,
+        queryAttributes: dw.util.Map<any, any>,
         sortString: string
       ): dw.util.SeekableIterator;
     }
@@ -31914,7 +31914,10 @@ declare namespace dw {
        *  line items that are not option line items. It also excludes product line
        *  items that are not associated to any catalog product.
        */
-      allProductQuantities: dw.util.HashMap;
+      allProductQuantities: dw.util.HashMap<
+        dw.catalog.Product,
+        dw.value.Quantity
+      >;
       /**
        * The collection of all shipping price adjustments applied
        *  somewhere in the container. This can be adjustments applied to individual
@@ -32098,7 +32101,7 @@ declare namespace dw {
        *  also excludes product line items that are not associated to any catalog
        *  product, and bonus product line items.
        */
-      productQuantities: dw.util.HashMap;
+      productQuantities: dw.util.HashMap<dw.catalog.Product, dw.value.Quantity>;
       /**
        * The total quantity of all product line items.
        *  Not included are bundled line items and option line items.
@@ -32582,7 +32585,10 @@ declare namespace dw {
        *
        * @return A map of products and their total quantities.
        */
-      getAllProductQuantities(): dw.util.HashMap;
+      getAllProductQuantities(): dw.util.HashMap<
+        dw.catalog.Product,
+        dw.value.Quantity
+      >;
       /**
        * Returns the collection of all shipping price adjustments applied
        *  somewhere in the container. This can be adjustments applied to individual
@@ -32884,7 +32890,10 @@ declare namespace dw {
        *
        * @return a map of products and their total quantities.
        */
-      getProductQuantities(): dw.util.HashMap;
+      getProductQuantities(): dw.util.HashMap<
+        dw.catalog.Product,
+        dw.value.Quantity
+      >;
       /**
        * Returns a hash map of all products in the line item container and their
        *  total quantities. The total product quantity is for example used
@@ -32900,7 +32909,9 @@ declare namespace dw {
        * @param includeBonusProducts if true also bonus product line item are counted
        * @return A map of products and their total quantities.
        */
-      getProductQuantities(includeBonusProducts: boolean): dw.util.HashMap;
+      getProductQuantities(
+        includeBonusProducts: boolean
+      ): dw.util.HashMap<dw.catalog.Product, dw.value.Quantity>;
       /**
        * Returns the total quantity of all product line items.
        *  Not included are bundled line items and option line items.
@@ -35771,7 +35782,7 @@ declare namespace dw {
        * @return SeekableIterator containing the result set of the query.
        */
       static queryOrders(
-        queryAttributes: dw.util.Map,
+        queryAttributes: dw.util.Map<any, any>,
         sortString: string
       ): dw.util.SeekableIterator;
       /**
@@ -36056,7 +36067,7 @@ declare namespace dw {
        * @return SeekableIterator containing the result set of the query.
        */
       static searchOrders(
-        queryAttributes: dw.util.Map,
+        queryAttributes: dw.util.Map<any, any>,
         sortString: string
       ): dw.util.SeekableIterator;
       /**
@@ -37912,7 +37923,7 @@ declare namespace dw {
        *  based on gross pricing, and exclusive of tax otherwise. The sum of the
        *  prorated prices always equals the price of this price adjustment.
        */
-      proratedPrices: dw.util.Map;
+      proratedPrices: dw.util.Map<dw.order.ProductLineItem, dw.value.Money>;
       /**
        * The number of items this price adjustment applies to. This value
        *  is always equal to 1 for price adjustments generated by order or shipping
@@ -38109,7 +38120,10 @@ declare namespace dw {
        *
        * @return map of ProductLineItems to Money instances representing the product line items across which this price adjustment is prorated and the portion of this adjustment which applies towards each.
        */
-      getProratedPrices(): dw.util.Map;
+      getProratedPrices(): dw.util.Map<
+        dw.order.ProductLineItem,
+        dw.value.Money
+      >;
       /**
        * Returns the number of items this price adjustment applies to. This value
        *  is always equal to 1 for price adjustments generated by order or shipping
@@ -38442,7 +38456,10 @@ declare namespace dw {
        *  The values in the map are the portion of the adjustment which applies to
        *  this particular product line item.
        */
-      proratedPriceAdjustmentPrices: dw.util.Map;
+      proratedPriceAdjustmentPrices: dw.util.Map<
+        dw.order.ProductLineItem,
+        dw.value.Money
+      >;
       /**
        * The ProductLineItem that qualified the basket for this bonus product.
        *
@@ -38838,7 +38855,10 @@ declare namespace dw {
        *
        * @return Map of PriceAdjustment to Money instances, representing the prorated adjustments applied to this ProductLineItem.
        */
-      getProratedPriceAdjustmentPrices(): dw.util.Map;
+      getProratedPriceAdjustmentPrices(): dw.util.Map<
+        dw.order.ProductLineItem,
+        dw.value.Money
+      >;
       /**
        * Returns the ProductLineItem that qualified the basket for this bonus product.
        *
@@ -44203,7 +44223,7 @@ declare namespace dw {
        *  Hostname 1 => [SitemapFile hostname1_sitemapfile1, SitemapFile hostname1_sitemapfile2]
        *  Hostname 2 => [SitemapFile hostname2_sitemapfile1]
        */
-      static customSitemapFiles: dw.util.Map;
+      static customSitemapFiles: dw.util.Map<string, dw.sitemap.SitemapFile>;
 
       /**
        * Adds the given File to the appservers custom sitemap directory. All content of the appservers
@@ -44252,7 +44272,10 @@ declare namespace dw {
        *
        * @return The created map containing the list of SitemapFiles.
        */
-      static getCustomSitemapFiles(): dw.util.Map;
+      static getCustomSitemapFiles(): dw.util.Map<
+        string,
+        dw.sitemap.SitemapFile
+      >;
     }
   }
 
@@ -46840,7 +46863,7 @@ declare namespace dw {
       /**
        * A Map containing all HTTP header values.
        */
-      httpHeaders: dw.util.Map;
+      httpHeaders: dw.util.Map<string, string>;
       /**
        * The host name or null if there is no host name.
        */
@@ -46861,7 +46884,7 @@ declare namespace dw {
        * A Map containing the raw HTTP parameters sent to the server. The Map contains name/value pairs. Each name
        *  is a String and each value is a String array.
        */
-      httpParameters: dw.util.Map;
+      httpParameters: dw.util.Map<string, Array<string>>;
       /**
        * The path.
        */
@@ -46989,7 +47012,7 @@ declare namespace dw {
        *
        * @return a Map containing all HTTP header values.
        */
-      getHttpHeaders(): dw.util.Map;
+      getHttpHeaders(): dw.util.Map<string, string>;
       /**
        * Returns the host name or null if there is no host name.
        *
@@ -47020,7 +47043,7 @@ declare namespace dw {
        *
        * @return a Map containing all the raw HTTP parameters send to the server.
        */
-      getHttpParameters(): dw.util.Map;
+      getHttpParameters(): dw.util.Map<string, Array<string>>;
       /**
        * Returns the path.
        *
@@ -48066,7 +48089,7 @@ declare namespace dw {
        * The details either of the first ERROR StatusItem or when there
        *  is no ERROR StatusItem, the first StatusItem in the overall list.
        */
-      details: dw.util.Map;
+      details: dw.util.Map<string, string>;
       /**
        * Checks if the status is an ERROR. The Status is an ERROR if one of the
        *  contained StatusItems is an ERROR.
@@ -48174,7 +48197,7 @@ declare namespace dw {
        *
        * @return the details either of the first ERROR StatusItem or when there is no ERROR StatusItem, the first StatusItem in the overall list.
        */
-      getDetails(): dw.util.Map;
+      getDetails(): dw.util.Map<string, string>;
       /**
        * Returns all status items.
        *
@@ -48229,7 +48252,7 @@ declare namespace dw {
       /**
        * The optional details for this StatusItem.
        */
-      details: dw.util.Map;
+      details: dw.util.Map<string, string>;
       /**
        * Returns whether this Status Item represents and error.
        */
@@ -48300,7 +48323,7 @@ declare namespace dw {
        *
        * @return the optional details for this StatusItem.
        */
-      getDetails(): dw.util.Map;
+      getDetails(): dw.util.Map<string, string>;
       /**
        * Returns the default human readable message for this Status.
        *
@@ -50039,7 +50062,7 @@ declare namespace dw {
        *
        * @return a Map containing the elements of this FilteringCollection against a predefined key.
        */
-      asMap(): dw.util.Map;
+      asMap(): dw.util.Map<any, any>;
       /**
        * Select a new FilteringCollection instance by passing a
        *  predefined qualifier as an argument to this method. See
@@ -50211,7 +50234,7 @@ declare namespace dw {
     /**
      * Represents a hash map of objects.
      */
-    class HashMap extends dw.util.Map {
+    class HashMap<K, V> extends dw.util.Map<any, any> {
       /**
        * Constructs a new HashMap.
        *
@@ -50223,7 +50246,7 @@ declare namespace dw {
        *
        * @return a shallow copy of this map.
        */
-      clone(): dw.util.HashMap;
+      clone(): dw.util.HashMap<K, V>;
     }
 
     /**
@@ -50295,7 +50318,7 @@ declare namespace dw {
      * This class implements a HashMap, which guarantees a iteration order
      *  according the put-order of the elements in the map.
      */
-    class LinkedHashMap extends dw.util.Map {
+    class LinkedHashMap<K, V> extends dw.util.Map<any, any> {
       /**
        * Constructs a new LinkedHashMap.
        *
@@ -50307,7 +50330,7 @@ declare namespace dw {
        *
        * @return a shallow copy of this map.
        */
-      clone(): dw.util.LinkedHashMap;
+      clone(): dw.util.LinkedHashMap<K, V>;
     }
 
     /**
@@ -50684,7 +50707,7 @@ declare namespace dw {
     /**
      * Represents a Map of objects.
      */
-    class Map {
+    class Map<K, V> {
       /**
        * Identifies if this map is empty.
        */
@@ -50692,7 +50715,7 @@ declare namespace dw {
       /**
        * Convenience variable, for an empty and immutable list.
        */
-      static EMPTY_MAP: dw.util.Map;
+      static EMPTY_MAP: dw.util.Map<any, any>;
       /**
        * The size of the map. This is a bean attribute method and
        *  supports the access to the collections
@@ -50715,26 +50738,26 @@ declare namespace dw {
        * @param key the key to use.
        * @return true if this map contains an element whose key is equal to the specified key.
        */
-      containsKey(key: any): boolean;
+      containsKey(key: K): boolean;
       /**
        * Identifies if this map contains an element identfied
        *  by the specified value.
        * @param value the value to use.
        * @return true if this map contains an element whose value is equal to the specified value.
        */
-      containsValue(value: any): boolean;
+      containsValue(value: V): boolean;
       /**
        * Returns a set of the map's entries. The returned set is actually a view to the entries of this map.
        *
        * @return a set of the map's entries.
        */
-      entrySet(): dw.util.Set<any>;
+      entrySet(): dw.util.Set<dw.util.MapEntry<K, V>>;
       /**
        * Returns the object associated with the key or null.
        * @param key the key to use.
        * @return the object associated with the key or null.
        */
-      get(key: any): any;
+      get(key: K): V;
       /**
        * REturns the size of the map. This is a bean attribute method and
        *  supports the access to the collections
@@ -50754,7 +50777,7 @@ declare namespace dw {
        *
        * @return a set of the map's keys.
        */
-      keySet(): dw.util.Set<any>;
+      keySet(): dw.util.Set<K>;
       /**
        * Puts the specified value into the map using the
        *  specified key to identify it.
@@ -50762,19 +50785,19 @@ declare namespace dw {
        * @param value the object to put into the map.
        * @return previous value associated with specified key, or null if there was no mapping for key.
        */
-      put(key: any, value: any): any;
+      put(key: K, value: V): V;
       /**
        * Copies all of the objects inside the specified map
        *  into this map.
        * @param other the map whose contents are copied into this map.
        */
-      putAll(other: dw.util.Map): void;
+      putAll(other: Map<K, V>): void;
       /**
        * Removes the object from the map that is identified by the key.
        * @param key the key that identifies the object to remove.
        * @return the removed object or null.
        */
-      remove(key: any): any;
+      remove(key: K): V;
       /**
        * Returns the size of the map.
        *
@@ -50786,34 +50809,34 @@ declare namespace dw {
        *
        * @return a collection of the values contained in this map
        */
-      values(): dw.util.Collection<any>;
+      values(): dw.util.Collection<V>;
     }
 
     /**
      * The class represent an entry within a Map.
      */
-    class MapEntry {
+    class MapEntry<K, V> {
       /**
        * The entry's key.
        */
-      key: any;
+      key: K;
       /**
        * The entry's value.
        */
-      value: any;
+      value: V;
 
       /**
        * Returns the entry's key.
        *
        * @return the entry's key.
        */
-      getKey(): any;
+      getKey(): K;
       /**
        * Returns the entry's value.
        *
        * @return the entry's value.
        */
-      getValue(): any;
+      getValue(): V;
     }
 
     /**
@@ -50879,7 +50902,10 @@ declare namespace dw {
        * @param mappingName the mapping name
        * @param key the key
        */
-      static get(mappingName: string, key: dw.util.MappingKey): dw.util.Map;
+      static get(
+        mappingName: string,
+        key: dw.util.MappingKey
+      ): dw.util.Map<string, any>;
       /**
        * Gets the first string value of a mapping by name and key. Ordering is determined by the input CSV file. Throws an
        *  exception if mappingName does not exist.
@@ -51743,7 +51769,7 @@ declare namespace dw {
      *  Note that sorting by natural order is only supported for Number,
      *  String, Date, Money and Quantity as key.
      */
-    class SortedMap extends dw.util.Map {
+    class SortedMap<K, V> extends dw.util.Map<any, any> {
       /**
        * Constructor to create a new SortedMap.
        *
@@ -51768,7 +51794,7 @@ declare namespace dw {
        *
        * @return a shallow copy of this map.
        */
-      clone(): dw.util.SortedMap;
+      clone(): dw.util.SortedMap<K, V>;
       /**
        * Returns the first (lowest) key currently in this sorted map.
        *
@@ -51780,7 +51806,7 @@ declare namespace dw {
        * @param key high endpoint (exclusive) of the headMap.
        * @return a view of the portion of this map whose keys are strictly less than toKey.
        */
-      headMap(key: any): dw.util.SortedMap;
+      headMap(key: any): dw.util.SortedMap<K, V>;
       /**
        * Returns the last (highest) key currently in this sorted map.
        *
@@ -51794,7 +51820,7 @@ declare namespace dw {
        * @param to high endpoint (exclusive) of the subMap.
        * @return a view of the portion of this map whose keys range from fromKey, inclusive, to toKey, exclusive.
        */
-      subMap(from: any, to: any): dw.util.SortedMap;
+      subMap(from: any, to: any): dw.util.SortedMap<K, V>;
       /**
        * Returns a view of the portion of this map whose keys are greater than or equal
        *  to fromKey. The returned sorted map is backed by this map, so changes in the
@@ -51803,7 +51829,7 @@ declare namespace dw {
        * @param key low endpoint (inclusive) of the tailMap.
        * @return a view of the portion of this map whose keys are greater than or equal to fromKey.
        */
-      tailMap(key: any): dw.util.SortedMap;
+      tailMap(key: any): dw.util.SortedMap<K, V>;
     }
 
     /**
@@ -52239,7 +52265,7 @@ declare namespace dw {
        * @param params Map of substitution parameters which are specified within the ISML template. Access is available from within the ISML template through named variables param or pdict.
        * @return MimeEncodedText containing the rendered template. Variables in the template referring to param/pdict are replaced with the value from the params map or empty if the value isn't found in the map
        */
-      render(params: dw.util.Map): dw.value.MimeEncodedText;
+      render(params: dw.util.Map<any, any>): dw.value.MimeEncodedText;
       /**
        * Sets an optional localeID which is used instead of the current requests
        *  localeID.
@@ -53466,7 +53492,7 @@ declare namespace dw {
       /**
        * Provides optional data acquired during validation.
        */
-      data: dw.util.Map;
+      data: dw.util.Map<string, string>;
       /**
        * Provides an optional message in case of validation failure.
        */
@@ -53496,7 +53522,7 @@ declare namespace dw {
        * @param message the desired message
        * @param data the desired data
        */
-      constructor(valid: boolean, message: string, data: dw.util.Map);
+      constructor(valid: boolean, message: string, data: dw.util.Map<any, any>);
 
       /**
        * Adds optional data acquired during validation.
@@ -53509,7 +53535,7 @@ declare namespace dw {
        *
        * @return the data acquired during validation
        */
-      getData(): dw.util.Map;
+      getData(): dw.util.Map<string, string>;
       /**
        * Provides an optional message in case of validation failure.
        *
@@ -53868,7 +53894,7 @@ declare namespace dw {
        *  given key and values in the given map.
        * @param optionValues a Map with the values for the option list
        */
-      setOptions(optionValues: dw.util.Map): void;
+      setOptions(optionValues: dw.util.Map<any, any>): void;
       /**
        * The method can be called to update an option list based on the
        *  given key and values in the given map. The method also expects
@@ -53878,7 +53904,11 @@ declare namespace dw {
        * @param begin the index of the first element to use as option value.
        * @param end the last of the last element to use as option value.
        */
-      setOptions(optionValues: dw.util.Map, begin: number, end: number): void;
+      setOptions(
+        optionValues: dw.util.Map<any, any>,
+        begin: number,
+        end: number
+      ): void;
       /**
        * The method can be called to update an option list based on the
        *  given iterator with objects. The option list is updated using
@@ -54561,7 +54591,7 @@ declare namespace dw {
        * @param callback a callback function, which takes the field name, content type and original file name as input
        * @return a LinkedHashMap where the keys are the actual file names and the values are references to the File, or null if this is not a multipart request
        */
-      processMultipart(callback: Function): dw.util.LinkedHashMap;
+      processMultipart(callback: Function): dw.util.LinkedHashMap<any, any>;
     }
 
     /**

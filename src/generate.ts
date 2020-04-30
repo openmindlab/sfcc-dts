@@ -31,6 +31,13 @@ const config: any = {
     "dw.web.PagingModel",
     "Array"
   ],
+  maps: [
+    "dw.util.Map",
+    "dw.util.HashMap",
+    "dw.util.LinkedHashMap",
+    "dw.util.MapEntry",
+    "dw.util.SortedMap"
+  ],
   argsMapping: {
     function: "fn",
   },
@@ -44,8 +51,12 @@ const config: any = {
   },
 };
 
-const isCollection = (fullclassname: string) => {
+const checkIsCollection = (fullclassname: string) => {
   return config.generics.includes(fullclassname);
+}
+
+const checkIsMap = (fullclassname: string) => {
+  return config.maps.includes(fullclassname);
 }
 
 const sanitizeType = (type: string, generics: string, isGeneric: boolean) => {
@@ -55,11 +66,14 @@ const sanitizeType = (type: string, generics: string, isGeneric: boolean) => {
     return `${mapped}<${generics}>`
   }
   let result = isGeneric && mapped === 'any' ? 'T' : mapped;
-  if (isGeneric && isCollection(result)) {
+  if (isGeneric && checkIsCollection(result)) {
     return `${result}<T>`;
   }
-  if (isCollection(result)) {
+  if (checkIsCollection(result)) {
     return `${result}<any>`;
+  }
+  if (checkIsMap(result)) {
+    return `${result}<any, any>`;
   }
   return result;
 };
@@ -182,14 +196,15 @@ const generateCodeForClass = (theClass: any) => {
     readonly = "";
   }
 
-  let isGeneric: boolean = config.generics.includes(theClass.fullClassName);
+  let isGeneric: boolean = checkIsCollection(theClass.fullClassName);
+  let isMap: boolean = checkIsMap(theClass.fullClassName);
 
   if (!isGlobal) {
     if (theClass.description) {
       source += doc(theClass);
     }
 
-    source += `${isTopLevel ? 'declare ' : ''}class ${className}${isGeneric ? '<T>' : ''} `;
+    source += `${isTopLevel ? 'declare ' : ''}class ${className}${isGeneric ? '<T>' : isMap ? '<K, V>' : ''} `;
     if (theClass.hierarchy.length > 1) {
       source += `extends ${sanitizeType(theClass.hierarchy.pop().name, null, isGeneric)} `;
     }
@@ -216,15 +231,8 @@ const generateCodeForClass = (theClass: any) => {
 
         let returnType = sanitizeType(property.class.name, property.class.generics, isGeneric && !property.static);
 
-        if (!isGeneric && returnType.indexOf('<any>') > -1) {
-
-          let propkey = `${theClass.fullClassName}.get${property.name.charAt(0).toUpperCase()}${property.name.substring(1)}`;
-          // @ts-ignore
-          returnType = genericsremap.get(propkey) || returnType;
-
-          if (returnType.indexOf('<any>') > -1) {
-            console.log(`Unmapped generics: ${propkey}=${returnType}`);
-          }
+        if (!isGeneric) {
+          returnType = checkGenerics(returnType, theClass, property);
         }
 
         return `${propSource}${doc(property)}${isGlobal ? 'declare ' : ''}${property.static ? isStatic : ""}${
@@ -263,15 +271,8 @@ const generateCodeForClass = (theClass: any) => {
       (methodSource: any, method: any) => {
         let returnType = sanitizeType(method.class.name, method.class.generics, isGeneric);
 
-        if (!isGeneric && returnType.indexOf('<any>') > -1) {
-
-          let propkey = `${theClass.fullClassName}.${method.name}`;
-          // @ts-ignore
-          returnType = genericsremap.get(propkey) || returnType;
-
-          if (returnType.indexOf('<any>') > -1) {
-            console.log(`Unmapped generics: ${propkey}=${returnType}`);
-          }
+        if (!isGeneric) {
+          returnType = checkGenerics(returnType, theClass, method);
         }
 
         return `${methodSource}${doc(method)}${isGlobal ? "declare function " : ""}${method.static && !isGlobal ? isStatic : ""
@@ -326,17 +327,16 @@ fs.writeFileSync(
   path.join(basePathGenerated, "index.d.ts"),
   formatted
 );
-//
-//   generateDts
-//     .map((generateDtsPath) => `/// <reference path="${generateDtsPath}" />`)
-//     .sort((a, b) => {
-//       if (a === b) return 0;
-//       if (a.indexOf("global") >= 0) return -1;
-//       if (b.indexOf("global") >= 0) return 1;
-//       if (a.indexOf("dw/") >= 0 && b.indexOf("dw") < 0) return 1;
-//       if (a.indexOf("dw/") < 0 && b.indexOf("dw") >= 0) return -1;
-//       return a.localeCompare(b);
-//     })
-//     .join("\n")
-// );
-//
+
+function checkGenerics(returnType: string, theClass: any, member: any) {
+  if (returnType.indexOf('<any') > -1) {
+    let propkey = member.type === 'property' ? `${theClass.fullClassName}.get${member.name.charAt(0).toUpperCase()}${member.name.substring(1)}` : `${theClass.fullClassName}.${member.name}`;
+    // @ts-ignore
+    returnType = genericsremap.get(propkey) || returnType;
+    if (returnType.indexOf('<any') > -1) {
+      console.log(`Unmapped generics: ${propkey}=${returnType}`);
+    }
+  }
+  return returnType;
+}
+

@@ -27,6 +27,29 @@
           }
         }
       },
+      "object": {
+        "CustomAttributes": {
+          "properties": {
+            "[name: string]": {
+              "name": "[name: string]",
+              "class": {
+                "name": "any"
+              },
+              "static": false,
+              "readOnly": true,
+              "description": "Returns the custom attribute with this name. Throws an exception if attribute is not defined",
+              "deprecated": 0
+            }
+          }
+        }
+      },
+      "order": {
+        "PriceAdjustment": {
+          "properties": {
+            "custom": null
+          }
+        }
+      },
       "util": {
         "Map": {
           "properties": {
@@ -39,6 +62,138 @@
               "readOnly": true,
               "description": "Returns the value associated with the key or null",
               "deprecated": 0
+            }
+          },
+          "methods": {
+            "containsKey": {
+              "args": [
+                {
+                  "name": "key",
+                  "description": "the key to use.",
+                  "class": {
+                    "name": "K"
+                  },
+                  "multiple": false
+                }
+              ]
+            },
+            "containsValue": {
+              "args": [
+                {
+                  "name": "value",
+                  "description": "the value to use.",
+                  "class": {
+                    "name": "V"
+                  },
+                  "multiple": false
+                }
+              ]
+            },
+            "entrySet": {
+              "class": {
+                "generics": "dw.util.MapEntry<K,V>"
+              }
+            },
+            "get": {
+              "args": [
+                {
+                  "name": "key",
+                  "description": "the key to use.",
+                  "class": {
+                    "name": "K"
+                  },
+                  "multiple": false
+                }
+              ],
+              "class": {
+                "name": "V"
+              }
+            },
+            "keySet": {
+              "class": {
+                "generics": "K"
+              }
+            },
+            "put": {
+              "args": [
+                {
+                  "name": "key",
+                  "description": "the key to use to identify the value.",
+                  "class": {
+                    "name": "K"
+                  },
+                  "multiple": false
+                },
+                {
+                  "name": "value",
+                  "description": "the object to put into the map.",
+                  "class": {
+                    "name": "V"
+                  },
+                  "multiple": false
+                }
+              ],
+              "class": {
+                "name": "V"
+              }
+            },
+            "putAll": {
+              "args": [
+                {
+                  "name": "other",
+                  "description": "the map whose contents are copied into this map.",
+                  "class": {
+                    "name": "Map<K, V>"
+                  },
+                  "multiple": false
+                }
+              ]
+            },
+            "remove": {
+              "args": [
+                {
+                  "name": "key",
+                  "description": "the key that identifies the object to remove.",
+                  "class": {
+                    "name": "K"
+                  },
+                  "multiple": false
+                }
+              ],
+              "class": {
+                "name": "V"
+              }
+            },
+            "values": {
+              "class": {
+                "generics": "V"
+              }
+            }
+          }
+        },
+        "MapEntry": {
+          "properties": {
+            "key": {
+              "class": {
+                "name": "K"
+              }
+            },
+            "value": {
+              "class": {
+                "name": "V"
+              }
+            }
+          },
+          "methods": {
+            "getKey": {
+              "class": {
+                "name": "K"
+              }
+            },
+            "getValue": {
+              "class": {
+                "name": "V"
+              }
             }
           }
         },
@@ -61,29 +216,6 @@
               "description": "Returns the dw.web.Cookie with this name or null",
               "deprecated": 0
             }
-          }
-        }
-      },
-      "object": {
-        "CustomAttributes": {
-          "properties": {
-            "[name: string]": {
-              "name": "[name: string]",
-              "class": {
-                "name": "any"
-              },
-              "static": false,
-              "readOnly": true,
-              "description": "Returns the custom attribute with this name. Throws an exception if attribute is not defined",
-              "deprecated": 0
-            }
-          }
-        }
-      },
-      "order": {
-        "PriceAdjustment": {
-          "properties": {
-            "custom": null
           }
         }
       }

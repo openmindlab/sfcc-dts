@@ -18,10 +18,6 @@
 $ npm i sfcc-dts
 ```
 
-## Requirements
-
-- Node >= 10
-
 ## Configuration
 
 
