@@ -3,25 +3,17 @@
     "outDir": "./dist/",
     "noImplicitAny": true,
     "target": "ESNext",
-    "lib": ["es5", "es6", "dom"],
     "module": "commonjs",
     "removeComments": false,
     "alwaysStrict": true,
     "declaration": true,
-    "noEmit": true,
-    "emitDeclarationOnly": false,
-    "allowJs": true,
-    "checkJs": true,
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "baseUrl": ".",
-    "typeRoots": ["@types", "node_modules/@types"],
-    "paths": {
-      "dw/*": ["@types/sfcc/dw/*"]
-    }
+    "typeRoots": ["@types", "node_modules/@types"]
   },
   "exclude": ["dist/**/*", "test/**/*"]
 }

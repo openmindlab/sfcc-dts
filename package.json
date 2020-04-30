@@ -2,7 +2,7 @@
   "name": "sfcc-dts",
   "version": "0.0.1",
   "description": "",
-  "main": "dist/tsplugin.js",
+  "main": "dist/plugin/tsplugin.js",
   "author": "openmind",
   "license": "MIT",
   "devDependencies": {
@@ -12,6 +12,7 @@
     "@types/node": "13.13.4",
     "@types/prettier": "2.0.0",
     "@types/properties-reader": "0.0.2",
+    "@types/yargs": "^15.0.4",
     "axios": "^0.19.2",
     "cheerio": "^1.0.0-rc.3",
     "cli-progress": "3.8.0",
@@ -28,12 +29,18 @@
     "openmind.svg",
     "CHANGELOG.md"
   ],
+  "bin": "dist/bin/sfcc-dts",
   "scripts": {
     "build": "tsc",
     "postversion": "git push && git push --tags",
     "prepare": "npm run build",
-    "scrape": "ts-node src/scrape.ts",
-    "generate": "ts-node src/generate.ts",
-    "makepatch": "ts-node src/makepatch.ts"
+    "scrape": "ts-node src/api/scrape.ts",
+    "generate": "ts-node src/api/generate.ts",
+    "makepatch": "ts-node src/api/makepatch.ts"
+  },
+  "types": "@types/sfcc",
+  "dependencies": {
+    "chalk": "^4.0.0",
+    "yargs": "^15.3.1"
   }
 }

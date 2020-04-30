@@ -1,10 +1,11 @@
-function init(modules: { typescript: typeof import("typescript/lib/tsserverlibrary") }) {
-
+function init(modules: {
+  typescript: typeof import('typescript/lib/tsserverlibrary');
+}) {
   function create(info: ts.server.PluginCreateInfo): ts.LanguageService {
     const log = (text: string) => {
       info.project.projectService.logger.info(`[sfccstar]: ${text}`);
-    }
-    log("starting plugin");
+    };
+    log('starting plugin');
 
     const origResolveModuleNames = info.languageServiceHost.resolveModuleNames;
     info.languageServiceHost.resolveModuleNames = (
@@ -13,10 +14,10 @@ function init(modules: { typescript: typeof import("typescript/lib/tsserverlibra
       reusedNames,
       redirectedReference
     ) => {
-      moduleNames = moduleNames.map(moduleName => {
-        if (moduleName.startsWith('*/')) {
+      moduleNames = moduleNames.map((moduleName) => {
+        if (moduleName.startsWith("*/")) {
           const newName = `_star_/${moduleName.substring(2)}`;
-          log(`sfccstar transform "${moduleName}" to "${newName}"`);
+          log(`transform "${moduleName}" to "${newName}"`);
           return newName;
         }
         return moduleName;
