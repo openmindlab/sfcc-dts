@@ -5,7 +5,7 @@
   "main": "dist/tsplugin.js",
   "author": "openmind",
   "license": "MIT",
-  "types": "./@types/index.d.ts",
+  "types": "./@types/sfcc/index.d.ts",
   "devDependencies": {
     "@types/cheerio": "0.22.18",
     "@types/cli-progress": "3.4.2",
