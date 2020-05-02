@@ -1,0 +1,443 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata xmlns="http://www.demandware.com/xml/impex/metadata/2006-10-31" 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.demandware.com/xml/impex/metadata/2006-10-31 ../../../../node_modules/sfcc-schemas/xsd/metadata.xsd">
+  <type-extension type-id="ProductLineItem">
+    <custom-attribute-definitions>
+      <attribute-definition attribute-id="bookingNumber">
+        <display-name xml:lang="x-default">Booking number</display-name>
+        <type>string</type>
+        <localizable-flag>false</localizable-flag>
+        <site-specific-flag>false</site-specific-flag>
+        <mandatory-flag>false</mandatory-flag>
+        <visible-flag>false</visible-flag>
+        <externally-managed-flag>false</externally-managed-flag>
+        <order-required-flag>false</order-required-flag>
+        <externally-defined-flag>false</externally-defined-flag>
+        <min-length>0</min-length>
+      </attribute-definition>
+      <attribute-definition attribute-id="booking">
+        <display-name xml:lang="x-default">booking</display-name>
+        <type>text</type>
+        <localizable-flag>false</localizable-flag>
+        <site-specific-flag>false</site-specific-flag>
+        <mandatory-flag>false</mandatory-flag>
+        <visible-flag>false</visible-flag>
+        <externally-managed-flag>false</externally-managed-flag>
+        <order-required-flag>false</order-required-flag>
+        <externally-defined-flag>false</externally-defined-flag>
+      </attribute-definition>
+    </custom-attribute-definitions>
+    <group-definitions>
+      <attribute-group group-id="Booking">
+        <display-name xml:lang="x-default">Booking</display-name>
+        <attribute attribute-id="bookingNumber" />
+        <attribute attribute-id="booking" system="true" />
+      </attribute-group>
+    </group-definitions>
+  </type-extension>
+  <type-extension type-id="Order">
+    <custom-attribute-definitions>
+      <attribute-definition attribute-id="paymentMethod">
+        <display-name xml:lang="x-default">Payment Method</display-name>
+        <type>string</type>
+        <mandatory-flag>false</mandatory-flag>
+        <externally-managed-flag>false</externally-managed-flag>
+        <min-length>0</min-length>
+      </attribute-definition>
+      <attribute-definition attribute-id="bookingNumber">
+        <display-name xml:lang="x-default">Booking number</display-name>
+        <type>string</type>
+        <mandatory-flag>false</mandatory-flag>
+        <externally-managed-flag>false</externally-managed-flag>
+        <min-length>0</min-length>
+      </attribute-definition>
+    </custom-attribute-definitions>
+    <group-definitions>
+      <attribute-group group-id="custom">
+        <display-name xml:lang="x-default">custom</display-name>
+        <attribute attribute-id="paymentMethod"/>
+        <attribute attribute-id="bookingNumber"/>
+      </attribute-group>
+    </group-definitions>
+  </type-extension>
+  <type-extension type-id="PaymentTransaction">
+    <custom-attribute-definitions>
+      <attribute-definition attribute-id="authorizationCode">
+        <display-name xml:lang="x-default">authorizationCode</display-name>
+        <type>string</type>
+        <mandatory-flag>false</mandatory-flag>
+        <externally-managed-flag>true</externally-managed-flag>
+      </attribute-definition>
+      <attribute-definition attribute-id="bankTransactionID">
+        <display-name xml:lang="x-default">bankTransactionID</display-name>
+        <type>string</type>
+        <mandatory-flag>false</mandatory-flag>
+        <externally-managed-flag>true</externally-managed-flag>
+        <min-length>0</min-length>
+      </attribute-definition>
+    </custom-attribute-definitions>
+    <group-definitions>
+      <attribute-group group-id="demo">
+        <display-name xml:lang="x-default">demo attributes</display-name>
+        <attribute attribute-id="authorizationCode"/>
+        <attribute attribute-id="bankTransactionID"/>
+      </attribute-group>
+    </group-definitions>
+  </type-extension>
+
+
+  <type-extension type-id="CustomerAddress">
+    <custom-attribute-definitions>
+      <attribute-definition attribute-id="province">
+        <display-name xml:lang="x-default">province</display-name>
+        <type>string</type>
+        <mandatory-flag>false</mandatory-flag>
+        <externally-managed-flag>false</externally-managed-flag>
+        <min-length>0</min-length>
+      </attribute-definition>
+    </custom-attribute-definitions>
+    <group-definitions>
+      <attribute-group group-id="customBillingAddress">
+        <display-name xml:lang="x-default">Indirizzo del cliente</display-name>
+        <attribute attribute-id="province" />
+      </attribute-group>
+    </group-definitions>
+  </type-extension>
+
+
+  <type-extension type-id="OrderAddress">
+    <custom-attribute-definitions>
+      <attribute-definition attribute-id="addressPrefix">
+        <display-name xml:lang="x-default">addressPrefix</display-name>
+        <type>string</type>
+        <mandatory-flag>false</mandatory-flag>
+        <externally-managed-flag>false</externally-managed-flag>
+        <min-length>0</min-length>
+      </attribute-definition>
+      <attribute-definition attribute-id="email">
+        <display-name xml:lang="x-default">email</display-name>
+        <type>string</type>
+        <mandatory-flag>false</mandatory-flag>
+        <externally-managed-flag>false</externally-managed-flag>
+        <min-length>0</min-length>
+      </attribute-definition>
+      <attribute-definition attribute-id="fiscalCode">
+        <display-name xml:lang="x-default">Codice fiscale</display-name>
+        <type>string</type>
+        <mandatory-flag>false</mandatory-flag>
+        <externally-managed-flag>false</externally-managed-flag>
+        <min-length>0</min-length>
+      </attribute-definition>
+      <attribute-definition attribute-id="destinationCode">
+        <display-name xml:lang="x-default">Codice destinatario</display-name>
+        <type>string</type>
+        <mandatory-flag>false</mandatory-flag>
+        <externally-managed-flag>false</externally-managed-flag>
+        <min-length>0</min-length>
+      </attribute-definition>
+      <attribute-definition attribute-id="vat">
+        <display-name xml:lang="x-default">Partita IVA</display-name>
+        <type>string</type>
+        <mandatory-flag>false</mandatory-flag>
+        <externally-managed-flag>false</externally-managed-flag>
+        <min-length>0</min-length>
+      </attribute-definition>
+      <attribute-definition attribute-id="vatCee">
+        <display-name xml:lang="x-default">Partita IVA</display-name>
+        <type>string</type>
+        <mandatory-flag>false</mandatory-flag>
+        <externally-managed-flag>false</externally-managed-flag>
+        <min-length>0</min-length>
+      </attribute-definition>
+
+      <attribute-definition attribute-id="legalPerson">
+        <display-name xml:lang="x-default">Persona giuridica</display-name>
+        <type>boolean</type>
+        <mandatory-flag>false</mandatory-flag>
+        <externally-managed-flag>false</externally-managed-flag>
+        <min-length>0</min-length>
+      </attribute-definition>
+
+      <attribute-definition attribute-id="splitPayment">
+        <display-name xml:lang="x-default">Flag split payment</display-name>
+        <type>boolean</type>
+        <mandatory-flag>false</mandatory-flag>
+        <externally-managed-flag>false</externally-managed-flag>
+        <min-length>0</min-length>
+      </attribute-definition>
+
+    </custom-attribute-definitions>
+    <group-definitions>
+      <attribute-group group-id="customBillingAddress">
+        <display-name xml:lang="x-default">Indirizzo di Fatturazione</display-name>
+        <attribute attribute-id="addressPrefix" />
+        <attribute attribute-id="email" />
+        <attribute attribute-id="fiscalCode" />
+        <attribute attribute-id="destinationCode" />
+        <attribute attribute-id="vat" />
+        <attribute attribute-id="vatCee" />
+        <attribute attribute-id="legalPerson" />
+      </attribute-group>
+    </group-definitions>
+  </type-extension>
+  <type-extension type-id="SitePreferences">
+    <custom-attribute-definitions>
+      <attribute-definition attribute-id="demoApikey">
+        <display-name xml:lang="x-default">API Key</display-name>
+        <type>string</type>
+        <mandatory-flag>false</mandatory-flag>
+        <externally-managed-flag>false</externally-managed-flag>
+        <min-length>0</min-length>
+      </attribute-definition>
+      <attribute-definition attribute-id="demoShopLogin">
+        <display-name xml:lang="x-default">demo Shop Login</display-name>
+        <type>string</type>
+        <mandatory-flag>true</mandatory-flag>
+        <externally-managed-flag>false</externally-managed-flag>
+        <min-length>0</min-length>
+      </attribute-definition>
+      <attribute-definition attribute-id="demoMode">
+        <display-name xml:lang="x-default">demo Mode</display-name>
+        <type>enum-of-string</type>
+        <mandatory-flag>false</mandatory-flag>
+        <externally-managed-flag>false</externally-managed-flag>
+        <value-definitions>
+          <value-definition default="true">
+            <display xml:lang="x-default">TEST</display>
+            <value>TEST</value>
+          </value-definition>
+          <value-definition>
+            <display xml:lang="x-default">PRODUCTION</display>
+            <value>PRODUCTION</value>
+          </value-definition>
+        </value-definitions>
+      </attribute-definition>
+      <attribute-definition attribute-id="GoogleVerificationTag">
+        <display-name xml:lang="x-default">Google Verification Tag</display-name>
+        <description xml:lang="x-default">google-site-verification meta, added to head</description>
+        <type>string</type>
+        <mandatory-flag>false</mandatory-flag>
+        <externally-managed-flag>false</externally-managed-flag>
+        <min-length>0</min-length>
+      </attribute-definition>
+      <attribute-definition attribute-id="googleMapsApiKey">
+        <display-name xml:lang="x-default">Google Maps api key</display-name>
+        <type>string</type>
+        <mandatory-flag>false</mandatory-flag>
+        <externally-managed-flag>false</externally-managed-flag>
+        <min-length>0</min-length>
+      </attribute-definition>
+      <attribute-definition attribute-id="analytics_head_container_code">
+        <display-name xml:lang="x-default">Analytics head Container Code</display-name>
+        <type>text</type>
+        <mandatory-flag>false</mandatory-flag>
+        <externally-managed-flag>false</externally-managed-flag>
+        <field-height>15</field-height>
+      </attribute-definition>
+      <attribute-definition attribute-id="analytics_body_container_code">
+        <display-name xml:lang="x-default">Analytics body Container Code</display-name>
+        <type>text</type>
+        <mandatory-flag>false</mandatory-flag>
+        <externally-managed-flag>false</externally-managed-flag>
+        <field-height>15</field-height>
+      </attribute-definition>
+    </custom-attribute-definitions>
+    <group-definitions>
+      <attribute-group group-id="Maps">
+        <display-name xml:lang="x-default">Maps</display-name>
+        <attribute attribute-id="googleMapsApiKey"/>
+      </attribute-group>
+      <attribute-group group-id="demo">
+        <display-name xml:lang="x-default">demo Configurations</display-name>
+        <attribute attribute-id="demoShopLogin"/>
+        <attribute attribute-id="demoApikey"/>
+        <attribute attribute-id="demoMode"/>
+      </attribute-group>
+      <attribute-group group-id="Analytics">
+        <display-name xml:lang="x-default">Analytics</display-name>
+        <attribute attribute-id="GoogleVerificationTag"/>
+        <attribute attribute-id="analytics_head_container_code"/>
+        <attribute attribute-id="analytics_body_container_code"/>
+      </attribute-group>
+    </group-definitions>
+  </type-extension>
+
+  <type-extension type-id="Product">
+    <custom-attribute-definitions>
+      <attribute-definition attribute-id="startingFrom">
+        <display-name xml:lang="x-default">Starting from</display-name>
+        <description xml:lang="x-default">Best price for the next 2 months</description>
+        <type>double</type>
+        <site-specific-flag>false</site-specific-flag>
+        <mandatory-flag>false</mandatory-flag>
+        <visible-flag>false</visible-flag>
+        <externally-managed-flag>false</externally-managed-flag>
+        <order-required-flag>false</order-required-flag>
+        <externally-defined-flag>false</externally-defined-flag>
+      </attribute-definition>
+      <attribute-definition attribute-id="fromCity">
+        <display-name xml:lang="x-default">Origin city</display-name>
+        <type>string</type>
+        <site-specific-flag>false</site-specific-flag>
+        <mandatory-flag>false</mandatory-flag>
+        <visible-flag>false</visible-flag>
+        <externally-managed-flag>false</externally-managed-flag>
+        <order-required-flag>false</order-required-flag>
+        <externally-defined-flag>false</externally-defined-flag>
+      </attribute-definition>
+      <attribute-definition attribute-id="toCity">
+        <display-name xml:lang="x-default">Destination city</display-name>
+        <type>string</type>
+        <site-specific-flag>false</site-specific-flag>
+        <mandatory-flag>false</mandatory-flag>
+        <visible-flag>false</visible-flag>
+        <externally-managed-flag>false</externally-managed-flag>
+        <order-required-flag>false</order-required-flag>
+        <externally-defined-flag>false</externally-defined-flag>
+      </attribute-definition>
+    </custom-attribute-definitions>
+    <group-definitions>
+      <attribute-group group-id="itabus">
+        <display-name xml:lang="x-default">itabus</display-name>
+        <attribute attribute-id="startingFrom"/>
+        <attribute attribute-id="fromCity"/>
+        <attribute attribute-id="toCity"/>
+      </attribute-group>
+    </group-definitions>
+
+  </type-extension>
+
+
+
+
+
+  <type-extension type-id="Store">
+    <system-attribute-definitions>
+      <attribute-definition attribute-id="ID">
+        <min-length>0</min-length>
+      </attribute-definition>
+      <attribute-definition attribute-id="UUID">
+        <min-length>0</min-length>
+        <field-length>28</field-length>
+      </attribute-definition>
+      <attribute-definition attribute-id="address1">
+        <min-length>0</min-length>
+      </attribute-definition>
+      <attribute-definition attribute-id="address2">
+        <min-length>0</min-length>
+      </attribute-definition>
+      <attribute-definition attribute-id="city">
+        <min-length>0</min-length>
+      </attribute-definition>
+      <attribute-definition attribute-id="countryCode">
+        <value-definitions>
+          <value-definition>
+            <display xml:lang="x-default">United States</display>
+            <value>US</value>
+          </value-definition>
+          <value-definition>
+            <display xml:lang="x-default">France</display>
+            <value>FR</value>
+          </value-definition>
+          <value-definition>
+            <display xml:lang="x-default">Italy</display>
+            <value>IT</value>
+          </value-definition>
+          <value-definition>
+            <display xml:lang="x-default">Japan</display>
+            <value>JP</value>
+          </value-definition>
+          <value-definition>
+            <display xml:lang="x-default">China</display>
+            <value>CN</value>
+          </value-definition>
+          <value-definition>
+            <display xml:lang="x-default">United Kingdom</display>
+            <value>GB</value>
+          </value-definition>
+        </value-definitions>
+      </attribute-definition>
+      <attribute-definition attribute-id="creationDate"/>
+      <attribute-definition attribute-id="email">
+        <min-length>0</min-length>
+      </attribute-definition>
+      <attribute-definition attribute-id="fax">
+        <min-length>0</min-length>
+      </attribute-definition>
+      <attribute-definition attribute-id="image"/>
+      <attribute-definition attribute-id="inventoryListId" />
+      <attribute-definition attribute-id="lastModified"/>
+      <attribute-definition attribute-id="latitude">
+        <scale>6</scale>
+        <min-value>-90.0</min-value>
+        <max-value>90.0</max-value>
+      </attribute-definition>
+      <attribute-definition attribute-id="longitude">
+        <scale>6</scale>
+        <min-value>-180.0</min-value>
+        <max-value>180.0</max-value>
+      </attribute-definition>
+      <attribute-definition attribute-id="name">
+        <min-length>0</min-length>
+      </attribute-definition>
+      <attribute-definition attribute-id="phone">
+        <min-length>0</min-length>
+      </attribute-definition>
+      <attribute-definition attribute-id="posEnabled"/>
+      <attribute-definition attribute-id="postalCode">
+        <min-length>0</min-length>
+      </attribute-definition>
+      <attribute-definition attribute-id="stateCode">
+        <min-length>0</min-length>
+      </attribute-definition>
+      <attribute-definition attribute-id="storeEvents"/>
+      <attribute-definition attribute-id="storeHours"/>
+      <attribute-definition attribute-id="storeLocatorEnabled"/>
+    </system-attribute-definitions>
+    <custom-attribute-definitions>
+      <attribute-definition attribute-id="storetype">
+        <display-name xml:lang="x-default">Store type</display-name>
+        <type>string</type>
+        <localizable-flag>false</localizable-flag>
+        <mandatory-flag>false</mandatory-flag>
+        <externally-managed-flag>false</externally-managed-flag>
+        <min-length>0</min-length>
+      </attribute-definition>
+    </custom-attribute-definitions>
+    <group-definitions>
+      <attribute-group group-id="Basic">
+        <display-name xml:lang="x-default">Basic Attributes</display-name>
+        <attribute attribute-id="ID" system="true"/>
+        <attribute attribute-id="name" system="true"/>
+        <attribute attribute-id="storetype" system="false"/>
+      </attribute-group>
+      <attribute-group group-id="Address">
+        <display-name xml:lang="x-default">Address</display-name>
+        <attribute attribute-id="address1" system="true"/>
+        <attribute attribute-id="address2" system="true"/>
+        <attribute attribute-id="postalCode" system="true"/>
+        <attribute attribute-id="city" system="true"/>
+        <attribute attribute-id="stateCode" system="true"/>
+        <attribute attribute-id="countryCode" system="true"/>
+        <attribute attribute-id="longitude" system="true"/>
+        <attribute attribute-id="latitude" system="true"/>
+      </attribute-group>
+      <attribute-group group-id="Contact">
+        <display-name xml:lang="x-default">Contact Details</display-name>
+        <attribute attribute-id="phone" system="true"/>
+        <attribute attribute-id="fax" system="true"/>
+        <attribute attribute-id="email" system="true"/>
+      </attribute-group>
+      <attribute-group group-id="Details">
+        <display-name xml:lang="x-default">Store Details</display-name>
+        <attribute attribute-id="storeHours" system="true"/>
+        <attribute attribute-id="storeEvents" system="true"/>
+        <attribute attribute-id="image" system="true"/>
+        <attribute attribute-id="posEnabled" system="true"/>
+        <attribute attribute-id="inventoryListId" system="true"/>
+      </attribute-group>
+    </group-definitions>
+  </type-extension>
+
+
+</metadata>

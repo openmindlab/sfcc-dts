@@ -1,17 +1,16 @@
 {
-  "name": "sfcc-dts",
+  "name": "testpackage",
   "version": "0.0.4",
   "description": "",
-  "main": "dist/tsplugin.js",
   "author": "openmind",
   "license": "MIT",
-  "types": "./@types/index.d.ts",
   "dependencies": {
     "axios": "^0.19.2",
     "chalk": "4.0.0",
     "cheerio": "^1.0.0-rc.3",
     "cli-progress": "3.8.0",
     "json-merge-patch": "0.2.3",
+    "npm": "6.14.4",
     "prettier": "2.0.5",
     "prompts": "2.3.2",
     "properties-reader": "2.0.0"
@@ -24,28 +23,8 @@
     "@types/prettier": "2.0.0",
     "@types/prompts": "2.0.6",
     "@types/properties-reader": "0.0.2",
+    "sfcc-dts": "0.0.4",
     "ts-node": "8.9.1",
     "typescript": "3.8.3"
-  },
-  "files": [
-    "dist/**/*",
-    "@types/**/*",
-    "api/**/*",
-    "README.md",
-    "LICENSE",
-    "openmind.svg",
-    "CHANGELOG.md"
-  ],
-  "scripts": {
-    "build": "tsc",
-    "postversion": "git push && git push --tags",
-    "prepare": "npm run build",
-    "scrape": "ts-node src/scrape.ts",
-    "generate": "ts-node src/generate.ts",
-    "makepatch": "ts-node src/makepatch.ts",
-    "sfcc-dts-setup": "ts-node src/setup.ts"
-  },
-  "bin": {
-    "sfcc-dts-setup": "dist/setup.js"
   }
 }
