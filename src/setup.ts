@@ -94,6 +94,9 @@ import { log } from 'console';
   log(`Adding cartridge path`);
   tsconfig.paths['~/*'] = cartridges.map(i => `${path.join(cartridgeroot, i)}`);
 
+  // removing deprecated _star_ path
+  tsconfig.paths['_star_/*'] = undefined;
+
   log(`Write tscconfig.json`);
 
   fs.writeFileSync('tsconfig.json', JSON.stringify(tsconfig, null, 2));
