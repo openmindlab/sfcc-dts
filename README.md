@@ -1,6 +1,6 @@
 # Salesforce Commerce Cloud type definitions
 
-> High quality Salesforce Commerce Cloud type definitions. A dw-api-types. "done right"
+> High quality Salesforce Commerce Cloud type definitions. A dw-api-types "done right"
 
 <div>
 	<br>
