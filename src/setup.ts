@@ -78,29 +78,29 @@ import { log } from 'console';
     }
   });
 
-  if (!tsconfig.paths) {
-    tsconfig.paths = {};
+  if (!tsconfig.compilerOptions.paths) {
+    tsconfig.compilerOptions.paths = {};
   }
 
-  if (!tsconfig.paths['dw/*'] || tsconfig.paths['dw/*'].length !== 1 || tsconfig.paths['dw/*'][0] !== "./node_modules/sfcc-dts/@types/sfcc/dw/*") {
+  if (!tsconfig.compilerOptions.paths['dw/*'] || tsconfig.compilerOptions.paths['dw/*'].length !== 1 || tsconfig.compilerOptions.paths['dw/*'][0] !== "./node_modules/sfcc-dts/@types/sfcc/dw/*") {
     log(`Adding dw/* path`);
-    tsconfig.paths['dw/*'] = ["./node_modules/sfcc-dts/@types/sfcc/dw/*"];
+    tsconfig.compilerOptions.paths['dw/*'] = ["./node_modules/sfcc-dts/@types/sfcc/dw/*"];
   }
-  if (!tsconfig.paths['server'] || tsconfig.paths['server'].length !== 1 || tsconfig.paths['server'][0] !== `${cartridgeroot}/server`) {
+  if (!tsconfig.compilerOptions.paths['server'] || tsconfig.compilerOptions.paths['server'].length !== 1 || tsconfig.compilerOptions.paths['server'][0] !== `${cartridgeroot}/server`) {
     log(`Adding server path`);
-    tsconfig.paths['server'] = [`${path.join(cartridgeroot, 'server')}`];
+    tsconfig.compilerOptions.paths['server'] = [`${path.join(cartridgeroot, 'server')}`];
   }
 
   let cartridges = fs.readdirSync(cartridgeroot).filter(i => fs.lstatSync(path.join(cartridgeroot, i)).isDirectory()).filter(i => fs.existsSync(path.join(path.join(cartridgeroot, i), 'cartridge')));
   log(`Adding cartridge path`);
-  tsconfig.paths['~/*'] = cartridges.map(i => `${path.join(cartridgeroot, i)}/*`);
+  tsconfig.compilerOptions.paths['~/*'] = cartridges.map(i => `${path.join(cartridgeroot, i)}/*`);
 
   cartridges.forEach(i => {
-    tsconfig.paths[`${i}/*`] = [`${path.join(cartridgeroot, i)}/*`]
+    tsconfig.compilerOptions.paths[`${i}/*`] = [`${path.join(cartridgeroot, i)}/*`]
   });
 
   // removing deprecated _star_ path
-  tsconfig.paths['_star_/*'] = undefined;
+  tsconfig.compilerOptions.paths['_star_/*'] = undefined;
 
   log(`Write tscconfig.json`);
 
