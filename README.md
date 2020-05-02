@@ -45,11 +45,11 @@ Vscode will fully benefit from the typescript configuration from `tsconfig.json`
 
 For enabling it press [cmd]+[shift]+P -> "TypeScript: Select TypeScript version" and select "Use workspace version" with the version pointing to the node_modules/typescript dir in the workspace.
 
-<img width="641" src="media/vscode-select.png" alt="vscode selection of typescript version">
+<img width="641" src="https://raw.githubusercontent.com/openmindlab/sfcc-dts/HEAD/media/vscode-select.png" alt="vscode selection of typescript version">
 
 If the "TypeScript: Select TypeScript version" option or the expected directory dooesn't show up, just open the node_modules/typescript/bin/tsc file inside vscode and retry, this is usually enough to make vscode detect the available typescript installation.
 
-<img width="989" src="media/vscode-autocomplete.png" alt="vscode example ofworking setup">
+<img width="989" src="https://raw.githubusercontent.com/openmindlab/sfcc-dts/HEAD/media/vscode-autocomplete.png" alt="vscode example ofworking setup">
 
 ## Usage
 
