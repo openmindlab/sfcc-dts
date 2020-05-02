@@ -46,10 +46,10 @@
     "build": "tsc",
     "postversion": "git push && git push --tags",
     "prepare": "npm run build",
-    "scrape": "ts-node src/scrape.ts",
-    "generate": "ts-node src/generate.ts",
-    "makepatch": "ts-node src/makepatch.ts",
-    "sfcc-dts-setup": "ts-node src/setup.ts"
+    "scrape": "node dist/scrape.js",
+    "generate": "node dist/generate.js",
+    "makepatch": "node dist/makepatch.js",
+    "sfcc-dts-setup": "node dist/setup.js"
   },
   "bin": {
     "sfcc-dts-setup": "dist/setup.js"
