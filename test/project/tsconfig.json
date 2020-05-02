@@ -32,8 +32,14 @@
       "cartridges/server"
     ],
     "~/*": [
-      "cartridges/aaa",
-      "cartridges/bbb"
+      "cartridges/aaa/*",
+      "cartridges/bbb/*"
+    ],
+    "aaa/*": [
+      "cartridges/aaa/*"
+    ],
+    "bbb/*": [
+      "cartridges/bbb/*"
     ]
   }
 }
