@@ -49,8 +49,6 @@ For enabling it press [cmd]+[shift]+P -> "TypeScript: Select TypeScript version"
 
 If the "TypeScript: Select TypeScript version" option or the expected directory dooesn't show up, just open the node_modules/typescript/bin/tsc file inside vscode and retry, this is usually enough to make vscode detect the available typescript installation.
 
-<img width="989" src="https://raw.githubusercontent.com/openmindlab/sfcc-dts/HEAD/media/vscode-autocomplete.png" alt="vscode example ofworking setup">
-
 ## Usage
 
 If everything goes well you will see autocomplete and validation working in your existing javascript files. Typescript will fully detect:
@@ -58,6 +56,8 @@ If everything goes well you will see autocomplete and validation working in your
 * cartridge requires using `*/cartridge/somefile` or `~/cartridge/somefile`
 * fully qualified class names such as `dw.system.Site`
 * dw globals such as `request`
+
+<img width="730" src="https://raw.githubusercontent.com/openmindlab/sfcc-dts/HEAD/media/vscode-autocomplete.png" alt="vscode example ofworking setup">
 
 ## Todo
 
