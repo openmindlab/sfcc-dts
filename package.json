@@ -6,6 +6,11 @@
   "author": "openmind",
   "license": "MIT",
   "types": "./@types/index.d.ts",
+  "keywords": [
+    "Salesforce Commerce Cloud",
+    "Demandware",
+    "sfccs"
+  ],
   "dependencies": {
     "axios": "^0.19.2",
     "chalk": "4.0.0",
