@@ -92,7 +92,11 @@ import { log } from 'console';
 
   let cartridges = fs.readdirSync(cartridgeroot).filter(i => fs.lstatSync(path.join(cartridgeroot, i)).isDirectory()).filter(i => fs.existsSync(path.join(path.join(cartridgeroot, i), 'cartridge')));
   log(`Adding cartridge path`);
-  tsconfig.paths['~/*'] = cartridges.map(i => `${path.join(cartridgeroot, i)}`);
+  tsconfig.paths['~/*'] = cartridges.map(i => `${path.join(cartridgeroot, i)}/*`);
+
+  cartridges.forEach(i => {
+    tsconfig.paths[`${i}/*`] = [`${path.join(cartridgeroot, i)}/*`]
+  });
 
   // removing deprecated _star_ path
   tsconfig.paths['_star_/*'] = undefined;
