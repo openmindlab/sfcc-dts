@@ -36,7 +36,7 @@
                 "name": "any"
               },
               "static": false,
-              "readOnly": true,
+              "readonly": true,
               "description": "Returns the custom attribute with this name. Throws an exception if attribute is not defined",
               "deprecated": 0
             }
@@ -59,7 +59,7 @@
                 "name": "any"
               },
               "static": false,
-              "readOnly": true,
+              "readonly": true,
               "description": "Returns the value associated with the key or null",
               "deprecated": 0
             }
@@ -212,7 +212,7 @@
                 "name": "any"
               },
               "static": false,
-              "readOnly": true,
+              "readonly": true,
               "description": "Returns the dw.web.Cookie with this name or null",
               "deprecated": 0
             }
@@ -226,7 +226,7 @@
                 "name": "dw.web.HttpParameter | any"
               },
               "static": false,
-              "readOnly": true,
+              "readonly": true,
               "description": "Returns the HttpParameter with this name.",
               "deprecated": 0
             }
@@ -240,7 +240,7 @@
                 "name": "dw.web.Form"
               },
               "static": false,
-              "readOnly": true,
+              "readonly": true,
               "description": "Returns the Form with this name.",
               "deprecated": 0
             }
@@ -254,7 +254,7 @@
                 "name": "dw.web.FormElement | any;"
               },
               "static": false,
-              "readOnly": true,
+              "readonly": true,
               "description": "Returns the Form element with this name.",
               "deprecated": 0
             }
@@ -270,7 +270,7 @@
                 "name": "any"
               },
               "static": false,
-              "readOnly": true,
+              "readonly": false,
               "description": "Returns the attribute with this name",
               "deprecated": 0
             }
