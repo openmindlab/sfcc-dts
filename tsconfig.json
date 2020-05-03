@@ -10,18 +10,12 @@
     "declaration": true,
     "noEmit": false,
     "emitDeclarationOnly": false,
-    "allowJs": true,
-    "checkJs": true,
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "baseUrl": ".",
-    "typeRoots": ["@types", "node_modules/@types"],
-    "paths": {
-      "dw/*": ["@types/sfcc/dw/*"]
-    }
   },
-  "exclude": ["dist/**/*", "test/**/*"]
+  "exclude": ["dist/**/*", "test/**/*", "@types/**/*"]
 }

@@ -1,5 +1,52 @@
 {
   "api": {
+    "TopLevel": {
+      "IArguments": {
+        "fullClassName": "TopLevel.IArguments",
+        "package": "TopLevel",
+        "description": "Method arguments",
+        "hierarchy": [
+          {
+            "name": "Object"
+          }
+        ],
+        "properties": {
+          "[name: string]": {
+            "name": "[index: number]",
+            "class": {
+              "name": "any"
+            },
+            "static": false,
+            "readonly": false,
+            "description": "",
+            "deprecated": 0
+          },
+          "length": {
+            "name": "length",
+            "class": {
+              "name": "number"
+            },
+            "static": false,
+            "readonly": false,
+            "description": "",
+            "deprecated": 0
+          },
+          "callee": {
+            "name": "callee",
+            "class": {
+              "name": "Function"
+            },
+            "static": false,
+            "readonly": false,
+            "description": "",
+            "deprecated": 0
+          }
+        },
+        "constants": {},
+        "constructors": {},
+        "methods": {}
+      }
+    },
     "dw": {
       "catalog": {
         "ProductSearchRefinements": {

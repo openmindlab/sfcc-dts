@@ -1,4 +1,12 @@
 /**
+ * representation for Infinity as an Integer
+ */
+declare const Infinity: number;
+/**
+ * representation for Not a Number as an Integer
+ */
+declare const NaN: number;
+/**
  * represents an error during pipelet execution
  */
 declare const PIPELET_ERROR: number;
@@ -35,6 +43,16 @@ declare const webreferences2: any;
  */
 declare const customer: dw.customer.Customer;
 /**
+ * References the  module.exports property of the current module. Available only in scripts that were loaded
+ *  as CommonJS module using the require(String) function.
+ */
+declare const exports: any;
+/**
+ * An object representing the current module. Available only in scripts that were loaded
+ *  as CommonJS module using the require(String) function.
+ */
+declare const module: Module;
+/**
  * The current request.
  */
 declare const request: dw.system.Request;
@@ -48,6 +66,18 @@ declare const response: dw.system.Response;
 declare const session: dw.system.Session;
 
 /**
+ * Unescapes characters in a URI component.
+ * @param uri a string that contains an encoded URI or other text to be decoded.
+ * @return A copy of uri with any hexadecimal escape sequences replaced with the characters they represent
+ */
+declare function decodeURI(uri: string): string;
+/**
+ * Unescapes characters in a URI component.
+ * @param uriComponent a string that contains an encoded URI component or other text to be decoded.
+ * @return A copy of uriComponent with any hexadecimal escape sequences replaced with the characters they represent
+ */
+declare function decodeURIComponent(uriComponent: string): string;
+/**
  * The method tests, whether the given object is empty. The interpretation
  *  of empty is the following.
  *  - null is always empty
@@ -59,6 +89,30 @@ declare const session: dw.system.Session;
  * @return true if the object is interpreted as being empty
  */
 declare function empty(obj: any): boolean;
+/**
+ * Escapes characters in a URI.
+ * @param uri a String that contains the URI or other text to be encoded.
+ * @return a copy of uri with certain characters replaced by hexadecimal escape sequences.
+ */
+declare function encodeURI(uri: string): string;
+/**
+ * Escapes characters in a URI component.
+ * @param uriComponent a String that contains a portion of a URI or other text to be encoded.
+ * @return a copy of uriComponent with certain characters replaced by hexadecimal escape sequences.
+ */
+declare function encodeURIComponent(uriComponent: string): string;
+/**
+ * Encodes a String.
+ * @param s the String to be encoded.
+ * @return a copy of s where characters have been replace by hexadecimal escape sequences.
+ */
+declare function escape(s: string): string;
+/**
+ * Execute JavaScript code from a String.
+ * @param code a String that contains the JavaScript expression to be evaluated or the statements to be executed.
+ * @return the value of the executed call or null.
+ */
+declare function eval(code: string): any;
 /**
  * Import the specified class and make it
  *  available at the top level. It's equivalent in effect to the
@@ -89,12 +143,78 @@ declare function importPackage(packagePath: any): void;
  */
 declare function importScript(scriptPath: string): void;
 /**
+ * Returns true if the specified Number is finite.
+ * @param number the Number to test.
+ * @return true if the specified Number is finite, false otherwise.
+ */
+declare function isFinite(number: number): boolean;
+/**
+ * Test the specified value to determine if it
+ *  is not a Number.
+ * @param object the Object to be tested as a number
+ * @return True if the object is not a number
+ */
+declare function isNaN(object: any): boolean;
+/**
  * Determines whether the specified string is a valid name for an
  *  XML element or attribute.
  * @param name the String specified
  * @return True if the string is a valid name
  */
 declare function isXMLName(name: string): boolean;
+/**
+ * Parses a String into an float Number.
+ * @param s the String to parse.
+ * @return Returns the float as a Number.
+ */
+declare function parseFloat(s: string): number;
+/**
+ * Parses a String into an integer Number using the
+ *  specified radix.
+ * @param s the String to parse.
+ * @param radix the radix to use.
+ * @return Returns the integer as a Number.
+ */
+declare function parseInt(s: string, radix: number): number;
+/**
+ * Parses a String into an integer Number.
+ *  This function is a short form for the call to parseInt(String, Number) with automatic determination of the radix.
+ *  If the string starts with "0x" or "0X" then the radix is 16. In all other cases the radix is 10.
+ * @param s the String to parse.
+ * @return Returns the integer as a Number.
+ */
+declare function parseInt(s: string): number;
+/**
+ * The require() function supports loading of modules in JavaScript. The function works similar to the require() function
+ *  in CommonJS. The general module loading works the same way, but the exact path lookup is slightly different
+ *  and better fits into Demandware concepts. Here are the details for the lookup:
+ *
+ *  If the module name starts with "./" or "../" then load it relative to the current module. The module can be a file or a directory. A file
+ *  extension is acknowledged, but not required. If it's a directory a 'package.json' or a 'main' file is expected.
+ *  If the 'package.json' does not contain a main entry, then default to main file in the directory.
+ *  Access to parent files can't go beyond the cartridges directory. Access to other cartridges is explicitly allowed.
+ *  If the module name starts with "~/" it's a path relative to the current cartridge.
+ *  If the module name starts with "*\/" try to find the module in all cartridges that are assigned to the current site.
+ *  A module with the name "dw" or which starts with "dw/" references Demandware built-in functions and classes.
+ *  For example var u = require( 'dw/util' ); loads the classes in the util package, which can be then used like
+ *  var h = new u.HashMap();
+ *  A module, which doesn't start with "./" or "../" is resolved as top level module.
+ *
+ *  The module name is used to find a folder in the top cartridge directory, typically a cartridge itself, but it can also be a simple folder.
+ *  If nothing is found, the module name is used to look into a special folder called "modules" in the top cartridge directory. That folder
+ *  can be used by a developer to manage different modules. For example a developer could drop a module like "less.js" just into that folder.
+ *
+ *
+ *  If the require function is used to reference a file then an optional file extension is used to determine the content of the file. Currently
+ *  supported are the extensions ordered by priority:
+ *
+ *  js - JavaScript file
+ *  ds - Demandware Script file
+ *  json - JSON file
+ * @param path the path to the JavaScript module.
+ * @return an object with the exported functions and properties.
+ */
+declare function require(path: string): Module;
 /**
  * Formats and prints the message using the specified params and returns
  *  the formatted message. The format message is a Java MessageFormat
@@ -103,6 +223,12 @@ declare function isXMLName(name: string): boolean;
  * @param params one, or multiple parameters that are used to format the message.
  */
 declare function trace(msg: string, ...params: any[]): void;
+/**
+ * Decode an escaped String.
+ * @param string the String to decode.
+ * @return a copy of the String where hexadecimal character sequences are replace by Unicode characters.
+ */
+declare function unescape(string: string): string;
 
 /**
  * This error indicates an exceptional outcome of some business logic. Instances of
@@ -151,6 +277,287 @@ declare class APIException extends Error {
 }
 
 /**
+ * An Array of items.
+ */
+declare class Array<T> {
+  /**
+   * The length of the Array.
+   */
+  length: number;
+
+  /**
+   * Constructs an Array.
+   *
+   */
+  constructor();
+  /**
+   * Constructs an Array of the specified
+   *  length.
+   * @param length the length of the Array.
+   */
+  constructor(length: number);
+  /**
+   * Constructs an Array using the specified values.
+   * @param values zero or more values that are stored in the Array.
+   */
+  constructor(...values: T[]);
+
+  /**
+   * Constructs an Array by concatenating multiple values.
+   * @param values one or more Array values.
+   * @return a new Array containing the concatenated values.
+   */
+  concat(...values: T[]): Array<T>;
+  /**
+   * Returns true if every element in this array satisfies the test
+   *  performed in the callback function.  The callback function is
+   *  invoked with three arguments: the value of the element,
+   *  the index of the element, and the Array object being traversed.
+   * @param callback the function to call to determine if every element in this array satisfies the test defined by the function. The callback function is invoked with three arguments: the value of the element, the index of the element, and the Array object being traversed.
+   * @return true if every element in this array satisfies the test performed in the callback function.
+   */
+  every(callback: Function): boolean;
+  /**
+   * Returns true if every element in the thisObject argument satisfies the
+   *  test performed in the callback function, false otherwise.
+   *  The callback function is invoked with three arguments: the value of the
+   *  element, the index of the element, and the Array object being traversed.
+   * @param callback the function to call to determine if every element in this array satisfies the test defined by the function. The callback function is invoked with three arguments: the value of the element, the index of the element, and the Array object being traversed.
+   * @param thisObject the Object to use as 'this' when executing callback.
+   * @return true if every element in thisObject satisfies the test performed in the callback function, false otherwise.
+   */
+  every(callback: Function, thisObject: Array<T>): boolean;
+  /**
+   * Returns a new Array with all of the elements that pass the test
+   *  implemented by the callback function. The callback function is
+   *  invoked with three arguments: the value of the element,
+   *  the index of the element, and the Array object being traversed.
+   * @param callback the function that is called on this Array and which returns a new Array containing the elements that satisfy the function's test. The callback function is invoked with three arguments: the value of the element, the index of the element, and the Array object being traversed.
+   * @return a new Array containing the elements that satisfy the function's test.
+   */
+  filter(callback: Function): Array<T>;
+  /**
+   * Returns a new Array with all of the elements that pass the test
+   *  implemented by the callback function that is run against the
+   *  specified Array, thisObject. The callback function is
+   *  invoked with three arguments: the value of the element,
+   *  the index of the element, and the Array object being traversed.
+   * @param callback the function that is called on the thisObject Array and which returns a new Array containing the elements that satisfy the function's test. The callback function is invoked with three arguments: the value of the element, the index of the element, and the Array object being traversed.
+   * @param thisObject the Object to use as 'this' when executing callback.
+   * @return a new Array containing the elements that satisfy the function's test.
+   */
+  filter(callback: Function, thisObject: Array<T>): Array<T>;
+  /**
+   * Runs the provided callback function once for each element present in
+   *  the Array. The callback function is invoked only for indexes of the
+   *  Array which have assigned values; it is not invoked for indexes which
+   *  have been deleted or which have never been assigned a value.
+   * @param callback the function to call, which is invoked with three arguments: the value of the element, the index of the element, and the Array object being traversed.
+   */
+  forEach(callback: Function): void;
+  /**
+   * Runs the provided callback function once for each element present in
+   *  the specified Array, thisObject. The callback function is invoked only
+   *  for indexes of the Array which have assigned values; it is not invoked
+   *  for indexes which have been deleted or which have never been assigned
+   *  a value.
+   * @param callback the function to call, which is invoked with three arguments: the value of the element, the index of the element, and the Array object being traversed.
+   * @param thisObject the Object to use as 'this' when executing callback.
+   */
+  forEach(callback: Function, thisObject: Array<T>): void;
+  /**
+   * Returns the first index at which a given element can be found in the
+   *  array, or -1 if it is not present.
+   * @param elementToLocate the element to locate in the Array.
+   * @return the index of the element or -1 if it is no preset.
+   */
+  indexOf(elementToLocate: T): number;
+  /**
+   * Returns the first index at which a given element can be found in the
+   *  array starting at fromIndex, or -1 if it is not present.
+   * @param elementToLocate the element to locate in the Array.
+   * @param fromIndex the index from which to start looking for the element.
+   * @return the index of the element or -1 if it is no preset.
+   */
+  indexOf(elementToLocate: T, fromIndex: number): number;
+  /**
+   * Converts all Array elements to Strings and concatenates them.
+   *
+   * @return a concatenated list of all Array elements as a String.
+   */
+  join(): string;
+  /**
+   * Converts all array elements to Strings and concatenates them.
+   * @param separator an optional character or string used to separate one element of the Array from the next element in the return String.
+   * @return a concatenated list of all Array elements as a String where the specified delimiter is used to separate elements.
+   */
+  join(separator: string): string;
+  /**
+   * Returns the last index at which a given element can be found in the
+   *  array, or -1 if it is not present. The array is searched backwards.
+   * @param elementToLocate the element to locate in the Array.
+   * @return the index of the element or -1 if it is no preset.
+   */
+  lastIndexOf(elementToLocate: T): number;
+  /**
+   * Returns the last index at which a given element can be found in the
+   *  array starting at fromIndex, or -1 if it is not present.
+   *  The array is searched backwards.
+   * @param elementToLocate the element to locate in the Array.
+   * @param fromIndex the index from which to start looking for the element. The array is searched backwards.
+   * @return the index of the element or -1 if it is no present.
+   */
+  lastIndexOf(elementToLocate: T, fromIndex: number): number;
+  /**
+   * Creates a new Array with the results of calling the specified function
+   *  on every element in this Array. The callback function is invoked only
+   *  for indexes of the Array which have assigned values; it is not invoked
+   *  for indexes which have been deleted or which have never been assigned
+   *  values.
+   * @param callback the function to call, which is invoked with three arguments: the value of the element, the index of the element, and the Array object being traversed.
+   * @return a new Array with the results of calling the specified function on every element in this Array.
+   */
+  map(callback: Function): Array<T>;
+  /**
+   * Creates a new Array with the results of calling the specified function
+   *  on every element in the specified Array. The callback function is invoked only
+   *  for indexes of the Array which have assigned values; it is not invoked
+   *  for indexes which have been deleted or which have never been assigned
+   *  values.
+   * @param callback the function to call, which is invoked with three arguments: the value of the element, the index of the element, and the Array object being traversed.
+   * @param thisObject the Object to use as 'this' when executing callback.
+   * @return a new Array with the results of calling the specified function on every element in this Array.
+   */
+  map(callback: Function, thisObject: Array<T>): Array<T>;
+  /**
+   * Removes and returns the last element of the Array.
+   *
+   * @return the last element of the Array.
+   */
+  pop(): T;
+  /**
+   * Appends elements to the Array.
+   * @param values one or more values that will be appended to the Array.
+   * @return the new length of the Array.
+   */
+  push(...values: T[]): number;
+  /**
+   * Reverses the order of the elements in the Array.
+   *
+   */
+  reverse(): void;
+  /**
+   * Shifts elements down in the Array and returns the
+   *  former first element.
+   *
+   * @return the former first element.
+   */
+  shift(): T;
+  /**
+   * Returns a new Array containing a portion of the
+   *  Array using the specified start and end positions.
+   * @param start the location in the Array to start the slice operation.
+   * @param end the location in the Array to stop the slice operation.
+   * @return a new Array containing the members bound by start and end.
+   */
+  slice(start: number, end: number): Array<T>;
+  /**
+   * Returns true if any of the elements in the Array pass the test
+   *  defined in the callback function, false otherwise.
+   * @param callback the function to call, which is invoked with three arguments: the value of the element, the index of the element, and the Array object being traversed.
+   * @return true if any of the elements in the Array pass the test defined in the callback function, false otherwise.
+   */
+  some(callback: Function): boolean;
+  /**
+   * Returns true if any of the elements in the specified Array pass the test
+   *  defined in the callback function, false otherwise.
+   * @param callback the function to call, which is invoked with three arguments: the value of the element, the index of the element, and the Array object being traversed.
+   * @param thisObject the Object to use as 'this' when executing callback.
+   * @return true if any of the elements in the Array pass the test defined in the callback function, false otherwise.
+   */
+  some(callback: Function, thisObject: Array<T>): boolean;
+  /**
+   * Sorts the elements of the Array in alphabetical
+   *  order based on character encoding.
+   *
+   *  This sort is not guaranteed to be stable:  equal elements might
+   *  be reordered as a result of the sort.
+   *
+   * @return a reference to the Array.
+   */
+  sort(): Array<T>;
+  /**
+   * Sorts the elements of the Array in alphabetical
+   *  order based on character encoding.
+   *
+   *  This sort is not guaranteed to be stable:  equal elements might
+   *  be reordered as a result of the sort.
+   * @param function a Function used to specify the sorting order.
+   * @return a reference to the Array.
+   */
+  sort(fn: Function): Array<T>;
+  /**
+   * Deletes the specified number of elements from the Array at the specified position,
+   *  and then inserts values into the Array at that location.
+   * @param start the start location.
+   * @param deleteCount the number of items to delete.
+   * @param values zero or more values to be inserted into the Array.
+   */
+  splice(start: number, deleteCount: number, ...values: T[]): Array<T>;
+  /**
+   * Converts the Array to a localized String.
+   *
+   * @return a localized String representing the Array.
+   */
+  toLocaleString(): string;
+  /**
+   * Converts the Array to a String.
+   *
+   * @return a String representation of the Array.
+   */
+  toString(): string;
+  /**
+   * Inserts elements at the beginning of the Array.
+   * @param values one or more vales that will be inserted into the beginning of the Array.
+   * @return the new length of the Array.
+   */
+  unshift(...values: T[]): number;
+}
+
+/**
+ * Provides support for boolean values.
+ */
+declare class Boolean {
+  /**
+   * Constructs the Boolean using the specified
+   *  String value.
+   * @param value the String value to use to construct the Boolean. If value is null or an empty String, the Boolean is set to false.
+   */
+  constructor(value: string);
+  /**
+   * Constructs the Boolean using the specified
+   *  Number value.
+   * @param value the Number value to use to construct the Boolean. If value is null or 0, the Boolean is set to false.
+   */
+  constructor(value: number);
+
+  /**
+   * Returns true or false depending on the value used to create
+   *  the Boolean.
+   *
+   * @return true or false depending on the value used to create the Boolean.
+   */
+  toString(): string;
+  /**
+   * Returns the primitive boolean contained in the Boolean
+   *  object.
+   *
+   * @return the primitive boolean contained in the Boolean object.
+   */
+  valueOf(): any;
+}
+
+/**
  * Represents a conversion error.
  */
 declare class ConversionError extends Error {
@@ -163,6 +570,386 @@ declare class ConversionError extends Error {
    * Constructs the error with the
    *  specified message.
    * @param msg the conversion error message.
+   */
+  constructor(msg: string);
+}
+
+/**
+ * A Date object contains a number indicating a particular instant in time to within a millisecond. The number may also
+ *  be NaN, indicating that the Date object does not represent a specific instant of time.
+ */
+declare class Date {
+  /**
+   * Constructs the Date instance using the current date and time.
+   *
+   */
+  constructor();
+  /**
+   * Constructs the Date instance using the specified milliseconds.
+   * @param millis the number of milliseconds between the desired date and January 1, 1970 (UTC). For example, value of 10000 would create a Date instance representing 10 seconds past midnight on January 1, 1970.
+   */
+  constructor(millis: number);
+  /**
+   * Constructs the Date instance using the specified year and month. Optionally, you can pass up to five additional
+   *  arguments representing date, hours, minutes, seconds, and milliseconds.
+   * @param year a number representing the year.
+   * @param month a number representing the month.
+   * @param args a set of numbers representing the date, hours, minutes, seconds, and milliseconds.
+   */
+  constructor(year: number, month: number, ...args: number[]);
+  /**
+   * Constructs the Date instance by parsing the specified String.
+   * @param dateString represents a Date in a valid date format.
+   */
+  constructor(dateString: string);
+
+  /**
+   * Returns the day of the month where the value is a Number from 1 to 31.
+   *
+   * @return the day of the month where the value is a Number from 1 to 31.
+   */
+  getDate(): number;
+  /**
+   * Returns the day of the week where the value is a Number from 0 to 6.
+   *
+   * @return the day of the month where the value is a Number from 0 to 6.
+   */
+  getDay(): number;
+  /**
+   * Returns the year of the Date in four-digit format.
+   *
+   * @return the year of the Date in four-digit format.
+   */
+  getFullYear(): number;
+  /**
+   * Return the hours field of the Date where the value is a Number from 0 (midnight) to 23 (11 PM).
+   *
+   * @return the hours field of the Date where the value is a Number from 0 (midnight) to 23 (11 PM).
+   */
+  getHours(): number;
+  /**
+   * Returns the milliseconds field of the Date.
+   *
+   * @return the milliseconds field of the Date.
+   */
+  getMilliseconds(): number;
+  /**
+   * Return the minutes field of the Date where the value is a Number from 0 to 59.
+   *
+   * @return the minutes field of the Date where the value is a Number from 0 to 59.
+   */
+  getMinutes(): number;
+  /**
+   * Returns the month of the year as a value between 0 and 11.
+   *
+   * @return the month of the year as a value between 0 and 11.
+   */
+  getMonth(): number;
+  /**
+   * Return the seconds field of the Date where the value is a Number from 0 to 59.
+   *
+   * @return the seconds field of the Date where the value is a Number from 0 to 59.
+   */
+  getSeconds(): number;
+  /**
+   * Returns the internal, millisecond representation of the Date object. This value is independent of time zone.
+   *
+   * @return the internal, millisecond representation of the Date object.
+   */
+  getTime(): number;
+  /**
+   * Returns the difference between local time and Greenwich Mean Time (GMT) in minutes.
+   *
+   * @return the difference between local time and Greenwich Mean Time (GMT) in minutes.
+   */
+  getTimezoneOffset(): number;
+  /**
+   * Returns the day of the month where the value is a Number from 1 to 31 when date is expressed in universal time.
+   *
+   * @return the day of the month where the value is a Number from 1 to 31 when date is expressed in universal time.
+   */
+  getUTCDate(): number;
+  /**
+   * Returns the day of the week where the value is a Number from 0 to 6 when date is expressed in universal time.
+   *
+   * @return the day of the week where the value is a Number from 0 to 6 when date is expressed in universal time.
+   */
+  getUTCDay(): number;
+  /**
+   * Returns the year when the Date is expressed in universal time. The return value is a four-digit format.
+   *
+   * @return the year of the Date in four-digit form.
+   */
+  getUTCFullYear(): number;
+  /**
+   * Return the hours field, expressed in universal time, of the Date where the value is a Number from 0 (midnight) to
+   *  23 (11 PM).
+   *
+   * @return the hours field, expressed in universal time, of the Date where the value is a Number from 0 (midnight) to 23 (11 PM).
+   */
+  getUTCHours(): number;
+  /**
+   * Returns the milliseconds field, expressed in universal time, of the Date.
+   *
+   * @return the milliseconds field, expressed in universal time, of the Date.
+   */
+  getUTCMilliseconds(): number;
+  /**
+   * Return the minutes field, expressed in universal time, of the Date where the value is a Number from 0 to 59.
+   *
+   * @return the minutes field, expressed in universal time, of the Date where the value is a Number from 0 to 59.
+   */
+  getUTCMinutes(): number;
+  /**
+   * Returns the month of the year that results when the Date is expressed in universal time. The return value is a
+   *  Number betwee 0 and 11.
+   *
+   * @return the month of the year as a value between 0 and 11.
+   */
+  getUTCMonth(): number;
+  /**
+   * Return the seconds field, expressed in universal time, of the Date where the value is a Number from 0 to 59.
+   *
+   * @return the seconds field, expressed in universal time, of the Date where the value is a Number from 0 to 59.
+   */
+  getUTCSeconds(): number;
+  /**
+   * Returns the number of milliseconds since midnight of January 1, 1970 up until now.
+   *
+   * @return the number of milliseconds since midnight of January 1, 1970.
+   */
+  static now(): number;
+  /**
+   * Takes a date string and returns the number of milliseconds since midnight of January 1, 1970.
+   *  Supports:
+   *
+   *       RFC2822 date strings
+   *       strings matching the exact ISO 8601 format 'YYYY-MM-DDTHH:mm:ss.sssZ'
+   * @param dateString represents a Date in a valid date format.
+   * @return the number of milliseconds since midnight of January 1, 1970 or NaN if no date could be recognized.
+   */
+  static parse(dateString: string): number;
+  /**
+   * Sets the day of the month where the value is a Number from 1 to 31.
+   * @param date the day of the month.
+   * @return the millisecond representation of the adjusted date.
+   */
+  setDate(date: number): number;
+  /**
+   * Sets the full year of Date where the value must be a four-digit Number. Optionally, you can set the month and
+   *  date.
+   * @param year the year as a four-digit Number.
+   * @param args the month and day of the month.
+   * @return the millisecond representation of the adjusted date.
+   */
+  setFullYear(year: number, ...args: number[]): number;
+  /**
+   * Sets the hours field of this Date instance. The minutes value should be a Number from 0 to 23. Optionally, hours,
+   *  seconds and milliseconds can also be provided.
+   * @param hours the minutes field of this Date instance.
+   * @param args the hours, seconds and milliseconds values for this Date instance.
+   * @return the millisecond representation of the adjusted date.
+   */
+  setHours(hours: number, ...args: number[]): number;
+  /**
+   * Sets the milliseconds field of this Date instance.
+   * @param millis the milliseconds field of this Date instance.
+   * @return the millisecond representation of the adjusted date.
+   */
+  setMilliseconds(millis: number): number;
+  /**
+   * Sets the minutes field of this Date instance. The minutes value should be a Number from 0 to 59. Optionally,
+   *  seconds and milliseconds can also be provided.
+   * @param minutes the minutes field of this Date instance.
+   * @param args the seconds and milliseconds value for this Date instance.
+   * @return the millisecond representation of the adjusted date.
+   */
+  setMinutes(minutes: number, ...args: number[]): number;
+  /**
+   * Sets the month of the year where the value is a Number from 0 to 11. Optionally, you can set the day of the
+   *  month.
+   * @param month the month of the year.
+   * @param date the day of the month.
+   * @return the millisecond representation of the adjusted date.
+   */
+  setMonth(month: number, ...date: number[]): number;
+  /**
+   * Sets the seconds field of this Date instance. The seconds value should be a Number from 0 to 59. Optionally,
+   *  milliseconds can also be provided.
+   * @param seconds the seconds field of this Date instance.
+   * @param millis the milliseconds field of this Date instance.
+   * @return the millisecond representation of the adjusted date.
+   */
+  setSeconds(seconds: number, ...millis: number[]): number;
+  /**
+   * Sets the number of milliseconds between the desired date and time and January 1, 1970.
+   * @param millis the number of milliseconds between the desired date and time and January 1, 1970.
+   * @return the millisecond representation of the adjusted date.
+   */
+  setTime(millis: number): number;
+  /**
+   * Sets the day of the month, expressed in universal time, where the value is a Number from 1 to 31.
+   * @param date the day of the month, expressed in universal time.
+   * @return the millisecond representation of the adjusted date.
+   */
+  setUTCDate(date: number): number;
+  /**
+   * Sets the full year, expressed in universal time, of Date where the value must be a four-digit Number. Optionally,
+   *  you can set the month and date.
+   * @param year the year as a four-digit Number, expressed in universal time.
+   * @param args the month and day of the month.
+   * @return the millisecond representation of the adjusted date.
+   */
+  setUTCFullYear(year: number, ...args: number[]): number;
+  /**
+   * Sets the hours field, expressed in universal time, of this Date instance. The minutes value should be a Number
+   *  from 0 to 23. Optionally, seconds and milliseconds can also be provided.
+   * @param hours the minutes field, expressed in universal time, of this Date instance.
+   * @param args the seconds and milliseconds value, expressed in universal time, for this Date instance.
+   * @return the millisecond representation of the adjusted date.
+   */
+  setUTCHours(hours: number, ...args: number[]): number;
+  /**
+   * Sets the milliseconds field, expressed in universal time, of this Date instance.
+   * @param millis the milliseconds field, expressed in universal time, of this Date instance.
+   * @return the millisecond representation of the adjusted date.
+   */
+  setUTCMilliseconds(millis: number): number;
+  /**
+   * Sets the minutes field, expressed in universal time, of this Date instance. The minutes value should be a Number
+   *  from 0 to 59. Optionally, seconds and milliseconds can also be provided.
+   * @param minutes the minutes field, expressed in universal time, of this Date instance.
+   * @param args the seconds and milliseconds values, expressed in universal time, for this Date instance.
+   * @return the millisecond representation of the adjusted date.
+   */
+  setUTCMinutes(minutes: number, ...args: number[]): number;
+  /**
+   * Sets the month of the year, expressed in universal time, where the value is a Number from 0 to 11. Optionally,
+   *  you can set the day of the month.
+   * @param month the month of the year, expressed in universal time.
+   * @param date the day of the month.
+   * @return the millisecond representation of the adjusted date.
+   */
+  setUTCMonth(month: number, ...date: number[]): number;
+  /**
+   * Sets the seconds field, expressed in universal time, of this Date instance. The seconds value should be a Number
+   *  from 0 to 59. Optionally, milliseconds can also be provided.
+   * @param seconds the seconds field, expressed in universal time, of this Date instance.
+   * @param millis the milliseconds field, expressed in universal time, of this Date instance.
+   * @return the millisecond representation of the adjusted date.
+   */
+  setUTCSeconds(seconds: number, ...millis: number[]): number;
+  /**
+   * Returns the Date as a String value where the value represents the date portion of the Date in the default
+   *  locale (en_US). To format a calendar object in an alternate format use the
+   *  dw.util.StringUtils.formatCalendar() functions instead.
+   *
+   * @return the Date as a String value.
+   */
+  toDateString(): string;
+  /**
+   * This function returns a string value represent the instance in time represented by this Date object. The date is
+   *  formatted with the Simplified ISO 8601 format as follows: YYYY-MM-DDTHH:mm:ss.sssTZ. The time zone is always UTC,
+   *  denoted by the suffix Z.
+   *
+   * @return string representation of this date
+   */
+  toISOString(): string;
+  /**
+   * This function returns the same string as Date.prototype.toISOString(). The method is called when a Date object is
+   *  stringified.
+   * @param key the name of the key, which is stringified
+   * @return JSON string representation of this date
+   */
+  toJSON(key: string): any;
+  /**
+   * Returns the Date as a String value where the value represents the date portion of the Date in the default
+   *  locale (en_US). To format a calendar object in an alternate format use the
+   *  dw.util.StringUtils.formatCalendar() functions instead.
+   *
+   * @return returns the date portion of the Date as a String.
+   */
+  toLocaleDateString(): string;
+  /**
+   * Returns the Date as a String using the default locale (en_US). To format a calendar object in an alternate format
+   *  use the dw.util.StringUtils.formatCalendar() functions instead.
+   *
+   * @return the Date as a String using the default locale en_US
+   */
+  toLocaleString(): string;
+  /**
+   * Returns the Date as a String value where the value represents the time portion of the Date in the default
+   *  locale (en_US). To format a calendar object in an alternate format use the
+   *  dw.util.StringUtils.formatCalendar() functions instead.
+   *
+   * @return returns the time time's portion of the Date as a String.
+   */
+  toLocaleTimeString(): string;
+  /**
+   * Returns the Date as a String value where the value represents the time portion of the Date in the default
+   *  locale (en_US). To format a calendar object in an alternate format use the
+   *  dw.util.StringUtils.formatCalendar() functions instead.
+   *
+   * @return the Date's time.
+   */
+  toTimeString(): string;
+  /**
+   * Returns a String representation of this Date, expressed in universal time.
+   *
+   * @return a String representation of this Date, expressed in universal time.
+   */
+  toUTCString(): string;
+  /**
+   * Returns the number of milliseconds since midnight of January 1, 1970 according to universal time. Optionally, you
+   *  can pass up to five additional arguments representing date, hours, minutes, seconds, and milliseconds.
+   * @param year a number representing the year.
+   * @param month a number representing the month.
+   * @param args a set of numbers representing the date, hours, minutes, seconds, and milliseconds.
+   * @return the number of milliseconds since midnight of January 1, 1970 according to universal time.
+   */
+  static UTC(year: number, month: number, ...args: number[]): number;
+  /**
+   * Returns the value of this Date represented in milliseconds.
+   *
+   * @return the value of this Date represented in milliseconds.
+   */
+  valueOf(): any;
+}
+
+/**
+ * Error represents a generic exception.
+ */
+declare class Error {
+  /**
+   * An error message that provides details about the exception.
+   */
+  message: string;
+  /**
+   * The name of the error based on the constructor used.
+   */
+  name: string;
+
+  /**
+   * Returns a String representation of the Error.
+   *
+   * @return a String representation of the Error.
+   */
+  toString(): string;
+}
+
+/**
+ * Represents an evaluation error.
+ */
+declare class EvalError extends Error {
+  /**
+   * Constructs the error.
+   *
+   */
+  constructor();
+  /**
+   * Constructs the error with the
+   *  specified message.
+   * @param msg the evaluation error message.
    */
   constructor(msg: string);
 }
@@ -220,6 +1007,54 @@ declare class Fault extends Error {
   javaName: string;
 
   constructor();
+}
+
+/**
+ * The Function class represent a JavaScript function.
+ */
+declare class Function {
+  /**
+   * The number of named arguments that were specified
+   *  when the function was declared.
+   */
+  length: number;
+  /**
+   * An object that defines properties and methods
+   *  shared by all objects created with that
+   *  constructor function.
+   */
+  prototype: any;
+
+  /**
+   * Constructs the function with the specified arguments where the
+   *  last argument represents the function body and all preceeding arguments represent
+   *  the function parameters.
+   * @param args one or more Strings where the last argument in the list represents the function body and all preceeding arguments represent the function parameters.
+   */
+  constructor(...args: string[]);
+
+  /**
+   * Invokes this function as a method of the specified object
+   *  passing the specified Array of arguments.
+   * @param thisobj the object to which the function is applied.
+   * @param args Array of values or an arguments object to be passed as arguments to the function.
+   * @return whatever value is returned by the invocation of the function.
+   */
+  apply(thisobj: any, args: Array<any>): any;
+  /**
+   * Invokes this function as a method of the specified object
+   *  passing the specified optional arguments.
+   * @param thisobj the object to which the function is applied.
+   * @param args an optional list of one or more arguments values that are passed as arguments to the function.
+   * @return whatever value is returned by the invocation of the function.
+   */
+  call(thisobj: any, ...args: any[]): any;
+  /**
+   * Returns a String representation of this function object.
+   *
+   * @return a String representation of this function object.
+   */
+  toString(): string;
 }
 
 /**
@@ -348,6 +1183,450 @@ declare class InternalError extends Error {
    * @param msg the internal error message.
    */
   constructor(msg: string);
+}
+
+/**
+ * An Iterator is a special object that lets you access items from a
+ *  collection one at a time, while keeping track of its current position
+ *  within that sequence.
+ */
+declare class Iterator {
+  /**
+   * Creates an Iterator instance for the specified object.
+   *  The Iterator for the object is created by calling the
+   *  object's __iterator__ method. If there is no __iterator__ method,
+   *  a default iterator is created. The default iterator provides access to
+   *  the object's properties, according to the usual for...in and for
+   *  each...in model.
+   *
+   *  If you want to provide a custom iterator, you should override
+   *  the __iterator__ method to return an instance of your custom iterator.
+   * @param object the object whose values will be accessible via the Iterator.
+   */
+  constructor(object: any);
+  /**
+   * Creates an Iterator instance for the specified object's keys.
+   *  The Iterator for the object is created by calling the
+   *  object's __iterator__ method. If there is no __iterator__ method,
+   *  a default iterator is created. The default iterator provides access to
+   *  the object's properties, according to the usual for...in and for
+   *  each...in model.
+   *
+   *  If you want to provide a custom iterator, you should override
+   *  the __iterator__ method to return an instance of your custom iterator.
+   * @param object the object whose keys or values will be accessible via the Iterator.
+   * @param keysOnly if true, provides access to the object's keys. If false, provides access to the object's values.
+   */
+  constructor(object: any, keysOnly: boolean);
+
+  /**
+   * Returns the next item in the iterator. If there are no items left,
+   *  the StopIteration exception is thrown. You should generally use this method
+   *  in the context of a try...catch block to handle the StopIteration case.
+   *  There is no guaranteed ordering of the data.
+   *
+   * @return the next item in the iterator.
+   */
+  next(): any;
+}
+
+/**
+ * The JSON object is a single object that contains two functions, parse and stringify,
+ *  that are used to parse and construct JSON texts. The JSON Data Interchange Format is
+ *  described in RFC 4627.
+ */
+declare class JSON {
+  constructor();
+
+  /**
+   * The parse function parses a JSON text (a JSON formatted string) and produces an ECMAScript
+   *  value. The JSON format is a restricted form of ECMAScript literal. JSON objects are realized
+   *  as ECMAScript objects. JSON Arrays are realized as ECMAScript arrays. JSON strings, numbers,
+   *  booleans, and null are realized as ECMAScript strings, numbers, booleans, and null.
+   * @param json a JSON formatted string
+   * @return the object produced from the JSON string
+   */
+  static parse(json: string): any;
+  /**
+   * The parse function parses a JSON text (a JSON formatted string) and produces an ECMAScript
+   *  value. The JSON format is a restricted form of ECMAScript literal. JSON objects are realized
+   *  as ECMAScript objects. JSON Arrays are realized as ECMAScript arrays. JSON strings, numbers,
+   *  booleans, and null are realized as ECMAScript strings, numbers, booleans, and null.
+   *
+   *  The optional reviver parameter is a function that takes two parameters, (key, value). It can
+   *  filter and transform the results. It is called with each of the key/value pairs produced by the
+   *  parse, and its return value is used instead of the original value. If it returns what it
+   *  received, the structure is not modified. If it returns undefined then the member is deleted
+   *  from the result.
+   * @param json a JSON formatted string
+   * @param reviver a function, which is called with each key, value pair during parsing
+   * @return the object produced from the JSON string
+   */
+  static parse(json: string, reviver: Function): any;
+  /**
+   * The stringify function produces a JSON formatted string that captures information
+   *  from a JavaScript value. The value parameter is a JavaScript value is usually an
+   *  object or array, although it can also be a string, boolean, number or null.
+   *
+   *  Note: Stringifying API objects is not supported.
+   * @param value the value which is stringified
+   * @return the JSON string
+   */
+  static stringify(value: any): string;
+  /**
+   * The stringify function produces a JSON formatted string that captures information
+   *  from a JavaScript value. The value parameter is a JavaScript value is usually an
+   *  object or array, although it can also be a string, boolean, number or null. The
+   *  optional replacer parameter is either a function that alters the way objects and
+   *  arrays are stringified, or an array of strings that acts as a white list for selecting
+   *  the keys that will be stringified.
+   *
+   *  Note: Stringifying API objects is not supported.
+   * @param value the value which is stringified
+   * @param replacer either a function, which is called with a key and value as parameter, or an array with a white list
+   * @return the JSON string
+   */
+  static stringify(value: any, replacer: any): string;
+  /**
+   * The stringify function produces a JSON formatted string that captures information
+   *  from a JavaScript value. The value parameter is a JavaScript value is usually an
+   *  object or array, although it can also be a string, boolean, number or null. The
+   *  optional replacer parameter is either a function that alters the way objects and
+   *  arrays are stringified, or an array of strings that acts as a white list for selecting
+   *  the keys that will be stringified. The optional space parameter is a string or number
+   *  that allows the result to have white space injected into it to improve human readability.
+   *
+   *  Note: Stringifying API objects is not supported.
+   * @param value the value which is stringified
+   * @param replacer either a function, which is called with a key and value as parameter, or an array with a white list
+   * @param space the number of space for indenting
+   * @return the JSON string
+   */
+  static stringify(value: any, replacer: any, space: number): string;
+  /**
+   * The stringify function produces a JSON formatted string that captures information
+   *  from a JavaScript value. The value parameter is a JavaScript value is usually an
+   *  object or array, although it can also be a string, boolean, number or null. The
+   *  optional replacer parameter is either a function that alters the way objects and
+   *  arrays are stringified, or an array of strings that acts as a white list for selecting
+   *  the keys that will be stringified. The optional space parameter is a string or number
+   *  that allows the result to have white space injected into it to improve human readability.
+   *
+   *  Note: Stringifying API objects is not supported.
+   * @param value the value which is stringified
+   * @param replacer either a function, which is called with a key and value as parameter, or an array with a white list
+   * @param space a string for indentation
+   * @return the JSON string
+   */
+  static stringify(value: any, replacer: any, space: string): string;
+}
+
+/**
+ * Mathematical functions and constants.
+ */
+declare class Math {
+  /**
+   * The constant e, which is the base of natural logarithms.
+   */
+  static readonly E: number;
+  /**
+   * The natural logarithm of 10.
+   */
+  static readonly LN10: number;
+  /**
+   * The natural logarithm of 2.
+   */
+  static readonly LN2: number;
+  /**
+   * The base-10 logarithm of e.
+   */
+  static readonly LOG10E: number;
+  /**
+   * The base-2 logarithm of e.
+   */
+  static readonly LOG2E: number;
+  /**
+   * The constant for PI.
+   */
+  static readonly PI: number;
+  /**
+   * 1 divided by the square root of 2.
+   */
+  static readonly SQRT1_2: number;
+  /**
+   * The square root of 2.
+   */
+  static readonly SQRT2: number;
+
+  constructor();
+
+  /**
+   * Returns the absolute value of x. The result has the same magnitude as x but has positive sign.
+   *
+   *  If x is NaN, the result is NaN.
+   *  If x is -0, the result is +0.
+   *  If x is -∞, the result is +∞.
+   * @param x the Number to operate on.
+   * @return the absolute value of x.
+   */
+  static abs(x: number): number;
+  /**
+   * Returns an approximation to the arc cosine of x. The result is expressed in radians and ranges from +0 to
+   *  +p.
+   *
+   *  If x is NaN, the result is NaN.
+   *  If x is greater than 1, the result is NaN.
+   *  If x is less than -1, the result is NaN.
+   *  If x is exactly 1, the result is +0.
+   * @param x the Number to operate on.
+   * @return an approximation to the arc cosine of x.
+   */
+  static acos(x: number): number;
+  /**
+   * Returns an approximation to the arc sine of x. The result is expressed in radians and ranges from -p/2 to
+   *  +p/2.
+   *
+   *  If i is NaN, the result is NaN
+   *  If i is greater than 1, the result is NaN.
+   *  If i is less than -1, the result is NaN.
+   *  If i is +0, the result is +0.
+   *  If i is -0, the result is -0.
+   * @param x the Number to operate on.
+   * @return an approximation to the arc sine of x.
+   */
+  static asin(x: number): number;
+  /**
+   * Returns an approximation to the arc tangent of x. The result is expressed in radians and ranges from -p/2
+   *  to +p/2.
+   *
+   *  If x is NaN, the result is NaN.
+   *  If x is +0, the result is +0.
+   *  If x is -0, the result is -0.
+   *  If x is +∞, the result is an approximation to +p/2.
+   *  If x is -∞, the result is an approximation to -p/2.
+   * @param x the Number to operate on.
+   * @return an approximation to the arc tangent of x.
+   */
+  static atan(x: number): number;
+  /**
+   * Returns an approximation to the arc tangent of the quotient y/x of the arguments y and x, where the
+   *  signs of y and x are used to determine the quadrant of the result. Note that it is intentional and
+   *  traditional for the two-argument arc tangent function that the argument named y be first and the argument
+   *  named x be second. The result is expressed in radians and ranges from -p to +p.
+   *
+   *  If either x or y is NaN, the result is NaN.
+   *  If y>0 and x is +0, the result is an implementation-dependent approximation to +p/2.
+   *  If y>0 and x is -0, the result is an implementation-dependent approximation to +p/2.
+   *  If y is +0 and x>0, the result is +0.
+   *  If y is +0 and x is +0, the result is +0.
+   *  If y is +0 and x is -0, the result is an implementation-dependent approximation to +p.
+   *  If y is +0 and X<0, the result is an implementation-dependent approximation to +p.
+   *  If y is -0 and x>0, the result is -0.
+   *  If y is -0 and x is +0, the result is -0.
+   *  If y is -0 and x is -0, the result is an implementation-dependent approximation to -p.
+   *  If y is -0 and X<0, the result is an implementation-dependent approximation to -p.
+   *  If y<0 and x is +0, the result is an implementation-dependent approximation to -p/2.
+   *  If y<0 and x is -0, the result is an implementation-dependent approximation to -p/2.
+   *  If y>0 and y is finite and x is +∞, the result is +0.
+   *  If y>0 and y is finite and x is -∞, the result if an implementation-dependent
+   *  approximation to +p.
+   *  If y<0 and y is finite and x is +∞, the result is -0.
+   *  If y<0 and y is finite and x is -∞, the result is an implementation-dependent
+   *  approximation to -p.
+   *  If y is +∞ and x is finite, the result is an implementation-dependent approximation to
+   *  +p/2.
+   *  If y is -∞ and x is finite, the result is an implementation-dependent approximation to
+   *  -p/2.
+   *  If y is +∞ and x is +∞, the result is an implementation-dependent approximation to
+   *  +p/4.
+   *  If y is +∞ and x is -∞, the result is an implementation-dependent approximation to
+   *  +3p/4.
+   *  If y is -∞ and x is +∞, the result is an implementation-dependent approximation to
+   *  -p/4.
+   *  If y is -∞ and x is -∞, the result is an implementation-dependent approximation to
+   *  -3p/4.
+   * @param y the first argument.
+   * @param x the second argument.
+   * @return approximation to the arc tangent of the quotient y/x of the arguments y and x, where the signs of y and x are used to determine the quadrant of the result.
+   */
+  static atan2(y: number, x: number): number;
+  /**
+   * Returns the smallest (closest to -∞) number value that is not less than x and is equal to a
+   *  mathematical integer. If x is already an integer, the result is x.
+   *
+   *  If x is NaN, the result is NaN.
+   *  If x is +0, the result is +0.
+   *  If x is -0, the result is -0.
+   *  If x is +∞, the result is +∞.
+   *  If x is -∞, the result is -∞.
+   *  If x is less than 0 but greater than -1, the result is -0.
+   *
+   *  The value of Math.ceil(x) is the same as the value of -Math.floor(-x).
+   * @param x the Number to operate on.
+   * @return the smallest (closest to -∞) number value that is not less than x and is equal to a mathematical integer.
+   */
+  static ceil(x: number): number;
+  /**
+   * Returns an approximation to the cosine of x. The argument is expressed in radians.
+   *
+   *  If x is NaN, the result is NaN.
+   *  If x is +0, the result is 1.
+   *  If x is -0, the result is 1.
+   *  If x is +∞, the result is NaN.
+   *  If x is -∞, the result is NaN.
+   * @param x the Number to operate on.
+   * @return an approximation to the cosine of x.
+   */
+  static cos(x: number): number;
+  /**
+   * Returns an implementation-dependent approximation to the exponential function of x (e raised to the power
+   *  of x, where e is the base of the natural logarithms).
+   *
+   *  If x is NaN, the result is NaN.
+   *  If x is +0, the result is 1.
+   *  If x is -0, the result is 1.
+   *  If x is +∞, the result is +∞.
+   *  If x is -∞, the result is +0.
+   * @param x the Number to operate on.
+   * @return an implementation-dependent approximation to the exponential function of x.
+   */
+  static exp(x: number): number;
+  /**
+   * Returns the greatest (closest to +∞) number value that is not greater than x and is equal to a
+   *  mathematical integer. If x is already an integer, the result is x.
+   *
+   *  If x is NaN, the result is NaN.
+   *  If x is +0, the result is +0.
+   *  If x is -0, the result is -0.
+   *  If x is +∞, the result is +∞.
+   *  If x is -∞, the result is -∞.
+   *  If x is greater than 0 but less than 1, the result is +0.
+   *
+   *  The value of Math.floor(x) is the same as the value of -Math.ceil(-x).
+   * @param x the Number to operate on.
+   * @return the greatest (closest to +∞) number value that is not greater than x and is equal to a mathematical integer.
+   */
+  static floor(x: number): number;
+  /**
+   * Returns an implementation-dependent approximation to the natural logarithm of x.
+   *
+   *  If x is NaN, the result is NaN.
+   *  If x is less than 0, the result is NaN.
+   *  If x is +0 or -0, the result is -∞.
+   *  If x is 1, the result is +0.
+   *  If x is +∞, the result is +∞.
+   * @param x the Number to operate on.
+   * @return an implementation-dependent approximation to the natural logarithm of x.
+   */
+  static log(x: number): number;
+  /**
+   * Returns the largest specified values. If no arguments are given, the result is -∞. If any value is NaN, the
+   *  result is NaN.
+   * @param values zero or more values.
+   * @return the largest of the specified values.
+   */
+  static max(...values: number[]): number;
+  /**
+   * Returns the smallest of the specified values. If no arguments are given, the result is +∞. If any value is
+   *  NaN, the result is NaN.
+   * @param values zero or more values.
+   * @return the smallest of the specified values.
+   */
+  static min(...values: number[]): number;
+  /**
+   * Returns an approximation to the result of raising x to the power y.
+   *
+   *  If y is NaN, the result is NaN.
+   *  If y is +0, the result is 1, even if x is NaN.
+   *  If y is -0, the result is 1, even if x is NaN.
+   *  If x is NaN and y is nonzero, the result is NaN.
+   *  If abs(x)>1 and y is +∞, the result is +∞.
+   *  If abs(x)>1 and y is -∞, the result is +0.
+   *  If abs(x)==1 and y is +∞, the result is NaN.
+   *  If abs(x)==1 and y is -∞, the result is NaN.
+   *  If abs(x)<1 and y is +∞, the result is +0.
+   *  If abs(x)<1 and y is -∞, the result is +∞.
+   *  If x is +∞ and y>0, the result is +∞.
+   *  If x is +∞ and y<0, the result is +0.
+   *  If x is -∞ and y>0 and y is an odd integer, the result is -∞.
+   *  If x is -∞ and y>0 and y is not an odd integer, the result is +∞.
+   *  If x is -∞ and y<0 and y is an odd integer, the result is -0.
+   *  If x is -∞ and y<0 and y is not an odd integer, the result is +0.
+   *  If x is +0 and y>0, the result is +0.
+   *  If x is +0 and y<0, the result is +∞.
+   *  If x is -0 and y>0 and y is an odd integer, the result is -0.
+   *  If x is -0 and y>0 and y is not an odd integer, the result is +0.
+   *  If x is -0 and y<0 and y is an odd integer, the result is -∞.
+   *  If x is -0 and y<0 and y is not an odd integer, the result is +∞.
+   *  If X<0 and x is finite and y is finite and y is not an integer, the result is
+   *  NaN.
+   * @param x a Number that will be raised to the power of y.
+   * @param y the power by which x will be raised.
+   * @return an approximation to the result of raising x to the power y.
+   */
+  static pow(x: number, y: number): number;
+  /**
+   * Returns a number value with positive sign, greater than or equal to 0 but less than 1, chosen randomly or pseudo
+   *  randomly with approximately uniform distribution over that range, using an implementation-dependent algorithm or
+   *  strategy.
+   *
+   * @return a Number greater than or equal to 0 but less than 1.
+   */
+  static random(): number;
+  /**
+   * Returns the number value that is closest to x and is equal to a mathematical integer. If two integer
+   *  number values are equally close to x, then the result is the number value that is closer to +∞. If x
+   *  is already an integer, the result is x.
+   *
+   *  If x is NaN, the result is NaN.
+   *  If x is +0, the result is +0.
+   *  If x is -0, the result is -0.
+   *  If x is +∞, the result is +∞.
+   *  If x is -∞, the result is -∞.
+   *  If x is greater than 0 but less than 0.5, the result is +0.
+   *  If x is less than 0 but greater than or equal to -0.5, the result is -0.
+   *
+   *  Math.round(3.5) returns 4, but Math.round(-3.5) returns -3. The value of Math.round(x) is the same as the
+   *  value of Math.floor(x+0.5), except when x is -0 or is less than 0 but greater than or equal to
+   *  -0.5; for these cases Math.round(x) returns -0, but Math.floor(x+0.5) returns +0.
+   * @param x the Number to operate on.
+   * @return the number value that is closest to x and is equal to a mathematical integer.
+   */
+  static round(x: number): number;
+  /**
+   * Returns an approximation to the sine of x. The argument is expressed in radians.
+   *
+   *  If x is NaN, the result is NaN.
+   *  If x is +0, the result is +0.
+   *  If x is -0, the result is -0.
+   *  If x is +∞ or -∞, the result is NaN.
+   * @param x the Number to operate on.
+   * @return an approximation to the sine of x.
+   */
+  static sin(x: number): number;
+  /**
+   * Returns an approximation to the square root of x.
+   *
+   *  If x is NaN, the result is NaN.
+   *  If x isless than 0, the result is NaN.
+   *  If x is +0, the result is +0.
+   *  If x is -0, the result is -0.
+   *  If x is +∞, the result is +∞.
+   * @param x the Number to operate on.
+   * @return an approximation to the square root of x.
+   */
+  static sqrt(x: number): number;
+  /**
+   * Returns an approximation to the tangent of x. The argument is expressed in radians.
+   *
+   *  If x is NaN, the result is NaN.
+   *  If x is +0, the result is +0.
+   *  If x is -0, the result is -0.
+   *  If x is +∞ or -∞, the result is NaN.
+   * @param x the Number to operate on.
+   * @return an approximation to the tangent of x.
+   */
+  static tan(x: number): number;
 }
 
 /**
@@ -533,6 +1812,162 @@ declare class Namespace {
 }
 
 /**
+ * A Number object represents any numerical value, whether it is an integer
+ *  or floating-point number. Generally, you do not need to worry about a Number
+ *  object because a numerical value automatically becomes a Number object instance
+ *  when you use a numerical value or assign it to a variable.
+ */
+declare class Number {
+  /**
+   * The largest representable Number.
+   */
+  static readonly MAX_VALUE: number;
+  /**
+   * The smallest representable Number.
+   */
+  static readonly MIN_VALUE: number;
+  /**
+   * Not a Number.
+   */
+  static readonly NaN: number;
+  /**
+   * Negative infinite value; returned on overflow;
+   */
+  static readonly NEGATIVE_INFINITY: number;
+  /**
+   * Negative infinite value; returned on overflow;
+   */
+  static readonly POSITIVE_INFINITY: number;
+
+  /**
+   * Constructs a Number.
+   *
+   */
+  constructor();
+  /**
+   * Constructs a new Number using the specified Number.
+   * @param num the Number to use.
+   */
+  constructor(num: number);
+  /**
+   * Constructs a Number using the specified value.
+   * @param value the value to use when creating the Number.
+   */
+  constructor(value: string);
+
+  /**
+   * Converts this Number to a String using exponential notation.
+   *
+   * @return a String using exponential notation.
+   */
+  toExponential(): string;
+  /**
+   * Converts this Number to a String using exponential notation with
+   *  the specified number of digits after the decimal place.
+   * @param digits the number of digits after the decimal place.
+   * @return a String using exponential notation with the specified number of digits after the decimal place.
+   */
+  toExponential(digits: number): string;
+  /**
+   * Converts a Number to a String that contains a no fractional part.
+   *
+   * @return a String representation of the number
+   */
+  toFixed(): string;
+  /**
+   * Converts a Number to a String that contains a specified number
+   *  of digits after the decimal place.
+   * @param digits the number of digits after the decimal place.
+   * @return a String that contains a specified number of digits after the decimal place.
+   */
+  toFixed(digits: number): string;
+  /**
+   * Converts this Number to a String using local number
+   *  formatting conventions.
+   *
+   * @return a String using local number formatting conventions.
+   */
+  toLocaleString(): string;
+  /**
+   * Converts a Number to a String using the specified number
+   *  of signigicant digits. Uses exponential or fixed point
+   *  notation depending on the size of the number and the nimber of
+   *  significant digits specified.
+   * @param precision the precision to use when converting the Number to a String.
+   * @return a String using the specified number of signigicant digits.
+   */
+  toPrecision(precision: number): string;
+  /**
+   * A String representation of this Number.
+   *
+   * @return a String representation of this Number.
+   */
+  toString(): string;
+  /**
+   * Converts the number into a string using the specified radix (base).
+   * @param radix the radix to use.
+   * @return a String representation of this Number.
+   */
+  toString(radix: number): string;
+}
+
+/**
+ * The <i>Object</i> object is the foundation of all native JavaScript objects. Also,
+ *  the <i>Object</i> object can be used to generate items in your scripts with behaviors
+ *  that are defined by custom properties and/or methods. You generally start by creating
+ *  a blank objcet with the constructor function and then assign values to new properties
+ *  of that object.
+ */
+declare class Object {
+  /**
+   * Object constructor.
+   *
+   */
+  constructor();
+
+  /**
+   * Returns Boolean true if at the time the current object's instance was created
+   *  its constructor (or literal assignment) contained a property with a name that
+   *  matches the parameter value.
+   * @param propName the property name of the object's property.
+   * @return true if at the object contains a property that matches the parameter, false otherwise.
+   */
+  hasOwnProperty(propName: string): boolean;
+  /**
+   * Returns true if the current object and the object passed as a prameter conincide
+   *  at some point along each object's prototype inheritance chain.
+   * @param prototype the object to test.
+   * @return true if the current object and the object passed as a prameter conincide at some point, false otherwise.
+   */
+  isPrototypeOf(prototype: any): boolean;
+  /**
+   * Return true if the specified property exposes itself to for/in property
+   *  inspection through the object.
+   * @param propName the property to test.
+   * @return true if the specified property exposes itself to for/in property inspection through the object, false otherwise.
+   */
+  propertyIsEnumerable(propName: string): boolean;
+  /**
+   * Converts the object to a localized String.
+   *
+   * @return a localized version of the object.
+   */
+  toLocaleString(): string;
+  /**
+   * Converts the object to a String.
+   *
+   * @return the String representation of the object.
+   */
+  toString(): string;
+  /**
+   * Returns the object's value.
+   *
+   * @return the object's value.
+   */
+  valueOf(): any;
+}
+
+/**
  * QName objects are used to represent qualified names of XML
  *  elements and attributes. Each QName object has a local name
  *  of type string and a namespace URI of type string or null.
@@ -609,11 +2044,438 @@ declare class QName {
 }
 
 /**
+ * Represents a range error.
+ */
+declare class RangeError extends Error {
+  /**
+   * Constructs the error.
+   *
+   */
+  constructor();
+  /**
+   * Constructs the error with the
+   *  specified message.
+   * @param msg the range error message.
+   */
+  constructor(msg: string);
+}
+
+/**
+ * Represents a reference error.
+ */
+declare class ReferenceError extends Error {
+  /**
+   * Constructs the error.
+   *
+   */
+  constructor();
+  /**
+   * Constructs the error with the
+   *  specified message.
+   * @param msg the reference error message.
+   */
+  constructor(msg: string);
+}
+
+/**
+ * The RegExp object is a static object that generates instances of a regular
+ *  expression for pattern matching and monitors all regular expressions in the
+ *  current window or frame. Consult ECMA standards for the format of the pattern
+ *  strings supported by these regular expressions.
+ */
+declare class RegExp {
+  /**
+   * If the regular expression instance has the g modifier, then
+   *  this property is set to true.
+   */
+  global: boolean;
+  /**
+   * If the regular expression instance has the i modifier, then
+   *  this property is set to true.
+   */
+  ignoreCase: boolean;
+  /**
+   * This is the zero-based index value of the character within the
+   *  String where the next search for the pattern begins. In a new
+   *  search, the value is zero.
+   */
+  lastIndex: number;
+  /**
+   * If a search extends across multiple lines of test, the multiline
+   *  property is set to true.
+   */
+  multiline: boolean;
+  /**
+   * A String version of the characters used to create the regular
+   *  expression. The value does not include the forward slash delimiters that
+   *  surround the expression.
+   */
+  source: string;
+
+  /**
+   * Constructs the regular expression using the specified
+   *  pattern.
+   * @param pattern the regular expression pattern to use.
+   */
+  constructor(pattern: string);
+  /**
+   * Constructs the regular expression using the specified
+   *  pattern and attributes. See the class documentation for more information
+   *  on the pattern and attributes.
+   * @param pattern the regular expression pattern to use.
+   * @param attributes one or more attributes that control how the regular expression is executed.
+   */
+  constructor(pattern: string, attributes: string);
+
+  /**
+   * Performs a search through the specified parameter for the
+   *  current regular expression and returns an array of match
+   *  information if successful. Returns null if the search produces
+   *  no results.
+   * @param string the String to apply the regular expression.
+   * @return an array of match information if successful, null otherwise.
+   */
+  exec(string: string): Array<any>;
+  /**
+   * Returns true if there is a match of the regular expression anywhere in the
+   *  specified parameter. No additional information is
+   *  available about the results of the search.
+   * @param string the String to apply the regular expression.
+   * @return true if there is a match of the regular expression anywhere in the specified parameter, false otherwise.
+   */
+  test(string: string): boolean;
+}
+
+/**
  * A special type of exception that is thrown when an Iterator or Generator
  *  sequence is exhausted.
  */
 declare class StopIteration {
   constructor();
+}
+
+/**
+ * The String object represents any sequence of zero or more characters that are to be
+ *  treated strictly as text.
+ */
+declare class String {
+  /**
+   * The length of the String object.
+   */
+  length: number;
+
+  /**
+   * Constructs the String.
+   *
+   */
+  constructor();
+  /**
+   * Constructs the String from the specified
+   *  Number object.
+   * @param num the number that will be converted to a String.
+   */
+  constructor(num: number);
+  /**
+   * Constructs a new String from the specified
+   *  String object.
+   * @param str the String that will be converted to a new String.
+   */
+  constructor(str: string);
+
+  /**
+   * Returns a string containing the character at position index.
+   *  You should use this method instead
+   *  of substring when you need only a single character.
+   * @param index the index at which the character string is located.
+   * @return a string containing the character at position index.
+   */
+  charAt(index: number): string;
+  /**
+   * Returns a number representing the code point value of the
+   *  character at position index. The returned value is a non-negative
+   *  integer less than 216 of if there is no character at that position,
+   *  the result is NaN.
+   * @param index the index in the string from which to produce the character code.
+   * @return a non-negative integer less than 216 or NaN.
+   */
+  charCodeAt(index: number): number;
+  /**
+   * Returns a new String created by concatenating the string arguments together.
+   * @param strings zero, one, or more String arguments
+   * @return a new String created by concatenating the string arguments together.
+   */
+  concat(...strings: string[]): string;
+  /**
+   * Returns true if this string is equal to the string representation of the
+   *  passed objects.
+   * @param obj another object, typically another string
+   */
+  equals(obj: any): boolean;
+  /**
+   * Returns true if this string is equal to the string representation of the
+   *  passed objects. The comparison is done case insensitive.
+   * @param obj another object, typically another string
+   */
+  equalsIgnoreCase(obj: any): boolean;
+  /**
+   * Returns a new String from one or more characters with Unicode values.
+   * @param c zero, one, or more character arguments.
+   */
+  static fromCharCode(...c: number[]): string;
+  /**
+   * Returns the index of substring in this String object.
+   *  If there is no match, -1 is returned.
+   * @param substring the String to search for in this String.
+   * @return the index of substring or -1.
+   */
+  indexOf(substring: string): number;
+  /**
+   * Returns the index of substring in this String object using
+   *  the specified start value as the location to begin searching.
+   *  If there is no match, -1 is returned.
+   * @param substring the String to search for in this String.
+   * @param start the location in the String from which to begin the search.
+   * @return the index of substring or -1.
+   */
+  indexOf(substring: string, start: number): number;
+  /**
+   * Returns the last index of substring in this String object.
+   *  If there is no match, -1 is returned.
+   * @param substring the String to search for in this String.
+   * @return the last index of substring or -1.
+   */
+  lastIndexOf(substring: string): number;
+  /**
+   * Returns the last index of substring in this String object,
+   *  using the specified start position as the location from which
+   *  to begin the search.
+   *  If there is no match, -1 is returned.
+   * @param substring the String to search for in this String.
+   * @param start the location from which to begin the search.
+   * @return the last index of substring or -1.
+   */
+  lastIndexOf(substring: string, start: number): number;
+  /**
+   * Returns a number indicating whether the current String sorts before, the same as,
+   *  or after the parameter other, based on browser and system-dependent
+   *  string localization.
+   * @param other the String to compare against this String.
+   * @return a number indicating whether the current String sorts before, the same as, or after the parameter other.
+   */
+  localeCompare(other: string): number;
+  /**
+   * Returns an array of strings that match the regular expression
+   *  regexp.
+   * @param regexp the regular expression to use.
+   * @return an array of strings that match the regular expression.
+   */
+  match(regexp: RegExp): String[];
+  /**
+   * Returns a new String that results when matches of the regexp
+   *  parameter are replaced by the replacement parameter. The
+   *  original String is not modified so you must capture the new String
+   *  in a variable to preserve changes. If regexp has the global flag set,
+   *  all occurrences are replaced, if the global flag is not set only the
+   *  first occurrence is replaced.
+   * @param regexp the regular expression to use.
+   * @param replacement a String that is to take the place of all matches of regexp in the current String.
+   * @return a new String that results when matches of the regexp parameter are replaced by the replacement.
+   */
+  replace(regexp: RegExp, replacement: string): string;
+  /**
+   * Returns a new String that results when matches of the regexp
+   *  parameter are replaced by using the specified function. The
+   *  original String is not modified so you must capture the new String
+   *  in a variable to preserve changes. When you specify a function as the
+   *  second parameter, the function is invoked after the match has been performed.
+   * @param regexp the regular expression to use.
+   * @param function a Function that operates on matches of regexp in the current String.
+   * @return a new String that results when matches of the regexp parameter are replaced by the function.
+   */
+  replace(regexp: RegExp, fn: Function): string;
+  /**
+   * Returns a new String that results when matches of the literal
+   *  parameter are replaced by the replacement parameter. The
+   *  original String is not modified so you must capture the new String
+   *  in a variable to preserve changes. This method only replaces the first
+   *  occurrence of the literal. To replace all occurrences see the polymorphic
+   *  method with a regular expression as argument.
+   * @param literal the literal string to locate.
+   * @param replacement a String that is to take the place of all matches of regexp in the current String.
+   * @return a new String that results when the first match of the literal parameter is replaced by the replacement parameter.
+   */
+  replace(literal: string, replacement: string): string;
+  /**
+   * Returns a new String that results when matches of the literal
+   *  parameter are replaced by the replacement parameter. The
+   *  original String is not modified so you must capture the new String
+   *  in a variable to preserve changes. This method only replaces the first
+   *  occurrence of the literal. To replace all occurrences see the polymorphic
+   *  method with a regular expression as argument. Note that if flags
+   * @param literal the literal string to locate.
+   * @param replacement a String that is to take the place of all matches of regexp in the current String.
+   * @param flags a String containing any combination of the Regular Expression flags of g - global match, i - ignore case, m - match over multiple lines.
+   * @return a new String that results when the first match of the literal parameter is replaced by the replacement parameter.
+   */
+  replace(literal: string, replacement: string, flags: string): string;
+  /**
+   * Returns a new String that results when matches of the literal
+   *  parameter are replaced by using the specified function. The
+   *  original String is not modified so you must capture the new String
+   *  in a variable to preserve changes. When you specify a function as the
+   *  second parameter, the function is invoked after the match has been
+   *  performed.
+   * @param literal the literal string to locate.
+   * @param function a Function that operates on the match of literal in the current String.
+   * @return a new String that results when the first match of the literal parameter is replaced by the specified function.
+   */
+  replace(literal: string, fn: Function): string;
+  /**
+   * Returns a new String that results when matches of the literal
+   *  parameter are replaced by using the specified function. The
+   *  original String is not modified so you must capture the new String
+   *  in a variable to preserve changes. When you specify a function as the
+   *  second parameter, the function is invoked after the match has been
+   *  performed.
+   * @param literal the literal string to locate.
+   * @param function a Function that operates on the match of literal in the current String.
+   * @param flags a String containing any combination of the Regular Expression flags of g - global match, i - ignore case, m - match over multiple lines.
+   * @return a new String that results when the first match of the literal parameter is replaced by the specified function.
+   */
+  replace(literal: string, fn: Function, flags: string): string;
+  /**
+   * Searches for a match between the passed regular expression and this
+   *  string and returns the zero-based index of the match, or -1 if no match
+   *  is found.
+   * @param regexp the regular expression to use.
+   * @return the zero-based indexed value of the first character in the current string that matches the pattern of the regular expression regexp, or -1 if no match is found.
+   */
+  search(regexp: RegExp): number;
+  /**
+   * Returns a substring of the current String where the
+   *  specified start and end locations are used
+   *  to delimit the String.
+   * @param start the start position in the current String from which the slice will begin.
+   * @param end the end position in the current String from which the slice will terminate.
+   * @return the String between the start and end positions.
+   */
+  slice(start: number, end: number): string;
+  /**
+   * Returns an array of String instances created by splitting the current
+   *  String based on the delimiter.
+   * @param delimiter the delimiter to use to split the string.
+   * @return an array of String instances created by splitting the current String based on the delimiter.
+   */
+  split(delimiter: string): String[];
+  /**
+   * Returns an array of String instances created by splitting the current
+   *  String based on the regular expression.
+   * @param regexp the regular expression to use to split the string.
+   * @return an array of String instances created by splitting the current String based on the regular expression.
+   */
+  split(regexp: RegExp): String[];
+  /**
+   * Returns an array of String instances created by splitting the current
+   *  String based on the delimiter and limited in size by the limit
+   *  parameter.
+   * @param delimiter the delimiter to use to split the string.
+   * @param limit controls the maximum number of items that will be returned.
+   * @return an array of String instances created by splitting the current String based on the delimiter and limited in size by the limit parameter.
+   */
+  split(delimiter: string, limit: number): String[];
+  /**
+   * Returns an array of String instances created by splitting the current
+   *  String based on the regular expression and limited in size by the limit
+   *  parameter.
+   * @param regexp the regular expression to use to split the string.
+   * @param limit controls the maximum number of items that will be returned.
+   * @return an array of String instances created by splitting the current String based on the regular expression and limited in size by the limit parameter.
+   */
+  split(regexp: RegExp, limit: number): String[];
+  /**
+   * Creates and returns a new String by splitting the current string
+   *  at the specified start location until the end of the String.
+   * @param start the start position in the current string from which the new string will be created.
+   * @return a new String created by splitting the current string starting at the specified start location until the end of the String.
+   */
+  substr(start: number): string;
+  /**
+   * Creates and returns a new String by splitting the current string
+   *  at the specified start location and limited by the length
+   *  value.
+   * @param start the start position in the current string from which the new string will be created.
+   * @param length controls the length of the new string.
+   * @return a new String created by splitting the current string starting at the specified start location and limited by the length value.
+   */
+  substr(start: number, length: number): string;
+  /**
+   * Creates and returns a new String by splitting the current string
+   *  at the specified from location until the end of the String.
+   * @param from the start position in the current string from which the new string will be created.
+   * @return a new String created by splitting the current string starting at the specified from location until the end of the String.
+   */
+  substring(from: number): string;
+  /**
+   * Creates and returns a new String by splitting the current string
+   *  at the specified from location until the specified to location.
+   * @param from the start position in the current string from which the new string will be created.
+   * @param to the end position in the current string from which the new string will be created.
+   * @return a new String created by splitting the current string starting at the specified from location until the specified to location. value.
+   */
+  substring(from: number, to: number): string;
+  /**
+   * Returns a copy of the current string in all lower-case letters.
+   *
+   * @return a copy of the current string in all lower-case letters.
+   */
+  toLocaleLowerCase(): string;
+  /**
+   * Returns a copy of the current string in all upper-case letters.
+   *
+   * @return a copy of the current string in all upper-case letters.
+   */
+  toLocaleUpperCase(): string;
+  /**
+   * Returns a copy of the current string in all lower-case letters.
+   *
+   * @return a copy of the current string in all lower-case letters.
+   */
+  toLowerCase(): string;
+  /**
+   * Returns a String value of this object.
+   *
+   * @return a String value of this object.
+   */
+  toString(): string;
+  /**
+   * Returns a copy of the current string in all upper-case letters.
+   *
+   * @return a copy of the current string in all upper-case letters.
+   */
+  toUpperCase(): string;
+  /**
+   * Returns a String value of this object.
+   *
+   * @return a String value of this object.
+   */
+  valueOf(): string;
+}
+
+/**
+ * Represents a syntax error.
+ */
+declare class SyntaxError extends Error {
+  /**
+   * Constructs the error.
+   *
+   */
+  constructor();
+  /**
+   * Constructs the error with the
+   *  specified message.
+   * @param msg the syntax error message.
+   */
+  constructor(msg: string);
 }
 
 /**
@@ -652,6 +2514,40 @@ declare class SystemError extends Error {
   javaName: string;
 
   constructor();
+}
+
+/**
+ * Represents a type error.
+ */
+declare class TypeError extends Error {
+  /**
+   * Constructs the error.
+   *
+   */
+  constructor();
+  /**
+   * Constructs the error with the
+   *  specified message.
+   * @param msg the type error message.
+   */
+  constructor(msg: string);
+}
+
+/**
+ * Represents a URI error.
+ */
+declare class URIError extends Error {
+  /**
+   * Constructs the error.
+   *
+   */
+  constructor();
+  /**
+   * Constructs the error with the
+   *  specified message.
+   * @param msg the URI error message.
+   */
+  constructor(msg: string);
 }
 
 /**
@@ -1393,6 +3289,31 @@ declare class XMLStreamError extends Error {
   xmlLineNumber: number;
 
   constructor();
+}
+
+/**
+ * The arguments of a function.
+ */
+declare class arguments {
+  /**
+   * A reference to the function that is currently executing.
+   */
+  callee: any;
+  /**
+   * The number of arguments passed to the function.
+   */
+  length: number;
+
+  constructor();
+}
+
+/**
+ * Method arguments
+ */
+declare class IArguments {
+  [index: number]: any;
+  length: number;
+  callee: Function;
 }
 
 declare namespace dw {

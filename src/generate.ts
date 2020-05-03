@@ -102,22 +102,22 @@ const sanitizeValue = (obj: any) => {
 };
 
 const standardDefinition = (element: string): boolean => {
-  // if (element === 'undefined') {
+  if (element === 'undefined') {
+    return true;
+  }
+  return false;
+  // if (element === 'Iterator') {
   //   return true;
   // }
-  // return false;
-  if (element === 'Iterator') {
-    return true;
-  }
-  // if (element === 'module') {
-  //   return false; // we need this anyway
+  // // if (element === 'module') {
+  // //   return false; // we need this anyway
+  // // }
+  // try {
+  //   eval(element);
+  //   return true;
+  // } catch (e) {
+  //   return false;
   // }
-  try {
-    eval(element);
-    return true;
-  } catch (e) {
-    return false;
-  }
 };
 
 const doc = (obj: any) => {

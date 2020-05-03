@@ -64,6 +64,9 @@ import { log } from 'console';
   let requiredoptions: any = {
     "module": "commonjs",
     "target": "es5",
+    "noLib": true,
+    "skipLibCheck": true,
+    "lib": null,
     "noEmit": false,
     "allowJs": true,
     "checkJs": true,
@@ -101,6 +104,9 @@ import { log } from 'console';
 
   // removing deprecated _star_ path
   tsconfig.compilerOptions.paths['_star_/*'] = undefined;
+
+  tsconfig.include = [`${cartridgeroot}/**/*`];
+  tsconfig.exclude = ["**/client/**/*", "**/static/**/*", "**/assets/**/*", "**/dist/**/*"];
 
   log(`Write tscconfig.json`);
 

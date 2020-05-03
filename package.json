@@ -44,6 +44,7 @@
   ],
   "scripts": {
     "build": "tsc",
+    "test": "tsc -p @types/; tsc -p test/",
     "postversion": "git push && git push --tags",
     "prepare": "npm run build",
     "scrape": "node dist/scrape.js",
