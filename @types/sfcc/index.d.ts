@@ -3296,7 +3296,7 @@ declare namespace dw {
       /**
        * The custom attributes for this extensible object.
        */
-      readonly custom: dw.object.CustomAttributes;
+      readonly custom: PromotionCustomAttributes;
       /**
        * The customer groups directly assigned to the promotion or assigned to the campaign of the promotion.
        *  If the promotion is not based on customer groups (see isBasedOnCustomerGroups()), or no customer group is assigned to the
@@ -3451,7 +3451,7 @@ declare namespace dw {
        * Returns the custom attributes for this extensible object.
        *
        */
-      getCustom(): dw.object.CustomAttributes;
+      getCustom(): PromotionCustomAttributes;
       /**
        * Returns the customer groups directly assigned to the promotion or assigned to the campaign of the promotion.
        *  If the promotion is not based on customer groups (see isBasedOnCustomerGroups()), or no customer group is assigned to the
@@ -12970,7 +12970,7 @@ declare namespace dw {
        *  Custom attributes are inherited from the master product and can
        *  be overridden by the variant.
        */
-      readonly custom: dw.object.CustomAttributes;
+      readonly custom: VariantCustomAttributes;
       /**
        * The EAN of the product variant.
        *
@@ -13231,7 +13231,7 @@ declare namespace dw {
        *
        * @return the custom attributes of the variant.
        */
-      getCustom(): dw.object.CustomAttributes;
+      getCustom(): VariantCustomAttributes;
       /**
        * Returns the EAN of the product variant.
        *
@@ -13539,7 +13539,7 @@ declare namespace dw {
        *  Custom attributes are inherited from the master product and can
        *  be overridden by the variation group.
        */
-      readonly custom: dw.object.CustomAttributes;
+      readonly custom: VariationGroupCustomAttributes;
       /**
        * The EAN of the product variation group.
        *
@@ -13732,7 +13732,7 @@ declare namespace dw {
        *
        * @return the custom attributes of the variation group.
        */
-      getCustom(): dw.object.CustomAttributes;
+      getCustom(): VariationGroupCustomAttributes;
       /**
        * Returns the EAN of the product variation group.
        *
@@ -27744,7 +27744,7 @@ declare namespace dw {
        *  CustomAttributes for a detailed example of the syntax for
        *  working with custom attributes.
        */
-      readonly custom: dw.object.CustomAttributes;
+      readonly custom: ActiveDataCustomAttributes;
       /**
        * Return true if the ActiveData doesn't exist for the object
        */
@@ -27758,7 +27758,7 @@ declare namespace dw {
        *
        * @return the custom attributes for this object.
        */
-      getCustom(): dw.object.CustomAttributes;
+      getCustom(): ActiveDataCustomAttributes;
       /**
        * Return true if the ActiveData doesn't exist for the object
        *
@@ -46959,7 +46959,7 @@ declare namespace dw {
        * All of the custom attributes associated with the request. The attributes are stored for the life time of
        *  the request.
        */
-      readonly custom: dw.object.CustomAttributes;
+      readonly custom: RequestCustomAttributes;
       /**
        * The physical location for the current request, if available. The
        *  location is calculated based on the IP address of the request. Note, if
@@ -47102,7 +47102,7 @@ declare namespace dw {
        *
        * @return all of the custom attributes associated with the request.
        */
-      getCustom(): dw.object.CustomAttributes;
+      getCustom(): RequestCustomAttributes;
       /**
        * Returns the physical location for the current request, if available. The
        *  location is calculated based on the IP address of the request. Note, if
@@ -47658,7 +47658,7 @@ declare namespace dw {
        *  attributes are stored for the lifetime of the session and are not
        *  cleared when the customer logs out.
        */
-      readonly custom: dw.object.CustomAttributes;
+      readonly custom: SessionCustomAttributes;
       /**
        * The customer associated with this storefront session. The method
        *  always returns null if called for a non-storefront session
@@ -47745,7 +47745,7 @@ declare namespace dw {
        *
        * @return the session's custom attributes.
        */
-      getCustom(): dw.object.CustomAttributes;
+      getCustom(): SessionCustomAttributes;
       /**
        * Returns the customer associated with this storefront session. The method
        *  always returns null if called for a non-storefront session
@@ -56984,5 +56984,65 @@ declare namespace dw {
        */
       getService(service: string, portName: string): dw.ws.Port;
     }
+  }
+
+  /**
+   * Custom attributes for Promotion object.
+   */
+  class PromotionCustomAttributes {
+    /**
+     * Returns the custom attribute with this name. Throws an exception if attribute is not defined
+     */
+    [name: string]: any;
+  }
+
+  /**
+   * Custom attributes for Variant object.
+   */
+  class VariantCustomAttributes {
+    /**
+     * Returns the custom attribute with this name. Throws an exception if attribute is not defined
+     */
+    [name: string]: any;
+  }
+
+  /**
+   * Custom attributes for VariationGroup object.
+   */
+  class VariationGroupCustomAttributes {
+    /**
+     * Returns the custom attribute with this name. Throws an exception if attribute is not defined
+     */
+    [name: string]: any;
+  }
+
+  /**
+   * Custom attributes for ActiveData object.
+   */
+  class ActiveDataCustomAttributes {
+    /**
+     * Returns the custom attribute with this name. Throws an exception if attribute is not defined
+     */
+    [name: string]: any;
+  }
+
+  /**
+   * Custom attributes for Request object.
+   */
+  class RequestCustomAttributes {
+    /**
+     * Returns the custom attribute with this name. Throws an exception if attribute is not defined
+     */
+    [name: string]: any;
+  }
+
+  /**
+   * Custom attributes for Session object.
+   */
+  class SessionCustomAttributes {
+    /**
+     * Returns the custom attribute with this name. Throws an exception if attribute is not defined
+     */
+    [name: string]: any;
   }
 }

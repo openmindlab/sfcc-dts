@@ -40,6 +40,12 @@ const config: any = {
     "dw.util.MapEntry",
     "dw.util.SortedMap"
   ],
+  extensible: [
+    "dw.object.Extensible",
+    "dw.object.ExtensibleObject",
+    "dw.object.SimpleExtensible",
+    "dw.object.CustomObject"
+  ],
   argsMapping: {
     function: "fn",
   },
@@ -189,7 +195,7 @@ const generateExportFileForClass = (theClass: any) => {
   );
 };
 
-const generateCodeForClass = (theClass: any) => {
+const generateCodeForClass = (theClass: any, customAttrTypes: Set<string>) => {
   var source = "";
   var packageTokens = theClass.fullClassName.split(".");
   var isTopLevel = false;
@@ -248,6 +254,11 @@ const generateCodeForClass = (theClass: any) => {
           returnType = checkGenerics(returnType, theClass, property);
         }
 
+        if (!config.extensible.includes(theClass.fullClassName) && property.name === 'custom' && returnType === 'dw.object.CustomAttributes') {
+          returnType = className + 'CustomAttributes';
+          customAttrTypes.add(className);
+        }
+
         return `${propSource}${doc(property)}${isGlobal ? 'declare ' : ''}${property.static ? isStatic : ""}${
           property.readonly ? readonly : ""}${property.name}: ${returnType};\n`
       },
@@ -288,6 +299,11 @@ const generateCodeForClass = (theClass: any) => {
           returnType = checkGenerics(returnType, theClass, method);
         }
 
+        if (!config.extensible.includes(theClass.fullClassName) && method.name === 'getCustom' && returnType === 'dw.object.CustomAttributes') {
+          returnType = className + 'CustomAttributes';
+          customAttrTypes.add(className);
+        }
+
         return `${methodSource}${doc(method)}${isGlobal ? "declare function " : ""}${method.static && !isGlobal ? isStatic : ""
           }${method.name}(${method.argsSource}): ${returnType};\n`
       },
@@ -304,28 +320,41 @@ const generateCodeForClass = (theClass: any) => {
   return source + "\n";
 };
 
-const generateCode = (pkg: any) =>
+const generateCode = (pkg: any, customAttrTypes: Set<string>) =>
   Object.keys(pkg).reduce((source: string, key: string) => {
     if (!config.exclusions.classes[key] && !(pkg[key].package === 'TopLevel' && standardDefinition(key))) {
       if (pkg[key].fullClassName && !config.exclusions.classes[key]) {
-        source += generateCodeForClass(pkg[key]) + "\n";
+        source += generateCodeForClass(pkg[key], customAttrTypes) + "\n";
       } else {
         source += `
         namespace ${key} {\n`;
-        source += generateCode(pkg[key]);
+        source += generateCode(pkg[key], customAttrTypes);
         source += `}\n`;
       }
     }
     return source;
   }, "");
 
+let customAttrTypes: Set<string> = new Set<string>();
 var source = "";
 //source += "declare global {\n";
-source += generateCodeForClass(sfccApi.api.TopLevel.global);
+source += generateCodeForClass(sfccApi.api.TopLevel.global, customAttrTypes);
 delete sfccApi.api.TopLevel.global;
-source += generateCode(sfccApi.api.TopLevel);
+source += generateCode(sfccApi.api.TopLevel, customAttrTypes);
 source += "declare namespace dw {\n";
-source += generateCode(sfccApi.api.dw);
+source += generateCode(sfccApi.api.dw, customAttrTypes);
+
+source += Array.from(customAttrTypes).map(i => `
+/**
+ * Custom attributes for ${i} object.
+ */
+class ${i}CustomAttributes {
+  /**
+   * Returns the custom attribute with this name. Throws an exception if attribute is not defined
+   */
+  [name: string]: any;
+}`).join('\n');
+
 source += "}\n";
 //source += "}\n";
 
