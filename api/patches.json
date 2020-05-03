@@ -36,7 +36,7 @@
                 "name": "any"
               },
               "static": false,
-              "readonly": true,
+              "readonly": false,
               "description": "Returns the custom attribute with this name. Throws an exception if attribute is not defined",
               "deprecated": 0
             }

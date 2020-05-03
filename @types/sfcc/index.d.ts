@@ -27866,7 +27866,7 @@ declare namespace dw {
       /**
        * Returns the custom attribute with this name. Throws an exception if attribute is not defined
        */
-      readonly [name: string]: any;
+      [name: string]: any;
     }
 
     /**

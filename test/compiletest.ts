@@ -55,6 +55,9 @@ let testfrompdict = pdict.order.orderNumber;
 
 var paypalForm = session.forms.billing.paypal;
 
+session.custom.some = true;
+delete session.custom.some;
+
 let jsonexists = JSON.stringify(paypalForm);
 
 let listIsArraylist: dw.util.ArrayList<dw.value.Money>;
