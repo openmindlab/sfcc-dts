@@ -59,3 +59,11 @@ let jsonexists = JSON.stringify(paypalForm);
 
 let listIsArraylist: dw.util.ArrayList<dw.value.Money>;
 methodWithList(listIsArraylist);
+
+Object.keys(paypalForm).forEach(function (routeName) {
+  // does Object.keys() exists?
+});
+
+let somebind = function (route) {
+  route.chain.unshift.apply(route.chain, this.get());
+}.bind(this);
