@@ -217,6 +217,64 @@
               "deprecated": 0
             }
           }
+        },
+        "HttpParameterMap": {
+          "properties": {
+            "[name: string]": {
+              "name": "[name: string]",
+              "class": {
+                "name": "dw.web.HttpParameter | any"
+              },
+              "static": false,
+              "readOnly": true,
+              "description": "Returns the HttpParameter with this name.",
+              "deprecated": 0
+            }
+          }
+        },
+        "Forms": {
+          "properties": {
+            "[name: string]": {
+              "name": "[name: string]",
+              "class": {
+                "name": "dw.web.Form"
+              },
+              "static": false,
+              "readOnly": true,
+              "description": "Returns the Form with this name.",
+              "deprecated": 0
+            }
+          }
+        },
+        "Form": {
+          "properties": {
+            "[name: string]": {
+              "name": "[name: string]",
+              "class": {
+                "name": "dw.web.FormElement | any;"
+              },
+              "static": false,
+              "readOnly": true,
+              "description": "Returns the Form element with this name.",
+              "deprecated": 0
+            }
+          }
+        }
+      },
+      "system": {
+        "PipelineDictionary": {
+          "properties": {
+            "[name: string]": {
+              "name": "[name: string]",
+              "class": {
+                "name": "any"
+              },
+              "static": false,
+              "readOnly": true,
+              "description": "Returns the attribute with this name",
+              "deprecated": 0
+            }
+          }
         }
       }
     }

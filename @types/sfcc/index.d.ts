@@ -46829,7 +46829,12 @@ declare namespace dw {
      *  <li>etc.</li>
      *  </ul>
      */
-    class PipelineDictionary {}
+    class PipelineDictionary {
+      /**
+       * Returns the attribute with this name
+       */
+      [name: string]: any;
+    }
 
     /**
      * Represents a request in Commerce Cloud Digital. Each pipeline dictionary contains a CurrentRequest object, which is of
@@ -53267,6 +53272,10 @@ declare namespace dw {
        *  in a hidden input field for authentication.
        */
       secureKeyValue: string;
+      /**
+       * Returns the Form element with this name.
+       */
+      [name: string]: dw.web.FormElement | any;
 
       /**
        * Returns the secure key html name to be used for the hidden input field
@@ -54266,7 +54275,12 @@ declare namespace dw {
      *  <p>
      *  Note that values stored with a form on the session are deleted if the request locale is changed during the session.</p>
      */
-    class Forms {}
+    class Forms {
+      /**
+       * Returns the Form with this name.
+       */
+      [name: string]: dw.web.Form;
+    }
 
     /**
      * Represents an HTTP parameter.
@@ -54513,6 +54527,10 @@ declare namespace dw {
        *  with that encoding it is interpreted as form data and the body will be empty.
        */
       requestBodyAsString: string;
+      /**
+       * Returns the HttpParameter with this name.
+       */
+      [name: string]: dw.web.HttpParameter | any;
 
       /**
        * Returns the http parameter for the given key or an empty http parameter,

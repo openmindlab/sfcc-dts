@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist/",
+    "noImplicitAny": true,
+    "target": "ESNext",
+    "noLib" : true,
+    "module": "commonjs",
+    "removeComments": false,
+    "alwaysStrict": true,
+    "declaration": true,
+    "noEmit": false,
+    "emitDeclarationOnly": false,
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "baseUrl": "."
+  },
+  "exclude": ["dist/**/*", "test/**/*"]
+}

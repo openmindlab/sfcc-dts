@@ -29,7 +29,8 @@ const config: any = {
     "dw.util.Set",
     "dw.util.SortedSet",
     "dw.web.PagingModel",
-    "Array"
+    "Array",
+    "TopLevel.Array"
   ],
   maps: [
     "dw.util.Map",
@@ -101,9 +102,16 @@ const sanitizeValue = (obj: any) => {
 };
 
 const standardDefinition = (element: string): boolean => {
+  // if (element === 'undefined') {
+  //   return true;
+  // }
+  // return false;
   if (element === 'Iterator') {
     return true;
   }
+  // if (element === 'module') {
+  //   return false; // we need this anyway
+  // }
   try {
     eval(element);
     return true;
@@ -127,7 +135,7 @@ const doc = (obj: any) => {
   }
   return `/**\n${description
     .split("\n")
-    .map((line: string) => ` * ${line}`)
+    .map((line: string) => ` * ${line.replace('*/', '*\\/')}`)
     .join("\n")}\n*/\n`;
 };
 
