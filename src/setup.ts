@@ -6,6 +6,8 @@ import prompts from "prompts";
 import { execSync } from "child_process";
 import { log } from 'console';
 
+import { parse, stringify } from 'comment-json';
+
 
 (async () => {
 
@@ -43,7 +45,7 @@ import { log } from 'console';
   let tsconfig: any = {}
   if (fs.existsSync('tsconfig.json')) {
     log('Checking existing tsconfig.json');
-    tsconfig = JSON.parse(fs.readFileSync('tsconfig.json', 'utf8'));
+    tsconfig = parse(fs.readFileSync('tsconfig.json', 'utf8'));
   } else {
     log('Creating new tsconfig.json');
   }
@@ -104,9 +106,9 @@ import { log } from 'console';
 
   log(`Write tscconfig.json`);
 
-  fs.writeFileSync('tsconfig.json', JSON.stringify(tsconfig, null, 2));
+  fs.writeFileSync('tsconfig.json', stringify(tsconfig, null, 2));
 
-  let packagejson = JSON.parse(fs.readFileSync('package.json', 'utf8'));
+  let packagejson = parse(fs.readFileSync('package.json', 'utf8'));
 
   log(`Installing local copy of sfcc-dts`);
 
