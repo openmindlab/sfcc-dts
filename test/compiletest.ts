@@ -9,6 +9,10 @@ function getWithBasket(basket : dw.order.LineItemCtnr) : boolean {
   return true;
 }
 
+function methodWithList(test: dw.util.List<dw.value.Money>) {
+  return true;
+}
+
 CatalogMgr.getCatalog('test');
 dw.catalog.CatalogMgr.getCatalog('test');
 
@@ -51,6 +55,7 @@ let testfrompdict = pdict.order.orderNumber;
 
 var paypalForm = session.forms.billing.paypal;
 
+let jsonexists = JSON.stringify(paypalForm);
 
-// Argument of type 'List<SortingOption>' is not assignable to parameter of type 'ArrayList<SortingOption>'.
-// Property 'clone' is missing in type 'List<SortingOption>' but required in type 'ArrayList<SortingOption>'.ts(2345)
+let listIsArraylist: dw.util.ArrayList<dw.value.Money>;
+methodWithList(listIsArraylist);
