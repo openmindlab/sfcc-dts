@@ -422,7 +422,7 @@ declare class InternalError extends Error {
  *  var m = new Greeting().getMessage();
  *  </pre>
  */
-declare class Module {
+declare class NodeModule {
   /**
    * The name of the cartridge which contains the module.
    */
@@ -441,7 +441,7 @@ declare class Module {
    *  current module but its code location would be checked later in the lookup sequence. This property is useful to
    *  reuse functionality implemented in overridden modules.
    */
-  superModule: Module;
+  superModule: NodeModule;
 }
 
 /**
@@ -26762,8 +26762,8 @@ declare namespace dw {
      *
      *   var content: MimeEncodedText = template.render(o);
      *   var mail: Mail = new dw.net.Mail();
-     *   mail.addTo(&quot;<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="04706b44617c65697468612a6b7663">[email&#xA0;protected]</a>&quot;);
-     *   mail.setFrom(&quot;<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="96f0e4f9fbd6f3eef7fbe6faf3b8f9e4f1">[email&#xA0;protected]</a>&quot;);
+     *   mail.addTo(&quot;<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="a0d4cfe0c5d8c1cdd0ccc58ecfd2c7">[email&#xA0;protected]</a>&quot;);
+     *   mail.setFrom(&quot;<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="dbbda9b4b69bbea3bab6abb7bef5b4a9bc">[email&#xA0;protected]</a>&quot;);
      *   mail.setSubject(&quot;Example Email&quot;);
      *   mail.setContent(content);
      *
@@ -27803,7 +27803,7 @@ declare namespace dw {
      *  var s : String = eo.custom.svalue;
      *
      *  // attribute of value type &apos;Email&apos;
-     *  eo.custom.emailvalue = &quot;<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="badfd7dbd3d6fadedfd7dbd4decddbc8df94d9d5d7">[email&#xA0;protected]</a>&quot;;
+     *  eo.custom.emailvalue = &quot;<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="157078747c7955717078747b71627467703b767a78">[email&#xA0;protected]</a>&quot;;
      *  var e : String = eo.custom.emailvalue;
      *
      *  // attribute of value type &apos;Text&apos;

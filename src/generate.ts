@@ -17,7 +17,8 @@ const config: any = {
     Boolean: "boolean",
     Object: "any",
     arguments: "IArguments",
-    Array: "Array"
+    Array: "Array",
+    Module: "NodeModule"
   },
   generics: [
     "dw.util.Collection",
@@ -163,6 +164,9 @@ const generateExportFileForClass = (theClass: any) => {
     packageTokens.shift();
   }
   var className = packageTokens.pop();
+  if (theClass.fullClassName === 'TopLevel.Module') {
+    theClass.fullClassName = 'TopLevel.NodeModule'; // hardcoded remapping to extend existing standard declaration
+  }
 
   var foldersPath = path.join.apply(
     null,
@@ -212,7 +216,8 @@ const generateCodeForClass = (theClass: any) => {
       source += doc(theClass);
     }
 
-    source += `${isTopLevel ? 'declare ' : ''}class ${className}${isGeneric ? '<T>' : isMap ? '<K, V>' : ''} `;
+    // hardcoded remapping to extend existing standard declaration
+    source += `${isTopLevel ? 'declare ' : ''}class ${className === 'Module' ? 'NodeModule' : className}${isGeneric ? '<T>' : isMap ? '<K, V>' : ''} `;
     if (theClass.hierarchy.length > 1) {
       source += `extends ${sanitizeType(theClass.hierarchy.pop().name, null, isGeneric)} `;
     }
