@@ -3,7 +3,7 @@ import path from "path";
 import fs from "fs";
 import chalk from "chalk";
 import prompts from "prompts";
-import { exec } from "child_process";
+import { execSync } from "child_process";
 import { log } from 'console';
 
 
@@ -110,20 +110,11 @@ import { log } from 'console';
 
   log(`Installing local copy of sfcc-dts`);
 
-  exec('npm install --save-dev sfcc-dts@latest typescript@latest',
-    (error, stdout, stderr) => {
-      if (error !== null) {
-        log('exec error: ' + error);
-      }
-    });
+  execSync('npm install --save-dev sfcc-dts@latest typescript@latest', { stdio: 'inherit' });
+
   if ((packagejson.dependencies && packagejson.dependencies['dw-api']) || (packagejson.devDependencies && packagejson.devDependencies['dw-api'])) {
     log(`Uninstalling dw-api`);
-    exec('npm uninstall --save dw-api',
-      (error, stdout, stderr) => {
-        if (error !== null) {
-          log('exec error: ' + error);
-        }
-      });
+    execSync('npm uninstall --save dw-api', { stdio: 'inherit' });
   }
 
   if (!fs.existsSync('@types')) {
