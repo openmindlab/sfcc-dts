@@ -353,17 +353,6 @@ source += generateCode(sfccApi.api.TopLevel, customAttrTypes);
 source += "declare namespace dw {\n";
 source += generateCode(sfccApi.api.dw, customAttrTypes);
 
-source += Array.from(customAttrTypes).map(i => `
-/**
- * Custom attributes for ${i} object.
- */
-class ${i}CustomAttributes {
-  /**
-   * Returns the custom attribute with this name. Throws an exception if attribute is not defined
-   */
-  [name: string]: any;
-}`).join('\n');
-
 source += "}\n";
 //source += "}\n";
 
@@ -377,6 +366,22 @@ catch (e) {
 fs.writeFileSync(
   path.join(basePathGenerated, "index.d.ts"),
   formatted
+);
+
+let customattrsrc = Array.from(customAttrTypes).map(i => `
+/**
+ * Custom attributes for ${i} object.
+ */
+declare class ${i}CustomAttributes {
+  /**
+   * Returns the custom attribute with this name. Throws an exception if attribute is not defined
+   */
+  [name: string]: any;
+}`).join('\n');
+
+fs.writeFileSync(
+  path.join(basePathGenerated, "attrs.d.ts"),
+  prettier.format(customattrsrc, { parser: "typescript" })
 );
 
 function checkGenerics(returnType: string, theClass: any, member: any) {
