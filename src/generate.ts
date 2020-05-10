@@ -31,7 +31,9 @@ const config: any = {
     "dw.util.SortedSet",
     "dw.web.PagingModel",
     "Array",
-    "TopLevel.Array"
+    "TopLevel.Array",
+    "dw.object.ExtensibleObject",
+    "dw.object.SimpleExtensible"
   ],
   maps: [
     "dw.util.Map",
@@ -225,7 +227,14 @@ const generateCodeForClass = (theClass: any, customAttrTypes: Set<string>) => {
     // hardcoded remapping to extend existing standard declaration
     source += `${isTopLevel ? 'declare ' : ''}class ${className === 'Module' ? 'NodeModule' : className}${isGeneric ? '<T>' : isMap ? '<K, V>' : ''} `;
     if (theClass.hierarchy.length > 1) {
-      source += `extends ${sanitizeType(theClass.hierarchy.pop().name, null, isGeneric)} `;
+      let hierarchyClass = theClass.hierarchy.pop().name;
+      let generics = null;
+      if (hierarchyClass === 'dw.object.ExtensibleObject') {
+        generics = className + 'CustomAttributes';
+        customAttrTypes.add(className);
+      }
+
+      source += `extends ${sanitizeType(hierarchyClass, generics, isGeneric)} `;
     }
     source += "{\n";
   }

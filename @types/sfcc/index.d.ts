@@ -2022,7 +2022,9 @@ declare namespace dw {
      *
      *  A campaign can have list of stores or store groups where it can be applicable to.
      */
-    class Campaign extends dw.object.ExtensibleObject {
+    class Campaign extends dw.object.ExtensibleObject<
+      CampaignCustomAttributes
+    > {
       /**
        * Returns 'true' if the campaign is currently active, otherwise
        *  'false'.
@@ -3198,7 +3200,9 @@ declare namespace dw {
      *  separate &quot;qualifiers&quot;. Qualifiers are the customer groups, source code
      *  groups, or coupons that trigger a given promotion for a customer.</p>
      */
-    class Promotion extends dw.object.ExtensibleObject {
+    class Promotion extends dw.object.ExtensibleObject<
+      PromotionCustomAttributes
+    > {
       /**
        * Constant representing promotion exclusivity of type class.
        */
@@ -4246,7 +4250,9 @@ declare namespace dw {
      *  The class <a href="class_dw_campaign_SourceCodeInfo.html">SourceCodeInfo</a> represents an individual source
      *  code.
      */
-    class SourceCodeGroup extends dw.object.ExtensibleObject {
+    class SourceCodeGroup extends dw.object.ExtensibleObject<
+      SourceCodeGroupCustomAttributes
+    > {
       /**
        * The ID of the SourceCodeGroup.
        */
@@ -4425,7 +4431,7 @@ declare namespace dw {
      *  shared variation attributes which can be used by multiple master products,
      *  and shared product options which can be used by multiple option products.</p>
      */
-    class Catalog extends dw.object.ExtensibleObject {
+    class Catalog extends dw.object.ExtensibleObject<CatalogCustomAttributes> {
       /**
        * The value of the localized extensible object attribute
        *  "shortDescription" for the current locale.
@@ -4543,7 +4549,9 @@ declare namespace dw {
     /**
      * Represents a category in a product catalog.
      */
-    class Category extends dw.object.ExtensibleObject {
+    class Category extends dw.object.ExtensibleObject<
+      CategoryCustomAttributes
+    > {
       /**
        * Constant representing the Variation Group Display Mode individual setting.
        */
@@ -5237,7 +5245,9 @@ declare namespace dw {
     /**
      * Represents a category assignment in Commerce Cloud Digital.
      */
-    class CategoryAssignment extends dw.object.ExtensibleObject {
+    class CategoryAssignment extends dw.object.ExtensibleObject<
+      CategoryAssignmentCustomAttributes
+    > {
       /**
        * The category assignment's callout message in the current locale.
        */
@@ -5374,7 +5384,9 @@ declare namespace dw {
     /**
      * Represents a price book.
      */
-    class PriceBook extends dw.object.ExtensibleObject {
+    class PriceBook extends dw.object.ExtensibleObject<
+      PriceBookCustomAttributes
+    > {
       /**
        * The currency code of the price book.
        */
@@ -5580,7 +5592,7 @@ declare namespace dw {
      *  <a href="class_dw_catalog_Variant.html">Variant</a> for variant products. This subclass contains
      *  methods which are specific to this type of product.</p>
      */
-    class Product extends dw.object.ExtensibleObject {
+    class Product extends dw.object.ExtensibleObject<ProductCustomAttributes> {
       /**
        * The active data for this product, for the current site.
        */
@@ -8129,7 +8141,9 @@ declare namespace dw {
      * The ProductInventoryList provides access to ID, description and defaultInStockFlag of the list.
      *  Furthermore inventory records can be accessed by product or product ID.
      */
-    class ProductInventoryList extends dw.object.ExtensibleObject {
+    class ProductInventoryList extends dw.object.ExtensibleObject<
+      ProductInventoryListCustomAttributes
+    > {
       /**
        * The default in-stock flag of the inventory list.
        */
@@ -8206,7 +8220,9 @@ declare namespace dw {
     /**
      * The ProductInventoryRecord holds information about a Product&apos;s inventory, and availability.
      */
-    class ProductInventoryRecord extends dw.object.ExtensibleObject {
+    class ProductInventoryRecord extends dw.object.ExtensibleObject<
+      ProductInventoryRecordCustomAttributes
+    > {
       /**
        * The allocation quantity that is currently set. The quantity unit is the same unit as the product itself.
        */
@@ -8539,7 +8555,9 @@ declare namespace dw {
     /**
      * Represents a product option.
      */
-    class ProductOption extends dw.object.ExtensibleObject {
+    class ProductOption extends dw.object.ExtensibleObject<
+      ProductOptionCustomAttributes
+    > {
       /**
        * The default value for the product option.
        */
@@ -8735,7 +8753,9 @@ declare namespace dw {
     /**
      * Represents the value of a product option.
      */
-    class ProductOptionValue extends dw.object.ExtensibleObject {
+    class ProductOptionValue extends dw.object.ExtensibleObject<
+      ProductOptionValueCustomAttributes
+    > {
       /**
        * The the product option value's description
        *  in the current locale.
@@ -11610,7 +11630,9 @@ declare namespace dw {
     /**
      * Represents a recommendation in Commerce Cloud Digital.
      */
-    class Recommendation extends dw.object.ExtensibleObject {
+    class Recommendation extends dw.object.ExtensibleObject<
+      RecommendationCustomAttributes
+    > {
       /**
        * Represents a cross-sell recommendation.
        */
@@ -12161,7 +12183,9 @@ declare namespace dw {
     /**
      * Common search refinement definition base class.
      */
-    class SearchRefinementDefinition extends dw.object.ExtensibleObject {
+    class SearchRefinementDefinition extends dw.object.ExtensibleObject<
+      SearchRefinementDefinitionCustomAttributes
+    > {
       /**
        * The attribute ID. If the refinement definition is not an
        *  attribute refinement, the method returns an empty string.
@@ -12538,7 +12562,7 @@ declare namespace dw {
     /**
      * Represents a store in Commerce Cloud Digital.
      */
-    class Store extends dw.object.ExtensibleObject {
+    class Store extends dw.object.ExtensibleObject<StoreCustomAttributes> {
       /**
        * The address1 of the store.
        */
@@ -12777,7 +12801,9 @@ declare namespace dw {
     /**
      * Represents a store group. Store groups can be used to group the stores for different marketing purposes.
      */
-    class StoreGroup extends dw.object.ExtensibleObject {
+    class StoreGroup extends dw.object.ExtensibleObject<
+      StoreGroupCustomAttributes
+    > {
       /**
        * The ID of the store group.
        */
@@ -13937,7 +13963,7 @@ declare namespace dw {
     /**
      * Class representing a Content asset in Commerce Cloud Digital.
      */
-    class Content extends dw.object.ExtensibleObject {
+    class Content extends dw.object.ExtensibleObject<ContentCustomAttributes> {
       /**
        * The Folder associated with this Content. The folder is
        *  used to determine the classification of the content.
@@ -14640,7 +14666,7 @@ declare namespace dw {
     /**
      * Class representing a folder for organizing content assets in Commerce Cloud Digital.
      */
-    class Folder extends dw.object.ExtensibleObject {
+    class Folder extends dw.object.ExtensibleObject<FolderCustomAttributes> {
       /**
        * The content objects for this folder, sorted by position.
        */
@@ -14852,7 +14878,7 @@ declare namespace dw {
      *  Currently only one library is allowed per site. An instance of this library
      *  can be obtained by calling <a href="class_dw_content_ContentMgr.html#dw_content_ContentMgr_getSiteLibrary_DetailAnchor">ContentMgr.getSiteLibrary()</a>.
      */
-    class Library extends dw.object.ExtensibleObject {
+    class Library extends dw.object.ExtensibleObject<LibraryCustomAttributes> {
       /**
        * The CMS channel of the library.
        */
@@ -17570,7 +17596,9 @@ declare namespace dw {
      *  <b>Note:</b> this class allows access to sensitive personal and private information.
      *  Pay attention to appropriate legal and regulatory requirements.</p>
      */
-    class CustomerAddress extends dw.object.ExtensibleObject {
+    class CustomerAddress extends dw.object.ExtensibleObject<
+      CustomerAddressCustomAttributes
+    > {
       /**
        * The customer's first address.
        */
@@ -17912,7 +17940,9 @@ declare namespace dw {
      *  your custoemer groups. Pay attention to appropriate legal and regulatory requirements
      *  when developing with this data.</p>
      */
-    class CustomerGroup extends dw.object.ExtensibleObject {
+    class CustomerGroup extends dw.object.ExtensibleObject<
+      CustomerGroupCustomAttributes
+    > {
       /**
        * Gets the value of the description of the customer group.
        */
@@ -18869,7 +18899,9 @@ declare namespace dw {
      *  <b>Note:</b> this method handles sensitive financial and card holder data.
      *  Pay special attention to PCI DSS v3. requirements 1, 3, 7, and 9.</p>
      */
-    class EncryptedObject extends dw.object.ExtensibleObject {}
+    class EncryptedObject extends dw.object.ExtensibleObject<
+      EncryptedObjectCustomAttributes
+    > {}
 
     /**
      * Represents the credentials of a customer.
@@ -18992,7 +19024,9 @@ declare namespace dw {
      *  ship items to which could not be delivered on event date.
      *  The product list can also hold information about the event date and event location.
      */
-    class ProductList extends dw.object.ExtensibleObject {
+    class ProductList extends dw.object.ExtensibleObject<
+      ProductListCustomAttributes
+    > {
       /**
        * Constant for when Export Status is Exported
        */
@@ -19412,7 +19446,9 @@ declare namespace dw {
      *  <li>An item that represents a gift certificate.</li>
      *  </ul>
      */
-    class ProductListItem extends dw.object.ExtensibleObject {
+    class ProductListItem extends dw.object.ExtensibleObject<
+      ProductListItemCustomAttributes
+    > {
       /**
        * Constant representing a gift certificate list item type.
        */
@@ -19637,7 +19673,9 @@ declare namespace dw {
     /**
      * A record of the purchase of an item contained in a product list.
      */
-    class ProductListItemPurchase extends dw.object.ExtensibleObject {
+    class ProductListItemPurchase extends dw.object.ExtensibleObject<
+      ProductListItemPurchaseCustomAttributes
+    > {
       /**
        * The item that was purchased.
        */
@@ -19912,7 +19950,9 @@ declare namespace dw {
      *  such as a gift registry. It holds information about a person associated with the
      *  event such as a bride or groom.
      */
-    class ProductListRegistrant extends dw.object.ExtensibleObject {
+    class ProductListRegistrant extends dw.object.ExtensibleObject<
+      ProductListRegistrantCustomAttributes
+    > {
       /**
        * The email address of the registrant or null.
        */
@@ -26762,8 +26802,8 @@ declare namespace dw {
      *
      *   var content: MimeEncodedText = template.render(o);
      *   var mail: Mail = new dw.net.Mail();
-     *   mail.addTo(&quot;<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="a0d4cfe0c5d8c1cdd0ccc58ecfd2c7">[email&#xA0;protected]</a>&quot;);
-     *   mail.setFrom(&quot;<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="dbbda9b4b69bbea3bab6abb7bef5b4a9bc">[email&#xA0;protected]</a>&quot;);
+     *   mail.addTo(&quot;<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="04706b44617c65697468612a6b7663">[email&#xA0;protected]</a>&quot;);
+     *   mail.setFrom(&quot;<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="96f0e4f9fbd6f3eef7fbe6faf3b8f9e4f1">[email&#xA0;protected]</a>&quot;);
      *   mail.setSubject(&quot;Example Email&quot;);
      *   mail.setContent(content);
      *
@@ -27737,7 +27777,9 @@ declare namespace dw {
     /**
      * Represents the active data for an object in Commerce Cloud Digital.
      */
-    class ActiveData extends dw.object.ExtensibleObject {
+    class ActiveData extends dw.object.ExtensibleObject<
+      ActiveDataCustomAttributes
+    > {
       /**
        * The custom attributes for this object. The returned object can
        *  only be used for retrieving attribute values, not storing them. See
@@ -27803,7 +27845,7 @@ declare namespace dw {
      *  var s : String = eo.custom.svalue;
      *
      *  // attribute of value type &apos;Email&apos;
-     *  eo.custom.emailvalue = &quot;<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="157078747c7955717078747b71627467703b767a78">[email&#xA0;protected]</a>&quot;;
+     *  eo.custom.emailvalue = &quot;<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="badfd7dbd3d6fadedfd7dbd4decddbc8df94d9d5d7">[email&#xA0;protected]</a>&quot;;
      *  var e : String = eo.custom.emailvalue;
      *
      *  // attribute of value type &apos;Text&apos;
@@ -27866,13 +27908,15 @@ declare namespace dw {
       /**
        * Returns the custom attribute with this name. Throws an exception if attribute is not defined
        */
-      [name: string]: any;
+      readonly [name: string]: any;
     }
 
     /**
      * Represents a custom object and its corresponding attributes.
      */
-    class CustomObject extends dw.object.ExtensibleObject {
+    class CustomObject extends dw.object.ExtensibleObject<
+      CustomObjectCustomAttributes
+    > {
       /**
        * The custom attributes of this
        *  object.
@@ -28228,14 +28272,14 @@ declare namespace dw {
      *  to the related object-type metadata. The method getCustom() is the central
      *  point to retrieve and store the objects attribute values themselves.
      */
-    class ExtensibleObject extends dw.object.PersistentObject {
+    class ExtensibleObject<T> extends dw.object.PersistentObject {
       /**
        * The custom attributes for this object. The returned object is
        *  used for retrieving and storing attribute values. See
        *  CustomAttributes for a detailed example of the syntax for
        *  working with custom attributes.
        */
-      readonly custom: dw.object.CustomAttributes;
+      readonly custom: T;
 
       /**
        * Returns the meta data of this object. If no meta data is available the
@@ -28253,7 +28297,7 @@ declare namespace dw {
        *
        * @return the custom attributes for this object.
        */
-      getCustom(): dw.object.CustomAttributes;
+      getCustom(): T;
     }
 
     /**
@@ -28860,18 +28904,18 @@ declare namespace dw {
      *  Similar to Extensible method <a href="class_dw_object_SimpleExtensible.html#dw_object_SimpleExtensible_getCustom_DetailAnchor">getCustom()</a> is the central point to retrieve and store the objects attribute
      *  values.
      */
-    class SimpleExtensible {
+    class SimpleExtensible<T> {
       /**
        * The custom attributes for this object.
        */
-      readonly custom: dw.object.CustomAttributes;
+      readonly custom: T;
 
       /**
        * Returns the custom attributes for this object.
        *
        * @return the custom attributes for this object.
        */
-      getCustom(): dw.object.CustomAttributes;
+      getCustom(): T;
     }
 
     /**
@@ -30306,7 +30350,9 @@ declare namespace dw {
      *  product line items representing the chosen bonus products can be retrieved
      *  with <a href="class_dw_order_BonusDiscountLineItem.html#dw_order_BonusDiscountLineItem_getBonusProductLineItems_DetailAnchor">getBonusProductLineItems()</a>.</p>
      */
-    class BonusDiscountLineItem extends dw.object.ExtensibleObject {
+    class BonusDiscountLineItem extends dw.object.ExtensibleObject<
+      BonusDiscountLineItemCustomAttributes
+    > {
       /**
        * Returns whether the promotion that triggered the creation of this line item uses a rule to determine the list of
        *  bonus products.
@@ -30455,7 +30501,9 @@ declare namespace dw {
     /**
      * The CouponLineItem class is used to store redeemed coupons in the Basket.
      */
-    class CouponLineItem extends dw.object.ExtensibleObject {
+    class CouponLineItem extends dw.object.ExtensibleObject<
+      CouponLineItemCustomAttributes
+    > {
       /**
        * Identifies if the coupon is currently applied in the basket. A coupon
        *  line is applied if there exists at least one price adjustment related
@@ -30632,7 +30680,9 @@ declare namespace dw {
      * Represents a Gift Certificate that can be used to purchase
      *  products.
      */
-    class GiftCertificate extends dw.object.ExtensibleObject {
+    class GiftCertificate extends dw.object.ExtensibleObject<
+      GiftCertificateCustomAttributes
+    > {
       /**
        * Represents a status of 'issued', which indicates that the Gift Certificate
        *  has been created and that it can be used to purchase products.
@@ -31563,7 +31613,9 @@ declare namespace dw {
     /**
      * Common line item base class.
      */
-    class LineItem extends dw.object.ExtensibleObject {
+    class LineItem extends dw.object.ExtensibleObject<
+      LineItemCustomAttributes
+    > {
       /**
        * The base price for the line item, which is the price of the unit before applying adjustments, in the
        *  purchase currency. The base price may be net or gross of tax depending on the configured taxation policy.
@@ -31831,7 +31883,9 @@ declare namespace dw {
      *  values in the values they return. Gift certificates are not considered merchandise
      *  as they do not represent a product.</p><p></p>
      */
-    class LineItemCtnr extends dw.object.ExtensibleObject {
+    class LineItemCtnr extends dw.object.ExtensibleObject<
+      LineItemCtnrCustomAttributes
+    > {
       /**
        * constant for Business Type B2B
        */
@@ -34645,7 +34699,9 @@ declare namespace dw {
      *  <b>Note:</b> this class allows access to sensitive personal and private information.
      *  Pay attention to appropriate legal and regulatory requirements.</p>
      */
-    class OrderAddress extends dw.object.ExtensibleObject {
+    class OrderAddress extends dw.object.ExtensibleObject<
+      OrderAddressCustomAttributes
+    > {
       /**
        * The customer's first address.
        */
@@ -36435,7 +36491,9 @@ declare namespace dw {
      *  <b>Note:</b> this class handles sensitive financial and card holder data.
      *  Pay special attention to PCI DSS v3. requirements 1, 3, 7, and 9.</p>
      */
-    class PaymentCard extends dw.object.ExtensibleObject {
+    class PaymentCard extends dw.object.ExtensibleObject<
+      PaymentCardCustomAttributes
+    > {
       /**
        * Returns 'true' if payment card is active (enabled), otherwise 'false' is returned.
        */
@@ -37396,7 +37454,9 @@ declare namespace dw {
      *  based on the amount of his order, his customer groups, and his shipping
      *  address.</p>
      */
-    class PaymentMethod extends dw.object.ExtensibleObject {
+    class PaymentMethod extends dw.object.ExtensibleObject<
+      PaymentMethodCustomAttributes
+    > {
       /**
        * Returns 'true' if payment method is active (enabled), otherwise 'false' is returned.
        */
@@ -37660,7 +37720,9 @@ declare namespace dw {
      *  transaction has one PaymentProcessor which is set by custom code during the
      *  checkout process.</p>
      */
-    class PaymentProcessor extends dw.object.ExtensibleObject {
+    class PaymentProcessor extends dw.object.ExtensibleObject<
+      PaymentProcessorCustomAttributes
+    > {
       /**
        * The 'ID' of this processor.
        */
@@ -37713,7 +37775,9 @@ declare namespace dw {
     /**
      * The PaymentTransaction class represents a payment transaction.
      */
-    class PaymentTransaction extends dw.object.ExtensibleObject {
+    class PaymentTransaction extends dw.object.ExtensibleObject<
+      PaymentTransactionCustomAttributes
+    > {
       /**
        * Constant representing the authorization type of payment transaction.
        */
@@ -40363,7 +40427,9 @@ declare namespace dw {
     /**
      * Represents an order shipment.
      */
-    class Shipment extends dw.object.ExtensibleObject {
+    class Shipment extends dw.object.ExtensibleObject<
+      ShipmentCustomAttributes
+    > {
       /**
        * Shipment shipping status representing 'Not shipped'.
        */
@@ -41504,7 +41570,9 @@ declare namespace dw {
     /**
      * ShippingMethod represents how the shipment will be shipped.
      */
-    class ShippingMethod extends dw.object.ExtensibleObject {
+    class ShippingMethod extends dw.object.ExtensibleObject<
+      ShippingMethodCustomAttributes
+    > {
       /**
        * The base shipping method or null if undefined.
        */
@@ -46024,7 +46092,9 @@ declare namespace dw {
     /**
      * Configuration object for Services.
      */
-    class ServiceConfig extends dw.object.ExtensibleObject {
+    class ServiceConfig extends dw.object.ExtensibleObject<
+      ServiceConfigCustomAttributes
+    > {
       /**
        * The related service credentials.
        */
@@ -46251,7 +46321,9 @@ declare namespace dw {
     /**
      * Configuration object for Service Profiles.
      */
-    class ServiceProfile extends dw.object.ExtensibleObject {
+    class ServiceProfile extends dw.object.ExtensibleObject<
+      ServiceProfileCustomAttributes
+    > {
       /**
        * The maximum number of errors in an interval allowed by the circuit breaker.
        */
@@ -46865,7 +46937,9 @@ declare namespace dw {
      *  &quot;Global Preferences&quot; module of the Business Manager, but these preferences
      *  are not accessible through this object.</p>
      */
-    class OrganizationPreferences extends dw.object.ExtensibleObject {}
+    class OrganizationPreferences extends dw.object.ExtensibleObject<
+      OrganizationPreferencesCustomAttributes
+    > {}
 
     /**
      * A helper for executing pipelines from JavaScript. The main purpose for this API is to invoke process pipelines from
@@ -48164,7 +48238,9 @@ declare namespace dw {
      *  not accessible through this object. (SourceCodeURLParameterName is the one
      *  exception to this rule.)</p>
      */
-    class SitePreferences extends dw.object.ExtensibleObject {
+    class SitePreferences extends dw.object.ExtensibleObject<
+      SitePreferencesCustomAttributes
+    > {
       /**
        * The name of the source code url paremeter configured for the
        *  site.
@@ -56987,9 +57063,159 @@ declare namespace dw {
   }
 
   /**
+   * Custom attributes for Campaign object.
+   */
+  class CampaignCustomAttributes {
+    /**
+     * Returns the custom attribute with this name. Throws an exception if attribute is not defined
+     */
+    [name: string]: any;
+  }
+
+  /**
    * Custom attributes for Promotion object.
    */
   class PromotionCustomAttributes {
+    /**
+     * Returns the custom attribute with this name. Throws an exception if attribute is not defined
+     */
+    [name: string]: any;
+  }
+
+  /**
+   * Custom attributes for SourceCodeGroup object.
+   */
+  class SourceCodeGroupCustomAttributes {
+    /**
+     * Returns the custom attribute with this name. Throws an exception if attribute is not defined
+     */
+    [name: string]: any;
+  }
+
+  /**
+   * Custom attributes for Catalog object.
+   */
+  class CatalogCustomAttributes {
+    /**
+     * Returns the custom attribute with this name. Throws an exception if attribute is not defined
+     */
+    [name: string]: any;
+  }
+
+  /**
+   * Custom attributes for Category object.
+   */
+  class CategoryCustomAttributes {
+    /**
+     * Returns the custom attribute with this name. Throws an exception if attribute is not defined
+     */
+    [name: string]: any;
+  }
+
+  /**
+   * Custom attributes for CategoryAssignment object.
+   */
+  class CategoryAssignmentCustomAttributes {
+    /**
+     * Returns the custom attribute with this name. Throws an exception if attribute is not defined
+     */
+    [name: string]: any;
+  }
+
+  /**
+   * Custom attributes for PriceBook object.
+   */
+  class PriceBookCustomAttributes {
+    /**
+     * Returns the custom attribute with this name. Throws an exception if attribute is not defined
+     */
+    [name: string]: any;
+  }
+
+  /**
+   * Custom attributes for Product object.
+   */
+  class ProductCustomAttributes {
+    /**
+     * Returns the custom attribute with this name. Throws an exception if attribute is not defined
+     */
+    [name: string]: any;
+  }
+
+  /**
+   * Custom attributes for ProductInventoryList object.
+   */
+  class ProductInventoryListCustomAttributes {
+    /**
+     * Returns the custom attribute with this name. Throws an exception if attribute is not defined
+     */
+    [name: string]: any;
+  }
+
+  /**
+   * Custom attributes for ProductInventoryRecord object.
+   */
+  class ProductInventoryRecordCustomAttributes {
+    /**
+     * Returns the custom attribute with this name. Throws an exception if attribute is not defined
+     */
+    [name: string]: any;
+  }
+
+  /**
+   * Custom attributes for ProductOption object.
+   */
+  class ProductOptionCustomAttributes {
+    /**
+     * Returns the custom attribute with this name. Throws an exception if attribute is not defined
+     */
+    [name: string]: any;
+  }
+
+  /**
+   * Custom attributes for ProductOptionValue object.
+   */
+  class ProductOptionValueCustomAttributes {
+    /**
+     * Returns the custom attribute with this name. Throws an exception if attribute is not defined
+     */
+    [name: string]: any;
+  }
+
+  /**
+   * Custom attributes for Recommendation object.
+   */
+  class RecommendationCustomAttributes {
+    /**
+     * Returns the custom attribute with this name. Throws an exception if attribute is not defined
+     */
+    [name: string]: any;
+  }
+
+  /**
+   * Custom attributes for SearchRefinementDefinition object.
+   */
+  class SearchRefinementDefinitionCustomAttributes {
+    /**
+     * Returns the custom attribute with this name. Throws an exception if attribute is not defined
+     */
+    [name: string]: any;
+  }
+
+  /**
+   * Custom attributes for Store object.
+   */
+  class StoreCustomAttributes {
+    /**
+     * Returns the custom attribute with this name. Throws an exception if attribute is not defined
+     */
+    [name: string]: any;
+  }
+
+  /**
+   * Custom attributes for StoreGroup object.
+   */
+  class StoreGroupCustomAttributes {
     /**
      * Returns the custom attribute with this name. Throws an exception if attribute is not defined
      */
@@ -57017,9 +57243,269 @@ declare namespace dw {
   }
 
   /**
+   * Custom attributes for Content object.
+   */
+  class ContentCustomAttributes {
+    /**
+     * Returns the custom attribute with this name. Throws an exception if attribute is not defined
+     */
+    [name: string]: any;
+  }
+
+  /**
+   * Custom attributes for Folder object.
+   */
+  class FolderCustomAttributes {
+    /**
+     * Returns the custom attribute with this name. Throws an exception if attribute is not defined
+     */
+    [name: string]: any;
+  }
+
+  /**
+   * Custom attributes for Library object.
+   */
+  class LibraryCustomAttributes {
+    /**
+     * Returns the custom attribute with this name. Throws an exception if attribute is not defined
+     */
+    [name: string]: any;
+  }
+
+  /**
+   * Custom attributes for CustomerAddress object.
+   */
+  class CustomerAddressCustomAttributes {
+    /**
+     * Returns the custom attribute with this name. Throws an exception if attribute is not defined
+     */
+    [name: string]: any;
+  }
+
+  /**
+   * Custom attributes for CustomerGroup object.
+   */
+  class CustomerGroupCustomAttributes {
+    /**
+     * Returns the custom attribute with this name. Throws an exception if attribute is not defined
+     */
+    [name: string]: any;
+  }
+
+  /**
+   * Custom attributes for EncryptedObject object.
+   */
+  class EncryptedObjectCustomAttributes {
+    /**
+     * Returns the custom attribute with this name. Throws an exception if attribute is not defined
+     */
+    [name: string]: any;
+  }
+
+  /**
+   * Custom attributes for ProductList object.
+   */
+  class ProductListCustomAttributes {
+    /**
+     * Returns the custom attribute with this name. Throws an exception if attribute is not defined
+     */
+    [name: string]: any;
+  }
+
+  /**
+   * Custom attributes for ProductListItem object.
+   */
+  class ProductListItemCustomAttributes {
+    /**
+     * Returns the custom attribute with this name. Throws an exception if attribute is not defined
+     */
+    [name: string]: any;
+  }
+
+  /**
+   * Custom attributes for ProductListItemPurchase object.
+   */
+  class ProductListItemPurchaseCustomAttributes {
+    /**
+     * Returns the custom attribute with this name. Throws an exception if attribute is not defined
+     */
+    [name: string]: any;
+  }
+
+  /**
+   * Custom attributes for ProductListRegistrant object.
+   */
+  class ProductListRegistrantCustomAttributes {
+    /**
+     * Returns the custom attribute with this name. Throws an exception if attribute is not defined
+     */
+    [name: string]: any;
+  }
+
+  /**
    * Custom attributes for ActiveData object.
    */
   class ActiveDataCustomAttributes {
+    /**
+     * Returns the custom attribute with this name. Throws an exception if attribute is not defined
+     */
+    [name: string]: any;
+  }
+
+  /**
+   * Custom attributes for CustomObject object.
+   */
+  class CustomObjectCustomAttributes {
+    /**
+     * Returns the custom attribute with this name. Throws an exception if attribute is not defined
+     */
+    [name: string]: any;
+  }
+
+  /**
+   * Custom attributes for BonusDiscountLineItem object.
+   */
+  class BonusDiscountLineItemCustomAttributes {
+    /**
+     * Returns the custom attribute with this name. Throws an exception if attribute is not defined
+     */
+    [name: string]: any;
+  }
+
+  /**
+   * Custom attributes for CouponLineItem object.
+   */
+  class CouponLineItemCustomAttributes {
+    /**
+     * Returns the custom attribute with this name. Throws an exception if attribute is not defined
+     */
+    [name: string]: any;
+  }
+
+  /**
+   * Custom attributes for GiftCertificate object.
+   */
+  class GiftCertificateCustomAttributes {
+    /**
+     * Returns the custom attribute with this name. Throws an exception if attribute is not defined
+     */
+    [name: string]: any;
+  }
+
+  /**
+   * Custom attributes for LineItem object.
+   */
+  class LineItemCustomAttributes {
+    /**
+     * Returns the custom attribute with this name. Throws an exception if attribute is not defined
+     */
+    [name: string]: any;
+  }
+
+  /**
+   * Custom attributes for LineItemCtnr object.
+   */
+  class LineItemCtnrCustomAttributes {
+    /**
+     * Returns the custom attribute with this name. Throws an exception if attribute is not defined
+     */
+    [name: string]: any;
+  }
+
+  /**
+   * Custom attributes for OrderAddress object.
+   */
+  class OrderAddressCustomAttributes {
+    /**
+     * Returns the custom attribute with this name. Throws an exception if attribute is not defined
+     */
+    [name: string]: any;
+  }
+
+  /**
+   * Custom attributes for PaymentCard object.
+   */
+  class PaymentCardCustomAttributes {
+    /**
+     * Returns the custom attribute with this name. Throws an exception if attribute is not defined
+     */
+    [name: string]: any;
+  }
+
+  /**
+   * Custom attributes for PaymentMethod object.
+   */
+  class PaymentMethodCustomAttributes {
+    /**
+     * Returns the custom attribute with this name. Throws an exception if attribute is not defined
+     */
+    [name: string]: any;
+  }
+
+  /**
+   * Custom attributes for PaymentProcessor object.
+   */
+  class PaymentProcessorCustomAttributes {
+    /**
+     * Returns the custom attribute with this name. Throws an exception if attribute is not defined
+     */
+    [name: string]: any;
+  }
+
+  /**
+   * Custom attributes for PaymentTransaction object.
+   */
+  class PaymentTransactionCustomAttributes {
+    /**
+     * Returns the custom attribute with this name. Throws an exception if attribute is not defined
+     */
+    [name: string]: any;
+  }
+
+  /**
+   * Custom attributes for Shipment object.
+   */
+  class ShipmentCustomAttributes {
+    /**
+     * Returns the custom attribute with this name. Throws an exception if attribute is not defined
+     */
+    [name: string]: any;
+  }
+
+  /**
+   * Custom attributes for ShippingMethod object.
+   */
+  class ShippingMethodCustomAttributes {
+    /**
+     * Returns the custom attribute with this name. Throws an exception if attribute is not defined
+     */
+    [name: string]: any;
+  }
+
+  /**
+   * Custom attributes for ServiceConfig object.
+   */
+  class ServiceConfigCustomAttributes {
+    /**
+     * Returns the custom attribute with this name. Throws an exception if attribute is not defined
+     */
+    [name: string]: any;
+  }
+
+  /**
+   * Custom attributes for ServiceProfile object.
+   */
+  class ServiceProfileCustomAttributes {
+    /**
+     * Returns the custom attribute with this name. Throws an exception if attribute is not defined
+     */
+    [name: string]: any;
+  }
+
+  /**
+   * Custom attributes for OrganizationPreferences object.
+   */
+  class OrganizationPreferencesCustomAttributes {
     /**
      * Returns the custom attribute with this name. Throws an exception if attribute is not defined
      */
@@ -57040,6 +57526,16 @@ declare namespace dw {
    * Custom attributes for Session object.
    */
   class SessionCustomAttributes {
+    /**
+     * Returns the custom attribute with this name. Throws an exception if attribute is not defined
+     */
+    [name: string]: any;
+  }
+
+  /**
+   * Custom attributes for SitePreferences object.
+   */
+  class SitePreferencesCustomAttributes {
     /**
      * Returns the custom attribute with this name. Throws an exception if attribute is not defined
      */

@@ -27,8 +27,14 @@
           }
         }
       },
+      "net": {
+        "Mail": {
+          "description": "This class is used to send an email with either plain text or MimeEncodedText content.\n Recipient data (from, to, cc, bcc) and subject are specified\n using setter methods. When the <a href=\"class_dw_net_Mail.html#dw_net_Mail_send_DetailAnchor\">send()</a> method is invoked,\n the email is put into an internal queue and sent asynchronously.\n <p>\n <b>Note:</b> when this class is used with sensitive data, be careful in persisting sensitive information to disk.\n </p><p>\n The following example script sends an email with MimeEncodedText content:\n\n </p><pre> <code>\n function sendMail() {\n  var template: Template = new dw.util.Template(&quot;myTemplate.isml&quot;);\n\n  var o: Map = new dw.util.HashMap();\n  o.put(&quot;customer&quot;,&quot;customer&quot;);\n  o.put(&quot;product&quot;,&quot;product&quot;);\n\n  var content: MimeEncodedText = template.render(o);\n  var mail: Mail = new dw.net.Mail();\n  mail.addTo(&quot;<a href=\"/cdn-cgi/l/email-protection\" class=\"__cf_email__\" data-cfemail=\"04706b44617c65697468612a6b7663\">[email&#xA0;protected]</a>&quot;);\n  mail.setFrom(&quot;<a href=\"/cdn-cgi/l/email-protection\" class=\"__cf_email__\" data-cfemail=\"96f0e4f9fbd6f3eef7fbe6faf3b8f9e4f1\">[email&#xA0;protected]</a>&quot;);\n  mail.setSubject(&quot;Example Email&quot;);\n  mail.setContent(content);\n\n  mail.send();//returns either Status.ERROR or Status.OK, mail might not be sent yet, when this method returns\n  }\n </code>\n </pre>\n <p>\n  See <b>Sending email via scripts or hooks</b> in the documentation for additional examples.</p>"
+        }
+      },
       "object": {
         "CustomAttributes": {
+          "description": "This class is used together with other classes that contain custom attributes\n and is used to read and write these attributes. The actual attributes are\n accessible as ECMA properties. The syntax for setting and retrieving the\n value of a custom attribute depends upon the type of the attribute. If the\n wrong syntax is used to set an individual attribute than an exception will be\n thrown.\n\n <p>\n\n The following script examples demonstrate how to work with custom attributes.\n Suppose we have an ExtensibleObject named &quot;eo&quot; possessing attributes of all\n the different types supported by the Commerce Cloud Digital metadata system. The\n following script snippet shows that setting single-valued attributes is\n simply a matter of using the assignment operator and standard ECMA primitives\n and built-in types:\n\n </p><p>\n\n </p><pre> // attribute of value type &apos;Boolean&apos;\n eo.custom.bvalue = true;\n var b : Boolean = eo.custom.bvalue;\n\n // attribute of value type &apos;Integer&apos;\n eo.custom.ivalue = 10;\n var i : Number = eo.custom.ivalue;\n\n // attribute of value type &apos;Number&apos;\n eo.custom.dvalue = 99.99;\n var d : Number = eo.custom.dvalue;\n\n // attribute of value type &apos;String&apos;\n eo.custom.svalue = &quot;String1&quot;;\n var s : String = eo.custom.svalue;\n\n // attribute of value type &apos;Email&apos;\n eo.custom.emailvalue = &quot;<a href=\"/cdn-cgi/l/email-protection\" class=\"__cf_email__\" data-cfemail=\"badfd7dbd3d6fadedfd7dbd4decddbc8df94d9d5d7\">[email&#xA0;protected]</a>&quot;;\n var e : String = eo.custom.emailvalue;\n\n // attribute of value type &apos;Text&apos;\n eo.custom.tvalue = &quot;laaaaaaaaaaaarge text&quot;;\n var t : String = eo.custom.tvalue;\n\n // attribute of value type &apos;Date&apos;\n eo.custom.dtvalue = new Date;\n var date : Date = eo.custom.dtvalue;\n </pre>\n\n <p>\n\n Setting and retrieving the values for multi-value attributes is also\n straightforward and uses ECMA arrays to represent the multiple values. Set-of\n attributes and enum-of attributes are handled in a very similar manner. The\n chief difference is that enum-of attributes are limited to a prescribed set\n of value definitions whereas set-of attributes are open-ended. Furthermore,\n each value in an enum-of attribute has a value and a display name which\n affects the retrieval logic.\n\n Multi-value attributes are returned as an array. This array is read-only and\n can&apos;t be used to update the multi-value attribute. To update the multi-value\n attribute an array with new values must be assigned to the attribute.\n\n </p><p>\n\n </p><pre> // attribute of value type &apos;Set of String&apos;\n // set the attribute value only if it hasn&apos;t been already set\n if( !(&apos;setofstringvalue&apos; in eo.custom) )\n {\n     eo.custom.setofstringvalue = new Array(&quot;abc&quot;,&quot;def&quot;,&quot;ghi&quot;);\n }\n\n // returns an Array of String instances\n var setofstring : Array = eo.custom.setofstringvalue;\n var s1 : String = setofstring[0];\n var s2 : String = setofstring[1];\n var s3 : String = setofstring[2];\n\n // attribute of value type &apos;Enum of Integer&apos; with multi-value handling\n eo.custom.enumofintmultivalue = new Array(1, 2, 3);\n\n // returns an Array of EnumValue instances\n var enumofintmulti : Array = eo.custom.enumofintmultivalue;\n var value1 : Number = enumofintmulti[0].getValue();\n var displayvalue1 : String = enumofintmulti[0].getDisplayValue();\n var value2 : Number = enumofintmulti[1].getValue();\n var displayvalue2 : String = enumofintmulti[1].getDisplayValue();\n var value3 : Number = enumofintmulti[2].getValue();\n var displayvalue3 : String = enumofintmulti[2].getDisplayValue();\n </pre>\n\n <p>\n\n For further details on the Commerce Cloud Digital attribute system, see the core\n Commerce Cloud Digital documentation.</p>",
           "properties": {
             "[name: string]": {
               "name": "[name: string]",
@@ -36,9 +42,41 @@
                 "name": "any"
               },
               "static": false,
-              "readonly": false,
+              "readonly": true,
               "description": "Returns the custom attribute with this name. Throws an exception if attribute is not defined",
               "deprecated": 0
+            }
+          }
+        },
+        "ExtensibleObject": {
+          "properties": {
+            "custom": {
+              "class": {
+                "name": "T"
+              }
+            }
+          },
+          "methods": {
+            "getCustom": {
+              "class": {
+                "name": "T"
+              }
+            }
+          }
+        },
+        "SimpleExtensible": {
+          "properties": {
+            "custom": {
+              "class": {
+                "name": "T"
+              }
+            }
+          },
+          "methods": {
+            "getCustom": {
+              "class": {
+                "name": "T"
+              }
             }
           }
         }
@@ -47,6 +85,22 @@
         "PriceAdjustment": {
           "properties": {
             "custom": null
+          }
+        }
+      },
+      "system": {
+        "PipelineDictionary": {
+          "properties": {
+            "[name: string]": {
+              "name": "[name: string]",
+              "class": {
+                "name": "any"
+              },
+              "static": false,
+              "readonly": false,
+              "description": "Returns the attribute with this name",
+              "deprecated": 0
+            }
           }
         }
       },
@@ -218,16 +272,16 @@
             }
           }
         },
-        "HttpParameterMap": {
+        "Form": {
           "properties": {
             "[name: string]": {
               "name": "[name: string]",
               "class": {
-                "name": "dw.web.HttpParameter | any"
+                "name": "dw.web.FormElement | any;"
               },
               "static": false,
               "readonly": true,
-              "description": "Returns the HttpParameter with this name.",
+              "description": "Returns the Form element with this name.",
               "deprecated": 0
             }
           }
@@ -246,32 +300,16 @@
             }
           }
         },
-        "Form": {
+        "HttpParameterMap": {
           "properties": {
             "[name: string]": {
               "name": "[name: string]",
               "class": {
-                "name": "dw.web.FormElement | any;"
+                "name": "dw.web.HttpParameter | any"
               },
               "static": false,
               "readonly": true,
-              "description": "Returns the Form element with this name.",
-              "deprecated": 0
-            }
-          }
-        }
-      },
-      "system": {
-        "PipelineDictionary": {
-          "properties": {
-            "[name: string]": {
-              "name": "[name: string]",
-              "class": {
-                "name": "any"
-              },
-              "static": false,
-              "readonly": false,
-              "description": "Returns the attribute with this name",
+              "description": "Returns the HttpParameter with this name.",
               "deprecated": 0
             }
           }
