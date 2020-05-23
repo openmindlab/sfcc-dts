@@ -93,7 +93,7 @@ import { parse, stringify } from 'comment-json';
     tsconfig.compilerOptions.paths['server'] = [`${path.join(cartridgeroot, 'server')}`];
   }
 
-  let cartridges = fs.readdirSync(cartridgeroot).filter(i => fs.lstatSync(path.join(cartridgeroot, i)).isDirectory()).filter(i => fs.existsSync(path.join(path.join(cartridgeroot, i), 'cartridge')));
+  let cartridges = fs.readdirSync(cartridgeroot).filter(i => fs.lstatSync(path.join(cartridgeroot, i)).isDirectory() || fs.lstatSync(path.join(cartridgeroot, i)).isSymbolicLink()).filter(i => fs.existsSync(path.join(path.join(cartridgeroot, i), 'cartridge')));
   log(`Adding cartridge path`);
   tsconfig.compilerOptions.paths['~/*'] = cartridges.map(i => `${path.join(cartridgeroot, i)}/*`);
 
