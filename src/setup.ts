@@ -88,9 +88,9 @@ import { parse, stringify } from 'comment-json';
     log(`Adding dw/* path`);
     tsconfig.compilerOptions.paths['dw/*'] = ["./node_modules/sfcc-dts/@types/sfcc/dw/*"];
   }
-  if (!tsconfig.compilerOptions.paths['server'] || tsconfig.compilerOptions.paths['server'].length !== 1 || tsconfig.compilerOptions.paths['server'][0] !== `${cartridgeroot}/server`) {
+  if (!tsconfig.compilerOptions.paths['server'] || tsconfig.compilerOptions.paths['server'].length !== 1 || tsconfig.compilerOptions.paths['server'][0] !== `${cartridgeroot}/modules/server`) {
     log(`Adding server path`);
-    tsconfig.compilerOptions.paths['server'] = [`${path.join(cartridgeroot, 'server')}`];
+    tsconfig.compilerOptions.paths['server'] = [`${path.join(cartridgeroot, 'modules/server')}`];
   }
 
   let cartridges = fs.readdirSync(cartridgeroot).filter(i => fs.lstatSync(path.join(cartridgeroot, i)).isDirectory() || fs.lstatSync(path.join(cartridgeroot, i)).isSymbolicLink()).filter(i => fs.existsSync(path.join(path.join(cartridgeroot, i), 'cartridge')));
