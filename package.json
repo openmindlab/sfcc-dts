@@ -13,25 +13,26 @@
   ],
   "dependencies": {
     "axios": "^0.19.2",
-    "chalk": "4.0.0",
+    "chalk": "4.1.0",
     "cheerio": "^1.0.0-rc.3",
-    "cli-progress": "3.8.0",
+    "cli-progress": "3.8.2",
     "comment-json": "3.0.2",
-    "json-merge-patch": "0.2.3",
+    "json-merge-patch": "1.0.0",
     "prettier": "2.0.5",
     "prompts": "2.3.2",
     "properties-reader": "2.0.0"
   },
   "devDependencies": {
-    "@types/cheerio": "0.22.18",
-    "@types/cli-progress": "3.4.2",
-    "@types/json-merge-patch": "0.0.4",
-    "@types/node": "13.13.4",
-    "@types/prettier": "2.0.0",
-    "@types/prompts": "2.0.6",
+    "@types/cheerio": "0.22.21",
+    "@types/cli-progress": "3.7.0",
+    "@types/json-merge-patch": "0.0.5",
+    "@types/node": "14.0.23",
+    "@types/prettier": "2.0.2",
+    "@types/prompts": "2.0.8",
     "@types/properties-reader": "0.0.2",
-    "ts-node": "8.9.1",
-    "typescript": "3.8.3"
+    "create-symlink": "1.0.0",
+    "ts-node": "8.10.2",
+    "typescript": "3.9.7"
   },
   "files": [
     "dist/**/*",

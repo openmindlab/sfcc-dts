@@ -5938,7 +5938,12 @@ declare namespace dw {
        */
       readonly storeTaxClass: string;
       /**
-       * The ID of the product's tax class.
+       * The ID of the product's tax class, by resolving
+       *  the Global Preference setting selected. If the Localized
+       *  Tax Class setting under Global Preferences -> Products is
+       *  selected, the localizedTaxClassID attribute value will be
+       *  returned, else the legacy taxClassID attribute value will
+       *  be returned.
        */
       readonly taxClassID: string;
       /**
@@ -6536,9 +6541,14 @@ declare namespace dw {
        */
       getStoreTaxClass(): string;
       /**
-       * Returns the ID of the product's tax class.
+       * Returns the ID of the product's tax class, by resolving
+       *  the Global Preference setting selected. If the Localized
+       *  Tax Class setting under Global Preferences -> Products is
+       *  selected, the localizedTaxClassID attribute value will be
+       *  returned, else the legacy taxClassID attribute value will
+       *  be returned.
        *
-       * @return the ID of the product's tax class.
+       * @return the ID of the product's tax class depending on the Global Preference setting selected for Products.
        */
       getTaxClassID(): string;
       /**
@@ -8242,6 +8252,13 @@ declare namespace dw {
        */
       backorderable: boolean;
       /**
+       * The custom attributes for this object. The returned object is
+       *  used for retrieving and storing attribute values. See
+       *  CustomAttributes for a detailed example of the syntax for
+       *  working with custom attributes.
+       */
+      readonly custom: ProductInventoryRecordCustomAttributes;
+      /**
        * The date that the item is expected to be in stock.
        */
       inStockDate: Date;
@@ -8291,6 +8308,13 @@ declare namespace dw {
       readonly turnover: dw.value.Quantity;
 
       /**
+       * Returns the meta data of this object. If no meta data is available the method returns null. The returned
+       *  ObjectTypeDefinition can be used to retrieve the metadata for any of the custom attributes.
+       *
+       * @return the meta data of this object. If no meta data is available the method returns null.
+       */
+      describe(): dw.object.ObjectTypeDefinition;
+      /**
        * Returns the allocation quantity that is currently set. The quantity unit is the same unit as the product itself.
        *
        * @return the allocation quantity or quantity N/A if not available.
@@ -8310,6 +8334,15 @@ declare namespace dw {
        * @return the quantity or quantity N/A if not available.
        */
       getATS(): dw.value.Quantity;
+      /**
+       * Returns the custom attributes for this object. The returned object is
+       *  used for retrieving and storing attribute values. See
+       *  CustomAttributes for a detailed example of the syntax for
+       *  working with custom attributes.
+       *
+       * @return the custom attributes for this object.
+       */
+      getCustom(): ProductInventoryRecordCustomAttributes;
       /**
        * Returns the date that the item is expected to be in stock.
        *
@@ -15434,7 +15467,7 @@ declare namespace dw {
        *  Decryption is the process of getting back the original data from the
        *  cipher-text using a decryption key.
        * @param base64Msg the base64 encoded cipher bytes
-       * @param key Use the same key to decrypt as was used to encrypt the message. If the cryptographic algorithm is symmetric (e.g. AES) or asymmetric (e.g. RSA), the key needs to be passed as base64 encoded string. The only exception is the symmetric cryptographic algorithms Password Based Encryption (PBE). With PBE the key needs to be passed as plain string (without any encoding).
+       * @param key When using a symmetric cryptographic algorithm, use the same key to encrypt and decrypt. If the cryptographic algorithm is symmetric (for example, AES) or asymmetric (for example, RSA), the key needs to be passed as a base64-encoded string. The only exception is the symmetric cryptographic algorithms Password Based Encryption (PBE). With PBE the key needs to be passed as plain string (without any encoding).
        * @param transformation The transformation has to be in "algorithm/mode/padding" format. See the corresponding encrypt method for supported transformations.
        * @param salt Initialization value appropriate for the algorithm, this might be a Binary Salt or AlgorithmParameter or InitializationVector (see the corresponding encrypt method for details). Should be appropriate for the algorithm being used. If this value is null, a default initialization value will be used by the engine. The same value used to Encrypt needs to be supplied to the Decrypt function for many algorithms to successfully decrypt the data, so it is best practice to specify an appropriate value.
        * @param iterations The number of passes to make when turning a passphrase into a key. This is only applicable for some types of algorithm. Password Based Encryption (PBE) algorithms use this parameter, and Block Encryption algorithms do not. If this value is relevant to the algorithm it would be best practice to supply it, as the same value would be needed to decrypt the data that was used to encrypt the data.
@@ -15475,7 +15508,7 @@ declare namespace dw {
        *  Decryption is the process of getting back the original data from the
        *  cipher-text using a decryption key.
        * @param base64Msg the base64 encoded cipher bytes
-       * @param key Use the same key to decrypt as was used to encrypt the message. If the cryptographic algorithm is symmetric (e.g. AES) or asymmetric (e.g. RSA), the key needs to be passed as base64 encoded string. The only exception is the symmetric cryptographic algorithms Password Based Encryption (PBE). With PBE the key needs to be passed as plain string (without any encoding).
+       * @param key When using a symmetric cryptographic algorithm, use the same key to encrypt and decrypt. If the cryptographic algorithm is symmetric (for example, AES) or asymmetric (for example, RSA), the key needs to be passed as a base64-encoded string. The only exception is the symmetric cryptographic algorithms Password Based Encryption (PBE). With PBE the key needs to be passed as plain string (without any encoding).
        * @param transformation The transformation has to be in "algorithm/mode/padding" format. See the corresponding encrypt method for supported transformations.
        * @param salt Initialization value appropriate for the algorithm, this might be a Binary Salt or AlgorithmParameter or InitializationVector (see the corresponding encrypt method for details). Should be appropriate for the algorithm being used. The same value used to Encrypt needs to be supplied to the Decrypt function for many algorithms to successfully decrypt the data, so it is best practice to specify an appropriate value.
        * @param iterations The number of passes to make when turning a passphrase into a key. This is only applicable for some types of algorithm. Password Based Encryption (PBE) algorithms use this parameter, and Block Encryption algorithms do not. If this value is relevant to the algorithm it would be best practice to supply it, as the same value would be needed to decrypt the data that was used to encrypt the data.
@@ -15605,7 +15638,7 @@ declare namespace dw {
        *  something incomprehensible or cipher-text by applying transformations,
        *  which are the operation (or set of operations) to be performed on given input
        *  to produce some output. A transformation always includes the name of a
-       *  cryptographic algorithm (e.g. RSA) and may be followed by a mode and padding scheme.
+       *  cryptographic algorithm (for example, RSA) and may be followed by a mode and padding scheme.
        *  The supported algorithms are listed in the parameter description below.
        *  The cryptographic algorithms can be partitioned into symmetric
        *  and asymmetric (or public key/private key).
@@ -15679,7 +15712,7 @@ declare namespace dw {
        *           for padding from RSA Laboratories, "PKCS#5: Password-Based Encryption Standard," version 1.5, November 1993.
        *           SSL3Padding: The padding scheme defined in the SSL Protocol Version 3.0, November 18, 1996, section 5.2.3.2 (CBC block cipher)
        * @param message A string to encrypt (will be first converted with UTF-8 encoding into a byte stream)
-       * @param key A string ready for use with the algorithm. The key's format depends on the algorithm specified and the keys are assumed to be correctly formulated for the algorithm used, for example that the lengths are correct. Keys are not checked for validity. The cryptographic algorithms can be partitioned into symmetric and asymmetric (or public key/private key). Symmetric algorithms include password-based algorithms. Symmetric keys are usually base64 encodings of an array of bytes. Asymmetric keys are "key pairs" with a public key and a private key. For asymmetric algorithms the private key needs to be passed. Please provide the private key in PKCS#8 format, base64 encoded. See class documentation on how to generate a key pair. If the cryptographic algorithm is symmetric (e.g. AES) or asymmetric (e.g. RSA), the key needs to be passed as base64 encoded string. The only exception is the symmetric cryptographic algorithms Password Based Encryption (PBE). With PBE the key needs to be passed as plain string (without any encoding).
+       * @param key A string ready for use with the algorithm. The key's format depends on the algorithm specified and the keys are assumed to be correctly formulated for the algorithm used, for example that the lengths are correct. Keys are not checked for validity. The cryptographic algorithms can be partitioned into symmetric and asymmetric (or public key/private key). Symmetric algorithms include password-based algorithms. Symmetric keys are usually a base64-encoded array of bytes. Asymmetric keys are "key pairs" with a public key and a private key. To encrypt using asymmetric algorithms, provide the public key. To decrypt using asymmetric algorithms, provide the private key from the same pair in PKCS#8 format, base64-encoded. See class documentation on how to generate a key pair. If the cryptographic algorithm is symmetric (for example, AES) or asymmetric (for example, RSA), the key needs to be passed as a base64-encoded string. The only exception is the symmetric cryptographic algorithms Password Based Encryption (PBE). With PBE the key needs to be passed as plain string (without any encoding).
        * @param transformation The transformation has to be in "algorithm/mode/padding" format. Symmetric or "secret key" algorithms use the same key to encrypt and to decrypt the data. Asymmetric or "public key" cryptography uses a public/private key pair, and then publishes the public key. Only the holder of the private key will be able to decrypt. The public key and private key are also known as a "key pair". Supported Symmetric transformations include:  "AES" or Rijndael, Advanced Encryption Standard as specified by NIST AES with key length of 256 is the preferred choice for symmetric encryption Keysizes: 128, 192, or 256 Modes: "ECB","CBC","PCBC","CTR" Padding: "NOPADDING", "PKCS5Padding", "ISO10126PADDING"   Supported Asymmetric transformations include:  "RSA" Mode: "ECB" Padding: "NOPADDING", PKCS1PADDING", "OAEPWITHMD5ANDMGF1PADDING", "OAEPWITHSHA1ANDMGF1PADDING", "OAEPWITHSHA-1ANDMGF1PADDING", "OAEPWITHSHA-256ANDMGF1PADDING", "OAEPWITHSHA-384ANDMGF1PADDING", "OAEPWITHSHA-512ANDMGF1PADDING"  Note that for RSA the key length should be at least 2048 bits.
        * @param salt Initialization value appropriate for the algorithm, this might be a Binary Salt or AlgorithmParameter or InitializationVector. (As binary values cannot be passed, the equivalent Base64 String should be passed for any binary salt value). Should be appropriate for the algorithm being used. If this value is null, a default initialization value will be used by the engine. The same value used to Encrypt needs to be supplied to the Decrypt function for many algorithms to successfully decrypt the data, so it is best practice to specify an appropriate value. Requirements for the size and generation of DES initialization vectors (IV) are derived from FIPS 74 and FIPS 81 from the National Institute of Standards and Technology. CBC mode requires an IV with length 64 bits; CFB uses 48-64 bits; OFB uses 64 bits. If the IV is to be used with DES in the OFB mode, then it is not acceptable for the IV to remain fixed for multiple encryptions, if the same key is used for those encryptions. For Block Encryption algorithms this is the encoded Base64 String equivalent to the a random number to use as a "salt" to use with the algorithm. The algorithm must contain a Feedback Mode other than ECB. This must be a binary value that is exactly the same size as the algorithm block size. RC5 uses an optional 8-byte initialization vector (IV), but only in feedback mode (see CFB above). For Password Based Encryption algorithms, the salt is the encoded Base64 String equivalent to a random number value to transform the password into a key. PBE derives an encryption key from a password. In order to make the task of getting from password to key very time-consuming for an attacker, most PBE implementations will mix in a random number, known as a salt, to create the key. The salt value and the iteration count are then combined into a PBEParameterSpecification to initialize the cipher.  The PKCS#5 spec from RSA Labs defines the parameters for password-based encryption (PBE). The RSA algorithm requires a salt with length as defined in PKCS#1. DSA has a specific initialization that uses three integers to build a DSAParameterSpec (a prime, a sub-prime and a base). To use this algorithm you should use the JCE or another provider to supply a DSAParameterSpec and then supply the Base64 equivalent string as the "salt". Please see the documentation from the provider for additional restrictions.
        * @param iterations The number of passes to make when turning a passphrase into a key. This is only applicable for some types of algorithm. Password Based Encryption (PBE) algorithms use this parameter, and Block Encryption algorithms do not. If this value is relevant to the algorithm it would be best practice to supply it, as the same value would be needed to decrypt the data.
@@ -15749,7 +15782,7 @@ declare namespace dw {
        *  something incomprehensible or cipher-text by applying transformations,
        *  which are the operation (or set of operations) to be performed on given input
        *  to produce some output. A transformation always includes the name of a
-       *  cryptographic algorithm (e.g. RSA) and may be followed by a mode and padding scheme.
+       *  cryptographic algorithm (for example, RSA) and may be followed by a mode and padding scheme.
        *  The supported algorithms are listed in the parameter description below.
        *  The cryptographic algorithms can be partitioned into symmetric
        *  and asymmetric (or public key/private key).
@@ -15823,7 +15856,7 @@ declare namespace dw {
        *           for padding from RSA Laboratories, "PKCS#5: Password-Based Encryption Standard," version 1.5, November 1993.
        *           SSL3Padding: The padding scheme defined in the SSL Protocol Version 3.0, November 18, 1996, section 5.2.3.2 (CBC block cipher)
        * @param message A string to encrypt (will be first converted with UTF-8 encoding into a byte stream)
-       * @param key A string ready for use with the algorithm. The key's format depends on the algorithm specified and the keys are assumed to be correctly formulated for the algorithm used, for example that the lengths are correct. Keys are not checked for validity. The cryptographic algorithms can be partitioned into symmetric and asymmetric (or public key/private key). Symmetric algorithms include password-based algorithms. Symmetric keys are usually base64 encodings of an array of bytes. Asymmetric keys are "key pairs" with a public key and a private key. For asymmetric algorithms the private key needs to be passed. Please provide the private key in PKCS#8 format, base64 encoded. See class documentation on how to generate a key pair. If the cryptographic algorithm is symmetric (e.g. AES) or asymmetric (e.g. RSA), the key needs to be passed as base64 encoded string. The only exception is the symmetric cryptographic algorithms Password Based Encryption (PBE). With PBE the key needs to be passed as plain string (without any encoding).
+       * @param key A string ready for use with the algorithm. The key's format depends on the algorithm specified and the keys are assumed to be correctly formulated for the algorithm used, for example that the lengths are correct. Keys are not checked for validity. The cryptographic algorithms can be partitioned into symmetric and asymmetric (or public key/private key). Symmetric algorithms include password-based algorithms. Symmetric keys are usually a base64-encoded array of bytes. Asymmetric keys are "key pairs" with a public key and a private key. To encrypt using asymmetric algorithms, provide the public key. To decrypt using asymmetric algorithms, provide the private key from the same pair in PKCS#8 format, base64-encoded. See class documentation on how to generate a key pair. If the cryptographic algorithm is symmetric (for example, AES) or asymmetric (for example, RSA), the key needs to be passed as a base64-encoded string. The only exception is the symmetric cryptographic algorithms Password Based Encryption (PBE). With PBE the key needs to be passed as plain string (without any encoding).
        * @param transformation The transformation has to be in "algorithm/mode/padding" format. Symmetric or "secret key" algorithms use the same key to encrypt and to decrypt the data. Asymmetric or "public key" cryptography uses a public/private key pair, and then publishes the public key. Only the holder of the private key will be able to decrypt. The public key and private key are also known as a "key pair". Supported Symmetric transformations include:  "AES" or Rijndael, Advanced Encryption Standard as specified by NIST AES with key length of 256 is the preferred choice for symmetric encryption Keysizes: 128, 192, or 256 Modes: "ECB","CBC","PCBC","CTR" Padding: "NOPADDING", "PKCS5Padding", "ISO10126PADDING"   Supported Asymmetric transformations include:  "RSA" Mode: "ECB" Padding: "NOPADDING", PKCS1PADDING", "OAEPWITHMD5ANDMGF1PADDING", "OAEPWITHSHA1ANDMGF1PADDING", "OAEPWITHSHA-1ANDMGF1PADDING", "OAEPWITHSHA-256ANDMGF1PADDING", "OAEPWITHSHA-384ANDMGF1PADDING", "OAEPWITHSHA-512ANDMGF1PADDING"  Note that for RSA the key length should be at least 2048 bits.
        * @param salt Initialization value appropriate for the algorithm, this might be a Binary Salt or AlgorithmParameter or InitializationVector. (As binary values cannot be passed, the equivalent Base64 String should be passed for any binary salt value). Should be appropriate for the algorithm being used. The same value used to Encrypt needs to be supplied to the Decrypt function for many algorithms to successfully decrypt the data, so it is best practice to specify an appropriate value. Requirements for the size and generation of DES initialization vectors (IV) are derived from FIPS 74 and FIPS 81 from the National Institute of Standards and Technology. CBC mode requires an IV with length 64 bits; CFB uses 48-64 bits; OFB uses 64 bits. If the IV is to be used with DES in the OFB mode, then it is not acceptable for the IV to remain fixed for multiple encryptions, if the same key is used for those encryptions. For Block Encryption algorithms this is the encoded Base64 String equivalent to the a random number to use as a "salt" to use with the algorithm. The algorithm must contain a Feedback Mode other than ECB. This must be a binary value that is exactly the same size as the algorithm block size. RC5 uses an optional 8-byte initialization vector (IV), but only in feedback mode (see CFB above). For Password Based Encryption algorithms, the salt is the encoded Base64 String equivalent to a random number value to transform the password into a key. PBE derives an encryption key from a password. In order to make the task of getting from password to key very time-consuming for an attacker, most PBE implementations will mix in a random number, known as a salt, to create the key. The salt value and the iteration count are then combined into a PBEParameterSpecification to initialize the cipher.  The PKCS#5 spec from RSA Labs defines the parameters for password-based encryption (PBE). The RSA algorithm requires a salt with length as defined in PKCS#1. DSA has a specific initialization that uses three integers to build a DSAParameterSpec (a prime, a sub-prime and a base). To use this algorithm you should use the JCE or another provider to supply a DSAParameterSpec and then supply the Base64 equivalent string as the "salt". Please see the documentation from the provider for additional restrictions.
        * @param iterations The number of passes to make when turning a passphrase into a key. This is only applicable for some types of algorithm. Password Based Encryption (PBE) algorithms use this parameter, and Block Encryption algorithms do not. If this value is relevant to the algorithm it would be best practice to supply it, as the same value would be needed to decrypt the data.
@@ -18071,7 +18104,9 @@ declare namespace dw {
       ): dw.customer.AuthenticationStatus;
       /**
        * Creates a new Customer using the supplied login, password. The system automatically assigns a customer number based on
-       *  the customer sequence numbers configured for the site and/or organization.
+       *  the customer sequence numbers configured for the site or organization. The number is guaranteed to be unique, but is not guaranteed to be sequential.
+       *  It can be higher or lower than a previously created number. As a result, sorting customers by customer number is not guaranteed to sort them in their
+       *  order of creation.
        *
        *  The method throws an exception if any of the following conditions are encountered:
        *
@@ -18103,7 +18138,9 @@ declare namespace dw {
       ): dw.customer.Customer;
       /**
        * Creates a new Customer using the supplied login, password, and a customerNo. If the customerNo is not specified,
-       *  the system automatically assigns a customer number based on the customer sequence numbers configured for the site and/or organization.
+       *  the system automatically assigns a customer number based on the customer sequence numbers configured for the site or organization. An automatically assigned
+       *  number is guaranteed to be unique, but is not guaranteed to be sequential. It can be higher or lower than a previously created number. As a result, sorting
+       *  customers by customer number is not guaranteed to sort them in their order of creation.
        *
        *  The method throws an exception if any of the following conditions are encountered:
        *
@@ -20746,14 +20783,21 @@ declare namespace dw {
 
   namespace experience {
     /**
+     * This APIException is thrown by method <a href="class_dw_experience_PageMgr.html#dw_experience_PageMgr_renderPage_String_Map_String_DetailAnchor">PageMgr.renderPage(String, Map, String)</a>
+     *  to indicate that the passed aspect attributes failed during validation against the
+     *  definition provided through the aspect type of the page.
+     */
+    class AspectAttributeValidationException extends APIException {}
+
+    /**
      * This class represents a page designer managed component as part of a
      *  page. A component comprises of multiple regions that again hold components,
      *  thus spanning a hierarchical tree of components. Using the <a href="class_dw_experience_PageMgr.html#dw_experience_PageMgr_renderRegion_Region_DetailAnchor">PageMgr.renderRegion(Region)</a> or
      *  <a href="class_dw_experience_PageMgr.html#dw_experience_PageMgr_renderRegion_Region_RegionRenderSettings_DetailAnchor">PageMgr.renderRegion(Region, RegionRenderSettings)</a> a region can be rendered which
      *  implicitly includes rendering of all contained visible components. All
      *  content attributes (defined by the corresponding component type) can be
-     *  accessed, reading the accordant values as provided by the content editor
-     *  that created this component.
+     *  accessed, reading the accordant persisted values as provided by the content editor
+     *  who created this component.
      */
     class Component {
       /**
@@ -20771,17 +20815,40 @@ declare namespace dw {
 
       /**
        * Returns the raw attribute value identified by the specified attribute id.
-       *  By raw attribute value we denote the value as provided by the content
-       *  editor when setting up this component. This value might be fundamentally
-       *  different from the value as provided through the content dictionary when
-       *  the render function of the component is invoked. This is due to
-       *  the fact that during rendering the raw value is processed before being
-       *  stored in the content dictionary - for example link placeholders in
-       *  markup text are resolved to real URLs as part of such processing.
+       *  By raw attribute value we denote the unprocessed value as provided for the attribute
+       *  driven by the type of the respective attribute definition:
+       *
+       *   boolean -> boolean
+       *   category -> string representing a catalog category ID
+       *   custom -> Map that originates from a stringified curly brackets {} JSON object
+       *   cms_record -> Map that originates from a stringified curly brackets {} JSON object whose entries must adhere to the cmsrecord.json schema
+       *   enum -> either string or integer
+       *   file -> string representing a file path within a library
+       *   image -> Map that originates from a stringified curly brackets {} JSON object whose entries must adhere to the content/schema/image.json schema
+       *   integer -> integer
+       *   markup -> string representing HTML markup
+       *   page -> string representing a page ID
+       *   product -> string representing a product SKU
+       *   string -> string
+       *   text -> string
+       *   url -> string representing a URL
+       *
+       *
+       *
+       *  There is two places an attribute value can come from - either it was persisted at design time (e.g.
+       *  by the merchant by editing a component in Page Designer) or it was injected in shape of an aspect attribute at rendering time
+       *  through the execution of code. The persistent value, if existing, takes precedence over the injected aspect
+       *  attribute one. Injection of a value through an aspect attribute will only occur if the component attribute's
+       *  attribute definition was declared using the "dynamic_lookup" property and its aspect attribute alias matches
+       *  the ID of the respective aspect attribute.
+       *
        *  Accessing the raw value can be helpful if render logic of the
-       *  component needs to operate on these unprocessed values.
+       *  component needs to operate on these unprocessed values. An unprocessed value
+       *  might be fundamentally different from its processed counterpart, the latter being
+       *  provided through the content dictionary (see ComponentScriptContext.getContent())
+       *  when the render function of the component is invoked.
        * @param attributeID the id of the desired attribute
-       * @return the value of the desired attribute, or null if not found
+       * @return the unprocessed raw value of the desired attribute, or null if not found
        */
       getAttribute(attributeID: string): any;
       /**
@@ -20889,8 +20956,29 @@ declare namespace dw {
        */
       readonly componentRenderSettings: dw.experience.ComponentRenderSettings;
       /**
-       * The content attributes of the component. Currently those are setup by the merchant
-       *  using page designer and can be processed in your respective component type render function.
+       * The processed version of the underlying unprocessed raw values (also see Component.getAttribute(String))
+       *  of this component's attributes which you can use in your respective component type render function
+       *  implementing your business and rendering functionality. Processing the raw value is comprised of expansion
+       *  and conversion, in this order.
+       *
+       *      expansion - dynamic placeholders are transformed into actual values, for example url/link placeholders in
+       *      markup text are resolved to real URLs
+       *      conversion - the raw value (see Component.getAttribute(String)) is resolved into an actual
+       *      DWScript object depending on the type of the attribute as specified in its respective attribute definition
+       *
+       *           boolean -> boolean
+       *           category -> Category
+       *           custom -> Map
+       *           enum -> either string or integer
+       *           file -> MediaFile
+       *           image -> Image
+       *           integer -> integer
+       *           markup -> string
+       *           page -> string
+       *           product -> Product
+       *           string -> string
+       *           text -> string
+       *           url -> string
        */
       readonly content: dw.util.Map<string, any>;
 
@@ -20912,10 +21000,31 @@ declare namespace dw {
        */
       getComponentRenderSettings(): dw.experience.ComponentRenderSettings;
       /**
-       * Returns the content attributes of the component. Currently those are setup by the merchant
-       *  using page designer and can be processed in your respective component type render function.
+       * Returns the processed version of the underlying unprocessed raw values (also see Component.getAttribute(String))
+       *  of this component's attributes which you can use in your respective component type render function
+       *  implementing your business and rendering functionality. Processing the raw value is comprised of expansion
+       *  and conversion, in this order.
        *
-       * @return content attributes of the component
+       *      expansion - dynamic placeholders are transformed into actual values, for example url/link placeholders in
+       *      markup text are resolved to real URLs
+       *      conversion - the raw value (see Component.getAttribute(String)) is resolved into an actual
+       *      DWScript object depending on the type of the attribute as specified in its respective attribute definition
+       *
+       *           boolean -> boolean
+       *           category -> Category
+       *           custom -> Map
+       *           enum -> either string or integer
+       *           file -> MediaFile
+       *           image -> Image
+       *           integer -> integer
+       *           markup -> string
+       *           page -> string
+       *           product -> Product
+       *           string -> string
+       *           text -> string
+       *           url -> string
+       *
+       * @return processed content attributes of the component
        */
       getContent(): dw.util.Map<string, any>;
     }
@@ -21063,6 +21172,12 @@ declare namespace dw {
      */
     class Page {
       /**
+       * Get the aspect type of the page.
+       *  If an aspect type is set for this page (and is found in the deployed code version), then the page is treated as dynamic page during rendering,
+       *  also see PageMgr.renderPage(String, Map, String).
+       */
+      readonly aspectTypeID: string;
+      /**
        * The description of this page.
        */
       readonly description: string;
@@ -21131,6 +21246,29 @@ declare namespace dw {
        */
       readonly visible: boolean;
 
+      /**
+       * Get the aspect type of the page.
+       *  If an aspect type is set for this page (and is found in the deployed code version), then the page is treated as dynamic page during rendering,
+       *  also see PageMgr.renderPage(String, Map, String).
+       *
+       * @return the ID of the page's aspect type
+       */
+      getAspectTypeID(): string;
+      /**
+       * Returns the raw attribute value identified by the specified attribute id.
+       *  By raw attribute value we denote the value as provided by the content
+       *  editor when setting up this page. This value might be fundamentally
+       *  different from the value as provided through the content dictionary when
+       *  the render function of the page is invoked. This is due to
+       *  the fact that during rendering the raw value is processed before being
+       *  stored in the content dictionary - for example link placeholders in
+       *  markup text are resolved to real URLs as part of such processing.
+       *  Accessing the raw value can be helpful if render logic of the
+       *  page needs to operate on these unprocessed values.
+       * @param attributeID the id of the desired attribute
+       * @return the value of the desired attribute, or null if not found
+       */
+      getAttribute(attributeID: string): any;
       /**
        * Returns the description of this page.
        *
@@ -21235,7 +21373,7 @@ declare namespace dw {
     /**
      * Provides functionality for getting and rendering page designer managed pages.
      *  <p>
-     *  The basic flow is to initiate page rendering by ID via <a href="class_dw_experience_PageMgr.html#dw_experience_PageMgr_renderPage_String_String_DetailAnchor">renderPage(String, String)</a>. This will trigger page
+     *  The basic flow is to initiate page rendering by ID via <a href="class_dw_experience_PageMgr.html#dw_experience_PageMgr_renderPage_String_String_DetailAnchor">renderPage(String, String)</a> or <a href="class_dw_experience_PageMgr.html#dw_experience_PageMgr_renderPage_String_Map_String_DetailAnchor">renderPage(String, Map, String)</a>. This will trigger page
      *  rendering from a top level perspective, i.e. the page serves as entry point and root container of components.
      *  As a related page or component template will likely want to trigger rendering of nested components
      *  within its regions it can do this by first fetching the desired region by ID via
@@ -21272,6 +21410,18 @@ declare namespace dw {
        */
       static getPage(pageID: string): dw.experience.Page;
       /**
+       * Get the dynamic page for given category (including bottom up traversal of the category tree) and aspect type.
+       * @param category category to find the page for, i.e. starting point (inclusive) for the bottom up traversal
+       * @param pageMustBeVisible while doing the bottom up traversal any attached page whose Page.isVisible() does not yield true will be bypassed in the search
+       * @param aspectTypeID id of the page-category-assignment aspect type
+       * @return the page assigned to the given category. If this none is found there then the path upwards in the category tree is traversed until a category is found that has a page assigned. If category assignments are not supported by the given aspect type or none is found within the aforementioned path of categories then null is returned.
+       */
+      static getPage(
+        category: dw.catalog.Category,
+        pageMustBeVisible: boolean,
+        aspectTypeID: string
+      ): dw.experience.Page;
+      /**
        * Render a page. All of this is going to happen in two layers of remote includes, therefore pagecaching of page rendering
        *  is separated from the pagecache lifecycle of the caller. The first one is going to be returned by this method.
        *
@@ -21298,11 +21448,49 @@ declare namespace dw {
        *
        *
        *  Nesting of renderPage(String, String), i.e. rendering a page within a page (or respectively its components), is not a supported use case.
+       *
+       *
+       *  Due to the nature of the remote includes mentioned above this comes with the url length restriction as you already know it from
+       *  remote includes you implement by hand within your templates. Thus the size of the parameters parameter of this
+       *  method has a length limitation accordingly because it just translates into a url parameter of the aforementioned remote includes.
+       *  As a best practice refrain from passing complex objects (e.g. full blown product models) but keep it rather slim (e.g. only product IDs).
        * @param pageID the ID of the page that will be rendered
        * @param parameters the optional parameters passed to page rendering
        * @return the remote include that will yield the markup as produced by page rendering
        */
       static renderPage(pageID: string, parameters: string): string;
+      /**
+       * Render a page. This is an extension of renderPage(String, String) for the purpose of rendering a
+       *  page that needs to determine pieces of its content at rendering time instead of design time only. Therefore it
+       *  is possible to pass aspect attributes in case the given page is subject to an aspect type. The latter specifies the
+       *  eligible aspect attribute definitions which the passed in aspect attributes will be validated against.
+       *  If the validation fails for any of the following reasons an AspectAttributeValidationException
+       *  will be thrown:
+       *
+       *      any aspect attribute value violates the value domain of the corresponding attribute definition
+       *      any required aspect attribute value is null
+       *
+       *  Aspect attributes without corresponding attribute definition will be omitted. Once they made it into the rendering
+       *  they will apply if no persistent component attribute value exists (taking precedence over default attribute values
+       *  as coming from the attribute definition json) and the component attribute has the dynamic_lookup
+       *  property defined which contains the aspect attribute alias. The aspect attribute value lookup then happens by taking
+       *  this aspect attribute alias and using it as attribute identifier within the given map of aspect attributes.
+       *
+       *  Due to the nature of using remote includes, also see renderPage(String, String), this comes with the url length
+       *  restriction as you already know it from remote includes you implement by hand within your templates. Thus the size of both the
+       *  aspectAttributes (keys and values) as well as the parameters parameter of this method
+       *  are subject to a length limitation accordingly because they just translate into url parameters of the aforementioned remote includes.
+       *  As a best practice refrain from passing complex objects (e.g. full blown product models) but keep it rather slim (e.g. only product IDs).
+       * @param pageID the aspect driven page that will be rendered
+       * @param aspectAttributes the values for the aspect attributes, with the key being the id of the respective attribute definition and the value adhering to the type of this attribute definition
+       * @param parameters the optional parameters passed to page rendering
+       * @return the remote include that will yield the markup as produced by page rendering
+       */
+      static renderPage(
+        pageID: string,
+        aspectAttributes: dw.util.Map<any, any>,
+        parameters: string
+      ): string;
       /**
        * Renders a region by triggering rendering of all visible components within
        *  this region. For each of these components the render function of the respective component
@@ -24042,7 +24230,10 @@ declare namespace dw {
      *  <p>This class provides other useful methods for listing the
      *  children of a directory and for working with zip files.
      *  </p><p>
-     *  <b>Note:</b> when this class is used with sensitive data, be careful in persisting sensitive information.</p>
+     *  <b>Note:</b> when this class is used with sensitive data, be careful in persisting sensitive information.
+     *
+     *  </p><p>For performance reasons no more than 100,000 files (regular files and directories) should be stored in a
+     *  directory.</p>
      */
     class File {
       /**
@@ -29446,11 +29637,9 @@ declare namespace dw {
      *  </ul>
      *  <p>
      *  Order post-processing APIs (gillian) are now inactive by default and will throw
-     *  an exception if accessed. On sandboxes the APIs can be activated with a feature
-     *  switch &quot;Order Post Processing APIs on Sandboxes&quot;. On PIGs an activation needs
-     *  preliminary approval by Product Management. Please contact support in this case.
-     *  Existing customers using these APIs are not affected by this change and can use the
-     *  APIs until further notice.</p>
+     *  an exception if accessed. Activation needs preliminary approval by Product Management.
+     *  Please contact support in this case. Existing customers using these APIs are not
+     *  affected by this change and can use the APIs until further notice.</p>
      */
     class Appeasement extends dw.order.AbstractItemCtnr {
       /**
@@ -29637,11 +29826,9 @@ declare namespace dw {
      *  When the related Appeasement were set to status COMPLETED, only the the custom attributes of the appeasement item can be changed.
      *  <p>
      *  Order post-processing APIs (gillian) are now inactive by default and will throw
-     *  an exception if accessed. On sandboxes the APIs can be activated with a feature
-     *  switch &quot;Order Post Processing APIs on Sandboxes&quot;. On PIGs an activation needs
-     *  preliminary approval by Product Management. Please contact support in this case.
-     *  Existing customers using these APIs are not affected by this change and can use the
-     *  APIs until further notice.</p>
+     *  an exception if accessed. Activation needs preliminary approval by Product Management.
+     *  Please contact support in this case. Existing customers using these APIs are not
+     *  affected by this change and can use the APIs until further notice.</p>
      */
     class AppeasementItem extends dw.order.AbstractItem {
       /**
@@ -31201,11 +31388,9 @@ declare namespace dw {
      *  <a href="class_dw_order_Return.html#dw_order_Return_createInvoice_String_DetailAnchor">Return.createInvoice(String)</a>.
      *  <p>
      *  Order post-processing APIs (gillian) are now inactive by default and will throw
-     *  an exception if accessed. On sandboxes the APIs can be activated with a feature
-     *  switch &quot;Order Post Processing APIs on Sandboxes&quot;. On PIGs an activation needs
-     *  preliminary approval by Product Management. Please contact support in this case.
-     *  Existing customers using these APIs are not affected by this change and can use the
-     *  APIs until further notice.</p>
+     *  an exception if accessed. Activation needs preliminary approval by Product Management.
+     *  Please contact support in this case. Existing customers using these APIs are not
+     *  affected by this change and can use the APIs until further notice.</p>
      */
     class Invoice extends dw.order.AbstractItemCtnr {
       /**
@@ -31520,11 +31705,9 @@ declare namespace dw {
      *  on its creation, each item references exactly one order-item.
      *  <p>
      *  Order post-processing APIs (gillian) are now inactive by default and will throw
-     *  an exception if accessed. On sandboxes the APIs can be activated with a feature
-     *  switch &quot;Order Post Processing APIs on Sandboxes&quot;. On PIGs an activation needs
-     *  preliminary approval by Product Management. Please contact support in this case.
-     *  Existing customers using these APIs are not affected by this change and can use the
-     *  APIs until further notice.</p>
+     *  an exception if accessed. Activation needs preliminary approval by Product Management.
+     *  Please contact support in this case. Existing customers using these APIs are not
+     *  affected by this change and can use the APIs until further notice.</p>
      */
     class InvoiceItem extends dw.order.AbstractItem {
       /**
@@ -33478,11 +33661,9 @@ declare namespace dw {
        * The collection of InvoiceItems associated with this order.
        *
        *  Order post-processing APIs (gillian) are now inactive by default and will throw
-       *  an exception if accessed. On sandboxes the APIs can be activated with a feature
-       *  switch "Order Post Processing APIs on Sandboxes". On PIGs an activation needs
-       *  preliminary approval by Product Management. Please contact support in this case.
-       *  Existing customers using these APIs are not affected by this change and can use the
-       *  APIs until further notice.
+       *  an exception if accessed. Activation needs preliminary approval by Product Management.
+       *  Please contact support in this case. Existing customers using these APIs are not
+       *  affected by this change and can use the APIs until further notice.
        */
       readonly invoiceItems: dw.util.FilteringCollection<dw.order.InvoiceItem>;
       /**
@@ -33497,11 +33678,9 @@ declare namespace dw {
        * The collection of Invoices associated with this order.
        *
        *  Order post-processing APIs (gillian) are now inactive by default and will throw
-       *  an exception if accessed. On sandboxes the APIs can be activated with a feature
-       *  switch "Order Post Processing APIs on Sandboxes". On PIGs an activation needs
-       *  preliminary approval by Product Management. Please contact support in this case.
-       *  Existing customers using these APIs are not affected by this change and can use the
-       *  APIs until further notice.
+       *  an exception if accessed. Activation needs preliminary approval by Product Management.
+       *  Please contact support in this case. Existing customers using these APIs are not
+       *  affected by this change and can use the APIs until further notice.
        */
       readonly invoices: dw.util.FilteringCollection<dw.order.Invoice>;
       /**
@@ -33605,11 +33784,9 @@ declare namespace dw {
        * The collection of ReturnCaseItems associated with this order.
        *
        *  Order post-processing APIs (gillian) are now inactive by default and will throw
-       *  an exception if accessed. On sandboxes the APIs can be activated with a feature
-       *  switch "Order Post Processing APIs on Sandboxes". On PIGs an activation needs
-       *  preliminary approval by Product Management. Please contact support in this case.
-       *  Existing customers using these APIs are not affected by this change and can use the
-       *  APIs until further notice.
+       *  an exception if accessed. Activation needs preliminary approval by Product Management.
+       *  Please contact support in this case. Existing customers using these APIs are not
+       *  affected by this change and can use the APIs until further notice.
        */
       readonly returnCaseItems: dw.util.FilteringCollection<
         dw.order.ReturnCaseItem
@@ -33618,44 +33795,36 @@ declare namespace dw {
        * The collection of ReturnCases associated with this order.
        *
        *  Order post-processing APIs (gillian) are now inactive by default and will throw
-       *  an exception if accessed. On sandboxes the APIs can be activated with a feature
-       *  switch "Order Post Processing APIs on Sandboxes". On PIGs an activation needs
-       *  preliminary approval by Product Management. Please contact support in this case.
-       *  Existing customers using these APIs are not affected by this change and can use the
-       *  APIs until further notice.
+       *  an exception if accessed. Activation needs preliminary approval by Product Management.
+       *  Please contact support in this case. Existing customers using these APIs are not
+       *  affected by this change and can use the APIs until further notice.
        */
       readonly returnCases: dw.util.FilteringCollection<dw.order.ReturnCase>;
       /**
        * The collection of ReturnItems associated with this order.
        *
        *  Order post-processing APIs (gillian) are now inactive by default and will throw
-       *  an exception if accessed. On sandboxes the APIs can be activated with a feature
-       *  switch "Order Post Processing APIs on Sandboxes". On PIGs an activation needs
-       *  preliminary approval by Product Management. Please contact support in this case.
-       *  Existing customers using these APIs are not affected by this change and can use the
-       *  APIs until further notice.
+       *  an exception if accessed. Activation needs preliminary approval by Product Management.
+       *  Please contact support in this case. Existing customers using these APIs are not
+       *  affected by this change and can use the APIs until further notice.
        */
       readonly returnItems: dw.util.FilteringCollection<dw.order.ReturnItem>;
       /**
        * The collection of Returns associated with this order.
        *
        *  Order post-processing APIs (gillian) are now inactive by default and will throw
-       *  an exception if accessed. On sandboxes the APIs can be activated with a feature
-       *  switch "Order Post Processing APIs on Sandboxes". On PIGs an activation needs
-       *  preliminary approval by Product Management. Please contact support in this case.
-       *  Existing customers using these APIs are not affected by this change and can use the
-       *  APIs until further notice.
+       *  an exception if accessed. Activation needs preliminary approval by Product Management.
+       *  Please contact support in this case. Existing customers using these APIs are not
+       *  affected by this change and can use the APIs until further notice.
        */
       readonly returns: dw.util.FilteringCollection<dw.order.Return>;
       /**
        * The collection of ShippingOrderItems associated with this order.
        *
        *  Order post-processing APIs (gillian) are now inactive by default and will throw
-       *  an exception if accessed. On sandboxes the APIs can be activated with a feature
-       *  switch "Order Post Processing APIs on Sandboxes". On PIGs an activation needs
-       *  preliminary approval by Product Management. Please contact support in this case.
-       *  Existing customers using these APIs are not affected by this change and can use the
-       *  APIs until further notice.
+       *  an exception if accessed. Activation needs preliminary approval by Product Management.
+       *  Please contact support in this case. Existing customers using these APIs are not
+       *  affected by this change and can use the APIs until further notice.
        */
       readonly shippingOrderItems: dw.util.FilteringCollection<
         dw.order.ShippingOrderItem
@@ -33664,11 +33833,9 @@ declare namespace dw {
        * The collection of ShippingOrders associated with this order.
        *
        *  Order post-processing APIs (gillian) are now inactive by default and will throw
-       *  an exception if accessed. On sandboxes the APIs can be activated with a feature
-       *  switch "Order Post Processing APIs on Sandboxes". On PIGs an activation needs
-       *  preliminary approval by Product Management. Please contact support in this case.
-       *  Existing customers using these APIs are not affected by this change and can use the
-       *  APIs until further notice.
+       *  an exception if accessed. Activation needs preliminary approval by Product Management.
+       *  Please contact support in this case. Existing customers using these APIs are not
+       *  affected by this change and can use the APIs until further notice.
        */
       readonly shippingOrders: dw.util.FilteringCollection<
         dw.order.ShippingOrder
@@ -33740,11 +33907,9 @@ declare namespace dw {
        *  exception.
        *
        *  Order post-processing APIs (gillian) are now inactive by default and will throw
-       *  an exception if accessed. On sandboxes the APIs can be activated with a feature
-       *  switch "Order Post Processing APIs on Sandboxes". On PIGs an activation needs
-       *  preliminary approval by Product Management. Please contact support in this case.
-       *  Existing customers using these APIs are not affected by this change and can use the
-       *  APIs until further notice.
+       *  an exception if accessed. Activation needs preliminary approval by Product Management.
+       *  Please contact support in this case. Existing customers using these APIs are not
+       *  affected by this change and can use the APIs until further notice.
        * @param appeasementNumber the appeasementNumber to be assigned to the newly created appeasement
        * @return the created appeasement
        */
@@ -33756,11 +33921,9 @@ declare namespace dw {
        *  will have an appeasementNumber based on the getOrderNo().
        *
        *  Order post-processing APIs (gillian) are now inactive by default and will throw
-       *  an exception if accessed. On sandboxes the APIs can be activated with a feature
-       *  switch "Order Post Processing APIs on Sandboxes". On PIGs an activation needs
-       *  preliminary approval by Product Management. Please contact support in this case.
-       *  Existing customers using these APIs are not affected by this change and can use the
-       *  APIs until further notice.
+       *  an exception if accessed. Activation needs preliminary approval by Product Management.
+       *  Please contact support in this case. Existing customers using these APIs are not
+       *  affected by this change and can use the APIs until further notice.
        *
        * @return the created appeasement
        */
@@ -33775,11 +33938,9 @@ declare namespace dw {
        *  exception.
        *
        *  Order post-processing APIs (gillian) are now inactive by default and will throw
-       *  an exception if accessed. On sandboxes the APIs can be activated with a feature
-       *  switch "Order Post Processing APIs on Sandboxes". On PIGs an activation needs
-       *  preliminary approval by Product Management. Please contact support in this case.
-       *  Existing customers using these APIs are not affected by this change and can use the
-       *  APIs until further notice.
+       *  an exception if accessed. Activation needs preliminary approval by Product Management.
+       *  Please contact support in this case. Existing customers using these APIs are not
+       *  affected by this change and can use the APIs until further notice.
        * @param returnCaseNumber returnCaseNumber to use
        * @param isRMA whether the new ReturnCase is an RMA (return merchandise authorization)
        * @return null or the ReturnCase associated with the given returnCaseNumber
@@ -33797,11 +33958,9 @@ declare namespace dw {
        *  return cases will have the numbers 1234#RC1, 1234#RC2, 1234#RC3...
        *
        *  Order post-processing APIs (gillian) are now inactive by default and will throw
-       *  an exception if accessed. On sandboxes the APIs can be activated with a feature
-       *  switch "Order Post Processing APIs on Sandboxes". On PIGs an activation needs
-       *  preliminary approval by Product Management. Please contact support in this case.
-       *  Existing customers using these APIs are not affected by this change and can use the
-       *  APIs until further notice.
+       *  an exception if accessed. Activation needs preliminary approval by Product Management.
+       *  Please contact support in this case. Existing customers using these APIs are not
+       *  affected by this change and can use the APIs until further notice.
        * @param isRMA whether the new ReturnCase is an RMA (return merchandise authorization)
        * @return the created ReturnCase
        */
@@ -33810,7 +33969,7 @@ declare namespace dw {
        * Returns the  order item with the given status which wraps a new
        *   service item which is created and added to the order.
        * @param ID the ID of the new service item. This ID will be returned when ShippingLineItem.getID() is called.
-       * @param status the status of the order item, use one of  OrderItem.STATUS_NEW  OrderItem.STATUS_OPEN  OrderItem.STATUS_SHIPPED   Order post-processing APIs (gillian) are now inactive by default and will throw an exception if accessed. On sandboxes the APIs can be activated with a feature switch "Order Post Processing APIs on Sandboxes". On PIGs an activation needs preliminary approval by Product Management. Please contact support in this case. Existing customers using these APIs are not affected by this change and can use the APIs until further notice.
+       * @param status the status of the order item, use one of  OrderItem.STATUS_NEW  OrderItem.STATUS_OPEN  OrderItem.STATUS_SHIPPED   Order post-processing APIs (gillian) are now inactive by default and will throw an exception if accessed. Activation needs preliminary approval by Product Management. Please contact support in this case. Existing customers using these APIs are not affected by this change and can use the APIs until further notice.
        * @return the created order item
        */
       createServiceItem(ID: string, status: string): dw.order.OrderItem;
@@ -33821,11 +33980,9 @@ declare namespace dw {
        *  createShippingOrder(String) for a defined shipping order number.
        *
        *  Order post-processing APIs (gillian) are now inactive by default and will throw
-       *  an exception if accessed. On sandboxes the APIs can be activated with a feature
-       *  switch "Order Post Processing APIs on Sandboxes". On PIGs an activation needs
-       *  preliminary approval by Product Management. Please contact support in this case.
-       *  Existing customers using these APIs are not affected by this change and can use the
-       *  APIs until further notice.
+       *  an exception if accessed. Activation needs preliminary approval by Product Management.
+       *  Please contact support in this case. Existing customers using these APIs are not
+       *  affected by this change and can use the APIs until further notice.
        *
        * @return the created shipping order
        */
@@ -33834,11 +33991,9 @@ declare namespace dw {
        * Creates a new ShippingOrder for this order.
        *
        *  Order post-processing APIs (gillian) are now inactive by default and will throw
-       *  an exception if accessed. On sandboxes the APIs can be activated with a feature
-       *  switch "Order Post Processing APIs on Sandboxes". On PIGs an activation needs
-       *  preliminary approval by Product Management. Please contact support in this case.
-       *  Existing customers using these APIs are not affected by this change and can use the
-       *  APIs until further notice.
+       *  an exception if accessed. Activation needs preliminary approval by Product Management.
+       *  Please contact support in this case. Existing customers using these APIs are not
+       *  affected by this change and can use the APIs until further notice.
        * @param shippingOrderNumber the document number to be used
        * @return the created shipping order
        */
@@ -34011,11 +34166,9 @@ declare namespace dw {
        *  The method returns null if no instance can be found.
        *
        *  Order post-processing APIs (gillian) are now inactive by default and will throw
-       *  an exception if accessed. On sandboxes the APIs can be activated with a feature
-       *  switch "Order Post Processing APIs on Sandboxes". On PIGs an activation needs
-       *  preliminary approval by Product Management. Please contact support in this case.
-       *  Existing customers using these APIs are not affected by this change and can use the
-       *  APIs until further notice.
+       *  an exception if accessed. Activation needs preliminary approval by Product Management.
+       *  Please contact support in this case. Existing customers using these APIs are not
+       *  affected by this change and can use the APIs until further notice.
        * @param invoiceNumber the invoice number
        * @return the invoice associated with the given invoiceNumber
        */
@@ -34025,11 +34178,9 @@ declare namespace dw {
        *  The method returns null if no instance can be found.
        *
        *  Order post-processing APIs (gillian) are now inactive by default and will throw
-       *  an exception if accessed. On sandboxes the APIs can be activated with a feature
-       *  switch "Order Post Processing APIs on Sandboxes". On PIGs an activation needs
-       *  preliminary approval by Product Management. Please contact support in this case.
-       *  Existing customers using these APIs are not affected by this change and can use the
-       *  APIs until further notice.
+       *  an exception if accessed. Activation needs preliminary approval by Product Management.
+       *  Please contact support in this case. Existing customers using these APIs are not
+       *  affected by this change and can use the APIs until further notice.
        * @param invoiceItemID the item ID
        * @return the invoice item associated with the given ID
        */
@@ -34038,11 +34189,9 @@ declare namespace dw {
        * Returns the collection of InvoiceItems associated with this order.
        *
        *  Order post-processing APIs (gillian) are now inactive by default and will throw
-       *  an exception if accessed. On sandboxes the APIs can be activated with a feature
-       *  switch "Order Post Processing APIs on Sandboxes". On PIGs an activation needs
-       *  preliminary approval by Product Management. Please contact support in this case.
-       *  Existing customers using these APIs are not affected by this change and can use the
-       *  APIs until further notice.
+       *  an exception if accessed. Activation needs preliminary approval by Product Management.
+       *  Please contact support in this case. Existing customers using these APIs are not
+       *  affected by this change and can use the APIs until further notice.
        *
        * @return invoice items belonging to this order
        */
@@ -34061,11 +34210,9 @@ declare namespace dw {
        * Returns the collection of Invoices associated with this order.
        *
        *  Order post-processing APIs (gillian) are now inactive by default and will throw
-       *  an exception if accessed. On sandboxes the APIs can be activated with a feature
-       *  switch "Order Post Processing APIs on Sandboxes". On PIGs an activation needs
-       *  preliminary approval by Product Management. Please contact support in this case.
-       *  Existing customers using these APIs are not affected by this change and can use the
-       *  APIs until further notice.
+       *  an exception if accessed. Activation needs preliminary approval by Product Management.
+       *  Please contact support in this case. Existing customers using these APIs are not
+       *  affected by this change and can use the APIs until further notice.
        *
        * @return invoices belonging to this order
        */
@@ -34249,11 +34396,9 @@ declare namespace dw {
        *  The method returns null if no instance can be found.
        *
        *  Order post-processing APIs (gillian) are now inactive by default and will throw
-       *  an exception if accessed. On sandboxes the APIs can be activated with a feature
-       *  switch "Order Post Processing APIs on Sandboxes". On PIGs an activation needs
-       *  preliminary approval by Product Management. Please contact support in this case.
-       *  Existing customers using these APIs are not affected by this change and can use the
-       *  APIs until further notice.
+       *  an exception if accessed. Activation needs preliminary approval by Product Management.
+       *  Please contact support in this case. Existing customers using these APIs are not
+       *  affected by this change and can use the APIs until further notice.
        * @param returnNumber the return number
        * @return the return associated with the given returnNumber
        */
@@ -34263,11 +34408,9 @@ declare namespace dw {
        *  The method returns null if no instance can be found.
        *
        *  Order post-processing APIs (gillian) are now inactive by default and will throw
-       *  an exception if accessed. On sandboxes the APIs can be activated with a feature
-       *  switch "Order Post Processing APIs on Sandboxes". On PIGs an activation needs
-       *  preliminary approval by Product Management. Please contact support in this case.
-       *  Existing customers using these APIs are not affected by this change and can use the
-       *  APIs until further notice.
+       *  an exception if accessed. Activation needs preliminary approval by Product Management.
+       *  Please contact support in this case. Existing customers using these APIs are not
+       *  affected by this change and can use the APIs until further notice.
        * @param returnCaseNumber the return case number
        * @return the return case associated with the given returnCaseNumber
        */
@@ -34277,11 +34420,9 @@ declare namespace dw {
        *  The method returns null if no instance can be found.
        *
        *  Order post-processing APIs (gillian) are now inactive by default and will throw
-       *  an exception if accessed. On sandboxes the APIs can be activated with a feature
-       *  switch "Order Post Processing APIs on Sandboxes". On PIGs an activation needs
-       *  preliminary approval by Product Management. Please contact support in this case.
-       *  Existing customers using these APIs are not affected by this change and can use the
-       *  APIs until further notice.
+       *  an exception if accessed. Activation needs preliminary approval by Product Management.
+       *  Please contact support in this case. Existing customers using these APIs are not
+       *  affected by this change and can use the APIs until further notice.
        * @param returnCaseItemID the ID
        * @return the return case item associated with the given returnCaseItemID
        */
@@ -34290,11 +34431,9 @@ declare namespace dw {
        * Returns the collection of ReturnCaseItems associated with this order.
        *
        *  Order post-processing APIs (gillian) are now inactive by default and will throw
-       *  an exception if accessed. On sandboxes the APIs can be activated with a feature
-       *  switch "Order Post Processing APIs on Sandboxes". On PIGs an activation needs
-       *  preliminary approval by Product Management. Please contact support in this case.
-       *  Existing customers using these APIs are not affected by this change and can use the
-       *  APIs until further notice.
+       *  an exception if accessed. Activation needs preliminary approval by Product Management.
+       *  Please contact support in this case. Existing customers using these APIs are not
+       *  affected by this change and can use the APIs until further notice.
        *
        * @return return case items belonging to this order
        */
@@ -34305,11 +34444,9 @@ declare namespace dw {
        * Returns the collection of ReturnCases associated with this order.
        *
        *  Order post-processing APIs (gillian) are now inactive by default and will throw
-       *  an exception if accessed. On sandboxes the APIs can be activated with a feature
-       *  switch "Order Post Processing APIs on Sandboxes". On PIGs an activation needs
-       *  preliminary approval by Product Management. Please contact support in this case.
-       *  Existing customers using these APIs are not affected by this change and can use the
-       *  APIs until further notice.
+       *  an exception if accessed. Activation needs preliminary approval by Product Management.
+       *  Please contact support in this case. Existing customers using these APIs are not
+       *  affected by this change and can use the APIs until further notice.
        *
        * @return return cases belonging to this order
        */
@@ -34319,11 +34456,9 @@ declare namespace dw {
        *  The method returns null if no instance can be found.
        *
        *  Order post-processing APIs (gillian) are now inactive by default and will throw
-       *  an exception if accessed. On sandboxes the APIs can be activated with a feature
-       *  switch "Order Post Processing APIs on Sandboxes". On PIGs an activation needs
-       *  preliminary approval by Product Management. Please contact support in this case.
-       *  Existing customers using these APIs are not affected by this change and can use the
-       *  APIs until further notice.
+       *  an exception if accessed. Activation needs preliminary approval by Product Management.
+       *  Please contact support in this case. Existing customers using these APIs are not
+       *  affected by this change and can use the APIs until further notice.
        * @param returnItemID the ID
        * @return the return item associated with the given returnItemID
        */
@@ -34332,11 +34467,9 @@ declare namespace dw {
        * Returns the collection of ReturnItems associated with this order.
        *
        *  Order post-processing APIs (gillian) are now inactive by default and will throw
-       *  an exception if accessed. On sandboxes the APIs can be activated with a feature
-       *  switch "Order Post Processing APIs on Sandboxes". On PIGs an activation needs
-       *  preliminary approval by Product Management. Please contact support in this case.
-       *  Existing customers using these APIs are not affected by this change and can use the
-       *  APIs until further notice.
+       *  an exception if accessed. Activation needs preliminary approval by Product Management.
+       *  Please contact support in this case. Existing customers using these APIs are not
+       *  affected by this change and can use the APIs until further notice.
        *
        * @return return items belonging to this order
        */
@@ -34345,11 +34478,9 @@ declare namespace dw {
        * Returns the collection of Returns associated with this order.
        *
        *  Order post-processing APIs (gillian) are now inactive by default and will throw
-       *  an exception if accessed. On sandboxes the APIs can be activated with a feature
-       *  switch "Order Post Processing APIs on Sandboxes". On PIGs an activation needs
-       *  preliminary approval by Product Management. Please contact support in this case.
-       *  Existing customers using these APIs are not affected by this change and can use the
-       *  APIs until further notice.
+       *  an exception if accessed. Activation needs preliminary approval by Product Management.
+       *  Please contact support in this case. Existing customers using these APIs are not
+       *  affected by this change and can use the APIs until further notice.
        *
        * @return returns belonging to this order
        */
@@ -34359,11 +34490,9 @@ declare namespace dw {
        *  The method returns null if no instance can be found.
        *
        *  Order post-processing APIs (gillian) are now inactive by default and will throw
-       *  an exception if accessed. On sandboxes the APIs can be activated with a feature
-       *  switch "Order Post Processing APIs on Sandboxes". On PIGs an activation needs
-       *  preliminary approval by Product Management. Please contact support in this case.
-       *  Existing customers using these APIs are not affected by this change and can use the
-       *  APIs until further notice.
+       *  an exception if accessed. Activation needs preliminary approval by Product Management.
+       *  Please contact support in this case. Existing customers using these APIs are not
+       *  affected by this change and can use the APIs until further notice.
        * @param shippingOrderNumber the shipping order number
        * @return the shipping order associated with the given shippingOrderNumber
        */
@@ -34373,11 +34502,9 @@ declare namespace dw {
        *  The method returns null if no instance can be found.
        *
        *  Order post-processing APIs (gillian) are now inactive by default and will throw
-       *  an exception if accessed. On sandboxes the APIs can be activated with a feature
-       *  switch "Order Post Processing APIs on Sandboxes". On PIGs an activation needs
-       *  preliminary approval by Product Management. Please contact support in this case.
-       *  Existing customers using these APIs are not affected by this change and can use the
-       *  APIs until further notice.
+       *  an exception if accessed. Activation needs preliminary approval by Product Management.
+       *  Please contact support in this case. Existing customers using these APIs are not
+       *  affected by this change and can use the APIs until further notice.
        * @param shippingOrderItemID the ID
        * @return the shipping order item associated with the given shippingOrderItemID
        */
@@ -34388,11 +34515,9 @@ declare namespace dw {
        * Returns the collection of ShippingOrderItems associated with this order.
        *
        *  Order post-processing APIs (gillian) are now inactive by default and will throw
-       *  an exception if accessed. On sandboxes the APIs can be activated with a feature
-       *  switch "Order Post Processing APIs on Sandboxes". On PIGs an activation needs
-       *  preliminary approval by Product Management. Please contact support in this case.
-       *  Existing customers using these APIs are not affected by this change and can use the
-       *  APIs until further notice.
+       *  an exception if accessed. Activation needs preliminary approval by Product Management.
+       *  Please contact support in this case. Existing customers using these APIs are not
+       *  affected by this change and can use the APIs until further notice.
        *
        * @return shipping order items belonging to this order
        */
@@ -34403,11 +34528,9 @@ declare namespace dw {
        * Returns the collection of ShippingOrders associated with this order.
        *
        *  Order post-processing APIs (gillian) are now inactive by default and will throw
-       *  an exception if accessed. On sandboxes the APIs can be activated with a feature
-       *  switch "Order Post Processing APIs on Sandboxes". On PIGs an activation needs
-       *  preliminary approval by Product Management. Please contact support in this case.
-       *  Existing customers using these APIs are not affected by this change and can use the
-       *  APIs until further notice.
+       *  an exception if accessed. Activation needs preliminary approval by Product Management.
+       *  Please contact support in this case. Existing customers using these APIs are not
+       *  affected by this change and can use the APIs until further notice.
        *
        * @return shipping orders belonging to this order
        */
@@ -34615,11 +34738,9 @@ declare namespace dw {
        *  might fail.
        *
        *  Order post-processing APIs (gillian) are now inactive by default and will throw
-       *  an exception if accessed. On sandboxes the APIs can be activated with a feature
-       *  switch "Order Post Processing APIs on Sandboxes". On PIGs an activation needs
-       *  preliminary approval by Product Management. Please contact support in this case.
-       *  Existing customers using these APIs are not affected by this change and can use the
-       *  APIs until further notice.
+       *  an exception if accessed. Activation needs preliminary approval by Product Management.
+       *  Please contact support in this case. Existing customers using these APIs are not
+       *  affected by this change and can use the APIs until further notice.
        * @param status the status to be set, use one of:  ORDER_STATUS_OPEN  ORDER_STATUS_CANCELLED
        */
       setOrderStatus(status: number): void;
@@ -35022,11 +35143,9 @@ declare namespace dw {
      *  inventory</a> for <a href="class_dw_order_ShippingOrder.html"> shipping-order</a> creation.
      *  </p><p>
      *  Order post-processing APIs (gillian) are now inactive by default and will throw
-     *  an exception if accessed. On sandboxes the APIs can be activated with a feature
-     *  switch &quot;Order Post Processing APIs on Sandboxes&quot;. On PIGs an activation needs
-     *  preliminary approval by Product Management. Please contact support in this case.
-     *  Existing customers using these APIs are not affected by this change and can use the
-     *  APIs until further notice.</p>
+     *  an exception if accessed. Activation needs preliminary approval by Product Management.
+     *  Please contact support in this case. Existing customers using these APIs are not
+     *  affected by this change and can use the APIs until further notice.</p>
      */
     class OrderItem {
       /**
@@ -35398,13 +35517,13 @@ declare namespace dw {
        *  It is important to consider that this method will cancel orders with gift certificate line items.
        *
        *
-       *  If an order has any active post-processing objects (e.g. shipping orders, returns, appeasements),
-       *  then it cannot be cancelled directly. Its status is set automatically, based on the statuses of its
-       *  post-processing objects. To cancel such an order, you must cancel all related post-processing objects.
+       *  If an order has any active post-processing objects (e.g. shipping orders, returns, appeasements), then it cannot
+       *  be cancelled directly. Its status is set automatically, based on the statuses of its post-processing objects. To
+       *  cancel such an order, you must cancel all related post-processing objects.
        *
        *
-       *  If your B2C Commerce instance is integrated with Order Management, then you manage order statuses in
-       *  Order Management. Use Order Management API endpoints.
+       *  If your B2C Commerce instance is integrated with Order Management, then you manage order statuses in Order
+       *  Management. Use Order Management API endpoints.
        * @param order the order to be cancelled
        * @return Status 'OK' or 'ERROR'
        */
@@ -35420,8 +35539,7 @@ declare namespace dw {
        *  any of the totals (net, gross, tax) of the basket is N/A
        *  any of the product items is not available (this takes previously reserved items into account)
        *  any campaign-based coupon in the basket is invalid (see CouponLineItem.isValid()
-       *  the basket represents an order being edited, but the order has been already been replaced by another
-       *  order
+       *  the basket represents an order being edited, but the order has already been replaced by another order
        *  the basket represents an order being edited, but the customer associated with the original order is not the
        *  same as the current customer
        *
@@ -35446,6 +35564,14 @@ declare namespace dw {
        *  ProductListItem.getPurchasedQuantity().
        *
        *
+       *  The system generates an order number via hook OrderHooks.createOrderNo(). If no hook is
+       *  registered for the endpoint, the number is generated by calling createOrderSequenceNo(). The format of
+       *  the number is based on the Order Number scheme defined in the Sequence Numbers preference configured for the site
+       *  or organization. The number is guaranteed to be unique, but is not guaranteed to be sequential. It can be higher
+       *  or lower than a previously created number. As a result, sorting orders by order number is not guaranteed to sort
+       *  them in their order of creation.
+       *
+       *
        *  This method must not be used with the ReserveInventoryForOrder pipelet or
        *  Basket.reserveInventory() in the same request.
        *
@@ -35468,8 +35594,17 @@ declare namespace dw {
        */
       static createOrder(basket: dw.order.Basket): dw.order.Order;
       /**
-       * This method is identical to createOrder(Basket) but allows the optional specification of an
+       * This method functions the same as createOrder(Basket), but allows the optional specification of an
        *  orderNo. The orderNo must be unique within the context of a site.
+       *
+       *
+       *  If the orderNo is not specified, the behavior is the same as that of createOrder(Basket).
+       *  In that case, the system generates an order number via hook OrderHooks.createOrderNo(). If
+       *  no hook is registered for the endpoint, the number is generated by calling createOrderSequenceNo(). The
+       *  format of the number is based on the Order Number scheme defined in the Sequence Numbers preference configured
+       *  for the site or organization. The number is guaranteed to be unique, but is not guaranteed to be sequential. It
+       *  can be higher or lower than a previously created number. As a result, sorting orders by order number is not
+       *  guaranteed to sort them in their order of creation.
        *
        *
        *  This method must not be used with the ReserveInventoryForOrder pipelet or
@@ -35477,6 +35612,7 @@ declare namespace dw {
        *
        *
        *  Usage:
+       *
        *
        *
        *   var basket : Basket; // known
@@ -35490,7 +35626,7 @@ declare namespace dw {
        *    // handle e
        *  }
        * @param basket basket to create an order for
-       * @param orderNo optional order number; an order number will be generated if null is specified
+       * @param orderNo optional order number; if null is specified, an order number is generated
        * @return a new order
        */
       static createOrder(
@@ -35502,15 +35638,31 @@ declare namespace dw {
        *
        *
        *  The order number is created via hook OrderHooks.createOrderNo(). If no hook is registered
-       *  for the endpoint, the order number will be generated by calling createOrderSequenceNo().
+       *  for the endpoint, the number is generated by calling createOrderSequenceNo(). The format of the number
+       *  is based on the Order Number scheme defined in the Sequence Numbers preference configured for the site or
+       *  organization.
        *
-       * @return the next available order number
+       *
+       *  The number is guaranteed to be unique, but is not guaranteed to be sequential. It can be higher or lower than a
+       *  previously created number. As a result, sorting orders by order number is not guaranteed to sort them in their
+       *  order of creation.
+       *
+       * @return an available order number
        */
       static createOrderNo(): string;
       /**
-       * Creates an order number that is either taken from the organization or the site order series.
+       * Creates an order number.
        *
-       * @return the next available order number
+       *
+       *  The format of the number is based on the Order Number scheme defined in the Sequence Numbers preference
+       *  configured for the site or organization.
+       *
+       *
+       *  The number is guaranteed to be unique, but is not guaranteed to be sequential. It can be higher or lower than a
+       *  previously created number. As a result, sorting orders by order number is not guaranteed to sort them in their
+       *  order of creation.
+       *
+       * @return an available order number
        */
       static createOrderSequenceNo(): string;
       /**
@@ -35528,12 +35680,9 @@ declare namespace dw {
        *
        *  As a result, zero, one, or multiple ShippingOrders are created.
        *
-       *  Order post-processing APIs (gillian) are now inactive by default and will throw
-       *  an exception if accessed. On sandboxes the APIs can be activated with a feature
-       *  switch "Order Post Processing APIs on Sandboxes". On PIGs an activation needs
-       *  preliminary approval by Product Management. Please contact support in this case.
-       *  Existing customers using these APIs are not affected by this change and can use the
-       *  APIs until further notice.
+       *  Order post-processing APIs (gillian) are now inactive by default and will throw an exception if accessed.
+       *  Activation needs preliminary approval by Product Management. Please contact support in this case. Existing
+       *  customers using these APIs are not affected by this change and can use the APIs until further notice.
        * @param order the order to run the shipping order creation for
        * @return Status 'OK' or 'ERROR' with an error message
        */
@@ -35583,13 +35732,13 @@ declare namespace dw {
        * Securely resolves an order using the orderNumber and orderToken.
        *
        *
-       *  The order token is generated during order creation in a secure way that is designed to prevent
-       *  access by unauthorized parties. You can retrieve the token via (Order.getOrderToken().
+       *  The order token is generated during order creation in a secure way that is designed to prevent access by
+       *  unauthorized parties. You can retrieve the token via (Order.getOrderToken().
        *
        *
-       *  This version of the getOrder method does not return an exception when the Limit Storefront
-       *  Order Access site preference is enabled. Best security practice is to always enable this
-       *  preference, and to use this method when appropriate.
+       *  This version of the getOrder method does not return an exception when the Limit Storefront Order Access site
+       *  preference is enabled. Best security practice is to always enable this preference, and to use this method when
+       *  appropriate.
        *
        *
        *  You should always use this method in the following cases.
@@ -35635,6 +35784,7 @@ declare namespace dw {
        *  will be called anyway. Error during execution of the callback will be logged, and execution will continue with
        *  the next element from the result set. This method can be used as in this example (which counts the number of
        *  orders):
+       *
        *
        *
        *           var count=0;
@@ -35708,8 +35858,8 @@ declare namespace dw {
        *  >= Greater or equals than - Integer, Number, and Date types only
        *  LIKE Like - String types and Email only; use if leading or trailing wildcards will be used to
        *  support substring search (e.g. custom.country LIKE 'US*')
-       *  ILIKE Caseindependent Like - String types and Email only; use to support case-insensitive queries
-       *  (e.g. custom.country ILIKE 'usa'); also supports wildcards for substring matching
+       *  ILIKE Caseindependent Like - String types and Email only; use to support case-insensitive
+       *  queries (e.g. custom.country ILIKE 'usa'); also supports wildcards for substring matching
        *
        *
        *
@@ -35789,8 +35939,8 @@ declare namespace dw {
        *  >= Greater or equals than - Integer, Number, and Date types only
        *  LIKE Like - String types and Email only; use if leading or trailing wildcards will be used to
        *  support substring search (e.g. custom.country LIKE 'US*')
-       *  ILIKE Caseindependent Like - String types and Email only; use to support case-insensitive queries
-       *  (e.g. custom.country ILIKE 'usa'); also supports wildcards for substring matching
+       *  ILIKE Caseindependent Like - String types and Email only; use to support case-insensitive
+       *  queries (e.g. custom.country ILIKE 'usa'); also supports wildcards for substring matching
        *
        *
        *
@@ -35843,8 +35993,8 @@ declare namespace dw {
        * Searches for order instances. Order access in the storefront can be limited; see the class description.
        *
        *
-       *  The search can be configured with a map, which converts key-value pairs into a query expression. The
-       *  key-value pairs are turned into a sequence of '=' or 'like' conditions, which are combined with AND statements.
+       *  The search can be configured with a map, which converts key-value pairs into a query expression. The key-value
+       *  pairs are turned into a sequence of '=' or 'like' conditions, which are combined with AND statements.
        *
        *
        *  Example:
@@ -35972,8 +36122,8 @@ declare namespace dw {
        *  >= Greater or equals than - Integer, Number, and Date types only
        *  LIKE Like - String types and Email only; use if leading or trailing wildcards will be used to
        *  support substring search (e.g. custom.country LIKE 'US*')
-       *  ILIKE Caseindependent Like - String types and Email only; use to support case-insensitive queries
-       *  (e.g. custom.country ILIKE 'usa'), also supports wildcards for substring matching
+       *  ILIKE Caseindependent Like - String types and Email only; use to support case-insensitive
+       *  queries (e.g. custom.country ILIKE 'usa'), also supports wildcards for substring matching
        *
        *
        *
@@ -36061,8 +36211,8 @@ declare namespace dw {
        *  >= Greater or equals than - Integer, Number, and Date types only
        *  LIKE Like - String types and Email only; use if leading or trailing wildcards will be used to
        *  support substring search (e.g. custom.country LIKE 'US*')
-       *  ILIKE Caseindependent Like - String types and Email only; use to support case-insensitive queries
-       *  (e.g. custom.country ILIKE 'usa'); also supports wildcards for substring matching
+       *  ILIKE Caseindependent Like - String types and Email only; use to support case-insensitive
+       *  queries (e.g. custom.country ILIKE 'usa'); also supports wildcards for substring matching
        *
        *  Note that wildcards are not supported by Search Service.
        *
@@ -36122,8 +36272,8 @@ declare namespace dw {
        * Searches for order instances. Order access in the storefront can be limited; see the class description.
        *
        *
-       *  The search can be configured with a map, which converts key-value pairs into a query expression. The
-       *  key-value pairs are turned into a sequence of '=' or 'like' conditions, which are combined with AND statements.
+       *  The search can be configured with a map, which converts key-value pairs into a query expression. The key-value
+       *  pairs are turned into a sequence of '=' or 'like' conditions, which are combined with AND statements.
        *
        *
        *  Example:
@@ -36224,7 +36374,10 @@ declare namespace dw {
        *  redemptions is reached
        *  OrderProcessStatusCodes.ORDER_NOT_CANCELLED - order is not in status
        *  Order.ORDER_STATUS_CANCELLED
-       *  OrderProcessStatusCodes.INVENTORY_RESERVATION_FAILED - inventory reservation failed
+       *  OrderProcessStatusCodes.INVENTORY_RESERVATION_FAILED - Inventory reservation for the order failed. In
+       *  cases when availability is too low then undoCancel or undoFail results in a reservation failure. This can be
+       *  avoided using the order site preferences to specifically allow overselling. See order site preferences under
+       *  "Constraints for Undoing Failed/Cancelled Orders".
        * @param order the order on which to undo the cancel cancelOrder(Order)
        * @return Status 'OK' or 'ERROR' with one of the error codes described above
        */
@@ -36248,7 +36401,10 @@ declare namespace dw {
        *  redemptions is reached
        *  OrderProcessStatusCodes.ORDER_NOT_FAILED - order is not in status
        *  Order.ORDER_STATUS_FAILED
-       *  OrderProcessStatusCodes.INVENTORY_RESERVATION_FAILED - inventory reservation failed
+       *  OrderProcessStatusCodes.INVENTORY_RESERVATION_FAILED - Inventory reservation for the order failed. In
+       *  cases when availability is too low then undoCancel or undoFail results in a reservation failure. This can be
+       *  avoided using the order site preferences to specifically allow overselling. See order site preferences under
+       *  "Constraints for Undoing Failed/Cancelled Orders".
        * @param order the order on which to undo the fail failOrder(Order)
        * @return Status 'OK' or 'ERROR' with one of the error codes described above
        */
@@ -38523,11 +38679,9 @@ declare namespace dw {
        *  extension will only exist for a ProductLineItem which belongs to an Order.
        *
        *  Order post-processing APIs (gillian) are now inactive by default and will throw
-       *  an exception if accessed. On sandboxes the APIs can be activated with a feature
-       *  switch "Order Post Processing APIs on Sandboxes". On PIGs an activation needs
-       *  preliminary approval by Product Management. Please contact support in this case.
-       *  Existing customers using these APIs are not affected by this change and can use the
-       *  APIs until further notice.
+       *  an exception if accessed. Activation needs preliminary approval by Product Management.
+       *  Please contact support in this case. Existing customers using these APIs are not
+       *  affected by this change and can use the APIs until further notice.
        */
       readonly orderItem: dw.order.OrderItem;
       /**
@@ -38867,11 +39021,9 @@ declare namespace dw {
        *  extension will only exist for a ProductLineItem which belongs to an Order.
        *
        *  Order post-processing APIs (gillian) are now inactive by default and will throw
-       *  an exception if accessed. On sandboxes the APIs can be activated with a feature
-       *  switch "Order Post Processing APIs on Sandboxes". On PIGs an activation needs
-       *  preliminary approval by Product Management. Please contact support in this case.
-       *  Existing customers using these APIs are not affected by this change and can use the
-       *  APIs until further notice.
+       *  an exception if accessed. Activation needs preliminary approval by Product Management.
+       *  Please contact support in this case. Existing customers using these APIs are not
+       *  affected by this change and can use the APIs until further notice.
        *
        * @return null or the order-item extension
        */
@@ -39641,11 +39793,9 @@ declare namespace dw {
      *  </ul>
      *  <p>
      *  Order post-processing APIs (gillian) are now inactive by default and will throw
-     *  an exception if accessed. On sandboxes the APIs can be activated with a feature
-     *  switch &quot;Order Post Processing APIs on Sandboxes&quot;. On PIGs an activation needs
-     *  preliminary approval by Product Management. Please contact support in this case.
-     *  Existing customers using these APIs are not affected by this change and can use the
-     *  APIs until further notice.</p>
+     *  an exception if accessed. Activation needs preliminary approval by Product Management.
+     *  Please contact support in this case. Existing customers using these APIs are not
+     *  affected by this change and can use the APIs until further notice.</p>
      */
     class Return extends dw.order.AbstractItemCtnr {
       /**
@@ -39869,11 +40019,9 @@ declare namespace dw {
      *  </ul>
      *  <p>
      *  Order post-processing APIs (gillian) are now inactive by default and will throw
-     *  an exception if accessed. On sandboxes the APIs can be activated with a feature
-     *  switch &quot;Order Post Processing APIs on Sandboxes&quot;. On PIGs an activation needs
-     *  preliminary approval by Product Management. Please contact support in this case.
-     *  Existing customers using these APIs are not affected by this change and can use the
-     *  APIs until further notice.</p>
+     *  an exception if accessed. Activation needs preliminary approval by Product Management.
+     *  Please contact support in this case. Existing customers using these APIs are not
+     *  affected by this change and can use the APIs until further notice.</p>
      */
     class ReturnCase extends dw.order.AbstractItemCtnr {
       /**
@@ -40095,11 +40243,9 @@ declare namespace dw {
      *  When the related ReturnCase were confirmed, only the the custom attributes of the return case item can be changed.
      *  <p>
      *  Order post-processing APIs (gillian) are now inactive by default and will throw
-     *  an exception if accessed. On sandboxes the APIs can be activated with a feature
-     *  switch &quot;Order Post Processing APIs on Sandboxes&quot;. On PIGs an activation needs
-     *  preliminary approval by Product Management. Please contact support in this case.
-     *  Existing customers using these APIs are not affected by this change and can use the
-     *  APIs until further notice.</p>
+     *  an exception if accessed. Activation needs preliminary approval by Product Management.
+     *  Please contact support in this case. Existing customers using these APIs are not
+     *  affected by this change and can use the APIs until further notice.</p>
      */
     class ReturnCaseItem extends dw.order.AbstractItem {
       /**
@@ -40265,11 +40411,9 @@ declare namespace dw {
      *  When the related Return were set to status COMPLETED, only the the custom attributes of the return item can be changed.
      *  <p>
      *  Order post-processing APIs (gillian) are now inactive by default and will throw
-     *  an exception if accessed. On sandboxes the APIs can be activated with a feature
-     *  switch &quot;Order Post Processing APIs on Sandboxes&quot;. On PIGs an activation needs
-     *  preliminary approval by Product Management. Please contact support in this case.
-     *  Existing customers using these APIs are not affected by this change and can use the
-     *  APIs until further notice.</p>
+     *  an exception if accessed. Activation needs preliminary approval by Product Management.
+     *  Please contact support in this case. Existing customers using these APIs are not
+     *  affected by this change and can use the APIs until further notice.</p>
      */
     class ReturnItem extends dw.order.AbstractItem {
       /**
@@ -41293,11 +41437,9 @@ declare namespace dw {
        *  belongs to an Order.
        *
        *  Order post-processing APIs (gillian) are now inactive by default and will throw
-       *  an exception if accessed. On sandboxes the APIs can be activated with a feature
-       *  switch "Order Post Processing APIs on Sandboxes". On PIGs an activation needs
-       *  preliminary approval by Product Management. Please contact support in this case.
-       *  Existing customers using these APIs are not affected by this change and can use the
-       *  APIs until further notice.
+       *  an exception if accessed. Activation needs preliminary approval by Product Management.
+       *  Please contact support in this case. Existing customers using these APIs are not
+       *  affected by this change and can use the APIs until further notice.
        */
       readonly orderItem: dw.order.OrderItem;
       /**
@@ -41391,11 +41533,9 @@ declare namespace dw {
        *  belongs to an Order.
        *
        *  Order post-processing APIs (gillian) are now inactive by default and will throw
-       *  an exception if accessed. On sandboxes the APIs can be activated with a feature
-       *  switch "Order Post Processing APIs on Sandboxes". On PIGs an activation needs
-       *  preliminary approval by Product Management. Please contact support in this case.
-       *  Existing customers using these APIs are not affected by this change and can use the
-       *  APIs until further notice.
+       *  an exception if accessed. Activation needs preliminary approval by Product Management.
+       *  Please contact support in this case. Existing customers using these APIs are not
+       *  affected by this change and can use the APIs until further notice.
        *
        * @return null or the order-item
        */
@@ -41854,11 +41994,9 @@ declare namespace dw {
      *  </tbody></table>
      *  <p>
      *  Order post-processing APIs (gillian) are now inactive by default and will throw
-     *  an exception if accessed. On sandboxes the APIs can be activated with a feature
-     *  switch &quot;Order Post Processing APIs on Sandboxes&quot;. On PIGs an activation needs
-     *  preliminary approval by Product Management. Please contact support in this case.
-     *  Existing customers using these APIs are not affected by this change and can use the
-     *  APIs until further notice.</p>
+     *  an exception if accessed. Activation needs preliminary approval by Product Management.
+     *  Please contact support in this case. Existing customers using these APIs are not
+     *  affected by this change and can use the APIs until further notice.</p>
      */
     class ShippingOrder extends dw.order.AbstractItemCtnr {
       /**
@@ -42177,11 +42315,9 @@ declare namespace dw {
      *  <a href="class_dw_order_LineItem.html">LineItem</a> associated with an <a href="class_dw_order_Order.html">Order</a>.
      *  <p>
      *  Order post-processing APIs (gillian) are now inactive by default and will throw
-     *  an exception if accessed. On sandboxes the APIs can be activated with a feature
-     *  switch &quot;Order Post Processing APIs on Sandboxes&quot;. On PIGs an activation needs
-     *  preliminary approval by Product Management. Please contact support in this case.
-     *  Existing customers using these APIs are not affected by this change and can use the
-     *  APIs until further notice.</p>
+     *  an exception if accessed. Activation needs preliminary approval by Product Management.
+     *  Please contact support in this case. Existing customers using these APIs are not
+     *  affected by this change and can use the APIs until further notice.</p>
      */
     class ShippingOrderItem extends dw.order.AbstractItem {
       /**
@@ -43336,11 +43472,9 @@ declare namespace dw {
        *    <br></code>
        *  <p>
        *  Order post-processing APIs (gillian) are now inactive by default and will throw
-       *  an exception if accessed. On sandboxes the APIs can be activated with a feature
-       *  switch &quot;Order Post Processing APIs on Sandboxes&quot;. On PIGs an activation needs
-       *  preliminary approval by Product Management. Please contact support in this case.
-       *  Existing customers using these APIs are not affected by this change and can use the
-       *  APIs until further notice.</p>
+       *  an exception if accessed. Activation needs preliminary approval by Product Management.
+       *  Please contact support in this case. Existing customers using these APIs are not
+       *  affected by this change and can use the APIs until further notice.</p>
        */
       class ReturnHooks {
         /**
@@ -43474,11 +43608,9 @@ declare namespace dw {
        *  </ul>
        *  <p>
        *  Order post-processing APIs (gillian) are now inactive by default and will throw
-       *  an exception if accessed. On sandboxes the APIs can be activated with a feature
-       *  switch &quot;Order Post Processing APIs on Sandboxes&quot;. On PIGs an activation needs
-       *  preliminary approval by Product Management. Please contact support in this case.
-       *  Existing customers using these APIs are not affected by this change and can use the
-       *  APIs until further notice.</p>
+       *  an exception if accessed. Activation needs preliminary approval by Product Management.
+       *  Please contact support in this case. Existing customers using these APIs are not
+       *  affected by this change and can use the APIs until further notice.</p>
        */
       class ShippingOrderHooks {
         /**
@@ -47456,9 +47588,19 @@ declare namespace dw {
        */
       static readonly CONTENT_MD5 = "Content-MD5";
       /**
-       * An allowed header name constant for Content-Security-Policy
+       * An allowed header name constant for Content-Security-Policy.
+       *
+       *  The only directive allowed is "frame-ancestors". Note: The Commerce Cloud platform can override this
+       *  header for tools like the Storefront Toolkit.
        */
       static readonly CONTENT_SECURITY_POLICY = "Content-Security-Policy";
+      /**
+       * An allowed header name constant for Content-Security-Policy-Report-Only.
+       *
+       *  You can set this response header only for storefront requests. Report recipient can't be a B2C Commerce system.
+       */
+      static readonly CONTENT_SECURITY_POLICY_REPORT_ONLY =
+        "Content-Security-Policy-Report-Only";
       /**
        * An allowed header name constant for Content-Type
        */
@@ -47492,7 +47634,9 @@ declare namespace dw {
        */
       static readonly X_CONTENT_TYPE_OPTIONS = "X-Content-Type-Options";
       /**
-       * An allowed header name constant for X-FRAME-OPTIONS
+       * An allowed header name constant for X-FRAME-OPTIONS.
+       *
+       *  Note: The Commerce Cloud platform can override this header for tools like the Storefront Toolkit.
        */
       static readonly X_FRAME_OPTIONS = "X-FRAME-OPTIONS";
       /**
@@ -50913,7 +51057,7 @@ declare namespace dw {
       /**
        * Returns the value associated with the key or null
        */
-      readonly [name: string]: any;
+      [name: string]: any;
 
       /**
        * Clears the map of all objects.

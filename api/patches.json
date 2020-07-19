@@ -113,7 +113,7 @@
                 "name": "any"
               },
               "static": false,
-              "readonly": true,
+              "readonly": false,
               "description": "Returns the value associated with the key or null",
               "deprecated": 0
             }
