@@ -109,9 +109,11 @@ import { generateCustomTypes } from './customtypes';
 
   let packagejson = parse(fs.readFileSync('package.json', 'utf8'));
 
-  log(`Installing local copy of sfcc-dts`);
+  if (!packagejson.devDependencies || !packagejson.devDependencies['sfcc-dts']) {
+    log(`Installing local copy of sfcc-dts`);
 
-  execSync('npm install --save-dev sfcc-dts@latest typescript@latest', { stdio: 'inherit' });
+    execSync('npm install --save-dev sfcc-dts@latest typescript@latest', { stdio: 'inherit' });
+  }
 
   if ((packagejson.dependencies && packagejson.dependencies['dw-api']) || (packagejson.devDependencies && packagejson.devDependencies['dw-api'])) {
     log(`Uninstalling dw-api`);
