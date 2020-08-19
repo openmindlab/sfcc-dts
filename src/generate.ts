@@ -384,6 +384,11 @@ fs.writeFileSync(
   prettier.format(customattrsrc, { parser: "typescript" })
 );
 
+fs.writeFileSync(
+  path.join(basePathGenerated, "attrs.txt"),
+  Array.from(customAttrTypes).join('\n')
+);
+
 function checkGenerics(returnType: string, theClass: any, member: any) {
   if (returnType.indexOf('<any') > -1) {
     let propkey = member.type === 'property' ? `${theClass.fullClassName}.get${member.name.charAt(0).toUpperCase()}${member.name.substring(1)}` : `${theClass.fullClassName}.${member.name}`;

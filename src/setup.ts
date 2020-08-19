@@ -129,13 +129,21 @@ import { generateCustomTypes } from './customtypes';
     fs.mkdirSync(path.join('@types', 'dw'));
   }
 
-  log(`Write @types/dw/index.d.ts`);
-  fs.writeFileSync(path.join('@types/dw', 'index.d.ts'), '/// <reference path="../../node_modules/sfcc-dts/@types/sfcc/index.d.ts" />\n');
-
   log(`Generating custom types`);
   if (extensions) {
     await generateCustomTypes(extensions);
   }
+
+  log(`Write @types/dw/index.d.ts`);
+  let references = '/// <reference path="../../node_modules/sfcc-dts/@types/sfcc/index.d.ts" />\n';
+  if (extensions) {
+    references += '/// <reference path="./attrs.d.ts" />\n';
+  }
+  else {
+    references += '/// <reference path="../../node_modules/sfcc-dts/@types/sfcc/attrs.d.ts" />\n';
+  }
+
+  fs.writeFileSync(path.join('@types/dw', 'index.d.ts'), references);
 
   log(`\nDone!`);
 
