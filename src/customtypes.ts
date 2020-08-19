@@ -37,16 +37,38 @@ interface ObjectTypeExtensions {
 export async function generateCustomTypes(extensions: string) {
   let typeExtensions: ObjectTypeExtensions[] = await parseMeta(extensions);
 
+  let attrspath = path.join(__dirname, '../@types/sfcc/attrs.txt');
+  console.log('path is ' + attrspath);
+  let customObjList = new Set(fs.readFileSync(attrspath, 'utf8').split('\n'));
+
   let customattrsrc = Array.from(typeExtensions).filter(i => i.attributedefinitions && i.attributedefinitions.length > 0).map((i: ObjectTypeExtensions) => {
     let typename = i.typeid;
+    customObjList.delete(typename);
     return `
 /**
  * Custom attributes for ${typename} object.
  */
 declare class ${typename}CustomAttributes {
+
   ${i.attributedefinitions.map(at => mapAttribute(at)).join('\n')}
 }`
   }).join('\n');
+
+
+
+  customattrsrc += Array.from(customObjList).map((typename: string) => {
+    return `
+/**
+ * Custom attributes for ${typename} object.
+ */
+declare class ${typename}CustomAttributes {
+  /**
+   * Returns the custom attribute with this name. Throws an exception if attribute is not defined
+   */
+  [name: string]: any;
+}`
+  }).join('\n');
+
 
   let out = customattrsrc;
   let outpath = path.join('@types/dw', "attrs.d.ts");
