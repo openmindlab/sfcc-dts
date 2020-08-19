@@ -5959,6 +5959,10 @@ declare namespace dw {
        */
       readonly unit: string;
       /**
+       * The product's unit quantity.
+       */
+      readonly unitQuantity: dw.value.Quantity;
+      /**
        * The Universal Product Code of the product.
        */
       readonly UPC: string;
@@ -6569,6 +6573,12 @@ declare namespace dw {
        * @return the products sales unit.
        */
       getUnit(): string;
+      /**
+       * Returns the product's unit quantity.
+       *
+       * @return the products unit quantity.
+       */
+      getUnitQuantity(): dw.value.Quantity;
       /**
        * Returns the Universal Product Code of the product.
        *
@@ -9025,6 +9035,23 @@ declare namespace dw {
        */
       readonly maxPrice: dw.value.Money;
       /**
+       * Calculates and returns the maximum price-book price per unit of all variants (for
+       *  master products) or set-products (for product sets) for base quantity
+       *  1.00. This value can be used to display a range of prices in storefront.
+       *  If the product represented by this model is not a master product or
+       *  product set, then this method behaves the same as getPricePerUnit().
+       *  Only online products are considered. If the "orderable products only"
+       *  search preference is enabled for the current site, then only orderable
+       *  products are considered. For master products, only variants with all
+       *  variation attributes configured are considered.
+       *
+       *  e.g.
+       *  suppose one master product mp (price = $6, unitQuantity = 2), it has 2 variants:
+       *  v1(price = $5, unitQuantity = 5), v2(price = $10, unitQuantity = 20).
+       *  The max price per unit of mp will be max($6/2, $5/5, $10/20) = $3
+       */
+      readonly maxPricePerUnit: dw.value.Money;
+      /**
        * Calculates and returns the minimum price-book price of all variants (for
        *  master products) or set-products (for product sets) for base quantity
        *  1.00. This value can be used to display a range of prices in storefront.
@@ -9040,6 +9067,23 @@ declare namespace dw {
        *  should be avoided.
        */
       readonly minPrice: dw.value.Money;
+      /**
+       * Calculates and returns the minimum price-book price per unit of all variants (for
+       *  master products) or set-products (for product sets) for base quantity
+       *  1.00. This value can be used to display a range of prices in storefront.
+       *  If the product represented by this model is not a master product or
+       *  product set, then this method behaves the same as getPricePerUnit().
+       *  Only online products are considered. If the "orderable products only"
+       *  search preference is enabled for the current site, then only orderable
+       *  products are considered. For master products, only variants with all
+       *  variation attributes configured are considered.
+       *
+       *  e.g.
+       *  suppose one master product mp (price = $6, unitQuantity = 2), it has 2 variants:
+       *  v1(price = $5, unitQuantity = 5), v2(price = $10, unitQuantity = 20).
+       *  The min price per unit of mp will be min($6/2, $5/5, $10/20) = $0.5
+       */
+      readonly minPricePerUnit: dw.value.Money;
       /**
        * The price of a product, calculated based on base price quantity
        *  1.00. The price is returned for the currency of the current session.
@@ -9080,6 +9124,20 @@ declare namespace dw {
        *  storefront.
        */
       readonly priceInfos: dw.util.Collection<dw.catalog.ProductPriceInfo>;
+      /**
+       * The sales price per unit of a product, calculated based on base price
+       *  quantity 1.00.
+       *
+       *  The product sales price per unit is returned for the current session currency.
+       *  Hence, the using this method is only useful in storefront processes.
+       *
+       *  The price lookup is based on the configuration of price books. It depends
+       *  on various settings, such as which price books are active, or explicitly
+       *  set as applicable in the current session.
+       *
+       *  If no price could be found, MONEY.N_A is returned.
+       */
+      readonly pricePerUnit: dw.value.Money;
       /**
        * Returns true if this product is a master product (or product set) and the
        *  collection of online variants (or set products respectively) contains
@@ -9149,6 +9207,25 @@ declare namespace dw {
        */
       getMaxPriceBookPrice(priceBookID: string): dw.value.Money;
       /**
+       * Calculates and returns the maximum price-book price per unit of all variants (for
+       *  master products) or set-products (for product sets) for base quantity
+       *  1.00. This value can be used to display a range of prices in storefront.
+       *  If the product represented by this model is not a master product or
+       *  product set, then this method behaves the same as getPricePerUnit().
+       *  Only online products are considered. If the "orderable products only"
+       *  search preference is enabled for the current site, then only orderable
+       *  products are considered. For master products, only variants with all
+       *  variation attributes configured are considered.
+       *
+       *  e.g.
+       *  suppose one master product mp (price = $6, unitQuantity = 2), it has 2 variants:
+       *  v1(price = $5, unitQuantity = 5), v2(price = $10, unitQuantity = 20).
+       *  The max price per unit of mp will be max($6/2, $5/5, $10/20) = $3
+       *
+       * @return Maximum price per unit of all online variants or set-products.
+       */
+      getMaxPricePerUnit(): dw.value.Money;
+      /**
        * Calculates and returns the minimum price-book price of all variants (for
        *  master products) or set-products (for product sets) for base quantity
        *  1.00. This value can be used to display a range of prices in storefront.
@@ -9181,6 +9258,25 @@ declare namespace dw {
        * @return The minimum price across all subproducts in the specified price book.
        */
       getMinPriceBookPrice(priceBookID: string): dw.value.Money;
+      /**
+       * Calculates and returns the minimum price-book price per unit of all variants (for
+       *  master products) or set-products (for product sets) for base quantity
+       *  1.00. This value can be used to display a range of prices in storefront.
+       *  If the product represented by this model is not a master product or
+       *  product set, then this method behaves the same as getPricePerUnit().
+       *  Only online products are considered. If the "orderable products only"
+       *  search preference is enabled for the current site, then only orderable
+       *  products are considered. For master products, only variants with all
+       *  variation attributes configured are considered.
+       *
+       *  e.g.
+       *  suppose one master product mp (price = $6, unitQuantity = 2), it has 2 variants:
+       *  v1(price = $5, unitQuantity = 5), v2(price = $10, unitQuantity = 20).
+       *  The min price per unit of mp will be min($6/2, $5/5, $10/20) = $0.5
+       *
+       * @return Minimum price of all online variants or set-products.
+       */
+      getMinPricePerUnit(): dw.value.Money;
       /**
        * Returns the price of a product, calculated based on base price quantity
        *  1.00. The price is returned for the currency of the current session.
@@ -9340,6 +9436,38 @@ declare namespace dw {
         basePrice: dw.value.Money,
         comparePrice: dw.value.Money
       ): number;
+      /**
+       * Returns the sales price per unit of a product, calculated based on base price
+       *  quantity 1.00.
+       *
+       *  The product sales price per unit is returned for the current session currency.
+       *  Hence, the using this method is only useful in storefront processes.
+       *
+       *  The price lookup is based on the configuration of price books. It depends
+       *  on various settings, such as which price books are active, or explicitly
+       *  set as applicable in the current session.
+       *
+       *  If no price could be found, MONEY.N_A is returned.
+       *
+       * @return product sales price per unit
+       */
+      getPricePerUnit(): dw.value.Money;
+      /**
+       * Returns the sales price per unit of a product, calculated based on the passed
+       *  order quantity.
+       *
+       *  The product sales price per unit is returned for the current session currency.
+       *  Hence, the using this method is only useful in storefront processes.
+       *
+       *  The price lookup is based on the configuration of price books. It depends
+       *  on various settings, such as which price books are active, or explicitely
+       *  set as applicable in the current session.
+       *
+       *  If no price could be found, MONEY.N_A is returned.
+       * @param quantity Quantity price is requested for
+       * @return product sales price per unit
+       */
+      getPricePerUnit(quantity: dw.value.Quantity): dw.value.Money;
       /**
        * Returns the product price table object. The price table represents a map
        *  between order quantities and prices, and also provides % off information
@@ -9586,6 +9714,16 @@ declare namespace dw {
        */
       readonly maxPrice: dw.value.Money;
       /**
+       * The maximum price per unit of all products represented by the
+       *  product hit. See getRepresentedProducts() for details on
+       *  the set of products used for finding the maximum. The method returns
+       *  N/A in case no price information can be found.
+       *
+       *  Note: The method uses price information of the search index and therefore
+       *  might return different prices than the ProductPriceModel.
+       */
+      readonly maxPricePerUnit: dw.value.Money;
+      /**
        * The minimum price of all products represented by the
        *  product hit. See getRepresentedProducts() for details on
        *  the set of products used for finding the minimum. The method returns
@@ -9595,6 +9733,16 @@ declare namespace dw {
        *  might return different prices than the ProductPriceModel.
        */
       readonly minPrice: dw.value.Money;
+      /**
+       * The minimum price per unit of all products represented by the
+       *  product hit. See getRepresentedProducts() for details on
+       *  the set of products used for finding the minimum. The method returns
+       *  N/A in case no price information can be found.
+       *
+       *  Note: the method uses price information of the search index and therefore
+       *  might return different prices than the ProductPriceModel.
+       */
+      readonly minPricePerUnit: dw.value.Money;
       /**
        * Convenience method to check whether this ProductSearchHit represents
        *  multiple products (see getRepresentedProducts()) that have
@@ -9725,6 +9873,18 @@ declare namespace dw {
        */
       getMaxPrice(): dw.value.Money;
       /**
+       * Returns the maximum price per unit of all products represented by the
+       *  product hit. See getRepresentedProducts() for details on
+       *  the set of products used for finding the maximum. The method returns
+       *  N/A in case no price information can be found.
+       *
+       *  Note: The method uses price information of the search index and therefore
+       *  might return different prices than the ProductPriceModel.
+       *
+       * @return the maximum price per unit of all products represented by the product hit.
+       */
+      getMaxPricePerUnit(): dw.value.Money;
+      /**
        * Returns the minimum price of all products represented by the
        *  product hit. See getRepresentedProducts() for details on
        *  the set of products used for finding the minimum. The method returns
@@ -9736,6 +9896,18 @@ declare namespace dw {
        * @return the minimum price of all products represented by the product hit.
        */
       getMinPrice(): dw.value.Money;
+      /**
+       * Returns the minimum price per unit of all products represented by the
+       *  product hit. See getRepresentedProducts() for details on
+       *  the set of products used for finding the minimum. The method returns
+       *  N/A in case no price information can be found.
+       *
+       *  Note: the method uses price information of the search index and therefore
+       *  might return different prices than the ProductPriceModel.
+       *
+       * @return the minimum price per unit of all products represented by the product hit.
+       */
+      getMinPricePerUnit(): dw.value.Money;
       /**
        * Returns the presentation product of this ProductSearchHit corresponding to the ProductSearchHit type.
        *
@@ -13224,6 +13396,17 @@ declare namespace dw {
        */
       readonly unit: string;
       /**
+       * The unitQuantity of the product variant as defined by the
+       *  master product.
+       *
+       *  If the variant does not define an own value for 'unitQuantity', the value is retrieved
+       *  from the assigned variation groups, sorted by their position.
+       *
+       *  If none of the variation groups define a value for 'unitQuantity', the value of
+       *  the master product is returned.
+       */
+      readonly unitQuantity: dw.value.Quantity;
+      /**
        * The UPC of the product variant.
        *
        *  If the variant does not define an own value for 'UPC', the value is retrieved
@@ -13530,6 +13713,19 @@ declare namespace dw {
        */
       getUnit(): string;
       /**
+       * Returns the unitQuantity of the product variant as defined by the
+       *  master product.
+       *
+       *  If the variant does not define an own value for 'unitQuantity', the value is retrieved
+       *  from the assigned variation groups, sorted by their position.
+       *
+       *  If none of the variation groups define a value for 'unitQuantity', the value of
+       *  the master product is returned.
+       *
+       * @return The unitQuantity of the variant, variation group or master
+       */
+      getUnitQuantity(): dw.value.Quantity;
+      /**
        * Returns the UPC of the product variant.
        *
        *  If the variant does not define an own value for 'UPC', the value is retrieved
@@ -13737,6 +13933,14 @@ declare namespace dw {
        *  the master product is returned.
        */
       readonly unit: string;
+      /**
+       * The unitQuantity of the product variation group as defined by the
+       *  master product.
+       *
+       *  If the variation group does not define an own value for 'unitQuantity', the value of
+       *  the master product is returned.
+       */
+      readonly unitQuantity: dw.value.Quantity;
       /**
        * The UPC of the product variation group.
        *
@@ -13972,6 +14176,16 @@ declare namespace dw {
        * @return The sales unit of the variation group or master
        */
       getUnit(): string;
+      /**
+       * Returns the unitQuantity of the product variation group as defined by the
+       *  master product.
+       *
+       *  If the variation group does not define an own value for 'unitQuantity', the value of
+       *  the master product is returned.
+       *
+       * @return The unitQuantity of the variation group or master
+       */
+      getUnitQuantity(): dw.value.Quantity;
       /**
        * Returns the UPC of the product variation group.
        *
@@ -15090,7 +15304,7 @@ declare namespace dw {
      *  Digital.</p><p>
      *
      *  Image transformation parameters are specified as JavaScript object literal. They
-     *  are translated into URL parameters. See <a href="https://documentation.b2c.commercecloud.salesforce.com/DOC1/topic/com.demandware.dochelp/ImageManagement/CreatingImageTransformationURLs.html?cp=0_3_0_5_6_1">Create Image Transformation URLs.</a></p><p>
+     *  are translated into URL parameters. See <a href="https://documentation.b2c.commercecloud.salesforce.com/DOC1/topic/com.demandware.dochelp/content/b2c_commerce/topics/image_management/b2c_creating_image_transformation_urls.html">Create Image Transformation URLs.</a></p><p>
      *
      *  <table>
      *  <tbody><tr>
@@ -15469,7 +15683,7 @@ declare namespace dw {
        * @param base64Msg the base64 encoded cipher bytes
        * @param key When using a symmetric cryptographic algorithm, use the same key to encrypt and decrypt. If the cryptographic algorithm is symmetric (for example, AES) or asymmetric (for example, RSA), the key needs to be passed as a base64-encoded string. The only exception is the symmetric cryptographic algorithms Password Based Encryption (PBE). With PBE the key needs to be passed as plain string (without any encoding).
        * @param transformation The transformation has to be in "algorithm/mode/padding" format. See the corresponding encrypt method for supported transformations.
-       * @param salt Initialization value appropriate for the algorithm, this might be a Binary Salt or AlgorithmParameter or InitializationVector (see the corresponding encrypt method for details). Should be appropriate for the algorithm being used. If this value is null, a default initialization value will be used by the engine. The same value used to Encrypt needs to be supplied to the Decrypt function for many algorithms to successfully decrypt the data, so it is best practice to specify an appropriate value.
+       * @param saltOrIV Initialization value appropriate for the algorithm, this might be a Binary Salt or AlgorithmParameter or InitializationVector (see the corresponding encrypt method for details). Should be appropriate for the algorithm being used. If this value is null, a default initialization value will be used by the engine. The same value used to Encrypt needs to be supplied to the Decrypt function for many algorithms to successfully decrypt the data, so it is best practice to specify an appropriate value.
        * @param iterations The number of passes to make when turning a passphrase into a key. This is only applicable for some types of algorithm. Password Based Encryption (PBE) algorithms use this parameter, and Block Encryption algorithms do not. If this value is relevant to the algorithm it would be best practice to supply it, as the same value would be needed to decrypt the data that was used to encrypt the data.
        * @return the original plaintext message.
        */
@@ -15477,7 +15691,7 @@ declare namespace dw {
         base64Msg: string,
         key: string,
         transformation: string,
-        salt: string,
+        saltOrIV: string,
         iterations: number
       ): string;
       /**
@@ -15490,7 +15704,7 @@ declare namespace dw {
        * @param base64Msg (see decrypt(String, String, String, String, Number))
        * @param privateKey A reference to a private key in the key store.
        * @param transformation (see decrypt(String, String, String, String, Number))
-       * @param salt (see decrypt(String, String, String, String, Number))
+       * @param saltOrIV (see decrypt(String, String, String, String, Number))
        * @param iterations (see decrypt(String, String, String, String, Number))
        * @return (see decrypt(String, String, String, String, Number))
        */
@@ -15498,7 +15712,7 @@ declare namespace dw {
         base64Msg: string,
         privateKey: dw.crypto.KeyRef,
         transformation: string,
-        salt: string,
+        saltOrIV: string,
         iterations: number
       ): string;
       /**
@@ -15510,7 +15724,7 @@ declare namespace dw {
        * @param base64Msg the base64 encoded cipher bytes
        * @param key When using a symmetric cryptographic algorithm, use the same key to encrypt and decrypt. If the cryptographic algorithm is symmetric (for example, AES) or asymmetric (for example, RSA), the key needs to be passed as a base64-encoded string. The only exception is the symmetric cryptographic algorithms Password Based Encryption (PBE). With PBE the key needs to be passed as plain string (without any encoding).
        * @param transformation The transformation has to be in "algorithm/mode/padding" format. See the corresponding encrypt method for supported transformations.
-       * @param salt Initialization value appropriate for the algorithm, this might be a Binary Salt or AlgorithmParameter or InitializationVector (see the corresponding encrypt method for details). Should be appropriate for the algorithm being used. The same value used to Encrypt needs to be supplied to the Decrypt function for many algorithms to successfully decrypt the data, so it is best practice to specify an appropriate value.
+       * @param saltOrIV Initialization value appropriate for the algorithm, this might be a Binary Salt or AlgorithmParameter or InitializationVector (see the corresponding encrypt method for details). Should be appropriate for the algorithm being used. The same value used to Encrypt needs to be supplied to the Decrypt function for many algorithms to successfully decrypt the data, so it is best practice to specify an appropriate value.
        * @param iterations The number of passes to make when turning a passphrase into a key. This is only applicable for some types of algorithm. Password Based Encryption (PBE) algorithms use this parameter, and Block Encryption algorithms do not. If this value is relevant to the algorithm it would be best practice to supply it, as the same value would be needed to decrypt the data that was used to encrypt the data.
        * @return the original plaintext message.
        */
@@ -15518,7 +15732,7 @@ declare namespace dw {
         base64Msg: string,
         key: string,
         transformation: string,
-        salt: string,
+        saltOrIV: string,
         iterations: number
       ): string;
       /**
@@ -15531,7 +15745,7 @@ declare namespace dw {
        * @param base64Msg (see decrypt_3(String, String, String, String, Number))
        * @param privateKey A reference to a private key in the key store.
        * @param transformation (see decrypt_3(String, String, String, String, Number))
-       * @param salt (see decrypt_3(String, String, String, String, Number))
+       * @param saltOrIV (see decrypt_3(String, String, String, String, Number))
        * @param iterations (see decrypt_3(String, String, String, String, Number))
        * @return (see decrypt_3(String, String, String, String, Number))
        */
@@ -15539,7 +15753,7 @@ declare namespace dw {
         base64Msg: string,
         privateKey: dw.crypto.KeyRef,
         transformation: string,
-        salt: string,
+        saltOrIV: string,
         iterations: number
       ): string;
       /**
@@ -15558,7 +15772,7 @@ declare namespace dw {
        * @param encryptedBytes The bytes to decrypt.
        * @param key The key to use for decryption.
        * @param transformation The transformation used to originally encrypt.
-       * @param salt the salt to use.
+       * @param saltOrIV the salt or IV to use.
        * @param iterations the iterations to use.
        * @return The decrypted bytes.
        */
@@ -15566,7 +15780,7 @@ declare namespace dw {
         encryptedBytes: dw.util.Bytes,
         key: string,
         transformation: string,
-        salt: string,
+        saltOrIV: string,
         iterations: number
       ): dw.util.Bytes;
       /**
@@ -15575,7 +15789,7 @@ declare namespace dw {
        * @param encryptedBytes (see decryptBytes(Bytes, String, String, String, Number))
        * @param privateKey A reference to a private key in the key store.
        * @param transformation (see decryptBytes(Bytes, String, String, String, Number))
-       * @param salt (see decryptBytes(Bytes, String, String, String, Number))
+       * @param saltOrIV (see decryptBytes(Bytes, String, String, String, Number))
        * @param iterations (see decryptBytes(Bytes, String, String, String, Number))
        * @return (see decryptBytes(Bytes, String, String, String, Number))
        */
@@ -15583,7 +15797,7 @@ declare namespace dw {
         encryptedBytes: dw.util.Bytes,
         privateKey: dw.crypto.KeyRef,
         transformation: string,
-        salt: string,
+        saltOrIV: string,
         iterations: number
       ): dw.util.Bytes;
       /**
@@ -15602,7 +15816,7 @@ declare namespace dw {
        * @param encryptedBytes The bytes to decrypt.
        * @param key The key to use for decryption.
        * @param transformation The transformation used to originally encrypt.
-       * @param salt the salt to use.
+       * @param saltOrIV the salt or IV to use.
        * @param iterations the iterations to use.
        * @return The decrypted bytes.
        */
@@ -15610,7 +15824,7 @@ declare namespace dw {
         encryptedBytes: dw.util.Bytes,
         key: string,
         transformation: string,
-        salt: string,
+        saltOrIV: string,
         iterations: number
       ): dw.util.Bytes;
       /**
@@ -15619,7 +15833,7 @@ declare namespace dw {
        * @param encryptedBytes (see decryptBytes_3(Bytes, String, String, String, Number))
        * @param privateKey A reference to a private key in the key store.
        * @param transformation (see decryptBytes_3(Bytes, String, String, String, Number))
-       * @param salt (see decryptBytes_3(Bytes, String, String, String, Number))
+       * @param saltOrIV (see decryptBytes_3(Bytes, String, String, String, Number))
        * @param iterations (see decryptBytes_3(Bytes, String, String, String, Number))
        * @return (see decryptBytes_3(Bytes, String, String, String, Number))
        */
@@ -15627,7 +15841,7 @@ declare namespace dw {
         encryptedBytes: dw.util.Bytes,
         privateKey: dw.crypto.KeyRef,
         transformation: string,
-        salt: string,
+        saltOrIV: string,
         iterations: number
       ): dw.util.Bytes;
       /**
@@ -15714,7 +15928,7 @@ declare namespace dw {
        * @param message A string to encrypt (will be first converted with UTF-8 encoding into a byte stream)
        * @param key A string ready for use with the algorithm. The key's format depends on the algorithm specified and the keys are assumed to be correctly formulated for the algorithm used, for example that the lengths are correct. Keys are not checked for validity. The cryptographic algorithms can be partitioned into symmetric and asymmetric (or public key/private key). Symmetric algorithms include password-based algorithms. Symmetric keys are usually a base64-encoded array of bytes. Asymmetric keys are "key pairs" with a public key and a private key. To encrypt using asymmetric algorithms, provide the public key. To decrypt using asymmetric algorithms, provide the private key from the same pair in PKCS#8 format, base64-encoded. See class documentation on how to generate a key pair. If the cryptographic algorithm is symmetric (for example, AES) or asymmetric (for example, RSA), the key needs to be passed as a base64-encoded string. The only exception is the symmetric cryptographic algorithms Password Based Encryption (PBE). With PBE the key needs to be passed as plain string (without any encoding).
        * @param transformation The transformation has to be in "algorithm/mode/padding" format. Symmetric or "secret key" algorithms use the same key to encrypt and to decrypt the data. Asymmetric or "public key" cryptography uses a public/private key pair, and then publishes the public key. Only the holder of the private key will be able to decrypt. The public key and private key are also known as a "key pair". Supported Symmetric transformations include:  "AES" or Rijndael, Advanced Encryption Standard as specified by NIST AES with key length of 256 is the preferred choice for symmetric encryption Keysizes: 128, 192, or 256 Modes: "ECB","CBC","PCBC","CTR" Padding: "NOPADDING", "PKCS5Padding", "ISO10126PADDING"   Supported Asymmetric transformations include:  "RSA" Mode: "ECB" Padding: "NOPADDING", PKCS1PADDING", "OAEPWITHMD5ANDMGF1PADDING", "OAEPWITHSHA1ANDMGF1PADDING", "OAEPWITHSHA-1ANDMGF1PADDING", "OAEPWITHSHA-256ANDMGF1PADDING", "OAEPWITHSHA-384ANDMGF1PADDING", "OAEPWITHSHA-512ANDMGF1PADDING"  Note that for RSA the key length should be at least 2048 bits.
-       * @param salt Initialization value appropriate for the algorithm, this might be a Binary Salt or AlgorithmParameter or InitializationVector. (As binary values cannot be passed, the equivalent Base64 String should be passed for any binary salt value). Should be appropriate for the algorithm being used. If this value is null, a default initialization value will be used by the engine. The same value used to Encrypt needs to be supplied to the Decrypt function for many algorithms to successfully decrypt the data, so it is best practice to specify an appropriate value. Requirements for the size and generation of DES initialization vectors (IV) are derived from FIPS 74 and FIPS 81 from the National Institute of Standards and Technology. CBC mode requires an IV with length 64 bits; CFB uses 48-64 bits; OFB uses 64 bits. If the IV is to be used with DES in the OFB mode, then it is not acceptable for the IV to remain fixed for multiple encryptions, if the same key is used for those encryptions. For Block Encryption algorithms this is the encoded Base64 String equivalent to the a random number to use as a "salt" to use with the algorithm. The algorithm must contain a Feedback Mode other than ECB. This must be a binary value that is exactly the same size as the algorithm block size. RC5 uses an optional 8-byte initialization vector (IV), but only in feedback mode (see CFB above). For Password Based Encryption algorithms, the salt is the encoded Base64 String equivalent to a random number value to transform the password into a key. PBE derives an encryption key from a password. In order to make the task of getting from password to key very time-consuming for an attacker, most PBE implementations will mix in a random number, known as a salt, to create the key. The salt value and the iteration count are then combined into a PBEParameterSpecification to initialize the cipher.  The PKCS#5 spec from RSA Labs defines the parameters for password-based encryption (PBE). The RSA algorithm requires a salt with length as defined in PKCS#1. DSA has a specific initialization that uses three integers to build a DSAParameterSpec (a prime, a sub-prime and a base). To use this algorithm you should use the JCE or another provider to supply a DSAParameterSpec and then supply the Base64 equivalent string as the "salt". Please see the documentation from the provider for additional restrictions.
+       * @param saltOrIV Initialization value appropriate for the algorithm, this might be a Binary Salt or AlgorithmParameter or InitializationVector. (As binary values cannot be passed, the equivalent Base64 String should be passed for any binary salt value). Should be appropriate for the algorithm being used. If this value is null, a default initialization value will be used by the engine. The same value used to Encrypt needs to be supplied to the Decrypt function for many algorithms to successfully decrypt the data, so it is best practice to specify an appropriate value. Requirements for the size and generation of DES initialization vectors (IV) are derived from FIPS 74 and FIPS 81 from the National Institute of Standards and Technology. CBC mode requires an IV with length 64 bits; CFB uses 48-64 bits; OFB uses 64 bits. If the IV is to be used with DES in the OFB mode, then it is not acceptable for the IV to remain fixed for multiple encryptions, if the same key is used for those encryptions. For Block Encryption algorithms this is the encoded Base64 String equivalent to the a random number to use as a "salt" to use with the algorithm. The algorithm must contain a Feedback Mode other than ECB. This must be a binary value that is exactly the same size as the algorithm block size. RC5 uses an optional 8-byte initialization vector (IV), but only in feedback mode (see CFB above). For Password Based Encryption algorithms, the salt is the encoded Base64 String equivalent to a random number value to transform the password into a key. PBE derives an encryption key from a password. In order to make the task of getting from password to key very time-consuming for an attacker, most PBE implementations will mix in a random number, known as a salt, to create the key. The salt value and the iteration count are then combined into a PBEParameterSpecification to initialize the cipher.  The PKCS#5 spec from RSA Labs defines the parameters for password-based encryption (PBE). The RSA algorithm requires a salt with length as defined in PKCS#1. DSA has a specific initialization that uses three integers to build a DSAParameterSpec (a prime, a sub-prime and a base). To use this algorithm you should use the JCE or another provider to supply a DSAParameterSpec and then supply the Base64 equivalent string as the "salt". Please see the documentation from the provider for additional restrictions.
        * @param iterations The number of passes to make when turning a passphrase into a key. This is only applicable for some types of algorithm. Password Based Encryption (PBE) algorithms use this parameter, and Block Encryption algorithms do not. If this value is relevant to the algorithm it would be best practice to supply it, as the same value would be needed to decrypt the data.
        * @return the encrypted message encoded as a String using base 64 encoding.
        */
@@ -15722,7 +15936,7 @@ declare namespace dw {
         message: string,
         key: string,
         transformation: string,
-        salt: string,
+        saltOrIV: string,
         iterations: number
       ): string;
       /**
@@ -15763,7 +15977,7 @@ declare namespace dw {
        * @param message (see encrypt(String, String, String, String, Number))
        * @param publicKey A reference to a public key in the key store.
        * @param transformation (see encrypt(String, String, String, String, Number))
-       * @param salt (see encrypt(String, String, String, String, Number))
+       * @param saltOrIV (see encrypt(String, String, String, String, Number))
        * @param iterations (see encrypt(String, String, String, String, Number))
        * @return (see encrypt(String, String, String, String, Number))
        */
@@ -15771,7 +15985,7 @@ declare namespace dw {
         message: string,
         publicKey: dw.crypto.CertificateRef,
         transformation: string,
-        salt: string,
+        saltOrIV: string,
         iterations: number
       ): string;
       /**
@@ -15858,7 +16072,7 @@ declare namespace dw {
        * @param message A string to encrypt (will be first converted with UTF-8 encoding into a byte stream)
        * @param key A string ready for use with the algorithm. The key's format depends on the algorithm specified and the keys are assumed to be correctly formulated for the algorithm used, for example that the lengths are correct. Keys are not checked for validity. The cryptographic algorithms can be partitioned into symmetric and asymmetric (or public key/private key). Symmetric algorithms include password-based algorithms. Symmetric keys are usually a base64-encoded array of bytes. Asymmetric keys are "key pairs" with a public key and a private key. To encrypt using asymmetric algorithms, provide the public key. To decrypt using asymmetric algorithms, provide the private key from the same pair in PKCS#8 format, base64-encoded. See class documentation on how to generate a key pair. If the cryptographic algorithm is symmetric (for example, AES) or asymmetric (for example, RSA), the key needs to be passed as a base64-encoded string. The only exception is the symmetric cryptographic algorithms Password Based Encryption (PBE). With PBE the key needs to be passed as plain string (without any encoding).
        * @param transformation The transformation has to be in "algorithm/mode/padding" format. Symmetric or "secret key" algorithms use the same key to encrypt and to decrypt the data. Asymmetric or "public key" cryptography uses a public/private key pair, and then publishes the public key. Only the holder of the private key will be able to decrypt. The public key and private key are also known as a "key pair". Supported Symmetric transformations include:  "AES" or Rijndael, Advanced Encryption Standard as specified by NIST AES with key length of 256 is the preferred choice for symmetric encryption Keysizes: 128, 192, or 256 Modes: "ECB","CBC","PCBC","CTR" Padding: "NOPADDING", "PKCS5Padding", "ISO10126PADDING"   Supported Asymmetric transformations include:  "RSA" Mode: "ECB" Padding: "NOPADDING", PKCS1PADDING", "OAEPWITHMD5ANDMGF1PADDING", "OAEPWITHSHA1ANDMGF1PADDING", "OAEPWITHSHA-1ANDMGF1PADDING", "OAEPWITHSHA-256ANDMGF1PADDING", "OAEPWITHSHA-384ANDMGF1PADDING", "OAEPWITHSHA-512ANDMGF1PADDING"  Note that for RSA the key length should be at least 2048 bits.
-       * @param salt Initialization value appropriate for the algorithm, this might be a Binary Salt or AlgorithmParameter or InitializationVector. (As binary values cannot be passed, the equivalent Base64 String should be passed for any binary salt value). Should be appropriate for the algorithm being used. The same value used to Encrypt needs to be supplied to the Decrypt function for many algorithms to successfully decrypt the data, so it is best practice to specify an appropriate value. Requirements for the size and generation of DES initialization vectors (IV) are derived from FIPS 74 and FIPS 81 from the National Institute of Standards and Technology. CBC mode requires an IV with length 64 bits; CFB uses 48-64 bits; OFB uses 64 bits. If the IV is to be used with DES in the OFB mode, then it is not acceptable for the IV to remain fixed for multiple encryptions, if the same key is used for those encryptions. For Block Encryption algorithms this is the encoded Base64 String equivalent to the a random number to use as a "salt" to use with the algorithm. The algorithm must contain a Feedback Mode other than ECB. This must be a binary value that is exactly the same size as the algorithm block size. RC5 uses an optional 8-byte initialization vector (IV), but only in feedback mode (see CFB above). For Password Based Encryption algorithms, the salt is the encoded Base64 String equivalent to a random number value to transform the password into a key. PBE derives an encryption key from a password. In order to make the task of getting from password to key very time-consuming for an attacker, most PBE implementations will mix in a random number, known as a salt, to create the key. The salt value and the iteration count are then combined into a PBEParameterSpecification to initialize the cipher.  The PKCS#5 spec from RSA Labs defines the parameters for password-based encryption (PBE). The RSA algorithm requires a salt with length as defined in PKCS#1. DSA has a specific initialization that uses three integers to build a DSAParameterSpec (a prime, a sub-prime and a base). To use this algorithm you should use the JCE or another provider to supply a DSAParameterSpec and then supply the Base64 equivalent string as the "salt". Please see the documentation from the provider for additional restrictions.
+       * @param saltOrIV Initialization value appropriate for the algorithm, this might be a Binary Salt or AlgorithmParameter or InitializationVector. (As binary values cannot be passed, the equivalent Base64 String should be passed for any binary salt value). Should be appropriate for the algorithm being used. The same value used to Encrypt needs to be supplied to the Decrypt function for many algorithms to successfully decrypt the data, so it is best practice to specify an appropriate value. Requirements for the size and generation of DES initialization vectors (IV) are derived from FIPS 74 and FIPS 81 from the National Institute of Standards and Technology. CBC mode requires an IV with length 64 bits; CFB uses 48-64 bits; OFB uses 64 bits. If the IV is to be used with DES in the OFB mode, then it is not acceptable for the IV to remain fixed for multiple encryptions, if the same key is used for those encryptions. For Block Encryption algorithms this is the encoded Base64 String equivalent to the a random number to use as a "salt" to use with the algorithm. The algorithm must contain a Feedback Mode other than ECB. This must be a binary value that is exactly the same size as the algorithm block size. RC5 uses an optional 8-byte initialization vector (IV), but only in feedback mode (see CFB above). For Password Based Encryption algorithms, the salt is the encoded Base64 String equivalent to a random number value to transform the password into a key. PBE derives an encryption key from a password. In order to make the task of getting from password to key very time-consuming for an attacker, most PBE implementations will mix in a random number, known as a salt, to create the key. The salt value and the iteration count are then combined into a PBEParameterSpecification to initialize the cipher.  The PKCS#5 spec from RSA Labs defines the parameters for password-based encryption (PBE). The RSA algorithm requires a salt with length as defined in PKCS#1. DSA has a specific initialization that uses three integers to build a DSAParameterSpec (a prime, a sub-prime and a base). To use this algorithm you should use the JCE or another provider to supply a DSAParameterSpec and then supply the Base64 equivalent string as the "salt". Please see the documentation from the provider for additional restrictions.
        * @param iterations The number of passes to make when turning a passphrase into a key. This is only applicable for some types of algorithm. Password Based Encryption (PBE) algorithms use this parameter, and Block Encryption algorithms do not. If this value is relevant to the algorithm it would be best practice to supply it, as the same value would be needed to decrypt the data.
        * @return the encrypted message encoded as a String using base 64 encoding.
        */
@@ -15866,7 +16080,7 @@ declare namespace dw {
         message: string,
         key: string,
         transformation: string,
-        salt: string,
+        saltOrIV: string,
         iterations: number
       ): string;
       /**
@@ -15907,7 +16121,7 @@ declare namespace dw {
        * @param message (see encrypt_3(String, String, String, String, Number))
        * @param publicKey A reference to a public key in the key store.
        * @param transformation (see encrypt_3(String, String, String, String, Number))
-       * @param salt (see encrypt_3(String, String, String, String, Number))
+       * @param saltOrIV (see encrypt_3(String, String, String, String, Number))
        * @param iterations (see encrypt_3(String, String, String, String, Number))
        * @return (see encrypt_3(String, String, String, String, Number))
        */
@@ -15915,7 +16129,7 @@ declare namespace dw {
         message: string,
         publicKey: dw.crypto.CertificateRef,
         transformation: string,
-        salt: string,
+        saltOrIV: string,
         iterations: number
       ): string;
       /**
@@ -15935,7 +16149,7 @@ declare namespace dw {
        * @param messageBytes The bytes to encrypt.
        * @param key The key to use for encryption.
        * @param transformation The transformation to apply.
-       * @param salt Initialization value appropriate for the algorithm.
+       * @param saltOrIV Initialization value appropriate for the algorithm.
        * @param iterations The number of passes to make when turning a passphrase into a key.
        * @return the encrypted bytes.
        */
@@ -15943,7 +16157,7 @@ declare namespace dw {
         messageBytes: dw.util.Bytes,
         key: string,
         transformation: string,
-        salt: string,
+        saltOrIV: string,
         iterations: number
       ): dw.util.Bytes;
       /**
@@ -15956,7 +16170,7 @@ declare namespace dw {
        * @param messageBytes (see encryptBytes(Bytes, String, String, String, Number))
        * @param publicKey A reference to a public key in the key store.
        * @param transformation (see encryptBytes(Bytes, String, String, String, Number))
-       * @param salt (see encryptBytes(Bytes, String, String, String, Number))
+       * @param saltOrIV (see encryptBytes(Bytes, String, String, String, Number))
        * @param iterations (see encryptBytes(Bytes, String, String, String, Number))
        * @return (see encryptBytes(Bytes, String, String, String, Number))
        */
@@ -15964,7 +16178,7 @@ declare namespace dw {
         messageBytes: dw.util.Bytes,
         publicKey: dw.crypto.CertificateRef,
         transformation: string,
-        salt: string,
+        saltOrIV: string,
         iterations: number
       ): dw.util.Bytes;
       /**
@@ -15984,7 +16198,7 @@ declare namespace dw {
        * @param messageBytes The bytes to encrypt.
        * @param key The key to use for encryption.
        * @param transformation The transformation to apply.
-       * @param salt Initialization value appropriate for the algorithm.
+       * @param saltOrIV Initialization value appropriate for the algorithm.
        * @param iterations The number of passes to make when turning a passphrase into a key.
        * @return the encrypted bytes.
        */
@@ -15992,7 +16206,7 @@ declare namespace dw {
         messageBytes: dw.util.Bytes,
         key: string,
         transformation: string,
-        salt: string,
+        saltOrIV: string,
         iterations: number
       ): dw.util.Bytes;
       /**
@@ -16005,7 +16219,7 @@ declare namespace dw {
        * @param messageBytes (see encryptBytes_3(Bytes, String, String, String, Number))
        * @param publicKey A reference to a public key in the key store.
        * @param transformation (see encryptBytes_3(Bytes, String, String, String, Number))
-       * @param salt (see encryptBytes_3(Bytes, String, String, String, Number))
+       * @param saltOrIV (see encryptBytes_3(Bytes, String, String, String, Number))
        * @param iterations (see encryptBytes_3(Bytes, String, String, String, Number))
        * @return (see encryptBytes_3(Bytes, String, String, String, Number))
        */
@@ -16013,7 +16227,7 @@ declare namespace dw {
         messageBytes: dw.util.Bytes,
         publicKey: dw.crypto.CertificateRef,
         transformation: string,
-        salt: string,
+        saltOrIV: string,
         iterations: number
       ): dw.util.Bytes;
     }
@@ -32714,6 +32928,10 @@ declare namespace dw {
        *
        *  If the product list item references an option product, the option values are copied from the product list item.
        *
+       *  If the product list item is associated with an existing product line item, and the BasketAddProductBehaviour
+       *  setting is MergeQuantities, then the product line item quantity is increased by 1.0 or, if defined, the minimum
+       *  order quantity of the product.
+       *
        *  An exception is thrown if
        *
        *  the line item container is no basket.
@@ -35713,6 +35931,15 @@ declare namespace dw {
        *
        *
        *  Inventory transactions and coupon redemptions associated with the Order will be rolled back.
+       *
+       *
+       *  A basket can only be reopened if no other basket for the customer exists at the moment of the call to
+       *  failOrder since a customer is limited to 1 storefront basket at a time. If, after
+       *  order creation, a call was made to BasketMgr.getCurrentOrNewBasket() or pipelet GetBasket with parameter
+       *  Create=true, a new basket has been created, and failOrder cannot
+       *  reopen the basket the order was created with. If a basket is reopened, it always
+       *  masks sensitive information (e.g., credit card number), because during order creation, basket payment
+       *  information is permanently masked.
        * @param order the order to be placed
        * @param reopenBasketIfPossible reopen the basket if it still exists and limit for number of baskets is not reached
        * @return Status 'OK' or 'ERROR' with an error message. Status detail basket contains the reopened basket, if it has been reopened successfully.
@@ -36846,7 +37073,9 @@ declare namespace dw {
        *
        *
        *
-       *  Otherwise, the method returns the masked driver's license number.
+       *  Otherwise, the method returns the masked driver's license number. If a basket is reopened with
+       *  OrderMgr.failOrder(Order, Boolean), it always masks sensitive information
+       *  because during order creation, basket payment information is permanently masked.
        */
       bankAccountDriversLicense: string;
       /**
@@ -36894,7 +37123,9 @@ declare namespace dw {
        *
        *
        *
-       *  Otherwise, the method returns the masked bank account number.
+       *  Otherwise, the method returns the masked bank account number. If a basket is reopened with
+       *  OrderMgr.failOrder(Order, Boolean), it always masks sensitive information
+       *  because during order creation, basket payment information is permanently masked.
        */
       bankAccountNumber: string;
       /**
@@ -36969,7 +37200,9 @@ declare namespace dw {
        *
        *
        *
-       *  Otherwise, the method returns the masked credit card number.
+       *  Otherwise, the method returns the masked credit card number. If a basket is reopened with
+       *  OrderMgr.failOrder(Order, Boolean), it always masks sensitive information
+       *  because during order creation, basket payment information is permanently masked.
        */
       creditCardNumber: string;
       /**
@@ -37082,7 +37315,9 @@ declare namespace dw {
        *
        *
        *
-       *  Otherwise, the method returns the masked driver's license number.
+       *  Otherwise, the method returns the masked driver's license number. If a basket is reopened with
+       *  OrderMgr.failOrder(Order, Boolean), it always masks sensitive information
+       *  because during order creation, basket payment information is permanently masked.
        *
        * @return the driver's license number if the calling context meets the necessary criteria.
        */
@@ -37152,7 +37387,9 @@ declare namespace dw {
        *
        *
        *
-       *  Otherwise, the method returns the masked bank account number.
+       *  Otherwise, the method returns the masked bank account number. If a basket is reopened with
+       *  OrderMgr.failOrder(Order, Boolean), it always masks sensitive information
+       *  because during order creation, basket payment information is permanently masked.
        *
        * @return the bank account number if the calling context meets the necessary criteria.
        */
@@ -37247,7 +37484,9 @@ declare namespace dw {
        *
        *
        *
-       *  Otherwise, the method returns the masked credit card number.
+       *  Otherwise, the method returns the masked credit card number. If a basket is reopened with
+       *  OrderMgr.failOrder(Order, Boolean), it always masks sensitive information
+       *  because during order creation, basket payment information is permanently masked.
        *
        * @return the decrypted credit card number if the calling context meets the necessary criteria.
        */
@@ -55789,7 +56028,7 @@ declare namespace dw {
      *  The to-be-transformed image needs to be hosted on Digital.</p><p>
      *
      *  Image transformation parameters are specified as JavaScript object literal. They
-     *  are translated into URL parameters. See <a href="https://documentation.b2c.commercecloud.salesforce.com/DOC1/topic/com.demandware.dochelp/ImageManagement/CreatingImageTransformationURLs.html?cp=0_3_0_5_6_1">Create Image Transformation URLs.</a></p><p>
+     *  are translated into URL parameters. See <a href="https://documentation.b2c.commercecloud.salesforce.com/DOC1/topic/com.demandware.dochelp/content/b2c_commerce/topics/image_management/b2c_creating_image_transformation_urls.html">Create Image Transformation URLs.</a></p><p>
      *
      *  <table>
      *  <tbody><tr>
