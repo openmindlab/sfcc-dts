@@ -386,7 +386,7 @@ fs.writeFileSync(
 
 fs.writeFileSync(
   path.join(basePathGenerated, "attrs.txt"),
-  Array.from(customAttrTypes).join('\n')
+  Array.from(customAttrTypes).sort().join('\n')
 );
 
 function checkGenerics(returnType: string, theClass: any, member: any) {
