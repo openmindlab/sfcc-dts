@@ -99,7 +99,7 @@ function remapType(at: Attributedefinition): string {
     return 'number[]';
   }
 
-  if (at.type === 'date') {
+  if (at.type === 'date' || at.type === 'datetime') {
     return 'Date';
   }
 
