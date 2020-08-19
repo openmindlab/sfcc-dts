@@ -5,9 +5,8 @@ import chalk from "chalk";
 import prompts from "prompts";
 import { execSync } from "child_process";
 import { log } from 'console';
-
 import { parse, stringify } from 'comment-json';
-
+import { generateCustomTypes } from './customtypes';
 
 (async () => {
 
@@ -130,6 +129,11 @@ import { parse, stringify } from 'comment-json';
 
   log(`Write @types/dw/index.d.ts`);
   fs.writeFileSync(path.join('@types/dw', 'index.d.ts'), '/// <reference path="../../node_modules/sfcc-dts/@types/sfcc/index.d.ts" />\n');
+
+  log(`Generating custom types`);
+  if (extensions) {
+    await generateCustomTypes(extensions);
+  }
 
   log(`\nDone!`);
 
