@@ -99,13 +99,13 @@ function mapAttribute(at: Attributedefinition) {
   return `/**
   * ${at.description || at.displayname || ''}
   */
- ${at.attributeid}: ${remapType(at)};
+ ${at.attributeid.indexOf('-') > -1 ? "'" + at.attributeid + "'" : at.attributeid}: ${remapType(at)};
 
  `;
 }
 
 function remapType(at: Attributedefinition): string {
-  if (at.type === 'string' || at.type === 'text') {
+  if (at.type === 'string' || at.type === 'text' || at.type === 'password') {
     return 'string';
   }
 

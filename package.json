@@ -52,9 +52,11 @@
     "scrape": "node dist/scrape.js",
     "generate": "node dist/generate.js",
     "makepatch": "node dist/makepatch.js",
-    "sfcc-dts-setup": "node dist/setup.js"
+    "sfcc-dts-setup": "node dist/setup.js",
+    "sfcc-dts-updateattrs": "node dist/updateattrs.js"
   },
   "bin": {
-    "sfcc-dts-setup": "dist/setup.js"
+    "sfcc-dts-setup": "dist/setup.js",
+    "sfcc-dts-updateattrs": "dist/updateattrs.js"
   }
 }

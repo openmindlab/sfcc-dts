@@ -129,7 +129,7 @@ import { generateCustomTypes } from './customtypes';
     fs.mkdirSync(path.join('@types', 'dw'));
   }
 
-  log(`Generating custom types`);
+  log(`Generating definitions for custom attributes`);
   if (extensions) {
     await generateCustomTypes(extensions);
   }
