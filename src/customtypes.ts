@@ -105,7 +105,7 @@ function mapAttribute(at: Attributedefinition) {
 }
 
 function remapType(at: Attributedefinition): string {
-  if (at.type === 'string' || at.type === 'text' || at.type === 'password') {
+  if (at.type === 'string' || at.type === 'text' || at.type === 'password' || at.type === 'email') {
     return 'string';
   }
 
