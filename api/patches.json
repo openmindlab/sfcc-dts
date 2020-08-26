@@ -42,7 +42,7 @@
                 "name": "any"
               },
               "static": false,
-              "readonly": true,
+              "readonly": false,
               "description": "Returns the custom attribute with this name. Throws an exception if attribute is not defined",
               "deprecated": 0
             }
@@ -266,7 +266,7 @@
                 "name": "any"
               },
               "static": false,
-              "readonly": true,
+              "readonly": false,
               "description": "Returns the dw.web.Cookie with this name or null",
               "deprecated": 0
             }
