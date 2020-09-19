@@ -9207,6 +9207,21 @@ declare namespace dw {
        */
       getMaxPriceBookPrice(priceBookID: string): dw.value.Money;
       /**
+       * Calculates and returns the maximum price per unit in a given price book of all
+       *  variants (for master products) or set-products (for product sets) for
+       *  base quantity 1.00. This value can be used to display a range of price per units
+       *  in storefront.
+       *
+       *  This method follows the same rules as
+       *  getPriceBookPricePerUnit(String) in determining the price book
+       *  price for each variant or set-product. If the product represented by this
+       *  model is not a master product or product set, then this method behaves
+       *  the same as getPriceBookPricePerUnit(String).
+       * @param priceBookID ID of price book the price is requested for, must not be null.
+       * @return The maximum price per unit across all sub-products in the specified price book.
+       */
+      getMaxPriceBookPricePerUnit(priceBookID: string): dw.value.Money;
+      /**
        * Calculates and returns the maximum price-book price per unit of all variants (for
        *  master products) or set-products (for product sets) for base quantity
        *  1.00. This value can be used to display a range of prices in storefront.
@@ -9258,6 +9273,21 @@ declare namespace dw {
        * @return The minimum price across all subproducts in the specified price book.
        */
       getMinPriceBookPrice(priceBookID: string): dw.value.Money;
+      /**
+       * Calculates and returns the minimum price per unit in a given price book of all
+       *  variants (for master products) or set-products (for product sets) for
+       *  base quantity 1.00. This value can be used to display a range of price per units
+       *  in storefront.
+       *
+       *  This method follows the same rules as
+       *  getPriceBookPricePerUnit(String) in determining the price book
+       *  price for each variant or set-product. If the product represented by this
+       *  model is not a master product or product set, then this method behaves
+       *  the same as getPriceBookPricePerUnit(String).
+       * @param priceBookID ID of price book the price is requested for, must not be null.
+       * @return The minimum price per unit across all sub-products in the specified price book.
+       */
+      getMinPriceBookPricePerUnit(priceBookID: string): dw.value.Money;
       /**
        * Calculates and returns the minimum price-book price per unit of all variants (for
        *  master products) or set-products (for product sets) for base quantity
@@ -9377,6 +9407,50 @@ declare namespace dw {
         priceBookID: string,
         quantity: dw.value.Quantity
       ): dw.catalog.ProductPriceInfo;
+      /**
+       * Returns the active price per unit of the product in the specified price book for
+       *  quantity 1.00.
+       *
+       *  If the product represented by this model is an option product, option
+       *  prices will be added to the price book price if the price model was
+       *  initialized with an option model.
+       *
+       *  Money.NOT_AVAILABLE will be returned in any of the following cases:
+       *
+       *
+       *  The priceBookID does not identify a valid price book.
+       *  The price book has no price for the product.
+       *  None of the prices for the product in the price book is currently
+       *  active.
+       *  The currently active price entry is a percentage.
+       * @param priceBookID ID of price book the price is requested for, must not be null.
+       * @return the price per unit of the product in the specified price book.
+       */
+      getPriceBookPricePerUnit(priceBookID: string): dw.value.Money;
+      /**
+       * Returns the active price per unit of the product in the specified price book for
+       *  the specified quantity.
+       *
+       *  If the product represented by this model is an option product, option
+       *  prices will be added to the price book price if the price model was
+       *  initialized with an option model.
+       *
+       *  Money.NOT_AVAILABLE will be returned in any of the following cases:
+       *
+       *
+       *  The priceBookID does not identify a valid price book.
+       *  The price book has no price for the product.
+       *  None of the prices for the product in the price book is currently
+       *  active.
+       *  The currently active price entry is a percentage.
+       * @param priceBookID ID of price book the price is requested for, must not be null.
+       * @param quantity the specified quantity to find the price for, must not be null.
+       * @return the price per unit of the product in the specified price book for the specific quantity.
+       */
+      getPriceBookPricePerUnit(
+        priceBookID: string,
+        quantity: dw.value.Quantity
+      ): dw.value.Money;
       /**
        * Returns the price info of a product, calculated based on base price
        *  quantity 1.00. The price is returned for the currency of the current
@@ -23686,6 +23760,460 @@ declare namespace dw {
       }
     }
 
+    namespace payments {
+      /**
+       * Salesforce Payments payment intent. A payment intent is created when the shopper is ready to checkout and pay using
+       *  Salesforce Payments.
+       */
+      class SalesforcePaymentIntent {
+        /**
+         * The amount of this payment intent.
+         */
+        readonly amount: dw.value.Money;
+        /**
+         * Returns true if this payment intent has been confirmed for the correct amount, or false
+         *  if not.
+         */
+        readonly confirmed: boolean;
+        /**
+         * The identifier of this payment intent.
+         */
+        readonly ID: string;
+        /**
+         * The payment method for this payment intent, or null if none has been established.
+         */
+        readonly paymentMethod: dw.extensions.payments.SalesforcePaymentMethod;
+
+        /**
+         * Returns the amount of this payment intent.
+         *
+         * @return payment intent amount
+         */
+        getAmount(): dw.value.Money;
+        /**
+         * Returns the identifier of this payment intent.
+         *
+         * @return payment intent identifier
+         */
+        getID(): string;
+        /**
+         * Returns the payment instrument for this payment intent in the given basket, or null if the given
+         *  basket has none.
+         * @param basket basket
+         * @return basket payment instrument
+         */
+        getPaymentInstrument(
+          basket: dw.order.Basket
+        ): dw.order.OrderPaymentInstrument;
+        /**
+         * Returns the payment instrument for this payment intent in the given order, or null if the given
+         *  order has none.
+         * @param order order
+         * @return order payment instrument
+         */
+        getPaymentInstrument(
+          order: dw.order.Order
+        ): dw.order.OrderPaymentInstrument;
+        /**
+         * Returns the payment method for this payment intent, or null if none has been established.
+         *
+         * @return payment method
+         */
+        getPaymentMethod(): dw.extensions.payments.SalesforcePaymentMethod;
+        /**
+         * Returns true if this payment intent has been confirmed for the correct amount, or false
+         *  if not.
+         *
+         * @return true if this payment intent has been confirmed for the correct amount
+         */
+        isConfirmed(): boolean;
+      }
+
+      /**
+       * Salesforce Payments payment method. A payment method contains information about the credential used to make payment,
+       *  such as a credit card.
+       */
+      class SalesforcePaymentMethod {
+        /**
+         * Represents the Bancontact payment method.
+         */
+        static readonly TYPE_BANCONTACT = "bancontact";
+        /**
+         * Represents a credit card type of payment method.
+         */
+        static readonly TYPE_CARD = "card";
+        /**
+         * Represents the iDEAL payment method.
+         */
+        static readonly TYPE_IDEAL = "ideal";
+        /**
+         * Represents the SEPA Debit payment method.
+         */
+        static readonly TYPE_SEPA_DEBIT = "sepa_debit";
+
+        /**
+         * The bank of this payment method, or null if none is available. Available on
+         *  TYPE_IDEAL type methods.
+         */
+        readonly bank: string;
+        /**
+         * The bank code of this payment method, or null if none is available. Available on
+         *  TYPE_SEPA_DEBIT and TYPE_BANCONTACT type methods.
+         */
+        readonly bankCode: string;
+        /**
+         * The bank name of this payment method, or null if none is available. Available on
+         *  TYPE_BANCONTACT type methods.
+         */
+        readonly bankName: string;
+        /**
+         * The bank branch code of this payment method, or null if none is available. Available on
+         *  TYPE_SEPA_DEBIT type methods.
+         */
+        readonly branchCode: string;
+        /**
+         * The brand of this payment method, or null if none is available. Available on
+         *  TYPE_CARD type methods.
+         */
+        readonly brand: string;
+        /**
+         * The bank branch code of this payment method, or null if none is available. Available on
+         *  TYPE_SEPA_DEBIT type methods.
+         */
+        readonly country: string;
+        /**
+         * The identifier of this payment method.
+         */
+        readonly ID: string;
+        /**
+         * The last 4 digits of the credential for this payment method, or null if none is available.
+         *  Available on TYPE_CARD, TYPE_SEPA_DEBIT, and
+         *  TYPE_BANCONTACT type methods.
+         */
+        readonly last4: string;
+        /**
+         * The type of this payment method.
+         */
+        readonly type: string;
+
+        /**
+         * Returns the bank of this payment method, or null if none is available. Available on
+         *  TYPE_IDEAL type methods.
+         *
+         * @return payment method bank
+         */
+        getBank(): string;
+        /**
+         * Returns the bank code of this payment method, or null if none is available. Available on
+         *  TYPE_SEPA_DEBIT and TYPE_BANCONTACT type methods.
+         *
+         * @return payment method bank code
+         */
+        getBankCode(): string;
+        /**
+         * Returns the bank name of this payment method, or null if none is available. Available on
+         *  TYPE_BANCONTACT type methods.
+         *
+         * @return payment method bank name
+         */
+        getBankName(): string;
+        /**
+         * Returns the bank branch code of this payment method, or null if none is available. Available on
+         *  TYPE_SEPA_DEBIT type methods.
+         *
+         * @return payment method bank branch code
+         */
+        getBranchCode(): string;
+        /**
+         * Returns the brand of this payment method, or null if none is available. Available on
+         *  TYPE_CARD type methods.
+         *
+         * @return payment method brand
+         */
+        getBrand(): string;
+        /**
+         * Returns the bank branch code of this payment method, or null if none is available. Available on
+         *  TYPE_SEPA_DEBIT type methods.
+         *
+         * @return payment method country
+         */
+        getCountry(): string;
+        /**
+         * Returns the identifier of this payment method.
+         *
+         * @return payment method identifier
+         */
+        getID(): string;
+        /**
+         * Returns the last 4 digits of the credential for this payment method, or null if none is available.
+         *  Available on TYPE_CARD, TYPE_SEPA_DEBIT, and
+         *  TYPE_BANCONTACT type methods.
+         *
+         * @return payment method credential last 4 digits
+         */
+        getLast4(): string;
+        /**
+         * Returns the type of this payment method.
+         *
+         * @return payment method type
+         */
+        getType(): string;
+      }
+
+      /**
+       * Salesforce Payments payment request. Create a request to use the Salesforce Payments checkout drop-in component.
+       */
+      class SalesforcePaymentRequest {
+        /**
+         * Element for the Stripe credit card CVC field "cardCvc".
+         */
+        static readonly ELEMENT_CARD_CVC = "cardCvc";
+        /**
+         * Element for the Stripe credit card expiration date field "cardExpiry".
+         */
+        static readonly ELEMENT_CARD_EXPIRY = "cardExpiry";
+        /**
+         * Element for the Stripe credit card number field "cardNumber".
+         */
+        static readonly ELEMENT_CARD_NUMBER = "cardNumber";
+        /**
+         * Element for the Stripe IBAN field "iban".
+         */
+        static readonly ELEMENT_IBAN = "iban";
+        /**
+         * Element for the Stripe iDEAL bank selection field "idealBank".
+         */
+        static readonly ELEMENT_IDEAL_BANK = "idealBank";
+        /**
+         * Element for the Stripe payment request button "paymentRequestButton".
+         */
+        static readonly ELEMENT_PAYMENT_REQUEST_BUTTON = "paymentRequestButton";
+        /**
+         * Element type name for Apple Pay payment request buttons.
+         */
+        static readonly ELEMENT_TYPE_APPLEPAY = "applepay";
+        /**
+         * Element type name for Bancontact.
+         */
+        static readonly ELEMENT_TYPE_BANCONTACT = "bancontact";
+        /**
+         * Element type name for credit cards.
+         */
+        static readonly ELEMENT_TYPE_CARD = "card";
+        /**
+         * Element type name for iDEAL.
+         */
+        static readonly ELEMENT_TYPE_IDEAL = "ideal";
+        /**
+         * Element type name for other payment request buttons besides Apple Pay, like Google Pay.
+         */
+        static readonly ELEMENT_TYPE_PAYMENTREQUEST = "paymentrequest";
+        /**
+         * Element type name for SEPA debit.
+         */
+        static readonly ELEMENT_TYPE_SEPA_DEBIT = "sepa_debit";
+
+        /**
+         * The data to include in the call to prepare the basket when a Buy Now button is tapped.
+         */
+        basketData: any;
+        /**
+         * A set containing the element types to exclude from Salesforce Payments components.
+         */
+        readonly exclude: dw.util.Set<any>;
+        /**
+         * The identifier of this payment request.
+         */
+        readonly ID: string;
+        /**
+         * A set containing the specific element types to include from Salesforce Payments components. If the set is
+         *  empty then all applicable and enabled element types will be included by default.
+         */
+        readonly include: dw.util.Set<any>;
+        /**
+         * The DOM element selector where to mount Salesforce Payments components.
+         */
+        readonly selector: string;
+
+        /**
+         * Constructs a payment request using the given identifiers.
+         * @param id identifier for payment request
+         * @param selector DOM element selector where to mount Salesforce Payments components
+         */
+        constructor(id: string, selector: string);
+
+        /**
+         * Adds the given element type to exclude from Salesforce Payments components.
+         * @param elementType element type
+         */
+        addExclude(elementType: string): void;
+        /**
+         * Adds the given element type to include in Salesforce Payments components.
+         * @param elementType element type
+         */
+        addInclude(elementType: string): void;
+        /**
+         * Returns a JS object for the given options to use when a Buy Now button is tapped, in the Salesforce Payments
+         *  format.
+         * @param options JS object containing the payment request options
+         */
+        static format(options: any): any;
+        /**
+         * Returns the data to include in the call to prepare the basket when a Buy Now button is tapped.
+         *
+         * @return JS object containing the basket data
+         */
+        getBasketData(): any;
+        /**
+         * Returns a set containing the element types to exclude from Salesforce Payments components.
+         *
+         * @return set of element types
+         */
+        getExclude(): dw.util.Set<any>;
+        /**
+         * Returns the identifier of this payment request.
+         *
+         * @return payment request identifier
+         */
+        getID(): string;
+        /**
+         * Returns a set containing the specific element types to include from Salesforce Payments components. If the set is
+         *  empty then all applicable and enabled element types will be included by default.
+         *
+         * @return set of element types
+         */
+        getInclude(): dw.util.Set<any>;
+        /**
+         * Returns the DOM element selector where to mount Salesforce Payments components.
+         *
+         * @return DOM element selector
+         */
+        getSelector(): string;
+        /**
+         * Sets the data to include in the call to prepare the basket when a Buy Now button is tapped.
+         * @param basketData JS object containing the basket data
+         */
+        setBasketData(basketData: any): void;
+        /**
+         * Sets the options to use when a Buy Now button is tapped.
+         * @param options JS object containing the payment request options
+         */
+        setOptions(options: any): void;
+        /**
+         * Sets the controller to which to redirect when the shopper returns from a 3rd party payment website. Default is
+         *  the controller for the current page.
+         * @param returnController return controller, such as "Cart-Show"
+         */
+        setReturnController(returnController: string): void;
+        /**
+         * Sets if Salesforce Payments components may provide a control for the shopper to save the payment method for later
+         *  use.
+         * @param savePaymentMethodEnabled if Salesforce Payments components may provide a control for the shopper to save the payment method
+         */
+        setSavePaymentMethodEnabled(savePaymentMethodEnabled: boolean): void;
+        /**
+         * Sets the the options to pass into the Stripe elements.create call for the given element type. For
+         *  more information see the Stripe Elements API documentation.
+         * @param element name of the Stripe element whose creation to configure
+         * @param options JS object containing the options
+         */
+        setStripeCreateElementOptions(element: string, options: any): void;
+        /**
+         * Sets the the options to pass into the stripe.elements call. For more information see the Stripe
+         *  Elements API documentation.
+         * @param options JS object containing the options
+         */
+        setStripeElementsOptions(options: any): void;
+      }
+
+      /**
+       * This interface represents all script hooks that can be registered to customize the Salesforce Payments
+       *  functionality. It contains the extension points (hook names), and the functions that are called by each extension
+       *  point. A function must be defined inside a JavaScript source and must be exported. The script with the exported hook
+       *  function must be located inside a site cartridge. Inside the site cartridge a &apos;package.json&apos; file with a &apos;hooks&apos;
+       *  entry must exist.
+       *
+       *  <pre> &quot;hooks&quot;: &quot;./hooks.json&quot;
+       *  </pre>
+       *
+       *  The hooks entry links to a json file, relative to the &apos;package.json&apos; file. This file lists all registered hooks
+       *  inside the hooks property:
+       *
+       *  <pre> &quot;hooks&quot;: [
+       *       {&quot;name&quot;: &quot;dw.extensions.payments.asyncPaymentSucceeded&quot;, &quot;script&quot;: &quot;./payments.js&quot;}
+       *  ]
+       *  </pre>
+       *
+       *  A hook entry has a &apos;name&apos; and a &apos;script&apos; property.
+       *  <ul>
+       *  <li>The &apos;name&apos; contains the extension point, the hook name.</li>
+       *  <li>The &apos;script&apos; contains the script relative to the hooks file, with the exported hook function.</li>
+       *  </ul>
+       */
+      class SalesforcePaymentsHooks {
+        /**
+         * The extension point name dw.extensions.payments.asyncPaymentSucceeded.
+         */
+        static readonly extensionPointAsyncPaymentSucceeded =
+          "dw.extensions.payments.asyncPaymentSucceeded";
+
+        /**
+         * Called when asynchronous payment succeeded for the given order.
+         * @param order the order whose asynchronous payment succeeded
+         * @return a non-null result ends the hook execution, and is ignored
+         */
+        asyncPaymentSucceeded(order: dw.order.Order): dw.system.Status;
+      }
+
+      /**
+       * Contains functionality for use with Salesforce Payments.
+       */
+      class SalesforcePaymentsMgr {
+        /**
+         * Attaches the given payment method to the given customer.
+         * @param paymentMethod payment method to attch to customer
+         * @param customer customer whose payment method to save
+         */
+        static attachPaymentMethod(
+          paymentMethod: dw.extensions.payments.SalesforcePaymentMethod,
+          customer: dw.customer.Customer
+        ): void;
+        /**
+         * Detaches the given payment method from its associated customer. Once detached the payment method remains
+         *  associated with payment intents in the payment account, but is no longer saved for use by the customer in future
+         *  orders.
+         * @param paymentMethod payment method to detach from customer
+         */
+        static detachPaymentMethod(
+          paymentMethod: dw.extensions.payments.SalesforcePaymentMethod
+        ): void;
+        /**
+         * Returns a collection containing the payment methods attached to the given customer.
+         * @param customer customer whose payment methods to get
+         * @return collection of attached payment methods
+         */
+        static getAttachedPaymentMethods(
+          customer: dw.customer.Customer
+        ): dw.util.Collection<any>;
+        /**
+         * Gets the payment intent for the given basket.
+         * @param basket basket to checkout and pay using Salesforce Payments
+         * @return The payment intent
+         */
+        static getPaymentIntent(
+          basket: dw.order.Basket
+        ): dw.extensions.payments.SalesforcePaymentIntent;
+        /**
+         * Gets the payment intent for the given order.
+         * @param order order paid using Salesforce Payments
+         * @return The payment intent
+         */
+        static getPaymentIntent(
+          order: dw.order.Order
+        ): dw.extensions.payments.SalesforcePaymentIntent;
+      }
+    }
+
     namespace pinterest {
       /**
        * Represents a row in the Pinterest availability feed export file.
@@ -32589,7 +33117,7 @@ declare namespace dw {
        *  container.
        */
       readonly paymentInstruments: dw.util.Collection<
-        dw.order.PaymentInstrument
+        dw.order.OrderPaymentInstrument
       >;
       /**
        * The collection of price adjustments that have been applied to the
@@ -33351,7 +33879,9 @@ declare namespace dw {
        *
        * @return an unsorted collection containing the set of PaymentInstrument instances associated with this container.
        */
-      getPaymentInstruments(): dw.util.Collection<dw.order.PaymentInstrument>;
+      getPaymentInstruments(): dw.util.Collection<
+        dw.order.OrderPaymentInstrument
+      >;
       /**
        * Returns an unsorted collection of PaymentInstrument instances based on
        *  the specified payment method ID.
@@ -33360,7 +33890,7 @@ declare namespace dw {
        */
       getPaymentInstruments(
         paymentMethodID: string
-      ): dw.util.Collection<dw.order.PaymentInstrument>;
+      ): dw.util.Collection<dw.order.OrderPaymentInstrument>;
       /**
        * Returns the price adjustment associated to the specified
        *  promotion ID.
@@ -52429,7 +52959,7 @@ declare namespace dw {
        *  and a value in between like 0 if both are equal.
        * @param comparator an instance of a PropertyComparator or a comparison function
        */
-      constructor(comparator: T);
+      constructor(comparator: dw.util.PropertyComparator);
       /**
        * Constructor for a new SortedSet. The constructor
        *  initializes the SortedSet with the elements of the
@@ -54651,9 +55181,6 @@ declare namespace dw {
      *  with the expression &quot;myform.firstname&quot;.
      */
     class FormGroup extends dw.web.FormElement {
-
-      [key: string]: any;
-
       /**
        * The number of elements in the form.
        */
@@ -54680,6 +55207,10 @@ declare namespace dw {
        *  meet. The method returns null if no action was marked as triggered.
        */
       readonly triggeredAction: dw.web.FormAction;
+      /**
+       * Returns the Form element with this name.
+       */
+      readonly [name: string]: dw.web.FormGroup | dw.web.FormField | any;
 
       /**
        * The method copies the value from a form into the object, which was previously
@@ -54844,12 +55375,7 @@ declare namespace dw {
      *  <p>
      *  Note that values stored with a form on the session are deleted if the request locale is changed during the session.</p>
      */
-    class Forms {
-      /**
-       * Returns the Form with this name.
-       */
-      readonly [name: string]: dw.web.Form;
-    }
+    class Forms {}
 
     /**
      * Represents an HTTP parameter.
