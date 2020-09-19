@@ -286,16 +286,16 @@
             }
           }
         },
-        "Forms": {
+        "FormGroup": {
           "properties": {
             "[name: string]": {
               "name": "[name: string]",
               "class": {
-                "name": "dw.web.Form"
+                "name": "dw.web.FormGroup | dw.web.FormField | any;"
               },
               "static": false,
               "readonly": true,
-              "description": "Returns the Form with this name.",
+              "description": "Returns the Form element with this name.",
               "deprecated": 0
             }
           }

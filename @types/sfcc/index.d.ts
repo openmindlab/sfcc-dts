@@ -54651,6 +54651,9 @@ declare namespace dw {
      *  with the expression &quot;myform.firstname&quot;.
      */
     class FormGroup extends dw.web.FormElement {
+
+      [key: string]: any;
+
       /**
        * The number of elements in the form.
        */
