@@ -105,6 +105,21 @@
         }
       },
       "util": {
+        "Collection": {
+          "properties": {
+            "[index: number]": {
+              "name": "[index: number]",
+              "class": {
+                "name": "Object"
+              },
+              "static": false,
+              "readonly": false,
+              "description": "Returns the value at the specified index.",
+              "deprecated": false,
+              "type": "property"
+            }
+          }
+        },
         "Map": {
           "properties": {
             "[name: string]": {

@@ -12628,151 +12628,6 @@ declare namespace dw {
     }
 
     /**
-     * Common search refinements base class.
-     */
-    class SearchRefinements {
-      /**
-       * Flag for an ascending sort.
-       */
-      static readonly ASCENDING = 0;
-      /**
-       * Flag for a descending sort.
-       */
-      static readonly DESCENDING = 1;
-      /**
-       * Flag for sorting on value count.
-       */
-      static readonly SORT_VALUE_COUNT = 1;
-      /**
-       * Flag for sorting on value name.
-       */
-      static readonly SORT_VALUE_NAME = 0;
-
-      /**
-       * A sorted list of refinement definitions that are appropriate for
-       *  the deepest common category (or deepest common folder) of the search
-       *  result. The method concatenates the sorted refinement definitions per
-       *  category starting at the root category until reaching the deepest common
-       *  category.
-       *
-       *  The method does not filter out refinement definitions that do
-       *  not provide values for the current search result and can therefore also
-       *  be used on empty search results.
-       */
-      readonly allRefinementDefinitions: dw.util.Collection<
-        dw.catalog.SearchRefinementDefinition
-      >;
-      /**
-       * A sorted list of refinement definitions that are appropriate for
-       *  the deepest common category (or deepest common folder) of the search
-       *  result. The method concatenates the sorted refinement definitions per category
-       *  starting at the root category until reaching the deepest common category.
-       *
-       *  The method also filters out refinement definitions that do not provide
-       *  any values for the current search result.
-       */
-      readonly refinementDefinitions: dw.util.Collection<
-        dw.catalog.SearchRefinementDefinition
-      >;
-
-      /**
-       * Returns a sorted list of refinement definitions that are appropriate for
-       *  the deepest common category (or deepest common folder) of the search
-       *  result. The method concatenates the sorted refinement definitions per
-       *  category starting at the root category until reaching the deepest common
-       *  category.
-       *
-       *  The method does not filter out refinement definitions that do
-       *  not provide values for the current search result and can therefore also
-       *  be used on empty search results.
-       *
-       * @return A sorted list of refinement definitions appropriate for the search result (based on its deepest common category)
-       */
-      getAllRefinementDefinitions(): dw.util.Collection<
-        dw.catalog.SearchRefinementDefinition
-      >;
-      /**
-       * Returns a sorted collection of refinement values for the given refinement
-       *  attribute. The returned collection includes all refinement values for
-       *  which the hit count is greater than 0 within the search result when the
-       *  passed attribute is excluded from filtering the search hits but all other
-       *  refinement filters are still applied. This method is useful for rendering
-       *  broadening options for attributes that the search is currently refined
-       *  by. This method does NOT return refinement values independent of the
-       *  search result.
-       *
-       *  For product search refinements, this method may return slightly different
-       *  results based on the "value set" property of the refinement definition.
-       *  See
-       *  ProductSearchRefinements.getAllRefinementValues(ProductSearchRefinementDefinition)
-       *  for details.
-       * @param attributeName The name of the attribute to return refinement values for.
-       * @return The collection of SearchRefinementValue instances, sorted according to the settings of the refinement definition, or null if there is no refinement definition for the passed attribute name.
-       */
-      getAllRefinementValues(
-        attributeName: string
-      ): dw.util.Collection<dw.catalog.SearchRefinementValue>;
-      /**
-       * Returns a sorted collection of refinement values for the given refinement
-       *  attribute. In general, the returned collection includes all refinement
-       *  values for which hit count is greater than 0 within the search result
-       *  assuming that:
-       *
-       *
-       *  The passed refinement attribute is NOT used to filter the search
-       *  hits.
-       *  All other refinements are still applied.
-       *
-       *
-       *  This is useful for rendering broadening options for the refinement
-       *  definitions that the search is already refined by. It is important to
-       *  note that this method does NOT return refinement values independent of
-       *  the search result.
-       *
-       *  For product search refinements, this method may return slightly different
-       *  results based on the "value set" of the refinement definition. See
-       *  ProductSearchRefinements.getAllRefinementValues(ProductSearchRefinementDefinition)
-       *  for details.
-       * @param attributeName The name of the attribute to return refinement values for.
-       * @param sortMode The sort mode to use to control how the collection is sorted.
-       * @param sortDirection The sort direction to use.
-       * @return The collection of SearchRefinementValue instances, sorted according to the passed parameters.
-       */
-      getAllRefinementValues(
-        attributeName: string,
-        sortMode: number,
-        sortDirection: number
-      ): dw.util.Collection<dw.catalog.SearchRefinementValue>;
-      /**
-       * Returns a sorted list of refinement definitions that are appropriate for
-       *  the deepest common category (or deepest common folder) of the search
-       *  result. The method concatenates the sorted refinement definitions per category
-       *  starting at the root category until reaching the deepest common category.
-       *
-       *  The method also filters out refinement definitions that do not provide
-       *  any values for the current search result.
-       *
-       * @return A sorted list of refinement definitions appropriate for the search result (based on its deepest common category)
-       */
-      getRefinementDefinitions(): dw.util.Collection<
-        dw.catalog.SearchRefinementDefinition
-      >;
-      /**
-       * Returns a collection of refinement values for the given refinement
-       *  attribute, sorting mode and sorting direction.
-       * @param attributeName The attribute name to use when collection refinement values.
-       * @param sortMode The sort mode to use to control how the collection is sorted.
-       * @param sortDirection The sort direction to use.
-       * @return The collection of refinement values.
-       */
-      getRefinementValues(
-        attributeName: string,
-        sortMode: number,
-        sortDirection: number
-      ): dw.util.Collection<dw.catalog.SearchRefinementValue>;
-    }
-
-    /**
      * Represents an option for how to sort products in storefront search results.
      */
     class SortingOption extends dw.object.PersistentObject {
@@ -13125,6 +12980,10 @@ declare namespace dw {
        * All the store groups of the current site.
        */
       static readonly allStoreGroups: dw.util.Collection<dw.catalog.StoreGroup>;
+      /**
+       * Get the store id associated with the current session. By default, the session store id is null.
+       */
+      static readonly storeIDFromSession: string;
 
       /**
        * Returns all the store groups of the current site.
@@ -13145,6 +13004,12 @@ declare namespace dw {
        * @return The store group for specified id or null.
        */
       static getStoreGroup(storeGroupID: string): dw.catalog.StoreGroup;
+      /**
+       * Get the store id associated with the current session. By default, the session store id is null.
+       *
+       * @return store id, null is returned and means no store id is set on session
+       */
+      static getStoreIDFromSession(): string;
       /**
        * Search for stores based on geo-coordinates. The method returns a list of
        *  stores for the current site that are within a specified distance of a
@@ -13234,6 +13099,13 @@ declare namespace dw {
         distanceUnit: string,
         maxDistance: number
       ): dw.util.LinkedHashMap<Store, number>;
+      /**
+       * Set the store id for the current session. The store id is also saved on the cookie with the cookie name
+       *  "dw_store" with no expiration time. Null is allowed to remove store id from session, when null is passed in, the
+       *  cookie will be removed when browser exits.
+       * @param storeID the id of the store. The leading and trailing white spaces are removed by system from storeID
+       */
+      static setStoreIDToSession(storeID: string): void;
     }
 
     /**
@@ -16686,154 +16558,6 @@ declare namespace dw {
        * @param seed the seed.
        */
       setSeed(seed: dw.util.Bytes): void;
-    }
-
-    /**
-     * <p>This class allows access to signature services offered through the Java
-     *  Cryptography Architecture (JCA). At this time the signature/verification implementation of the
-     *  methods is based on the default RSA JCE provider of the JDK - sun.security.rsa.SunRsaSign</p>
-     *
-     *  <p>dw.crypto.Signature is an adapter to the security provider implementation
-     *  and covers several digest algorithms:
-     *  </p><ul>
-     *   <li>SHA1withRSA (deprecated)</li>
-     *   <li>SHA256withRSA</li>
-     *   <li>SHA384withRSA</li>
-     *   <li>SHA512withRSA</li>
-     *   <li>SHA256withRSA/PSS</li>
-     *   <li>SHA384withRSA/PSS</li>
-     *   <li>SHA512withRSA/PSS</li>
-     *  </ul>
-     *  <p></p>
-     *
-     *  <p>Key size generally ranges between 512 and 65536 bits (the latter of which is unnecessarily large).<br>
-     *  Default key size for RSA is 1024. SHA384withRSA and SHA512withRSA require a key with length of at least 1024 bits.<br>
-     *  When choosing a key size - beware of the tradeoff between security and processing time:<br>
-     *  The longer the key, the harder to break it but also it takes more time for the two sides to sign and verify the signature.<br>
-     *  An exception will be thrown for keys shorter than 2048 bits in this version of the API.
-     *  </p><p>
-     *  <b>Note:</b> this class handles sensitive security-related data.
-     *  Pay special attention to PCI DSS v3. requirements 2, 4, 12, and other relevant requirements.
-     *  </p>
-     */
-    class Signature {
-      /**
-       * Supported digest algorithms exposed as a string array
-       */
-      static readonly SUPPORTED_DIGEST_ALGORITHMS_AS_ARRAY: string;
-
-      constructor();
-
-      /**
-       * Checks to see if a digest algorithm is supported
-       * @param digestAlgorithm the digest algorithm name
-       * @return a boolean indicating success (true) or failure (false)
-       */
-      isDigestAlgorithmSupported(digestAlgorithm: string): boolean;
-      /**
-       * Signs a string and returns a string
-       * @param contentToSign base64 encoded content to sign
-       * @param privateKey base64 encoded private key
-       * @param digestAlgorithm must be one of the currently supported ones
-       * @return the base64 encoded signature
-       */
-      sign(
-        contentToSign: string,
-        privateKey: string,
-        digestAlgorithm: string
-      ): string;
-      /**
-       * Signs a string and returns a string
-       * @param contentToSign base64 encoded content to sign
-       * @param privateKey a reference to a private key entry in the keystore
-       * @param digestAlgorithm must be one of the currently supported ones
-       * @return the base64 encoded signature
-       */
-      sign(
-        contentToSign: string,
-        privateKey: dw.crypto.KeyRef,
-        digestAlgorithm: string
-      ): string;
-      /**
-       * Signs bytes and returns bytes
-       * @param contentToSign transformed with UTF-8 encoding into a byte stream
-       * @param privateKey base64 encoded private key
-       * @param digestAlgorithm must be one of the currently supported ones
-       * @return signature
-       */
-      signBytes(
-        contentToSign: dw.util.Bytes,
-        privateKey: string,
-        digestAlgorithm: string
-      ): dw.util.Bytes;
-      /**
-       * Signs bytes and returns bytes
-       * @param contentToSign transformed with UTF-8 encoding into a byte stream
-       * @param privateKey a reference to a private key entry in the keystore
-       * @param digestAlgorithm must be one of the currently supported ones
-       * @return signature
-       */
-      signBytes(
-        contentToSign: dw.util.Bytes,
-        privateKey: dw.crypto.KeyRef,
-        digestAlgorithm: string
-      ): dw.util.Bytes;
-      /**
-       * Verifies a signature supplied as bytes
-       * @param signature signature to check as bytes
-       * @param contentToVerify as bytes
-       * @param publicKey base64 encoded public key
-       * @param digestAlgorithm must be one of the currently supported ones
-       * @return a boolean indicating success (true) or failure (false)
-       */
-      verifyBytesSignature(
-        signature: dw.util.Bytes,
-        contentToVerify: dw.util.Bytes,
-        publicKey: string,
-        digestAlgorithm: string
-      ): boolean;
-      /**
-       * Verifies a signature supplied as bytes
-       * @param signature signature to check as bytes
-       * @param contentToVerify as bytes
-       * @param certificate a reference to a trusted certificate entry in the keystore
-       * @param digestAlgorithm must be one of the currently supported ones
-       * @return a boolean indicating success (true) or failure (false)
-       */
-      verifyBytesSignature(
-        signature: dw.util.Bytes,
-        contentToVerify: dw.util.Bytes,
-        certificate: dw.crypto.CertificateRef,
-        digestAlgorithm: string
-      ): boolean;
-      /**
-       * Verifies a signature supplied as string
-       * @param signature base64 encoded signature
-       * @param contentToVerify base64 encoded content to verify
-       * @param publicKey base64 encoded public key
-       * @param digestAlgorithm must be one of the currently supported ones
-       * @return a boolean indicating success (true) or failure (false)
-       */
-      verifySignature(
-        signature: string,
-        contentToVerify: string,
-        publicKey: string,
-        digestAlgorithm: string
-      ): boolean;
-      /**
-       * Verifies a signature supplied as string
-       * @param signature base64 encoded signature
-       * @param contentToVerify base64 encoded content to verify
-       * @param certificate a reference to a trusted certificate entry in the keystore
-       * @param digestAlgorithm must be one of the currently supported ones
-       * @return a boolean indicating success (true) or failure (false)
-       */
-      verifySignature(
-        signature: string,
-        contentToVerify: string,
-        certificate: dw.crypto.CertificateRef,
-        digestAlgorithm: string
-      ): boolean;
     }
   }
 
@@ -23961,172 +23685,6 @@ declare namespace dw {
       }
 
       /**
-       * Salesforce Payments payment request. Create a request to use the Salesforce Payments checkout drop-in component.
-       */
-      class SalesforcePaymentRequest {
-        /**
-         * Element for the Stripe credit card CVC field "cardCvc".
-         */
-        static readonly ELEMENT_CARD_CVC = "cardCvc";
-        /**
-         * Element for the Stripe credit card expiration date field "cardExpiry".
-         */
-        static readonly ELEMENT_CARD_EXPIRY = "cardExpiry";
-        /**
-         * Element for the Stripe credit card number field "cardNumber".
-         */
-        static readonly ELEMENT_CARD_NUMBER = "cardNumber";
-        /**
-         * Element for the Stripe IBAN field "iban".
-         */
-        static readonly ELEMENT_IBAN = "iban";
-        /**
-         * Element for the Stripe iDEAL bank selection field "idealBank".
-         */
-        static readonly ELEMENT_IDEAL_BANK = "idealBank";
-        /**
-         * Element for the Stripe payment request button "paymentRequestButton".
-         */
-        static readonly ELEMENT_PAYMENT_REQUEST_BUTTON = "paymentRequestButton";
-        /**
-         * Element type name for Apple Pay payment request buttons.
-         */
-        static readonly ELEMENT_TYPE_APPLEPAY = "applepay";
-        /**
-         * Element type name for Bancontact.
-         */
-        static readonly ELEMENT_TYPE_BANCONTACT = "bancontact";
-        /**
-         * Element type name for credit cards.
-         */
-        static readonly ELEMENT_TYPE_CARD = "card";
-        /**
-         * Element type name for iDEAL.
-         */
-        static readonly ELEMENT_TYPE_IDEAL = "ideal";
-        /**
-         * Element type name for other payment request buttons besides Apple Pay, like Google Pay.
-         */
-        static readonly ELEMENT_TYPE_PAYMENTREQUEST = "paymentrequest";
-        /**
-         * Element type name for SEPA debit.
-         */
-        static readonly ELEMENT_TYPE_SEPA_DEBIT = "sepa_debit";
-
-        /**
-         * The data to include in the call to prepare the basket when a Buy Now button is tapped.
-         */
-        basketData: any;
-        /**
-         * A set containing the element types to exclude from Salesforce Payments components.
-         */
-        readonly exclude: dw.util.Set<any>;
-        /**
-         * The identifier of this payment request.
-         */
-        readonly ID: string;
-        /**
-         * A set containing the specific element types to include from Salesforce Payments components. If the set is
-         *  empty then all applicable and enabled element types will be included by default.
-         */
-        readonly include: dw.util.Set<any>;
-        /**
-         * The DOM element selector where to mount Salesforce Payments components.
-         */
-        readonly selector: string;
-
-        /**
-         * Constructs a payment request using the given identifiers.
-         * @param id identifier for payment request
-         * @param selector DOM element selector where to mount Salesforce Payments components
-         */
-        constructor(id: string, selector: string);
-
-        /**
-         * Adds the given element type to exclude from Salesforce Payments components.
-         * @param elementType element type
-         */
-        addExclude(elementType: string): void;
-        /**
-         * Adds the given element type to include in Salesforce Payments components.
-         * @param elementType element type
-         */
-        addInclude(elementType: string): void;
-        /**
-         * Returns a JS object for the given options to use when a Buy Now button is tapped, in the Salesforce Payments
-         *  format.
-         * @param options JS object containing the payment request options
-         */
-        static format(options: any): any;
-        /**
-         * Returns the data to include in the call to prepare the basket when a Buy Now button is tapped.
-         *
-         * @return JS object containing the basket data
-         */
-        getBasketData(): any;
-        /**
-         * Returns a set containing the element types to exclude from Salesforce Payments components.
-         *
-         * @return set of element types
-         */
-        getExclude(): dw.util.Set<any>;
-        /**
-         * Returns the identifier of this payment request.
-         *
-         * @return payment request identifier
-         */
-        getID(): string;
-        /**
-         * Returns a set containing the specific element types to include from Salesforce Payments components. If the set is
-         *  empty then all applicable and enabled element types will be included by default.
-         *
-         * @return set of element types
-         */
-        getInclude(): dw.util.Set<any>;
-        /**
-         * Returns the DOM element selector where to mount Salesforce Payments components.
-         *
-         * @return DOM element selector
-         */
-        getSelector(): string;
-        /**
-         * Sets the data to include in the call to prepare the basket when a Buy Now button is tapped.
-         * @param basketData JS object containing the basket data
-         */
-        setBasketData(basketData: any): void;
-        /**
-         * Sets the options to use when a Buy Now button is tapped.
-         * @param options JS object containing the payment request options
-         */
-        setOptions(options: any): void;
-        /**
-         * Sets the controller to which to redirect when the shopper returns from a 3rd party payment website. Default is
-         *  the controller for the current page.
-         * @param returnController return controller, such as "Cart-Show"
-         */
-        setReturnController(returnController: string): void;
-        /**
-         * Sets if Salesforce Payments components may provide a control for the shopper to save the payment method for later
-         *  use.
-         * @param savePaymentMethodEnabled if Salesforce Payments components may provide a control for the shopper to save the payment method
-         */
-        setSavePaymentMethodEnabled(savePaymentMethodEnabled: boolean): void;
-        /**
-         * Sets the the options to pass into the Stripe elements.create call for the given element type. For
-         *  more information see the Stripe Elements API documentation.
-         * @param element name of the Stripe element whose creation to configure
-         * @param options JS object containing the options
-         */
-        setStripeCreateElementOptions(element: string, options: any): void;
-        /**
-         * Sets the the options to pass into the stripe.elements call. For more information see the Stripe
-         *  Elements API documentation.
-         * @param options JS object containing the options
-         */
-        setStripeElementsOptions(options: any): void;
-      }
-
-      /**
        * This interface represents all script hooks that can be registered to customize the Salesforce Payments
        *  functionality. It contains the extension points (hook names), and the functions that are called by each extension
        *  point. A function must be defined inside a JavaScript source and must be exported. The script with the exported hook
@@ -24194,7 +23752,7 @@ declare namespace dw {
          */
         static getAttachedPaymentMethods(
           customer: dw.customer.Customer
-        ): dw.util.Collection<any>;
+        ): dw.util.Collection<dw.extensions.payments.SalesforcePaymentMethod>;
         /**
          * Gets the payment intent for the given basket.
          * @param basket basket to checkout and pay using Salesforce Payments
@@ -26871,7 +26429,8 @@ declare namespace dw {
       /**
        * The job context which can be used to share data between steps. NOTE: Steps should be self-contained, the
        *  job context should only be used when necessary and with caution. If two steps which are running in parallel in
-       *  the same job store data in the job context using the same key the result is undefined.
+       *  the same job store data in the job context using the same key the result is undefined. Don't add any complex data
+       *  to the job context since only simple data types are supported (for example, String and Integer).
        */
       readonly context: dw.util.Map<string, any>;
       /**
@@ -26886,7 +26445,8 @@ declare namespace dw {
       /**
        * Returns the job context which can be used to share data between steps. NOTE: Steps should be self-contained, the
        *  job context should only be used when necessary and with caution. If two steps which are running in parallel in
-       *  the same job store data in the job context using the same key the result is undefined.
+       *  the same job store data in the job context using the same key the result is undefined. Don't add any complex data
+       *  to the job context since only simple data types are supported (for example, String and Integer).
        *
        * @return the map that represents the job context.
        */
@@ -28052,7 +27612,7 @@ declare namespace dw {
        * @param path the remote path from which the file info should be listed.
        * @return the remote file information or null if not present.
        */
-      getFileInfo(path: string): dw.net.SFTPFileInfo;
+      getFileInfo(path: string): SFTPFileInfo;
       /**
        * Returns the timeout for this client, in milliseconds.
        *
@@ -28142,69 +27702,6 @@ declare namespace dw {
        * @param timeoutMillis timeout, in milliseconds, up to a maximum of 2 minutes.
        */
       setTimeout(timeoutMillis: number): void;
-    }
-
-    /**
-     * The class is used to store information about a remote file.
-     *  <p>
-     *  <b>Note:</b> when this class is used with sensitive data, be careful in persisting sensitive information to disk.</p>
-     */
-    class SFTPFileInfo {
-      /**
-       * Identifies if the file is a directory.
-       */
-      readonly directory: boolean;
-      /**
-       * The last modification time of the file/directory.
-       */
-      readonly modificationTime: Date;
-      /**
-       * The name of the file/directory.
-       */
-      readonly name: string;
-      /**
-       * The size of the file/directory.
-       */
-      readonly size: number;
-
-      /**
-       * Constructs the SFTPFileInfo instance.
-       * @param name the name of the file.
-       * @param size the size of the file.
-       * @param directory controls if the file is a directory.
-       * @param mtime last modification time.
-       */
-      constructor(
-        name: string,
-        size: number,
-        directory: boolean,
-        mtime: number
-      );
-
-      /**
-       * Identifies if the file is a directory.
-       *
-       * @return true if the file is a directory, false otherwise.
-       */
-      getDirectory(): boolean;
-      /**
-       * Returns the last modification time of the file/directory.
-       *
-       * @return the last modification time.
-       */
-      getModificationTime(): Date;
-      /**
-       * Returns the name of the file/directory.
-       *
-       * @return the name.
-       */
-      getName(): string;
-      /**
-       * Returns the size of the file/directory.
-       *
-       * @return the size.
-       */
-      getSize(): number;
     }
 
     /**
@@ -32767,46 +32264,37 @@ declare namespace dw {
     }
 
     /**
-     * A container for line items, such as ProductLineItems, CouponLineItems,
-     *  GiftCertificateLineItems. This container also provides access to shipments,
-     *  shipping adjustments (promotions), and payment instruments (credit cards).
+     * A container for line items, such as ProductLineItems, CouponLineItems, GiftCertificateLineItems. This container also
+     *  provides access to shipments, shipping adjustments (promotions), and payment instruments (credit cards).
      *  <p>
-     *  LineItemCtnr also contains a set of methods for creating line items and
-     *  adjustments, and for accessing various price values.
-     *  There are three types of price-related methods:
+     *  LineItemCtnr also contains a set of methods for creating line items and adjustments, and for accessing various price
+     *  values. There are three types of price-related methods:
      *  </p><p>
      *  </p><ul>
-     *  <li><u>Net-based</u> methods represent the amount of a category <b>before tax has been
-     *  calculated</b>. For example, the getMerchandizeTotalNetPrice() returns the price
-     *  of all merchandise in the container whereas getShippingTotalNetPrice() returns
-     *  the price of all shipments in the container.</li>
-     *  <li><u>Tax-based</u> methods return the amount of tax on a category. For example, the
-     *  getMerchandizeTotalTax() returns the total tax for all merchandise and the
-     *  getShippingTotalTax() returns the tax applied to all shipments.</li>
-     *  <li><u>Gross-based</u> methods represent the amount of a category <b>after tax has been
-     *  calculated</b>. For example, the getMerchandizeTotalGrossPrice() returns the price
-     *  of all merchandise in the container, including tax on the merchandise,
-     *  whereas getShippingTotalGrossPrice() returns
-     *  the price of all shipments in the container, including tax on the shipments in
-     *  the container.</li>
+     *  <li><u>Net-based</u> methods represent the amount of a category <b>before tax has been calculated</b>. For example,
+     *  the getMerchandizeTotalNetPrice() returns the price of all merchandise in the container whereas
+     *  getShippingTotalNetPrice() returns the price of all shipments in the container.</li>
+     *  <li><u>Tax-based</u> methods return the amount of tax on a category. For example, the getMerchandizeTotalTax()
+     *  returns the total tax for all merchandise and the getShippingTotalTax() returns the tax applied to all
+     *  shipments.</li>
+     *  <li><u>Gross-based</u> methods represent the amount of a category <b>after tax has been calculated</b>. For example,
+     *  the getMerchandizeTotalGrossPrice() returns the price of all merchandise in the container, including tax on the
+     *  merchandise, whereas getShippingTotalGrossPrice() returns the price of all shipments in the container, including tax
+     *  on the shipments in the container.</li>
      *  </ul>
-     *  There are also a set of methods that provide access to &apos;adjusted&apos; values. The
-     *  adjusted-based methods return values where promotions have been applied. For
-     *  example, the getAdjustedMerchandizeTotalNetPrice() method returns the net price
-     *  of all merchandise after product-level and order-level promotions have been
-     *  applied. Whereas the getAdjustedMerchandizeTotalGrossPrice() method returns
-     *  the price of all merchandise after product-level and order-level promotions
-     *  have been applied and includes the amount of merchandise-related tax.
+     *  There are also a set of methods that provide access to &apos;adjusted&apos; values. The adjusted-based methods return values
+     *  where promotions have been applied. For example, the getAdjustedMerchandizeTotalNetPrice() method returns the net
+     *  price of all merchandise after product-level and order-level promotions have been applied. Whereas the
+     *  getAdjustedMerchandizeTotalGrossPrice() method returns the price of all merchandise after product-level and
+     *  order-level promotions have been applied and includes the amount of merchandise-related tax.
      *  <p>
-     *  Finally, there are a set of methods that return the aggregate values
-     *  representing the line items in the container. These are the total-based
-     *  methods getTotalNetPrice(), getTotalTax() and getTotalGrossPrice(). These
-     *  methods return the totals of all items in the container and include any
-     *  order-level promotions.</p><p>
-     *
-     *  Note that all merchandise-related methods do not include &apos;gift certificates&apos;
-     *  values in the values they return. Gift certificates are not considered merchandise
-     *  as they do not represent a product.</p><p></p>
+     *  Finally, there are a set of methods that return the aggregate values representing the line items in the container.
+     *  These are the total-based methods getTotalNetPrice(), getTotalTax() and getTotalGrossPrice(). These methods return
+     *  the totals of all items in the container and include any order-level promotions.
+     *  </p><p>
+     *  Note that all merchandise-related methods do not include &apos;gift certificates&apos; values in the values they return. Gift
+     *  certificates are not considered merchandise as they do not represent a product.
+     *  </p><p></p>
      */
     class LineItemCtnr extends dw.object.ExtensibleObject<
       LineItemCtnrCustomAttributes
@@ -32869,57 +32357,46 @@ declare namespace dw {
       static readonly CHANNEL_TYPE_TWITTER = 7;
 
       /**
-       * The adjusted total gross price (including tax) in purchase currency.
-       *
-       *  Adjusted merchandize prices represent the sum of product prices before
-       *  services such as shipping, but after product-level and
-       *  order-level adjustments.
+       * The adjusted total gross price (including tax) in purchase currency. Adjusted merchandize prices
+       *  represent the sum of product prices before services such as shipping, but after product-level and order-level
+       *  adjustments.
        */
       readonly adjustedMerchandizeTotalGrossPrice: dw.value.Money;
       /**
-       * The total net price (excluding tax) in purchase currency.
-       *
-       *  Adjusted merchandize prices represent the sum of product prices before
-       *  services such as shipping, but after product-level and
-       *  order-level adjustments.
+       * The total net price (excluding tax) in purchase currency. Adjusted merchandize prices represent the sum
+       *  of product prices before services such as shipping, but after product-level and order-level adjustments.
        */
       readonly adjustedMerchandizeTotalNetPrice: dw.value.Money;
       /**
-       * The adjusted merchandize total price including product-level and
-       *  order-level adjustments. If the line item container is based on net
-       *  pricing the adjusted merchandize total net price is returned. If the
-       *  line item container is based on gross pricing the adjusted merchandize
-       *  total gross price is returned.
+       * The adjusted merchandize total price including product-level and order-level adjustments. If the line
+       *  item container is based on net pricing the adjusted merchandize total net price is returned. If the line item
+       *  container is based on gross pricing the adjusted merchandize total gross price is returned.
        */
       readonly adjustedMerchandizeTotalPrice: dw.value.Money;
       /**
-       * The subtotal tax in purchase currency.
-       *
-       *  Adjusted merchandize prices represent the sum of product prices before
-       *  services such as shipping have been added, but after adjustment from
-       *  promotions have been added.
+       * The subtotal tax in purchase currency. Adjusted merchandize prices represent the sum of product prices
+       *  before services such as shipping have been added, but after adjustment from promotions have been added.
        */
       readonly adjustedMerchandizeTotalTax: dw.value.Money;
       /**
-       * The adjusted sum of all shipping line items of the line item container,
-       *  including tax after shipping adjustments have been applied.
+       * The adjusted sum of all shipping line items of the line item container, including tax after shipping
+       *  adjustments have been applied.
        */
       readonly adjustedShippingTotalGrossPrice: dw.value.Money;
       /**
-       * The sum of all shipping line items of the line item container,
-       *  excluding tax after shipping adjustments have been applied.
+       * The sum of all shipping line items of the line item container, excluding tax after shipping adjustments
+       *  have been applied.
        */
       readonly adjustedShippingTotalNetPrice: dw.value.Money;
       /**
-       * The adjusted shipping total price. If the line item container
-       *  is based on net pricing the adjusted shipping total net price is
-       *  returned. If the line item container is based on gross pricing the adjusted
-       *  shipping total gross price is returned.
+       * The adjusted shipping total price. If the line item container is based on net pricing the adjusted
+       *  shipping total net price is returned. If the line item container is based on gross pricing the adjusted shipping
+       *  total gross price is returned.
        */
       readonly adjustedShippingTotalPrice: dw.value.Money;
       /**
-       * The tax of all shipping line items of the line item container after
-       *  shipping adjustments have been applied.
+       * The tax of all shipping line items of the line item container after shipping adjustments have been
+       *  applied.
        */
       readonly adjustedShippingTotalTax: dw.value.Money;
       /**
@@ -32929,52 +32406,44 @@ declare namespace dw {
         dw.order.GiftCertificateLineItem
       >;
       /**
-       * All product, shipping, price adjustment, and gift certificate
-       *  line items of the line item container.
+       * All product, shipping, price adjustment, and gift certificate line items of the line item container.
        */
       readonly allLineItems: dw.util.Collection<dw.order.LineItem>;
       /**
-       * All product line items of the container, no matter if they are
-       *  dependent or independent. This includes option, bundled and bonus line
-       *  items.
+       * All product line items of the container, no matter if they are dependent or independent. This includes
+       *  option, bundled and bonus line items.
        */
       readonly allProductLineItems: dw.util.Collection<
         dw.order.ProductLineItem
       >;
       /**
-       * A hash mapping all products in the line item container to their
-       *  total quantities.  The total product quantity is used chiefly
-       *  to validate the availability of the items in the cart.  This method
-       *  is not appropriate to look up prices because it returns products
-       *  such as bundled line items which are included in the price of their
+       * A hash mapping all products in the line item container to their total quantities. The total product
+       *  quantity is used chiefly to validate the availability of the items in the cart. This method is not appropriate to
+       *  look up prices because it returns products such as bundled line items which are included in the price of their
        *  parent and therefore have no corresponding price.
        *
-       *  The method counts all direct product line items, plus dependent product
-       *  line items that are not option line items. It also excludes product line
-       *  items that are not associated to any catalog product.
+       *  The method counts all direct product line items, plus dependent product line items that are not option line
+       *  items. It also excludes product line items that are not associated to any catalog product.
        */
       readonly allProductQuantities: dw.util.HashMap<
         dw.catalog.Product,
         dw.value.Quantity
       >;
       /**
-       * The collection of all shipping price adjustments applied
-       *  somewhere in the container. This can be adjustments applied to individual
-       *  shipments or to the container itself. Note that the promotions engine
-       *  only applies shipping price adjustments to the the default shipping line
-       *  item of shipments, and never to the container.
+       * The collection of all shipping price adjustments applied somewhere in the container. This can be
+       *  adjustments applied to individual shipments or to the container itself. Note that the promotions engine only
+       *  applies shipping price adjustments to the the default shipping line item of shipments, and never to the
+       *  container.
        */
       readonly allShippingPriceAdjustments: dw.util.Collection<
         dw.order.PriceAdjustment
       >;
       /**
-       * The billing address defined for the container. Returns null if
-       *  no billing address has been created yet.
+       * The billing address defined for the container. Returns null if no billing address has been created yet.
        */
       readonly billingAddress: dw.order.OrderAddress;
       /**
-       * An unsorted collection of the the bonus discount line items
-       *  associated with this container.
+       * An unsorted collection of the the bonus discount line items associated with this container.
        */
       readonly bonusDiscountLineItems: dw.util.Collection<
         dw.order.BonusDiscountLineItem
@@ -32995,19 +32464,19 @@ declare namespace dw {
        *  Possible values are CHANNEL_TYPE_STOREFRONT, CHANNEL_TYPE_CALLCENTER,
        *  CHANNEL_TYPE_MARKETPLACE, CHANNEL_TYPE_DSS, CHANNEL_TYPE_STORE,
        *  CHANNEL_TYPE_PINTEREST, CHANNEL_TYPE_TWITTER, CHANNEL_TYPE_FACEBOOKADS,
-       *  CHANNEL_TYPE_SUBSCRIPTIONS, CHANNEL_TYPE_ONLINERESERVATION or CHANNEL_TYPE_CUSTOMERSERVICECENTER.
+       *  CHANNEL_TYPE_SUBSCRIPTIONS, CHANNEL_TYPE_ONLINERESERVATION or
+       *  CHANNEL_TYPE_CUSTOMERSERVICECENTER.
        */
       readonly channelType: dw.value.EnumValue;
       /**
-       * A sorted collection of the coupon line items in the container. The coupon line items are returned in the order
-       *  they were added to container.
+       * A sorted collection of the coupon line items in the container. The coupon line items are returned in the
+       *  order they were added to container.
        */
       readonly couponLineItems: dw.util.Collection<dw.order.CouponLineItem>;
       /**
-       * The currency code for this line item container. The currency code
-       *  is a 3-character currency mnemonic such as 'USD' or 'EUR'. The currency
-       *  code represents the currency in which the calculation is made, and in
-       *  which the buyer sees all prices in the store front.
+       * The currency code for this line item container. The currency code is a 3-character currency mnemonic such
+       *  as 'USD' or 'EUR'. The currency code represents the currency in which the calculation is made, and in which the
+       *  buyer sees all prices in the store front.
        */
       readonly currencyCode: string;
       /**
@@ -33027,7 +32496,10 @@ declare namespace dw {
        */
       readonly customerNo: string;
       /**
-       * The default shipment of the line item container.
+       * The default shipment of the line item container. Every basket and order has a default shipment with the
+       *  id "me". If you call a process that accesses a shipment, and you don't specify the shipment, then the process
+       *  uses the default shipment. You can't remove a default shipment. Calling removeShipment(Shipment) on it
+       *  throws an exception.
        */
       readonly defaultShipment: dw.order.Shipment;
       /**
@@ -33042,106 +32514,85 @@ declare namespace dw {
         dw.order.GiftCertificateLineItem
       >;
       /**
-       * An unsorted collection of the PaymentInstrument instances that
-       *  represent GiftCertificates in this container.
+       * An unsorted collection of the PaymentInstrument instances that represent GiftCertificates in this
+       *  container.
        */
       readonly giftCertificatePaymentInstruments: dw.util.Collection<
         dw.order.PaymentInstrument
       >;
       /**
-       * The total gross price of all gift certificates in
-       *  the cart. Should usually be equal to total net price.
+       * The total gross price of all gift certificates in the cart. Should usually be equal to total net price.
        */
       readonly giftCertificateTotalGrossPrice: dw.value.Money;
       /**
-       * The total net price (excluding tax) of all gift certificates in
-       *  the cart. Should usually be equal to total gross price.
+       * The total net price (excluding tax) of all gift certificates in the cart. Should usually be equal to
+       *  total gross price.
        */
       readonly giftCertificateTotalNetPrice: dw.value.Money;
       /**
-       * The gift certificate total price. If the line item container is based
-       *  on net pricing the gift certificate total net price is returned. If the line
-       *  item container is based on gross pricing the gift certificate total gross
-       *  price is returned.
+       * The gift certificate total price. If the line item container is based on net pricing the gift certificate
+       *  total net price is returned. If the line item container is based on gross pricing the gift certificate total
+       *  gross price is returned.
        */
       readonly giftCertificateTotalPrice: dw.value.Money;
       /**
-       * The total tax of all gift certificates in
-       *  the cart. Should usually be 0.0.
+       * The total tax of all gift certificates in the cart. Should usually be 0.0.
        */
       readonly giftCertificateTotalTax: dw.value.Money;
       /**
-       * The total gross price (including tax) in purchase currency.
-       *
-       *  Merchandize total prices represent the sum of product prices before
-       *  services such as shipping or adjustment from promotions have
-       *  been added.
+       * The total gross price (including tax) in purchase currency. Merchandize total prices represent the sum of
+       *  product prices before services such as shipping or adjustment from promotions have been added.
        */
       readonly merchandizeTotalGrossPrice: dw.value.Money;
       /**
-       * The total net price (excluding tax) in purchase currency.
-       *
-       *  Merchandize total prices represent the sum of product prices before
-       *  services such as shipping or adjustment from promotion have
-       *  been added.
+       * The total net price (excluding tax) in purchase currency. Merchandize total prices represent the sum of
+       *  product prices before services such as shipping or adjustment from promotion have been added.
        */
       readonly merchandizeTotalNetPrice: dw.value.Money;
       /**
-       * The merchandize total price. If the line item container is based
-       *  on net pricing the merchandize total net price is returned. If the line
-       *  item container is based on gross pricing the merchandize total gross price
-       *  is returned.
+       * The merchandize total price. If the line item container is based on net pricing the merchandize total net
+       *  price is returned. If the line item container is based on gross pricing the merchandize total gross price is
+       *  returned.
        */
       readonly merchandizeTotalPrice: dw.value.Money;
       /**
-       * The total tax in purchase currency.
-       *
-       *  Merchandize total prices represent the sum of product prices before
-       *  services such as shipping or adjustment from promotions have
-       *  been added.
+       * The total tax in purchase currency. Merchandize total prices represent the sum of product prices before
+       *  services such as shipping or adjustment from promotions have been added.
        */
       readonly merchandizeTotalTax: dw.value.Money;
       /**
-       * The list of notes for this object, ordered by creation time
-       *  from oldest to newest.
+       * The list of notes for this object, ordered by creation time from oldest to newest.
        */
       readonly notes: dw.util.List<dw.object.Note>;
       /**
-       * The payment instrument of the line item container or null.
-       *  This method is deprecated. You should use getPaymentInstruments() or
-       *  getGiftCertificatePaymentInstruments() instead.
+       * The payment instrument of the line item container or null. This method is deprecated. You should use
+       *  getPaymentInstruments() or getGiftCertificatePaymentInstruments() instead.
        */
       readonly paymentInstrument: dw.order.OrderPaymentInstrument;
       /**
-       * An unsorted collection of the payment instruments in this
-       *  container.
+       * An unsorted collection of the payment instruments in this container.
        */
       readonly paymentInstruments: dw.util.Collection<
         dw.order.OrderPaymentInstrument
       >;
       /**
-       * The collection of price adjustments that have been applied to the
-       *  totals such as promotion on the purchase value (i.e. $10 Off or 10% Off).
-       *  The price adjustments are sorted by the order in which they were applied
-       *  to the order by the promotions engine.
+       * The collection of price adjustments that have been applied to the totals such as promotion on the
+       *  purchase value (i.e. $10 Off or 10% Off). The price adjustments are sorted by the order in which they were
+       *  applied to the order by the promotions engine.
        */
       readonly priceAdjustments: dw.util.Collection<dw.order.PriceAdjustment>;
       /**
-       * The product line items of the container that are not dependent on
-       *  other product line items. This includes line items representing bonus
-       *  products in the container but excludes option, bundled, and bonus line
-       *  items. The returned collection is sorted by the position attribute of the
-       *  product line items.
+       * The product line items of the container that are not dependent on other product line items. This includes
+       *  line items representing bonus products in the container but excludes option, bundled, and bonus line items. The
+       *  returned collection is sorted by the position attribute of the product line items.
        */
       readonly productLineItems: dw.util.Collection<dw.order.ProductLineItem>;
       /**
-       * A hash map of all products in the line item container and their
-       *  total quantities. The total product quantity is for example used
-       *  to lookup the product price.
+       * A hash map of all products in the line item container and their total quantities. The total product
+       *  quantity is for example used to lookup the product price.
        *
-       *  The method counts all direct product line items, plus dependent product
-       *  line items that are not bundled line items and no option line items. It
-       *  also excludes product line items that are not associated to any catalog
+       *  The method counts all direct product line items, plus dependent product line items that are not bundled line
+       *  items and no option line items. It also excludes product line items that are not associated to any catalog
        *  product, and bonus product line items.
        */
       readonly productQuantities: dw.util.HashMap<
@@ -33149,63 +32600,56 @@ declare namespace dw {
         dw.value.Quantity
       >;
       /**
-       * The total quantity of all product line items.
-       *  Not included are bundled line items and option line items.
+       * The total quantity of all product line items. Not included are bundled line items and option line items.
        */
       readonly productQuantityTotal: number;
       /**
        * All shipments of the line item container.
-       *  The first shipment in the returned collection is the default shipment.
-       *  All other shipments are sorted ascending by shipment ID.
+       *  The first shipment in the returned collection is the default shipment (shipment ID always set to "me"). All other
+       *  shipments are sorted ascending by shipment ID.
        */
       readonly shipments: dw.util.Collection<dw.order.Shipment>;
       /**
-       * The of shipping price adjustments applied to the
-       *  shipping total of the container.  Note that the promotions engine
-       *  only applies shipping price adjustments to the the default shipping line
-       *  item of shipments, and never to the container.
+       * The of shipping price adjustments applied to the shipping total of the container. Note that the
+       *  promotions engine only applies shipping price adjustments to the the default shipping line item of shipments, and
+       *  never to the container.
        */
       readonly shippingPriceAdjustments: dw.util.Collection<
         dw.order.PriceAdjustment
       >;
       /**
-       * The sum of all shipping line items of the line item container,
-       *  including tax before shipping adjustments have been applied.
+       * The sum of all shipping line items of the line item container, including tax before shipping adjustments
+       *  have been applied.
        */
       readonly shippingTotalGrossPrice: dw.value.Money;
       /**
-       * The sum of all shipping line items of the line item container,
-       *  excluding tax before shipping adjustments have been applied.
+       * The sum of all shipping line items of the line item container, excluding tax before shipping adjustments
+       *  have been applied.
        */
       readonly shippingTotalNetPrice: dw.value.Money;
       /**
-       * The shipping total price. If the line item container is based on
-       *  net pricing the shipping total net price is returned. If the line item
-       *  container is based on gross pricing the shipping total gross price is
-       *  returned.
+       * The shipping total price. If the line item container is based on net pricing the shipping total net price
+       *  is returned. If the line item container is based on gross pricing the shipping total gross price is returned.
        */
       readonly shippingTotalPrice: dw.value.Money;
       /**
-       * The tax of all shipping line items of the line item container before
-       *  shipping adjustments have been applied.
+       * The tax of all shipping line items of the line item container before shipping adjustments have been
+       *  applied.
        */
       readonly shippingTotalTax: dw.value.Money;
       /**
-       * The grand total price gross of tax for LineItemCtnr, in purchase currency.
-       *
-       *  Total prices represent the sum of product prices, services prices and adjustments.
+       * The grand total price gross of tax for LineItemCtnr, in purchase currency. Total prices represent the sum
+       *  of product prices, services prices and adjustments.
        */
       readonly totalGrossPrice: dw.value.Money;
       /**
-       * The grand total price for LineItemCtnr net of tax, in purchase currency.
-       *
-       *  Total prices represent the sum of product prices, services prices and adjustments.
+       * The grand total price for LineItemCtnr net of tax, in purchase currency. Total prices represent the sum
+       *  of product prices, services prices and adjustments.
        */
       readonly totalNetPrice: dw.value.Money;
       /**
-       * The grand total tax for LineItemCtnr, in purchase currency.
-       *
-       *  Total prices represent the sum of product prices, services prices and adjustments.
+       * The grand total tax for LineItemCtnr, in purchase currency. Total prices represent the sum of product
+       *  prices, services prices and adjustments.
        */
       readonly totalTax: dw.value.Money;
 
@@ -33217,21 +32661,18 @@ declare namespace dw {
        */
       addNote(subject: string, text: string): dw.object.Note;
       /**
-       * Create a billing address for the LineItemCtnr. A LineItemCtnr (e.g.
-       *  basket) initially has no billing address. This method creates a billing
-       *  address for the LineItemCtnr and replaces an existing billing address.
+       * Create a billing address for the LineItemCtnr. A LineItemCtnr (e.g. basket) initially has no billing address.
+       *  This method creates a billing address for the LineItemCtnr and replaces an existing billing address.
        *
        * @return The new billing address of the LineItemCtnr.
        */
       createBillingAddress(): dw.order.OrderAddress;
       /**
-       * Creates a product line item in the container based on the passed Product
-       *  and BonusDiscountLineItem. The product must be assigned to the current
-       *  site catalog and must also be a bonus product of the specified
-       *  BonusDiscountLineItem or an exception is thrown. The line item is always
-       *  created in the default shipment. If successful, the operation always
-       *  creates a new ProductLineItem and never simply increments the quantity of
-       *  an existing ProductLineItem. An option model can optionally be specified.
+       * Creates a product line item in the container based on the passed Product and BonusDiscountLineItem. The product
+       *  must be assigned to the current site catalog and must also be a bonus product of the specified
+       *  BonusDiscountLineItem or an exception is thrown. The line item is always created in the default shipment. If
+       *  successful, the operation always creates a new ProductLineItem and never simply increments the quantity of an
+       *  existing ProductLineItem. An option model can optionally be specified.
        * @param bonusDiscountLineItem Line item representing an applied BonusChoiceDiscount in the LineItemCtnr, must not be null.
        * @param product Product The product to add to the LineItemCtnr. Must not be null and must be a bonus product of bonusDiscountLineItem.
        * @param optionModel ProductOptionModel or null.
@@ -33246,9 +32687,9 @@ declare namespace dw {
       /**
        * Creates a new CouponLineItem for this container based on the supplied coupon code.
        *
-       *  The created coupon line item is based on the Commerce Cloud Digital campaign system if campaignBased parameter is true. In
-       *  that case, if the supplied coupon code is not valid, APIException with type 'CreateCouponLineItemException' is
-       *  thrown.
+       *  The created coupon line item is based on the Commerce Cloud Digital campaign system if campaignBased parameter is
+       *  true. In that case, if the supplied coupon code is not valid, APIException with type
+       *  'CreateCouponLineItemException' is thrown.
        *
        *  If you want to create a custom coupon line item, you must call this method with campaignBased = false or to use
        *  createCouponLineItem(String).
@@ -33267,9 +32708,9 @@ declare namespace dw {
        *
        *
        *  An dw.order.CreateCouponLineItemException is thrown in case of campaignBased = true only. Indicates that the
-       *  provided coupon code is not a valid coupon code to create a coupon line item based on the Commerce Cloud Digital campaign
-       *  system. The error code property (CreateCouponLineItemException.errorCode) will be set to one of the following
-       *  values:
+       *  provided coupon code is not a valid coupon code to create a coupon line item based on the Commerce Cloud Digital
+       *  campaign system. The error code property (CreateCouponLineItemException.errorCode) will be set to one of the
+       *  following values:
        *
        *  CouponStatusCodes.COUPON_CODE_ALREADY_IN_BASKET = Indicates that coupon code has already
        *  been added to basket.
@@ -33297,15 +32738,14 @@ declare namespace dw {
         campaignBased: boolean
       ): dw.order.CouponLineItem;
       /**
-       * Creates a coupon line item that is not based on the Commerce Cloud Digital campaign
-       *  system and associates it with the specified coupon code.
+       * Creates a coupon line item that is not based on the Commerce Cloud Digital campaign system and associates it with
+       *  the specified coupon code.
        *
-       *  There may not be any other coupon line item in the container with
-       *  the specific coupon code, otherwise an exception is thrown.
+       *  There may not be any other coupon line item in the container with the specific coupon code, otherwise an
+       *  exception is thrown.
        *
-       *  If you want to create a coupon line item based on the Commerce Cloud Digital campaign
-       *  system, you must use createCouponLineItem(String, Boolean)
-       *  with campaignBased = true.
+       *  If you want to create a coupon line item based on the Commerce Cloud Digital campaign system, you must use
+       *  createCouponLineItem(String, Boolean) with campaignBased = true.
        * @param couponCode couponCode represented by the coupon line item.
        * @return New coupon line item.
        */
@@ -33321,11 +32761,9 @@ declare namespace dw {
         recipientEmail: string
       ): dw.order.GiftCertificateLineItem;
       /**
-       * Creates an OrderPaymentInstrument representing a Gift Certificate.
-       *  The amount is set on a PaymentTransaction that is accessible via the
-       *  OrderPaymentInstrument. By default, the status of the PaymentTransaction
-       *  is set to CREATE. The PaymentTransaction must be processed at a later
-       *  time.
+       * Creates an OrderPaymentInstrument representing a Gift Certificate. The amount is set on a PaymentTransaction that
+       *  is accessible via the OrderPaymentInstrument. By default, the status of the PaymentTransaction is set to CREATE.
+       *  The PaymentTransaction must be processed at a later time.
        * @param giftCertificateCode the redemption code of the Gift Certificate.
        * @param amount the amount to set on the PaymentTransaction. If the OrderPaymentInstrument is actually redeemed, this is the amount that will be deducted from the Gift Certificate.
        * @return the OrderPaymentInstrument.
@@ -33359,19 +32797,18 @@ declare namespace dw {
       ): dw.order.OrderPaymentInstrument;
       /**
        * Creates an order price adjustment.
-       *  The promotion id is mandatory and must not be the ID of any actual
-       *  promotion defined in Commerce Cloud Digital; otherwise an exception is thrown.
+       *  The promotion id is mandatory and must not be the ID of any actual promotion defined in Commerce Cloud Digital;
+       *  otherwise an exception is thrown.
        * @param promotionID Promotion ID
        * @return The new price adjustment
        */
       createPriceAdjustment(promotionID: string): dw.order.PriceAdjustment;
       /**
        * Creates an order level price adjustment for a specific discount.
-       *  The promotion id is mandatory and must not be the ID of any actual
-       *  promotion defined in Commerce Cloud Digital; otherwise an exception is thrown.
-       *
-       *  The possible discount types are supported: PercentageDiscount and AmountDiscount.
-       *
+       *  The promotion id is mandatory and must not be the ID of any actual promotion defined in Commerce Cloud Digital;
+       *  otherwise an exception is thrown.
+       *  The possible discount types are supported: PercentageDiscount and
+       *  AmountDiscount.
        *  Examples:
        *
        *
@@ -33387,28 +32824,18 @@ declare namespace dw {
         discount: dw.campaign.Discount
       ): dw.order.PriceAdjustment;
       /**
-       * Creates a new product line item in the container and assigns it to the
-       *  specified shipment.
-       *
-       *  If the specified productID represents a product in the site catalog,
-       *  the method will associate the product line item with that catalog
-       *  product and will copy all order-relevant information, like the
-       *  quantity unit, from the catalog product.
-       *
-       *  If the specified productID does not represent a product of the
-       *  site catalog, the method creates a new product line item and
-       *  initializes it with the specified product ID and quantity.
-       *  If the passed in quantity value is not a positive integer, it
-       *  will be rounded to the nearest positive integer.
-       *  The minimum order quantity and step quantity will be set to 1.0.
-       *
-       *
-       *  For catalog products, the method follows the configured 'Add2Basket'
-       *  strategy to either increment the quantity of an existing product line item
-       *  or create a new product line item for the same product. For non-catalog
-       *  products, the method creates a new product line item no matter if the
-       *  same product is already in the line item container. If a negative
-       *  quantity is specified, it is automatically changed to 1.0.
+       * Creates a new product line item in the container and assigns it to the specified shipment.
+       *  If the specified productID represents a product in the site catalog, the method will associate the product line
+       *  item with that catalog product and will copy all order-relevant information, like the quantity unit, from the
+       *  catalog product.
+       *  If the specified productID does not represent a product of the site catalog, the method creates a new product
+       *  line item and initializes it with the specified product ID and quantity. If the passed in quantity value is not a
+       *  positive integer, it will be rounded to the nearest positive integer. The minimum order quantity and step
+       *  quantity will be set to 1.0.
+       *  For catalog products, the method follows the configured 'Add2Basket' strategy to either increment the quantity of
+       *  an existing product line item or create a new product line item for the same product. For non-catalog products,
+       *  the method creates a new product line item no matter if the same product is already in the line item container.
+       *  If a negative quantity is specified, it is automatically changed to 1.0.
        * @param productID The product ID.
        * @param quantity The quantity of the product.
        * @param shipment Shipment
@@ -33420,24 +32847,16 @@ declare namespace dw {
         shipment: dw.order.Shipment
       ): dw.order.ProductLineItem;
       /**
-       * Creates a new product line item in the container and assigns it to the
-       *  specified shipment.
-       *
-       *  If the specified productID represents a product in the site catalog,
-       *  the method will associate the product line item with that catalog
-       *  product and will copy all order-relevant information, like the
-       *  quantity unit, from the catalog product. The quantity of the
-       *  product line item is initialized with 1.0 or - if defined - the
-       *  minimum order quantity of the product.
-       *
-       *  If the product represents a product in the site catalog and is an
-       *  option product, the product is added with it's default option values.
-       *
-       *  If the specified productID does not represent a product of the
-       *  site catalog, the method creates a new product line item and
-       *  initializes it with the specified product ID and with a
-       *  quantity, minimum order quantity, and step quantity value
-       *  of 1.0.
+       * Creates a new product line item in the container and assigns it to the specified shipment.
+       *  If the specified productID represents a product in the site catalog, the method will associate the product line
+       *  item with that catalog product and will copy all order-relevant information, like the quantity unit, from the
+       *  catalog product. The quantity of the product line item is initialized with 1.0 or - if defined - the minimum
+       *  order quantity of the product.
+       *  If the product represents a product in the site catalog and is an option product, the product is added with it's
+       *  default option values.
+       *  If the specified productID does not represent a product of the site catalog, the method creates a new product
+       *  line item and initializes it with the specified product ID and with a quantity, minimum order quantity, and step
+       *  quantity value of 1.0.
        * @param productID The product ID.
        * @param shipment Shipment
        * @return The new product line item
@@ -33474,9 +32893,8 @@ declare namespace dw {
         shipment: dw.order.Shipment
       ): dw.order.ProductLineItem;
       /**
-       * Creates a new product line item in the container and assigns it to the
-       *  specified shipment. An option model can be specified.
-       *
+       * Creates a new product line item in the container and assigns it to the specified shipment. An option model can be
+       *  specified.
        *  Please note that the product must be assigned to the current site catalog.
        * @param product Product
        * @param optionModel ProductOptionModel or null
@@ -33488,20 +32906,17 @@ declare namespace dw {
         shipment: dw.order.Shipment
       ): dw.order.ProductLineItem;
       /**
-       * Creates a standard shipment for the line item container. The specified ID
-       *  must not yet be in use for another shipment of this line item container.
+       * Creates a standard shipment for the line item container. The specified ID must not yet be in use for another
+       *  shipment of this line item container.
        * @param id ID of the shipment.
        */
       createShipment(id: string): dw.order.Shipment;
       /**
        * Creates a shipping price adjustment to be applied to the container.
-       *
-       *  The promotion ID is mandatory and must not be the ID of any actual
-       *  promotion defined in Commerce Cloud Digital; otherwise the method
-       *  will throw an exception.
-       *
-       *  If there already exists a shipping price adjustment referring to
-       *  the specified promotion ID, an exception is thrown.
+       *  The promotion ID is mandatory and must not be the ID of any actual promotion defined in Commerce Cloud Digital;
+       *  otherwise the method will throw an exception.
+       *  If there already exists a shipping price adjustment referring to the specified promotion ID, an exception is
+       *  thrown.
        * @param promotionID Promotion ID
        * @return The new price adjustment
        */
@@ -33509,41 +32924,32 @@ declare namespace dw {
         promotionID: string
       ): dw.order.PriceAdjustment;
       /**
-       * Returns the adjusted total gross price (including tax) in purchase currency.
-       *
-       *  Adjusted merchandize prices represent the sum of product prices before
-       *  services such as shipping, but after product-level and
-       *  order-level adjustments.
+       * Returns the adjusted total gross price (including tax) in purchase currency. Adjusted merchandize prices
+       *  represent the sum of product prices before services such as shipping, but after product-level and order-level
+       *  adjustments.
        *
        * @return the adjusted total gross price (including tax) in purchase currency.
        */
       getAdjustedMerchandizeTotalGrossPrice(): dw.value.Money;
       /**
-       * Returns the total net price (excluding tax) in purchase currency.
-       *
-       *  Adjusted merchandize prices represent the sum of product prices before
-       *  services such as shipping, but after product-level and
-       *  order-level adjustments.
+       * Returns the total net price (excluding tax) in purchase currency. Adjusted merchandize prices represent the sum
+       *  of product prices before services such as shipping, but after product-level and order-level adjustments.
        *
        * @return the total net price (excluding tax) in purchase currency.
        */
       getAdjustedMerchandizeTotalNetPrice(): dw.value.Money;
       /**
-       * Returns the adjusted merchandize total price including product-level and
-       *  order-level adjustments. If the line item container is based on net
-       *  pricing the adjusted merchandize total net price is returned. If the
-       *  line item container is based on gross pricing the adjusted merchandize
-       *  total gross price is returned.
+       * Returns the adjusted merchandize total price including product-level and order-level adjustments. If the line
+       *  item container is based on net pricing the adjusted merchandize total net price is returned. If the line item
+       *  container is based on gross pricing the adjusted merchandize total gross price is returned.
        *
        * @return either the adjusted merchandize total net or gross price
        */
       getAdjustedMerchandizeTotalPrice(): dw.value.Money;
       /**
-       * Returns the adjusted merchandize total price including order-level
-       *  adjustments if requested. If the line item container
-       *  is based on net pricing the adjusted merchandize total net price is
-       *  returned. If the line item container is based on gross pricing the adjusted
-       *  merchandize total gross price is returned.
+       * Returns the adjusted merchandize total price including order-level adjustments if requested. If the line item
+       *  container is based on net pricing the adjusted merchandize total net price is returned. If the line item
+       *  container is based on gross pricing the adjusted merchandize total gross price is returned.
        * @param applyOrderLevelAdjustments controls if order-level price adjustements are applied. If true, the price that is returned includes order-level price adjustments. If false, only product-level price adjustments are applied.
        * @return a price representing the adjusted merchandize total controlled by the applyOrderLevelAdjustments parameter.
        */
@@ -33551,41 +32957,37 @@ declare namespace dw {
         applyOrderLevelAdjustments: boolean
       ): dw.value.Money;
       /**
-       * Returns the subtotal tax in purchase currency.
-       *
-       *  Adjusted merchandize prices represent the sum of product prices before
-       *  services such as shipping have been added, but after adjustment from
-       *  promotions have been added.
+       * Returns the subtotal tax in purchase currency. Adjusted merchandize prices represent the sum of product prices
+       *  before services such as shipping have been added, but after adjustment from promotions have been added.
        *
        * @return the subtotal tax in purchase currency.
        */
       getAdjustedMerchandizeTotalTax(): dw.value.Money;
       /**
-       * Returns the adjusted sum of all shipping line items of the line item container,
-       *  including tax after shipping adjustments have been applied.
+       * Returns the adjusted sum of all shipping line items of the line item container, including tax after shipping
+       *  adjustments have been applied.
        *
        * @return the adjusted sum of all shipping line items of the line item container, including tax after shipping adjustments have been applied.
        */
       getAdjustedShippingTotalGrossPrice(): dw.value.Money;
       /**
-       * Returns the sum of all shipping line items of the line item container,
-       *  excluding tax after shipping adjustments have been applied.
+       * Returns the sum of all shipping line items of the line item container, excluding tax after shipping adjustments
+       *  have been applied.
        *
        * @return the sum of all shipping line items of the line item container, excluding tax after shipping adjustments have been applied.
        */
       getAdjustedShippingTotalNetPrice(): dw.value.Money;
       /**
-       * Returns the adjusted shipping total price. If the line item container
-       *  is based on net pricing the adjusted shipping total net price is
-       *  returned. If the line item container is based on gross pricing the adjusted
-       *  shipping total gross price is returned.
+       * Returns the adjusted shipping total price. If the line item container is based on net pricing the adjusted
+       *  shipping total net price is returned. If the line item container is based on gross pricing the adjusted shipping
+       *  total gross price is returned.
        *
        * @return either the adjusted shipping total net or gross price
        */
       getAdjustedShippingTotalPrice(): dw.value.Money;
       /**
-       * Returns the tax of all shipping line items of the line item container after
-       *  shipping adjustments have been applied.
+       * Returns the tax of all shipping line items of the line item container after shipping adjustments have been
+       *  applied.
        *
        * @return the tax of all shipping line items of the line item container after shipping adjustments have been applied.
        */
@@ -33599,24 +33001,21 @@ declare namespace dw {
         dw.order.GiftCertificateLineItem
       >;
       /**
-       * Returns all product, shipping, price adjustment, and gift certificate
-       *  line items of the line item container.
+       * Returns all product, shipping, price adjustment, and gift certificate line items of the line item container.
        *
        * @return A collection of all product, shipping, price adjustment, and gift certificate line items of the container, in that order.
        */
       getAllLineItems(): dw.util.Collection<dw.order.LineItem>;
       /**
-       * Returns all product line items of the container, no matter if they are
-       *  dependent or independent. This includes option, bundled and bonus line
-       *  items.
+       * Returns all product line items of the container, no matter if they are dependent or independent. This includes
+       *  option, bundled and bonus line items.
        *
        * @return An unsorted collection of all ProductLineItem instances of the container.
        */
       getAllProductLineItems(): dw.util.Collection<dw.order.ProductLineItem>;
       /**
-       * Returns all product line items of the container that have a product ID
-       *  equal to the specified product ID, no matter if they are dependent or
-       *  independent. This includes option, bundled and bonus line items.
+       * Returns all product line items of the container that have a product ID equal to the specified product ID, no
+       *  matter if they are dependent or independent. This includes option, bundled and bonus line items.
        * @param productID The product ID used to filter the product line items.
        * @return An unsorted collection of all ProductLineItem instances which have the specified product ID.
        */
@@ -33624,16 +33023,13 @@ declare namespace dw {
         productID: string
       ): dw.util.Collection<dw.order.ProductLineItem>;
       /**
-       * Returns a hash mapping all products in the line item container to their
-       *  total quantities.  The total product quantity is used chiefly
-       *  to validate the availability of the items in the cart.  This method
-       *  is not appropriate to look up prices because it returns products
-       *  such as bundled line items which are included in the price of their
+       * Returns a hash mapping all products in the line item container to their total quantities. The total product
+       *  quantity is used chiefly to validate the availability of the items in the cart. This method is not appropriate to
+       *  look up prices because it returns products such as bundled line items which are included in the price of their
        *  parent and therefore have no corresponding price.
        *
-       *  The method counts all direct product line items, plus dependent product
-       *  line items that are not option line items. It also excludes product line
-       *  items that are not associated to any catalog product.
+       *  The method counts all direct product line items, plus dependent product line items that are not option line
+       *  items. It also excludes product line items that are not associated to any catalog product.
        *
        * @return A map of products and their total quantities.
        */
@@ -33642,11 +33038,10 @@ declare namespace dw {
         dw.value.Quantity
       >;
       /**
-       * Returns the collection of all shipping price adjustments applied
-       *  somewhere in the container. This can be adjustments applied to individual
-       *  shipments or to the container itself. Note that the promotions engine
-       *  only applies shipping price adjustments to the the default shipping line
-       *  item of shipments, and never to the container.
+       * Returns the collection of all shipping price adjustments applied somewhere in the container. This can be
+       *  adjustments applied to individual shipments or to the container itself. Note that the promotions engine only
+       *  applies shipping price adjustments to the the default shipping line item of shipments, and never to the
+       *  container.
        *
        * @return an unsorted collection of the shipping PriceAdjustment instances associated with this container.
        */
@@ -33654,15 +33049,13 @@ declare namespace dw {
         dw.order.PriceAdjustment
       >;
       /**
-       * Returns the billing address defined for the container. Returns null if
-       *  no billing address has been created yet.
+       * Returns the billing address defined for the container. Returns null if no billing address has been created yet.
        *
        * @return the billing address or null.
        */
       getBillingAddress(): dw.order.OrderAddress;
       /**
-       * Returns an unsorted collection of the the bonus discount line items
-       *  associated with this container.
+       * Returns an unsorted collection of the the bonus discount line items associated with this container.
        *
        * @return An unsorted collection of BonusDiscountLine instances in the container.
        */
@@ -33689,7 +33082,8 @@ declare namespace dw {
        *  Possible values are CHANNEL_TYPE_STOREFRONT, CHANNEL_TYPE_CALLCENTER,
        *  CHANNEL_TYPE_MARKETPLACE, CHANNEL_TYPE_DSS, CHANNEL_TYPE_STORE,
        *  CHANNEL_TYPE_PINTEREST, CHANNEL_TYPE_TWITTER, CHANNEL_TYPE_FACEBOOKADS,
-       *  CHANNEL_TYPE_SUBSCRIPTIONS, CHANNEL_TYPE_ONLINERESERVATION or CHANNEL_TYPE_CUSTOMERSERVICECENTER.
+       *  CHANNEL_TYPE_SUBSCRIPTIONS, CHANNEL_TYPE_ONLINERESERVATION or
+       *  CHANNEL_TYPE_CUSTOMERSERVICECENTER.
        *
        * @return the sales channel this order has been placed in or null, if the order channel is not set
        */
@@ -33701,17 +33095,16 @@ declare namespace dw {
        */
       getCouponLineItem(couponCode: string): dw.order.CouponLineItem;
       /**
-       * Returns a sorted collection of the coupon line items in the container. The coupon line items are returned in the order
-       *  they were added to container.
+       * Returns a sorted collection of the coupon line items in the container. The coupon line items are returned in the
+       *  order they were added to container.
        *
        * @return A sorted list of the CouponLineItem instances in the container.
        */
       getCouponLineItems(): dw.util.Collection<dw.order.CouponLineItem>;
       /**
-       * Returns the currency code for this line item container. The currency code
-       *  is a 3-character currency mnemonic such as 'USD' or 'EUR'. The currency
-       *  code represents the currency in which the calculation is made, and in
-       *  which the buyer sees all prices in the store front.
+       * Returns the currency code for this line item container. The currency code is a 3-character currency mnemonic such
+       *  as 'USD' or 'EUR'. The currency code represents the currency in which the calculation is made, and in which the
+       *  buyer sees all prices in the store front.
        *
        * @return the currency code for this line item container.
        */
@@ -33741,9 +33134,12 @@ declare namespace dw {
        */
       getCustomerNo(): string;
       /**
-       * Returns the default shipment of the line item container.
+       * Returns the default shipment of the line item container. Every basket and order has a default shipment with the
+       *  id "me". If you call a process that accesses a shipment, and you don't specify the shipment, then the process
+       *  uses the default shipment. You can't remove a default shipment. Calling removeShipment(Shipment) on it
+       *  throws an exception.
        *
-       * @return Default shipment of the container
+       * @return the default shipment of the container
        */
       getDefaultShipment(): dw.order.Shipment;
       /**
@@ -33762,8 +33158,7 @@ declare namespace dw {
         dw.order.GiftCertificateLineItem
       >;
       /**
-       * Returns all gift certificate line items of the container, no matter if they are
-       *  dependent or independent.
+       * Returns all gift certificate line items of the container, no matter if they are dependent or independent.
        * @param giftCertificateId the gift certificate identifier.
        * @return A collection of all GiftCertificateLineItems of the container.
        */
@@ -33771,8 +33166,8 @@ declare namespace dw {
         giftCertificateId: string
       ): dw.util.Collection<dw.order.GiftCertificateLineItem>;
       /**
-       * Returns an unsorted collection of the PaymentInstrument instances that
-       *  represent GiftCertificates in this container.
+       * Returns an unsorted collection of the PaymentInstrument instances that represent GiftCertificates in this
+       *  container.
        *
        * @return an unsorted collection containing the set of PaymentInstrument instances that represent GiftCertificates.
        */
@@ -33781,8 +33176,7 @@ declare namespace dw {
       >;
       /**
        * Returns an unsorted collection containing all PaymentInstruments of type
-       *  PaymentInstrument.METHOD_GIFT_CERTIFICATE where the specified code is the
-       *  same code on the payment instrument.
+       *  PaymentInstrument.METHOD_GIFT_CERTIFICATE where the specified code is the same code on the payment instrument.
        * @param giftCertificateCode the gift certificate code.
        * @return an unsorted collection containing all PaymentInstruments of type PaymentInstrument.METHOD_GIFT_CERTIFICATE where the specified code is the same code on the payment instrument.
        */
@@ -33790,92 +33184,76 @@ declare namespace dw {
         giftCertificateCode: string
       ): dw.util.Collection<dw.order.PaymentInstrument>;
       /**
-       * Returns the total gross price of all gift certificates in
-       *  the cart. Should usually be equal to total net price.
+       * Returns the total gross price of all gift certificates in the cart. Should usually be equal to total net price.
        *
        * @return the total gross price of all gift certificate line items
        */
       getGiftCertificateTotalGrossPrice(): dw.value.Money;
       /**
-       * Returns the total net price (excluding tax) of all gift certificates in
-       *  the cart. Should usually be equal to total gross price.
+       * Returns the total net price (excluding tax) of all gift certificates in the cart. Should usually be equal to
+       *  total gross price.
        *
        * @return the total net price of all gift certificate line items
        */
       getGiftCertificateTotalNetPrice(): dw.value.Money;
       /**
-       * Returns the gift certificate total price. If the line item container is based
-       *  on net pricing the gift certificate total net price is returned. If the line
-       *  item container is based on gross pricing the gift certificate total gross
-       *  price is returned.
+       * Returns the gift certificate total price. If the line item container is based on net pricing the gift certificate
+       *  total net price is returned. If the line item container is based on gross pricing the gift certificate total
+       *  gross price is returned.
        *
        * @return either the gift certificate total net or gross price
        */
       getGiftCertificateTotalPrice(): dw.value.Money;
       /**
-       * Returns the total tax of all gift certificates in
-       *  the cart. Should usually be 0.0.
+       * Returns the total tax of all gift certificates in the cart. Should usually be 0.0.
        *
        * @return the total tax of all gift certificate line items
        */
       getGiftCertificateTotalTax(): dw.value.Money;
       /**
-       * Returns the total gross price (including tax) in purchase currency.
-       *
-       *  Merchandize total prices represent the sum of product prices before
-       *  services such as shipping or adjustment from promotions have
-       *  been added.
+       * Returns the total gross price (including tax) in purchase currency. Merchandize total prices represent the sum of
+       *  product prices before services such as shipping or adjustment from promotions have been added.
        *
        * @return the total gross price (including tax) in purchase currency.
        */
       getMerchandizeTotalGrossPrice(): dw.value.Money;
       /**
-       * Returns the total net price (excluding tax) in purchase currency.
-       *
-       *  Merchandize total prices represent the sum of product prices before
-       *  services such as shipping or adjustment from promotion have
-       *  been added.
+       * Returns the total net price (excluding tax) in purchase currency. Merchandize total prices represent the sum of
+       *  product prices before services such as shipping or adjustment from promotion have been added.
        *
        * @return the total net price (excluding tax) in purchase currency.
        */
       getMerchandizeTotalNetPrice(): dw.value.Money;
       /**
-       * Returns the merchandize total price. If the line item container is based
-       *  on net pricing the merchandize total net price is returned. If the line
-       *  item container is based on gross pricing the merchandize total gross price
-       *  is returned.
+       * Returns the merchandize total price. If the line item container is based on net pricing the merchandize total net
+       *  price is returned. If the line item container is based on gross pricing the merchandize total gross price is
+       *  returned.
        *
        * @return either the merchandize total net or gross price
        */
       getMerchandizeTotalPrice(): dw.value.Money;
       /**
-       * Returns the total tax in purchase currency.
-       *
-       *  Merchandize total prices represent the sum of product prices before
-       *  services such as shipping or adjustment from promotions have
-       *  been added.
+       * Returns the total tax in purchase currency. Merchandize total prices represent the sum of product prices before
+       *  services such as shipping or adjustment from promotions have been added.
        *
        * @return the total tax in purchase currency.
        */
       getMerchandizeTotalTax(): dw.value.Money;
       /**
-       * Returns the list of notes for this object, ordered by creation time
-       *  from oldest to newest.
+       * Returns the list of notes for this object, ordered by creation time from oldest to newest.
        *
        * @return the list of notes for this object, ordered by creation time from oldest to newest.
        */
       getNotes(): dw.util.List<dw.object.Note>;
       /**
-       * Returns the payment instrument of the line item container or null.
-       *  This method is deprecated. You should use getPaymentInstruments() or
-       *  getGiftCertificatePaymentInstruments() instead.
+       * Returns the payment instrument of the line item container or null. This method is deprecated. You should use
+       *  getPaymentInstruments() or getGiftCertificatePaymentInstruments() instead.
        *
        * @return the order payment instrument of the line item container or null.
        */
       getPaymentInstrument(): dw.order.OrderPaymentInstrument;
       /**
-       * Returns an unsorted collection of the payment instruments in this
-       *  container.
+       * Returns an unsorted collection of the payment instruments in this container.
        *
        * @return an unsorted collection containing the set of PaymentInstrument instances associated with this container.
        */
@@ -33883,8 +33261,7 @@ declare namespace dw {
         dw.order.OrderPaymentInstrument
       >;
       /**
-       * Returns an unsorted collection of PaymentInstrument instances based on
-       *  the specified payment method ID.
+       * Returns an unsorted collection of PaymentInstrument instances based on the specified payment method ID.
        * @param paymentMethodID the ID of the payment method used.
        * @return an unsorted collection of OrderPaymentInstrument instances based on the payment method.
        */
@@ -33892,8 +33269,7 @@ declare namespace dw {
         paymentMethodID: string
       ): dw.util.Collection<dw.order.OrderPaymentInstrument>;
       /**
-       * Returns the price adjustment associated to the specified
-       *  promotion ID.
+       * Returns the price adjustment associated to the specified promotion ID.
        * @param promotionID Promotion id
        * @return The price adjustment associated with the specified promotion ID or null if none was found.
        */
@@ -33901,31 +33277,26 @@ declare namespace dw {
         promotionID: string
       ): dw.order.PriceAdjustment;
       /**
-       * Returns the collection of price adjustments that have been applied to the
-       *  totals such as promotion on the purchase value (i.e. $10 Off or 10% Off).
-       *  The price adjustments are sorted by the order in which they were applied
-       *  to the order by the promotions engine.
+       * Returns the collection of price adjustments that have been applied to the totals such as promotion on the
+       *  purchase value (i.e. $10 Off or 10% Off). The price adjustments are sorted by the order in which they were
+       *  applied to the order by the promotions engine.
        *
        * @return the sorted collection of PriceAdjustment instances.
        */
       getPriceAdjustments(): dw.util.Collection<dw.order.PriceAdjustment>;
       /**
-       * Returns the product line items of the container that are not dependent on
-       *  other product line items. This includes line items representing bonus
-       *  products in the container but excludes option, bundled, and bonus line
-       *  items. The returned collection is sorted by the position attribute of the
-       *  product line items.
+       * Returns the product line items of the container that are not dependent on other product line items. This includes
+       *  line items representing bonus products in the container but excludes option, bundled, and bonus line items. The
+       *  returned collection is sorted by the position attribute of the product line items.
        *
        * @return A sorted collection of ProductLineItem instances which are not dependent on other product line items.
        */
       getProductLineItems(): dw.util.Collection<dw.order.ProductLineItem>;
       /**
-       * Returns the product line items of the container that have a product ID
-       *  equal to the specified product ID and that are not dependent on other
-       *  product line items. This includes line items representing bonus products
-       *  in the container, but excludes option, bundled and bonus line items. The
-       *  returned collection is sorted by the position attribute of the product
-       *  line items.
+       * Returns the product line items of the container that have a product ID equal to the specified product ID and that
+       *  are not dependent on other product line items. This includes line items representing bonus products in the
+       *  container, but excludes option, bundled and bonus line items. The returned collection is sorted by the position
+       *  attribute of the product line items.
        * @param productID The Product ID used to filter the product line items.
        * @return A sorted collection of ProductLineItem instances which have the specified product ID and are not dependent on other product line items.
        */
@@ -33933,13 +33304,11 @@ declare namespace dw {
         productID: string
       ): dw.util.Collection<dw.order.ProductLineItem>;
       /**
-       * Returns a hash map of all products in the line item container and their
-       *  total quantities. The total product quantity is for example used
-       *  to lookup the product price.
+       * Returns a hash map of all products in the line item container and their total quantities. The total product
+       *  quantity is for example used to lookup the product price.
        *
-       *  The method counts all direct product line items, plus dependent product
-       *  line items that are not bundled line items and no option line items. It
-       *  also excludes product line items that are not associated to any catalog
+       *  The method counts all direct product line items, plus dependent product line items that are not bundled line
+       *  items and no option line items. It also excludes product line items that are not associated to any catalog
        *  product, and bonus product line items.
        *
        * @return a map of products and their total quantities.
@@ -33949,17 +33318,14 @@ declare namespace dw {
         dw.value.Quantity
       >;
       /**
-       * Returns a hash map of all products in the line item container and their
-       *  total quantities. The total product quantity is for example used
-       *  to lookup the product price in the cart.
+       * Returns a hash map of all products in the line item container and their total quantities. The total product
+       *  quantity is for example used to lookup the product price in the cart.
        *
-       *  The method counts all direct product line items, plus dependent product
-       *  line items that are not bundled line items and no option line items. It
-       *  also excludes product line items that are not associated to any catalog
+       *  The method counts all direct product line items, plus dependent product line items that are not bundled line
+       *  items and no option line items. It also excludes product line items that are not associated to any catalog
        *  product.
        *
-       *  If the parameter 'includeBonusProducts' is set to true, the method also
-       *  counts bonus product line items.
+       *  If the parameter 'includeBonusProducts' is set to true, the method also counts bonus product line items.
        * @param includeBonusProducts if true also bonus product line item are counted
        * @return A map of products and their total quantities.
        */
@@ -33967,30 +33333,28 @@ declare namespace dw {
         includeBonusProducts: boolean
       ): dw.util.HashMap<dw.catalog.Product, dw.value.Quantity>;
       /**
-       * Returns the total quantity of all product line items.
-       *  Not included are bundled line items and option line items.
+       * Returns the total quantity of all product line items. Not included are bundled line items and option line items.
        *
        * @return The total quantity of all line items of the container.
        */
       getProductQuantityTotal(): number;
       /**
-       * Returns the shipment for the specified ID or null if no shipment
-       *  with this ID exists in the line item container.
-       * @param id the shipment identifier.
-       * @return Shipment or null
+       * Returns the shipment for the specified ID or null if no shipment with this ID exists in the line
+       *  item container. Using "me" always returns the default shipment.
+       * @param id the shipment identifier
+       * @return the shipment or null
        */
       getShipment(id: string): dw.order.Shipment;
       /**
        * Returns all shipments of the line item container.
-       *  The first shipment in the returned collection is the default shipment.
-       *  All other shipments are sorted ascending by shipment ID.
+       *  The first shipment in the returned collection is the default shipment (shipment ID always set to "me"). All other
+       *  shipments are sorted ascending by shipment ID.
        *
-       * @return Shipments of the line item container
+       * @return all shipments of the line item container
        */
       getShipments(): dw.util.Collection<dw.order.Shipment>;
       /**
-       * Returns the shipping price adjustment associated with the
-       *  specified promotion ID.
+       * Returns the shipping price adjustment associated with the specified promotion ID.
        * @param promotionID Promotion id
        * @return The price adjustment associated with the specified promotion ID or null if none was found.
        */
@@ -33998,10 +33362,9 @@ declare namespace dw {
         promotionID: string
       ): dw.order.PriceAdjustment;
       /**
-       * Returns the of shipping price adjustments applied to the
-       *  shipping total of the container.  Note that the promotions engine
-       *  only applies shipping price adjustments to the the default shipping line
-       *  item of shipments, and never to the container.
+       * Returns the of shipping price adjustments applied to the shipping total of the container. Note that the
+       *  promotions engine only applies shipping price adjustments to the the default shipping line item of shipments, and
+       *  never to the container.
        *
        * @return a collection of shipping price adjustments.
        */
@@ -34009,76 +33372,68 @@ declare namespace dw {
         dw.order.PriceAdjustment
       >;
       /**
-       * Returns the sum of all shipping line items of the line item container,
-       *  including tax before shipping adjustments have been applied.
+       * Returns the sum of all shipping line items of the line item container, including tax before shipping adjustments
+       *  have been applied.
        *
        * @return the sum of all shipping line items of the line item container, including tax before shipping adjustments have been applied.
        */
       getShippingTotalGrossPrice(): dw.value.Money;
       /**
-       * Returns the sum of all shipping line items of the line item container,
-       *  excluding tax before shipping adjustments have been applied.
+       * Returns the sum of all shipping line items of the line item container, excluding tax before shipping adjustments
+       *  have been applied.
        *
        * @return the sum of all shipping line items of the line item container, excluding tax before shipping adjustments have been applied.
        */
       getShippingTotalNetPrice(): dw.value.Money;
       /**
-       * Returns the shipping total price. If the line item container is based on
-       *  net pricing the shipping total net price is returned. If the line item
-       *  container is based on gross pricing the shipping total gross price is
-       *  returned.
+       * Returns the shipping total price. If the line item container is based on net pricing the shipping total net price
+       *  is returned. If the line item container is based on gross pricing the shipping total gross price is returned.
        *
        * @return either the shipping total net or gross price
        */
       getShippingTotalPrice(): dw.value.Money;
       /**
-       * Returns the tax of all shipping line items of the line item container before
-       *  shipping adjustments have been applied.
+       * Returns the tax of all shipping line items of the line item container before shipping adjustments have been
+       *  applied.
        *
        * @return the tax of all shipping line items of the line item container before shipping adjustments have been applied.
        */
       getShippingTotalTax(): dw.value.Money;
       /**
-       * Returns the grand total price gross of tax for LineItemCtnr, in purchase currency.
-       *
-       *  Total prices represent the sum of product prices, services prices and adjustments.
+       * Returns the grand total price gross of tax for LineItemCtnr, in purchase currency. Total prices represent the sum
+       *  of product prices, services prices and adjustments.
        *
        * @return the grand total price.
        */
       getTotalGrossPrice(): dw.value.Money;
       /**
-       * Returns the grand total price for LineItemCtnr net of tax, in purchase currency.
-       *
-       *  Total prices represent the sum of product prices, services prices and adjustments.
+       * Returns the grand total price for LineItemCtnr net of tax, in purchase currency. Total prices represent the sum
+       *  of product prices, services prices and adjustments.
        *
        * @return the grand total price.
        */
       getTotalNetPrice(): dw.value.Money;
       /**
-       * Returns the grand total tax for LineItemCtnr, in purchase currency.
-       *
-       *  Total prices represent the sum of product prices, services prices and adjustments.
+       * Returns the grand total tax for LineItemCtnr, in purchase currency. Total prices represent the sum of product
+       *  prices, services prices and adjustments.
        *
        * @return the grand total tax.
        */
       getTotalTax(): dw.value.Money;
       /**
-       * Removes the all Payment Instruments from this container
-       *  and deletes the Payment Instruments.
+       * Removes the all Payment Instruments from this container and deletes the Payment Instruments.
        *
        */
       removeAllPaymentInstruments(): void;
       /**
-       * Removes the specified bonus discount line item from the line item
-       *  container.
+       * Removes the specified bonus discount line item from the line item container.
        * @param bonusDiscountLineItem The bonus discount line item to remove, must not be null.
        */
       removeBonusDiscountLineItem(
         bonusDiscountLineItem: dw.order.BonusDiscountLineItem
       ): void;
       /**
-       * Removes the specified coupon line item from the line item
-       *  container.
+       * Removes the specified coupon line item from the line item container.
        * @param couponLineItem The coupon line item to remove
        */
       removeCouponLineItem(couponLineItem: dw.order.CouponLineItem): void;
@@ -34095,14 +33450,12 @@ declare namespace dw {
        */
       removeNote(note: dw.object.Note): void;
       /**
-       * Removes the specified Payment Instrument from this container
-       *  and deletes the Payment Instrument.
+       * Removes the specified Payment Instrument from this container and deletes the Payment Instrument.
        * @param pi the Payment Instrument to remove.
        */
       removePaymentInstrument(pi: dw.order.PaymentInstrument): void;
       /**
-       * Removes the specified price adjustment line item from the line item
-       *  container.
+       * Removes the specified price adjustment line item from the line item container.
        * @param priceAdjustment The price adjustment line item to remove, must not be null.
        */
       removePriceAdjustment(priceAdjustment: dw.order.PriceAdjustment): void;
@@ -34112,15 +33465,13 @@ declare namespace dw {
        */
       removeProductLineItem(productLineItem: dw.order.ProductLineItem): void;
       /**
-       * Removes the specified shipment and all associated product,
-       *  gift certificate, shipping and price adjustment line items from the
-       *  line item container. It is not permissible to remove the default shipment.
+       * Removes the specified shipment and all associated product, gift certificate, shipping and price adjustment line
+       *  items from the line item container. It is not permissible to remove the default shipment.
        * @param shipment Shipment to be removed, must not be null.
        */
       removeShipment(shipment: dw.order.Shipment): void;
       /**
-       * Removes the specified shipping price adjustment line item from the line
-       *  item container.
+       * Removes the specified shipping price adjustment line item from the line item container.
        * @param priceAdjustment The price adjustment line item to remove, must not be null.
        */
       removeShippingPriceAdjustment(
@@ -34138,37 +33489,38 @@ declare namespace dw {
       setCustomerName(aValue: string): void;
       /**
        * Calculates the tax for all shipping and order-level merchandise price adjustments in this LineItemCtnr.
+       *
        *  The tax on each adjustment is calculated from the taxes of the line items the adjustment applies across.
+       *
        *  This method must be invoked at the end of tax calculation of a basket or an order.
        *
        */
       updateOrderLevelPriceAdjustmentTax(): void;
       /**
-       * Recalculates the totals of the line item container. It is necessary to call
-       *  this method after any type of modification to the basket.
+       * Recalculates the totals of the line item container. It is necessary to call this method after any type of
+       *  modification to the basket.
        *
        */
       updateTotals(): void;
       /**
-       * Verifies whether the manual price adjustments made for the line item container
-       *  exceed the corresponding limits for the current user and the current site.
+       * Verifies whether the manual price adjustments made for the line item container exceed the corresponding limits
+       *  for the current user and the current site.
        *
-       *  The results of this method are based on the current values held in the
-       *  LineItemCtnr, such as the base price of manual price
-       *  adjustments. It is important the method is only called after the
-       *  calculation process has completed.
+       *  The results of this method are based on the current values held in the LineItemCtnr, such as the
+       *  base price of manual price adjustments. It is important the method is only called after the calculation process
+       *  has completed.
        *
-       *   Status.OK is returned if NONE of the manual price adjustments exceed
-       *  the correspondent limits.
-       *   Status.ERROR is returned if ANY of the manual price adjustments
-       *  exceed the correspondent limits.  If this case Status.getItems()
-       *  returns all price adjustment limit violations. The code of each StatusItem
-       *  represents the violated price adjustment type (see PriceAdjustmentLimitTypes).
-       *  StatusItem.getDetails() returns a Map
-       *  with the max amount and (where relevant) the item to which the violation
-       *  applies.
+       *
+       *  Status.OK is returned if NONE of the manual price adjustments exceed the correspondent limits.
+       *
+       *  Status.ERROR is returned if ANY of the manual price adjustments exceed the correspondent limits. If this case
+       *  Status.getItems() returns all price adjustment limit violations. The code of each
+       *  StatusItem represents the violated price adjustment type (see
+       *  PriceAdjustmentLimitTypes). StatusItem.getDetails() returns a
+       *  Map with the max amount and (where relevant) the item to which the violation applies.
        *
        *  Usage:
+       *
        *   var order : Order; // known
        *
        *  var status : Status = order.verifyPriceAdjustmentLimits();
@@ -34209,7 +33561,7 @@ declare namespace dw {
     }
 
     /**
-     * The Order class represents an order.
+     * The Order class represents an order. The correct way to retrieve an order is described in <a href="class_dw_order_OrderMgr.html">OrderMgr</a>.
      */
     class Order extends dw.order.LineItemCtnr {
       /**
@@ -35256,9 +34608,7 @@ declare namespace dw {
        * @param shippingOrderItemID the ID
        * @return the shipping order item associated with the given shippingOrderItemID
        */
-      getShippingOrderItem(
-        shippingOrderItemID: string
-      ): dw.order.ShippingOrderItem;
+      getShippingOrderItem(shippingOrderItemID: string): ShippingOrderItem;
       /**
        * Returns the collection of ShippingOrderItems associated with this order.
        *
@@ -35989,7 +35339,7 @@ declare namespace dw {
        *  can exist for one OrderItem, for example if the OrderItem has been split for shipping purposes.
        *  The method returns null if no non-cancelled shipping order item exists.
        */
-      readonly shippingOrderItem: dw.order.ShippingOrderItem;
+      readonly shippingOrderItem: ShippingOrderItem;
       /**
        * A collection of the ShippingOrderItems created for this item.
        *  ShippingOrder items represents the whole or part of this item which could
@@ -36129,7 +35479,7 @@ declare namespace dw {
        *
        * @return the last not cancelled shipping order item or null
        */
-      getShippingOrderItem(): dw.order.ShippingOrderItem;
+      getShippingOrderItem(): ShippingOrderItem;
       /**
        * Returns a collection of the ShippingOrderItems created for this item.
        *  ShippingOrder items represents the whole or part of this item which could
@@ -36246,6 +35596,14 @@ declare namespace dw {
      *  <li>If the preference is NOT ACTIVE, a SecurityException with a message beginning &apos;Unauthorized access to order&apos; is
      *  logged as an error.</li>
      *  </ul>
+     *  Do not use dw.order.OrderMgr.searchOrder methods or <a href="class_dw_order_OrderMgr.html#dw_order_OrderMgr_processOrders_Function_String_Object_DetailAnchor">processOrders(Function, String, Object...)</a> immediately
+     *  after creating or updating an order. The order search index updates asynchronously, so it might not include very
+     *  recent changes. Instead, do one of the following:
+     *  <ul>
+     *  <li>In the same request, pass the dw.order.Order object reference to the followup logic.</li>
+     *  <li>For storefront use cases, especially when passing the order reference to a third party, use the order token
+     *  for security by using <a href="class_dw_order_OrderMgr.html#dw_order_OrderMgr_getOrder_String_String_DetailAnchor">getOrder(String, String)</a>.</li>
+     *  </ul>
      *  <p></p>
      */
     class OrderMgr {
@@ -36324,6 +35682,10 @@ declare namespace dw {
        *  Basket.reserveInventory() in the same request.
        *
        *
+       *  When an order is created, search results don't include it until the next asynchronous update of the order search
+       *  index. See OrderMgr.
+       *
+       *
        *  Usage:
        *
        *
@@ -36357,6 +35719,10 @@ declare namespace dw {
        *
        *  This method must not be used with the ReserveInventoryForOrder pipelet or
        *  Basket.reserveInventory() in the same request.
+       *
+       *
+       *  When an order is created, search results don't include it until the next asynchronous update of the order search
+       *  index. See OrderMgr.
        *
        *
        *  Usage:
@@ -36909,6 +36275,10 @@ declare namespace dw {
        *  using logical operators may change the execution of LIKE/ILIKE clauses to exact string comparison, depending
        *  on how they are combined
        *  using logical operators may result in degraded performance, depending on how they are combined
+       *
+       *
+       *
+       *  Order search index updates are asynchronous, triggered only by committing changes to the underlying system.
        * @param queryString the query string that is used to locate the order.
        * @param args one or more arguments to apply.
        * @return the order that was found when executing the queryString.
@@ -37015,6 +36385,10 @@ declare namespace dw {
        *  on how they are combined
        *  using logical operators may result in degraded performance, depending on how they are combined
        *  the result is limited to a maximum of 1000 orders
+       *
+       *
+       *
+       *  Order search index updates are asynchronous, triggered only by committing changes to the underlying system.
        * @param queryString the actual query.
        * @param sortString an optional sorting or null if no sorting is necessary.
        * @param args one or more arguments for the query string.
@@ -37102,6 +36476,10 @@ declare namespace dw {
        *  on how they are combined
        *  using logical operators may result in degraded performance, depending on how they are combined
        *  the result is limited to a maximum of 1000 orders
+       *
+       *
+       *
+       *  Order search index updates are asynchronous, triggered only by committing changes to the underlying system.
        * @param queryAttributes a set of key-value pairs that define the query.
        * @param sortString an optional sorting or null if no sorting is necessary.
        * @return SeekableIterator containing the result set of the query.
@@ -41361,57 +40739,42 @@ declare namespace dw {
       static readonly SHIPPING_STATUS_SHIPPED = 2;
 
       /**
-       * The adjusted total gross price, including tax, in the purchase currency.
-       *
-       *  Adjusted merchandize prices represent the sum of product prices before
-       *  services such as shipping have been added, but after adjustments from i.e.
-       *  promotions have been added.
+       * The adjusted total gross price, including tax, in the purchase currency. The adjusted total gross price
+       *  represents the sum of product prices and adjustments including tax, excluding services.
        */
       readonly adjustedMerchandizeTotalGrossPrice: dw.value.Money;
       /**
-       * The adjusted net price, excluding tax, in the purchase currency.
-       *
-       *  Adjusted merchandize prices represent the sum of product prices before
-       *  services such as shipping have been added, but after adjustments from i.e.
-       *  promotions have been added.
+       * The adjusted net price, excluding tax, in the purchase currency. The adjusted net price represents the
+       *  the sum of product prices and adjustments, excluding services and tax.
        */
       readonly adjustedMerchandizeTotalNetPrice: dw.value.Money;
       /**
-       * The merchandize total price after all product discounts.
-       *  If the line item container is based on net pricing the adjusted
-       *  merchandize total net price is returned.
-       *  If the line item container is based on gross pricing the adjusted
-       *  merchandize total gross price is returned.
+       * The product total price after all product discounts. If the line item container is based on net pricing
+       *  the adjusted product total net price is returned. If the line item container is based on gross pricing the
+       *  adjusted product total gross price is returned.
        */
       readonly adjustedMerchandizeTotalPrice: dw.value.Money;
       /**
-       * The total tax in purchase currency.
-       *
-       *  Adjusted merchandize prices represent the sum of product prices before
-       *  services such as shipping have been added, but after adjustments from i.e.
-       *  promotions have been added.
+       * The total adjusted product tax in the purchase currency. The total adjusted product tax represents the
+       *  tax on products and adjustments, excluding services.
        */
       readonly adjustedMerchandizeTotalTax: dw.value.Money;
       /**
-       * The adjusted sum of all shipping line items of the shipment,
-       *  including tax after shipping adjustments have been applied.
+       * The adjusted sum of all shipping line items of the shipment, including shipping adjustuments and tax
        */
       readonly adjustedShippingTotalGrossPrice: dw.value.Money;
       /**
-       * The sum of all shipping line items of the shipment, excluding tax
-       *  after shipping adjustments have been applied.
+       * The sum of all shipping line items of the shipment, including shipping adjustments, excluding tax.
        */
       readonly adjustedShippingTotalNetPrice: dw.value.Money;
       /**
-       * The adjusted shipping total price. If the line item container
-       *  is based on net pricing the adjusted shipping total net price is
-       *  returned. If the line item container is based on gross pricing the adjusted
-       *  shipping total gross price is returned.
+       * The adjusted shipping total price. If the line item container is based on net pricing the adjusted
+       *  shipping total net price is returned. If the line item container is based on gross pricing the adjusted shipping
+       *  total gross price is returned.
        */
       readonly adjustedShippingTotalPrice: dw.value.Money;
       /**
-       * The tax of all shipping line items of the shipment after shipping
-       *  adjustments have been applied.
+       * The tax of all shipping line items of the shipment , including shipping adjustments.
        */
       readonly adjustedShippingTotalTax: dw.value.Money;
       /**
@@ -41426,13 +40789,12 @@ declare namespace dw {
        *
        *  Their common type is LineItem.
        *
-       *  Each ProductLineItem in the collection
-       *  may itself contain bundled or option product line items,
+       *  Each ProductLineItem in the collection may itself contain bundled or option product line items,
        *  as well as a product-level shipping line item.
        */
       readonly allLineItems: dw.util.Collection<dw.order.LineItem>;
       /**
-       * Return true if this shipment is the default shipment.
+       * Return true if this shipment is the default shipment (shipment ID "me").
        */
       readonly default: boolean;
       /**
@@ -41450,58 +40812,46 @@ declare namespace dw {
        */
       giftMessage: string;
       /**
-       * The ID of this shipment.
+       * The ID of this shipment ("me" for the default shipment).
        */
       readonly ID: string;
       /**
-       * The total gross price, including tax, in the purchase currency.
-       *
-       *  Merchandize total prices represent the sum of product prices before
-       *  services such as shipping or adjustments from i.e. promotions have
-       *  been added.
+       * The gross product subtotal in the purchase currency. The gross product subtotal represents the sum of
+       *  product prices including tax, excluding services and adjustments.
        */
       readonly merchandizeTotalGrossPrice: dw.value.Money;
       /**
-       * The net price, excluding tax, in the purchase currency.
-       *
-       *  Merchandize total prices represent the sum of product prices before
-       *  services such as shipping or adjustments from i.e. promotions have
-       *  been added.
+       * The net product subtotal, excluding tax, in the purchase currency. The net product subtotal represents
+       *  the sum of product prices, excluding services, adjustments, and tax.
        */
       readonly merchandizeTotalNetPrice: dw.value.Money;
       /**
-       * The merchandize total price. If the line item container is based
-       *  on net pricing the merchandize total net price is returned. If the line
-       *  item container is based on gross pricing the merchandize total gross price
-       *  is returned.
+       * The product total price. If the line item container is based on net pricing the product total net
+       *  price is returned. If the line item container is based on gross pricing the product total gross price is
+       *  returned.
        */
       readonly merchandizeTotalPrice: dw.value.Money;
       /**
-       * A collection of price adjustments that have been applied to the
-       *  totals such as promotion on the purchase value (i.e. $10 Off or 10% Off).
+       * A collection of price adjustments that have been applied to the totals, such as a promotion on the
+       *  purchase value (i.e. $10 Off or 10% Off).
        */
       readonly merchandizeTotalPriceAdjustments: dw.util.Collection<
         dw.order.PriceAdjustment
       >;
       /**
-       * The total tax in purchase currency.
-       *
-       *  Merchandize total prices represent the sum of product prices before
-       *  services such as shipping or adjustments from i.e. promotions have
-       *  been added.
+       * The total product tax in the purchase currency. The total product tax represents the tax on products,
+       *  excluding services and adjustments.
        */
       readonly merchandizeTotalTax: dw.value.Money;
       /**
-       * A collection of all product line items related
-       *  to this shipment.
+       * A collection of all product line items related to this shipment.
        */
       readonly productLineItems: dw.util.Collection<dw.order.ProductLineItem>;
       /**
-       * The merchandise total price of the shipment after considering all
-       *  product price adjustments and prorating all Buy-X-Get-Y and order-level
-       *  discounts, according to the scheme described in
-       *  PriceAdjustment.getProratedPrices(). For net pricing the
-       *  net price is returned. For gross pricing, the gross price is returned.
+       * The total product price of the shipment, including product-level adjustments and prorating all
+       *  Buy-X-Get-Y and order-level adjustments, according to the scheme described in
+       *  PriceAdjustment.getProratedPrices(). For net pricing the net price is returned. For gross
+       *  pricing, the gross price is returned.
        */
       readonly proratedMerchandizeTotalPrice: dw.value.Money;
       /**
@@ -41516,9 +40866,8 @@ declare namespace dw {
        */
       readonly shippingAddress: dw.order.OrderAddress;
       /**
-       * A collection of all shipping line items of the shipment,
-       *  excluding any product-level shipping costs that are
-       *  associated with ProductLineItems of the shipment.
+       * A collection of all shipping line items of the shipment, excluding any product-level shipping costs that
+       *  are associated with ProductLineItems of the shipment.
        */
       readonly shippingLineItems: dw.util.Collection<dw.order.ShippingLineItem>;
       /**
@@ -41530,66 +40879,52 @@ declare namespace dw {
        */
       readonly shippingMethodID: string;
       /**
-       * A collection of price adjustments that have been applied to the
-       *  shipping costs of the shipment, for example by the promotions engine.
-       *
-       *  Note that this method returns all shipping price adjustments in this
-       *  shipment regardless of which shipping line item they belong to. Use
-       *  ShippingLineItem.getShippingPriceAdjustments() to
-       *  retrieve the shipping price adjustments associated with a specific
-       *  shipping line item.
+       * A collection of price adjustments that have been applied to the shipping costs of the shipment, for
+       *  example by the promotions engine.
+       *  Note that this method returns all shipping price adjustments in this shipment, regardless of which shipping line
+       *  item they belong to. Use ShippingLineItem.getShippingPriceAdjustments() to retrieve the shipping
+       *  price adjustments associated with a specific shipping line item.
        */
       readonly shippingPriceAdjustments: dw.util.Collection<
         dw.order.PriceAdjustment
       >;
       /**
-       * The shipping status. Possible values are
-       *  SHIPMENT_NOTSHIPPED or SHIPMENT_SHIPPED.
+       * The shipping status. Possible values are SHIPMENT_NOTSHIPPED or SHIPMENT_SHIPPED.
        */
       shippingStatus: dw.value.EnumValue;
       /**
-       * The sum of all shipping line items of the shipment,
-       *  including tax before shipping adjustments have been applied.
+       * The sum of all shipping line items of the shipment, including tax, excluding shipping adjustments.
        */
       readonly shippingTotalGrossPrice: dw.value.Money;
       /**
-       * The sum of all shipping line items of the shipment, excluding tax
-       *  before shipping adjustments have been applied.
+       * The sum of all shipping line items of the shipment, excluding tax and adjustments.
        */
       readonly shippingTotalNetPrice: dw.value.Money;
       /**
-       * The shipping total price. If the line item container is based on
-       *  net pricing the shipping total net price is returned. If the line item
-       *  container is based on gross pricing the shipping total gross price is
-       *  returned.
+       * The shipping total price. If the line item container is based on net pricing the shipping total net price
+       *  is returned. If the line item container is based on gross pricing the shipping total gross price is returned.
        */
       readonly shippingTotalPrice: dw.value.Money;
       /**
-       * The tax of all shipping line items of the shipment before
-       *  shipping adjustments have been applied.
+       * The tax of all shipping line items of the shipment before shipping adjustments have been applied.
        */
       readonly shippingTotalTax: dw.value.Money;
       /**
-       * Convenenience method. Same as
-       *  getShippingLineItem(ShippingLineItem.STANDARD_SHIPPING_ID)
+       * Convenience method. Same as getShippingLineItem(ShippingLineItem.STANDARD_SHIPPING_ID)
        */
       readonly standardShippingLineItem: dw.order.ShippingLineItem;
       /**
-       * The grand total price gross of tax for the shipment, in purchase currency.
-       *
-       *  Total prices represent the sum of product prices, services prices and adjustments.
+       * The total gross price of the shipment in the purchase currency. The total gross price is the sum of
+       *  product prices, service prices, adjustments, and tax.
        */
       readonly totalGrossPrice: dw.value.Money;
       /**
-       * The grand total price for the shipment net of tax, in purchase currency.
-       *
-       *  Total prices represent the sum of product prices, services prices and adjustments.
+       * The total net price of the shipment in the purchase currency. The total net price is the sum of product
+       *  prices, service prices, and adjustments, excluding tax.
        */
       readonly totalNetPrice: dw.value.Money;
       /**
-       * The total tax for the shipment, in purchase currency.
-       *
-       *  Total prices represent the sum of product prices, services prices and adjustments.
+       * The total tax for the shipment in the purchase currency.
        */
       readonly totalTax: dw.value.Money;
       /**
@@ -41598,31 +40933,26 @@ declare namespace dw {
       trackingNumber: string;
 
       /**
-       * A shipment has initially no shipping address. This method creates a
-       *  shipping address for the shipment and replaces an existing shipping
-       *  address.
+       * A shipment has initially no shipping address. This method creates a shipping address for the shipment and
+       *  replaces an existing shipping address.
        *
        * @return The new shipping address of the shipment
        */
       createShippingAddress(): dw.order.OrderAddress;
       /**
-       * Creates a new shipping line item for this shipment.
-       *  If the specified ID is already assigned to any of the existing
-       *  shipping line items of the shipment, the method throws an exception.
+       * Creates a new shipping line item for this shipment. If the specified ID is already assigned to any of the
+       *  existing shipping line items of the shipment, the method throws an exception.
        * @param id The id to use to locate the new shipping line item.
        * @return The new shipping line item.
        */
       createShippingLineItem(id: string): dw.order.ShippingLineItem;
       /**
-       * Creates a shipping price adjustment to be applied to the shipment. The
-       *  price adjustment implicitly belongs to the standard shipping line item
-       *  if this line item exists, otherwise it belongs to the shipment itself.
-       *
-       *  The promotion ID is mandatory and must not be the ID of any actual
-       *  promotion defined in Commerce Cloud Digital.
-       *
-       *  If there already exists a shipping price adjustment line item referring
-       *  to the specified promotion ID, an exception is thrown.
+       * Creates a shipping price adjustment to be applied to the shipment. The price adjustment implicitly belongs to the
+       *  standard shipping line item if this line item exists, otherwise it belongs to the shipment itself.
+       *  The promotion ID is mandatory and must not be the ID of any actual promotion defined in Salesforce B2C
+       *  Commerce.
+       *  If there already exists a shipping price adjustment line item referring to the specified promotion ID, an
+       *  exception is thrown.
        * @param promotionID Promotion ID
        * @return The new price adjustment line item.
        */
@@ -41630,84 +40960,67 @@ declare namespace dw {
         promotionID: string
       ): dw.order.PriceAdjustment;
       /**
-       * Returns the adjusted total gross price, including tax, in the purchase currency.
-       *
-       *  Adjusted merchandize prices represent the sum of product prices before
-       *  services such as shipping have been added, but after adjustments from i.e.
-       *  promotions have been added.
+       * Returns the adjusted total gross price, including tax, in the purchase currency. The adjusted total gross price
+       *  represents the sum of product prices and adjustments including tax, excluding services.
        *
        * @return the adjusted total gross price, including tax, in the purchase currency.
        */
       getAdjustedMerchandizeTotalGrossPrice(): dw.value.Money;
       /**
-       * Returns the adjusted net price, excluding tax, in the purchase currency.
-       *
-       *  Adjusted merchandize prices represent the sum of product prices before
-       *  services such as shipping have been added, but after adjustments from i.e.
-       *  promotions have been added.
+       * Returns the adjusted net price, excluding tax, in the purchase currency. The adjusted net price represents the
+       *  the sum of product prices and adjustments, excluding services and tax.
        *
        * @return the adjusted net price, excluding tax, in the purchase currency.
        */
       getAdjustedMerchandizeTotalNetPrice(): dw.value.Money;
       /**
-       * Returns the merchandize total price after all product discounts.
-       *  If the line item container is based on net pricing the adjusted
-       *  merchandize total net price is returned.
-       *  If the line item container is based on gross pricing the adjusted
-       *  merchandize total gross price is returned.
+       * Returns the product total price after all product discounts. If the line item container is based on net pricing
+       *  the adjusted product total net price is returned. If the line item container is based on gross pricing the
+       *  adjusted product total gross price is returned.
        *
-       * @return either the adjusted merchandize total net or gross price.
+       * @return either the adjusted product total net or gross price.
        */
       getAdjustedMerchandizeTotalPrice(): dw.value.Money;
       /**
-       * Returns the merchandise total price of the shipment after considering all
-       *  product price adjustments and, optionally, prorating all order-level
-       *  discounts. For net pricing the net price is returned. For gross pricing,
-       *  the gross price is returned.
-       * @param applyOrderLevelAdjustments If true, order-level adjustments will be applied to total price
-       * @return Adjusted net or gross merchandise total price
+       * Returns the total product price including product-level adjustments and, optionally, prorated order-level
+       *  adjustments. For net pricing the net price is returned. For gross pricing, the gross price is returned.
+       * @param applyOrderLevelAdjustments If true, prorated order-level adjustments will be applied to total price
+       * @return Adjusted net or gross product total price
        */
       getAdjustedMerchandizeTotalPrice(
         applyOrderLevelAdjustments: boolean
       ): dw.value.Money;
       /**
-       * Returns the total tax in purchase currency.
-       *
-       *  Adjusted merchandize prices represent the sum of product prices before
-       *  services such as shipping have been added, but after adjustments from i.e.
-       *  promotions have been added.
+       * Returns the total adjusted product tax in the purchase currency. The total adjusted product tax represents the
+       *  tax on products and adjustments, excluding services.
        *
        * @return the total tax in purchase currency.
        */
       getAdjustedMerchandizeTotalTax(): dw.value.Money;
       /**
-       * Returns the adjusted sum of all shipping line items of the shipment,
-       *  including tax after shipping adjustments have been applied.
+       * Returns the adjusted sum of all shipping line items of the shipment, including shipping adjustuments and tax
        *
-       * @return the adjusted sum of all shipping line items of the shipment, including tax after shipping adjustments have been applied.
+       * @return the adjusted sum of all shipping line items of the shipment, including shipping adjustuments and tax
        */
       getAdjustedShippingTotalGrossPrice(): dw.value.Money;
       /**
-       * Returns the sum of all shipping line items of the shipment, excluding tax
-       *  after shipping adjustments have been applied.
+       * Returns the sum of all shipping line items of the shipment, including shipping adjustments, excluding tax.
        *
-       * @return the sum of all shipping line items of the shipment, excluding tax after shipping adjustments have been applied.
+       * @return the sum of all shipping line items of the shipment, including shipping adjustments, excluding tax.
        */
       getAdjustedShippingTotalNetPrice(): dw.value.Money;
       /**
-       * Returns the adjusted shipping total price. If the line item container
-       *  is based on net pricing the adjusted shipping total net price is
-       *  returned. If the line item container is based on gross pricing the adjusted
-       *  shipping total gross price is returned.
+       * Returns the adjusted shipping total price. If the line item container is based on net pricing the adjusted
+       *  shipping total net price is returned. If the line item container is based on gross pricing the adjusted shipping
+       *  total gross price is returned.
        *
        * @return either the adjusted shipping total net or gross price
        */
       getAdjustedShippingTotalPrice(): dw.value.Money;
       /**
-       * Returns the tax of all shipping line items of the shipment after shipping
-       *  adjustments have been applied.
+       * Returns the tax of all shipping line items of the shipment , including shipping adjustments.
        *
-       * @return the tax of all shipping line items of the shipment after shipping adjustments have been applied.
+       * @return the tax of all shipping line items of the shipment , including shipping adjustments.
        */
       getAdjustedShippingTotalTax(): dw.value.Money;
       /**
@@ -41722,8 +41035,7 @@ declare namespace dw {
        *
        *  Their common type is LineItem.
        *
-       *  Each ProductLineItem in the collection
-       *  may itself contain bundled or option product line items,
+       *  Each ProductLineItem in the collection may itself contain bundled or option product line items,
        *  as well as a product-level shipping line item.
        *
        * @return all line items related to ths shipment.
@@ -41744,74 +41056,62 @@ declare namespace dw {
        */
       getGiftMessage(): string;
       /**
-       * Returns the ID of this shipment.
+       * Returns the ID of this shipment ("me" for the default shipment).
        *
        * @return the ID of this shipment
        */
       getID(): string;
       /**
-       * Returns the total gross price, including tax, in the purchase currency.
-       *
-       *  Merchandize total prices represent the sum of product prices before
-       *  services such as shipping or adjustments from i.e. promotions have
-       *  been added.
+       * Returns the gross product subtotal in the purchase currency. The gross product subtotal represents the sum of
+       *  product prices including tax, excluding services and adjustments.
        *
        * @return the total gross price, including tax, in the purchase currency.
        */
       getMerchandizeTotalGrossPrice(): dw.value.Money;
       /**
-       * Returns the net price, excluding tax, in the purchase currency.
-       *
-       *  Merchandize total prices represent the sum of product prices before
-       *  services such as shipping or adjustments from i.e. promotions have
-       *  been added.
+       * Returns the net product subtotal, excluding tax, in the purchase currency. The net product subtotal represents
+       *  the sum of product prices, excluding services, adjustments, and tax.
        *
        * @return the net price, excluding tax, in the purchase currency.
        */
       getMerchandizeTotalNetPrice(): dw.value.Money;
       /**
-       * Returns the merchandize total price. If the line item container is based
-       *  on net pricing the merchandize total net price is returned. If the line
-       *  item container is based on gross pricing the merchandize total gross price
-       *  is returned.
+       * Returns the product total price. If the line item container is based on net pricing the product total net
+       *  price is returned. If the line item container is based on gross pricing the product total gross price is
+       *  returned.
        *
-       * @return either the merchandize total net or gross price
+       * @return either the product total net or gross price
        */
       getMerchandizeTotalPrice(): dw.value.Money;
       /**
-       * Returns a collection of price adjustments that have been applied to the
-       *  totals such as promotion on the purchase value (i.e. $10 Off or 10% Off).
+       * Returns a collection of price adjustments that have been applied to the totals, such as a promotion on the
+       *  purchase value (i.e. $10 Off or 10% Off).
        *
-       * @return a collection of price adjustments that have been applied to the totals such as promotion on the purchase value (i.e. $10 Off or 10% Off).
+       * @return a collection of price adjustments that have been applied to the totals, such as a promotion on the purchase value (i.e. $10 Off or 10% Off).
        */
       getMerchandizeTotalPriceAdjustments(): dw.util.Collection<
         dw.order.PriceAdjustment
       >;
       /**
-       * Returns the total tax in purchase currency.
-       *
-       *  Merchandize total prices represent the sum of product prices before
-       *  services such as shipping or adjustments from i.e. promotions have
-       *  been added.
+       * Returns the total product tax in the purchase currency. The total product tax represents the tax on products,
+       *  excluding services and adjustments.
        *
        * @return the total tax in purchase currency.
        */
       getMerchandizeTotalTax(): dw.value.Money;
       /**
-       * Returns a collection of all product line items related
-       *  to this shipment.
+       * Returns a collection of all product line items related to this shipment.
        *
        * @return a collection of all product line items related to this shipment.
        */
       getProductLineItems(): dw.util.Collection<dw.order.ProductLineItem>;
       /**
-       * Returns the merchandise total price of the shipment after considering all
-       *  product price adjustments and prorating all Buy-X-Get-Y and order-level
-       *  discounts, according to the scheme described in
-       *  PriceAdjustment.getProratedPrices(). For net pricing the
-       *  net price is returned. For gross pricing, the gross price is returned.
+       * Returns the total product price of the shipment, including product-level adjustments and prorating all
+       *  Buy-X-Get-Y and order-level adjustments, according to the scheme described in
+       *  PriceAdjustment.getProratedPrices(). For net pricing the net price is returned. For gross
+       *  pricing, the gross price is returned.
        *
-       * @return Adjusted and prorated net or gross merchandise total price
+       * @return Adjusted and prorated net or gross product total price
        */
       getProratedMerchandizeTotalPrice(): dw.value.Money;
       /**
@@ -41830,19 +41130,17 @@ declare namespace dw {
        */
       getShippingAddress(): dw.order.OrderAddress;
       /**
-       * Returns the shipping line item identified by the specified ID, or
-       *  null if not found.
+       * Returns the shipping line item identified by the specified ID, or null if not found.
        *
-       *  To get the standard shipping line item for this shipment,
-       *  use the identifier ShippingLineItem.STANDARD_SHIPPING_ID.
+       *  To get the standard shipping line item for this shipment, use the identifier
+       *  ShippingLineItem.STANDARD_SHIPPING_ID.
        * @param id the identifier to use to locate the shipping line item.
        * @return the shipping line item identified by the specified ID, or null if not found.
        */
       getShippingLineItem(id: string): dw.order.ShippingLineItem;
       /**
-       * Returns a collection of all shipping line items of the shipment,
-       *  excluding any product-level shipping costs that are
-       *  associated with ProductLineItems of the shipment.
+       * Returns a collection of all shipping line items of the shipment, excluding any product-level shipping costs that
+       *  are associated with ProductLineItems of the shipment.
        *
        * @return a collection of all shipping line items of the shipment, excluding any product-level shipping costs.
        */
@@ -41860,8 +41158,7 @@ declare namespace dw {
        */
       getShippingMethodID(): string;
       /**
-       * Returns the shipping price adjustment associated with the
-       *  specified promotion ID.
+       * Returns the shipping price adjustment associated with the specified promotion ID.
        * @param promotionID the promotion ID
        * @return The price adjustment associated with the given promotion ID
        */
@@ -41869,14 +41166,11 @@ declare namespace dw {
         promotionID: string
       ): dw.order.PriceAdjustment;
       /**
-       * Returns a collection of price adjustments that have been applied to the
-       *  shipping costs of the shipment, for example by the promotions engine.
-       *
-       *  Note that this method returns all shipping price adjustments in this
-       *  shipment regardless of which shipping line item they belong to. Use
-       *  ShippingLineItem.getShippingPriceAdjustments() to
-       *  retrieve the shipping price adjustments associated with a specific
-       *  shipping line item.
+       * Returns a collection of price adjustments that have been applied to the shipping costs of the shipment, for
+       *  example by the promotions engine.
+       *  Note that this method returns all shipping price adjustments in this shipment, regardless of which shipping line
+       *  item they belong to. Use ShippingLineItem.getShippingPriceAdjustments() to retrieve the shipping
+       *  price adjustments associated with a specific shipping line item.
        *
        * @return a collection of price adjustments that have been applied to the shipping costs of the shipment.
        */
@@ -41884,69 +41178,58 @@ declare namespace dw {
         dw.order.PriceAdjustment
       >;
       /**
-       * Returns the shipping status. Possible values are
-       *  SHIPMENT_NOTSHIPPED or SHIPMENT_SHIPPED.
+       * Returns the shipping status. Possible values are SHIPMENT_NOTSHIPPED or SHIPMENT_SHIPPED.
        *
        * @return the shipping status. Possible values are SHIPMENT_NOTSHIPPED or SHIPMENT_SHIPPED.
        */
       getShippingStatus(): dw.value.EnumValue;
       /**
-       * Returns the sum of all shipping line items of the shipment,
-       *  including tax before shipping adjustments have been applied.
+       * Returns the sum of all shipping line items of the shipment, including tax, excluding shipping adjustments.
        *
-       * @return the sum of all shipping line items of the shipment, including tax before shipping adjustments have been applied.
+       * @return the sum of all shipping line items of the shipment, including tax, excluding shipping adjustments.
        */
       getShippingTotalGrossPrice(): dw.value.Money;
       /**
-       * Returns the sum of all shipping line items of the shipment, excluding tax
-       *  before shipping adjustments have been applied.
+       * Returns the sum of all shipping line items of the shipment, excluding tax and adjustments.
        *
-       * @return the sum of all shipping line items of the shipment, excluding tax before shipping adjustments have been applied.
+       * @return the sum of all shipping line items of the shipment, excluding tax and adjustments.
        */
       getShippingTotalNetPrice(): dw.value.Money;
       /**
-       * Returns the shipping total price. If the line item container is based on
-       *  net pricing the shipping total net price is returned. If the line item
-       *  container is based on gross pricing the shipping total gross price is
-       *  returned.
+       * Returns the shipping total price. If the line item container is based on net pricing the shipping total net price
+       *  is returned. If the line item container is based on gross pricing the shipping total gross price is returned.
        *
        * @return either the shipping total net or gross price
        */
       getShippingTotalPrice(): dw.value.Money;
       /**
-       * Returns the tax of all shipping line items of the shipment before
-       *  shipping adjustments have been applied.
+       * Returns the tax of all shipping line items of the shipment before shipping adjustments have been applied.
        *
        * @return the tax of all shipping line items of the shipment before shipping adjustments have been applied.
        */
       getShippingTotalTax(): dw.value.Money;
       /**
-       * Convenenience method. Same as
-       *  getShippingLineItem(ShippingLineItem.STANDARD_SHIPPING_ID)
+       * Convenience method. Same as getShippingLineItem(ShippingLineItem.STANDARD_SHIPPING_ID)
        *
        * @return The standard shipping line item, or null if it does not exist.
        */
       getStandardShippingLineItem(): dw.order.ShippingLineItem;
       /**
-       * Returns the grand total price gross of tax for the shipment, in purchase currency.
-       *
-       *  Total prices represent the sum of product prices, services prices and adjustments.
+       * Returns the total gross price of the shipment in the purchase currency. The total gross price is the sum of
+       *  product prices, service prices, adjustments, and tax.
        *
        * @return the grand total price gross of tax for the shipment, in purchase currency.
        */
       getTotalGrossPrice(): dw.value.Money;
       /**
-       * Returns the grand total price for the shipment net of tax, in purchase currency.
-       *
-       *  Total prices represent the sum of product prices, services prices and adjustments.
+       * Returns the total net price of the shipment in the purchase currency. The total net price is the sum of product
+       *  prices, service prices, and adjustments, excluding tax.
        *
        * @return the grand total price for the shipment net of tax, in purchase currency.
        */
       getTotalNetPrice(): dw.value.Money;
       /**
-       * Returns the total tax for the shipment, in purchase currency.
-       *
-       *  Total prices represent the sum of product prices, services prices and adjustments.
+       * Returns the total tax for the shipment in the purchase currency.
        *
        * @return the total tax for the shipment, in purchase currency.
        */
@@ -41958,9 +41241,9 @@ declare namespace dw {
        */
       getTrackingNumber(): string;
       /**
-       * Return true if this shipment is the default shipment.
+       * Return true if this shipment is the default shipment (shipment ID "me").
        *
-       * @return true if this shipment is the default shipment.
+       * @return true if this shipment is the default shipment
        */
       isDefault(): boolean;
       /**
@@ -41970,8 +41253,7 @@ declare namespace dw {
        */
       isGift(): boolean;
       /**
-       * Removes the specified shipping line item and any of its dependent
-       *  shipping price adjustments.
+       * Removes the specified shipping line item and any of its dependent shipping price adjustments.
        * @param shippingLineItem The shipping line item to be removed.
        */
       removeShippingLineItem(shippingLineItem: dw.order.ShippingLineItem): void;
@@ -41999,8 +41281,7 @@ declare namespace dw {
       setShippingMethod(method: dw.order.ShippingMethod): void;
       /**
        * Sets the shipping status of the shipment.
-       *  Possible values are SHIPPING_STATUS_NOTSHIPPED or
-       *  SHIPPING_STATUS_SHIPPED.
+       *  Possible values are SHIPPING_STATUS_NOTSHIPPED or SHIPPING_STATUS_SHIPPED.
        * @param status Shipment shipping status
        */
       setShippingStatus(status: number): void;
@@ -42937,7 +42218,7 @@ declare namespace dw {
       createShippingOrderItem(
         orderItem: dw.order.OrderItem,
         quantity: dw.value.Quantity
-      ): dw.order.ShippingOrderItem;
+      ): ShippingOrderItem;
       /**
        * Create a ShippingOrderItem in the shipping order with
        *  the number shippingOrderNumber.
@@ -42958,7 +42239,7 @@ declare namespace dw {
         orderItem: dw.order.OrderItem,
         quantity: dw.value.Quantity,
         splitIfPartial: boolean
-      ): dw.order.ShippingOrderItem;
+      ): ShippingOrderItem;
       /**
        * Returns null or the previously created Invoice.
        *
@@ -43071,224 +42352,6 @@ declare namespace dw {
        *
        */
       setStatusWarehouse(): void;
-    }
-
-    /**
-     * One or more ShippingOrderItems are contained in a
-     *  <a href="class_dw_order_ShippingOrder.html">ShippingOrder</a>, created using
-     *  <a href="class_dw_order_ShippingOrder.html#dw_order_ShippingOrder_createShippingOrderItem_OrderItem_Quantity_DetailAnchor">ShippingOrder.createShippingOrderItem(OrderItem, Quantity)</a>
-     *  and can be retrieved by
-     *  <a href="class_dw_order_ShippingOrder.html#dw_order_ShippingOrder_getItems_DetailAnchor">ShippingOrder.getItems()</a>. A
-     *  ShippingOrderItem references a single
-     *  <a href="class_dw_order_OrderItem.html">OrderItem</a> which in turn references a
-     *  <a href="class_dw_order_LineItem.html">LineItem</a> associated with an <a href="class_dw_order_Order.html">Order</a>.
-     *  <p>
-     *  Order post-processing APIs (gillian) are now inactive by default and will throw
-     *  an exception if accessed. Activation needs preliminary approval by Product Management.
-     *  Please contact support in this case. Existing customers using these APIs are not
-     *  affected by this change and can use the APIs until further notice.</p>
-     */
-    class ShippingOrderItem extends dw.order.AbstractItem {
-      /**
-       * Constant for Order Item Status CANCELLED
-       */
-      static readonly STATUS_CANCELLED = "CANCELLED";
-      /**
-       * Constant for Order Item Status CONFIRMED
-       */
-      static readonly STATUS_CONFIRMED = "CONFIRMED";
-      /**
-       * Constant for Order Item Status SHIPPED
-       */
-      static readonly STATUS_SHIPPED = "SHIPPED";
-      /**
-       * Constant for Order Item Status WAREHOUSE
-       */
-      static readonly STATUS_WAREHOUSE = "WAREHOUSE";
-
-      /**
-       * Price of a single unit before discount application.
-       */
-      readonly basePrice: dw.value.Money;
-      /**
-       * Returns null or the parent item.
-       */
-      parentItem: dw.order.ShippingOrderItem;
-      /**
-       * The quantity of the shipping order item.
-       *
-       *  The Quantity is equal to the related line item quantity.
-       */
-      readonly quantity: dw.value.Quantity;
-      /**
-       * The mandatory shipping order number of the related
-       *  ShippingOrder.
-       */
-      readonly shippingOrderNumber: string;
-      /**
-       * Gets the order item status.
-       *
-       *  The possible values are STATUS_CONFIRMED,
-       *  STATUS_WAREHOUSE, STATUS_SHIPPED,
-       *  STATUS_CANCELLED.
-       */
-      status: dw.value.EnumValue;
-      /**
-       * Gets the tracking refs (tracking infos) the shipping order item is
-       *  assigned to.
-       */
-      readonly trackingRefs: dw.util.FilteringCollection<dw.order.TrackingRef>;
-
-      /**
-       * A shipping order item can be assigned
-       *  to one or many  tracking infos with
-       *  different quantities. For example an item with quantity 3 may have been
-       *  shipped in 2 packages, each represented by its own
-       *  tracking info - 2
-       *  TrackingRefs would exist with quantities 1 and 2.
-       *
-       *  This method creates and adds a new tracking
-       *  reference to this shipping order item for a given
-       *  tracking info and quantity. The new
-       *  instance is returned.
-       * @param trackingInfoID the id of the tracking info
-       * @param quantity the quantity the which is assigned to the tracking info for this shipping order item. Optional (null is allowed).
-       * @return the new tracking reference
-       */
-      addTrackingRef(
-        trackingInfoID: string,
-        quantity: dw.value.Quantity
-      ): dw.order.TrackingRef;
-      /**
-       * Apply a rate of (factor / divisor) to the prices in this item, with the option to half round up or half round down to the
-       *  nearest cent if necessary.
-       *  Examples:
-       *  TaxBasis beforefactordivisorroundupCalculationTaxBasis after
-       *  $10.0012true10*1/2=$5.00
-       *  $10.00910true10*9/10=$9.00
-       *  $10.0013true10*1/3=3.3333=$3.33
-       *   $2.4712true2.47*1/2=1.235=$1.24
-       *   $2.4712false2.47*1/2=1.235=$1.23
-       *
-       *  Which prices are updated?:
-       *  The rate described above is applied to tax-basis and tax then the net-price and gross-price are recalculated by adding / subtracting
-       *  depending on whether the order is based on net price.
-       *  Example (order based on net price)
-       *  New TaxBasis:$10.00, Tax:$1.00, NetPrice=TaxBasis=$10.00, GrossPrice=TaxBasis+Tax=$11.00
-       *  Example (order based on gross price)
-       *  New TaxBasis:$10.00, Tax:$1.00, NetPrice=TaxBasis-tax=$9.00, GrossPrice=TaxBasis=$10.00
-       * @param factor factor used to calculate rate
-       * @param divisor divisor used to calculate rate
-       * @param roundUp whether to round up or down on 0.5
-       */
-      applyPriceRate(
-        factor: dw.util.Decimal,
-        divisor: dw.util.Decimal,
-        roundUp: boolean
-      ): void;
-      /**
-       * Price of a single unit before discount application.
-       *
-       * @return Price of a single unit before discount application.
-       */
-      getBasePrice(): dw.value.Money;
-      /**
-       * Returns null or the parent item.
-       *
-       * @return null or the parent item.
-       */
-      getParentItem(): dw.order.ShippingOrderItem;
-      /**
-       * The quantity of the shipping order item.
-       *
-       *  The Quantity is equal to the related line item quantity.
-       *
-       * @return the quantity
-       */
-      getQuantity(): dw.value.Quantity;
-      /**
-       * The mandatory shipping order number of the related
-       *  ShippingOrder.
-       *
-       * @return the shipping order number.
-       */
-      getShippingOrderNumber(): string;
-      /**
-       * Gets the order item status.
-       *
-       *  The possible values are STATUS_CONFIRMED,
-       *  STATUS_WAREHOUSE, STATUS_SHIPPED,
-       *  STATUS_CANCELLED.
-       *
-       * @return the status
-       */
-      getStatus(): dw.value.EnumValue;
-      /**
-       * Gets the tracking refs (tracking infos) the shipping order item is
-       *  assigned to.
-       *
-       * @return the tracking refs ( tracking infos - TrackingRef ) the shipping order item is assigned to.
-       */
-      getTrackingRefs(): dw.util.FilteringCollection<dw.order.TrackingRef>;
-      /**
-       * Set a parent item. The parent item must belong to the same
-       *  ShippingOrder. An infinite parent-child loop is disallowed
-       *  as is a parent-child depth greater than 10. Setting a parent item
-       *  indicates a dependency of the child item on the parent item, and can be
-       *  used to form a parallel structure to that accessed using
-       *  ProductLineItem.getParent().
-       * @param parentItem The parent item, null is allowed
-       */
-      setParentItem(parentItem: dw.order.ShippingOrderItem): void;
-      /**
-       * Sets the status. See ShippingOrder for details of
-       *  shipping order status transitions. Do not use this method to set a
-       *  shipping order to status WAREHOUSE, instead use
-       *  ShippingOrder.setStatusWarehouse()
-       *
-       *  This also triggers the setting of the status of the
-       *  LineItem when appropriate. Setting this status can also have an impact on
-       *  the order status, accessed using Order.getStatus() and the
-       *  shipping order status, accessed using ShippingOrder.getStatus().
-       * @param status the status
-       */
-      setStatus(status: string): void;
-      /**
-       * Split the shipping order item.
-       *
-       *  This will also lead to a split of the related LineItem.
-       *  Split means that for the passed quantity a new item is created with this
-       *  quantity as an exact copy of this item. The remaining amount will stay in
-       *  this item.
-       *
-       *  If quantity is equal to getQuantity() no split is done and this
-       *  item is returned itself.
-       *
-       *  This method is equivalent to split(Quantity, Boolean) called
-       *  with splitOrderItem equals to true.
-       * @param quantity the quantity for the newly created item
-       * @return the newly created item or this item
-       */
-      split(quantity: dw.value.Quantity): dw.order.ShippingOrderItem;
-      /**
-       * Split the shipping order item.
-       *
-       *  This will also lead to a split of the related LineItem
-       *  when splitOrderItem is true.
-       *  Split means that for the passed quantity a new item is created with this
-       *  quantity as an exact copy of this item. The remaining amount will stay in
-       *  this item.
-       *
-       *  If quantity is equal to getQuantity() no split is done and this
-       *  item is returned itself.
-       * @param quantity the quantity for the newly created item
-       * @param splitOrderItem true the related LineItem will be splitted too false the related LineItem will not be splitted
-       * @return the newly created item or this item
-       */
-      split(
-        quantity: dw.value.Quantity,
-        splitOrderItem: boolean
-      ): dw.order.ShippingOrderItem;
     }
 
     /**
@@ -43707,7 +42770,7 @@ declare namespace dw {
       /**
        * Gets the shipping order item which is assigned to the tracking info.
        */
-      readonly shippingOrderItem: dw.order.ShippingOrderItem;
+      readonly shippingOrderItem: ShippingOrderItem;
       /**
        * Gets the tracking info, the shipping order item is assigned to.
        */
@@ -43725,7 +42788,7 @@ declare namespace dw {
        *
        * @return the shipping order item
        */
-      getShippingOrderItem(): dw.order.ShippingOrderItem;
+      getShippingOrderItem(): ShippingOrderItem;
       /**
        * Gets the tracking info, the shipping order item is assigned to.
        *
@@ -44613,7 +43676,7 @@ declare namespace dw {
          */
         updateShippingOrderItem(
           shippingOrder: dw.order.ShippingOrder,
-          updateItem: dw.order.ShippingOrderItem
+          updateItem: ShippingOrderItem
         ): dw.system.Status;
       }
     }
@@ -45772,24 +44835,6 @@ declare namespace dw {
     }
 
     /**
-     * This class represents a suggested content page.
-     *  Use <a href="class_dw_suggest_SuggestedContent.html#dw_suggest_SuggestedContent_getContent_DetailAnchor">getContent()</a> method to get access to the actual <a href="class_dw_content_Content.html">Content</a> object.
-     */
-    class SuggestedContent {
-      /**
-       * This method returns the actual Content object corresponding to this suggested content.
-       */
-      readonly content: dw.content.Content;
-
-      /**
-       * This method returns the actual Content object corresponding to this suggested content.
-       *
-       * @return the content object corresponding to this suggested content
-       */
-      getContent(): dw.content.Content;
-    }
-
-    /**
      * This class represents a suggested phrase.
      *  Use <a href="class_dw_suggest_SuggestedPhrase.html#dw_suggest_SuggestedPhrase_getPhrase_DetailAnchor">getPhrase()</a> method to get access to the phrase.
      */
@@ -46640,47 +45685,6 @@ declare namespace dw {
     }
 
     /**
-     * Represents a SOAP WebService.
-     */
-    class SOAPService extends dw.svc.Service {
-      /**
-       * The authentication type.
-       */
-      authentication: string;
-      /**
-       * The serviceClient object.
-       */
-      serviceClient: any;
-
-      /**
-       * Returns the authentication type.
-       *
-       * @return Authentication type.
-       */
-      getAuthentication(): string;
-      /**
-       * Returns the serviceClient object.
-       *
-       * @return serviceClient object.
-       */
-      getServiceClient(): any;
-      /**
-       * Sets the type of authentication. Valid values include "BASIC" and "NONE".
-       *
-       *  The default value is BASIC.
-       * @param authentication Type of authentication.
-       * @return this SOAP WebService.
-       */
-      setAuthentication(authentication: string): dw.svc.SOAPService;
-      /**
-       * Sets the serviceClient object. This must be set in the prepareCall method, prior to execute being called.
-       * @param o serviceClient object.
-       * @return this SOAP WebService.
-       */
-      setServiceClient(o: any): dw.svc.SOAPService;
-    }
-
-    /**
      * Represents a SOAP WebService definition.
      */
     class SOAPServiceDefinition extends dw.svc.ServiceDefinition {}
@@ -46802,192 +45806,6 @@ declare namespace dw {
        * @return this Service.
        */
       setURL(url: string): dw.svc.Service;
-    }
-
-    /**
-     * Defines callbacks for use with the <a href="class_dw_svc_LocalServiceRegistry.html">LocalServiceRegistry</a>.
-     *  <p>
-     *  Note this class itself is not used directly, and is present only for documentation of the available callback methods.
-     *  </p><p>
-     *  These methods are called in sequence when a service is called:
-     *  </p><ol>
-     *  <li><a href="class_dw_svc_ServiceCallback.html#dw_svc_ServiceCallback_initServiceClient_Service_DetailAnchor">initServiceClient(Service)</a> -- Creates the underlying client that will be used to make the call. This is
-     *  intended for SOAP Services. Other client types will be created automatically.
-     *  </li><li><a href="class_dw_svc_ServiceCallback.html#dw_svc_ServiceCallback_createRequest_Service_Object_DetailAnchor">createRequest(Service, Object...)</a> -- Given arguments to the <a href="class_dw_svc_Service.html#dw_svc_Service_call_Object_DetailAnchor">Service.call(Object...)</a>, configure
-     *  the actual service request. This may include setting request headers, defining the message body, etc.
-     *  </li><li><a href="class_dw_svc_ServiceCallback.html#dw_svc_ServiceCallback_execute_Service_Object_DetailAnchor">execute(Service, Object)</a> -- Perform the actual request. At this point the client has been configured
-     *  with the relevant credentials, so the call should be made. This is required for SOAP services.
-     *  </li><li><a href="class_dw_svc_ServiceCallback.html#dw_svc_ServiceCallback_parseResponse_Service_Object_DetailAnchor">parseResponse(Service, Object)</a> -- Convert the result of the call into an object to be returned from the
-     *  <a href="class_dw_svc_Service.html#dw_svc_Service_call_Object_DetailAnchor">Service.call(Object...)</a> method.
-     *  </li></ol>
-     *  If the service is mocked (see <a href="class_dw_svc_Service.html#dw_svc_Service_isMock_DetailAnchor">Service.isMock()</a>), then <a href="class_dw_svc_ServiceCallback.html#dw_svc_ServiceCallback_mockFull_Service_Object_DetailAnchor">mockFull(Service, Object...)</a> takes the place
-     *  of this entire sequence. If that is not implemented, then <a href="class_dw_svc_ServiceCallback.html#dw_svc_ServiceCallback_mockCall_Service_Object_DetailAnchor">mockCall(Service, Object)</a> takes the place of just
-     *  the <a href="class_dw_svc_ServiceCallback.html#dw_svc_ServiceCallback_execute_Service_Object_DetailAnchor">execute(Service, Object)</a> method.
-     *  <p>
-     *  The URL, request, and response objects may be logged. To avoid logging sensitive data,
-     *  <a href="class_dw_svc_ServiceCallback.html#dw_svc_ServiceCallback_filterLogMessage_String_DetailAnchor">filterLogMessage(String)</a> and/or <a href="class_dw_svc_ServiceCallback.html#dw_svc_ServiceCallback_getRequestLogMessage_Object_DetailAnchor">getRequestLogMessage(Object)</a> and
-     *  <a href="class_dw_svc_ServiceCallback.html#dw_svc_ServiceCallback_getResponseLogMessage_Object_DetailAnchor">getResponseLogMessage(Object)</a> must be implemented. If they are not implemented then this logging will not be
-     *  done on Production environments.
-     *  </p><p>
-     *  There are some special considerations for the combination of service type and callback:
-     *  <table>
-     *  <tbody><tr><th>
-     *  </th></tr><tr>
-     *  <td>Service Type</td>
-     *  <td>initServiceClient</td>
-     *  <td>createRequest</td>
-     *  <td>execute</td>
-     *  <td>parseResponse</td>
-     *  </tr>
-     *
-     *  <tr>
-     *  <td>HTTP</td>
-     *  <td>Not normally implemented. Must return a <a href="class_dw_net_HTTPClient.html">HTTPClient</a></td>
-     *  <td>Required unless execute is provided. The return value is expected to be either a String or array of
-     *  <a href="class_dw_net_HTTPRequestPart.html">HTTPRequestPart</a>, which will be used as the request body</td>
-     *  <td>Not called unless a boolean &quot;executeOverride:true&quot; is set on the callback. This is a temporary limitation, a
-     *  future release will always call this callback if it is present</td>
-     *  <td>Required unless execute is provided.</td>
-     *  </tr>
-     *  <tr>
-     *  <td>HTTPForm</td>
-     *  <td>Not normally implemented. Must return a <a href="class_dw_net_HTTPClient.html">HTTPClient</a></td>
-     *  <td>Not normally implemented. Default behavior constructs an &quot;application/x-www-form-urlencoded&quot; request based on a
-     *  Map given as an argument.</td>
-     *  <td>Not normally implemented. The same limitations as HTTP regarding the &quot;executeOverride&quot; flag apply here.</td>
-     *  <td>Optional. Default behavior is to return the response body as a String.</td>
-     *  </tr>
-     *  <tr>
-     *  <td>SOAP</td>
-     *  <td>Optional. This must return the Webservice stub or port</td>
-     *  <td>Required. If initServiceClient was not provided, then this function must call
-     *  <a href="class_dw_svc_SOAPService.html#dw_svc_SOAPService_setServiceClient_Object_DetailAnchor">SOAPService.setServiceClient(Object)</a> with the stub or port</td>
-     *  <td>Required. A typical implementation will call the webservice via a method on the service client</td>
-     *  <td>Optional. Default behavior returns the output of execute</td>
-     *  </tr>
-     *  <tr>
-     *  <td>FTP</td>
-     *  <td>Not normally implemented. Must return a <a href="class_dw_net_FTPClient.html">FTPClient</a> or <a href="class_dw_net_SFTPClient.html">SFTPClient</a></td>
-     *  <td>Required unless execute is defined. If present, it should call
-     *  <a href="class_dw_svc_FTPService.html#dw_svc_FTPService_setOperation_String_Object_DetailAnchor">FTPService.setOperation(String, Object...)</a></td>
-     *  <td>Optional. An implementation may call any required methods on the given client. The default implementation calls
-     *  the Operation that was set up and returns the result.</td>
-     *  <td>Optional. Default behavior returns the output of execute</td>
-     *  </tr>
-     *  <tr>
-     *  <td>GENERIC</td>
-     *  <td>Optional.</td>
-     *  <td>Optional.</td>
-     *  <td>Required. The GENERIC type allows any code to be wrapped in the service framework layer, and it&apos;s up to this
-     *  execute method to define what that logic is.</td>
-     *  <td>Optional.</td>
-     *  </tr>
-     *  </tbody></table></p>
-     */
-    class ServiceCallback {
-      /**
-       * Allows overriding the URL provided by the service configuration.
-       *
-       *  It is usually better to call Service.setURL(String) within createRequest(Service, Object...)
-       *  because that allows you to modify the existing URL based on call parameters.
-       */
-      readonly URL: string;
-
-      /**
-       * Creates a request object to be used when calling the service.
-       *
-       *  The type of the object expected is dependent on the service. For example, the HTTPService expects the
-       *  HTTP request body to be returned.
-       *
-       *  This is required unless the execute method is implemented.
-       *
-       *  It is not recommended to have a service accept a single array or list as a parameter, since doing so requires
-       *  some extra work when actually calling the service. See Service.call(Object...) for more details.
-       * @param service Service being executed.
-       * @param params Parameters given to the call method.
-       * @return Request object to give to the execute method.
-       */
-      createRequest(service: dw.svc.Service, ...params: any[]): any;
-      /**
-       * Provides service-specific execution logic.
-       *
-       *  This can be overridden to execute a chain of FTP commands in the FTPService, or perform the actual remote
-       *  call on a webservice stub in the SOAPService.
-       * @param service Service being executed.
-       * @param request Request object returned by createRequest(Service, Object...).
-       * @return Response from the underlying call, to be sent to parseResponse(Service, Object).
-       */
-      execute(service: dw.svc.Service, request: any): any;
-      /**
-       * Allows filtering communication URL, request, and response log messages.
-       *
-       *  If not implemented, then no filtering will be performed and the message will be logged as-is.
-       * @param msg Original log message.
-       * @return Message to be logged.
-       */
-      filterLogMessage(msg: string): string;
-      /**
-       * Creates a communication log message for the given request.
-       *
-       *  If not implemented then the default logic will be used to convert the request into a log message.
-       * @param request Request object.
-       * @return Log message, or null to create and use the default message.
-       */
-      getRequestLogMessage(request: any): string;
-      /**
-       * Creates a response log message for the given request.
-       *
-       *  If not implemented then the default logic will be used to convert the response into a log message.
-       * @param response Response object.
-       * @return Log message, or null to create and use the default message.
-       */
-      getResponseLogMessage(response: any): string;
-      /**
-       * Allows overriding the URL provided by the service configuration.
-       *
-       *  It is usually better to call Service.setURL(String) within createRequest(Service, Object...)
-       *  because that allows you to modify the existing URL based on call parameters.
-       *
-       * @return URL to use. The default behavior is to use the URL from the service configuration.
-       */
-      getURL(): string;
-      /**
-       * Creates a protocol-specific client object.
-       *
-       *  This does not normally need to be implemented, except in the case of SOAP services.
-       *
-       *  Example declaration:
-       *   initServiceClient: function( svc:SOAPService ) {
-       *  }
-       * @param service the Service object.
-       * @return Client object
-       */
-      initServiceClient(service: dw.svc.Service): any;
-      /**
-       * Override this method to mock the remote portion of the service call.
-       *
-       *  Other callbacks like createRequest and parseResponse are still called.
-       * @param service Service being executed.
-       * @param requestObj Request object returned by createRequest(Service, Object...).
-       * @return Mock response, to be sent to parseResponse(Service, Object).
-       */
-      mockCall(service: dw.svc.Service, requestObj: any): any;
-      /**
-       * Override this method to mock the entire service call, including the createRequest, execute, and parseResponse phases.
-       * @param service Service being executed.
-       * @param args Arguments from the Service call method.
-       * @return Object to return in the service call's Result.
-       */
-      mockFull(service: dw.svc.Service, ...args: any[]): any;
-      /**
-       * Creates a response object from a successful service call.
-       *
-       *  This response object will be the output object of the call method's Result.
-       * @param service Service being executed.
-       * @param response Service-specific response object. For example, the HTTPService service provides the underlying HTTPClient object that made the HTTP call.
-       * @return Object to return in the service call's Result.
-       */
-      parseResponse(service: dw.svc.Service, response: any): any;
     }
 
     /**
@@ -50721,6 +49539,10 @@ declare namespace dw {
        *  to a ECMA array of 'products.length'.
        */
       readonly length: number;
+      /**
+       * Returns the value at the specified index.
+       */
+      [index: number]: T;
 
       /**
        * Adds the specified objects to the collection. The method can also
@@ -52959,7 +51781,7 @@ declare namespace dw {
        *  and a value in between like 0 if both are equal.
        * @param comparator an instance of a PropertyComparator or a comparison function
        */
-      constructor(comparator: dw.util.PropertyComparator);
+      constructor(comparator: T);
       /**
        * Constructor for a new SortedSet. The constructor
        *  initializes the SortedSet with the elements of the
@@ -55704,7 +54526,9 @@ declare namespace dw {
        * @param callback a callback function, which takes the field name, content type and original file name as input
        * @return a LinkedHashMap where the keys are the actual file names and the values are references to the File, or null if this is not a multipart request
        */
-      processMultipart(callback: Function): dw.util.LinkedHashMap<any, any>;
+      processMultipart(
+        callback: Function
+      ): dw.util.LinkedHashMap<string, dw.io.File>;
     }
 
     /**
