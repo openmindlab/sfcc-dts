@@ -174,7 +174,7 @@ const mapDetail = ($: CheerioStatic, el: CheerioElement) => {
                       // link: $(el).find("a[href]").attr("href"),
                     },
                     static: isStatic,
-                    readOnly: propertyText.indexOf("Read Only") > 0,
+                    readonly: propertyText.indexOf("Read Only") > 0,
                     description: $(el).find(".description").text().trim(),
                     deprecated: !!$(el).find(".dep").length,
                     type: "property"

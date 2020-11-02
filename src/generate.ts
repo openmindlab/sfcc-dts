@@ -17,7 +17,8 @@ const config: any = {
     Boolean: "boolean",
     Object: "any",
     arguments: "IArguments",
-    Array: "Array"
+    Array: "Array",
+    Module: "NodeModule"
   },
   generics: [
     "dw.util.Collection",
@@ -29,7 +30,10 @@ const config: any = {
     "dw.util.Set",
     "dw.util.SortedSet",
     "dw.web.PagingModel",
-    "Array"
+    "Array",
+    "TopLevel.Array",
+    "dw.object.ExtensibleObject",
+    "dw.object.SimpleExtensible"
   ],
   maps: [
     "dw.util.Map",
@@ -37,6 +41,12 @@ const config: any = {
     "dw.util.LinkedHashMap",
     "dw.util.MapEntry",
     "dw.util.SortedMap"
+  ],
+  extensible: [
+    "dw.object.Extensible",
+    "dw.object.ExtensibleObject",
+    "dw.object.SimpleExtensible",
+    "dw.object.CustomObject"
   ],
   argsMapping: {
     function: "fn",
@@ -101,9 +111,16 @@ const sanitizeValue = (obj: any) => {
 };
 
 const standardDefinition = (element: string): boolean => {
+  // if (element === 'undefined') {
+  //   return true;
+  // }
+  // return false;
   if (element === 'Iterator') {
     return true;
   }
+  // if (element === 'module') {
+  //   return false; // we need this anyway
+  // }
   try {
     eval(element);
     return true;
@@ -127,7 +144,7 @@ const doc = (obj: any) => {
   }
   return `/**\n${description
     .split("\n")
-    .map((line: string) => ` * ${line}`)
+    .map((line: string) => ` * ${line.replace('*/', '*\\/')}`)
     .join("\n")}\n*/\n`;
 };
 
@@ -155,6 +172,9 @@ const generateExportFileForClass = (theClass: any) => {
     packageTokens.shift();
   }
   var className = packageTokens.pop();
+  if (theClass.fullClassName === 'TopLevel.Module') {
+    theClass.fullClassName = 'TopLevel.NodeModule'; // hardcoded remapping to extend existing standard declaration
+  }
 
   var foldersPath = path.join.apply(
     null,
@@ -177,7 +197,7 @@ const generateExportFileForClass = (theClass: any) => {
   );
 };
 
-const generateCodeForClass = (theClass: any) => {
+const generateCodeForClass = (theClass: any, customAttrTypes: Set<string>) => {
   var source = "";
   var packageTokens = theClass.fullClassName.split(".");
   var isTopLevel = false;
@@ -204,9 +224,17 @@ const generateCodeForClass = (theClass: any) => {
       source += doc(theClass);
     }
 
-    source += `${isTopLevel ? 'declare ' : ''}class ${className}${isGeneric ? '<T>' : isMap ? '<K, V>' : ''} `;
+    // hardcoded remapping to extend existing standard declaration
+    source += `${isTopLevel ? 'declare ' : ''}class ${className === 'Module' ? 'NodeModule' : className}${isGeneric ? '<T>' : isMap ? '<K, V>' : ''} `;
     if (theClass.hierarchy.length > 1) {
-      source += `extends ${sanitizeType(theClass.hierarchy.pop().name, null, isGeneric)} `;
+      let hierarchyClass = theClass.hierarchy.pop().name;
+      let generics = null;
+      if (hierarchyClass === 'dw.object.ExtensibleObject') {
+        generics = className + 'CustomAttributes';
+        customAttrTypes.add(className);
+      }
+
+      source += `extends ${sanitizeType(hierarchyClass, generics, isGeneric)} `;
     }
     source += "{\n";
   }
@@ -233,6 +261,11 @@ const generateCodeForClass = (theClass: any) => {
 
         if (!isGeneric) {
           returnType = checkGenerics(returnType, theClass, property);
+        }
+
+        if (!config.extensible.includes(theClass.fullClassName) && property.name === 'custom' && returnType === 'dw.object.CustomAttributes') {
+          returnType = className + 'CustomAttributes';
+          customAttrTypes.add(className);
         }
 
         return `${propSource}${doc(property)}${isGlobal ? 'declare ' : ''}${property.static ? isStatic : ""}${
@@ -275,6 +308,11 @@ const generateCodeForClass = (theClass: any) => {
           returnType = checkGenerics(returnType, theClass, method);
         }
 
+        if (!config.extensible.includes(theClass.fullClassName) && method.name === 'getCustom' && returnType === 'dw.object.CustomAttributes') {
+          returnType = className + 'CustomAttributes';
+          customAttrTypes.add(className);
+        }
+
         return `${methodSource}${doc(method)}${isGlobal ? "declare function " : ""}${method.static && !isGlobal ? isStatic : ""
           }${method.name}(${method.argsSource}): ${returnType};\n`
       },
@@ -291,28 +329,30 @@ const generateCodeForClass = (theClass: any) => {
   return source + "\n";
 };
 
-const generateCode = (pkg: any) =>
+const generateCode = (pkg: any, customAttrTypes: Set<string>) =>
   Object.keys(pkg).reduce((source: string, key: string) => {
     if (!config.exclusions.classes[key] && !(pkg[key].package === 'TopLevel' && standardDefinition(key))) {
       if (pkg[key].fullClassName && !config.exclusions.classes[key]) {
-        source += generateCodeForClass(pkg[key]) + "\n";
+        source += generateCodeForClass(pkg[key], customAttrTypes) + "\n";
       } else {
         source += `
         namespace ${key} {\n`;
-        source += generateCode(pkg[key]);
+        source += generateCode(pkg[key], customAttrTypes);
         source += `}\n`;
       }
     }
     return source;
   }, "");
 
+let customAttrTypes: Set<string> = new Set<string>();
 var source = "";
 //source += "declare global {\n";
-source += generateCodeForClass(sfccApi.api.TopLevel.global);
+source += generateCodeForClass(sfccApi.api.TopLevel.global, customAttrTypes);
 delete sfccApi.api.TopLevel.global;
-source += generateCode(sfccApi.api.TopLevel);
+source += generateCode(sfccApi.api.TopLevel, customAttrTypes);
 source += "declare namespace dw {\n";
-source += generateCode(sfccApi.api.dw);
+source += generateCode(sfccApi.api.dw, customAttrTypes);
+
 source += "}\n";
 //source += "}\n";
 
@@ -326,6 +366,27 @@ catch (e) {
 fs.writeFileSync(
   path.join(basePathGenerated, "index.d.ts"),
   formatted
+);
+
+let customattrsrc = Array.from(customAttrTypes).map(i => `
+/**
+ * Custom attributes for ${i} object.
+ */
+declare class ${i}CustomAttributes {
+  /**
+   * Returns the custom attribute with this name. Throws an exception if attribute is not defined
+   */
+  [name: string]: any;
+}`).join('\n');
+
+fs.writeFileSync(
+  path.join(basePathGenerated, "attrs.d.ts"),
+  prettier.format(customattrsrc, { parser: "typescript" })
+);
+
+fs.writeFileSync(
+  path.join(basePathGenerated, "attrs.txt"),
+  Array.from(customAttrTypes).sort().join('\n')
 );
 
 function checkGenerics(returnType: string, theClass: any, member: any) {

@@ -1,0 +1,45 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "baseUrl": "./",
+    "rootDir": "./",
+    "strictFunctionTypes": false,
+    "strictBindCallApply": false,
+    "typeRoots": [
+      "../@types"
+    ],
+    "paths": {
+      "dw/*": [
+        "../@types/sfcc/dw/*"
+      ]
+    },
+    "plugins": [
+      {
+        "name": "sfcc-dts"
+      }
+    ]
+  },
+  "include": [
+    "*.ts"
+  ],
+  "paths": {
+    "dw/*": [
+      "./node_modules/sfcc-dts/@types/sfcc/dw/*"
+    ],
+    "server": [
+      "cartridges/server"
+    ],
+    "~/*": [
+      "cartridges/aaa/*",
+      "cartridges/bbb/*"
+    ],
+    "aaa/*": [
+      "cartridges/aaa/*"
+    ],
+    "bbb/*": [
+      "cartridges/bbb/*"
+    ]
+  }
+}

@@ -15,7 +15,7 @@ function init(modules: { typescript: typeof import("typescript/lib/tsserverlibra
     ) => {
       moduleNames = moduleNames.map(moduleName => {
         if (moduleName.startsWith('*/')) {
-          const newName = `_star_/${moduleName.substring(2)}`;
+          const newName = `~/${moduleName.substring(2)}`;
           log(`sfccstar transform "${moduleName}" to "${newName}"`);
           return newName;
         }

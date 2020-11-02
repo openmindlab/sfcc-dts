@@ -422,7 +422,7 @@ declare class InternalError extends Error {
  *  var m = new Greeting().getMessage();
  *  </pre>
  */
-declare class Module {
+declare class NodeModule {
   /**
    * The name of the cartridge which contains the module.
    */
@@ -441,7 +441,7 @@ declare class Module {
    *  current module but its code location would be checked later in the lookup sequence. This property is useful to
    *  reuse functionality implemented in overridden modules.
    */
-  superModule: Module;
+  superModule: NodeModule;
 }
 
 /**
@@ -459,11 +459,11 @@ declare class Namespace {
   /**
    * The prefix of the Namespace object.
    */
-  prefix: string;
+  readonly prefix: string;
   /**
    * The Uniform Resource Identifier (URI) of the Namespace object.
    */
-  uri: string;
+  readonly uri: string;
 
   /**
    * Constructs a simple namespace where the
@@ -550,11 +550,11 @@ declare class QName {
   /**
    * The local name of the QName object.
    */
-  localName: string;
+  readonly localName: string;
   /**
    * The Uniform Resource Identifier (URI) of the QName object.
    */
-  uri: string;
+  readonly uri: string;
 
   /**
    * Constructs a QName object where localName
@@ -1417,28 +1417,28 @@ declare namespace dw {
       /**
        * The ID of the referenced alert description.
        */
-      alertDescriptorID: string;
+      readonly alertDescriptorID: string;
       /**
        * The ID of the referenced context object (or null, if no context object is assigned to this alert).
        */
-      contextObjectID: string;
+      readonly contextObjectID: string;
       /**
        * Resolves the display message to be shown.
        *  It refers to the message resource ID specified in the alert descriptor file ("message-resource-id") and the message provided
        *  by the 'alerts.properties' resource bundle.
        *  When the referenced message contains parameter placeholders (such as '{0}' and '{1}') they are replaced by the parameters stored with the alert.
        */
-      displayMessage: string;
+      readonly displayMessage: string;
       /**
        * The priority assigned to the message.
        *  One of the string constants defined in this class (PRIORITY_INFO, PRIORITY_WARN, PRIORITY_ACTION).
        */
-      priority: string;
+      readonly priority: string;
       /**
        * The URL of the page where the user can resolve the alert, as provided in the
        *  'alerts.json' descriptor file.
        */
-      remediationURL: string;
+      readonly remediationURL: string;
 
       /**
        * Returns the ID of the referenced alert description.
@@ -1675,7 +1675,7 @@ declare namespace dw {
       /**
        * Get the test ID for this AB-test.
        */
-      ID: string;
+      readonly ID: string;
 
       /**
        * Get the test ID for this AB-test.
@@ -1693,7 +1693,7 @@ declare namespace dw {
        * Return the AB-test segments to which the current customer is assigned.
        *  AB-test segments deleted in the meantime will not be returned.
        */
-      static assignedTestSegments: dw.util.Collection<
+      static readonly assignedTestSegments: dw.util.Collection<
         dw.campaign.ABTestSegment
       >;
 
@@ -1733,16 +1733,16 @@ declare namespace dw {
       /**
        * Get the AB-test to which this segment belongs.
        */
-      ABTest: dw.campaign.ABTest;
+      readonly ABTest: dw.campaign.ABTest;
       /**
        * Returns true if this is the "control segment" for the AB-test, meaning
        *  the segment that has no experiences associated with it.
        */
-      controlSegment: boolean;
+      readonly controlSegment: boolean;
       /**
        * Get the ID of the AB-test segment.
        */
-      ID: string;
+      readonly ID: string;
 
       /**
        * Get the AB-test to which this segment belongs.
@@ -1773,7 +1773,7 @@ declare namespace dw {
       /**
        * The discount amount, for example 10.00 for a "$10 off" discount.
        */
-      amount: number;
+      readonly amount: number;
 
       /**
        * Create an amount-discount on the fly. Can be used to create a custom price adjustment.
@@ -1818,23 +1818,23 @@ declare namespace dw {
        *  discount. For an order promotion "Get 15% off orders of $100 or more",
        *  the condition threshold is $100.00.
        */
-      conditionThreshold: dw.value.Money;
+      readonly conditionThreshold: dw.value.Money;
       /**
        * The discount that the customer will receive if he adds more merchandise
        *  to the cart. For an order promotion "Get 15% off orders of $100 or more",
        *  the discount is a PercentageDiscount object.
        */
-      discount: dw.campaign.Discount;
+      readonly discount: dw.campaign.Discount;
       /**
        * Convenience method that returns
        *  getConditionThreshold().subtract(getMerchandiseValue())
        */
-      distanceFromConditionThreshold: dw.value.Money;
+      readonly distanceFromConditionThreshold: dw.value.Money;
       /**
        * The amount of merchandise in the cart contributing towards the condition
        *  threshold. This will always be less than the condition threshold.
        */
-      merchandiseTotal: dw.value.Money;
+      readonly merchandiseTotal: dw.value.Money;
 
       /**
        * The amount of merchandise required in the cart in order to receive the
@@ -1895,12 +1895,12 @@ declare namespace dw {
        *  ProductSearchModel.PROMOTION_PRODUCT_TYPE_BONUS and
        *  ProductSearchModel.setPromotionID(String)
        */
-      bonusProducts: dw.util.List<dw.catalog.Product>;
+      readonly bonusProducts: dw.util.List<dw.catalog.Product>;
       /**
        * The maximum number of bonus items that a customer is entitled to
        *  select for this discount.
        */
-      maxBonusItems: number;
+      readonly maxBonusItems: number;
       /**
        * Returns true if this is a "rule based" bonus choice discount.
        *  For such discounts, there is no static list of bonus products
@@ -1914,7 +1914,7 @@ declare namespace dw {
        *  bonus-choice discounts, getBonusProductPrice(Product)
        *  will always return a price of 0.00 for bonus products.
        */
-      ruleBased: boolean;
+      readonly ruleBased: boolean;
 
       /**
        * Get the effective price for the passed bonus product. This is expected to
@@ -1986,7 +1986,7 @@ declare namespace dw {
        * The bonus products associated with this discount that are in
        *  stock, online and assigned to site catalog.
        */
-      bonusProducts: dw.util.Collection<dw.catalog.Product>;
+      readonly bonusProducts: dw.util.Collection<dw.catalog.Product>;
 
       /**
        * Returns the bonus products associated with this discount that are in
@@ -2022,68 +2022,72 @@ declare namespace dw {
      *
      *  A campaign can have list of stores or store groups where it can be applicable to.
      */
-    class Campaign extends dw.object.ExtensibleObject {
+    class Campaign extends dw.object.ExtensibleObject<
+      CampaignCustomAttributes
+    > {
       /**
        * Returns 'true' if the campaign is currently active, otherwise
        *  'false'.
        *  A campaign is active if it is enabled and scheduled for now.
        */
-      active: boolean;
+      readonly active: boolean;
       /**
        * Returns true if campaign is applicable to store, otherwise false.
        */
-      applicableInStore: boolean;
+      readonly applicableInStore: boolean;
       /**
        * Returns true if campaign is applicable to online site, otherwise false.
        */
-      applicableOnline: boolean;
+      readonly applicableOnline: boolean;
       /**
        * The coupons assigned to the campaign.
        */
-      coupons: dw.util.Collection<dw.campaign.Coupon>;
+      readonly coupons: dw.util.Collection<dw.campaign.Coupon>;
       /**
        * The customer groups assigned to the campaign.
        */
-      customerGroups: dw.util.Collection<dw.customer.CustomerGroup>;
+      readonly customerGroups: dw.util.Collection<dw.customer.CustomerGroup>;
       /**
        * The internal description of the campaign.
        */
-      description: string;
+      readonly description: string;
       /**
        * Returns true if campaign is enabled, otherwise false.
        */
-      enabled: boolean;
+      readonly enabled: boolean;
       /**
        * The end date of the campaign. If no end date is defined for the
        *  campaign, null is returned. A campaign w/o end date will run forever.
        */
-      endDate: Date;
+      readonly endDate: Date;
       /**
        * The unique campaign ID.
        */
-      ID: string;
+      readonly ID: string;
       /**
        * Returns promotions defined in this campaign in no particular order.
        */
-      promotions: dw.util.Collection<dw.campaign.Promotion>;
+      readonly promotions: dw.util.Collection<dw.campaign.Promotion>;
       /**
        * The source codes assigned to the campaign.
        */
-      sourceCodeGroups: dw.util.Collection<dw.campaign.SourceCodeGroup>;
+      readonly sourceCodeGroups: dw.util.Collection<
+        dw.campaign.SourceCodeGroup
+      >;
       /**
        * The start date of the campaign. If no start date is defined for the
        *  campaign, null is returned. A campaign w/o start date is immediately
        *  effective.
        */
-      startDate: Date;
+      readonly startDate: Date;
       /**
        * Returns store groups assigned to the campaign.
        */
-      storeGroups: dw.util.Collection<dw.catalog.StoreGroup>;
+      readonly storeGroups: dw.util.Collection<dw.catalog.StoreGroup>;
       /**
        * Returns stores assigned to the campaign.
        */
-      stores: dw.util.Collection<dw.catalog.Store>;
+      readonly stores: dw.util.Collection<dw.catalog.Store>;
 
       /**
        * Returns the coupons assigned to the campaign.
@@ -2187,7 +2191,9 @@ declare namespace dw {
        *
        *  Note that this method does not return any coupon-based promotions.
        */
-      static applicablePromotions: dw.util.Collection<dw.campaign.Promotion>;
+      static readonly applicablePromotions: dw.util.Collection<
+        dw.campaign.Promotion
+      >;
 
       /**
        * This method has been deprecated and should not be used anymore.
@@ -2438,15 +2444,15 @@ declare namespace dw {
        *  If no prefix is defined, or coupon is of type TYPE_SINGLE_CODE
        *  or TYPE_MULTIPLE_CODES, null is returned.
        */
-      codePrefix: string;
+      readonly codePrefix: string;
       /**
        * Returns true if coupon is enabled, else false.
        */
-      enabled: boolean;
+      readonly enabled: boolean;
       /**
        * The ID of the coupon.
        */
-      ID: string;
+      readonly ID: string;
       /**
        * The next unissued code of this coupon.
        *  For single-code coupons, the single fixed coupon code is returned.
@@ -2455,43 +2461,43 @@ declare namespace dw {
        *
        *  A transaction is required when calling this method. This needs to be ensured by the calling script.
        */
-      nextCouponCode: string;
+      readonly nextCouponCode: string;
       /**
        * The coupon-based promotions directly or indirectly (through
        *  campaigns) assigned to this coupon.
        */
-      promotions: dw.util.Collection<dw.campaign.Promotion>;
+      readonly promotions: dw.util.Collection<dw.campaign.Promotion>;
       /**
        * The defined limit on redemption per coupon code. Null is
        *  returned if no limit is defined, which means that each code can be
        *  redeemed an unlimited number of times.
        */
-      redemptionLimitPerCode: number;
+      readonly redemptionLimitPerCode: number;
       /**
        * The defined limit on redemption of this coupon per customer.
        *  Null is returned if no limit is defined, which means that customers can
        *  redeem this coupon an unlimited number of times.
        */
-      redemptionLimitPerCustomer: number;
+      readonly redemptionLimitPerCustomer: number;
       /**
        * The defined limit on redemption per customer per time-frame (see
        *  getRedemptionLimitTimeFrame(). Null is returned if no limit is
        *  defined, which means that there is no time-specific redemption limit for
        *  customers.
        */
-      redemptionLimitPerTimeFrame: number;
+      readonly redemptionLimitPerTimeFrame: number;
       /**
        * The time-frame (in days) of the defined limit on redemption per
        *  customer per time-frame. Null is returned if no limit is defined, which
        *  means that there is no time-specific redemption limit for customers.
        */
-      redemptionLimitTimeFrame: number;
+      readonly redemptionLimitTimeFrame: number;
       /**
        * The coupon type.
        *  Possible values are TYPE_SINGLE_CODE, TYPE_MULTIPLE_CODES
        *  and TYPE_SYSTEM_CODES.
        */
-      type: string;
+      readonly type: string;
 
       /**
        * Returns the prefix defined for coupons of type TYPE_SYSTEM_CODES
@@ -2587,7 +2593,7 @@ declare namespace dw {
       /**
        * All coupons in the current site in no specific order.
        */
-      static coupons: dw.util.Collection<dw.campaign.Coupon>;
+      static readonly coupons: dw.util.Collection<dw.campaign.Coupon>;
 
       /**
        * Returns the coupon with the specified ID.
@@ -2641,15 +2647,15 @@ declare namespace dw {
       /**
        * Returns email of redeeming customer.
        */
-      customerEmail: string;
+      readonly customerEmail: string;
       /**
        * Returns number of the order the code was redeemed with.
        */
-      orderNo: string;
+      readonly orderNo: string;
       /**
        * Returns date of redemption.
        */
-      redemptionDate: Date;
+      readonly redemptionDate: Date;
 
       /**
        * Returns email of redeeming customer.
@@ -2784,18 +2790,18 @@ declare namespace dw {
        *  quantity index to the index of tier of the promotion that item received. For more information about tier indexes,
        *  see getPromotionTier()  method.
        */
-      itemPromotionTiers: dw.util.Map<number, number>;
+      readonly itemPromotionTiers: dw.util.Map<number, number>;
       /**
        * The promotion this discount is based on.
        */
-      promotion: dw.campaign.Promotion;
+      readonly promotion: dw.campaign.Promotion;
       /**
        * The tier index for promotion at order level or bonus product.
        *  Promotion tiers are always evaluated in the order of the highest threshold (e.g. quantity, or amount)
        *  to the lowest threshold. The tier that is evaluated first (i.e. the highest quantity or amount) is indexed as 0,
        *  the next tier 1, etc. The lowest tier will have index n - 1, where n is the total number of tiers.
        */
-      promotionTier: number;
+      readonly promotionTier: number;
       /**
        * The quantity of the discount. This quantity specifies how often
        *  this discount applies to its target object. For example, a 10% off
@@ -2804,11 +2810,11 @@ declare namespace dw {
        *  Discounts of order and shipping promotions, and bonus discounts
        *  have a fix quantity of 1.
        */
-      quantity: number;
+      readonly quantity: number;
       /**
        * The type of the discount.
        */
-      type: string;
+      readonly type: string;
 
       /**
        * Returns the tier index by quantity Id of Product promotion. ProductLineItems may have more than one quantity, but
@@ -2876,22 +2882,24 @@ declare namespace dw {
        *  of compatibility rules) by an order discount already in the DiscountPlan
        *  or an approaching order discount with a lower condition threshold.
        */
-      approachingOrderDiscounts: dw.util.Collection<dw.campaign.Discount>;
+      readonly approachingOrderDiscounts: dw.util.Collection<
+        dw.campaign.Discount
+      >;
       /**
        * All bonus discounts contained in the discount plan.
        */
-      bonusDiscounts: dw.util.Collection<dw.campaign.BonusDiscount>;
+      readonly bonusDiscounts: dw.util.Collection<dw.campaign.BonusDiscount>;
       /**
        * Returns line item container associated with discount plan.
        *  A discount plan is created from and associated with a line item container.
        *  This method returns the line item container associated with this discount plan.
        */
-      lineItemCtnr: dw.order.LineItemCtnr;
+      readonly lineItemCtnr: dw.order.LineItemCtnr;
       /**
        * The percentage and amount order discounts contained in the
        *  discount plan.
        */
-      orderDiscounts: dw.util.Collection<dw.campaign.Discount>;
+      readonly orderDiscounts: dw.util.Collection<dw.campaign.Discount>;
 
       /**
        * Get the collection of order discounts that the LineItemCtnr "almost"
@@ -3048,7 +3056,7 @@ declare namespace dw {
        * The fixed price amount, for example 0.99 for a "Shipping only $0.99"
        *  discount.
        */
-      fixedPrice: number;
+      readonly fixedPrice: number;
 
       /**
        * Create a fixed-price-discount on the fly. Can be used to create a custom price adjustment.
@@ -3074,7 +3082,7 @@ declare namespace dw {
        * The fixed price amount, for example 0.99 for a "Shipping only $0.99"
        *  discount.
        */
-      fixedPrice: number;
+      readonly fixedPrice: number;
 
       /**
        * Create a fixed-price-shipping-discount on the fly. Can be used to create a custom price adjustment.
@@ -3112,7 +3120,7 @@ declare namespace dw {
        * The percentage discount value, for example 10.00 for a "10% off"
        *  discount.
        */
-      percentage: number;
+      readonly percentage: number;
 
       /**
        * Create a percentage-discount on the fly. Can be used to create a custom price adjustment.
@@ -3138,7 +3146,7 @@ declare namespace dw {
        * The percentage discount value, for example 10.00 for a "10% off"
        *  discount.
        */
-      percentage: number;
+      readonly percentage: number;
 
       /**
        * Returns the percentage discount value, for example 10.00 for a "10% off"
@@ -3158,7 +3166,7 @@ declare namespace dw {
       /**
        * The price book identifier.
        */
-      priceBookID: string;
+      readonly priceBookID: string;
 
       /**
        * Returns the price book identifier.
@@ -3192,7 +3200,9 @@ declare namespace dw {
      *  separate &quot;qualifiers&quot;. Qualifiers are the customer groups, source code
      *  groups, or coupons that trigger a given promotion for a customer.</p>
      */
-    class Promotion extends dw.object.ExtensibleObject {
+    class Promotion extends dw.object.ExtensibleObject<
+      PromotionCustomAttributes
+    > {
       /**
        * Constant representing promotion exclusivity of type class.
        */
@@ -3233,31 +3243,31 @@ declare namespace dw {
        *  A promotion is active if its campaign is active, and the promotion
        *  is enabled, and it is scheduled for now.
        */
-      active: boolean;
+      readonly active: boolean;
       /**
        * Returns 'true' if the promotion is triggered by a coupon,
        *  false otherwise.
        */
-      basedOnCoupon: boolean;
+      readonly basedOnCoupon: boolean;
       /**
        * Returns 'true' if the promotion is triggered by coupons,
        *  false otherwise.
        */
-      basedOnCoupons: boolean;
+      readonly basedOnCoupons: boolean;
       /**
        * Returns 'true' if the promotion is triggered by customer groups,
        *  false otherwise.
        */
-      basedOnCustomerGroups: boolean;
+      readonly basedOnCustomerGroups: boolean;
       /**
        * Returns 'true' if the promotion is triggered by source codes,
        *  false otherwise.
        */
-      basedOnSourceCodes: boolean;
+      readonly basedOnSourceCodes: boolean;
       /**
        * The callout message of the promotion.
        */
-      calloutMsg: dw.content.MarkupText;
+      readonly calloutMsg: dw.content.MarkupText;
       /**
        * The campaign this particular instance of the promotion is defined
        *  in.
@@ -3267,12 +3277,12 @@ declare namespace dw {
        *  Campaign. This behavior is required for backwards compatibility and
        *  should not be relied upon as it may change in future releases.
        */
-      campaign: dw.campaign.Campaign;
+      readonly campaign: dw.campaign.Campaign;
       /**
        * The promotion's combinable promotions. Combinable promotions is a set of promotions or groups this
        *  promotion can be combined with.
        */
-      combinablePromotions: string;
+      readonly combinablePromotions: string;
       /**
        * A description of the condition that must be met for this
        *  promotion to be applicable.
@@ -3280,77 +3290,77 @@ declare namespace dw {
        *  The method and the related attribute have been deprecated. Use the
        *  getDetails() method instead.
        */
-      conditionalDescription: dw.content.MarkupText;
+      readonly conditionalDescription: dw.content.MarkupText;
       /**
        * The coupons directly assigned to the promotion or assigned to the campaign of the promotion.
        *  If the promotion is not based on coupons (see isBasedOnCoupons()), or no coupons is assigned to the
        *  promotion or its campaign, an empty collection is returned.
        */
-      coupons: dw.util.Collection<dw.campaign.Coupon>;
+      readonly coupons: dw.util.Collection<dw.campaign.Coupon>;
       /**
        * The custom attributes for this extensible object.
        */
-      custom: dw.object.CustomAttributes;
+      readonly custom: PromotionCustomAttributes;
       /**
        * The customer groups directly assigned to the promotion or assigned to the campaign of the promotion.
        *  If the promotion is not based on customer groups (see isBasedOnCustomerGroups()), or no customer group is assigned to the
        *  promotion or its campaign, an empty collection is returned.
        */
-      customerGroups: dw.util.Collection<dw.customer.CustomerGroup>;
+      readonly customerGroups: dw.util.Collection<dw.customer.CustomerGroup>;
       /**
        * The description of the promotion.
        *
        *  Method is deprecated and returns the same value as getCalloutMsg().
        */
-      description: dw.content.MarkupText;
+      readonly description: dw.content.MarkupText;
       /**
        * The detailed description of the promotion.
        */
-      details: dw.content.MarkupText;
+      readonly details: dw.content.MarkupText;
       /**
        * Returns true if promotion is enabled, otherwise false.
        */
-      enabled: boolean;
+      readonly enabled: boolean;
       /**
        * The effective end date of this instance of the promotion. If no
        *  explicit end date is defined for the promotion, the end date of the
        *  containing Campaign or AB-test is returned.
        */
-      endDate: Date;
+      readonly endDate: Date;
       /**
        * The promotion's exclusivity specifying how the promotion can be
        *  combined with other promotions.
        *  Possible values are EXCLUSIVITY_NO, EXCLUSIVITY_CLASS
        *  and EXCLUSIVITY_GLOBAL.
        */
-      exclusivity: string;
+      readonly exclusivity: string;
       /**
        * The unique ID of the promotion.
        */
-      ID: string;
+      readonly ID: string;
       /**
        * The reference to the promotion image.
        */
-      image: dw.content.MediaFile;
+      readonly image: dw.content.MediaFile;
       /**
        * The date that this object was last modified.
        */
-      lastModified: Date;
+      readonly lastModified: Date;
       /**
        * The promotion's mutually exclusive Promotions. Mutually exclusive Promotions is a set of promotions or
        *  groups this promotion cannot be combined with.
        */
-      mutuallyExclusivePromotions: string;
+      readonly mutuallyExclusivePromotions: string;
       /**
        * The name of the promotion.
        */
-      name: string;
+      readonly name: string;
       /**
        * The promotion class indicating the general type of the promotion.
        *  Possible values are PROMOTION_CLASS_PRODUCT,
        *  PROMOTION_CLASS_ORDER, and PROMOTION_CLASS_SHIPPING.
        */
-      promotionClass: string;
+      readonly promotionClass: string;
       /**
        * The qualifier matching mode specified by this promotion. A
        *  promotion may have up to 3 qualifier conditions based on whether it is
@@ -3366,35 +3376,37 @@ declare namespace dw {
        *  Note: currently QUALIFIER_MATCH_MODE_ALL is only supported for promotions
        *  assigned to campaigns, and not those assigned to AB-tests.
        */
-      qualifierMatchMode: string;
+      readonly qualifierMatchMode: string;
       /**
        * The promotion's rank. Rank is a numeric attribute that you can specify.
        *  Promotions with a defined rank are calculated before promotions without a defined rank.
        *  If two promotions have a rank, the one with the lowest rank is calculated first.
        *  For example, a promotion with rank 10 is calculated before one with rank 30.
        */
-      rank: number;
+      readonly rank: number;
       /**
        * Returns true if promotion is refinable, otherwise false.
        */
-      refinable: boolean;
+      readonly refinable: boolean;
       /**
        * The source code groups directly assigned to the promotion or assigned to the campaign of the promotion.
        *  If the promotion is not based on source code groups (see isBasedOnSourceCodes()), or no source code group is assigned to the
        *  promotion or its campaign, an empty collection is returned.
        */
-      sourceCodeGroups: dw.util.Collection<dw.campaign.SourceCodeGroup>;
+      readonly sourceCodeGroups: dw.util.Collection<
+        dw.campaign.SourceCodeGroup
+      >;
       /**
        * The effective start date of this instance of the promotion. If no
        *  explicit start date is defined for this instance, the start date of the
        *  containing Campaign or AB-test is returned.
        */
-      startDate: Date;
+      readonly startDate: Date;
       /**
        * The promotion's tags. Tags are a way of categorizing and organizing promotions. A promotion can have many
        *  tags. Tags will be returned in alphabetical order.
        */
-      tags: string;
+      readonly tags: string;
 
       /**
        * Returns the callout message of the promotion.
@@ -3443,7 +3455,7 @@ declare namespace dw {
        * Returns the custom attributes for this extensible object.
        *
        */
-      getCustom(): dw.object.CustomAttributes;
+      getCustom(): PromotionCustomAttributes;
       /**
        * Returns the customer groups directly assigned to the promotion or assigned to the campaign of the promotion.
        *  If the promotion is not based on customer groups (see isBasedOnCustomerGroups()), or no customer group is assigned to the
@@ -3736,21 +3748,21 @@ declare namespace dw {
        *  promotions assigned to any customer group of the current customer, the
        *  current source code, or coupons in the current session basket.
        */
-      static activeCustomerPromotions: dw.campaign.PromotionPlan;
+      static readonly activeCustomerPromotions: dw.campaign.PromotionPlan;
       /**
        * All promotions scheduled for now, and applicable for the
        *  session currency but regardless of current customer or source code.
        *  The active promotions are returned in an instance of PromotionPlan.
        */
-      static activePromotions: dw.campaign.PromotionPlan;
+      static readonly activePromotions: dw.campaign.PromotionPlan;
       /**
        * All campaigns of the current site in no specific order.
        */
-      static campaigns: dw.util.Collection<dw.campaign.Campaign>;
+      static readonly campaigns: dw.util.Collection<dw.campaign.Campaign>;
       /**
        * All promotions of the current site in no specific order.
        */
-      static promotions: dw.util.Collection<dw.campaign.Promotion>;
+      static readonly promotions: dw.util.Collection<dw.campaign.Promotion>;
 
       /**
        * Identifies active promotions, calculates the applicable
@@ -3996,19 +4008,19 @@ declare namespace dw {
       /**
        * All order promotions contained in this plan.
        */
-      orderPromotions: dw.util.Collection<dw.campaign.Promotion>;
+      readonly orderPromotions: dw.util.Collection<dw.campaign.Promotion>;
       /**
        * All product promotions contained in this plan.
        */
-      productPromotions: dw.util.Collection<dw.campaign.Promotion>;
+      readonly productPromotions: dw.util.Collection<dw.campaign.Promotion>;
       /**
        * All promotions contained in this plan sorted by exclusivity.
        */
-      promotions: dw.util.Collection<dw.campaign.Promotion>;
+      readonly promotions: dw.util.Collection<dw.campaign.Promotion>;
       /**
        * All shipping promotions contained in this plan.
        */
-      shippingPromotions: dw.util.Collection<dw.campaign.Promotion>;
+      readonly shippingPromotions: dw.util.Collection<dw.campaign.Promotion>;
 
       /**
        * Returns all order promotions contained in this plan.
@@ -4165,13 +4177,13 @@ declare namespace dw {
       /**
        * The callout message for the slot.
        */
-      calloutMsg: dw.content.MarkupText;
+      readonly calloutMsg: dw.content.MarkupText;
       /**
        * A collection of content based on the content type
        *  for the slot. The collection will include one of the following
        *  types: Product, Content, Category, or MarkupText.
        */
-      content: dw.util.Collection<
+      readonly content: dw.util.Collection<
         | dw.catalog.Product
         | dw.content.Content
         | dw.catalog.Category
@@ -4180,15 +4192,15 @@ declare namespace dw {
       /**
        * The custom attributes for the slot.
        */
-      custom: dw.util.Map<string, any>;
+      readonly custom: dw.util.Map<string, any>;
       /**
        * The recommender name for slot configurations of type 'Recommendation'
        */
-      recommenderName: string;
+      readonly recommenderName: string;
       /**
        * The unique slot ID.
        */
-      slotID: string;
+      readonly slotID: string;
 
       /**
        * Returns the callout message for the slot.
@@ -4238,15 +4250,17 @@ declare namespace dw {
      *  The class <a href="class_dw_campaign_SourceCodeInfo.html">SourceCodeInfo</a> represents an individual source
      *  code.
      */
-    class SourceCodeGroup extends dw.object.ExtensibleObject {
+    class SourceCodeGroup extends dw.object.ExtensibleObject<
+      SourceCodeGroupCustomAttributes
+    > {
       /**
        * The ID of the SourceCodeGroup.
        */
-      ID: string;
+      readonly ID: string;
       /**
        * A Collection of PriceBooks the SourceCodeGroup is assigned to.
        */
-      priceBooks: dw.util.Collection<dw.catalog.PriceBook>;
+      readonly priceBooks: dw.util.Collection<dw.catalog.PriceBook>;
 
       /**
        * The ID of the SourceCodeGroup.
@@ -4291,25 +4305,25 @@ declare namespace dw {
       /**
        * The literal source-code.
        */
-      code: string;
+      readonly code: string;
       /**
        * The associated source-code group.
        */
-      group: dw.campaign.SourceCodeGroup;
+      readonly group: dw.campaign.SourceCodeGroup;
       /**
        * Retrieves the redirect information from the last processed SourceCodeGroup (active or inactive). If none exists,
        *  then the redirect information is retrieved from the source-code preferences, based on the active/inactive status
        *  of the SourceCodeGroup. The redirect information is then resolved to the output URL. If the redirect information
        *  cannot be resolved to a URL, or there is an error retrieving the preferences, then null is returned.
        */
-      redirect: dw.web.URLRedirect;
+      readonly redirect: dw.web.URLRedirect;
       /**
        * The status of the source-code.  One of the following:
        *  STATUS_INVALID - The source code is not found in the system.
        *  STATUS_INACTIVE - The source code is found but not active.
        *  STATUS_INACTIVE - The source code is found and active.
        */
-      status: number;
+      readonly status: number;
 
       /**
        * The literal source-code.
@@ -4371,7 +4385,7 @@ declare namespace dw {
       /**
        * The total fixed price amount.
        */
-      totalFixedPrice: number;
+      readonly totalFixedPrice: number;
 
       /**
        * Returns the total fixed price amount.
@@ -4417,25 +4431,25 @@ declare namespace dw {
      *  shared variation attributes which can be used by multiple master products,
      *  and shared product options which can be used by multiple option products.</p>
      */
-    class Catalog extends dw.object.ExtensibleObject {
+    class Catalog extends dw.object.ExtensibleObject<CatalogCustomAttributes> {
       /**
        * The value of the localized extensible object attribute
        *  "shortDescription" for the current locale.
        */
-      description: string;
+      readonly description: string;
       /**
        * The value of the localized extensible object attribute
        *  "displayName" for the current locale.
        */
-      displayName: string;
+      readonly displayName: string;
       /**
        * The value of attribute 'id'.
        */
-      ID: string;
+      readonly ID: string;
       /**
        * The object for the relation 'root'.
        */
-      root: dw.catalog.Category;
+      readonly root: dw.catalog.Category;
 
       /**
        * Returns the value of the localized extensible object attribute
@@ -4472,15 +4486,15 @@ declare namespace dw {
       /**
        * The catalog of the current site or null if no catalog is assigned to the site.
        */
-      static siteCatalog: dw.catalog.Catalog;
+      static readonly siteCatalog: dw.catalog.Catalog;
       /**
        * A list containing the sorting options configured for this site.
        */
-      static sortingOptions: dw.util.List<dw.catalog.SortingOption>;
+      static readonly sortingOptions: dw.util.List<dw.catalog.SortingOption>;
       /**
        * A collection containing all of the sorting rules for this site, including global sorting rules.
        */
-      static sortingRules: dw.util.Collection<dw.catalog.SortingRule>;
+      static readonly sortingRules: dw.util.Collection<dw.catalog.SortingRule>;
 
       /**
        * Returns the catalog identified by the specified catalog id.
@@ -4535,7 +4549,9 @@ declare namespace dw {
     /**
      * Represents a category in a product catalog.
      */
-    class Category extends dw.object.ExtensibleObject {
+    class Category extends dw.object.ExtensibleObject<
+      CategoryCustomAttributes
+    > {
       /**
        * Constant representing the Variation Group Display Mode individual setting.
        */
@@ -4549,11 +4565,15 @@ declare namespace dw {
        * All outgoing recommendations for this category.  The
        *  recommendations are sorted by their explicitly set order.
        */
-      allRecommendations: dw.util.Collection<dw.catalog.Recommendation>;
+      readonly allRecommendations: dw.util.Collection<
+        dw.catalog.Recommendation
+      >;
       /**
        * A collection of category assignments of the category.
        */
-      categoryAssignments: dw.util.Collection<dw.catalog.CategoryAssignment>;
+      readonly categoryAssignments: dw.util.Collection<
+        dw.catalog.CategoryAssignment
+      >;
       /**
        * The default sorting rule configured for this category,
        *  or null if there is no default rule to be applied for it.
@@ -4565,11 +4585,11 @@ declare namespace dw {
        *  This method returns null if no ancestor category for this
        *  category has a default rule.
        */
-      defaultSortingRule: dw.catalog.SortingRule;
+      readonly defaultSortingRule: dw.catalog.SortingRule;
       /**
        * The description of the catalog category for the current locale.
        */
-      description: string;
+      readonly description: string;
       /**
        * The Variation Groups Display Mode of the category or null if no display mode is defined.
        */
@@ -4580,28 +4600,30 @@ declare namespace dw {
        *  This value is intended to be used as the
        *  external visible name of the catalog category.
        */
-      displayName: string;
+      readonly displayName: string;
       /**
        * The id of the category.
        */
-      ID: string;
+      readonly ID: string;
       /**
        * The image reference of this catalog category.
        */
-      image: dw.content.MediaFile;
+      readonly image: dw.content.MediaFile;
       /**
        * The collection of CategoryLink objects for which this category
        *  is the target.  If the source category of a link belongs to a different
        *  catalog than the catalog owning this category, it is not returned.
        */
-      incomingCategoryLinks: dw.util.Collection<dw.catalog.CategoryLink>;
+      readonly incomingCategoryLinks: dw.util.Collection<
+        dw.catalog.CategoryLink
+      >;
       /**
        * The value indicating whether the catalog category is "currently
        *  online".  A category is currently online if its online flag equals true
        *  and the current site date is within the date range defined by the
        *  onlineFrom and onlineTo attributes.
        */
-      online: boolean;
+      readonly online: boolean;
       /**
        * A collection of category assignments of the category where the
        *  referenced product is currently online. When checking the online status
@@ -4609,17 +4631,17 @@ declare namespace dw {
        *  into account. Online flag, online from & to dates set for the current site
        *  takes precedence over the default values.
        */
-      onlineCategoryAssignments: dw.util.Collection<
+      readonly onlineCategoryAssignments: dw.util.Collection<
         dw.catalog.CategoryAssignment
       >;
       /**
        * The online status flag of the category.
        */
-      onlineFlag: boolean;
+      readonly onlineFlag: boolean;
       /**
        * The date from which the category is online or valid.
        */
-      onlineFrom: Date;
+      readonly onlineFrom: Date;
       /**
        * The collection of CategoryLink objects for
        *  which this category is the target. If the source category of a link
@@ -4629,7 +4651,9 @@ declare namespace dw {
        *  its online flag equals true and the current site date is within the date
        *  range defined by the onlineFrom and onlineTo attributes.
        */
-      onlineIncomingCategoryLinks: dw.util.Collection<dw.catalog.CategoryLink>;
+      readonly onlineIncomingCategoryLinks: dw.util.Collection<
+        dw.catalog.CategoryLink
+      >;
       /**
        * The collection of CategoryLink objects for
        *  which this category is the source. If the target category of a link
@@ -4639,7 +4663,9 @@ declare namespace dw {
        *  its online flag equals true and the current site date is within the date
        *  range defined by the onlineFrom and onlineTo attributes.
        */
-      onlineOutgoingCategoryLinks: dw.util.Collection<dw.catalog.CategoryLink>;
+      readonly onlineOutgoingCategoryLinks: dw.util.Collection<
+        dw.catalog.CategoryLink
+      >;
       /**
        * Returns online products assigned to this category.
        *  Offline products are not included in the returned collection.
@@ -4651,7 +4677,7 @@ declare namespace dw {
        *  The order of products in the returned collection corresponds to the
        *  defined explicit sorting of products in this category.
        */
-      onlineProducts: dw.util.Collection<dw.catalog.Product>;
+      readonly onlineProducts: dw.util.Collection<dw.catalog.Product>;
       /**
        * A sorted collection of currently online subcategories of this
        *  catalog category.
@@ -4669,18 +4695,20 @@ declare namespace dw {
        *
        *     The returned collection contains direct subcategories only.
        */
-      onlineSubCategories: dw.util.Collection<dw.catalog.Category>;
+      readonly onlineSubCategories: dw.util.Collection<dw.catalog.Category>;
       /**
        * The date until which the category is online or valid.
        */
-      onlineTo: Date;
+      readonly onlineTo: Date;
       /**
        * A list of outgoing recommendations for this category. This method
        *  behaves similarly to getRecommendations() but additionally filters out
        *  recommendations for which the target product is unorderable according to
        *  its product availability model.
        */
-      orderableRecommendations: dw.util.Collection<dw.catalog.Recommendation>;
+      readonly orderableRecommendations: dw.util.Collection<
+        dw.catalog.Recommendation
+      >;
       /**
        * The collection of CategoryLink objects for which this category
        *  is the source.  If the target category of a link belongs to a different
@@ -4688,40 +4716,42 @@ declare namespace dw {
        *  The collection of links is sorted by the explicitly defined order
        *  for this category with unsorted links appearing at the end.
        */
-      outgoingCategoryLinks: dw.util.Collection<dw.catalog.CategoryLink>;
+      readonly outgoingCategoryLinks: dw.util.Collection<
+        dw.catalog.CategoryLink
+      >;
       /**
        * The page description of this category for the default locale or null if not defined.
        */
-      pageDescription: string;
+      readonly pageDescription: string;
       /**
        * The page keywords of this category for the default locale or null if not defined.
        */
-      pageKeywords: string;
+      readonly pageKeywords: string;
       /**
        * The page title of this category for the default locale or null if not defined.
        */
-      pageTitle: string;
+      readonly pageTitle: string;
       /**
        * The page URL property of this category or null if not defined.
        */
-      pageURL: string;
+      readonly pageURL: string;
       /**
        * The parent of this category.
        */
-      parent: dw.catalog.Category;
+      readonly parent: dw.catalog.Category;
       /**
        * Returns this category's ProductAttributeModel, which makes access to the
        *  category's attribute information convenient. The model is calculated
        *  based on the attribute definitions assigned to this category and the
        *  global attribute definitions for the object type 'Product'.
        */
-      productAttributeModel: dw.catalog.ProductAttributeModel;
+      readonly productAttributeModel: dw.catalog.ProductAttributeModel;
       /**
        * All products assigned to this category.
        *  The order of products in the returned collection corresponds to the
        *  defined explicit sorting of products in this category.
        */
-      products: dw.util.Collection<dw.catalog.Product>;
+      readonly products: dw.util.Collection<dw.catalog.Product>;
       /**
        * The outgoing recommendations for this category.  If this category
        *  is not in the site catalog, or there is no site catalog, an empty
@@ -4729,11 +4759,11 @@ declare namespace dw {
        *  product exists and is assigned to the site catalog are returned.  The
        *  recommendations are sorted by their explicitly set order.
        */
-      recommendations: dw.util.Collection<dw.catalog.Recommendation>;
+      readonly recommendations: dw.util.Collection<dw.catalog.Recommendation>;
       /**
        * Identifies if the category is the root category of its catalog.
        */
-      root: boolean;
+      readonly root: boolean;
       /**
        * The search placement of the category or null of no search placement is defined.
        */
@@ -4745,15 +4775,15 @@ declare namespace dw {
       /**
        * The category's sitemap change frequency.
        */
-      siteMapChangeFrequency: string;
+      readonly siteMapChangeFrequency: string;
       /**
        * The category's sitemap inclusion.
        */
-      siteMapIncluded: number;
+      readonly siteMapIncluded: number;
       /**
        * The category's sitemap priority.
        */
-      siteMapPriority: number;
+      readonly siteMapPriority: number;
       /**
        * A sorted collection of the subcategories of this catalog category,
        *  including both online and offline subcategories.
@@ -4766,21 +4796,21 @@ declare namespace dw {
        *
        *    The returned collection contains direct subcategories only.
        */
-      subCategories: dw.util.Collection<dw.catalog.Category>;
+      readonly subCategories: dw.util.Collection<dw.catalog.Category>;
       /**
        * The template property value , which is the file name of the template
        *  used to display the catalog category.
        */
-      template: string;
+      readonly template: string;
       /**
        * The thumbnail image reference of this catalog category.
        */
-      thumbnail: dw.content.MediaFile;
+      readonly thumbnail: dw.content.MediaFile;
       /**
        * Returns true if the category is a top level category, but not the root
        *  category.
        */
-      topLevel: boolean;
+      readonly topLevel: boolean;
 
       /**
        * Returns all outgoing recommendations for this category.  The
@@ -5215,35 +5245,37 @@ declare namespace dw {
     /**
      * Represents a category assignment in Commerce Cloud Digital.
      */
-    class CategoryAssignment extends dw.object.ExtensibleObject {
+    class CategoryAssignment extends dw.object.ExtensibleObject<
+      CategoryAssignmentCustomAttributes
+    > {
       /**
        * The category assignment's callout message in the current locale.
        */
-      calloutMsg: dw.content.MarkupText;
+      readonly calloutMsg: dw.content.MarkupText;
       /**
        * The category to which this category assignment is bound.
        */
-      category: dw.catalog.Category;
+      readonly category: dw.catalog.Category;
       /**
        * The category assignment's image.
        */
-      image: dw.content.MediaFile;
+      readonly image: dw.content.MediaFile;
       /**
        * The category assignment's long description in the current locale.
        */
-      longDescription: dw.content.MarkupText;
+      readonly longDescription: dw.content.MarkupText;
       /**
        * The name of the category assignment in the current locale.
        */
-      name: string;
+      readonly name: string;
       /**
        * The product to which this category assignment is bound.
        */
-      product: dw.catalog.Product;
+      readonly product: dw.catalog.Product;
       /**
        * The category assignment's short description in the current locale.
        */
-      shortDescription: dw.content.MarkupText;
+      readonly shortDescription: dw.content.MarkupText;
 
       /**
        * Returns the category assignment's callout message in the current locale.
@@ -5319,15 +5351,15 @@ declare namespace dw {
       /**
        * The object for the relation 'sourceCategory'.
        */
-      sourceCategory: dw.catalog.Category;
+      readonly sourceCategory: dw.catalog.Category;
       /**
        * The object for the relation 'targetCategory'.
        */
-      targetCategory: dw.catalog.Category;
+      readonly targetCategory: dw.catalog.Category;
       /**
        * The type of this category link (see constants).
        */
-      typeCode: number;
+      readonly typeCode: number;
 
       /**
        * Returns the object for the relation 'sourceCategory'.
@@ -5352,45 +5384,47 @@ declare namespace dw {
     /**
      * Represents a price book.
      */
-    class PriceBook extends dw.object.ExtensibleObject {
+    class PriceBook extends dw.object.ExtensibleObject<
+      PriceBookCustomAttributes
+    > {
       /**
        * The currency code of the price book.
        */
-      currencyCode: string;
+      readonly currencyCode: string;
       /**
        * The description of the price book.
        */
-      description: string;
+      readonly description: string;
       /**
        * The display name of the price book.
        */
-      displayName: string;
+      readonly displayName: string;
       /**
        * The ID of the price book.
        */
-      ID: string;
+      readonly ID: string;
       /**
        * The online status of the price book. The online status
        *  is calculated from the online status flag and the onlineFrom
        *  onlineTo dates defined for the price book.
        */
-      online: boolean;
+      readonly online: boolean;
       /**
        * The online status flag of the price book.
        */
-      onlineFlag: boolean;
+      readonly onlineFlag: boolean;
       /**
        * The date from which the price book is online or valid.
        */
-      onlineFrom: Date;
+      readonly onlineFrom: Date;
       /**
        * The date until which the price book is online or valid.
        */
-      onlineTo: Date;
+      readonly onlineTo: Date;
       /**
        * The parent price book.
        */
-      parentPriceBook: dw.catalog.PriceBook;
+      readonly parentPriceBook: dw.catalog.PriceBook;
 
       /**
        * Returns the currency code of the price book.
@@ -5457,7 +5491,7 @@ declare namespace dw {
       /**
        * All price books defined for the organization.
        */
-      static allPriceBooks: dw.util.Collection<dw.catalog.PriceBook>;
+      static readonly allPriceBooks: dw.util.Collection<dw.catalog.PriceBook>;
       /**
        * A collection of price books that are set in the user session.
        */
@@ -5468,7 +5502,7 @@ declare namespace dw {
        *  Please note that this doesn't include parent price books not assigned
        *  to the site, but considered by the price lookup.
        */
-      static sitePriceBooks: dw.util.Collection<dw.catalog.PriceBook>;
+      static readonly sitePriceBooks: dw.util.Collection<dw.catalog.PriceBook>;
 
       /**
        * Returns all price books defined for the organization.
@@ -5558,27 +5592,31 @@ declare namespace dw {
      *  <a href="class_dw_catalog_Variant.html">Variant</a> for variant products. This subclass contains
      *  methods which are specific to this type of product.</p>
      */
-    class Product extends dw.object.ExtensibleObject {
+    class Product extends dw.object.ExtensibleObject<ProductCustomAttributes> {
       /**
        * The active data for this product, for the current site.
        */
-      activeData: dw.catalog.ProductActiveData;
+      readonly activeData: dw.catalog.ProductActiveData;
       /**
        * A collection of all categories to which this product is assigned.
        */
-      allCategories: dw.util.Collection<dw.catalog.Category>;
+      readonly allCategories: dw.util.Collection<dw.catalog.Category>;
       /**
        * All category assignments for this product in any catalog.
        */
-      allCategoryAssignments: dw.util.Collection<dw.catalog.CategoryAssignment>;
+      readonly allCategoryAssignments: dw.util.Collection<
+        dw.catalog.CategoryAssignment
+      >;
       /**
        * All incoming ProductLinks.
        */
-      allIncomingProductLinks: dw.util.Collection<dw.catalog.ProductLink>;
+      readonly allIncomingProductLinks: dw.util.Collection<
+        dw.catalog.ProductLink
+      >;
       /**
        * All outgoing ProductLinks.
        */
-      allProductLinks: dw.util.Collection<dw.catalog.ProductLink>;
+      readonly allProductLinks: dw.util.Collection<dw.catalog.ProductLink>;
       /**
        * Returns true if the product is assigned to the current site (via the site catalog), otherwise
        *  false is returned.
@@ -5587,7 +5625,7 @@ declare namespace dw {
        *  variation groups it is in or itself is assigned to the site catalog. In case this is triggered for a variation
        *  group the variation group is considered as assigned if its master or itself is assigned.
        */
-      assignedToSiteCatalog: boolean;
+      readonly assignedToSiteCatalog: boolean;
       /**
        * Returns this product's ProductAttributeModel, which makes access to the
        *  product attribute information convenient. The model is calculated based
@@ -5599,16 +5637,16 @@ declare namespace dw {
        *  attribute model is calculated based on the classification category of its
        *  corresponding master product.
        */
-      attributeModel: dw.catalog.ProductAttributeModel;
+      readonly attributeModel: dw.catalog.ProductAttributeModel;
       /**
        * The availability model, which can be used to determine availability
        *  information for a product.
        */
-      availabilityModel: dw.catalog.ProductAvailabilityModel;
+      readonly availabilityModel: dw.catalog.ProductAvailabilityModel;
       /**
        * Identifies if the product is available.
        */
-      available: boolean;
+      readonly available: boolean;
       /**
        * Identifies if the product is available.
        */
@@ -5616,40 +5654,42 @@ declare namespace dw {
       /**
        * The Brand of the product.
        */
-      brand: string;
+      readonly brand: string;
       /**
        * Identifies if this product instance is a product bundle.
        */
-      bundle: boolean;
+      readonly bundle: boolean;
       /**
        * Identifies if this product instance is bundled within at least one
        *  product bundle.
        */
-      bundled: boolean;
+      readonly bundled: boolean;
       /**
        * A collection containing all products that participate in the
        *  product bundle.
        */
-      bundledProducts: dw.util.Collection<dw.catalog.Product>;
+      readonly bundledProducts: dw.util.Collection<dw.catalog.Product>;
       /**
        * A collection of all bundles in which this product is included.
        *  The method only returns bundles assigned to the current site.
        */
-      bundles: dw.util.Collection<dw.catalog.Product>;
+      readonly bundles: dw.util.Collection<dw.catalog.Product>;
       /**
        * A collection of all categories to which this product is assigned
        *  and which are also available through the current site.
        */
-      categories: dw.util.Collection<dw.catalog.Category>;
+      readonly categories: dw.util.Collection<dw.catalog.Category>;
       /**
        * Identifies if this product is bound to at least one catalog category.
        */
-      categorized: boolean;
+      readonly categorized: boolean;
       /**
        * A collection of category assignments for this product in
        *  the current site catalog.
        */
-      categoryAssignments: dw.util.Collection<dw.catalog.CategoryAssignment>;
+      readonly categoryAssignments: dw.util.Collection<
+        dw.catalog.CategoryAssignment
+      >;
       /**
        * The classification category associated with this Product. A
        *  product has a single classification category which may or may not be in
@@ -5657,57 +5697,57 @@ declare namespace dw {
        *  of the product. See getAttributeModel() for
        *  how the classification category is used.
        */
-      classificationCategory: dw.catalog.Category;
+      readonly classificationCategory: dw.catalog.Category;
       /**
        * The European Article Number of the product.
        */
-      EAN: string;
+      readonly EAN: string;
       /**
        * Identifies if the product is Facebook enabled.
        */
-      facebookEnabled: boolean;
+      readonly facebookEnabled: boolean;
       /**
        * The ID of the product.
        */
-      ID: string;
+      readonly ID: string;
       /**
        * The product's image.
        */
-      image: dw.content.MediaFile;
+      readonly image: dw.content.MediaFile;
       /**
        * Returns incoming ProductLinks, where the source product is a site product.
        */
-      incomingProductLinks: dw.util.Collection<dw.catalog.ProductLink>;
+      readonly incomingProductLinks: dw.util.Collection<dw.catalog.ProductLink>;
       /**
        * The product's long description in the current locale.
        */
-      longDescription: dw.content.MarkupText;
+      readonly longDescription: dw.content.MarkupText;
       /**
        * The name of the product manufacturer.
        */
-      manufacturerName: string;
+      readonly manufacturerName: string;
       /**
        * The value of the manufacturer's stock keeping unit.
        */
-      manufacturerSKU: string;
+      readonly manufacturerSKU: string;
       /**
        * Identifies if this product instance is a product master.
        */
-      master: boolean;
+      readonly master: boolean;
       /**
        * The minimum order quantity for this product.
        */
-      minOrderQuantity: dw.value.Quantity;
+      readonly minOrderQuantity: dw.value.Quantity;
       /**
        * The name of the product in the current locale.
        */
-      name: string;
+      readonly name: string;
       /**
        * The online status of the product. The online status
        *  is calculated from the online status flag and the onlineFrom
        *  onlineTo dates defined for the product.
        */
-      online: boolean;
+      readonly online: boolean;
       /**
        * A collection of all currently online categories to which this
        *  product is assigned and which are also available through the current
@@ -5715,44 +5755,46 @@ declare namespace dw {
        *  the current site date is within the date range defined by the onlineFrom
        *  and onlineTo attributes.
        */
-      onlineCategories: dw.util.Collection<dw.catalog.Category>;
+      readonly onlineCategories: dw.util.Collection<dw.catalog.Category>;
       /**
        * The online status flag of the product.
        */
-      onlineFlag: boolean;
+      readonly onlineFlag: boolean;
       /**
        * The date from which the product is online or valid.
        */
-      onlineFrom: Date;
+      readonly onlineFrom: Date;
       /**
        * The date until which the product is online or valid.
        */
-      onlineTo: Date;
+      readonly onlineTo: Date;
       /**
        * The product's option model. The option values selections are
        *  initialized with the values defined for the product, or the default values
        *  defined for the option.
        */
-      optionModel: dw.catalog.ProductOptionModel;
+      readonly optionModel: dw.catalog.ProductOptionModel;
       /**
        * Identifies if the product has options.
        */
-      optionProduct: boolean;
+      readonly optionProduct: boolean;
       /**
        * A list of outgoing recommendations for this product. This method
        *  behaves similarly to getRecommendations() but additionally filters out
        *  recommendations for which the target product is unorderable according to
        *  its product availability model.
        */
-      orderableRecommendations: dw.util.Collection<dw.catalog.Recommendation>;
+      readonly orderableRecommendations: dw.util.Collection<
+        dw.catalog.Recommendation
+      >;
       /**
        * Returns product's page description in the default locale.
        */
-      pageDescription: string;
+      readonly pageDescription: string;
       /**
        * The product's page keywords in the default locale.
        */
-      pageKeywords: string;
+      readonly pageKeywords: string;
       /**
        * All page meta tags, defined for this instance for which content can be generated.
        *
@@ -5760,64 +5802,64 @@ declare namespace dw {
        *  obtained from the current product context or inherited from variation groups, master product, the primary
        *  category, up to the root category.
        */
-      pageMetaTags: Array<dw.web.PageMetaTag>;
+      readonly pageMetaTags: Array<dw.web.PageMetaTag>;
       /**
        * The product's page title in the default locale.
        */
-      pageTitle: string;
+      readonly pageTitle: string;
       /**
        * The product's page URL in the default locale.
        */
-      pageURL: string;
+      readonly pageURL: string;
       /**
        * Identifies if the product is Pinterest enabled.
        */
-      pinterestEnabled: boolean;
+      readonly pinterestEnabled: boolean;
       /**
        * The price model, which can be used to retrieve a price
        *  for this product.
        */
-      priceModel: dw.catalog.ProductPriceModel;
+      readonly priceModel: dw.catalog.ProductPriceModel;
       /**
        * The primary category of the product within the current site catalog.
        */
-      primaryCategory: dw.catalog.Category;
+      readonly primaryCategory: dw.catalog.Category;
       /**
        * The category assignment to the primary category in the current site
        *  catalog or null if no primary category is defined within the current site
        *  catalog.
        */
-      primaryCategoryAssignment: dw.catalog.CategoryAssignment;
+      readonly primaryCategoryAssignment: dw.catalog.CategoryAssignment;
       /**
        * Returns 'true' if the instance represents a product. Returns 'false' if
        *  the instance represents a product set.
        */
-      product: boolean;
+      readonly product: boolean;
       /**
        * All outgoing ProductLinks, where the target product is also
        *  available in the current site. The ProductLinks are unsorted.
        */
-      productLinks: dw.util.Collection<dw.catalog.ProductLink>;
+      readonly productLinks: dw.util.Collection<dw.catalog.ProductLink>;
       /**
        * Returns 'true' if the instance represents a product set, otherwise 'false'.
        */
-      productSet: boolean;
+      readonly productSet: boolean;
       /**
        * Returns true if this product is part of any product set, otherwise false.
        */
-      productSetProduct: boolean;
+      readonly productSetProduct: boolean;
       /**
        * A collection of all products which are assigned to this product
        *  and which are also available through the current site.  If this product
        *  does not represent a product set then an empty collection will be
        *  returned.
        */
-      productSetProducts: dw.util.Collection<dw.catalog.Product>;
+      readonly productSetProducts: dw.util.Collection<dw.catalog.Product>;
       /**
        * A collection of all product sets in which this product is included.
        *  The method only returns product sets assigned to the current site.
        */
-      productSets: dw.util.Collection<dw.catalog.Product>;
+      readonly productSets: dw.util.Collection<dw.catalog.Product>;
       /**
        * The outgoing recommendations for this product which
        *  belong to the site catalog.  If this product is not assigned to the site
@@ -5826,25 +5868,25 @@ declare namespace dw {
        *  to the site catalog are returned.  The recommendations are sorted by
        *  their explicitly set order.
        */
-      recommendations: dw.util.Collection<dw.catalog.Recommendation>;
+      readonly recommendations: dw.util.Collection<dw.catalog.Recommendation>;
       /**
        * Identifies if this product instance is part of a retail set.
        */
-      retailSet: boolean;
+      readonly retailSet: boolean;
       /**
        * Identifies if the product is searchable.
        */
-      searchable: boolean;
+      readonly searchable: boolean;
       /**
        * Returns, whether the product is currently searchable.
        */
-      searchableFlag: boolean;
+      readonly searchableFlag: boolean;
       /**
        * The searchable status of the Product if unavailable.
        *
        *  Besides true or false, the return value null indicates that the value is not set.
        */
-      searchableIfUnavailableFlag: boolean;
+      readonly searchableIfUnavailableFlag: boolean;
       /**
        * The product's search placement classification. The higher the
        *  numeric product placement value, the more relevant is the product when
@@ -5852,73 +5894,82 @@ declare namespace dw {
        *  defined in the meta data of object type 'Product' and can therefore be
        *  customized.
        */
-      searchPlacement: number;
+      readonly searchPlacement: number;
       /**
        * The product's search rank. The higher the numeric product rank,
        *  the more relevant is the product when sorting search results. The range of
        *  numeric rank values is defined in the meta data of object type 'Product'
        *  and can therefore be customized.
        */
-      searchRank: number;
+      readonly searchRank: number;
       /**
        * The product's short description in the current locale.
        */
-      shortDescription: dw.content.MarkupText;
+      readonly shortDescription: dw.content.MarkupText;
       /**
        * The product's change frequency needed for the sitemap creation.
        */
-      siteMapChangeFrequency: string;
+      readonly siteMapChangeFrequency: string;
       /**
        * The status if the product is included into the sitemap.
        */
-      siteMapIncluded: number;
+      readonly siteMapIncluded: number;
       /**
        * The product's priority needed for the sitemap creation.
        */
-      siteMapPriority: number;
+      readonly siteMapPriority: number;
       /**
        * Returns 'true' if the product is assigned to the current site (via the
        *  site catalog), otherwise 'false' is returned.
        */
-      siteProduct: boolean;
+      readonly siteProduct: boolean;
       /**
        * The steps in which the order amount of the product can be
        *  increased.
        */
-      stepQuantity: dw.value.Quantity;
+      readonly stepQuantity: dw.value.Quantity;
       /**
        * The store receipt name of the product in the current locale.
        */
-      storeReceiptName: string;
+      readonly storeReceiptName: string;
       /**
        * The store tax class ID.
        *  This is an optional override for in-store tax calculation.
        */
-      storeTaxClass: string;
+      readonly storeTaxClass: string;
       /**
-       * The ID of the product's tax class.
+       * The ID of the product's tax class, by resolving
+       *  the Global Preference setting selected. If the Localized
+       *  Tax Class setting under Global Preferences -> Products is
+       *  selected, the localizedTaxClassID attribute value will be
+       *  returned, else the legacy taxClassID attribute value will
+       *  be returned.
        */
-      taxClassID: string;
+      readonly taxClassID: string;
       /**
        * The name of the product's rendering template.
        */
-      template: string;
+      readonly template: string;
       /**
        * The product's thumbnail image.
        */
-      thumbnail: dw.content.MediaFile;
+      readonly thumbnail: dw.content.MediaFile;
       /**
        * The product's sales unit.
        */
-      unit: string;
+      readonly unit: string;
+      /**
+       * The product's unit quantity.
+       */
+      readonly unitQuantity: dw.value.Quantity;
       /**
        * The Universal Product Code of the product.
        */
-      UPC: string;
+      readonly UPC: string;
       /**
        * Identifies if this product instance is mastered by a product master.
        */
-      variant: boolean;
+      readonly variant: boolean;
       /**
        * A collection of all variants assigned to this variation master
        *  or variation group product. All variants are returned regardless of whether
@@ -5927,11 +5978,11 @@ declare namespace dw {
        *  If this product does not represent a variation master or variation group
        *  product then an empty collection is returned.
        */
-      variants: dw.util.Collection<dw.catalog.Variant>;
+      readonly variants: dw.util.Collection<dw.catalog.Variant>;
       /**
        * Identifies if this product instance is a variation group product.
        */
-      variationGroup: boolean;
+      readonly variationGroup: boolean;
       /**
        * A collection of all variation groups assigned to this variation
        *  master product. All variation groups are returned regardless of whether
@@ -5940,7 +5991,7 @@ declare namespace dw {
        *  If this product does not represent a variation master product then an
        *  empty collection is returned.
        */
-      variationGroups: dw.util.Collection<dw.catalog.VariationGroup>;
+      readonly variationGroups: dw.util.Collection<dw.catalog.VariationGroup>;
       /**
        * The variation model of this product. If this product is a master
        *  product, then the returned model will encapsulate all the information
@@ -5952,7 +6003,7 @@ declare namespace dw {
        *  product or a variation product, then a model will be returned but will be
        *  essentially empty and not useful for any particular purpose.
        */
-      variationModel: dw.catalog.ProductVariationModel;
+      readonly variationModel: dw.catalog.ProductVariationModel;
 
       /**
        * Identifies if this product is bound to the specified catalog category.
@@ -6494,9 +6545,14 @@ declare namespace dw {
        */
       getStoreTaxClass(): string;
       /**
-       * Returns the ID of the product's tax class.
+       * Returns the ID of the product's tax class, by resolving
+       *  the Global Preference setting selected. If the Localized
+       *  Tax Class setting under Global Preferences -> Products is
+       *  selected, the localizedTaxClassID attribute value will be
+       *  returned, else the legacy taxClassID attribute value will
+       *  be returned.
        *
-       * @return the ID of the product's tax class.
+       * @return the ID of the product's tax class depending on the Global Preference setting selected for Products.
        */
       getTaxClassID(): string;
       /**
@@ -6517,6 +6573,12 @@ declare namespace dw {
        * @return the products sales unit.
        */
       getUnit(): string;
+      /**
+       * Returns the product's unit quantity.
+       *
+       * @return the products unit quantity.
+       */
+      getUnitQuantity(): dw.value.Quantity;
       /**
        * Returns the Universal Product Code of the product.
        *
@@ -6739,288 +6801,288 @@ declare namespace dw {
        * The date the product became available on the site, or
        *  null if none has been set.
        */
-      availableDate: Date;
+      readonly availableDate: Date;
       /**
        * The average gross margin percentage of the product,
        *  over the most recent day for the site, or null
        *  if none has been set or the value is no longer valid.
        */
-      avgGrossMarginPercentDay: number;
+      readonly avgGrossMarginPercentDay: number;
       /**
        * The average gross margin percentage of the product,
        *  over the most recent 30 days for the site, or null
        *  if none has been set or the value is no longer valid.
        */
-      avgGrossMarginPercentMonth: number;
+      readonly avgGrossMarginPercentMonth: number;
       /**
        * The average gross margin percentage of the product,
        *  over the most recent 7 days for the site, or null
        *  if none has been set or the value is no longer valid.
        */
-      avgGrossMarginPercentWeek: number;
+      readonly avgGrossMarginPercentWeek: number;
       /**
        * The average gross margin percentage of the product,
        *  over the most recent 365 days for the site, or null
        *  if none has been set or the value is no longer valid.
        */
-      avgGrossMarginPercentYear: number;
+      readonly avgGrossMarginPercentYear: number;
       /**
        * The average gross margin value of the product,
        *  over the most recent day for the site, or null
        *  if none has been set or the value is no longer valid.
        */
-      avgGrossMarginValueDay: number;
+      readonly avgGrossMarginValueDay: number;
       /**
        * The average gross margin value of the product,
        *  over the most recent 30 days for the site, or null
        *  if none has been set or the value is no longer valid.
        */
-      avgGrossMarginValueMonth: number;
+      readonly avgGrossMarginValueMonth: number;
       /**
        * The average gross margin value of the product,
        *  over the most recent 7 days for the site, or null
        *  if none has been set or the value is no longer valid.
        */
-      avgGrossMarginValueWeek: number;
+      readonly avgGrossMarginValueWeek: number;
       /**
        * The average gross margin value of the product,
        *  over the most recent 365 days for the site, or null
        *  if none has been set or the value is no longer valid.
        */
-      avgGrossMarginValueYear: number;
+      readonly avgGrossMarginValueYear: number;
       /**
        * The average sales price for the product, over the most recent day
        *  for the site, or null if none has been set or the value
        *  is no longer valid.
        */
-      avgSalesPriceDay: number;
+      readonly avgSalesPriceDay: number;
       /**
        * The average sales price for the product, over the most recent 30 days
        *  for the site, or null if none has been set or the value
        *  is no longer valid.
        */
-      avgSalesPriceMonth: number;
+      readonly avgSalesPriceMonth: number;
       /**
        * The average sales price for the product, over the most recent 7 days
        *  for the site, or null if none has been set or the value
        *  is no longer valid.
        */
-      avgSalesPriceWeek: number;
+      readonly avgSalesPriceWeek: number;
       /**
        * The average sales price for the product, over the most recent 365 days
        *  for the site, or null if none has been set or the value
        *  is no longer valid.
        */
-      avgSalesPriceYear: number;
+      readonly avgSalesPriceYear: number;
       /**
        * The conversion rate of the product, over the most recent day
        *  for the site, or null if none has been set or the value
        *  is no longer valid.
        */
-      conversionDay: number;
+      readonly conversionDay: number;
       /**
        * The conversion rate of the product, over the most recent 30 days
        *  for the site, or null if none has been set or the value
        *  is no longer valid.
        */
-      conversionMonth: number;
+      readonly conversionMonth: number;
       /**
        * The conversion rate of the product, over the most recent 7 days
        *  for the site, or null if none has been set or the value
        *  is no longer valid.
        */
-      conversionWeek: number;
+      readonly conversionWeek: number;
       /**
        * The conversion rate of the product, over the most recent 365 days
        *  for the site, or null if none has been set or the value
        *  is no longer valid.
        */
-      conversionYear: number;
+      readonly conversionYear: number;
       /**
        * The cost price for the product for the site,
        *  or null if none has been set or the value is no longer valid.
        */
-      costPrice: number;
+      readonly costPrice: number;
       /**
        * The number of days the product has been available on the site.
        *  The number is calculated based on the current date and the date the
        *  product became available on the site, or if that date has not been set,
        *  the date the product was created in the system.
        */
-      daysAvailable: number;
+      readonly daysAvailable: number;
       /**
        * The impressions of the product, over the most recent day
        *  for the site, or null if none has been set or the value
        *  is no longer valid.
        */
-      impressionsDay: number;
+      readonly impressionsDay: number;
       /**
        * The impressions of the product, over the most recent 30 days
        *  for the site, or null if none has been set or the value
        *  is no longer valid.
        */
-      impressionsMonth: number;
+      readonly impressionsMonth: number;
       /**
        * The impressions of the product, over the most recent 7 days
        *  for the site, or null if none has been set or the value
        *  is no longer valid.
        */
-      impressionsWeek: number;
+      readonly impressionsWeek: number;
       /**
        * The impressions of the product, over the most recent 365 days
        *  for the site, or null if none has been set or the value
        *  is no longer valid.
        */
-      impressionsYear: number;
+      readonly impressionsYear: number;
       /**
        * The look to book ratio of the product, over the most recent day
        *  for the site, or null if none has been set or the value
        *  is no longer valid.
        */
-      lookToBookRatioDay: number;
+      readonly lookToBookRatioDay: number;
       /**
        * The look to book ratio of the product, over the most recent 30 days
        *  for the site, or null if none has been set or the value
        *  is no longer valid.
        */
-      lookToBookRatioMonth: number;
+      readonly lookToBookRatioMonth: number;
       /**
        * The look to book ratio of the product, over the most recent 7 days
        *  for the site, or null if none has been set or the value
        *  is no longer valid.
        */
-      lookToBookRatioWeek: number;
+      readonly lookToBookRatioWeek: number;
       /**
        * The look to book ratio of the product, over the most recent 365 days
        *  for the site, or null if none has been set or the value
        *  is no longer valid.
        */
-      lookToBookRatioYear: number;
+      readonly lookToBookRatioYear: number;
       /**
        * The number of orders containing the product, over the most
        *  recent day for the site, or null if none has been set
        *  or the value is no longer valid.
        */
-      ordersDay: number;
+      readonly ordersDay: number;
       /**
        * The number of orders containing the product, over the most
        *  recent 30 days for the site, or null if none has been set
        *  or the value is no longer valid.
        */
-      ordersMonth: number;
+      readonly ordersMonth: number;
       /**
        * The number of orders containing the product, over the most
        *  recent 7 days for the site, or null if none has been set
        *  or the value is no longer valid.
        */
-      ordersWeek: number;
+      readonly ordersWeek: number;
       /**
        * The number of orders containing the product, over the most
        *  recent 365 days for the site, or null if none has been set
        *  or the value is no longer valid.
        */
-      ordersYear: number;
+      readonly ordersYear: number;
       /**
        * The return rate for the product for the site,
        *  or null if none has been set or the value is no longer valid.
        */
-      returnRate: number;
+      readonly returnRate: number;
       /**
        * The revenue of the product, over the most recent day
        *  for the site, or null if none has been set or the value
        *  is no longer valid.
        */
-      revenueDay: number;
+      readonly revenueDay: number;
       /**
        * The revenue of the product, over the most recent 30 days
        *  for the site, or null if none has been set or the value
        *  is no longer valid.
        */
-      revenueMonth: number;
+      readonly revenueMonth: number;
       /**
        * The revenue of the product, over the most recent 7 days
        *  for the site, or null if none has been set or the value
        *  is no longer valid.
        */
-      revenueWeek: number;
+      readonly revenueWeek: number;
       /**
        * The revenue of the product, over the most recent 365 days
        *  for the site, or null if none has been set or the value
        *  is no longer valid.
        */
-      revenueYear: number;
+      readonly revenueYear: number;
       /**
        * The sales velocity of the product, over the most recent day
        *  for the site, or null if none has been set or the value
        *  is no longer valid.
        */
-      salesVelocityDay: number;
+      readonly salesVelocityDay: number;
       /**
        * The sales velocity of the product, over the most recent 30 days
        *  for the site, or null if none has been set or the value
        *  is no longer valid.
        */
-      salesVelocityMonth: number;
+      readonly salesVelocityMonth: number;
       /**
        * The sales velocity of the product, over the most recent 7 days
        *  for the site, or null if none has been set or the value
        *  is no longer valid.
        */
-      salesVelocityWeek: number;
+      readonly salesVelocityWeek: number;
       /**
        * The sales velocity of the product, over the most recent 365 days
        *  for the site, or null if none has been set or the value
        *  is no longer valid.
        */
-      salesVelocityYear: number;
+      readonly salesVelocityYear: number;
       /**
        * The units of the product ordered over the most recent day
        *  for the site, or null if none has been set or the value
        *  is no longer valid.
        */
-      unitsDay: number;
+      readonly unitsDay: number;
       /**
        * The units of the product ordered over the most recent 30 days
        *  for the site, or null if none has been set or the value
        *  is no longer valid.
        */
-      unitsMonth: number;
+      readonly unitsMonth: number;
       /**
        * The units of the product ordered over the most recent 7 days
        *  for the site, or null if none has been set or the value
        *  is no longer valid.
        */
-      unitsWeek: number;
+      readonly unitsWeek: number;
       /**
        * The units of the product ordered over the most recent 365 days
        *  for the site, or null if none has been set or the value
        *  is no longer valid.
        */
-      unitsYear: number;
+      readonly unitsYear: number;
       /**
        * The views of the product, over the most recent day
        *  for the site, or null if none has been set or the value
        *  is no longer valid.
        */
-      viewsDay: number;
+      readonly viewsDay: number;
       /**
        * The views of the product, over the most recent 30 days
        *  for the site, or null if none has been set or the value
        *  is no longer valid.
        */
-      viewsMonth: number;
+      readonly viewsMonth: number;
       /**
        * The views of the product, over the most recent 7 days
        *  for the site, or null if none has been set or the value
        *  is no longer valid.
        */
-      viewsWeek: number;
+      readonly viewsWeek: number;
       /**
        * The views of the product, over the most recent 365 days
        *  for the site, or null if none has been set or the value
        *  is no longer valid.
        */
-      viewsYear: number;
+      readonly viewsYear: number;
 
       /**
        * Returns the date the product became available on the site, or
@@ -7496,7 +7558,9 @@ declare namespace dw {
        *  As a result of these rules, this method will never return two attribute
        *  groups with the same ID.
        */
-      attributeGroups: dw.util.Collection<dw.object.ObjectAttributeGroup>;
+      readonly attributeGroups: dw.util.Collection<
+        dw.object.ObjectAttributeGroup
+      >;
       /**
        * An unsorted collection of attribute definitions marked as
        *  order-required. Order-required attributes are usually copied into order
@@ -7506,7 +7570,7 @@ declare namespace dw {
        *  sort order defined for the attributes in the group. This is managed by
        *  merchant in the Business Manager.
        */
-      orderRequiredAttributeDefinitions: dw.util.Collection<
+      readonly orderRequiredAttributeDefinitions: dw.util.Collection<
         dw.object.ObjectAttributeDefinition
       >;
       /**
@@ -7516,7 +7580,7 @@ declare namespace dw {
        *  visible. See
        *  getVisibleAttributeDefinitions(ObjectAttributeGroup).
        */
-      visibleAttributeGroups: dw.util.Collection<
+      readonly visibleAttributeGroups: dw.util.Collection<
         dw.object.ObjectAttributeGroup
       >;
 
@@ -7677,23 +7741,23 @@ declare namespace dw {
       /**
        * The backorder quantity.
        */
-      backorder: dw.value.Quantity;
+      readonly backorder: dw.value.Quantity;
       /**
        * The number of attributes that contain non-zero quantities.
        */
-      count: number;
+      readonly count: number;
       /**
        * The quantity in stock.
        */
-      inStock: dw.value.Quantity;
+      readonly inStock: dw.value.Quantity;
       /**
        * The quantity that is not available.
        */
-      notAvailable: dw.value.Quantity;
+      readonly notAvailable: dw.value.Quantity;
       /**
        * The pre-order quantity.
        */
-      preorder: dw.value.Quantity;
+      readonly preorder: dw.value.Quantity;
 
       /**
        * Returns the backorder quantity.
@@ -7785,7 +7849,7 @@ declare namespace dw {
        *  products according to their bundled quantity and if it exist also from
        *  the bundle inventory record.
        */
-      availability: number;
+      readonly availability: number;
       /**
        * The availability-status for the minimum-orderable-quantity (MOQ) of
        *  the product.  The MOQ essentially represents a single orderable unit, and
@@ -7798,19 +7862,19 @@ declare namespace dw {
        *  This method is typically used to display a product's availability in
        *  the catalog when the order quantity is not known.
        */
-      availabilityStatus: string;
+      readonly availabilityStatus: string;
       /**
        * Convenience method for isInStock(Number). Returns true, if the
        *  Product is available in the minimum-order-quantity. If the product does
        *  not have a minimum-order-quantity defined, in-stock is checked for a
        *  quantity value 1.
        */
-      inStock: boolean;
+      readonly inStock: boolean;
       /**
        * The ProductInventoryRecord for the Product associated
        *  with this model.
        */
-      inventoryRecord: dw.catalog.ProductInventoryRecord;
+      readonly inventoryRecord: dw.catalog.ProductInventoryRecord;
       /**
        * Convenience method for isOrderable(Number). Returns true if the
        *  Product is currently online (based on its online flag and online dates)
@@ -7822,7 +7886,7 @@ declare namespace dw {
        *  may be out-of-stock but orderable because it is back-orderable or
        *  pre-orderable.
        */
-      orderable: boolean;
+      readonly orderable: boolean;
       /**
        * The SKU coverage of the product.  The basic formula for a
        *  master product is the ratio of online variations that are in stock
@@ -7845,7 +7909,7 @@ declare namespace dw {
        *  For a product bundle with no online bundled products this method
        *  returns 0.
        */
-      SKUCoverage: number;
+      readonly SKUCoverage: number;
       /**
        * The number of hours before the product is expected to go out
        *  of stock.  The basic formula is the ATS quantity divided by the
@@ -7870,7 +7934,7 @@ declare namespace dw {
        *  For a bundle with no product inventory record, and no online
        *  bundled products, this method returns 0.
        */
-      timeToOutOfStock: number;
+      readonly timeToOutOfStock: number;
 
       /**
        * Returns the availability of the product, which roughly defined is the
@@ -8097,19 +8161,21 @@ declare namespace dw {
      * The ProductInventoryList provides access to ID, description and defaultInStockFlag of the list.
      *  Furthermore inventory records can be accessed by product or product ID.
      */
-    class ProductInventoryList extends dw.object.ExtensibleObject {
+    class ProductInventoryList extends dw.object.ExtensibleObject<
+      ProductInventoryListCustomAttributes
+    > {
       /**
        * The default in-stock flag of the inventory list.
        */
-      defaultInStockFlag: boolean;
+      readonly defaultInStockFlag: boolean;
       /**
        * The description of the inventory list.
        */
-      description: string;
+      readonly description: string;
       /**
        * The ID of the inventory list.
        */
-      ID: string;
+      readonly ID: string;
 
       /**
        * Returns the default in-stock flag of the inventory list.
@@ -8153,7 +8219,7 @@ declare namespace dw {
        * The inventory list assigned to the current site or null if no
        *  inventory list is assigned to the current site.
        */
-      static inventoryList: dw.catalog.ProductInventoryList;
+      static readonly inventoryList: dw.catalog.ProductInventoryList;
 
       /**
        * Returns the inventory list assigned to the current site or null if no
@@ -8174,7 +8240,9 @@ declare namespace dw {
     /**
      * The ProductInventoryRecord holds information about a Product&apos;s inventory, and availability.
      */
-    class ProductInventoryRecord extends dw.object.ExtensibleObject {
+    class ProductInventoryRecord extends dw.object.ExtensibleObject<
+      ProductInventoryRecordCustomAttributes
+    > {
       /**
        * The allocation quantity that is currently set. The quantity unit is the same unit as the product itself.
        */
@@ -8182,17 +8250,24 @@ declare namespace dw {
       /**
        * The date the allocation quantity was initialized or reset.
        */
-      allocationResetDate: Date;
+      readonly allocationResetDate: Date;
       /**
        * The quantity of items available to sell (ATS). This is calculated as the allocation
        *  (getAllocation()) plus the preorderBackorderAllocation (getPreorderBackorderAllocation()) minus
        *  the turnover (getTurnover()) minus on order (getOnOrder()).
        */
-      ATS: dw.value.Quantity;
+      readonly ATS: dw.value.Quantity;
       /**
        * Determines if the product is backorderable.
        */
       backorderable: boolean;
+      /**
+       * The custom attributes for this object. The returned object is
+       *  used for retrieving and storing attribute values. See
+       *  CustomAttributes for a detailed example of the syntax for
+       *  working with custom attributes.
+       */
+      readonly custom: ProductInventoryRecordCustomAttributes;
       /**
        * The date that the item is expected to be in stock.
        */
@@ -8200,7 +8275,7 @@ declare namespace dw {
       /**
        * The on-hand quantity, the actual quantity of available (on-hand) items.
        */
-      onHand: dw.value.Quantity;
+      readonly onHand: dw.value.Quantity;
       /**
        * The quantity that is currently on order.
        *
@@ -8211,7 +8286,7 @@ declare namespace dw {
        *  OrderItem.allocateInventory(Boolean) will decrease the On Order value. On order will be included
        *  in the ATS calculation, see getATS().
        */
-      onOrder: dw.value.Quantity;
+      readonly onOrder: dw.value.Quantity;
       /**
        * Determines if the product is perpetually in stock.
        */
@@ -8230,18 +8305,25 @@ declare namespace dw {
        *  Note, that for products with high velocity and concurrency the return value is extremely volatile and the
        *  retrieval will be expensive.
        */
-      reserved: dw.value.Quantity;
+      readonly reserved: dw.value.Quantity;
       /**
        * The current stock level. This is calculated as the allocation minus the turnover.
        */
-      stockLevel: dw.value.Quantity;
+      readonly stockLevel: dw.value.Quantity;
       /**
        * The sum of all inventory transactions (decrements and increments) that have been recorded subsequent to
        *  the allocation was reset date. The quantity value can be negative due to higher quantity of inventory decrements
        *  than increments.
        */
-      turnover: dw.value.Quantity;
+      readonly turnover: dw.value.Quantity;
 
+      /**
+       * Returns the meta data of this object. If no meta data is available the method returns null. The returned
+       *  ObjectTypeDefinition can be used to retrieve the metadata for any of the custom attributes.
+       *
+       * @return the meta data of this object. If no meta data is available the method returns null.
+       */
+      describe(): dw.object.ObjectTypeDefinition;
       /**
        * Returns the allocation quantity that is currently set. The quantity unit is the same unit as the product itself.
        *
@@ -8262,6 +8344,15 @@ declare namespace dw {
        * @return the quantity or quantity N/A if not available.
        */
       getATS(): dw.value.Quantity;
+      /**
+       * Returns the custom attributes for this object. The returned object is
+       *  used for retrieving and storing attribute values. See
+       *  CustomAttributes for a detailed example of the syntax for
+       *  working with custom attributes.
+       *
+       * @return the custom attributes for this object.
+       */
+      getCustom(): ProductInventoryRecordCustomAttributes;
       /**
        * Returns the date that the item is expected to be in stock.
        *
@@ -8410,15 +8501,15 @@ declare namespace dw {
       /**
        * The source product for this link.
        */
-      sourceProduct: dw.catalog.Product;
+      readonly sourceProduct: dw.catalog.Product;
       /**
        * The target product for this link.
        */
-      targetProduct: dw.catalog.Product;
+      readonly targetProduct: dw.catalog.Product;
       /**
        * The type of this link (see constants).
        */
-      typeCode: number;
+      readonly typeCode: number;
 
       /**
        * Returns the source product for this link.
@@ -8507,35 +8598,37 @@ declare namespace dw {
     /**
      * Represents a product option.
      */
-    class ProductOption extends dw.object.ExtensibleObject {
+    class ProductOption extends dw.object.ExtensibleObject<
+      ProductOptionCustomAttributes
+    > {
       /**
        * The default value for the product option.
        */
-      defaultValue: dw.catalog.ProductOptionValue;
+      readonly defaultValue: dw.catalog.ProductOptionValue;
       /**
        * The product option's short description in the current locale.
        */
-      description: string;
+      readonly description: string;
       /**
        * The product option's display name in the current locale.
        */
-      displayName: string;
+      readonly displayName: string;
       /**
        * An HTML representation of the option id.
        */
-      htmlName: string;
+      readonly htmlName: string;
       /**
        * The product option ID.
        */
-      ID: string;
+      readonly ID: string;
       /**
        * The product option's image.
        */
-      image: dw.content.MediaFile;
+      readonly image: dw.content.MediaFile;
       /**
        * A collection containing the product option values.
        */
-      optionValues: dw.util.Collection<dw.catalog.ProductOptionValue>;
+      readonly optionValues: dw.util.Collection<dw.catalog.ProductOptionValue>;
 
       /**
        * Returns the default value for the product option.
@@ -8597,7 +8690,7 @@ declare namespace dw {
       /**
        * The collection of product options.
        */
-      options: dw.util.Collection<dw.catalog.ProductOption>;
+      readonly options: dw.util.Collection<dw.catalog.ProductOption>;
 
       /**
        * Returns the product option for the specified ID.
@@ -8703,26 +8796,28 @@ declare namespace dw {
     /**
      * Represents the value of a product option.
      */
-    class ProductOptionValue extends dw.object.ExtensibleObject {
+    class ProductOptionValue extends dw.object.ExtensibleObject<
+      ProductOptionValueCustomAttributes
+    > {
       /**
        * The the product option value's description
        *  in the current locale.
        */
-      description: string;
+      readonly description: string;
       /**
        * The the product option value's display name
        *  in the current locale.
        */
-      displayValue: string;
+      readonly displayValue: string;
       /**
        * The product option value's ID.
        */
-      ID: string;
+      readonly ID: string;
       /**
        * The product option value's product ID modifier which
        *  can be used to build the SKU for the actual product.
        */
-      productIDModifier: string;
+      readonly productIDModifier: string;
 
       /**
        * Returns the the product option value's description
@@ -8766,32 +8861,32 @@ declare namespace dw {
        * The date from which the associated price point is valid. If such a date doesn't exist, e.g. as in the
        *  case of a continuous price point, null will be returned.
        */
-      onlineFrom: Date;
+      readonly onlineFrom: Date;
       /**
        * The date until which the associated price point is valid. If such a date doesn't exist, e.g. as in the case
        *  of a continuous price point, null will be returned.
        */
-      onlineTo: Date;
+      readonly onlineTo: Date;
       /**
        * The percentage off value of this price point related to the base
        *  price for the product's minimum order quantity.
        */
-      percentage: number;
+      readonly percentage: number;
       /**
        * The monetary price for this price point.
        */
-      price: dw.value.Money;
+      readonly price: dw.value.Money;
       /**
        * The price book which defined this price point.
        */
-      priceBook: dw.catalog.PriceBook;
+      readonly priceBook: dw.catalog.PriceBook;
       /**
        * The price info associated with this price point. This is an
        *  arbitrary string which a merchant can associate with a price entry. This
        *  can be used for example, to track which back-end system the price is
        *  derived from.
        */
-      priceInfo: string;
+      readonly priceInfo: string;
 
       /**
        * Returns the date from which the associated price point is valid. If such a date doesn't exist, e.g. as in the
@@ -8922,7 +9017,7 @@ declare namespace dw {
        * The quantity for which the base price is defined. This
        *  is typically 1.0.
        */
-      basePriceQuantity: dw.value.Quantity;
+      readonly basePriceQuantity: dw.value.Quantity;
       /**
        * Calculates and returns the maximum price-book price of all variants (for
        *  master products) or set-products (for product sets) for base quantity
@@ -8938,7 +9033,24 @@ declare namespace dw {
        *  product with numerous variants, this method can be very expensive and
        *  should be avoided.
        */
-      maxPrice: dw.value.Money;
+      readonly maxPrice: dw.value.Money;
+      /**
+       * Calculates and returns the maximum price-book price per unit of all variants (for
+       *  master products) or set-products (for product sets) for base quantity
+       *  1.00. This value can be used to display a range of prices in storefront.
+       *  If the product represented by this model is not a master product or
+       *  product set, then this method behaves the same as getPricePerUnit().
+       *  Only online products are considered. If the "orderable products only"
+       *  search preference is enabled for the current site, then only orderable
+       *  products are considered. For master products, only variants with all
+       *  variation attributes configured are considered.
+       *
+       *  e.g.
+       *  suppose one master product mp (price = $6, unitQuantity = 2), it has 2 variants:
+       *  v1(price = $5, unitQuantity = 5), v2(price = $10, unitQuantity = 20).
+       *  The max price per unit of mp will be max($6/2, $5/5, $10/20) = $3
+       */
+      readonly maxPricePerUnit: dw.value.Money;
       /**
        * Calculates and returns the minimum price-book price of all variants (for
        *  master products) or set-products (for product sets) for base quantity
@@ -8954,7 +9066,24 @@ declare namespace dw {
        *  product with numerous variants, this method can be very expensive and
        *  should be avoided.
        */
-      minPrice: dw.value.Money;
+      readonly minPrice: dw.value.Money;
+      /**
+       * Calculates and returns the minimum price-book price per unit of all variants (for
+       *  master products) or set-products (for product sets) for base quantity
+       *  1.00. This value can be used to display a range of prices in storefront.
+       *  If the product represented by this model is not a master product or
+       *  product set, then this method behaves the same as getPricePerUnit().
+       *  Only online products are considered. If the "orderable products only"
+       *  search preference is enabled for the current site, then only orderable
+       *  products are considered. For master products, only variants with all
+       *  variation attributes configured are considered.
+       *
+       *  e.g.
+       *  suppose one master product mp (price = $6, unitQuantity = 2), it has 2 variants:
+       *  v1(price = $5, unitQuantity = 5), v2(price = $10, unitQuantity = 20).
+       *  The min price per unit of mp will be min($6/2, $5/5, $10/20) = $0.5
+       */
+      readonly minPricePerUnit: dw.value.Money;
       /**
        * The price of a product, calculated based on base price quantity
        *  1.00. The price is returned for the currency of the current session.
@@ -8969,7 +9098,7 @@ declare namespace dw {
        *
        *  If no price could be found, MONEY.NOT_AVAILABLE is returned.
        */
-      price: dw.value.Money;
+      readonly price: dw.value.Money;
       /**
        * The price info of a product, calculated based on base price
        *  quantity 1.00. The price is returned for the currency of the current
@@ -8986,7 +9115,7 @@ declare namespace dw {
        *
        *  If no price info could be found, null is returned.
        */
-      priceInfo: dw.catalog.ProductPriceInfo;
+      readonly priceInfo: dw.catalog.ProductPriceInfo;
       /**
        * All the price infos of a product that could have been the basis of the storefront price, calculated based
        *  on base price quantity 1.00. This will return an empty list if getPriceInfo() would return null, and if there is
@@ -8994,7 +9123,21 @@ declare namespace dw {
        *  indicate that there are that many price books that meet the criteria for returning the price shown in the
        *  storefront.
        */
-      priceInfos: dw.util.Collection<dw.catalog.ProductPriceInfo>;
+      readonly priceInfos: dw.util.Collection<dw.catalog.ProductPriceInfo>;
+      /**
+       * The sales price per unit of a product, calculated based on base price
+       *  quantity 1.00.
+       *
+       *  The product sales price per unit is returned for the current session currency.
+       *  Hence, the using this method is only useful in storefront processes.
+       *
+       *  The price lookup is based on the configuration of price books. It depends
+       *  on various settings, such as which price books are active, or explicitly
+       *  set as applicable in the current session.
+       *
+       *  If no price could be found, MONEY.N_A is returned.
+       */
+      readonly pricePerUnit: dw.value.Money;
       /**
        * Returns true if this product is a master product (or product set) and the
        *  collection of online variants (or set products respectively) contains
@@ -9004,7 +9147,7 @@ declare namespace dw {
        *  product with numerous variants, this method can be very expensive and
        *  should be avoided.
        */
-      priceRange: boolean;
+      readonly priceRange: boolean;
       /**
        * The product price table object. The price table represents a map
        *  between order quantities and prices, and also provides % off information
@@ -9021,7 +9164,7 @@ declare namespace dw {
        *  All other methods of this class are based on the information in the
        *  product price table.
        */
-      priceTable: dw.catalog.ProductPriceTable;
+      readonly priceTable: dw.catalog.ProductPriceTable;
 
       /**
        * Returns the quantity for which the base price is defined. This
@@ -9064,6 +9207,40 @@ declare namespace dw {
        */
       getMaxPriceBookPrice(priceBookID: string): dw.value.Money;
       /**
+       * Calculates and returns the maximum price per unit in a given price book of all
+       *  variants (for master products) or set-products (for product sets) for
+       *  base quantity 1.00. This value can be used to display a range of price per units
+       *  in storefront.
+       *
+       *  This method follows the same rules as
+       *  getPriceBookPricePerUnit(String) in determining the price book
+       *  price for each variant or set-product. If the product represented by this
+       *  model is not a master product or product set, then this method behaves
+       *  the same as getPriceBookPricePerUnit(String).
+       * @param priceBookID ID of price book the price is requested for, must not be null.
+       * @return The maximum price per unit across all sub-products in the specified price book.
+       */
+      getMaxPriceBookPricePerUnit(priceBookID: string): dw.value.Money;
+      /**
+       * Calculates and returns the maximum price-book price per unit of all variants (for
+       *  master products) or set-products (for product sets) for base quantity
+       *  1.00. This value can be used to display a range of prices in storefront.
+       *  If the product represented by this model is not a master product or
+       *  product set, then this method behaves the same as getPricePerUnit().
+       *  Only online products are considered. If the "orderable products only"
+       *  search preference is enabled for the current site, then only orderable
+       *  products are considered. For master products, only variants with all
+       *  variation attributes configured are considered.
+       *
+       *  e.g.
+       *  suppose one master product mp (price = $6, unitQuantity = 2), it has 2 variants:
+       *  v1(price = $5, unitQuantity = 5), v2(price = $10, unitQuantity = 20).
+       *  The max price per unit of mp will be max($6/2, $5/5, $10/20) = $3
+       *
+       * @return Maximum price per unit of all online variants or set-products.
+       */
+      getMaxPricePerUnit(): dw.value.Money;
+      /**
        * Calculates and returns the minimum price-book price of all variants (for
        *  master products) or set-products (for product sets) for base quantity
        *  1.00. This value can be used to display a range of prices in storefront.
@@ -9096,6 +9273,40 @@ declare namespace dw {
        * @return The minimum price across all subproducts in the specified price book.
        */
       getMinPriceBookPrice(priceBookID: string): dw.value.Money;
+      /**
+       * Calculates and returns the minimum price per unit in a given price book of all
+       *  variants (for master products) or set-products (for product sets) for
+       *  base quantity 1.00. This value can be used to display a range of price per units
+       *  in storefront.
+       *
+       *  This method follows the same rules as
+       *  getPriceBookPricePerUnit(String) in determining the price book
+       *  price for each variant or set-product. If the product represented by this
+       *  model is not a master product or product set, then this method behaves
+       *  the same as getPriceBookPricePerUnit(String).
+       * @param priceBookID ID of price book the price is requested for, must not be null.
+       * @return The minimum price per unit across all sub-products in the specified price book.
+       */
+      getMinPriceBookPricePerUnit(priceBookID: string): dw.value.Money;
+      /**
+       * Calculates and returns the minimum price-book price per unit of all variants (for
+       *  master products) or set-products (for product sets) for base quantity
+       *  1.00. This value can be used to display a range of prices in storefront.
+       *  If the product represented by this model is not a master product or
+       *  product set, then this method behaves the same as getPricePerUnit().
+       *  Only online products are considered. If the "orderable products only"
+       *  search preference is enabled for the current site, then only orderable
+       *  products are considered. For master products, only variants with all
+       *  variation attributes configured are considered.
+       *
+       *  e.g.
+       *  suppose one master product mp (price = $6, unitQuantity = 2), it has 2 variants:
+       *  v1(price = $5, unitQuantity = 5), v2(price = $10, unitQuantity = 20).
+       *  The min price per unit of mp will be min($6/2, $5/5, $10/20) = $0.5
+       *
+       * @return Minimum price of all online variants or set-products.
+       */
+      getMinPricePerUnit(): dw.value.Money;
       /**
        * Returns the price of a product, calculated based on base price quantity
        *  1.00. The price is returned for the currency of the current session.
@@ -9197,6 +9408,50 @@ declare namespace dw {
         quantity: dw.value.Quantity
       ): dw.catalog.ProductPriceInfo;
       /**
+       * Returns the active price per unit of the product in the specified price book for
+       *  quantity 1.00.
+       *
+       *  If the product represented by this model is an option product, option
+       *  prices will be added to the price book price if the price model was
+       *  initialized with an option model.
+       *
+       *  Money.NOT_AVAILABLE will be returned in any of the following cases:
+       *
+       *
+       *  The priceBookID does not identify a valid price book.
+       *  The price book has no price for the product.
+       *  None of the prices for the product in the price book is currently
+       *  active.
+       *  The currently active price entry is a percentage.
+       * @param priceBookID ID of price book the price is requested for, must not be null.
+       * @return the price per unit of the product in the specified price book.
+       */
+      getPriceBookPricePerUnit(priceBookID: string): dw.value.Money;
+      /**
+       * Returns the active price per unit of the product in the specified price book for
+       *  the specified quantity.
+       *
+       *  If the product represented by this model is an option product, option
+       *  prices will be added to the price book price if the price model was
+       *  initialized with an option model.
+       *
+       *  Money.NOT_AVAILABLE will be returned in any of the following cases:
+       *
+       *
+       *  The priceBookID does not identify a valid price book.
+       *  The price book has no price for the product.
+       *  None of the prices for the product in the price book is currently
+       *  active.
+       *  The currently active price entry is a percentage.
+       * @param priceBookID ID of price book the price is requested for, must not be null.
+       * @param quantity the specified quantity to find the price for, must not be null.
+       * @return the price per unit of the product in the specified price book for the specific quantity.
+       */
+      getPriceBookPricePerUnit(
+        priceBookID: string,
+        quantity: dw.value.Quantity
+      ): dw.value.Money;
+      /**
        * Returns the price info of a product, calculated based on base price
        *  quantity 1.00. The price is returned for the currency of the current
        *  session.
@@ -9256,6 +9511,38 @@ declare namespace dw {
         comparePrice: dw.value.Money
       ): number;
       /**
+       * Returns the sales price per unit of a product, calculated based on base price
+       *  quantity 1.00.
+       *
+       *  The product sales price per unit is returned for the current session currency.
+       *  Hence, the using this method is only useful in storefront processes.
+       *
+       *  The price lookup is based on the configuration of price books. It depends
+       *  on various settings, such as which price books are active, or explicitly
+       *  set as applicable in the current session.
+       *
+       *  If no price could be found, MONEY.N_A is returned.
+       *
+       * @return product sales price per unit
+       */
+      getPricePerUnit(): dw.value.Money;
+      /**
+       * Returns the sales price per unit of a product, calculated based on the passed
+       *  order quantity.
+       *
+       *  The product sales price per unit is returned for the current session currency.
+       *  Hence, the using this method is only useful in storefront processes.
+       *
+       *  The price lookup is based on the configuration of price books. It depends
+       *  on various settings, such as which price books are active, or explicitely
+       *  set as applicable in the current session.
+       *
+       *  If no price could be found, MONEY.N_A is returned.
+       * @param quantity Quantity price is requested for
+       * @return product sales price per unit
+       */
+      getPricePerUnit(quantity: dw.value.Quantity): dw.value.Money;
+      /**
        * Returns the product price table object. The price table represents a map
        *  between order quantities and prices, and also provides % off information
        *  to be shown to storefront customers. The price is returned for the
@@ -9306,7 +9593,7 @@ declare namespace dw {
       /**
        * All quantities stored in the price table.
        */
-      quantities: dw.util.Collection<dw.value.Quantity>;
+      readonly quantities: dw.util.Collection<dw.value.Quantity>;
 
       /**
        * Returns the quantity following the passed quantity in the price table.
@@ -9440,7 +9727,7 @@ declare namespace dw {
        *  indexing time. Custom code should generally filter and sort the promotions returned by this method according to
        *  PromotionMgr.getActiveCustomerPromotions() before messaging the promotions on a product tile.
        */
-      allPromotionIDs: dw.util.List<string>;
+      readonly allPromotionIDs: dw.util.List<string>;
       /**
        * Return the IDs of all searchable promotions for which at least one of the represented products of this search hit
        *  is a bonus product. This may be used as a better performing alternative to
@@ -9449,7 +9736,7 @@ declare namespace dw {
        *  should generally filter and sort the promotions returned by this method according to
        *  PromotionMgr.getActiveCustomerPromotions() before messaging the promotions on a product tile.
        */
-      bonusPromotionIDs: dw.util.List<string>;
+      readonly bonusPromotionIDs: dw.util.List<string>;
       /**
        * Return the IDs of all searchable promotions for which at least one of the represented products of this search hit
        *  satisfy the discounted product rule. This may be used as a better performing alternative to
@@ -9458,17 +9745,17 @@ declare namespace dw {
        *  indexing time. Custom code should generally filter and sort the promotions returned by this method according to
        *  PromotionMgr.getActiveCustomerPromotions() before messaging the promotions on a product tile.
        */
-      discountedPromotionIDs: dw.util.List<string>;
+      readonly discountedPromotionIDs: dw.util.List<string>;
       /**
        * The product that is actually hit by the search and has the highest
        *  sort rank according to the sorting conditions used for the search query.
        */
-      firstRepresentedProduct: dw.catalog.Product;
+      readonly firstRepresentedProduct: dw.catalog.Product;
       /**
        * The ID of the product that is actually hit by the search and has the highest
        *  sort rank according to the sorting conditions used for the search query.
        */
-      firstRepresentedProductID: string;
+      readonly firstRepresentedProductID: string;
       /**
        * The type of the product wrapped by this search hit. The product type returned will be one of the hit types:
        *
@@ -9479,17 +9766,17 @@ declare namespace dw {
        *   HIT_TYPE_SLICING_GROUP
        *   HIT_TYPE_VARIATION_GROUP
        */
-      hitType: string;
+      readonly hitType: string;
       /**
        * The product that is actually hit by the search and has the lowest
        *  sort rank according to the sorting conditions used for the search query.
        */
-      lastRepresentedProduct: dw.catalog.Product;
+      readonly lastRepresentedProduct: dw.catalog.Product;
       /**
        * The ID of the product that is actually hit by the search and has the lowest
        *  sort rank according to the sorting conditions used for the search query.
        */
-      lastRepresentedProductID: string;
+      readonly lastRepresentedProductID: string;
       /**
        * The maximum price of all products represented by the
        *  product hit. See getRepresentedProducts() for details on
@@ -9499,7 +9786,17 @@ declare namespace dw {
        *  Note: The method uses price information of the search index and therefore
        *  might return different prices than the ProductPriceModel.
        */
-      maxPrice: dw.value.Money;
+      readonly maxPrice: dw.value.Money;
+      /**
+       * The maximum price per unit of all products represented by the
+       *  product hit. See getRepresentedProducts() for details on
+       *  the set of products used for finding the maximum. The method returns
+       *  N/A in case no price information can be found.
+       *
+       *  Note: The method uses price information of the search index and therefore
+       *  might return different prices than the ProductPriceModel.
+       */
+      readonly maxPricePerUnit: dw.value.Money;
       /**
        * The minimum price of all products represented by the
        *  product hit. See getRepresentedProducts() for details on
@@ -9509,13 +9806,23 @@ declare namespace dw {
        *  Note: the method uses price information of the search index and therefore
        *  might return different prices than the ProductPriceModel.
        */
-      minPrice: dw.value.Money;
+      readonly minPrice: dw.value.Money;
+      /**
+       * The minimum price per unit of all products represented by the
+       *  product hit. See getRepresentedProducts() for details on
+       *  the set of products used for finding the minimum. The method returns
+       *  N/A in case no price information can be found.
+       *
+       *  Note: the method uses price information of the search index and therefore
+       *  might return different prices than the ProductPriceModel.
+       */
+      readonly minPricePerUnit: dw.value.Money;
       /**
        * Convenience method to check whether this ProductSearchHit represents
        *  multiple products (see getRepresentedProducts()) that have
        *  different prices.
        */
-      priceRange: boolean;
+      readonly priceRange: boolean;
       /**
        * The presentation product of this ProductSearchHit corresponding to the ProductSearchHit type.
        *
@@ -9528,7 +9835,7 @@ declare namespace dw {
        *
        *  To retrieve the product(s) actually hit by the search use getRepresentedProducts().
        */
-      product: dw.catalog.Product;
+      readonly product: dw.catalog.Product;
       /**
        * The ID of the presentation product of this ProductSearchHit corresponding to the ProductSearchHit type.
        *
@@ -9541,7 +9848,7 @@ declare namespace dw {
        *
        *  To retrieve the ID of the product actually hit by the search use getFirstRepresentedProductID() or getLastRepresentedProductID().
        */
-      productID: string;
+      readonly productID: string;
       /**
        * Return the IDs of all searchable promotions for which at least one of the represented products of this search hit
        *  satisfies the qualifying product rule. This may be used as a better performing alternative to
@@ -9550,7 +9857,7 @@ declare namespace dw {
        *  indexing time. Custom code should generally filter and sort the promotions returned by this method according to
        *  PromotionMgr.getActiveCustomerPromotions() before messaging the promotions on a product tile.
        */
-      qualifyingPromotionIDs: dw.util.List<string>;
+      readonly qualifyingPromotionIDs: dw.util.List<string>;
       /**
        * The method returns the actual ID of the product that is conforming the query and is represented by the search hit.
        *  Depending on the hit typ, it returns the ID of:
@@ -9567,7 +9874,7 @@ declare namespace dw {
        *  returned last. The product sort rank depends on the sorting conditions
        *  used for the search query.
        */
-      representedProductIDs: dw.util.List<string>;
+      readonly representedProductIDs: dw.util.List<string>;
       /**
        * The method returns the actual product that is conforming the query and is represented by the search hit.
        *  Depending on the hit typ, getRepresentedProducts() returns:
@@ -9584,7 +9891,7 @@ declare namespace dw {
        *  returned last. The product sort rank depends on the sorting conditions
        *  used for the search query.
        */
-      representedProducts: dw.util.List<dw.catalog.Product>;
+      readonly representedProducts: dw.util.List<dw.catalog.Product>;
 
       /**
        * Returns the product that is actually hit by the search and has the highest
@@ -9640,6 +9947,18 @@ declare namespace dw {
        */
       getMaxPrice(): dw.value.Money;
       /**
+       * Returns the maximum price per unit of all products represented by the
+       *  product hit. See getRepresentedProducts() for details on
+       *  the set of products used for finding the maximum. The method returns
+       *  N/A in case no price information can be found.
+       *
+       *  Note: The method uses price information of the search index and therefore
+       *  might return different prices than the ProductPriceModel.
+       *
+       * @return the maximum price per unit of all products represented by the product hit.
+       */
+      getMaxPricePerUnit(): dw.value.Money;
+      /**
        * Returns the minimum price of all products represented by the
        *  product hit. See getRepresentedProducts() for details on
        *  the set of products used for finding the minimum. The method returns
@@ -9651,6 +9970,18 @@ declare namespace dw {
        * @return the minimum price of all products represented by the product hit.
        */
       getMinPrice(): dw.value.Money;
+      /**
+       * Returns the minimum price per unit of all products represented by the
+       *  product hit. See getRepresentedProducts() for details on
+       *  the set of products used for finding the minimum. The method returns
+       *  N/A in case no price information can be found.
+       *
+       *  Note: the method uses price information of the search index and therefore
+       *  might return different prices than the ProductPriceModel.
+       *
+       * @return the minimum price per unit of all products represented by the product hit.
+       */
+      getMinPricePerUnit(): dw.value.Money;
       /**
        * Returns the presentation product of this ProductSearchHit corresponding to the ProductSearchHit type.
        *
@@ -9830,7 +10161,7 @@ declare namespace dw {
        *  If a category with that id doesn't exist or if the category is offline
        *  this method returns null.
        */
-      category: dw.catalog.Category;
+      readonly category: dw.catalog.Category;
       /**
        * The category id that was specified in the search query.
        */
@@ -9840,12 +10171,12 @@ declare namespace dw {
        *  method checks, that a category ID is specified and no search phrase is
        *  specified.
        */
-      categorySearch: boolean;
+      readonly categorySearch: boolean;
       /**
        * The deepest common category of all products in the search result.
        *  In case of an empty search result the method returns the root category.
        */
-      deepestCommonCategory: dw.catalog.Category;
+      readonly deepestCommonCategory: dw.catalog.Category;
       /**
        * The sorting rule used to order the products in the results of this query,
        *  or null if no search has been executed yet.
@@ -9853,7 +10184,7 @@ declare namespace dw {
        *  In contrast to getSortingRule(), this method respects explicit sorting rules and sorting options and rules determined implicitly
        *  based on the refinement category, keyword sorting rule assignment, etc.
        */
-      effectiveSortingRule: dw.catalog.SortingRule;
+      readonly effectiveSortingRule: dw.catalog.SortingRule;
       /**
        * Get the flag indicating whether unorderable products should be excluded
        *  when the next call to getProducts() is made. If this value has not been
@@ -9868,11 +10199,11 @@ declare namespace dw {
        *  The rules are obtained from the current category context or inherited from the parent category,
        *  up to the root category.
        */
-      pageMetaTags: Array<dw.web.PageMetaTag>;
+      readonly pageMetaTags: Array<dw.web.PageMetaTag>;
       /**
        * The method indicates if the search result is ordered by a personalized sorting rule.
        */
-      personalizedSort: boolean;
+      readonly personalizedSort: boolean;
       /**
        * The maximum price by which the search result is refined.
        */
@@ -9894,7 +10225,7 @@ declare namespace dw {
        *  Note that products that were removed or went offline since the last index
        *  update are not included in the returned set.
        */
-      products: dw.util.Iterator<dw.catalog.Product>;
+      readonly products: dw.util.Iterator<dw.catalog.Product>;
       /**
        * The product search hits in the search result.
        *  Note that method does also return search hits representing products that
@@ -9902,7 +10233,7 @@ declare namespace dw {
        *  implement appropriate checks before accessing the product related to the
        *  search hit instance (see ProductSearchHit.getProduct)
        */
-      productSearchHits: dw.util.Iterator<dw.catalog.ProductSearchHit>;
+      readonly productSearchHits: dw.util.Iterator<dw.catalog.ProductSearchHit>;
       /**
        * The promotion id that was specified in the search query or null if no promotion id set. If multiple
        *  promotion id's specified the method returns only the first id. See setPromotionIDs(List) and
@@ -9926,20 +10257,20 @@ declare namespace dw {
        * The method returns true, if the search is refined by a category.
        *  The method checks, that a category ID is specified.
        */
-      refinedByCategory: boolean;
+      readonly refinedByCategory: boolean;
       /**
        * Identifies if this search has been refined by price.
        */
-      refinedByPrice: boolean;
+      readonly refinedByPrice: boolean;
       /**
        * Identifies if this search has been refined by promotion.
        */
-      refinedByPromotion: boolean;
+      readonly refinedByPromotion: boolean;
       /**
        * Identifies if this is a category search and is refined with further
        *  criteria, like a brand refinement or an attribute refinement.
        */
-      refinedCategorySearch: boolean;
+      readonly refinedCategorySearch: boolean;
       /**
        * The category used to determine possible refinements for the search.
        *  If an explicit category was set for this purpose using setRefinementCategory(Category), it is returned.
@@ -9952,17 +10283,17 @@ declare namespace dw {
        *  Otherwise, the refinements are determined based on the deepest common category of all products in the search result.
        *  Hint: If you want to use the same refinements for all searches, consider defining them in one category (usually root) and using setRefinementCategory(Category) to avoid unnecessary calculation of the deepest common category.
        */
-      refinements: dw.catalog.ProductSearchRefinements;
+      readonly refinements: dw.catalog.ProductSearchRefinements;
       /**
        * This method returns the URL of the endpoint where the merchants should upload their image for visual search.
        */
-      searchableImageUploadURL: string;
+      readonly searchableImageUploadURL: string;
       /**
        * Returns search phrase suggestions for the current search phrase.
        *  Search phrase suggestions may contain alternative search phrases as well
        *  as lists of corrected and completed search terms.
        */
-      searchPhraseSuggestions: dw.suggest.SearchPhraseSuggestions;
+      readonly searchPhraseSuggestions: dw.suggest.SearchPhraseSuggestions;
       /**
        * The sorting rule explicitly set on this model to be used
        *  to order the products in the results of this query, or null
@@ -9976,22 +10307,22 @@ declare namespace dw {
        * The suggested search phrase with the highest accuracy provided
        *  for the current search phrase.
        */
-      suggestedSearchPhrase: string;
+      readonly suggestedSearchPhrase: string;
       /**
        * A list with up to 5 suggested search phrases provided for the
        *  current search phrase. It is possible that less than 5 suggestions
        *  or even no suggestions are returned.
        */
-      suggestedSearchPhrases: dw.util.List<dw.suggest.SuggestedPhrase>;
+      readonly suggestedSearchPhrases: dw.util.List<dw.suggest.SuggestedPhrase>;
       /**
        * The method indicates if no-hits search should be tracked for predictive intelligence use.
        */
-      trackingEmptySearchesEnabled: boolean;
+      readonly trackingEmptySearchesEnabled: boolean;
       /**
        * The method returns true, if this is a visual search. The
        *  method checks that a image UUID is specified.
        */
-      visualSearch: boolean;
+      readonly visualSearch: boolean;
 
       /**
        * Constructs a new ProductSearchModel.
@@ -10639,15 +10970,15 @@ declare namespace dw {
       /**
        * Identifies if this is a category refinement.
        */
-      categoryRefinement: boolean;
+      readonly categoryRefinement: boolean;
       /**
        * Identifies if this is a price refinement.
        */
-      priceRefinement: boolean;
+      readonly priceRefinement: boolean;
       /**
        * Identifies if this is a promotion refinement.
        */
-      promotionRefinement: boolean;
+      readonly promotionRefinement: boolean;
 
       /**
        * Identifies if this is a category refinement.
@@ -10678,12 +11009,12 @@ declare namespace dw {
        * The lower bound for price refinements.  For example, 50.00
        *  for a range of $50.00 - $99.99.
        */
-      valueFrom: number;
+      readonly valueFrom: number;
       /**
        * The upper bound for price refinements.  For example, 99.99
        *  for a range of $50.00 - $99.99.
        */
-      valueTo: number;
+      readonly valueTo: number;
 
       /**
        * Returns the lower bound for price refinements.  For example, 50.00
@@ -10742,21 +11073,21 @@ declare namespace dw {
        *  can be found traversing the category tree upward starting at the deepest
        *  common category of the search result.
        */
-      categoryRefinementDefinition: dw.catalog.ProductSearchRefinementDefinition;
+      readonly categoryRefinementDefinition: dw.catalog.ProductSearchRefinementDefinition;
       /**
        * The appropriate price refinement definition based on the search
        *  result. The price refinement definition returned will be the first that
        *  can be found traversing the category tree upward starting at the deepest
        *  common category of the search result.
        */
-      priceRefinementDefinition: dw.catalog.ProductSearchRefinementDefinition;
+      readonly priceRefinementDefinition: dw.catalog.ProductSearchRefinementDefinition;
       /**
        * The appropriate promotion refinement definition based on the search
        *  result. The promotion refinement definition returned will be the first that
        *  can be found traversing the category tree upward starting at the deepest
        *  common category of the search result.
        */
-      promotionRefinementDefinition: dw.catalog.ProductSearchRefinementDefinition;
+      readonly promotionRefinementDefinition: dw.catalog.ProductSearchRefinementDefinition;
 
       /**
        * Returns the appropriate category refinement definition based on the search
@@ -10834,16 +11165,16 @@ declare namespace dw {
        *  This ID is generally different than the ID returned by
        *  getID().
        */
-      attributeID: string;
+      readonly attributeID: string;
       /**
        * The display name for the product variation attribute, which can be used in the
        *  user interface.
        */
-      displayName: string;
+      readonly displayName: string;
       /**
        * The ID of the product variation attribute.
        */
-      ID: string;
+      readonly ID: string;
 
       /**
        * Returns the ID of the product attribute defintion related to
@@ -10878,20 +11209,20 @@ declare namespace dw {
       /**
        * The description of the product variation attribute value in the current locale.
        */
-      description: string;
+      readonly description: string;
       /**
        * The display value for the product variation attribute value, which can be used in the
        *  user interface.
        */
-      displayValue: string;
+      readonly displayValue: string;
       /**
        * The ID of the product variation attribute value.
        */
-      ID: string;
+      readonly ID: string;
       /**
        * The value for the product variation attribute value.
        */
-      value: any;
+      readonly value: any;
 
       /**
        * Returns true if the specified object is equal to this object.
@@ -11051,34 +11382,34 @@ declare namespace dw {
        * The object attribute definitions corresponding with the product
        *  variation attributes of the master product.
        */
-      attributeDefinitions: dw.util.Collection<
+      readonly attributeDefinitions: dw.util.Collection<
         dw.object.ObjectAttributeDefinition
       >;
       /**
        * Return the default variant of this model's master product. If no default
        *  variant has been defined, return an arbitrary variant.
        */
-      defaultVariant: dw.catalog.Variant;
+      readonly defaultVariant: dw.catalog.Variant;
       /**
        * The master of the product variation.
        */
-      master: dw.catalog.Product;
+      readonly master: dw.catalog.Product;
       /**
        * A collection of product variation attributes of the variation.
        */
-      productVariationAttributes: dw.util.Collection<
+      readonly productVariationAttributes: dw.util.Collection<
         dw.catalog.ProductVariationAttributeValue
       >;
       /**
        * The variant currently selected for this variation model.
        *  Returns null if no variant is selected.
        */
-      selectedVariant: dw.catalog.Variant;
+      readonly selectedVariant: dw.catalog.Variant;
       /**
        * The variants currently selected for this variation model.
        *  Returns an empty collection if no variant is selected.
        */
-      selectedVariants: dw.util.Collection<dw.catalog.Variant>;
+      readonly selectedVariants: dw.util.Collection<dw.catalog.Variant>;
       /**
        * The collection of product variants of this variation model.
        *  This collection only includes online variants. Offline variants are
@@ -11087,7 +11418,7 @@ declare namespace dw {
        *
        *  The product variants are returned in no particular order.
        */
-      variants: dw.util.Collection<dw.catalog.Variant>;
+      readonly variants: dw.util.Collection<dw.catalog.Variant>;
       /**
        * The collection of variation groups of this variation model.
        *  This collection only includes online variation groups. Offline variation
@@ -11096,7 +11427,7 @@ declare namespace dw {
        *
        *  The variation groups are returned in no particular order.
        */
-      variationGroups: dw.util.Collection<dw.catalog.VariationGroup>;
+      readonly variationGroups: dw.util.Collection<dw.catalog.VariationGroup>;
 
       /**
        * Returns the value definitions for the specified attribute. Only values
@@ -11578,7 +11909,9 @@ declare namespace dw {
     /**
      * Represents a recommendation in Commerce Cloud Digital.
      */
-    class Recommendation extends dw.object.ExtensibleObject {
+    class Recommendation extends dw.object.ExtensibleObject<
+      RecommendationCustomAttributes
+    > {
       /**
        * Represents a cross-sell recommendation.
        */
@@ -11595,53 +11928,53 @@ declare namespace dw {
       /**
        * The recommendation's callout message in the current locale.
        */
-      calloutMsg: dw.content.MarkupText;
+      readonly calloutMsg: dw.content.MarkupText;
       /**
        * Return the catalog containing the recommendation.
        */
-      catalog: dw.catalog.Catalog;
+      readonly catalog: dw.catalog.Catalog;
       /**
        * The recommendation's image.
        */
-      image: dw.content.MediaFile;
+      readonly image: dw.content.MediaFile;
       /**
        * The recommendation's long description in the current locale.
        */
-      longDescription: dw.content.MarkupText;
+      readonly longDescription: dw.content.MarkupText;
       /**
        * The name of the recommended item in the current locale.
        */
-      name: string;
+      readonly name: string;
       /**
        * The type of the recommendation.
        */
-      recommendationType: number;
+      readonly recommendationType: number;
       /**
        * Return a reference to the recommended item.  This will always be an
        *  object of type dw.catalog.Product since this is the only
        *  currently supported recommendation target type.
        */
-      recommendedItem: any;
+      readonly recommendedItem: any;
       /**
        * Return the ID of the recommended item.  This will always be a product
        *  ID since this is the only currently supported recommendation target
        *  type.
        */
-      recommendedItemID: string;
+      readonly recommendedItemID: string;
       /**
        * The recommendation's short description in the current locale.
        */
-      shortDescription: dw.content.MarkupText;
+      readonly shortDescription: dw.content.MarkupText;
       /**
        * Return a reference to the source item.  This will be an object of type
        *  dw.catalog.Product or dw.catalog.Category.
        */
-      sourceItem: any;
+      readonly sourceItem: any;
       /**
        * Return the ID of the recommendation source item.  This will either be a
        *  product ID or category name.
        */
-      sourceItemID: string;
+      readonly sourceItemID: string;
 
       /**
        * Returns the recommendation's callout message in the current locale.
@@ -11741,24 +12074,24 @@ declare namespace dw {
       /**
        * The number of search results found by this search.
        */
-      count: number;
+      readonly count: number;
       /**
        * Identifies if the query is emtpy when no search term, search parameter or
        *  refinement was specified for the search. In case also no result is
        *  returned. This "empty" is different to a query with a specified query and
        *  with an empty result.
        */
-      emptyQuery: boolean;
+      readonly emptyQuery: boolean;
       /**
        * The method returns true, if this search is refined by at least one
        *  attribute.
        */
-      refinedByAttribute: boolean;
+      readonly refinedByAttribute: boolean;
       /**
        * Identifies if this was a refined search. A search is a refined search if
        *  at least one refinement is part of the query.
        */
-      refinedSearch: boolean;
+      readonly refinedSearch: boolean;
       /**
        * The search phrase used in this search.
        */
@@ -12129,29 +12462,31 @@ declare namespace dw {
     /**
      * Common search refinement definition base class.
      */
-    class SearchRefinementDefinition extends dw.object.ExtensibleObject {
+    class SearchRefinementDefinition extends dw.object.ExtensibleObject<
+      SearchRefinementDefinitionCustomAttributes
+    > {
       /**
        * The attribute ID. If the refinement definition is not an
        *  attribute refinement, the method returns an empty string.
        */
-      attributeID: string;
+      readonly attributeID: string;
       /**
        * Identifies if this is an attribute refinement.
        */
-      attributeRefinement: boolean;
+      readonly attributeRefinement: boolean;
       /**
        * The cut-off threshold.
        */
-      cutoffThreshold: number;
+      readonly cutoffThreshold: number;
       /**
        * The display name.
        */
-      displayName: string;
+      readonly displayName: string;
       /**
        * A code for the data type used for this search refinement definition. See constants
        *  defined in ObjectAttributeDefinition.
        */
-      valueTypeCode: number;
+      readonly valueTypeCode: number;
 
       /**
        * Returns the attribute ID. If the refinement definition is not an
@@ -12194,7 +12529,7 @@ declare namespace dw {
       /**
        * The optional refinement value description in the current locale.
        */
-      description: string;
+      readonly description: string;
       /**
        * The refinement display value. For attribute refinements, this is
        *  the appropriate display value based on optional value display names
@@ -12204,11 +12539,11 @@ declare namespace dw {
        *  refinements, this is a string representation of the range appropriate for
        *  display.
        */
-      displayValue: string;
+      readonly displayValue: string;
       /**
        * The hit count value.
        */
-      hitCount: number;
+      readonly hitCount: number;
       /**
        * The refinement value's ID. For attribute refinements, this will
        *  be the ID of the corresponding
@@ -12217,13 +12552,13 @@ declare namespace dw {
        *  SearchModel. For price and category refinements, this
        *  value will be empty.
        */
-      ID: string;
+      readonly ID: string;
       /**
        * The optional presentation ID associated with this refinement
        *  value. The presentation ID can be used, for example, to associate an ID
        *  with an HTML widget.
        */
-      presentationID: string;
+      readonly presentationID: string;
       /**
        * The refinement value. For attribute refinements, this is the
        *  attribute value if the refinement values are unbucketed, or the bucket
@@ -12233,7 +12568,7 @@ declare namespace dw {
        *  a string representation of the price range lower bound. For category
        *  refinements, the value will be a category ID.
        */
-      value: string;
+      readonly value: string;
 
       /**
        * Returns the optional refinement value description in the current locale.
@@ -12324,7 +12659,7 @@ declare namespace dw {
        *  not provide values for the current search result and can therefore also
        *  be used on empty search results.
        */
-      allRefinementDefinitions: dw.util.Collection<
+      readonly allRefinementDefinitions: dw.util.Collection<
         dw.catalog.SearchRefinementDefinition
       >;
       /**
@@ -12336,7 +12671,7 @@ declare namespace dw {
        *  The method also filters out refinement definitions that do not provide
        *  any values for the current search result.
        */
-      refinementDefinitions: dw.util.Collection<
+      readonly refinementDefinitions: dw.util.Collection<
         dw.catalog.SearchRefinementDefinition
       >;
 
@@ -12444,20 +12779,20 @@ declare namespace dw {
       /**
        * The description of the sorting option for the current locale.
        */
-      description: string;
+      readonly description: string;
       /**
        * The display name of the of the sorting option for the current locale.
        */
-      displayName: string;
+      readonly displayName: string;
       /**
        * The ID of the sorting option.
        */
-      ID: string;
+      readonly ID: string;
       /**
        * The sorting rule for this sorting option,
        *  or null if there is no associated rule.
        */
-      sortingRule: dw.catalog.SortingRule;
+      readonly sortingRule: dw.catalog.SortingRule;
 
       /**
        * Returns the description of the sorting option for the current locale.
@@ -12493,7 +12828,7 @@ declare namespace dw {
       /**
        * The ID of the sorting rule.
        */
-      ID: string;
+      readonly ID: string;
 
       /**
        * Returns the ID of the sorting rule.
@@ -12506,101 +12841,101 @@ declare namespace dw {
     /**
      * Represents a store in Commerce Cloud Digital.
      */
-    class Store extends dw.object.ExtensibleObject {
+    class Store extends dw.object.ExtensibleObject<StoreCustomAttributes> {
       /**
        * The address1 of the store.
        */
-      address1: string;
+      readonly address1: string;
       /**
        * The address2 of the store.
        */
-      address2: string;
+      readonly address2: string;
       /**
        * The city of the store.
        */
-      city: string;
+      readonly city: string;
       /**
        * The countryCode of the store.
        */
-      countryCode: dw.value.EnumValue;
+      readonly countryCode: dw.value.EnumValue;
       /**
        * The demandwarePosEnabled flag for the store.
        *  Indicates that this store uses Commerce Cloud Store for point-of-sale.
        */
-      demandwarePosEnabled: boolean;
+      readonly demandwarePosEnabled: boolean;
       /**
        * The email of the store.
        */
-      email: string;
+      readonly email: string;
       /**
        * The fax of the store.
        */
-      fax: string;
+      readonly fax: string;
       /**
        * The ID of the store.
        */
-      ID: string;
+      readonly ID: string;
       /**
        * The store image.
        */
-      image: dw.content.MediaFile;
+      readonly image: dw.content.MediaFile;
       /**
        * The inventory list the store is associated with. If the
        *  store is not associated with a inventory list, or the inventory list does not
        *  exist, the method returns null.
        */
-      inventoryList: dw.catalog.ProductInventoryList;
+      readonly inventoryList: dw.catalog.ProductInventoryList;
       /**
        * The inventory list id the store is associated with. If the
        *  store is not associated with a inventory list, or the inventory list does not
        *  exist, the method returns null.
        */
-      inventoryListID: string;
+      readonly inventoryListID: string;
       /**
        * The latitude of the store.
        */
-      latitude: number;
+      readonly latitude: number;
       /**
        * The longitude of the store.
        */
-      longitude: number;
+      readonly longitude: number;
       /**
        * The name of the store.
        */
-      name: string;
+      readonly name: string;
       /**
        * The phone of the store.
        */
-      phone: string;
+      readonly phone: string;
       /**
        * The posEnabled flag for the Store.
        *  Indicates that this store uses Commerce Cloud Store for point-of-sale.
        */
-      posEnabled: boolean;
+      readonly posEnabled: boolean;
       /**
        * The postalCode of the store.
        */
-      postalCode: string;
+      readonly postalCode: string;
       /**
        * The stateCode of the store.
        */
-      stateCode: string;
+      readonly stateCode: string;
       /**
        * The storeEvents of the store.
        */
-      storeEvents: dw.content.MarkupText;
+      readonly storeEvents: dw.content.MarkupText;
       /**
        * All the store groups this store belongs to.
        */
-      storeGroups: dw.util.Collection<dw.catalog.StoreGroup>;
+      readonly storeGroups: dw.util.Collection<dw.catalog.StoreGroup>;
       /**
        * The storeHours of the store.
        */
-      storeHours: dw.content.MarkupText;
+      readonly storeHours: dw.content.MarkupText;
       /**
        * The storeLocatorEnabled flag for the store.
        */
-      storeLocatorEnabled: boolean;
+      readonly storeLocatorEnabled: boolean;
 
       /**
        * Returns the address1 of the store.
@@ -12745,19 +13080,21 @@ declare namespace dw {
     /**
      * Represents a store group. Store groups can be used to group the stores for different marketing purposes.
      */
-    class StoreGroup extends dw.object.ExtensibleObject {
+    class StoreGroup extends dw.object.ExtensibleObject<
+      StoreGroupCustomAttributes
+    > {
       /**
        * The ID of the store group.
        */
-      ID: string;
+      readonly ID: string;
       /**
        * The name of the store group.
        */
-      name: string;
+      readonly name: string;
       /**
        * All the stores that are assigned to the store group.
        */
-      stores: dw.util.Collection<dw.catalog.Store>;
+      readonly stores: dw.util.Collection<dw.catalog.Store>;
 
       /**
        * Returns the ID of the store group.
@@ -12787,7 +13124,7 @@ declare namespace dw {
       /**
        * All the store groups of the current site.
        */
-      static allStoreGroups: dw.util.Collection<dw.catalog.StoreGroup>;
+      static readonly allStoreGroups: dw.util.Collection<dw.catalog.StoreGroup>;
 
       /**
        * Returns all the store groups of the current site.
@@ -12914,7 +13251,7 @@ declare namespace dw {
        *  If none of the variation groups define any product links, the product links are
        *  retrieved from the master product.
        */
-      allProductLinks: dw.util.Collection<dw.catalog.ProductLink>;
+      readonly allProductLinks: dw.util.Collection<dw.catalog.ProductLink>;
       /**
        * The brand of the product variant.
        *
@@ -12924,21 +13261,21 @@ declare namespace dw {
        *  If none of the variation groups define a value for 'brand', the value of
        *  the master product is returned.
        */
-      brand: string;
+      readonly brand: string;
       /**
        * The classification category of the product variant.
        *
        *  Please note that the classification category is always inherited
        *  from the master and cannot be overridden by the variant.
        */
-      classificationCategory: dw.catalog.Category;
+      readonly classificationCategory: dw.catalog.Category;
       /**
        * The custom attributes of the variant.
        *
        *  Custom attributes are inherited from the master product and can
        *  be overridden by the variant.
        */
-      custom: dw.object.CustomAttributes;
+      readonly custom: VariantCustomAttributes;
       /**
        * The EAN of the product variant.
        *
@@ -12948,7 +13285,7 @@ declare namespace dw {
        *  If none of the variation groups define a value for 'EAN', the value of
        *  the master product is returned.
        */
-      EAN: string;
+      readonly EAN: string;
       /**
        * The image of the product variant.
        *
@@ -12958,7 +13295,7 @@ declare namespace dw {
        *  If none of the variation groups define a value for 'image', the value of
        *  the master product is returned.
        */
-      image: dw.content.MediaFile;
+      readonly image: dw.content.MediaFile;
       /**
        * The long description of the product variant.
        *
@@ -12968,7 +13305,7 @@ declare namespace dw {
        *  If none of the variation groups define a value for 'longDescription', the value of
        *  the master product is returned.
        */
-      longDescription: dw.content.MarkupText;
+      readonly longDescription: dw.content.MarkupText;
       /**
        * The manufacturer name of the product variant.
        *
@@ -12978,7 +13315,7 @@ declare namespace dw {
        *  If none of the variation groups define a value for 'manufacturerName', the value of
        *  the master product is returned.
        */
-      manufacturerName: string;
+      readonly manufacturerName: string;
       /**
        * The manufacturer sku of the product variant.
        *
@@ -12988,11 +13325,11 @@ declare namespace dw {
        *  If none of the variation groups define a value for 'manufacturerSKU', the value of
        *  the master product is returned.
        */
-      manufacturerSKU: string;
+      readonly manufacturerSKU: string;
       /**
        * The ProductMaster for this mastered product.
        */
-      masterProduct: dw.catalog.Product;
+      readonly masterProduct: dw.catalog.Product;
       /**
        * The name of the product variant.
        *
@@ -13002,7 +13339,7 @@ declare namespace dw {
        *  If none of the variation groups define a value for 'name', the value of
        *  the master product is returned.
        */
-      name: string;
+      readonly name: string;
       /**
        * The onlineFrom date of the product variant.
        *
@@ -13012,7 +13349,7 @@ declare namespace dw {
        *  If none of the variation groups define a value for 'onlineFrom', the value of
        *  the master product is returned.
        */
-      onlineFrom: Date;
+      readonly onlineFrom: Date;
       /**
        * The onlineTo date of the product variant.
        *
@@ -13022,14 +13359,14 @@ declare namespace dw {
        *  If none of the variation groups define a value for 'onlineTo', the value of
        *  the master product is returned.
        */
-      onlineTo: Date;
+      readonly onlineTo: Date;
       /**
        * Returns 'true' if the variant has any options, otherwise 'false'.
        *  Method also returns 'true' if the variant has not any options,
        *  but the related variation groups (sorted by position) or
        *  master product has options.
        */
-      optionProduct: boolean;
+      readonly optionProduct: boolean;
       /**
        * The pageDescription of the product variant.
        *
@@ -13039,7 +13376,7 @@ declare namespace dw {
        *  If none of the variation groups define a value for 'pageDescription', the value of
        *  the master product is returned.
        */
-      pageDescription: string;
+      readonly pageDescription: string;
       /**
        * The pageKeywords of the product variant.
        *
@@ -13049,7 +13386,7 @@ declare namespace dw {
        *  If none of the variation groups define a value for 'pageKeywords', the value of
        *  the master product is returned.
        */
-      pageKeywords: string;
+      readonly pageKeywords: string;
       /**
        * The pageTitle of the product variant.
        *
@@ -13059,7 +13396,7 @@ declare namespace dw {
        *  If none of the variation groups define a value for 'pageTitle', the value of
        *  the master product is returned.
        */
-      pageTitle: string;
+      readonly pageTitle: string;
       /**
        * The pageURL of the product variant.
        *
@@ -13069,7 +13406,7 @@ declare namespace dw {
        *  If none of the variation groups define a value for 'pageURL', the value of
        *  the master product is returned.
        */
-      pageURL: string;
+      readonly pageURL: string;
       /**
        * All product links of the product variant for which the target
        *  product is assigned to the current site catalog.
@@ -13080,7 +13417,7 @@ declare namespace dw {
        *  If none of the variation groups define any product links, the product links are retrieved
        *  from the master product.
        */
-      productLinks: dw.util.Collection<dw.catalog.ProductLink>;
+      readonly productLinks: dw.util.Collection<dw.catalog.ProductLink>;
       /**
        * The short description of the product variant.
        *
@@ -13090,7 +13427,7 @@ declare namespace dw {
        *  If none of the variation groups define a value for 'shortDescription', the value of
        *  the master product is returned.
        */
-      shortDescription: dw.content.MarkupText;
+      readonly shortDescription: dw.content.MarkupText;
       /**
        * The tax class id of the product variant.
        *
@@ -13100,7 +13437,7 @@ declare namespace dw {
        *  If none of the variation groups define a value for 'taxClassID', the value of
        *  the master product is returned.
        */
-      taxClassID: string;
+      readonly taxClassID: string;
       /**
        * The rendering template name of the product variant.
        *
@@ -13110,7 +13447,7 @@ declare namespace dw {
        *  If none of the variation groups define a value for 'template', the value of
        *  the master product is returned.
        */
-      template: string;
+      readonly template: string;
       /**
        * The thumbnail image of the product variant.
        *
@@ -13120,7 +13457,7 @@ declare namespace dw {
        *  If none of the variation groups define a value for 'thumbnail', the value of
        *  the master product is returned.
        */
-      thumbnail: dw.content.MediaFile;
+      readonly thumbnail: dw.content.MediaFile;
       /**
        * The sales unit of the product variant as defined by the
        *  master product.
@@ -13131,7 +13468,18 @@ declare namespace dw {
        *  If none of the variation groups define a value for 'unit', the value of
        *  the master product is returned.
        */
-      unit: string;
+      readonly unit: string;
+      /**
+       * The unitQuantity of the product variant as defined by the
+       *  master product.
+       *
+       *  If the variant does not define an own value for 'unitQuantity', the value is retrieved
+       *  from the assigned variation groups, sorted by their position.
+       *
+       *  If none of the variation groups define a value for 'unitQuantity', the value of
+       *  the master product is returned.
+       */
+      readonly unitQuantity: dw.value.Quantity;
       /**
        * The UPC of the product variant.
        *
@@ -13141,7 +13489,7 @@ declare namespace dw {
        *  If none of the variation groups define a value for 'UPC', the value of
        *  the master product is returned.
        */
-      UPC: string;
+      readonly UPC: string;
 
       /**
        * Returns all product links of the product variant.
@@ -13199,7 +13547,7 @@ declare namespace dw {
        *
        * @return the custom attributes of the variant.
        */
-      getCustom(): dw.object.CustomAttributes;
+      getCustom(): VariantCustomAttributes;
       /**
        * Returns the EAN of the product variant.
        *
@@ -13439,6 +13787,19 @@ declare namespace dw {
        */
       getUnit(): string;
       /**
+       * Returns the unitQuantity of the product variant as defined by the
+       *  master product.
+       *
+       *  If the variant does not define an own value for 'unitQuantity', the value is retrieved
+       *  from the assigned variation groups, sorted by their position.
+       *
+       *  If none of the variation groups define a value for 'unitQuantity', the value of
+       *  the master product is returned.
+       *
+       * @return The unitQuantity of the variant, variation group or master
+       */
+      getUnitQuantity(): dw.value.Quantity;
+      /**
        * Returns the UPC of the product variant.
        *
        *  If the variant does not define an own value for 'UPC', the value is retrieved
@@ -13486,122 +13847,122 @@ declare namespace dw {
        *  If the variation group does not define any product links, but the master product
        *  does, the product links of the master are returned.
        */
-      allProductLinks: dw.util.Collection<dw.catalog.ProductLink>;
+      readonly allProductLinks: dw.util.Collection<dw.catalog.ProductLink>;
       /**
        * The brand of the product variation group.
        *
        *  If the variation group does not define an own value for 'brand', the value of
        *  the master product is returned.
        */
-      brand: string;
+      readonly brand: string;
       /**
        * The classification category of the product variation group.
        *
        *  Please note that the classification category is always inherited
        *  from the master and cannot be overridden by the variation group.
        */
-      classificationCategory: dw.catalog.Category;
+      readonly classificationCategory: dw.catalog.Category;
       /**
        * The custom attributes of the variation group.
        *
        *  Custom attributes are inherited from the master product and can
        *  be overridden by the variation group.
        */
-      custom: dw.object.CustomAttributes;
+      readonly custom: VariationGroupCustomAttributes;
       /**
        * The EAN of the product variation group.
        *
        *  If the variation group does not define an own value for 'EAN', the value of
        *  the master product is returned.
        */
-      EAN: string;
+      readonly EAN: string;
       /**
        * The image of the product variation group.
        *
        *  If the variation group does not define an own value for 'image', the value of
        *  the master product is returned.
        */
-      image: dw.content.MediaFile;
+      readonly image: dw.content.MediaFile;
       /**
        * The long description of the product variation group.
        *
        *  If the variation group does not define an own value for 'longDescription', the value of
        *  the master product is returned.
        */
-      longDescription: dw.content.MarkupText;
+      readonly longDescription: dw.content.MarkupText;
       /**
        * The manufacturer name of the product variation group.
        *
        *  If the variation group does not define an own value for 'manufacturerName', the value of
        *  the master product is returned.
        */
-      manufacturerName: string;
+      readonly manufacturerName: string;
       /**
        * The manufacturer sku of the product variation group.
        *
        *  If the variation group does not define an own value for 'manufacturerSKU', the value of
        *  the master product is returned.
        */
-      manufacturerSKU: string;
+      readonly manufacturerSKU: string;
       /**
        * The ProductMaster for this mastered product.
        */
-      masterProduct: dw.catalog.Product;
+      readonly masterProduct: dw.catalog.Product;
       /**
        * The name of the product variation group.
        *
        *  If the variation group does not define an own value for 'name', the value of
        *  the master product is returned.
        */
-      name: string;
+      readonly name: string;
       /**
        * The onlineFrom date of the product variation group.
        *
        *  If the variation group does not define an own value for 'onlineFrom', the value of
        *  the master product is returned.
        */
-      onlineFrom: Date;
+      readonly onlineFrom: Date;
       /**
        * The onlineTo date of the product variation group.
        *
        *  If the variation group does not define an own value for 'onlineTo', the value of
        *  the master product is returned.
        */
-      onlineTo: Date;
+      readonly onlineTo: Date;
       /**
        * Returns 'true' if the variation group has any options, otherwise 'false'.
        *  Method also returns 'true' if the variation group has not any options,
        *  but the related master product has options.
        */
-      optionProduct: boolean;
+      readonly optionProduct: boolean;
       /**
        * The pageDescription of the product variation group.
        *
        *  If the variation group does not define an own value for 'pageDescription', the value of
        *  the master product is returned.
        */
-      pageDescription: string;
+      readonly pageDescription: string;
       /**
        * The pageKeywords of the product variation group.
        *
        *  If the variation group does not define an own value for 'pageKeywords', the value of
        *  the master product is returned.
        */
-      pageKeywords: string;
+      readonly pageKeywords: string;
       /**
        * The pageTitle of the product variation group.
        *
        *  If the variation group does not define an own value for 'pageTitle', the value of
        *  the master product is returned.
        */
-      pageTitle: string;
+      readonly pageTitle: string;
       /**
        * The pageURL of the product variation group.
        *
        *  If the variation group does not define an own value for 'pageURL', the value of
        *  the master product is returned.
        */
-      pageURL: string;
+      readonly pageURL: string;
       /**
        * All product links of the product variation group for which the target
        *  product is assigned to the current site catalog.
@@ -13609,35 +13970,35 @@ declare namespace dw {
        *  If the variation group does not define any product links, but the master product
        *  does, the product links of the master are returned.
        */
-      productLinks: dw.util.Collection<dw.catalog.ProductLink>;
+      readonly productLinks: dw.util.Collection<dw.catalog.ProductLink>;
       /**
        * The short description of the product variation group.
        *
        *  If the variation group does not define an own value for 'shortDescription', the value of
        *  the master product is returned.
        */
-      shortDescription: dw.content.MarkupText;
+      readonly shortDescription: dw.content.MarkupText;
       /**
        * The tax class id of the product variation group.
        *
        *  If the variation group does not define an own value for 'taxClassID', the value of
        *  the master product is returned.
        */
-      taxClassID: string;
+      readonly taxClassID: string;
       /**
        * The rendering template name of the product variation group.
        *
        *  If the variation group does not define an own value for 'template', the value of
        *  the master product is returned.
        */
-      template: string;
+      readonly template: string;
       /**
        * The thumbnail image of the product variation group.
        *
        *  If the variation group does not define an own value for 'thumbnailImage', the value of
        *  the master product is returned.
        */
-      thumbnail: dw.content.MediaFile;
+      readonly thumbnail: dw.content.MediaFile;
       /**
        * The sales unit of the product variation group as defined by the
        *  master product.
@@ -13645,14 +14006,22 @@ declare namespace dw {
        *  If the variation group does not define an own value for 'unit', the value of
        *  the master product is returned.
        */
-      unit: string;
+      readonly unit: string;
+      /**
+       * The unitQuantity of the product variation group as defined by the
+       *  master product.
+       *
+       *  If the variation group does not define an own value for 'unitQuantity', the value of
+       *  the master product is returned.
+       */
+      readonly unitQuantity: dw.value.Quantity;
       /**
        * The UPC of the product variation group.
        *
        *  If the variation group does not define an own value for 'UPC', the value of
        *  the master product is returned.
        */
-      UPC: string;
+      readonly UPC: string;
 
       /**
        * Returns all product links of the product variation group.
@@ -13700,7 +14069,7 @@ declare namespace dw {
        *
        * @return the custom attributes of the variation group.
        */
-      getCustom(): dw.object.CustomAttributes;
+      getCustom(): VariationGroupCustomAttributes;
       /**
        * Returns the EAN of the product variation group.
        *
@@ -13882,6 +14251,16 @@ declare namespace dw {
        */
       getUnit(): string;
       /**
+       * Returns the unitQuantity of the product variation group as defined by the
+       *  master product.
+       *
+       *  If the variation group does not define an own value for 'unitQuantity', the value of
+       *  the master product is returned.
+       *
+       * @return The unitQuantity of the variation group or master
+       */
+      getUnitQuantity(): dw.value.Quantity;
+      /**
        * Returns the UPC of the product variation group.
        *
        *  If the variation group does not define an own value for 'UPC', the value of
@@ -13905,46 +14284,46 @@ declare namespace dw {
     /**
      * Class representing a Content asset in Commerce Cloud Digital.
      */
-    class Content extends dw.object.ExtensibleObject {
+    class Content extends dw.object.ExtensibleObject<ContentCustomAttributes> {
       /**
        * The Folder associated with this Content. The folder is
        *  used to determine the classification of the content.
        */
-      classificationFolder: dw.content.Folder;
+      readonly classificationFolder: dw.content.Folder;
       /**
        * The description in the current locale or null.
        */
-      description: string;
+      readonly description: string;
       /**
        * All folders to which this content is assigned.
        */
-      folders: dw.util.Collection<dw.content.Folder>;
+      readonly folders: dw.util.Collection<dw.content.Folder>;
       /**
        * The ID of the content asset.
        */
-      ID: string;
+      readonly ID: string;
       /**
        * The name of the content asset.
        */
-      name: string;
+      readonly name: string;
       /**
        * The online status of the content.
        */
-      online: boolean;
+      readonly online: boolean;
       /**
        * The online status flag of the content.
        */
-      onlineFlag: boolean;
+      readonly onlineFlag: boolean;
       /**
        * The page description for the content in the current locale
        *  or null if there is no page description.
        */
-      pageDescription: string;
+      readonly pageDescription: string;
       /**
        * The page keywords for the content in the current locale
        *  or null if there is no page title.
        */
-      pageKeywords: string;
+      readonly pageKeywords: string;
       /**
        * All page meta tags, defined for this instance for which content can be generated.
        *
@@ -13952,42 +14331,42 @@ declare namespace dw {
        *  The rules are obtained from the current content or inherited from the default folder,
        *  up to the root folder.
        */
-      pageMetaTags: Array<dw.web.PageMetaTag>;
+      readonly pageMetaTags: Array<dw.web.PageMetaTag>;
       /**
        * The page title for the content in the current locale
        *  or null if there is no page title.
        */
-      pageTitle: string;
+      readonly pageTitle: string;
       /**
        * The page URL for the content in the current locale
        *  or null if there is no page URL.
        */
-      pageURL: string;
+      readonly pageURL: string;
       /**
        * The search status of the content.
        */
-      searchable: boolean;
+      readonly searchable: boolean;
       /**
        * The online status flag of the content.
        */
-      searchableFlag: boolean;
+      readonly searchableFlag: boolean;
       /**
        * The contents change frequency needed for the sitemap creation.
        */
-      siteMapChangeFrequency: string;
+      readonly siteMapChangeFrequency: string;
       /**
        * The status if the content is included into the sitemap.
        */
-      siteMapIncluded: number;
+      readonly siteMapIncluded: number;
       /**
        * The contents priority needed for the sitemap creation.
        *  If no priority is defined, the method returns 0.0.
        */
-      siteMapPriority: number;
+      readonly siteMapPriority: number;
       /**
        * The value of attribute 'template'.
        */
-      template: string;
+      readonly template: string;
 
       /**
        * Returns the Folder associated with this Content. The folder is
@@ -14135,7 +14514,7 @@ declare namespace dw {
       /**
        * The content library of the current site.
        */
-      static siteLibrary: dw.content.Library;
+      static readonly siteLibrary: dw.content.Library;
 
       /**
        * Returns the content with the corresponding identifier within the current
@@ -14204,7 +14583,7 @@ declare namespace dw {
        * An Iterator containing all Content Assets that are the result of the
        *  search.
        */
-      content: dw.util.Iterator<dw.content.Content>;
+      readonly content: dw.util.Iterator<dw.content.Content>;
       /**
        * The content ID against which the search results apply.
        */
@@ -14212,7 +14591,7 @@ declare namespace dw {
       /**
        * The deepest common folder of all content assets in the search result.
        */
-      deepestCommonFolder: dw.content.Folder;
+      readonly deepestCommonFolder: dw.content.Folder;
       /**
        * The method returns true, if the content search result is filtered by the folder and it is not subsequently
        *  possible to search for content assets that belong to no folder (e.g. those for Page Designer).
@@ -14221,7 +14600,7 @@ declare namespace dw {
       /**
        * The folder against which the search results apply.
        */
-      folder: dw.content.Folder;
+      readonly folder: dw.content.Folder;
       /**
        * The folder ID against which the search results apply.
        */
@@ -14231,7 +14610,7 @@ declare namespace dw {
        *  method checks, that a folder ID is specified and no search phrase is
        *  specified.
        */
-      folderSearch: boolean;
+      readonly folderSearch: boolean;
       /**
        * All page meta tags, defined for this instance for which content can be generated.
        *
@@ -14239,7 +14618,7 @@ declare namespace dw {
        *  The rules are obtained from the current folder context or inherited from the parent folder,
        *  up to the root folder.
        */
-      pageMetaTags: Array<dw.web.PageMetaTag>;
+      readonly pageMetaTags: Array<dw.web.PageMetaTag>;
       /**
        * Get the flag that determines if the folder search will
        *  be recursive.
@@ -14249,16 +14628,16 @@ declare namespace dw {
        * The method returns true, if the search is refined by a folder.
        *  The method checks, that a folder ID is specified.
        */
-      refinedByFolder: boolean;
+      readonly refinedByFolder: boolean;
       /**
        * Identifies if this is a folder search and is refined with further
        *  criteria, like a name refinement or an attribute refinement.
        */
-      refinedFolderSearch: boolean;
+      readonly refinedFolderSearch: boolean;
       /**
        * The set of search refinements used in this search.
        */
-      refinements: dw.content.ContentSearchRefinements;
+      readonly refinements: dw.content.ContentSearchRefinements;
 
       /**
        * Constructs a new ContentSearchModel.
@@ -14488,7 +14867,7 @@ declare namespace dw {
       /**
        * Identifies if this is a folder refinement.
        */
-      folderRefinement: boolean;
+      readonly folderRefinement: boolean;
 
       /**
        * Identifies if this is a folder refinement.
@@ -14541,11 +14920,11 @@ declare namespace dw {
        *  can be found traversing the folder tree upward starting at the deepest
        *  common folder of the search result.
        */
-      folderRefinementDefinition: dw.content.ContentSearchRefinementDefinition;
+      readonly folderRefinementDefinition: dw.content.ContentSearchRefinementDefinition;
       /**
        * A collection of matching folders.
        */
-      matchingFolders: dw.util.Collection<dw.content.Folder>;
+      readonly matchingFolders: dw.util.Collection<dw.content.Folder>;
 
       /**
        * Returns the number of search hits for the passed folder object.
@@ -14608,90 +14987,90 @@ declare namespace dw {
     /**
      * Class representing a folder for organizing content assets in Commerce Cloud Digital.
      */
-    class Folder extends dw.object.ExtensibleObject {
+    class Folder extends dw.object.ExtensibleObject<FolderCustomAttributes> {
       /**
        * The content objects for this folder, sorted by position.
        */
-      content: dw.util.Collection<dw.content.Content>;
+      readonly content: dw.util.Collection<dw.content.Content>;
       /**
        * The description for the folder as known in the current
        *  locale or null if it cannot be found.
        */
-      description: string;
+      readonly description: string;
       /**
        * The display name for the folder as known in the current
        *  locale or null if it cannot be found.
        */
-      displayName: string;
+      readonly displayName: string;
       /**
        * The ID of the folder. The ID can be used to uniquely
        *  identify a folder within any given library. This folder ID provides
        *  an alternative lookup mechanism for folders frequently used in
        *  the storefront.
        */
-      ID: string;
+      readonly ID: string;
       /**
        * Indicates if the folder is set online or
        *  offline. Initially, all folders are set online.
        */
-      online: boolean;
+      readonly online: boolean;
       /**
        * The online content objects for this folder, sorted by position.
        */
-      onlineContent: dw.util.Collection<dw.content.Content>;
+      readonly onlineContent: dw.util.Collection<dw.content.Content>;
       /**
        * The online subfolders of this folder, sorted by position.
        */
-      onlineSubFolders: dw.util.Collection<dw.content.Folder>;
+      readonly onlineSubFolders: dw.util.Collection<dw.content.Folder>;
       /**
        * The page description for this folder using the value in
        *  the current locale, or returns null if no value was found.
        */
-      pageDescription: string;
+      readonly pageDescription: string;
       /**
        * The page keywords for this folder using the value in
        *  the current locale, or returns null if no value was found.
        */
-      pageKeywords: string;
+      readonly pageKeywords: string;
       /**
        * The page title for this folder using the value in
        *  the current locale, or returns null if no value was found.
        */
-      pageTitle: string;
+      readonly pageTitle: string;
       /**
        * The page URL for this folder using the value in
        *  the current locale, or returns null if no value was found.
        */
-      pageURL: string;
+      readonly pageURL: string;
       /**
        * The parent folder of this folder.
        */
-      parent: dw.content.Folder;
+      readonly parent: dw.content.Folder;
       /**
        * Indicates if this is the root folder.
        */
-      root: boolean;
+      readonly root: boolean;
       /**
        * The folder's sitemap change frequency.
        */
-      siteMapChangeFrequency: string;
+      readonly siteMapChangeFrequency: string;
       /**
        * The folder's sitemap inclusion.
        */
-      siteMapIncluded: number;
+      readonly siteMapIncluded: number;
       /**
        * The folder's sitemap priority.
        */
-      siteMapPriority: number;
+      readonly siteMapPriority: number;
       /**
        * The subfolders of this folder, sorted by position.
        */
-      subFolders: dw.util.Collection<dw.content.Folder>;
+      readonly subFolders: dw.util.Collection<dw.content.Folder>;
       /**
        * The name of the template used to render the folder
        *  in the store front.
        */
-      template: string;
+      readonly template: string;
 
       /**
        * Returns the content objects for this folder, sorted by position.
@@ -14820,24 +15199,24 @@ declare namespace dw {
      *  Currently only one library is allowed per site. An instance of this library
      *  can be obtained by calling <a href="class_dw_content_ContentMgr.html#dw_content_ContentMgr_getSiteLibrary_DetailAnchor">ContentMgr.getSiteLibrary()</a>.
      */
-    class Library extends dw.object.ExtensibleObject {
+    class Library extends dw.object.ExtensibleObject<LibraryCustomAttributes> {
       /**
        * The CMS channel of the library.
        */
-      CMSChannelID: string;
+      readonly CMSChannelID: string;
       /**
        * The display name for the library as known in the current
        *  locale or null if it cannot be found.
        */
-      displayName: string;
+      readonly displayName: string;
       /**
        * The ID of this library.
        */
-      ID: string;
+      readonly ID: string;
       /**
        * The root folder for this library.
        */
-      root: dw.content.Folder;
+      readonly root: dw.content.Folder;
 
       /**
        * Returns the CMS channel of the library.
@@ -14960,11 +15339,11 @@ declare namespace dw {
       /**
        * The content with all links rewritten for storefront use.
        */
-      markup: string;
+      readonly markup: string;
       /**
        * The original content source, without any links re-written.
        */
-      source: string;
+      readonly source: string;
 
       /**
        * Returns the content with all links rewritten for storefront use.
@@ -14999,7 +15378,7 @@ declare namespace dw {
      *  Digital.</p><p>
      *
      *  Image transformation parameters are specified as JavaScript object literal. They
-     *  are translated into URL parameters. See <a href="https://documentation.b2c.commercecloud.salesforce.com/DOC1/topic/com.demandware.dochelp/ImageManagement/CreatingImageTransformationURLs.html?cp=0_3_0_5_6_1">Create Image Transformation URLs.</a></p><p>
+     *  are translated into URL parameters. See <a href="https://documentation.b2c.commercecloud.salesforce.com/DOC1/topic/com.demandware.dochelp/content/b2c_commerce/topics/image_management/b2c_creating_image_transformation_urls.html">Create Image Transformation URLs.</a></p><p>
      *
      *  <table>
      *  <tbody><tr>
@@ -15171,44 +15550,44 @@ declare namespace dw {
        *  protocol for the reference is the current protocol of the current
        *  HTTP request.
        */
-      absURL: dw.web.URL;
+      readonly absURL: dw.web.URL;
       /**
        * The alternative text assigned to the media file in current
        *  requests locale. If no alternative text was assigned or if no defaulting
        *  rule was defined, the method returns null.
        */
-      alt: string;
+      readonly alt: string;
       /**
        * An absolute URL to the referenced media file. The
        *  protocol is https.
        */
-      httpsURL: dw.web.URL;
+      readonly httpsURL: dw.web.URL;
       /**
        * An absolute URL to the referenced media file. The
        *  protocol is http.
        */
-      httpURL: dw.web.URL;
+      readonly httpURL: dw.web.URL;
       /**
        * The title assigned to the media file in current requests locale.
        *  If no title was assigned or if no defaulting rule was defined, the
        *  method returns null.
        */
-      title: string;
+      readonly title: string;
       /**
        * An URL to the referenced media file. The
        *  returned URL is a relative URL.
        */
-      url: dw.web.URL;
+      readonly url: dw.web.URL;
       /**
        * An URL to the referenced media file. The
        *  returned URL is a relative URL.
        */
-      URL: dw.web.URL;
+      readonly URL: dw.web.URL;
       /**
        * The view type annotation for the media file. The method returns
        *  null, if the media file has no view type annotation.
        */
-      viewType: string;
+      readonly viewType: string;
 
       /**
        * Returns an URL to the referenced image file. Image transformation
@@ -15376,9 +15755,9 @@ declare namespace dw {
        *  Decryption is the process of getting back the original data from the
        *  cipher-text using a decryption key.
        * @param base64Msg the base64 encoded cipher bytes
-       * @param key Use the same key to decrypt as was used to encrypt the message. If the cryptographic algorithm is symmetric (e.g. AES) or asymmetric (e.g. RSA), the key needs to be passed as base64 encoded string. The only exception is the symmetric cryptographic algorithms Password Based Encryption (PBE). With PBE the key needs to be passed as plain string (without any encoding).
+       * @param key When using a symmetric cryptographic algorithm, use the same key to encrypt and decrypt. If the cryptographic algorithm is symmetric (for example, AES) or asymmetric (for example, RSA), the key needs to be passed as a base64-encoded string. The only exception is the symmetric cryptographic algorithms Password Based Encryption (PBE). With PBE the key needs to be passed as plain string (without any encoding).
        * @param transformation The transformation has to be in "algorithm/mode/padding" format. See the corresponding encrypt method for supported transformations.
-       * @param salt Initialization value appropriate for the algorithm, this might be a Binary Salt or AlgorithmParameter or InitializationVector (see the corresponding encrypt method for details). Should be appropriate for the algorithm being used. If this value is null, a default initialization value will be used by the engine. The same value used to Encrypt needs to be supplied to the Decrypt function for many algorithms to successfully decrypt the data, so it is best practice to specify an appropriate value.
+       * @param saltOrIV Initialization value appropriate for the algorithm, this might be a Binary Salt or AlgorithmParameter or InitializationVector (see the corresponding encrypt method for details). Should be appropriate for the algorithm being used. If this value is null, a default initialization value will be used by the engine. The same value used to Encrypt needs to be supplied to the Decrypt function for many algorithms to successfully decrypt the data, so it is best practice to specify an appropriate value.
        * @param iterations The number of passes to make when turning a passphrase into a key. This is only applicable for some types of algorithm. Password Based Encryption (PBE) algorithms use this parameter, and Block Encryption algorithms do not. If this value is relevant to the algorithm it would be best practice to supply it, as the same value would be needed to decrypt the data that was used to encrypt the data.
        * @return the original plaintext message.
        */
@@ -15386,7 +15765,7 @@ declare namespace dw {
         base64Msg: string,
         key: string,
         transformation: string,
-        salt: string,
+        saltOrIV: string,
         iterations: number
       ): string;
       /**
@@ -15399,7 +15778,7 @@ declare namespace dw {
        * @param base64Msg (see decrypt(String, String, String, String, Number))
        * @param privateKey A reference to a private key in the key store.
        * @param transformation (see decrypt(String, String, String, String, Number))
-       * @param salt (see decrypt(String, String, String, String, Number))
+       * @param saltOrIV (see decrypt(String, String, String, String, Number))
        * @param iterations (see decrypt(String, String, String, String, Number))
        * @return (see decrypt(String, String, String, String, Number))
        */
@@ -15407,7 +15786,7 @@ declare namespace dw {
         base64Msg: string,
         privateKey: dw.crypto.KeyRef,
         transformation: string,
-        salt: string,
+        saltOrIV: string,
         iterations: number
       ): string;
       /**
@@ -15417,9 +15796,9 @@ declare namespace dw {
        *  Decryption is the process of getting back the original data from the
        *  cipher-text using a decryption key.
        * @param base64Msg the base64 encoded cipher bytes
-       * @param key Use the same key to decrypt as was used to encrypt the message. If the cryptographic algorithm is symmetric (e.g. AES) or asymmetric (e.g. RSA), the key needs to be passed as base64 encoded string. The only exception is the symmetric cryptographic algorithms Password Based Encryption (PBE). With PBE the key needs to be passed as plain string (without any encoding).
+       * @param key When using a symmetric cryptographic algorithm, use the same key to encrypt and decrypt. If the cryptographic algorithm is symmetric (for example, AES) or asymmetric (for example, RSA), the key needs to be passed as a base64-encoded string. The only exception is the symmetric cryptographic algorithms Password Based Encryption (PBE). With PBE the key needs to be passed as plain string (without any encoding).
        * @param transformation The transformation has to be in "algorithm/mode/padding" format. See the corresponding encrypt method for supported transformations.
-       * @param salt Initialization value appropriate for the algorithm, this might be a Binary Salt or AlgorithmParameter or InitializationVector (see the corresponding encrypt method for details). Should be appropriate for the algorithm being used. The same value used to Encrypt needs to be supplied to the Decrypt function for many algorithms to successfully decrypt the data, so it is best practice to specify an appropriate value.
+       * @param saltOrIV Initialization value appropriate for the algorithm, this might be a Binary Salt or AlgorithmParameter or InitializationVector (see the corresponding encrypt method for details). Should be appropriate for the algorithm being used. The same value used to Encrypt needs to be supplied to the Decrypt function for many algorithms to successfully decrypt the data, so it is best practice to specify an appropriate value.
        * @param iterations The number of passes to make when turning a passphrase into a key. This is only applicable for some types of algorithm. Password Based Encryption (PBE) algorithms use this parameter, and Block Encryption algorithms do not. If this value is relevant to the algorithm it would be best practice to supply it, as the same value would be needed to decrypt the data that was used to encrypt the data.
        * @return the original plaintext message.
        */
@@ -15427,7 +15806,7 @@ declare namespace dw {
         base64Msg: string,
         key: string,
         transformation: string,
-        salt: string,
+        saltOrIV: string,
         iterations: number
       ): string;
       /**
@@ -15440,7 +15819,7 @@ declare namespace dw {
        * @param base64Msg (see decrypt_3(String, String, String, String, Number))
        * @param privateKey A reference to a private key in the key store.
        * @param transformation (see decrypt_3(String, String, String, String, Number))
-       * @param salt (see decrypt_3(String, String, String, String, Number))
+       * @param saltOrIV (see decrypt_3(String, String, String, String, Number))
        * @param iterations (see decrypt_3(String, String, String, String, Number))
        * @return (see decrypt_3(String, String, String, String, Number))
        */
@@ -15448,7 +15827,7 @@ declare namespace dw {
         base64Msg: string,
         privateKey: dw.crypto.KeyRef,
         transformation: string,
-        salt: string,
+        saltOrIV: string,
         iterations: number
       ): string;
       /**
@@ -15467,7 +15846,7 @@ declare namespace dw {
        * @param encryptedBytes The bytes to decrypt.
        * @param key The key to use for decryption.
        * @param transformation The transformation used to originally encrypt.
-       * @param salt the salt to use.
+       * @param saltOrIV the salt or IV to use.
        * @param iterations the iterations to use.
        * @return The decrypted bytes.
        */
@@ -15475,7 +15854,7 @@ declare namespace dw {
         encryptedBytes: dw.util.Bytes,
         key: string,
         transformation: string,
-        salt: string,
+        saltOrIV: string,
         iterations: number
       ): dw.util.Bytes;
       /**
@@ -15484,7 +15863,7 @@ declare namespace dw {
        * @param encryptedBytes (see decryptBytes(Bytes, String, String, String, Number))
        * @param privateKey A reference to a private key in the key store.
        * @param transformation (see decryptBytes(Bytes, String, String, String, Number))
-       * @param salt (see decryptBytes(Bytes, String, String, String, Number))
+       * @param saltOrIV (see decryptBytes(Bytes, String, String, String, Number))
        * @param iterations (see decryptBytes(Bytes, String, String, String, Number))
        * @return (see decryptBytes(Bytes, String, String, String, Number))
        */
@@ -15492,7 +15871,7 @@ declare namespace dw {
         encryptedBytes: dw.util.Bytes,
         privateKey: dw.crypto.KeyRef,
         transformation: string,
-        salt: string,
+        saltOrIV: string,
         iterations: number
       ): dw.util.Bytes;
       /**
@@ -15511,7 +15890,7 @@ declare namespace dw {
        * @param encryptedBytes The bytes to decrypt.
        * @param key The key to use for decryption.
        * @param transformation The transformation used to originally encrypt.
-       * @param salt the salt to use.
+       * @param saltOrIV the salt or IV to use.
        * @param iterations the iterations to use.
        * @return The decrypted bytes.
        */
@@ -15519,7 +15898,7 @@ declare namespace dw {
         encryptedBytes: dw.util.Bytes,
         key: string,
         transformation: string,
-        salt: string,
+        saltOrIV: string,
         iterations: number
       ): dw.util.Bytes;
       /**
@@ -15528,7 +15907,7 @@ declare namespace dw {
        * @param encryptedBytes (see decryptBytes_3(Bytes, String, String, String, Number))
        * @param privateKey A reference to a private key in the key store.
        * @param transformation (see decryptBytes_3(Bytes, String, String, String, Number))
-       * @param salt (see decryptBytes_3(Bytes, String, String, String, Number))
+       * @param saltOrIV (see decryptBytes_3(Bytes, String, String, String, Number))
        * @param iterations (see decryptBytes_3(Bytes, String, String, String, Number))
        * @return (see decryptBytes_3(Bytes, String, String, String, Number))
        */
@@ -15536,7 +15915,7 @@ declare namespace dw {
         encryptedBytes: dw.util.Bytes,
         privateKey: dw.crypto.KeyRef,
         transformation: string,
-        salt: string,
+        saltOrIV: string,
         iterations: number
       ): dw.util.Bytes;
       /**
@@ -15547,7 +15926,7 @@ declare namespace dw {
        *  something incomprehensible or cipher-text by applying transformations,
        *  which are the operation (or set of operations) to be performed on given input
        *  to produce some output. A transformation always includes the name of a
-       *  cryptographic algorithm (e.g. RSA) and may be followed by a mode and padding scheme.
+       *  cryptographic algorithm (for example, RSA) and may be followed by a mode and padding scheme.
        *  The supported algorithms are listed in the parameter description below.
        *  The cryptographic algorithms can be partitioned into symmetric
        *  and asymmetric (or public key/private key).
@@ -15621,9 +16000,9 @@ declare namespace dw {
        *           for padding from RSA Laboratories, "PKCS#5: Password-Based Encryption Standard," version 1.5, November 1993.
        *           SSL3Padding: The padding scheme defined in the SSL Protocol Version 3.0, November 18, 1996, section 5.2.3.2 (CBC block cipher)
        * @param message A string to encrypt (will be first converted with UTF-8 encoding into a byte stream)
-       * @param key A string ready for use with the algorithm. The key's format depends on the algorithm specified and the keys are assumed to be correctly formulated for the algorithm used, for example that the lengths are correct. Keys are not checked for validity. The cryptographic algorithms can be partitioned into symmetric and asymmetric (or public key/private key). Symmetric algorithms include password-based algorithms. Symmetric keys are usually base64 encodings of an array of bytes. Asymmetric keys are "key pairs" with a public key and a private key. For asymmetric algorithms the private key needs to be passed. Please provide the private key in PKCS#8 format, base64 encoded. See class documentation on how to generate a key pair. If the cryptographic algorithm is symmetric (e.g. AES) or asymmetric (e.g. RSA), the key needs to be passed as base64 encoded string. The only exception is the symmetric cryptographic algorithms Password Based Encryption (PBE). With PBE the key needs to be passed as plain string (without any encoding).
+       * @param key A string ready for use with the algorithm. The key's format depends on the algorithm specified and the keys are assumed to be correctly formulated for the algorithm used, for example that the lengths are correct. Keys are not checked for validity. The cryptographic algorithms can be partitioned into symmetric and asymmetric (or public key/private key). Symmetric algorithms include password-based algorithms. Symmetric keys are usually a base64-encoded array of bytes. Asymmetric keys are "key pairs" with a public key and a private key. To encrypt using asymmetric algorithms, provide the public key. To decrypt using asymmetric algorithms, provide the private key from the same pair in PKCS#8 format, base64-encoded. See class documentation on how to generate a key pair. If the cryptographic algorithm is symmetric (for example, AES) or asymmetric (for example, RSA), the key needs to be passed as a base64-encoded string. The only exception is the symmetric cryptographic algorithms Password Based Encryption (PBE). With PBE the key needs to be passed as plain string (without any encoding).
        * @param transformation The transformation has to be in "algorithm/mode/padding" format. Symmetric or "secret key" algorithms use the same key to encrypt and to decrypt the data. Asymmetric or "public key" cryptography uses a public/private key pair, and then publishes the public key. Only the holder of the private key will be able to decrypt. The public key and private key are also known as a "key pair". Supported Symmetric transformations include:  "AES" or Rijndael, Advanced Encryption Standard as specified by NIST AES with key length of 256 is the preferred choice for symmetric encryption Keysizes: 128, 192, or 256 Modes: "ECB","CBC","PCBC","CTR" Padding: "NOPADDING", "PKCS5Padding", "ISO10126PADDING"   Supported Asymmetric transformations include:  "RSA" Mode: "ECB" Padding: "NOPADDING", PKCS1PADDING", "OAEPWITHMD5ANDMGF1PADDING", "OAEPWITHSHA1ANDMGF1PADDING", "OAEPWITHSHA-1ANDMGF1PADDING", "OAEPWITHSHA-256ANDMGF1PADDING", "OAEPWITHSHA-384ANDMGF1PADDING", "OAEPWITHSHA-512ANDMGF1PADDING"  Note that for RSA the key length should be at least 2048 bits.
-       * @param salt Initialization value appropriate for the algorithm, this might be a Binary Salt or AlgorithmParameter or InitializationVector. (As binary values cannot be passed, the equivalent Base64 String should be passed for any binary salt value). Should be appropriate for the algorithm being used. If this value is null, a default initialization value will be used by the engine. The same value used to Encrypt needs to be supplied to the Decrypt function for many algorithms to successfully decrypt the data, so it is best practice to specify an appropriate value. Requirements for the size and generation of DES initialization vectors (IV) are derived from FIPS 74 and FIPS 81 from the National Institute of Standards and Technology. CBC mode requires an IV with length 64 bits; CFB uses 48-64 bits; OFB uses 64 bits. If the IV is to be used with DES in the OFB mode, then it is not acceptable for the IV to remain fixed for multiple encryptions, if the same key is used for those encryptions. For Block Encryption algorithms this is the encoded Base64 String equivalent to the a random number to use as a "salt" to use with the algorithm. The algorithm must contain a Feedback Mode other than ECB. This must be a binary value that is exactly the same size as the algorithm block size. RC5 uses an optional 8-byte initialization vector (IV), but only in feedback mode (see CFB above). For Password Based Encryption algorithms, the salt is the encoded Base64 String equivalent to a random number value to transform the password into a key. PBE derives an encryption key from a password. In order to make the task of getting from password to key very time-consuming for an attacker, most PBE implementations will mix in a random number, known as a salt, to create the key. The salt value and the iteration count are then combined into a PBEParameterSpecification to initialize the cipher.  The PKCS#5 spec from RSA Labs defines the parameters for password-based encryption (PBE). The RSA algorithm requires a salt with length as defined in PKCS#1. DSA has a specific initialization that uses three integers to build a DSAParameterSpec (a prime, a sub-prime and a base). To use this algorithm you should use the JCE or another provider to supply a DSAParameterSpec and then supply the Base64 equivalent string as the "salt". Please see the documentation from the provider for additional restrictions.
+       * @param saltOrIV Initialization value appropriate for the algorithm, this might be a Binary Salt or AlgorithmParameter or InitializationVector. (As binary values cannot be passed, the equivalent Base64 String should be passed for any binary salt value). Should be appropriate for the algorithm being used. If this value is null, a default initialization value will be used by the engine. The same value used to Encrypt needs to be supplied to the Decrypt function for many algorithms to successfully decrypt the data, so it is best practice to specify an appropriate value. Requirements for the size and generation of DES initialization vectors (IV) are derived from FIPS 74 and FIPS 81 from the National Institute of Standards and Technology. CBC mode requires an IV with length 64 bits; CFB uses 48-64 bits; OFB uses 64 bits. If the IV is to be used with DES in the OFB mode, then it is not acceptable for the IV to remain fixed for multiple encryptions, if the same key is used for those encryptions. For Block Encryption algorithms this is the encoded Base64 String equivalent to the a random number to use as a "salt" to use with the algorithm. The algorithm must contain a Feedback Mode other than ECB. This must be a binary value that is exactly the same size as the algorithm block size. RC5 uses an optional 8-byte initialization vector (IV), but only in feedback mode (see CFB above). For Password Based Encryption algorithms, the salt is the encoded Base64 String equivalent to a random number value to transform the password into a key. PBE derives an encryption key from a password. In order to make the task of getting from password to key very time-consuming for an attacker, most PBE implementations will mix in a random number, known as a salt, to create the key. The salt value and the iteration count are then combined into a PBEParameterSpecification to initialize the cipher.  The PKCS#5 spec from RSA Labs defines the parameters for password-based encryption (PBE). The RSA algorithm requires a salt with length as defined in PKCS#1. DSA has a specific initialization that uses three integers to build a DSAParameterSpec (a prime, a sub-prime and a base). To use this algorithm you should use the JCE or another provider to supply a DSAParameterSpec and then supply the Base64 equivalent string as the "salt". Please see the documentation from the provider for additional restrictions.
        * @param iterations The number of passes to make when turning a passphrase into a key. This is only applicable for some types of algorithm. Password Based Encryption (PBE) algorithms use this parameter, and Block Encryption algorithms do not. If this value is relevant to the algorithm it would be best practice to supply it, as the same value would be needed to decrypt the data.
        * @return the encrypted message encoded as a String using base 64 encoding.
        */
@@ -15631,7 +16010,7 @@ declare namespace dw {
         message: string,
         key: string,
         transformation: string,
-        salt: string,
+        saltOrIV: string,
         iterations: number
       ): string;
       /**
@@ -15672,7 +16051,7 @@ declare namespace dw {
        * @param message (see encrypt(String, String, String, String, Number))
        * @param publicKey A reference to a public key in the key store.
        * @param transformation (see encrypt(String, String, String, String, Number))
-       * @param salt (see encrypt(String, String, String, String, Number))
+       * @param saltOrIV (see encrypt(String, String, String, String, Number))
        * @param iterations (see encrypt(String, String, String, String, Number))
        * @return (see encrypt(String, String, String, String, Number))
        */
@@ -15680,7 +16059,7 @@ declare namespace dw {
         message: string,
         publicKey: dw.crypto.CertificateRef,
         transformation: string,
-        salt: string,
+        saltOrIV: string,
         iterations: number
       ): string;
       /**
@@ -15691,7 +16070,7 @@ declare namespace dw {
        *  something incomprehensible or cipher-text by applying transformations,
        *  which are the operation (or set of operations) to be performed on given input
        *  to produce some output. A transformation always includes the name of a
-       *  cryptographic algorithm (e.g. RSA) and may be followed by a mode and padding scheme.
+       *  cryptographic algorithm (for example, RSA) and may be followed by a mode and padding scheme.
        *  The supported algorithms are listed in the parameter description below.
        *  The cryptographic algorithms can be partitioned into symmetric
        *  and asymmetric (or public key/private key).
@@ -15765,9 +16144,9 @@ declare namespace dw {
        *           for padding from RSA Laboratories, "PKCS#5: Password-Based Encryption Standard," version 1.5, November 1993.
        *           SSL3Padding: The padding scheme defined in the SSL Protocol Version 3.0, November 18, 1996, section 5.2.3.2 (CBC block cipher)
        * @param message A string to encrypt (will be first converted with UTF-8 encoding into a byte stream)
-       * @param key A string ready for use with the algorithm. The key's format depends on the algorithm specified and the keys are assumed to be correctly formulated for the algorithm used, for example that the lengths are correct. Keys are not checked for validity. The cryptographic algorithms can be partitioned into symmetric and asymmetric (or public key/private key). Symmetric algorithms include password-based algorithms. Symmetric keys are usually base64 encodings of an array of bytes. Asymmetric keys are "key pairs" with a public key and a private key. For asymmetric algorithms the private key needs to be passed. Please provide the private key in PKCS#8 format, base64 encoded. See class documentation on how to generate a key pair. If the cryptographic algorithm is symmetric (e.g. AES) or asymmetric (e.g. RSA), the key needs to be passed as base64 encoded string. The only exception is the symmetric cryptographic algorithms Password Based Encryption (PBE). With PBE the key needs to be passed as plain string (without any encoding).
+       * @param key A string ready for use with the algorithm. The key's format depends on the algorithm specified and the keys are assumed to be correctly formulated for the algorithm used, for example that the lengths are correct. Keys are not checked for validity. The cryptographic algorithms can be partitioned into symmetric and asymmetric (or public key/private key). Symmetric algorithms include password-based algorithms. Symmetric keys are usually a base64-encoded array of bytes. Asymmetric keys are "key pairs" with a public key and a private key. To encrypt using asymmetric algorithms, provide the public key. To decrypt using asymmetric algorithms, provide the private key from the same pair in PKCS#8 format, base64-encoded. See class documentation on how to generate a key pair. If the cryptographic algorithm is symmetric (for example, AES) or asymmetric (for example, RSA), the key needs to be passed as a base64-encoded string. The only exception is the symmetric cryptographic algorithms Password Based Encryption (PBE). With PBE the key needs to be passed as plain string (without any encoding).
        * @param transformation The transformation has to be in "algorithm/mode/padding" format. Symmetric or "secret key" algorithms use the same key to encrypt and to decrypt the data. Asymmetric or "public key" cryptography uses a public/private key pair, and then publishes the public key. Only the holder of the private key will be able to decrypt. The public key and private key are also known as a "key pair". Supported Symmetric transformations include:  "AES" or Rijndael, Advanced Encryption Standard as specified by NIST AES with key length of 256 is the preferred choice for symmetric encryption Keysizes: 128, 192, or 256 Modes: "ECB","CBC","PCBC","CTR" Padding: "NOPADDING", "PKCS5Padding", "ISO10126PADDING"   Supported Asymmetric transformations include:  "RSA" Mode: "ECB" Padding: "NOPADDING", PKCS1PADDING", "OAEPWITHMD5ANDMGF1PADDING", "OAEPWITHSHA1ANDMGF1PADDING", "OAEPWITHSHA-1ANDMGF1PADDING", "OAEPWITHSHA-256ANDMGF1PADDING", "OAEPWITHSHA-384ANDMGF1PADDING", "OAEPWITHSHA-512ANDMGF1PADDING"  Note that for RSA the key length should be at least 2048 bits.
-       * @param salt Initialization value appropriate for the algorithm, this might be a Binary Salt or AlgorithmParameter or InitializationVector. (As binary values cannot be passed, the equivalent Base64 String should be passed for any binary salt value). Should be appropriate for the algorithm being used. The same value used to Encrypt needs to be supplied to the Decrypt function for many algorithms to successfully decrypt the data, so it is best practice to specify an appropriate value. Requirements for the size and generation of DES initialization vectors (IV) are derived from FIPS 74 and FIPS 81 from the National Institute of Standards and Technology. CBC mode requires an IV with length 64 bits; CFB uses 48-64 bits; OFB uses 64 bits. If the IV is to be used with DES in the OFB mode, then it is not acceptable for the IV to remain fixed for multiple encryptions, if the same key is used for those encryptions. For Block Encryption algorithms this is the encoded Base64 String equivalent to the a random number to use as a "salt" to use with the algorithm. The algorithm must contain a Feedback Mode other than ECB. This must be a binary value that is exactly the same size as the algorithm block size. RC5 uses an optional 8-byte initialization vector (IV), but only in feedback mode (see CFB above). For Password Based Encryption algorithms, the salt is the encoded Base64 String equivalent to a random number value to transform the password into a key. PBE derives an encryption key from a password. In order to make the task of getting from password to key very time-consuming for an attacker, most PBE implementations will mix in a random number, known as a salt, to create the key. The salt value and the iteration count are then combined into a PBEParameterSpecification to initialize the cipher.  The PKCS#5 spec from RSA Labs defines the parameters for password-based encryption (PBE). The RSA algorithm requires a salt with length as defined in PKCS#1. DSA has a specific initialization that uses three integers to build a DSAParameterSpec (a prime, a sub-prime and a base). To use this algorithm you should use the JCE or another provider to supply a DSAParameterSpec and then supply the Base64 equivalent string as the "salt". Please see the documentation from the provider for additional restrictions.
+       * @param saltOrIV Initialization value appropriate for the algorithm, this might be a Binary Salt or AlgorithmParameter or InitializationVector. (As binary values cannot be passed, the equivalent Base64 String should be passed for any binary salt value). Should be appropriate for the algorithm being used. The same value used to Encrypt needs to be supplied to the Decrypt function for many algorithms to successfully decrypt the data, so it is best practice to specify an appropriate value. Requirements for the size and generation of DES initialization vectors (IV) are derived from FIPS 74 and FIPS 81 from the National Institute of Standards and Technology. CBC mode requires an IV with length 64 bits; CFB uses 48-64 bits; OFB uses 64 bits. If the IV is to be used with DES in the OFB mode, then it is not acceptable for the IV to remain fixed for multiple encryptions, if the same key is used for those encryptions. For Block Encryption algorithms this is the encoded Base64 String equivalent to the a random number to use as a "salt" to use with the algorithm. The algorithm must contain a Feedback Mode other than ECB. This must be a binary value that is exactly the same size as the algorithm block size. RC5 uses an optional 8-byte initialization vector (IV), but only in feedback mode (see CFB above). For Password Based Encryption algorithms, the salt is the encoded Base64 String equivalent to a random number value to transform the password into a key. PBE derives an encryption key from a password. In order to make the task of getting from password to key very time-consuming for an attacker, most PBE implementations will mix in a random number, known as a salt, to create the key. The salt value and the iteration count are then combined into a PBEParameterSpecification to initialize the cipher.  The PKCS#5 spec from RSA Labs defines the parameters for password-based encryption (PBE). The RSA algorithm requires a salt with length as defined in PKCS#1. DSA has a specific initialization that uses three integers to build a DSAParameterSpec (a prime, a sub-prime and a base). To use this algorithm you should use the JCE or another provider to supply a DSAParameterSpec and then supply the Base64 equivalent string as the "salt". Please see the documentation from the provider for additional restrictions.
        * @param iterations The number of passes to make when turning a passphrase into a key. This is only applicable for some types of algorithm. Password Based Encryption (PBE) algorithms use this parameter, and Block Encryption algorithms do not. If this value is relevant to the algorithm it would be best practice to supply it, as the same value would be needed to decrypt the data.
        * @return the encrypted message encoded as a String using base 64 encoding.
        */
@@ -15775,7 +16154,7 @@ declare namespace dw {
         message: string,
         key: string,
         transformation: string,
-        salt: string,
+        saltOrIV: string,
         iterations: number
       ): string;
       /**
@@ -15816,7 +16195,7 @@ declare namespace dw {
        * @param message (see encrypt_3(String, String, String, String, Number))
        * @param publicKey A reference to a public key in the key store.
        * @param transformation (see encrypt_3(String, String, String, String, Number))
-       * @param salt (see encrypt_3(String, String, String, String, Number))
+       * @param saltOrIV (see encrypt_3(String, String, String, String, Number))
        * @param iterations (see encrypt_3(String, String, String, String, Number))
        * @return (see encrypt_3(String, String, String, String, Number))
        */
@@ -15824,7 +16203,7 @@ declare namespace dw {
         message: string,
         publicKey: dw.crypto.CertificateRef,
         transformation: string,
-        salt: string,
+        saltOrIV: string,
         iterations: number
       ): string;
       /**
@@ -15844,7 +16223,7 @@ declare namespace dw {
        * @param messageBytes The bytes to encrypt.
        * @param key The key to use for encryption.
        * @param transformation The transformation to apply.
-       * @param salt Initialization value appropriate for the algorithm.
+       * @param saltOrIV Initialization value appropriate for the algorithm.
        * @param iterations The number of passes to make when turning a passphrase into a key.
        * @return the encrypted bytes.
        */
@@ -15852,7 +16231,7 @@ declare namespace dw {
         messageBytes: dw.util.Bytes,
         key: string,
         transformation: string,
-        salt: string,
+        saltOrIV: string,
         iterations: number
       ): dw.util.Bytes;
       /**
@@ -15865,7 +16244,7 @@ declare namespace dw {
        * @param messageBytes (see encryptBytes(Bytes, String, String, String, Number))
        * @param publicKey A reference to a public key in the key store.
        * @param transformation (see encryptBytes(Bytes, String, String, String, Number))
-       * @param salt (see encryptBytes(Bytes, String, String, String, Number))
+       * @param saltOrIV (see encryptBytes(Bytes, String, String, String, Number))
        * @param iterations (see encryptBytes(Bytes, String, String, String, Number))
        * @return (see encryptBytes(Bytes, String, String, String, Number))
        */
@@ -15873,7 +16252,7 @@ declare namespace dw {
         messageBytes: dw.util.Bytes,
         publicKey: dw.crypto.CertificateRef,
         transformation: string,
-        salt: string,
+        saltOrIV: string,
         iterations: number
       ): dw.util.Bytes;
       /**
@@ -15893,7 +16272,7 @@ declare namespace dw {
        * @param messageBytes The bytes to encrypt.
        * @param key The key to use for encryption.
        * @param transformation The transformation to apply.
-       * @param salt Initialization value appropriate for the algorithm.
+       * @param saltOrIV Initialization value appropriate for the algorithm.
        * @param iterations The number of passes to make when turning a passphrase into a key.
        * @return the encrypted bytes.
        */
@@ -15901,7 +16280,7 @@ declare namespace dw {
         messageBytes: dw.util.Bytes,
         key: string,
         transformation: string,
-        salt: string,
+        saltOrIV: string,
         iterations: number
       ): dw.util.Bytes;
       /**
@@ -15914,7 +16293,7 @@ declare namespace dw {
        * @param messageBytes (see encryptBytes_3(Bytes, String, String, String, Number))
        * @param publicKey A reference to a public key in the key store.
        * @param transformation (see encryptBytes_3(Bytes, String, String, String, Number))
-       * @param salt (see encryptBytes_3(Bytes, String, String, String, Number))
+       * @param saltOrIV (see encryptBytes_3(Bytes, String, String, String, Number))
        * @param iterations (see encryptBytes_3(Bytes, String, String, String, Number))
        * @return (see encryptBytes_3(Bytes, String, String, String, Number))
        */
@@ -15922,7 +16301,7 @@ declare namespace dw {
         messageBytes: dw.util.Bytes,
         publicKey: dw.crypto.CertificateRef,
         transformation: string,
-        salt: string,
+        saltOrIV: string,
         iterations: number
       ): dw.util.Bytes;
     }
@@ -16476,7 +16855,7 @@ declare namespace dw {
        *  are sorted so that the preferred address is always sorted first.  The
        *  remaining addresses are sorted alphabetically by ID.
        */
-      addresses: dw.util.List<dw.customer.CustomerAddress>;
+      readonly addresses: dw.util.List<dw.customer.CustomerAddress>;
       /**
        * The address that has been defined as the customer's preferred
        *  address.
@@ -16679,15 +17058,15 @@ declare namespace dw {
       /**
        * checks whether the authentication was successful or not
        */
-      authenticated: boolean;
+      readonly authenticated: boolean;
       /**
        * The customer, corresponding to the login used during authentication. This customer is not logged in after authentication.
        */
-      customer: dw.customer.Customer;
+      readonly customer: dw.customer.Customer;
       /**
        * the status code (see the constants above)
        */
-      status: string;
+      readonly status: string;
 
       /**
        * The customer, corresponding to the login used during authentication. This customer is not logged in after authentication.
@@ -16737,7 +17116,7 @@ declare namespace dw {
       /**
        * Identifies if this customer is enabled and can log in.
        */
-      enabled: boolean;
+      readonly enabled: boolean;
       /**
        * Identifies if this customer is enabled and can log in - same as isEnabled().
        */
@@ -16751,7 +17130,7 @@ declare namespace dw {
        *  login attempts.  If customer locking is not enabled, this method always
        *  returns false.
        */
-      locked: boolean;
+      readonly locked: boolean;
       /**
        * The login of the user. It must be unique.
        */
@@ -16772,7 +17151,7 @@ declare namespace dw {
        * Returns whether the password is set. Creating externally authenticated customers
        *  results in customers with credentials for which the password is not set.
        */
-      passwordSet: boolean;
+      readonly passwordSet: boolean;
       /**
        * The number of consecutive failed logins after which this customer
        *  will be temporarily locked out and prevented from logging in to the
@@ -16785,7 +17164,7 @@ declare namespace dw {
        *  determine the number of failed login attempts for this customer, then
        *  this method will return a negative number.
        */
-      remainingLoginAttempts: number;
+      readonly remainingLoginAttempts: number;
 
       /**
        * Generate a random token which can be used for resetting the password of the underlying Customer. The token is
@@ -16992,18 +17371,18 @@ declare namespace dw {
       /**
        * The active data for this customer.
        */
-      activeData: dw.customer.CustomerActiveData;
+      readonly activeData: dw.customer.CustomerActiveData;
       /**
        * The address book for the profile of this customer,
        *  or null if this customer has no profile, such as for an
        *  anonymous customer.
        */
-      addressBook: dw.customer.AddressBook;
+      readonly addressBook: dw.customer.AddressBook;
       /**
        * Identifies if the customer is anonymous. An anonymous
        *  customer is the opposite of a registered customer.
        */
-      anonymous: boolean;
+      readonly anonymous: boolean;
       /**
        * Identifies if the customer is authenticated. This method checks whether
        *  this customer is the customer associated with the session and than checks
@@ -17012,7 +17391,7 @@ declare namespace dw {
        *  Note: The pipeline debugger will always show 'false' for this value
        *  regardless of whether the customer is authenticated or not.
        */
-      authenticated: boolean;
+      readonly authenticated: boolean;
       /**
        * The customer groups this customer is member of.
        *
@@ -17023,26 +17402,28 @@ declare namespace dw {
        *
        *  Result contains system groups 'Everyone', 'Unregistered', 'Registered' for all customers in storefront and job sessions
        */
-      customerGroups: dw.util.Collection<dw.customer.CustomerGroup>;
+      readonly customerGroups: dw.util.Collection<dw.customer.CustomerGroup>;
       /**
        * Identifies if the customer is externally authenticated. An externally
        *  authenticated customer does not have the password stored in our system
        *  but logs in through an external OAuth provider (Google, Facebook, LinkedIn, etc.)
        */
-      externallyAuthenticated: boolean;
+      readonly externallyAuthenticated: boolean;
       /**
        * A collection of any external profiles the customer may have
        */
-      externalProfiles: dw.util.Collection<dw.customer.ExternalProfile>;
+      readonly externalProfiles: dw.util.Collection<
+        dw.customer.ExternalProfile
+      >;
       /**
        * The Global Party ID for the customer, if there is one.
        *  Global Party ID is created by Customer 360 and identifies a person across multiple systems.
        */
-      globalPartyID: string;
+      readonly globalPartyID: string;
       /**
        * The unique, system generated ID of the customer.
        */
-      ID: string;
+      readonly ID: string;
       /**
        * The note for this customer, or null if this customer has no note, such as for an anonymous
        *  customer or when note has 0 length.
@@ -17051,17 +17432,17 @@ declare namespace dw {
       /**
        * The customer order history.
        */
-      orderHistory: dw.customer.OrderHistory;
+      readonly orderHistory: dw.customer.OrderHistory;
       /**
        * The customer profile.
        */
-      profile: dw.customer.Profile;
+      readonly profile: dw.customer.Profile;
       /**
        * Identifies if the customer is registered. A registered customer
        *  may or may not be authenticated. This method checks whether
        *  the user has a profile.
        */
-      registered: boolean;
+      readonly registered: boolean;
 
       /**
        * Creates an externalProfile and attaches it to the list of external profiles for the customer
@@ -17237,51 +17618,51 @@ declare namespace dw {
        * The average order value of the customer, or null
        *  if none has been set or the value is no longer valid.
        */
-      avgOrderValue: number;
+      readonly avgOrderValue: number;
       /**
        * The discount value resulting from coupons, that has been applied
        *  to orders of the customer, or null if none has been set or
        *  the value is no longer valid.
        */
-      discountValueWithCoupon: number;
+      readonly discountValueWithCoupon: number;
       /**
        * The discount value resulting from promotions other than coupons,
        *  that has been applied to orders of the customer, or null
        *  if none has been set or the value is no longer valid.
        */
-      discountValueWithoutCoupon: number;
+      readonly discountValueWithoutCoupon: number;
       /**
        * The number of orders for the Customer that contained at least
        *  one product unit marked as a gift, or null if none has been
        *  set or the value is no longer valid.
        */
-      giftOrders: number;
+      readonly giftOrders: number;
       /**
        * The number of product units in orders for the customer
        *  that were marked as a gift, or null if none has been set
        *  or the value is no longer valid.
        */
-      giftUnits: number;
+      readonly giftUnits: number;
       /**
        * The date of the last order for the customer, or null
        *  if there are no orders for the customer.
        */
-      lastOrderDate: Date;
+      readonly lastOrderDate: Date;
       /**
        * The orders of the customer, or null if none
        *  has been set or the value is no longer valid.
        */
-      orders: number;
+      readonly orders: number;
       /**
        * The lifetime order value of the customer, or null
        *  if none has been set or the value is no longer valid.
        */
-      orderValue: number;
+      readonly orderValue: number;
       /**
        * The order value of the customer, over the most recent 30 days,
        *  or null if none has been set or the value is no longer valid.
        */
-      orderValueMonth: number;
+      readonly orderValueMonth: number;
       /**
        * An array containing the master product SKUs of variation products
        *  in orders for the customer, or an empty collection if no SKUs have been
@@ -17290,7 +17671,7 @@ declare namespace dw {
        *  there is also no guarantee that it will contain the SKUs for all products
        *  ordered by the customer.
        */
-      productMastersOrdered: string;
+      readonly productMastersOrdered: string;
       /**
        * An array containing the SKUs of products in baskets abandoned
        *  by the customer in the last 30 days, or an empty collection if no SKUs
@@ -17299,7 +17680,7 @@ declare namespace dw {
        *  there is also no guarantee that it will contain the SKUs for all products
        *  in baskets abandoned by the customer.
        */
-      productsAbandonedMonth: string;
+      readonly productsAbandonedMonth: string;
       /**
        * An array containing the SKUs of products in orders
        *  for the customer, or an empty collection if no SKUs have been set or the
@@ -17308,7 +17689,7 @@ declare namespace dw {
        *  no guarantee that it will contain the SKUs for all products ordered by
        *  the customer.
        */
-      productsOrdered: string;
+      readonly productsOrdered: string;
       /**
        * An array containing the SKUs of products viewed by the
        *  customer in the last 30 days, or an empty collection if no SKUs have been
@@ -17317,23 +17698,23 @@ declare namespace dw {
        *  also no guarantee that it will contain the SKUs for all products viewed
        *  by the customer.
        */
-      productsViewedMonth: string;
+      readonly productsViewedMonth: string;
       /**
        * The number of returns of the customer, or null
        *  if none has been set or the value is no longer valid.
        */
-      returns: number;
+      readonly returns: number;
       /**
        * The returned revenue of the customer, or null
        *  if none has been set or the value is no longer valid.
        */
-      returnValue: number;
+      readonly returnValue: number;
       /**
        * The number of orders for the customer where a source code was
        *  in effect, or null if none has been set or the value
        *  is no longer valid.
        */
-      sourceCodeOrders: number;
+      readonly sourceCodeOrders: number;
       /**
        * An array containing the IDs of up to the top 20 categories for
        *  customer orders, or an empty list if no categories have been set or the
@@ -17341,25 +17722,25 @@ declare namespace dw {
        *  which the most orders for the customer contained at least one product
        *  found in that category.
        */
-      topCategoriesOrdered: string;
+      readonly topCategoriesOrdered: string;
       /**
        * The visits of the customer, over the most recent 30 days,
        *  or null if none has been set or the value
        *  is no longer valid.
        */
-      visitsMonth: number;
+      readonly visitsMonth: number;
       /**
        * The visits of the customer, over the most recent 7 days,
        *  or null if none has been set or the value
        *  is no longer valid.
        */
-      visitsWeek: number;
+      readonly visitsWeek: number;
       /**
        * The visits of the customer, over the most recent 365 days,
        *  or null if none has been set or the value
        *  is no longer valid.
        */
-      visitsYear: number;
+      readonly visitsYear: number;
 
       /**
        * Returns the average order value of the customer, or null
@@ -17536,7 +17917,9 @@ declare namespace dw {
      *  <b>Note:</b> this class allows access to sensitive personal and private information.
      *  Pay attention to appropriate legal and regulatory requirements.</p>
      */
-    class CustomerAddress extends dw.object.ExtensibleObject {
+    class CustomerAddress extends dw.object.ExtensibleObject<
+      CustomerAddressCustomAttributes
+    > {
       /**
        * The customer's first address.
        */
@@ -17568,7 +17951,7 @@ declare namespace dw {
        * A concatenation of the customer's first, middle,
        *  and last names and its suffix.
        */
-      fullName: string;
+      readonly fullName: string;
       /**
        * The name of the address.
        */
@@ -17878,21 +18261,23 @@ declare namespace dw {
      *  your custoemer groups. Pay attention to appropriate legal and regulatory requirements
      *  when developing with this data.</p>
      */
-    class CustomerGroup extends dw.object.ExtensibleObject {
+    class CustomerGroup extends dw.object.ExtensibleObject<
+      CustomerGroupCustomAttributes
+    > {
       /**
        * Gets the value of the description of the customer group.
        */
-      description: string;
+      readonly description: string;
       /**
        * The unique ID of the customer group.
        */
-      ID: string;
+      readonly ID: string;
       /**
        * Returns true if the group determines the membership of customers
        *  based on rules. Returns false if the group provides explicit assignement
        *  of customers.
        */
-      ruleBased: boolean;
+      readonly ruleBased: boolean;
 
       /**
        * Assigns the specified customer to this group.
@@ -17938,12 +18323,12 @@ declare namespace dw {
       /**
        * Get the optional description of the customer list.
        */
-      description: string;
+      readonly description: string;
       /**
        * Get the ID of the customer list.  For customer lists that were created automatically
        *  for a given site, this is equal to the ID of the site itself.
        */
-      ID: string;
+      readonly ID: string;
 
       /**
        * Get the optional description of the customer list.
@@ -17971,21 +18356,23 @@ declare namespace dw {
       /**
        * The customer groups of the current site.
        */
-      static customerGroups: dw.util.Collection<dw.customer.CustomerGroup>;
+      static readonly customerGroups: dw.util.Collection<
+        dw.customer.CustomerGroup
+      >;
       /**
        * An instance of CustomerPasswordConstraints
        *  for the customer list assigned to the current site.
        */
-      static passwordConstraints: dw.customer.CustomerPasswordConstraints;
+      static readonly passwordConstraints: dw.customer.CustomerPasswordConstraints;
       /**
        * The number of registered customers in the system. This number can be used for reporting
        *  purposes.
        */
-      static registeredCustomerCount: number;
+      static readonly registeredCustomerCount: number;
       /**
        * The customer list of the current site.
        */
-      static siteCustomerList: dw.customer.CustomerList;
+      static readonly siteCustomerList: dw.customer.CustomerList;
 
       /**
        * This method authenticates a customer using the supplied login and password. It will not log in the customer into
@@ -18005,7 +18392,9 @@ declare namespace dw {
       ): dw.customer.AuthenticationStatus;
       /**
        * Creates a new Customer using the supplied login, password. The system automatically assigns a customer number based on
-       *  the customer sequence numbers configured for the site and/or organization.
+       *  the customer sequence numbers configured for the site or organization. The number is guaranteed to be unique, but is not guaranteed to be sequential.
+       *  It can be higher or lower than a previously created number. As a result, sorting customers by customer number is not guaranteed to sort them in their
+       *  order of creation.
        *
        *  The method throws an exception if any of the following conditions are encountered:
        *
@@ -18037,7 +18426,9 @@ declare namespace dw {
       ): dw.customer.Customer;
       /**
        * Creates a new Customer using the supplied login, password, and a customerNo. If the customerNo is not specified,
-       *  the system automatically assigns a customer number based on the customer sequence numbers configured for the site and/or organization.
+       *  the system automatically assigns a customer number based on the customer sequence numbers configured for the site or organization. An automatically assigned
+       *  number is guaranteed to be unique, but is not guaranteed to be sequential. It can be higher or lower than a previously created number. As a result, sorting
+       *  customers by customer number is not guaranteed to sort them in their order of creation.
        *
        *  The method throws an exception if any of the following conditions are encountered:
        *
@@ -18644,23 +19035,23 @@ declare namespace dw {
       /**
        * Returns true if letters are enforced.
        */
-      forceLetters: boolean;
+      readonly forceLetters: boolean;
       /**
        * Returns true if mixed case is enforced.
        */
-      forceMixedCase: boolean;
+      readonly forceMixedCase: boolean;
       /**
        * Returns true if numbers are enforced.
        */
-      forceNumbers: boolean;
+      readonly forceNumbers: boolean;
       /**
        * The minimum length.
        */
-      static minLength: number;
+      static readonly minLength: number;
       /**
        * The minimum number of special characters.
        */
-      static minSpecialChars: number;
+      static readonly minSpecialChars: number;
 
       /**
        * Returns the minimum length.
@@ -18717,7 +19108,7 @@ declare namespace dw {
        *  Note: this method handles sensitive financial and card holder data.
        *  Pay special attention to PCI DSS v3. requirements 1, 3, 7, and 9.
        */
-      bankAccountDriversLicense: string;
+      readonly bankAccountDriversLicense: string;
       /**
        * The bank account number if the calling context meets
        *  the following criteria:
@@ -18734,7 +19125,7 @@ declare namespace dw {
        *  Note: this method handles sensitive financial and card holder data.
        *  Pay special attention to PCI DSS v3. requirements 1, 3, 7, and 9.
        */
-      bankAccountNumber: string;
+      readonly bankAccountNumber: string;
       /**
        * The decrypted credit card number if the calling context meets
        *  the following criteria:
@@ -18751,7 +19142,7 @@ declare namespace dw {
        *  Note: this method handles sensitive financial and card holder data.
        *  Pay special attention to PCI DSS v3. requirements 1, 3, 7, and 9.
        */
-      creditCardNumber: string;
+      readonly creditCardNumber: string;
 
       /**
        * Returns the driver's license number of the bank account number
@@ -18833,7 +19224,9 @@ declare namespace dw {
      *  <b>Note:</b> this method handles sensitive financial and card holder data.
      *  Pay special attention to PCI DSS v3. requirements 1, 3, 7, and 9.</p>
      */
-    class EncryptedObject extends dw.object.ExtensibleObject {}
+    class EncryptedObject extends dw.object.ExtensibleObject<
+      EncryptedObjectCustomAttributes
+    > {}
 
     /**
      * Represents the credentials of a customer.
@@ -18858,11 +19251,11 @@ declare namespace dw {
       /**
        * The authentication provider ID.
        */
-      authenticationProviderID: string;
+      readonly authenticationProviderID: string;
       /**
        * The customer object related to this profile.
        */
-      customer: dw.customer.Customer;
+      readonly customer: dw.customer.Customer;
       /**
        * The customer's email address.
        */
@@ -18870,11 +19263,11 @@ declare namespace dw {
       /**
        * The external ID.
        */
-      externalID: string;
+      readonly externalID: string;
       /**
        * The last login time of the customer through the external provider
        */
-      lastLoginTime: Date;
+      readonly lastLoginTime: Date;
 
       /**
        * Returns the authentication provider ID.
@@ -18928,7 +19321,7 @@ declare namespace dw {
        *  record is available for this customer, the orders count will be retrieved
        *  from this, otherwise a real-time query will be used to get the count.
        */
-      orderCount: number;
+      readonly orderCount: number;
 
       /**
        * Returns the number of orders the customer has placed in the store. If the
@@ -18956,7 +19349,9 @@ declare namespace dw {
      *  ship items to which could not be delivered on event date.
      *  The product list can also hold information about the event date and event location.
      */
-    class ProductList extends dw.object.ExtensibleObject {
+    class ProductList extends dw.object.ExtensibleObject<
+      ProductListCustomAttributes
+    > {
       /**
        * Constant for when Export Status is Exported
        */
@@ -18993,12 +19388,12 @@ declare namespace dw {
       /**
        * Returns true if this product list is owned by an anonymous customer.
        */
-      anonymous: boolean;
+      readonly anonymous: boolean;
       /**
        * The ProductListRegistrant assigned to the coRegistrant attribute or null
        *  if this list has no co-registrant.
        */
-      coRegistrant: dw.customer.ProductListRegistrant;
+      readonly coRegistrant: dw.customer.ProductListRegistrant;
       /**
        * This is a helper method typically used with an event related list.
        *  It provides the appropriate shipping address based on the eventDate.
@@ -19006,7 +19401,7 @@ declare namespace dw {
        *  is returned, otherwise the shippingAddress is returned.  If the eventDate
        *  is null, then null is returned.
        */
-      currentShippingAddress: dw.customer.CustomerAddress;
+      readonly currentShippingAddress: dw.customer.CustomerAddress;
       /**
        * A description text that, for example, explains the purpose of this product list.
        */
@@ -19038,24 +19433,24 @@ declare namespace dw {
        *  Possible values are: EXPORT_STATUS_NOTEXPORTED,
        *  EXPORT_STATUS_EXPORTED.
        */
-      exportStatus: dw.value.EnumValue;
+      readonly exportStatus: dw.value.EnumValue;
       /**
        * The item in the list that represents a gift certificate.
        */
-      giftCertificateItem: dw.customer.ProductListItem;
+      readonly giftCertificateItem: dw.customer.ProductListItem;
       /**
        * The unique system generated ID of the object.
        */
-      ID: string;
+      readonly ID: string;
       /**
        * A collection containing all items in the list.
        */
-      items: dw.util.Collection<dw.customer.ProductListItem>;
+      readonly items: dw.util.Collection<dw.customer.ProductListItem>;
       /**
        * The date where this product list has been exported successfully
        *  the last time.
        */
-      lastExportTime: Date;
+      readonly lastExportTime: Date;
       /**
        * The name of this product list given by its owner.
        */
@@ -19063,7 +19458,7 @@ declare namespace dw {
       /**
        * The customer that created and owns the product list.
        */
-      owner: dw.customer.Customer;
+      readonly owner: dw.customer.Customer;
       /**
        * The shipping address for purchases made after the event date.
        */
@@ -19071,7 +19466,7 @@ declare namespace dw {
       /**
        * A collection containing all items in the list that reference products.
        */
-      productItems: dw.util.Collection<dw.customer.ProductListItem>;
+      readonly productItems: dw.util.Collection<dw.customer.ProductListItem>;
       /**
        * A flag, typically used to determine if the object is searchable
        *  by other customers.
@@ -19080,16 +19475,18 @@ declare namespace dw {
       /**
        * A collection containing all items in the list that are flagged as public.
        */
-      publicItems: dw.util.Collection<dw.customer.ProductListItem>;
+      readonly publicItems: dw.util.Collection<dw.customer.ProductListItem>;
       /**
        * The aggregated purchases from all the individual items.
        */
-      purchases: dw.util.Collection<dw.customer.ProductListItemPurchase>;
+      readonly purchases: dw.util.Collection<
+        dw.customer.ProductListItemPurchase
+      >;
       /**
        * The ProductListRegistrant assigned to the registrant attribute or null
        *  if this list has no registrant.
        */
-      registrant: dw.customer.ProductListRegistrant;
+      readonly registrant: dw.customer.ProductListRegistrant;
       /**
        * Return the address that should be used as the shipping address for purchases
        *  made from the list.
@@ -19099,7 +19496,7 @@ declare namespace dw {
        * An int representing the type of object (e.g. wish list,
        *  gift registry). This is set at object creation time.
        */
-      type: number;
+      readonly type: number;
 
       /**
        * Create a ProductListRegistrant and assign it to the coRegistrant attribute
@@ -19374,7 +19771,9 @@ declare namespace dw {
      *  <li>An item that represents a gift certificate.</li>
      *  </ul>
      */
-    class ProductListItem extends dw.object.ExtensibleObject {
+    class ProductListItem extends dw.object.ExtensibleObject<
+      ProductListItemCustomAttributes
+    > {
       /**
        * Constant representing a gift certificate list item type.
        */
@@ -19387,11 +19786,11 @@ declare namespace dw {
       /**
        * The unique system generated ID of the object.
        */
-      ID: string;
+      readonly ID: string;
       /**
        * The product list that this item belongs to.
        */
-      list: dw.customer.ProductList;
+      readonly list: dw.customer.ProductList;
       /**
        * Specify the priority level for the item.  Typically the lower the
        *  number, the higher the priority. This can be used by the owner of the product list
@@ -19411,7 +19810,7 @@ declare namespace dw {
        *  It is possible for the ID to reference a product that doesn't exist
        *  anymore.  In this case getProduct() would return null.
        */
-      productID: string;
+      readonly productID: string;
       /**
        * The ProductOptionModel for the product associated with this item,
        *  or null if there is no valid product associated with this item.
@@ -19426,16 +19825,18 @@ declare namespace dw {
        * The sum of the quantities of all the individual purchase records
        *  for this item.
        */
-      purchasedQuantity: dw.value.Quantity;
+      readonly purchasedQuantity: dw.value.Quantity;
       /**
        * The value part of the underlying purchased quantity object, as distinct
        *  from the unit.
        */
-      purchasedQuantityValue: number;
+      readonly purchasedQuantityValue: number;
       /**
        * All purchases made for this item.
        */
-      purchases: dw.util.Collection<dw.customer.ProductListItemPurchase>;
+      readonly purchases: dw.util.Collection<
+        dw.customer.ProductListItemPurchase
+      >;
       /**
        * The quantity of the item.
        *  The quantity is the number of products or gift certificates
@@ -19450,7 +19851,7 @@ declare namespace dw {
       /**
        * The type of this product list item.
        */
-      type: number;
+      readonly type: number;
 
       /**
        * Create a purchase record for this item.
@@ -19597,28 +19998,30 @@ declare namespace dw {
     /**
      * A record of the purchase of an item contained in a product list.
      */
-    class ProductListItemPurchase extends dw.object.ExtensibleObject {
+    class ProductListItemPurchase extends dw.object.ExtensibleObject<
+      ProductListItemPurchaseCustomAttributes
+    > {
       /**
        * The item that was purchased.
        */
-      item: dw.customer.ProductListItem;
+      readonly item: dw.customer.ProductListItem;
       /**
        * The number of the order in which the
        *  product list item was purchased.
        */
-      orderNo: string;
+      readonly orderNo: string;
       /**
        * The date on which the product list item was purchased.
        */
-      purchaseDate: Date;
+      readonly purchaseDate: Date;
       /**
        * The name of the purchaser of the product list item.
        */
-      purchaserName: string;
+      readonly purchaserName: string;
       /**
        * The quantity of the product list item that was purchased.
        */
-      quantity: dw.value.Quantity;
+      readonly quantity: dw.value.Quantity;
 
       /**
        * Returns the item that was purchased.
@@ -19872,7 +20275,9 @@ declare namespace dw {
      *  such as a gift registry. It holds information about a person associated with the
      *  event such as a bride or groom.
      */
-    class ProductListRegistrant extends dw.object.ExtensibleObject {
+    class ProductListRegistrant extends dw.object.ExtensibleObject<
+      ProductListRegistrantCustomAttributes
+    > {
       /**
        * The email address of the registrant or null.
        */
@@ -19949,7 +20354,7 @@ declare namespace dw {
       /**
        * The customer's address book.
        */
-      addressBook: dw.customer.AddressBook;
+      readonly addressBook: dw.customer.AddressBook;
       /**
        * The customer's birthday as a date.
        */
@@ -19961,15 +20366,15 @@ declare namespace dw {
       /**
        * The customer's credentials.
        */
-      credentials: dw.customer.Credentials;
+      readonly credentials: dw.customer.Credentials;
       /**
        * The customer object related to this profile.
        */
-      customer: dw.customer.Customer;
+      readonly customer: dw.customer.Customer;
       /**
        * The customer's number, which is a number used to identify the Customer.
        */
-      customerNo: string;
+      readonly customerNo: string;
       /**
        * The customer's email address.
        */
@@ -19982,7 +20387,7 @@ declare namespace dw {
       /**
        * Indicates that the customer is female when set to true.
        */
-      female: boolean;
+      readonly female: boolean;
       /**
        * The customer's first name.
        */
@@ -19998,7 +20403,7 @@ declare namespace dw {
       /**
        * The last login time of the customer.
        */
-      lastLoginTime: Date;
+      readonly lastLoginTime: Date;
       /**
        * The customer's last name.
        */
@@ -20006,18 +20411,18 @@ declare namespace dw {
       /**
        * The last visit time of the customer.
        */
-      lastVisitTime: Date;
+      readonly lastVisitTime: Date;
       /**
        * Indicates that the customer is male when set to true.
        */
-      male: boolean;
+      readonly male: boolean;
       /**
        * The upcoming customer's birthday as a date.
        *  If the customer already had birthday this year the method returns the birthday of the next year.
        *  Otherwise its birthday in this year.
        *  If the customer has not set a birthday this method returns null.
        */
-      nextBirthday: Date;
+      readonly nextBirthday: Date;
       /**
        * The business phone number to use for the customer.
        */
@@ -20037,11 +20442,11 @@ declare namespace dw {
       /**
        * The time the customer logged in prior to the current login.
        */
-      previousLoginTime: Date;
+      readonly previousLoginTime: Date;
       /**
        * The time the customer visited the store prior to the current visit.
        */
-      previousVisitTime: Date;
+      readonly previousVisitTime: Date;
       /**
        * The salutation to use for the customer.
        */
@@ -20070,7 +20475,7 @@ declare namespace dw {
       /**
        * The masked value of the tax ID.
        */
-      taxIDMasked: string;
+      readonly taxIDMasked: string;
       /**
        * The tax ID type.
        */
@@ -20082,7 +20487,7 @@ declare namespace dw {
       /**
        * The wallet of this customer.
        */
-      wallet: dw.customer.Wallet;
+      readonly wallet: dw.customer.Wallet;
 
       /**
        * Returns the customer's address book.
@@ -20399,7 +20804,9 @@ declare namespace dw {
        * A collection of all payment instruments associated with the
        *  related customer.
        */
-      paymentInstruments: dw.util.Collection<dw.order.PaymentInstrument>;
+      readonly paymentInstruments: dw.util.Collection<
+        dw.order.PaymentInstrument
+      >;
 
       /**
        * Creates a new, empty payment instrument object associated with the
@@ -20448,25 +20855,25 @@ declare namespace dw {
         /**
          * The access token
          */
-        accessToken: string;
+        readonly accessToken: string;
         /**
          * The access token expiration
          */
-        accessTokenExpiry: number;
+        readonly accessTokenExpiry: number;
         /**
          * The error status.
          *  In cases of errors - more detailed error information
          *  can be seen in the error log files (specifity of error details vary by OAuth provider).
          */
-        errorStatus: string;
+        readonly errorStatus: string;
         /**
          * The OAuth provider id
          */
-        oauthProviderId: string;
+        readonly oauthProviderId: string;
         /**
          * The refresh token
          */
-        refreshToken: string;
+        readonly refreshToken: string;
 
         /**
          * Returns the access token
@@ -20512,11 +20919,11 @@ declare namespace dw {
         /**
          * The access token response
          */
-        accessTokenResponse: dw.customer.oauth.OAuthAccessTokenResponse;
+        readonly accessTokenResponse: dw.customer.oauth.OAuthAccessTokenResponse;
         /**
          * The user info response
          */
-        userInfoResponse: dw.customer.oauth.OAuthUserInfoResponse;
+        readonly userInfoResponse: dw.customer.oauth.OAuthUserInfoResponse;
 
         /**
          * Returns the access token response
@@ -20634,13 +21041,13 @@ declare namespace dw {
          *  In cases of errors - more detailed error information
          *  can be seen in the error log files (specificity of error details vary by OAuth provider).
          */
-        errorStatus: string;
+        readonly errorStatus: string;
         /**
          * The user info as a String. Refer to the corresponding OAuth provider documentation
          *  regarding what the format might be (in most cases it would be JSON).
          *  The data returned would also vary depending on the configured 'scope'.
          */
-        userInfo: string;
+        readonly userInfo: string;
 
         /**
          * Returns the error status
@@ -20664,42 +21071,72 @@ declare namespace dw {
 
   namespace experience {
     /**
+     * This APIException is thrown by method <a href="class_dw_experience_PageMgr.html#dw_experience_PageMgr_renderPage_String_Map_String_DetailAnchor">PageMgr.renderPage(String, Map, String)</a>
+     *  to indicate that the passed aspect attributes failed during validation against the
+     *  definition provided through the aspect type of the page.
+     */
+    class AspectAttributeValidationException extends APIException {}
+
+    /**
      * This class represents a page designer managed component as part of a
      *  page. A component comprises of multiple regions that again hold components,
      *  thus spanning a hierarchical tree of components. Using the <a href="class_dw_experience_PageMgr.html#dw_experience_PageMgr_renderRegion_Region_DetailAnchor">PageMgr.renderRegion(Region)</a> or
      *  <a href="class_dw_experience_PageMgr.html#dw_experience_PageMgr_renderRegion_Region_RegionRenderSettings_DetailAnchor">PageMgr.renderRegion(Region, RegionRenderSettings)</a> a region can be rendered which
      *  implicitly includes rendering of all contained visible components. All
      *  content attributes (defined by the corresponding component type) can be
-     *  accessed, reading the accordant values as provided by the content editor
-     *  that created this component.
+     *  accessed, reading the accordant persisted values as provided by the content editor
+     *  who created this component.
      */
     class Component {
       /**
        * The id of this component.
        */
-      ID: string;
+      readonly ID: string;
       /**
        * The name of this component
        */
-      name: string;
+      readonly name: string;
       /**
        * The type id of this component.
        */
-      typeID: string;
+      readonly typeID: string;
 
       /**
        * Returns the raw attribute value identified by the specified attribute id.
-       *  By raw attribute value we denote the value as provided by the content
-       *  editor when setting up this component. This value might be fundamentally
-       *  different from the value as provided through the content dictionary when
-       *  the render function of the component is invoked. This is due to
-       *  the fact that during rendering the raw value is processed before being
-       *  stored in the content dictionary - for example link placeholders in
-       *  markup text are resolved to real URLs as part of such processing.
+       *  By raw attribute value we denote the unprocessed value as provided for the attribute
+       *  driven by the type of the respective attribute definition:
+       *
+       *   boolean -> boolean
+       *   category -> string representing a catalog category ID
+       *   custom -> Map that originates from a stringified curly brackets {} JSON object
+       *   cms_record -> Map that originates from a stringified curly brackets {} JSON object whose entries must adhere to the cmsrecord.json schema
+       *   enum -> either string or integer
+       *   file -> string representing a file path within a library
+       *   image -> Map that originates from a stringified curly brackets {} JSON object whose entries must adhere to the content/schema/image.json schema
+       *   integer -> integer
+       *   markup -> string representing HTML markup
+       *   page -> string representing a page ID
+       *   product -> string representing a product SKU
+       *   string -> string
+       *   text -> string
+       *   url -> string representing a URL
+       *
+       *
+       *
+       *  There is two places an attribute value can come from - either it was persisted at design time (e.g.
+       *  by the merchant by editing a component in Page Designer) or it was injected in shape of an aspect attribute at rendering time
+       *  through the execution of code. The persistent value, if existing, takes precedence over the injected aspect
+       *  attribute one. Injection of a value through an aspect attribute will only occur if the component attribute's
+       *  attribute definition was declared using the "dynamic_lookup" property and its aspect attribute alias matches
+       *  the ID of the respective aspect attribute.
+       *
        *  Accessing the raw value can be helpful if render logic of the
-       *  component needs to operate on these unprocessed values.
+       *  component needs to operate on these unprocessed values. An unprocessed value
+       *  might be fundamentally different from its processed counterpart, the latter being
+       *  provided through the content dictionary (see ComponentScriptContext.getContent())
+       *  when the render function of the component is invoked.
        * @param attributeID the id of the desired attribute
-       * @return the value of the desired attribute, or null if not found
+       * @return the unprocessed raw value of the desired attribute, or null if not found
        */
       getAttribute(attributeID: string): any;
       /**
@@ -20796,7 +21233,7 @@ declare namespace dw {
       /**
        * The component for which the corresponding component type script is currently executed.
        */
-      component: dw.experience.Component;
+      readonly component: dw.experience.Component;
       /**
        * As components are implicitly rendered as part of their hosting region via
        *  PageMgr.renderRegion(Region, RegionRenderSettings) there is the possibility
@@ -20805,12 +21242,33 @@ declare namespace dw {
        *  as part of the render function, i.e. to drive the shape of the
        *  component wrapper element.
        */
-      componentRenderSettings: dw.experience.ComponentRenderSettings;
+      readonly componentRenderSettings: dw.experience.ComponentRenderSettings;
       /**
-       * The content attributes of the component. Currently those are setup by the merchant
-       *  using page designer and can be processed in your respective component type render function.
+       * The processed version of the underlying unprocessed raw values (also see Component.getAttribute(String))
+       *  of this component's attributes which you can use in your respective component type render function
+       *  implementing your business and rendering functionality. Processing the raw value is comprised of expansion
+       *  and conversion, in this order.
+       *
+       *      expansion - dynamic placeholders are transformed into actual values, for example url/link placeholders in
+       *      markup text are resolved to real URLs
+       *      conversion - the raw value (see Component.getAttribute(String)) is resolved into an actual
+       *      DWScript object depending on the type of the attribute as specified in its respective attribute definition
+       *
+       *           boolean -> boolean
+       *           category -> Category
+       *           custom -> Map
+       *           enum -> either string or integer
+       *           file -> MediaFile
+       *           image -> Image
+       *           integer -> integer
+       *           markup -> string
+       *           page -> string
+       *           product -> Product
+       *           string -> string
+       *           text -> string
+       *           url -> string
        */
-      content: dw.util.Map<string, any>;
+      readonly content: dw.util.Map<string, any>;
 
       /**
        * Returns the component for which the corresponding component type script is currently executed.
@@ -20830,10 +21288,31 @@ declare namespace dw {
        */
       getComponentRenderSettings(): dw.experience.ComponentRenderSettings;
       /**
-       * Returns the content attributes of the component. Currently those are setup by the merchant
-       *  using page designer and can be processed in your respective component type render function.
+       * Returns the processed version of the underlying unprocessed raw values (also see Component.getAttribute(String))
+       *  of this component's attributes which you can use in your respective component type render function
+       *  implementing your business and rendering functionality. Processing the raw value is comprised of expansion
+       *  and conversion, in this order.
        *
-       * @return content attributes of the component
+       *      expansion - dynamic placeholders are transformed into actual values, for example url/link placeholders in
+       *      markup text are resolved to real URLs
+       *      conversion - the raw value (see Component.getAttribute(String)) is resolved into an actual
+       *      DWScript object depending on the type of the attribute as specified in its respective attribute definition
+       *
+       *           boolean -> boolean
+       *           category -> Category
+       *           custom -> Map
+       *           enum -> either string or integer
+       *           file -> MediaFile
+       *           image -> Image
+       *           integer -> integer
+       *           markup -> string
+       *           page -> string
+       *           product -> Product
+       *           string -> string
+       *           text -> string
+       *           url -> string
+       *
+       * @return processed content attributes of the component
        */
       getContent(): dw.util.Map<string, any>;
     }
@@ -20864,7 +21343,7 @@ declare namespace dw {
        *  properly serializable. Do not use complex DWScript classes that do not support JSON serialization
        *  like for instance Product.
        */
-      configuration: dw.util.Map<string, any>;
+      readonly configuration: dw.util.Map<string, any>;
       /**
        * Returns the dependencies to other custom editors, e.g. used as breakout elements. You can use
        *  this mapping to add more custom editor dependencies as needed. For this purpose you want to create
@@ -20877,12 +21356,12 @@ declare namespace dw {
        *  e.g. for a separate picker required by your custom editor. This picker could be another custom editor,
        *  i.e. the one you declare as dependency here.
        */
-      dependencies: dw.util.Map<string, dw.experience.CustomEditor>;
+      readonly dependencies: dw.util.Map<string, dw.experience.CustomEditor>;
       /**
        * The resources of the custom editor. This is initialized with the values as specified
        *  by the custom editor type json (see the respective styles and scripts section).
        */
-      resources: dw.experience.CustomEditorResources;
+      readonly resources: dw.experience.CustomEditorResources;
 
       /**
        * Returns the configuration of the custom editor. This is initialized with the values as provided
@@ -20935,7 +21414,7 @@ declare namespace dw {
        *  what URLUtils.httpStatic(String) or
        *  URLUtils.httpsStatic(String)) does.
        */
-      scripts: dw.util.List<string>;
+      readonly scripts: dw.util.List<string>;
       /**
        * The specified style URLs. You can further modify this list
        *  at runtime of your init function to add more required styles.
@@ -20944,7 +21423,7 @@ declare namespace dw {
        *  what URLUtils.httpStatic(String) or
        *  URLUtils.httpsStatic(String)) does.
        */
-      styles: dw.util.List<string>;
+      readonly styles: dw.util.List<string>;
 
       /**
        * Returns the specified script resource URLs. You can further modify this list
@@ -20981,37 +21460,43 @@ declare namespace dw {
      */
     class Page {
       /**
+       * Get the aspect type of the page.
+       *  If an aspect type is set for this page (and is found in the deployed code version), then the page is treated as dynamic page during rendering,
+       *  also see PageMgr.renderPage(String, Map, String).
+       */
+      readonly aspectTypeID: string;
+      /**
        * The description of this page.
        */
-      description: string;
+      readonly description: string;
       /**
        * The id of this page.
        */
-      ID: string;
+      readonly ID: string;
       /**
        * The name of this page.
        */
-      name: string;
+      readonly name: string;
       /**
        * The SEO description of this page.
        */
-      pageDescription: string;
+      readonly pageDescription: string;
       /**
        * The SEO keywords of this page.
        */
-      pageKeywords: string;
+      readonly pageKeywords: string;
       /**
        * The SEO title of this page.
        */
-      pageTitle: string;
+      readonly pageTitle: string;
       /**
        * The search words of the page used for the search index.
        */
-      searchWords: string;
+      readonly searchWords: string;
       /**
        * The type id of this page.
        */
-      typeID: string;
+      readonly typeID: string;
       /**
        * Returns true if the page is currently visible which is the case if:
        *
@@ -21047,8 +21532,31 @@ declare namespace dw {
        *    }
        *    ...
        */
-      visible: boolean;
+      readonly visible: boolean;
 
+      /**
+       * Get the aspect type of the page.
+       *  If an aspect type is set for this page (and is found in the deployed code version), then the page is treated as dynamic page during rendering,
+       *  also see PageMgr.renderPage(String, Map, String).
+       *
+       * @return the ID of the page's aspect type
+       */
+      getAspectTypeID(): string;
+      /**
+       * Returns the raw attribute value identified by the specified attribute id.
+       *  By raw attribute value we denote the value as provided by the content
+       *  editor when setting up this page. This value might be fundamentally
+       *  different from the value as provided through the content dictionary when
+       *  the render function of the page is invoked. This is due to
+       *  the fact that during rendering the raw value is processed before being
+       *  stored in the content dictionary - for example link placeholders in
+       *  markup text are resolved to real URLs as part of such processing.
+       *  Accessing the raw value can be helpful if render logic of the
+       *  page needs to operate on these unprocessed values.
+       * @param attributeID the id of the desired attribute
+       * @return the value of the desired attribute, or null if not found
+       */
+      getAttribute(attributeID: string): any;
       /**
        * Returns the description of this page.
        *
@@ -21153,7 +21661,7 @@ declare namespace dw {
     /**
      * Provides functionality for getting and rendering page designer managed pages.
      *  <p>
-     *  The basic flow is to initiate page rendering by ID via <a href="class_dw_experience_PageMgr.html#dw_experience_PageMgr_renderPage_String_String_DetailAnchor">renderPage(String, String)</a>. This will trigger page
+     *  The basic flow is to initiate page rendering by ID via <a href="class_dw_experience_PageMgr.html#dw_experience_PageMgr_renderPage_String_String_DetailAnchor">renderPage(String, String)</a> or <a href="class_dw_experience_PageMgr.html#dw_experience_PageMgr_renderPage_String_Map_String_DetailAnchor">renderPage(String, Map, String)</a>. This will trigger page
      *  rendering from a top level perspective, i.e. the page serves as entry point and root container of components.
      *  As a related page or component template will likely want to trigger rendering of nested components
      *  within its regions it can do this by first fetching the desired region by ID via
@@ -21190,6 +21698,18 @@ declare namespace dw {
        */
       static getPage(pageID: string): dw.experience.Page;
       /**
+       * Get the dynamic page for given category (including bottom up traversal of the category tree) and aspect type.
+       * @param category category to find the page for, i.e. starting point (inclusive) for the bottom up traversal
+       * @param pageMustBeVisible while doing the bottom up traversal any attached page whose Page.isVisible() does not yield true will be bypassed in the search
+       * @param aspectTypeID id of the page-category-assignment aspect type
+       * @return the page assigned to the given category. If this none is found there then the path upwards in the category tree is traversed until a category is found that has a page assigned. If category assignments are not supported by the given aspect type or none is found within the aforementioned path of categories then null is returned.
+       */
+      static getPage(
+        category: dw.catalog.Category,
+        pageMustBeVisible: boolean,
+        aspectTypeID: string
+      ): dw.experience.Page;
+      /**
        * Render a page. All of this is going to happen in two layers of remote includes, therefore pagecaching of page rendering
        *  is separated from the pagecache lifecycle of the caller. The first one is going to be returned by this method.
        *
@@ -21216,11 +21736,49 @@ declare namespace dw {
        *
        *
        *  Nesting of renderPage(String, String), i.e. rendering a page within a page (or respectively its components), is not a supported use case.
+       *
+       *
+       *  Due to the nature of the remote includes mentioned above this comes with the url length restriction as you already know it from
+       *  remote includes you implement by hand within your templates. Thus the size of the parameters parameter of this
+       *  method has a length limitation accordingly because it just translates into a url parameter of the aforementioned remote includes.
+       *  As a best practice refrain from passing complex objects (e.g. full blown product models) but keep it rather slim (e.g. only product IDs).
        * @param pageID the ID of the page that will be rendered
        * @param parameters the optional parameters passed to page rendering
        * @return the remote include that will yield the markup as produced by page rendering
        */
       static renderPage(pageID: string, parameters: string): string;
+      /**
+       * Render a page. This is an extension of renderPage(String, String) for the purpose of rendering a
+       *  page that needs to determine pieces of its content at rendering time instead of design time only. Therefore it
+       *  is possible to pass aspect attributes in case the given page is subject to an aspect type. The latter specifies the
+       *  eligible aspect attribute definitions which the passed in aspect attributes will be validated against.
+       *  If the validation fails for any of the following reasons an AspectAttributeValidationException
+       *  will be thrown:
+       *
+       *      any aspect attribute value violates the value domain of the corresponding attribute definition
+       *      any required aspect attribute value is null
+       *
+       *  Aspect attributes without corresponding attribute definition will be omitted. Once they made it into the rendering
+       *  they will apply if no persistent component attribute value exists (taking precedence over default attribute values
+       *  as coming from the attribute definition json) and the component attribute has the dynamic_lookup
+       *  property defined which contains the aspect attribute alias. The aspect attribute value lookup then happens by taking
+       *  this aspect attribute alias and using it as attribute identifier within the given map of aspect attributes.
+       *
+       *  Due to the nature of using remote includes, also see renderPage(String, String), this comes with the url length
+       *  restriction as you already know it from remote includes you implement by hand within your templates. Thus the size of both the
+       *  aspectAttributes (keys and values) as well as the parameters parameter of this method
+       *  are subject to a length limitation accordingly because they just translate into url parameters of the aforementioned remote includes.
+       *  As a best practice refrain from passing complex objects (e.g. full blown product models) but keep it rather slim (e.g. only product IDs).
+       * @param pageID the aspect driven page that will be rendered
+       * @param aspectAttributes the values for the aspect attributes, with the key being the id of the respective attribute definition and the value adhering to the type of this attribute definition
+       * @param parameters the optional parameters passed to page rendering
+       * @return the remote include that will yield the markup as produced by page rendering
+       */
+      static renderPage(
+        pageID: string,
+        aspectAttributes: dw.util.Map<any, any>,
+        parameters: string
+      ): string;
       /**
        * Renders a region by triggering rendering of all visible components within
        *  this region. For each of these components the render function of the respective component
@@ -21322,15 +21880,15 @@ declare namespace dw {
        * The content attributes of the page. Currently those are not merchant manageable but
        *  are solely set in your respective page type render function.
        */
-      content: dw.util.Map<string, any>;
+      readonly content: dw.util.Map<string, any>;
       /**
        * The page for which the corresponding page type script is currently executed.
        */
-      page: dw.experience.Page;
+      readonly page: dw.experience.Page;
       /**
        * The parameters argument as passed when kicking off page rendering via PageMgr.renderPage(String, String).
        */
-      renderParameters: string;
+      readonly renderParameters: string;
 
       /**
        * Returns the content attributes of the page. Currently those are not merchant manageable but
@@ -21362,7 +21920,7 @@ declare namespace dw {
       /**
        * The id of this region.
        */
-      ID: string;
+      readonly ID: string;
       /**
        * The number of components that would be rendered by this region
        *  when calling PageMgr.renderRegion(Region) or PageMgr.renderRegion(Region, RegionRenderSettings).
@@ -21370,7 +21928,7 @@ declare namespace dw {
        *  Due to its time and customer group depending nature this call should NOT happen in a pagecached context
        *  outside of the processing induced by the above mentioned render methods.
        */
-      size: number;
+      readonly size: number;
       /**
        * The components that would be rendered by this region
        *  when calling PageMgr.renderRegion(Region) or PageMgr.renderRegion(Region, RegionRenderSettings).
@@ -21378,7 +21936,7 @@ declare namespace dw {
        *  As visibility is driven by the merchant configured dynamic visibility rules, e.g. scheduling and custom segmentation, this
        *  call should NOT happen in a pagecached context outside of the processing induced by the above mentioned render methods.
        */
-      visibleComponents: dw.util.Collection<dw.experience.Component>;
+      readonly visibleComponents: dw.util.Collection<dw.experience.Component>;
 
       /**
        * Returns the id of this region.
@@ -21537,11 +22095,11 @@ declare namespace dw {
          *  The attributes are also conveniently accessible through named property support. That means if myCmsRecord.getAttributes().get('foo') yields value 'bar',
          *  then myCmsRecord.foo will give the same results.
          */
-        attributes: dw.util.Map<string, any>;
+        readonly attributes: dw.util.Map<string, any>;
         /**
          * Return the id of the Salesforce CMS record.
          */
-        ID: string;
+        readonly ID: string;
         /**
          * Return the type of the Salesforce CMS record sufficing the content/schema/cmsrecord.json#/definitions/cms_content_type schema. Properties
          *  can be accessed accordingly:
@@ -21550,7 +22108,7 @@ declare namespace dw {
          *      getType().name : string
          *      getType().attribute_definitions : Map (see content/schema/attributedefinition.json)
          */
-        type: dw.util.Map<string, any>;
+        readonly type: dw.util.Map<string, any>;
 
         /**
          * Return the Salesforce CMS record attributes as key value pairs:
@@ -21594,11 +22152,11 @@ declare namespace dw {
         /**
          * The focal point abscissa.
          */
-        x: number;
+        readonly x: number;
         /**
          * The focal point ordinate.
          */
-        y: number;
+        readonly y: number;
 
         /**
          * Returns the focal point abscissa.
@@ -21622,18 +22180,18 @@ declare namespace dw {
         /**
          * The image media file from the current site's library.
          */
-        file: dw.content.MediaFile;
+        readonly file: dw.content.MediaFile;
         /**
          * The focal point of the image.
          */
-        focalPoint: dw.experience.image.FocalPoint;
+        readonly focalPoint: dw.experience.image.FocalPoint;
         /**
          * The meta data of the physical image file. This meta data is obtained when
          *  the respective component attribute was saved from Page Designer, i.e. the underlying
          *  image is not queried for the meta data every time getMetaData() is called
          *  but only on store of the related component attribute.
          */
-        metaData: dw.experience.image.ImageMetaData;
+        readonly metaData: dw.experience.image.ImageMetaData;
 
         /**
          * Returns the image media file from the current site's library.
@@ -21665,11 +22223,11 @@ declare namespace dw {
         /**
          * The image height.
          */
-        height: number;
+        readonly height: number;
         /**
          * The image width.
          */
-        width: number;
+        readonly width: number;
 
         /**
          * Returns the image height.
@@ -21751,19 +22309,19 @@ declare namespace dw {
         /**
          * Detail to the JS custom event to dispatch in response to this result.
          */
-        eventDetail: any;
+        readonly eventDetail: any;
         /**
          * Name of the JS custom event to dispatch in response to this result.
          */
-        eventName: string;
+        readonly eventName: string;
         /**
          * URL to navigate to in response to this result.
          */
-        redirect: dw.web.URL;
+        readonly redirect: dw.web.URL;
         /**
          * Status describing the outcome of this result.
          */
-        status: dw.system.Status;
+        readonly status: dw.system.Status;
 
         /**
          * Constructs a result with the given outcome information.
@@ -22380,7 +22938,7 @@ declare namespace dw {
         /**
          * The ID of the Facebook product. This is the same as the ID of the Demandware product.
          */
-        ID: string;
+        readonly ID: string;
         /**
          * A list containing the URLs of the images to show in Facebook for the product.
          */
@@ -22934,19 +23492,19 @@ declare namespace dw {
         /**
          * Detail to the JS custom event to dispatch in response to this result.
          */
-        eventDetail: any;
+        readonly eventDetail: any;
         /**
          * Name of the JS custom event to dispatch in response to this result.
          */
-        eventName: string;
+        readonly eventName: string;
         /**
          * URL to navigate to in response to this result.
          */
-        redirect: dw.web.URL;
+        readonly redirect: dw.web.URL;
         /**
          * Status describing the outcome of this result.
          */
-        status: dw.system.Status;
+        readonly status: dw.system.Status;
 
         /**
          * Constructs a result with the given outcome information.
@@ -23202,6 +23760,460 @@ declare namespace dw {
       }
     }
 
+    namespace payments {
+      /**
+       * Salesforce Payments payment intent. A payment intent is created when the shopper is ready to checkout and pay using
+       *  Salesforce Payments.
+       */
+      class SalesforcePaymentIntent {
+        /**
+         * The amount of this payment intent.
+         */
+        readonly amount: dw.value.Money;
+        /**
+         * Returns true if this payment intent has been confirmed for the correct amount, or false
+         *  if not.
+         */
+        readonly confirmed: boolean;
+        /**
+         * The identifier of this payment intent.
+         */
+        readonly ID: string;
+        /**
+         * The payment method for this payment intent, or null if none has been established.
+         */
+        readonly paymentMethod: dw.extensions.payments.SalesforcePaymentMethod;
+
+        /**
+         * Returns the amount of this payment intent.
+         *
+         * @return payment intent amount
+         */
+        getAmount(): dw.value.Money;
+        /**
+         * Returns the identifier of this payment intent.
+         *
+         * @return payment intent identifier
+         */
+        getID(): string;
+        /**
+         * Returns the payment instrument for this payment intent in the given basket, or null if the given
+         *  basket has none.
+         * @param basket basket
+         * @return basket payment instrument
+         */
+        getPaymentInstrument(
+          basket: dw.order.Basket
+        ): dw.order.OrderPaymentInstrument;
+        /**
+         * Returns the payment instrument for this payment intent in the given order, or null if the given
+         *  order has none.
+         * @param order order
+         * @return order payment instrument
+         */
+        getPaymentInstrument(
+          order: dw.order.Order
+        ): dw.order.OrderPaymentInstrument;
+        /**
+         * Returns the payment method for this payment intent, or null if none has been established.
+         *
+         * @return payment method
+         */
+        getPaymentMethod(): dw.extensions.payments.SalesforcePaymentMethod;
+        /**
+         * Returns true if this payment intent has been confirmed for the correct amount, or false
+         *  if not.
+         *
+         * @return true if this payment intent has been confirmed for the correct amount
+         */
+        isConfirmed(): boolean;
+      }
+
+      /**
+       * Salesforce Payments payment method. A payment method contains information about the credential used to make payment,
+       *  such as a credit card.
+       */
+      class SalesforcePaymentMethod {
+        /**
+         * Represents the Bancontact payment method.
+         */
+        static readonly TYPE_BANCONTACT = "bancontact";
+        /**
+         * Represents a credit card type of payment method.
+         */
+        static readonly TYPE_CARD = "card";
+        /**
+         * Represents the iDEAL payment method.
+         */
+        static readonly TYPE_IDEAL = "ideal";
+        /**
+         * Represents the SEPA Debit payment method.
+         */
+        static readonly TYPE_SEPA_DEBIT = "sepa_debit";
+
+        /**
+         * The bank of this payment method, or null if none is available. Available on
+         *  TYPE_IDEAL type methods.
+         */
+        readonly bank: string;
+        /**
+         * The bank code of this payment method, or null if none is available. Available on
+         *  TYPE_SEPA_DEBIT and TYPE_BANCONTACT type methods.
+         */
+        readonly bankCode: string;
+        /**
+         * The bank name of this payment method, or null if none is available. Available on
+         *  TYPE_BANCONTACT type methods.
+         */
+        readonly bankName: string;
+        /**
+         * The bank branch code of this payment method, or null if none is available. Available on
+         *  TYPE_SEPA_DEBIT type methods.
+         */
+        readonly branchCode: string;
+        /**
+         * The brand of this payment method, or null if none is available. Available on
+         *  TYPE_CARD type methods.
+         */
+        readonly brand: string;
+        /**
+         * The bank branch code of this payment method, or null if none is available. Available on
+         *  TYPE_SEPA_DEBIT type methods.
+         */
+        readonly country: string;
+        /**
+         * The identifier of this payment method.
+         */
+        readonly ID: string;
+        /**
+         * The last 4 digits of the credential for this payment method, or null if none is available.
+         *  Available on TYPE_CARD, TYPE_SEPA_DEBIT, and
+         *  TYPE_BANCONTACT type methods.
+         */
+        readonly last4: string;
+        /**
+         * The type of this payment method.
+         */
+        readonly type: string;
+
+        /**
+         * Returns the bank of this payment method, or null if none is available. Available on
+         *  TYPE_IDEAL type methods.
+         *
+         * @return payment method bank
+         */
+        getBank(): string;
+        /**
+         * Returns the bank code of this payment method, or null if none is available. Available on
+         *  TYPE_SEPA_DEBIT and TYPE_BANCONTACT type methods.
+         *
+         * @return payment method bank code
+         */
+        getBankCode(): string;
+        /**
+         * Returns the bank name of this payment method, or null if none is available. Available on
+         *  TYPE_BANCONTACT type methods.
+         *
+         * @return payment method bank name
+         */
+        getBankName(): string;
+        /**
+         * Returns the bank branch code of this payment method, or null if none is available. Available on
+         *  TYPE_SEPA_DEBIT type methods.
+         *
+         * @return payment method bank branch code
+         */
+        getBranchCode(): string;
+        /**
+         * Returns the brand of this payment method, or null if none is available. Available on
+         *  TYPE_CARD type methods.
+         *
+         * @return payment method brand
+         */
+        getBrand(): string;
+        /**
+         * Returns the bank branch code of this payment method, or null if none is available. Available on
+         *  TYPE_SEPA_DEBIT type methods.
+         *
+         * @return payment method country
+         */
+        getCountry(): string;
+        /**
+         * Returns the identifier of this payment method.
+         *
+         * @return payment method identifier
+         */
+        getID(): string;
+        /**
+         * Returns the last 4 digits of the credential for this payment method, or null if none is available.
+         *  Available on TYPE_CARD, TYPE_SEPA_DEBIT, and
+         *  TYPE_BANCONTACT type methods.
+         *
+         * @return payment method credential last 4 digits
+         */
+        getLast4(): string;
+        /**
+         * Returns the type of this payment method.
+         *
+         * @return payment method type
+         */
+        getType(): string;
+      }
+
+      /**
+       * Salesforce Payments payment request. Create a request to use the Salesforce Payments checkout drop-in component.
+       */
+      class SalesforcePaymentRequest {
+        /**
+         * Element for the Stripe credit card CVC field "cardCvc".
+         */
+        static readonly ELEMENT_CARD_CVC = "cardCvc";
+        /**
+         * Element for the Stripe credit card expiration date field "cardExpiry".
+         */
+        static readonly ELEMENT_CARD_EXPIRY = "cardExpiry";
+        /**
+         * Element for the Stripe credit card number field "cardNumber".
+         */
+        static readonly ELEMENT_CARD_NUMBER = "cardNumber";
+        /**
+         * Element for the Stripe IBAN field "iban".
+         */
+        static readonly ELEMENT_IBAN = "iban";
+        /**
+         * Element for the Stripe iDEAL bank selection field "idealBank".
+         */
+        static readonly ELEMENT_IDEAL_BANK = "idealBank";
+        /**
+         * Element for the Stripe payment request button "paymentRequestButton".
+         */
+        static readonly ELEMENT_PAYMENT_REQUEST_BUTTON = "paymentRequestButton";
+        /**
+         * Element type name for Apple Pay payment request buttons.
+         */
+        static readonly ELEMENT_TYPE_APPLEPAY = "applepay";
+        /**
+         * Element type name for Bancontact.
+         */
+        static readonly ELEMENT_TYPE_BANCONTACT = "bancontact";
+        /**
+         * Element type name for credit cards.
+         */
+        static readonly ELEMENT_TYPE_CARD = "card";
+        /**
+         * Element type name for iDEAL.
+         */
+        static readonly ELEMENT_TYPE_IDEAL = "ideal";
+        /**
+         * Element type name for other payment request buttons besides Apple Pay, like Google Pay.
+         */
+        static readonly ELEMENT_TYPE_PAYMENTREQUEST = "paymentrequest";
+        /**
+         * Element type name for SEPA debit.
+         */
+        static readonly ELEMENT_TYPE_SEPA_DEBIT = "sepa_debit";
+
+        /**
+         * The data to include in the call to prepare the basket when a Buy Now button is tapped.
+         */
+        basketData: any;
+        /**
+         * A set containing the element types to exclude from Salesforce Payments components.
+         */
+        readonly exclude: dw.util.Set<any>;
+        /**
+         * The identifier of this payment request.
+         */
+        readonly ID: string;
+        /**
+         * A set containing the specific element types to include from Salesforce Payments components. If the set is
+         *  empty then all applicable and enabled element types will be included by default.
+         */
+        readonly include: dw.util.Set<any>;
+        /**
+         * The DOM element selector where to mount Salesforce Payments components.
+         */
+        readonly selector: string;
+
+        /**
+         * Constructs a payment request using the given identifiers.
+         * @param id identifier for payment request
+         * @param selector DOM element selector where to mount Salesforce Payments components
+         */
+        constructor(id: string, selector: string);
+
+        /**
+         * Adds the given element type to exclude from Salesforce Payments components.
+         * @param elementType element type
+         */
+        addExclude(elementType: string): void;
+        /**
+         * Adds the given element type to include in Salesforce Payments components.
+         * @param elementType element type
+         */
+        addInclude(elementType: string): void;
+        /**
+         * Returns a JS object for the given options to use when a Buy Now button is tapped, in the Salesforce Payments
+         *  format.
+         * @param options JS object containing the payment request options
+         */
+        static format(options: any): any;
+        /**
+         * Returns the data to include in the call to prepare the basket when a Buy Now button is tapped.
+         *
+         * @return JS object containing the basket data
+         */
+        getBasketData(): any;
+        /**
+         * Returns a set containing the element types to exclude from Salesforce Payments components.
+         *
+         * @return set of element types
+         */
+        getExclude(): dw.util.Set<any>;
+        /**
+         * Returns the identifier of this payment request.
+         *
+         * @return payment request identifier
+         */
+        getID(): string;
+        /**
+         * Returns a set containing the specific element types to include from Salesforce Payments components. If the set is
+         *  empty then all applicable and enabled element types will be included by default.
+         *
+         * @return set of element types
+         */
+        getInclude(): dw.util.Set<any>;
+        /**
+         * Returns the DOM element selector where to mount Salesforce Payments components.
+         *
+         * @return DOM element selector
+         */
+        getSelector(): string;
+        /**
+         * Sets the data to include in the call to prepare the basket when a Buy Now button is tapped.
+         * @param basketData JS object containing the basket data
+         */
+        setBasketData(basketData: any): void;
+        /**
+         * Sets the options to use when a Buy Now button is tapped.
+         * @param options JS object containing the payment request options
+         */
+        setOptions(options: any): void;
+        /**
+         * Sets the controller to which to redirect when the shopper returns from a 3rd party payment website. Default is
+         *  the controller for the current page.
+         * @param returnController return controller, such as "Cart-Show"
+         */
+        setReturnController(returnController: string): void;
+        /**
+         * Sets if Salesforce Payments components may provide a control for the shopper to save the payment method for later
+         *  use.
+         * @param savePaymentMethodEnabled if Salesforce Payments components may provide a control for the shopper to save the payment method
+         */
+        setSavePaymentMethodEnabled(savePaymentMethodEnabled: boolean): void;
+        /**
+         * Sets the the options to pass into the Stripe elements.create call for the given element type. For
+         *  more information see the Stripe Elements API documentation.
+         * @param element name of the Stripe element whose creation to configure
+         * @param options JS object containing the options
+         */
+        setStripeCreateElementOptions(element: string, options: any): void;
+        /**
+         * Sets the the options to pass into the stripe.elements call. For more information see the Stripe
+         *  Elements API documentation.
+         * @param options JS object containing the options
+         */
+        setStripeElementsOptions(options: any): void;
+      }
+
+      /**
+       * This interface represents all script hooks that can be registered to customize the Salesforce Payments
+       *  functionality. It contains the extension points (hook names), and the functions that are called by each extension
+       *  point. A function must be defined inside a JavaScript source and must be exported. The script with the exported hook
+       *  function must be located inside a site cartridge. Inside the site cartridge a &apos;package.json&apos; file with a &apos;hooks&apos;
+       *  entry must exist.
+       *
+       *  <pre> &quot;hooks&quot;: &quot;./hooks.json&quot;
+       *  </pre>
+       *
+       *  The hooks entry links to a json file, relative to the &apos;package.json&apos; file. This file lists all registered hooks
+       *  inside the hooks property:
+       *
+       *  <pre> &quot;hooks&quot;: [
+       *       {&quot;name&quot;: &quot;dw.extensions.payments.asyncPaymentSucceeded&quot;, &quot;script&quot;: &quot;./payments.js&quot;}
+       *  ]
+       *  </pre>
+       *
+       *  A hook entry has a &apos;name&apos; and a &apos;script&apos; property.
+       *  <ul>
+       *  <li>The &apos;name&apos; contains the extension point, the hook name.</li>
+       *  <li>The &apos;script&apos; contains the script relative to the hooks file, with the exported hook function.</li>
+       *  </ul>
+       */
+      class SalesforcePaymentsHooks {
+        /**
+         * The extension point name dw.extensions.payments.asyncPaymentSucceeded.
+         */
+        static readonly extensionPointAsyncPaymentSucceeded =
+          "dw.extensions.payments.asyncPaymentSucceeded";
+
+        /**
+         * Called when asynchronous payment succeeded for the given order.
+         * @param order the order whose asynchronous payment succeeded
+         * @return a non-null result ends the hook execution, and is ignored
+         */
+        asyncPaymentSucceeded(order: dw.order.Order): dw.system.Status;
+      }
+
+      /**
+       * Contains functionality for use with Salesforce Payments.
+       */
+      class SalesforcePaymentsMgr {
+        /**
+         * Attaches the given payment method to the given customer.
+         * @param paymentMethod payment method to attch to customer
+         * @param customer customer whose payment method to save
+         */
+        static attachPaymentMethod(
+          paymentMethod: dw.extensions.payments.SalesforcePaymentMethod,
+          customer: dw.customer.Customer
+        ): void;
+        /**
+         * Detaches the given payment method from its associated customer. Once detached the payment method remains
+         *  associated with payment intents in the payment account, but is no longer saved for use by the customer in future
+         *  orders.
+         * @param paymentMethod payment method to detach from customer
+         */
+        static detachPaymentMethod(
+          paymentMethod: dw.extensions.payments.SalesforcePaymentMethod
+        ): void;
+        /**
+         * Returns a collection containing the payment methods attached to the given customer.
+         * @param customer customer whose payment methods to get
+         * @return collection of attached payment methods
+         */
+        static getAttachedPaymentMethods(
+          customer: dw.customer.Customer
+        ): dw.util.Collection<any>;
+        /**
+         * Gets the payment intent for the given basket.
+         * @param basket basket to checkout and pay using Salesforce Payments
+         * @return The payment intent
+         */
+        static getPaymentIntent(
+          basket: dw.order.Basket
+        ): dw.extensions.payments.SalesforcePaymentIntent;
+        /**
+         * Gets the payment intent for the given order.
+         * @param order order paid using Salesforce Payments
+         * @return The payment intent
+         */
+        static getPaymentIntent(
+          order: dw.order.Order
+        ): dw.extensions.payments.SalesforcePaymentIntent;
+      }
+    }
+
     namespace pinterest {
       /**
        * Represents a row in the Pinterest availability feed export file.
@@ -23216,7 +24228,7 @@ declare namespace dw {
         /**
          * The ID of the Pinterest product. This is the same as the ID of the Demandware product.
          */
-        ID: string;
+        readonly ID: string;
 
         /**
          * Returns the availability of the Pinterest product. Possible values are
@@ -23356,7 +24368,7 @@ declare namespace dw {
         /**
          * The order number for this Pinterest order. This is the same as the order number of the Demandware order.
          */
-        orderNo: string;
+        readonly orderNo: string;
         /**
          * The status of this Pinterest order. Possible values are
          *  PAYMENT_STATUS_PAID,
@@ -23552,7 +24564,7 @@ declare namespace dw {
         /**
          * The ID of the Pinterest product. This is the same as the ID of the Demandware product.
          */
-        ID: string;
+        readonly ID: string;
         /**
          * A list containing the URLs of the image to show in Pinterest for the product.
          */
@@ -23960,7 +24972,10 @@ declare namespace dw {
      *  <p>This class provides other useful methods for listing the
      *  children of a directory and for working with zip files.
      *  </p><p>
-     *  <b>Note:</b> when this class is used with sensitive data, be careful in persisting sensitive information.</p>
+     *  <b>Note:</b> when this class is used with sensitive data, be careful in persisting sensitive information.
+     *
+     *  </p><p>For performance reasons no more than 100,000 files (regular files and directories) should be stored in a
+     *  directory.</p>
      */
     class File {
       /**
@@ -24007,32 +25022,32 @@ declare namespace dw {
       /**
        * Indicates that this file is a directory.
        */
-      directory: boolean;
+      readonly directory: boolean;
       /**
        * Indicates if this file is a file.
        */
-      file: boolean;
+      readonly file: boolean;
       /**
        * Return the full file path denoted by this File.
        *  This value will be the same regardless of which constructor was
        *  used to create this File.
        */
-      fullPath: string;
+      readonly fullPath: string;
       /**
        * The name of the file or directory denoted by this object. This is
        *  just the last name in the pathname's name sequence. If the pathname's
        *  name sequence is empty, then the empty string is returned.
        */
-      name: string;
+      readonly name: string;
       /**
        * The portion of the path relative to the root directory.
        */
-      path: string;
+      readonly path: string;
       /**
        * The root directory type, e.g. "IMPEX" represented by this
        *  File.
        */
-      rootDirectoryType: string;
+      readonly rootDirectoryType: string;
 
       /**
        * Creates a File from the given absolute file path in the
@@ -24522,14 +25537,14 @@ declare namespace dw {
        *  Using this method on large feeds is inherently unsafe and may lead to an out-of-memory condition. Instead use
        *  method readLine() and process one line at a time.
        */
-      lines: dw.util.List<string>;
+      readonly lines: dw.util.List<string>;
       /**
        * The method reads the whole input stream as one string and returns it.
        *
        *  Using this method is unsafe if the length of the input stream is not known and may lead to an out-of-memory
        *  condition. Instead use method readN(Number).
        */
-      string: string;
+      readonly string: string;
 
       /**
        * Closes the reader.
@@ -24946,21 +25961,21 @@ declare namespace dw {
        *  count excludes namespace definitions.  Attribute indices are
        *  zero-based.
        */
-      attributeCount: number;
+      readonly attributeCount: number;
       /**
        * The character encoding declared on the XML declaration
        *  Returns null if none was declared.
        */
-      characterEncodingScheme: string;
+      readonly characterEncodingScheme: string;
       /**
        * Identifies if the cursor points to a character data event.
        */
-      characters: boolean;
+      readonly characters: boolean;
       /**
        * The column number where the current event ends or -1 if none is
        *  available.
        */
-      columnNumber: number;
+      readonly columnNumber: number;
       /**
        * Reads the content of a text-only element, an exception is thrown if this is not a text-only element. This method
        *  always returns coalesced content.
@@ -25001,25 +26016,25 @@ declare namespace dw {
        *  }
        *  return buf.toString();
        */
-      elementText: string;
+      readonly elementText: string;
       /**
        * Return input encoding if known or null if unknown.
        */
-      encoding: string;
+      readonly encoding: string;
       /**
        * Identifies if the cursor points to an end tag.
        */
-      endElement: boolean;
+      readonly endElement: boolean;
       /**
        * An integer code that indicates the type
        *  of the event the cursor is pointing to.
        */
-      eventType: number;
+      readonly eventType: number;
       /**
        * The line number where the current event ends or -1 if none is
        *  available.
        */
-      lineNumber: number;
+      readonly lineNumber: number;
       /**
        * The (local) name of the current event.
        *  For START_ELEMENT or END_ELEMENT returns the (local) name of the current element.
@@ -25027,7 +26042,7 @@ declare namespace dw {
        *  The current event must be START_ELEMENT or END_ELEMENT,
        *  or ENTITY_REFERENCE.
        */
-      localName: string;
+      readonly localName: string;
       /**
        * The count of namespaces declared on this START_ELEMENT or END_ELEMENT,
        *  this method is only valid on a START_ELEMENT, END_ELEMENT or NAMESPACE. On
@@ -25035,33 +26050,33 @@ declare namespace dw {
        *  out of scope.  This is the equivalent of the information reported
        *  by SAX callback for an end element event.
        */
-      namespaceCount: number;
+      readonly namespaceCount: number;
       /**
        * If the current event is a START_ELEMENT or END_ELEMENT  this method
        *  returns the URI of the prefix or the default namespace.
        *  Returns null if the event does not have a prefix.
        */
-      namespaceURI: string;
+      readonly namespaceURI: string;
       /**
        * Get the data section of a processing instruction.
        */
-      PIData: string;
+      readonly PIData: string;
       /**
        * Get the target of a processing instruction.
        */
-      PITarget: string;
+      readonly PITarget: string;
       /**
        * The prefix of the current event or null if the event does not have a prefix
        */
-      prefix: string;
+      readonly prefix: string;
       /**
        * Get the standalone declaration from the xml declaration.
        */
-      standalone: boolean;
+      readonly standalone: boolean;
       /**
        * Identifies if the cursor points to a start tag.
        */
-      startElement: boolean;
+      readonly startElement: boolean;
       /**
        * The current value of the parse event as a string,
        *  this returns the string value of a CHARACTERS event,
@@ -25072,27 +26087,27 @@ declare namespace dw {
        *  If an ENTITY_REFERENCE has been resolved, any character data
        *  will be reported as CHARACTERS events.
        */
-      text: string;
+      readonly text: string;
       /**
        * The length of the sequence of characters for this
        *  Text event within the text character array.
        */
-      textLength: number;
+      readonly textLength: number;
       /**
        * The offset into the text character array where the first
        *  character (of this text event) is stored.
        */
-      textStart: number;
+      readonly textStart: number;
       /**
        * Get the xml version declared on the xml declaration.
        *  Returns null if none was declared.
        */
-      version: string;
+      readonly version: string;
       /**
        * Identifies if the cursor points to a character data event
        *  that consists of all whitespace.
        */
-      whiteSpace: boolean;
+      readonly whiteSpace: boolean;
       /**
        * Reads a sub-tree of the XML document and parses it as XML object.
        *
@@ -25105,7 +26120,7 @@ declare namespace dw {
        *  method reads the stream up to the matching END_ELEMENT. When the method
        *  returns the current event is the END_ELEMENT event.
        */
-      XMLObject: any;
+      readonly XMLObject: any;
 
       /**
        * Constructs the stream readon on behalf of the reader.
@@ -25858,15 +26873,15 @@ declare namespace dw {
        *  job context should only be used when necessary and with caution. If two steps which are running in parallel in
        *  the same job store data in the job context using the same key the result is undefined.
        */
-      context: dw.util.Map<string, any>;
+      readonly context: dw.util.Map<string, any>;
       /**
        * The ID of this job execution.
        */
-      ID: string;
+      readonly ID: string;
       /**
        * The ID of the job this job execution belongs to.
        */
-      jobID: string;
+      readonly jobID: string;
 
       /**
        * Returns the job context which can be used to share data between steps. NOTE: Steps should be self-contained, the
@@ -25910,19 +26925,19 @@ declare namespace dw {
       /**
        * The ID of this step execution.
        */
-      ID: string;
+      readonly ID: string;
       /**
        * The job execution this step execution belongs to.
        */
-      jobExecution: dw.job.JobExecution;
+      readonly jobExecution: dw.job.JobExecution;
       /**
        * The ID of the step this step execution belongs to.
        */
-      stepID: string;
+      readonly stepID: string;
       /**
        * The ID of the step type of the step this step execution belongs to.
        */
-      stepTypeID: string;
+      readonly stepTypeID: string;
 
       /**
        * Returns the ID of this step execution.
@@ -26005,15 +27020,15 @@ declare namespace dw {
       /**
        * Identifies if the FTP client is currently connected to the FTP server.
        */
-      connected: boolean;
+      readonly connected: boolean;
       /**
        * The reply code from the last FTP action.
        */
-      replyCode: number;
+      readonly replyCode: number;
       /**
        * The string message from the last FTP action.
        */
-      replyMessage: string;
+      readonly replyMessage: string;
       /**
        * The timeout for this client, in milliseconds.
        */
@@ -26261,19 +27276,19 @@ declare namespace dw {
       /**
        * Identifies if the file is a directory.
        */
-      directory: boolean;
+      readonly directory: boolean;
       /**
        * The name of the file.
        */
-      name: string;
+      readonly name: string;
       /**
        * The size of the file.
        */
-      size: number;
+      readonly size: number;
       /**
        * The timestamp of the file.
        */
-      timestamp: Date;
+      readonly timestamp: Date;
 
       /**
        * Constructs the FTPFileInfo instance.
@@ -26360,29 +27375,32 @@ declare namespace dw {
       /**
        * All response headers as a map containing the name and value of the response header.
        */
-      allResponseHeaders: dw.util.HashMap<string, dw.util.List<string>>;
+      readonly allResponseHeaders: dw.util.HashMap<
+        string,
+        dw.util.List<string>
+      >;
       /**
        * The returned message body as text for HTTP status code greater or equal to 400. Error messages are not
        *  written to the response file.
        */
-      errorText: string;
+      readonly errorText: string;
       /**
        * All response headers as a map in which each entry represents an individual header. The key of the entry
        *  holds the header name and the entry value holds a list of all header values.
        */
-      responseHeaders: dw.util.List<string>;
+      readonly responseHeaders: dw.util.List<string>;
       /**
        * The status code of the last HTTP operation.
        */
-      statusCode: number;
+      readonly statusCode: number;
       /**
        * The message text of the last HTTP operation.
        */
-      statusMessage: string;
+      readonly statusMessage: string;
       /**
        * The returned message body as text for HTTP status codes between 200 and 299.
        */
-      text: string;
+      readonly text: string;
       /**
        * The timeout for this client, in milliseconds.
        */
@@ -26603,23 +27621,23 @@ declare namespace dw {
       /**
        * The content type of this part.
        */
-      contentType: string;
+      readonly contentType: string;
       /**
        * Get the charset to be used to encode the string.
        */
-      encoding: string;
+      readonly encoding: string;
       /**
        * Get the file value of the part.
        */
-      fileValue: dw.io.File;
+      readonly fileValue: dw.io.File;
       /**
        * Get the name of the part.
        */
-      name: string;
+      readonly name: string;
       /**
        * Get the string value of the part.
        */
-      stringValue: string;
+      readonly stringValue: string;
 
       /**
        * Construct a part representing a simple string name/value pair. The HTTP
@@ -26717,8 +27735,8 @@ declare namespace dw {
      *
      *   var content: MimeEncodedText = template.render(o);
      *   var mail: Mail = new dw.net.Mail();
-     *   mail.addTo(&quot;<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="fe8a91be9b869f938e929bd0918c99">[email&#xA0;protected]</a>&quot;);
-     *   mail.setFrom(&quot;<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="f395819c9eb3968b929e839f96dd9c8194">[email&#xA0;protected]</a>&quot;);
+     *   mail.addTo(&quot;<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="04706b44617c65697468612a6b7663">[email&#xA0;protected]</a>&quot;);
+     *   mail.setFrom(&quot;<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="96f0e4f9fbd6f3eef7fbe6faf3b8f9e4f1">[email&#xA0;protected]</a>&quot;);
      *   mail.setSubject(&quot;Example Email&quot;);
      *   mail.setContent(content);
      *
@@ -26914,11 +27932,11 @@ declare namespace dw {
       /**
        * Identifies if the SFTP client is currently connected to the SFTP server.
        */
-      connected: boolean;
+      readonly connected: boolean;
       /**
        * The error message from the last SFTP action.
        */
-      errorMessage: string;
+      readonly errorMessage: string;
       /**
        * The timeout for this client, in milliseconds.
        */
@@ -27135,19 +28153,19 @@ declare namespace dw {
       /**
        * Identifies if the file is a directory.
        */
-      directory: boolean;
+      readonly directory: boolean;
       /**
        * The last modification time of the file/directory.
        */
-      modificationTime: Date;
+      readonly modificationTime: Date;
       /**
        * The name of the file/directory.
        */
-      name: string;
+      readonly name: string;
       /**
        * The size of the file/directory.
        */
-      size: number;
+      readonly size: number;
 
       /**
        * Constructs the SFTPFileInfo instance.
@@ -27277,15 +28295,18 @@ declare namespace dw {
       /**
        * A HashMap of all response headers.
        */
-      allResponseHeaders: dw.util.HashMap<string, dw.util.List<string>>;
+      readonly allResponseHeaders: dw.util.HashMap<
+        string,
+        dw.util.List<string>
+      >;
       /**
        * The status code after the execution of a method.
        */
-      statusCode: number;
+      readonly statusCode: number;
       /**
        * The status text after the execution of a method.
        */
-      statusText: string;
+      readonly statusText: string;
 
       /**
        * Creates a new client for the use at a server which requires
@@ -27618,27 +28639,27 @@ declare namespace dw {
       /**
        * The content type of the file.
        */
-      contentType: string;
+      readonly contentType: string;
       /**
        * The creationDate of the file.
        */
-      creationDate: Date;
+      readonly creationDate: Date;
       /**
        * Identifies if the file is a directory.
        */
-      directory: boolean;
+      readonly directory: boolean;
       /**
        * The name of the file.
        */
-      name: string;
+      readonly name: string;
       /**
        * The path of the file.
        */
-      path: string;
+      readonly path: string;
       /**
        * The size of the file.
        */
-      size: number;
+      readonly size: number;
 
       /**
        * Returns the content type of the file.
@@ -27689,18 +28710,20 @@ declare namespace dw {
     /**
      * Represents the active data for an object in Commerce Cloud Digital.
      */
-    class ActiveData extends dw.object.ExtensibleObject {
+    class ActiveData extends dw.object.ExtensibleObject<
+      ActiveDataCustomAttributes
+    > {
       /**
        * The custom attributes for this object. The returned object can
        *  only be used for retrieving attribute values, not storing them. See
        *  CustomAttributes for a detailed example of the syntax for
        *  working with custom attributes.
        */
-      custom: dw.object.CustomAttributes;
+      readonly custom: ActiveDataCustomAttributes;
       /**
        * Return true if the ActiveData doesn't exist for the object
        */
-      empty: boolean;
+      readonly empty: boolean;
 
       /**
        * Returns the custom attributes for this object. The returned object can
@@ -27710,7 +28733,7 @@ declare namespace dw {
        *
        * @return the custom attributes for this object.
        */
-      getCustom(): dw.object.CustomAttributes;
+      getCustom(): ActiveDataCustomAttributes;
       /**
        * Return true if the ActiveData doesn't exist for the object
        *
@@ -27755,7 +28778,7 @@ declare namespace dw {
      *  var s : String = eo.custom.svalue;
      *
      *  // attribute of value type &apos;Email&apos;
-     *  eo.custom.emailvalue = &quot;<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="6a0f070b03062a0e0f070b040e1d0b180f44090507">[email&#xA0;protected]</a>&quot;;
+     *  eo.custom.emailvalue = &quot;<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="badfd7dbd3d6fadedfd7dbd4decddbc8df94d9d5d7">[email&#xA0;protected]</a>&quot;;
      *  var e : String = eo.custom.emailvalue;
      *
      *  // attribute of value type &apos;Text&apos;
@@ -27824,16 +28847,18 @@ declare namespace dw {
     /**
      * Represents a custom object and its corresponding attributes.
      */
-    class CustomObject extends dw.object.ExtensibleObject {
+    class CustomObject extends dw.object.ExtensibleObject<
+      CustomObjectCustomAttributes
+    > {
       /**
        * The custom attributes of this
        *  object.
        */
-      custom: dw.object.CustomAttributes;
+      readonly custom: dw.object.CustomAttributes;
       /**
        * The type of the CustomObject.
        */
-      type: string;
+      readonly type: string;
 
       /**
        * Returns the custom attributes of this
@@ -28154,7 +29179,7 @@ declare namespace dw {
       /**
        * The custom attributes for this object.
        */
-      custom: dw.object.CustomAttributes;
+      readonly custom: dw.object.CustomAttributes;
 
       /**
        * Returns the meta data of this object. If no meta data is available the
@@ -28180,14 +29205,14 @@ declare namespace dw {
      *  to the related object-type metadata. The method getCustom() is the central
      *  point to retrieve and store the objects attribute values themselves.
      */
-    class ExtensibleObject extends dw.object.PersistentObject {
+    class ExtensibleObject<T> extends dw.object.PersistentObject {
       /**
        * The custom attributes for this object. The returned object is
        *  used for retrieving and storing attribute values. See
        *  CustomAttributes for a detailed example of the syntax for
        *  working with custom attributes.
        */
-      custom: dw.object.CustomAttributes;
+      readonly custom: T;
 
       /**
        * Returns the meta data of this object. If no meta data is available the
@@ -28205,7 +29230,7 @@ declare namespace dw {
        *
        * @return the custom attributes for this object.
        */
-      getCustom(): dw.object.CustomAttributes;
+      getCustom(): T;
     }
 
     /**
@@ -28217,21 +29242,21 @@ declare namespace dw {
        * Return the login ID of user that is stored in the session at the time
        *  the note is created.
        */
-      createdBy: string;
+      readonly createdBy: string;
       /**
        * Return the date and time that the note was created.  This is usually
        *  set by the system, but may be specified if the note is generated
        *  via an import.
        */
-      creationDate: Date;
+      readonly creationDate: Date;
       /**
        * Return the subject of the note.
        */
-      subject: string;
+      readonly subject: string;
       /**
        * Return the text of the note.
        */
-      text: string;
+      readonly text: string;
 
       /**
        * Return the login ID of user that is stored in the session at the time
@@ -28342,28 +29367,30 @@ declare namespace dw {
       /**
        * All attribute groups the attribute is assigned to.
        */
-      attributeGroups: dw.util.Collection<dw.object.ObjectAttributeGroup>;
+      readonly attributeGroups: dw.util.Collection<
+        dw.object.ObjectAttributeGroup
+      >;
       /**
        * Return the default value for the attribute or null if none is defined.
        */
-      defaultValue: dw.object.ObjectAttributeValueDefinition;
+      readonly defaultValue: dw.object.ObjectAttributeValueDefinition;
       /**
        * The display name for the attribute, which can be used in the
        *  user interface.
        */
-      displayName: string;
+      readonly displayName: string;
       /**
        * The ID of the attribute definition.
        */
-      ID: string;
+      readonly ID: string;
       /**
        * Identifies if the attribute represents the primary key of the object.
        */
-      key: boolean;
+      readonly key: boolean;
       /**
        * Checks if this attribute is mandatory.
        */
-      mandatory: boolean;
+      readonly mandatory: boolean;
       /**
        * Returns true if the attribute can have multiple values.
        *  Attributes of the following types are multi-value capable:
@@ -28378,38 +29405,40 @@ declare namespace dw {
        *  VALUE_TYPE_ENUM_OF_INT
        *  VALUE_TYPE_ENUM_OF_STRING
        */
-      multiValueType: boolean;
+      readonly multiValueType: boolean;
       /**
        * The object type definition in which this attribute is defined.
        */
-      objectTypeDefinition: dw.object.ObjectTypeDefinition;
+      readonly objectTypeDefinition: dw.object.ObjectTypeDefinition;
       /**
        * Returns true if the attribute is of type 'Set of'.
        */
-      setValueType: boolean;
+      readonly setValueType: boolean;
       /**
        * Indicates if the attribute is a pre-defined system attribute
        *  or a custom attribute.
        */
-      system: boolean;
+      readonly system: boolean;
       /**
        * The attribute's unit representation such as
        *  inches for length or pounds for weight. The value returned by
        *  this method is based on the attribute itself.
        */
-      unit: string;
+      readonly unit: string;
       /**
        * The list of attribute values. In the user interface only the
        *  values specified in this list should be offered as valid input values.
        *
        *  The collection contains instances of ObjectAttributeValueDefinition.
        */
-      values: dw.util.Collection<dw.object.ObjectAttributeValueDefinition>;
+      readonly values: dw.util.Collection<
+        dw.object.ObjectAttributeValueDefinition
+      >;
       /**
        * A code for the data type stored in the attribute. See constants
        *  defined in this class.
        */
-      valueTypeCode: number;
+      readonly valueTypeCode: number;
 
       /**
        * Returns all attribute groups the attribute is assigned to.
@@ -28526,29 +29555,31 @@ declare namespace dw {
        *  may contain both system attribute definition as well as custom
        *  attribute definitions.
        */
-      attributeDefinitions: dw.util.Collection<dw.object.ObjectTypeDefinition>;
+      readonly attributeDefinitions: dw.util.Collection<
+        dw.object.ObjectTypeDefinition
+      >;
       /**
        * The description of this group in the current locale.
        */
-      description: string;
+      readonly description: string;
       /**
        * The display name of this group.
        */
-      displayName: string;
+      readonly displayName: string;
       /**
        * The ID of this group.
        */
-      ID: string;
+      readonly ID: string;
       /**
        * The object type definition to which this attribute group
        *  belongs.
        */
-      objectTypeDefinition: dw.object.ObjectTypeDefinition;
+      readonly objectTypeDefinition: dw.object.ObjectTypeDefinition;
       /**
        * Identifies if this is an sytem or a custom attribute group. A system
        *  attribute group is pre-defined and can not be deleted.
        */
-      system: boolean;
+      readonly system: boolean;
 
       /**
        * Returns all attribute definitions for this group. The collection
@@ -28604,11 +29635,11 @@ declare namespace dw {
        *  the user interface. For example, the value might be '1' but the display
        *  name might be 'Order Exported'.
        */
-      displayValue: string;
+      readonly displayValue: string;
       /**
        * The actual value for the attribute.
        */
-      value: any;
+      readonly value: any;
 
       /**
        * Returns a display name that can be used to present this value in
@@ -28666,27 +29697,31 @@ declare namespace dw {
        *  attribute is not a uniqueness criteria. Additional the isCustom() flag
        *  must be checked.
        */
-      attributeDefinitions: dw.util.Collection<dw.object.ObjectTypeDefinition>;
+      readonly attributeDefinitions: dw.util.Collection<
+        dw.object.ObjectTypeDefinition
+      >;
       /**
        * A collection of all declared attribute groups. A attribute group
        *  is a collection of attribute, which are typically displayed together as
        *  a visual group.
        */
-      attributeGroups: dw.util.Collection<dw.object.ObjectAttributeGroup>;
+      readonly attributeGroups: dw.util.Collection<
+        dw.object.ObjectAttributeGroup
+      >;
       /**
        * The display name of the definition, which can be used in the
        *  user interface.
        */
-      displayName: string;
+      readonly displayName: string;
       /**
        * The type id of the business objects.
        */
-      ID: string;
+      readonly ID: string;
       /**
        * Identifies if this object definition is for a system type or a custom
        *  type.
        */
-      system: boolean;
+      readonly system: boolean;
 
       /**
        * Returns a collection of all declared attributes for the object.
@@ -28766,15 +29801,15 @@ declare namespace dw {
       /**
        * The date that this object was created.
        */
-      creationDate: Date;
+      readonly creationDate: Date;
       /**
        * The date that this object was last modified.
        */
-      lastModified: Date;
+      readonly lastModified: Date;
       /**
        * The unique universal identifier for this object.
        */
-      UUID: string;
+      readonly UUID: string;
 
       /**
        * Returns the date that this object was created.
@@ -28802,18 +29837,18 @@ declare namespace dw {
      *  Similar to Extensible method <a href="class_dw_object_SimpleExtensible.html#dw_object_SimpleExtensible_getCustom_DetailAnchor">getCustom()</a> is the central point to retrieve and store the objects attribute
      *  values.
      */
-    class SimpleExtensible {
+    class SimpleExtensible<T> {
       /**
        * The custom attributes for this object.
        */
-      custom: dw.object.CustomAttributes;
+      readonly custom: T;
 
       /**
        * Returns the custom attributes for this object.
        *
        * @return the custom attributes for this object.
        */
-      getCustom(): dw.object.CustomAttributes;
+      getCustom(): T;
     }
 
     /**
@@ -29122,40 +30157,40 @@ declare namespace dw {
       /**
        * Gross price of item.
        */
-      grossPrice: dw.value.Money;
+      readonly grossPrice: dw.value.Money;
       /**
        * The item-id used for referencing between items
        */
-      itemID: string;
+      readonly itemID: string;
       /**
        * The Order Product- or Shipping- LineItem associated with this item. Should never return null.
        */
-      lineItem: dw.order.LineItem;
+      readonly lineItem: dw.order.LineItem;
       /**
        * Net price of item.
        */
-      netPrice: dw.value.Money;
+      readonly netPrice: dw.value.Money;
       /**
        * The order item extensions related to this item. Should never return null.
        */
-      orderItem: dw.order.OrderItem;
+      readonly orderItem: dw.order.OrderItem;
       /**
        * The order-item-id used for referencing the OrderItem
        */
-      orderItemID: string;
+      readonly orderItemID: string;
       /**
        * Total tax for item.
        */
-      tax: dw.value.Money;
+      readonly tax: dw.value.Money;
       /**
        * Price of entire item on which tax calculation is based. Same as getNetPrice()
        *  or getGrossPrice() depending on whether the order is based on net or gross prices.
        */
-      taxBasis: dw.value.Money;
+      readonly taxBasis: dw.value.Money;
       /**
        * Tax items representing a tax breakdown
        */
-      taxItems: dw.util.Collection<dw.order.TaxItem>;
+      readonly taxItems: dw.util.Collection<dw.order.TaxItem>;
 
       /**
        * Gross price of item.
@@ -29235,40 +30270,40 @@ declare namespace dw {
       /**
        * Created by this user.
        */
-      createdBy: string;
+      readonly createdBy: string;
       /**
        * The time of creation.
        */
-      creationDate: Date;
+      readonly creationDate: Date;
       /**
        * The sum-item representing the grandtotal for all items.
        */
-      grandTotal: dw.order.SumItem;
+      readonly grandTotal: dw.order.SumItem;
       /**
        * The unsorted collection of items
        */
-      items: dw.util.FilteringCollection<dw.order.AbstractItem>;
+      readonly items: dw.util.FilteringCollection<dw.order.AbstractItem>;
       /**
        * The last modification time.
        */
-      lastModified: Date;
+      readonly lastModified: Date;
       /**
        * Last modified by this user.
        */
-      modifiedBy: string;
+      readonly modifiedBy: string;
       /**
        * The Order this object was created for.
        */
-      order: dw.order.Order;
+      readonly order: dw.order.Order;
       /**
        * The sum-item representing the subtotal for product items.
        */
-      productSubtotal: dw.order.SumItem;
+      readonly productSubtotal: dw.order.SumItem;
       /**
        * The sum-item representing the subtotal for service items such as
        *  shipping.
        */
-      serviceSubtotal: dw.order.SumItem;
+      readonly serviceSubtotal: dw.order.SumItem;
 
       /**
        * Created by this user.
@@ -29344,11 +30379,9 @@ declare namespace dw {
      *  </ul>
      *  <p>
      *  Order post-processing APIs (gillian) are now inactive by default and will throw
-     *  an exception if accessed. On sandboxes the APIs can be activated with a feature
-     *  switch &quot;Order Post Processing APIs on Sandboxes&quot;. On PIGs an activation needs
-     *  preliminary approval by Product Management. Please contact support in this case.
-     *  Existing customers using these APIs are not affected by this change and can use the
-     *  APIs until further notice.</p>
+     *  an exception if accessed. Activation needs preliminary approval by Product Management.
+     *  Please contact support in this case. Existing customers using these APIs are not
+     *  affected by this change and can use the APIs until further notice.</p>
      */
     class Appeasement extends dw.order.AbstractItemCtnr {
       /**
@@ -29383,15 +30416,15 @@ declare namespace dw {
       /**
        * The appeasement number.
        */
-      appeasementNumber: string;
+      readonly appeasementNumber: string;
       /**
        * Returns null or the previously created Invoice.
        */
-      invoice: dw.order.Invoice;
+      readonly invoice: dw.order.Invoice;
       /**
        * Returns null or the invoice-number.
        */
-      invoiceNumber: string;
+      readonly invoiceNumber: string;
       /**
        * A filtering collection of the appeasement items belonging to the appeasement.
        *
@@ -29403,7 +30436,7 @@ declare namespace dw {
        *  FilteringCollection.select(Object) with QUALIFIER_PRODUCTITEMS
        *  FilteringCollection.select(Object) with QUALIFIER_SERVICEITEMS
        */
-      items: dw.util.FilteringCollection<dw.order.AppeasementItem>;
+      readonly items: dw.util.FilteringCollection<dw.order.AppeasementItem>;
       /**
        * The reason code for the appeasement. The list of reason codes can be updated
        *  by updating meta-data for Appeasement.
@@ -29535,17 +30568,15 @@ declare namespace dw {
      *  When the related Appeasement were set to status COMPLETED, only the the custom attributes of the appeasement item can be changed.
      *  <p>
      *  Order post-processing APIs (gillian) are now inactive by default and will throw
-     *  an exception if accessed. On sandboxes the APIs can be activated with a feature
-     *  switch &quot;Order Post Processing APIs on Sandboxes&quot;. On PIGs an activation needs
-     *  preliminary approval by Product Management. Please contact support in this case.
-     *  Existing customers using these APIs are not affected by this change and can use the
-     *  APIs until further notice.</p>
+     *  an exception if accessed. Activation needs preliminary approval by Product Management.
+     *  Please contact support in this case. Existing customers using these APIs are not
+     *  affected by this change and can use the APIs until further notice.</p>
      */
     class AppeasementItem extends dw.order.AbstractItem {
       /**
        * The number of the Appeasement to which this item belongs.
        */
-      appeasementNumber: string;
+      readonly appeasementNumber: string;
       /**
        * Returns null or the parent item.
        */
@@ -29586,7 +30617,7 @@ declare namespace dw {
        *  created by the customer e.g. in the storefront. An agent basket can be created with
        *  BasketMgr.createAgentBasket().
        */
-      agentBasket: boolean;
+      readonly agentBasket: boolean;
       /**
        * The timestamp when the inventory for this basket expires.
        *
@@ -29600,21 +30631,21 @@ declare namespace dw {
        *  Please note that the expiry timestamp will not always be valid for the whole basket. It will not be valid for
        *  new items added or items whose quantity has changed after the reservation was done.
        */
-      inventoryReservationExpiry: Date;
+      readonly inventoryReservationExpiry: Date;
       /**
        * The order that this basket represents if the basket is being used to edit an order, otherwise this method
        *  returns null. Baskets created via BasketMgr.createBasketFromOrder(Order) will create a reference
        *  to the order that was used to create this basket (please check limitations around basket accessibility in
        *  BasketMgr.createBasketFromOrder(Order)).
        */
-      orderBeingEdited: dw.order.Order;
+      readonly orderBeingEdited: dw.order.Order;
       /**
        * The number of the order that this basket represents if the basket is being used to edit an order,
        *  otherwise this method returns null. Baskets created via BasketMgr.createBasketFromOrder(Order)
        *  will create a reference to the order that was used to create this basket (please check limitations around basket
        *  accessibility in BasketMgr.createBasketFromOrder(Order)).
        */
-      orderNoBeingEdited: string;
+      readonly orderNoBeingEdited: string;
 
       /**
        * Returns the timestamp when the inventory for this basket expires.
@@ -29940,7 +30971,7 @@ declare namespace dw {
        *
        *  Please notice that baskets are invalidated after a certain amount of time and may not be returned anymore.
        */
-      static baskets: dw.util.List<dw.order.BasketMgr>;
+      static readonly baskets: dw.util.List<dw.order.BasketMgr>;
       /**
        * This method returns the current valid basket of the session customer or null if no current valid
        *  basket exists.
@@ -29997,12 +31028,12 @@ declare namespace dw {
        *  Method getCurrentOrNewBasket() only creates a basket when method getCurrentBasket() returns
        *  null.
        */
-      static currentBasket: dw.order.Basket;
+      static readonly currentBasket: dw.order.Basket;
       /**
        * This method returns the current valid basket of the session customer or creates a new one if no current valid
        *  basket exists. See getCurrentBasket() for more details.
        */
-      static currentOrNewBasket: dw.order.Basket;
+      static readonly currentOrNewBasket: dw.order.Basket;
       /**
        * This method returns the stored basket of the session customer or null if none is found. A stored
        *  basket is returned in the following situation: - During one visit, a customer-X logs in and receives a basket-A -
@@ -30021,7 +31052,7 @@ declare namespace dw {
        *      // transfer all the data needed from the stored to the active basket
        *  }
        */
-      static storedBasket: dw.order.Basket;
+      static readonly storedBasket: dw.order.Basket;
 
       /**
        * Creates a new agent basket for the current session customer.
@@ -30248,7 +31279,9 @@ declare namespace dw {
      *  product line items representing the chosen bonus products can be retrieved
      *  with <a href="class_dw_order_BonusDiscountLineItem.html#dw_order_BonusDiscountLineItem_getBonusProductLineItems_DetailAnchor">getBonusProductLineItems()</a>.</p>
      */
-    class BonusDiscountLineItem extends dw.object.ExtensibleObject {
+    class BonusDiscountLineItem extends dw.object.ExtensibleObject<
+      BonusDiscountLineItemCustomAttributes
+    > {
       /**
        * Returns whether the promotion that triggered the creation of this line item uses a rule to determine the list of
        *  bonus products.
@@ -30256,12 +31289,12 @@ declare namespace dw {
        *  If the promotion is rule based, then a ProductSearchModel should be used to return the bonus products the
        *  customer may choose from, as the methods that return lists will return nothing. See getBonusProducts()
        */
-      bonusChoiceRuleBased: boolean;
+      readonly bonusChoiceRuleBased: boolean;
       /**
        * Get the product line items in the current LineItemCtnr representing the
        *  bonus products that the customer has selected for this discount.
        */
-      bonusProductLineItems: dw.util.List<dw.order.ProductLineItem>;
+      readonly bonusProductLineItems: dw.util.List<dw.order.ProductLineItem>;
       /**
        * Get the list of bonus products which the customer is allowed to choose
        *  from for this discount. This list is configured by a merchant entering a
@@ -30286,11 +31319,11 @@ declare namespace dw {
        *  promotions engine does not touch the value of the product option line
        *  items, it is the responsibility of custom code to set option prices.
        */
-      bonusProducts: dw.util.List<dw.catalog.Product>;
+      readonly bonusProducts: dw.util.List<dw.catalog.Product>;
       /**
        * Get the coupon line item associated with this discount.
        */
-      couponLineItem: dw.order.CouponLineItem;
+      readonly couponLineItem: dw.order.CouponLineItem;
       /**
        * Get the maximum number of bonus items that the customer is permitted to
        *  select for this bonus discount.
@@ -30298,15 +31331,15 @@ declare namespace dw {
        *  If the promotion which triggered this discount does not exist, then this
        *  method returns 0.
        */
-      maxBonusItems: number;
+      readonly maxBonusItems: number;
       /**
        * Get the promotion associated with this discount.
        */
-      promotion: dw.campaign.Promotion;
+      readonly promotion: dw.campaign.Promotion;
       /**
        * Get the promotion ID associated with this discount.
        */
-      promotionID: string;
+      readonly promotionID: string;
 
       /**
        * Get the product line items in the current LineItemCtnr representing the
@@ -30397,48 +31430,50 @@ declare namespace dw {
     /**
      * The CouponLineItem class is used to store redeemed coupons in the Basket.
      */
-    class CouponLineItem extends dw.object.ExtensibleObject {
+    class CouponLineItem extends dw.object.ExtensibleObject<
+      CouponLineItemCustomAttributes
+    > {
       /**
        * Identifies if the coupon is currently applied in the basket. A coupon
        *  line is applied if there exists at least one price adjustment related
        *  to the coupon line item.
        */
-      applied: boolean;
+      readonly applied: boolean;
       /**
        * Returns true the line item represents a coupon of a Commerce Cloud Digital
        *  campaign. If the coupon line item represents a custom coupon code,
        *  the method returns false.
        */
-      basedOnCampaign: boolean;
+      readonly basedOnCampaign: boolean;
       /**
        * The bonus discount line items of the line item container triggered
        *  by this coupon.
        */
-      bonusDiscountLineItems: dw.util.Collection<
+      readonly bonusDiscountLineItems: dw.util.Collection<
         dw.order.BonusDiscountLineItem
       >;
       /**
        * The coupon code.
        */
-      couponCode: string;
+      readonly couponCode: string;
       /**
        * The price adjustments of the line item container triggered
        *  by this coupon.
        */
-      priceAdjustments: dw.util.Collection<dw.order.PriceAdjustment>;
+      readonly priceAdjustments: dw.util.Collection<dw.order.PriceAdjustment>;
       /**
        * The promotion related to the coupon line item.
        */
-      promotion: dw.campaign.Promotion;
+      readonly promotion: dw.campaign.Promotion;
       /**
        * The id of the related promotion.
        */
-      promotionID: string;
+      readonly promotionID: string;
       /**
        * This method provides a detailed error status in case the coupon code of
        *  this coupon line item instance became invalid.
        */
-      statusCode: string;
+      readonly statusCode: string;
       /**
        * Allows to check whether the coupon code of this coupon line item instance
        *  is valid. Coupon line item is valid, if status code is one of the following:
@@ -30446,7 +31481,7 @@ declare namespace dw {
        *  CouponStatusCodes.APPLIED
        *  CouponStatusCodes.NO_APPLICABLE_PROMOTION
        */
-      valid: boolean;
+      readonly valid: boolean;
 
       /**
        * Associates the specified price adjustment with the coupon line item.
@@ -30537,7 +31572,7 @@ declare namespace dw {
       /**
        * Indicates reason why BasketMgr.createBasketFromOrder(Order) failed.
        */
-      errorCode: string;
+      readonly errorCode: string;
     }
 
     /**
@@ -30561,7 +31596,7 @@ declare namespace dw {
       /**
        * Returns one of the error codes listed in the class doc.
        */
-      errorCode: string;
+      readonly errorCode: string;
     }
 
     /**
@@ -30574,7 +31609,9 @@ declare namespace dw {
      * Represents a Gift Certificate that can be used to purchase
      *  products.
      */
-    class GiftCertificate extends dw.object.ExtensibleObject {
+    class GiftCertificate extends dw.object.ExtensibleObject<
+      GiftCertificateCustomAttributes
+    > {
       /**
        * Represents a status of 'issued', which indicates that the Gift Certificate
        *  has been created and that it can be used to purchase products.
@@ -30600,11 +31637,11 @@ declare namespace dw {
       /**
        * The original amount on the gift certificate.
        */
-      amount: dw.value.Money;
+      readonly amount: dw.value.Money;
       /**
        * The balance on the gift certificate.
        */
-      balance: dw.value.Money;
+      readonly balance: dw.value.Money;
       /**
        * The description string.
        */
@@ -30617,21 +31654,21 @@ declare namespace dw {
        * The code of the gift certificate. This redemption code is send to
        *  gift certificate recipient.
        */
-      giftCertificateCode: string;
+      readonly giftCertificateCode: string;
       /**
        * The code of the gift certificate. This redemption code is send to
        *  gift certificate recipient.
        */
-      ID: string;
+      readonly ID: string;
       /**
        * The masked gift certificate code with
        *  all but the last 4 characters replaced with a '*' character.
        */
-      maskedGiftCertificateCode: string;
+      readonly maskedGiftCertificateCode: string;
       /**
        * The merchant ID of the gift certificate.
        */
-      merchantID: string;
+      readonly merchantID: string;
       /**
        * The message to include in the email of the person receiving
        *  the gift certificate.
@@ -31093,11 +32130,9 @@ declare namespace dw {
      *  <a href="class_dw_order_Return.html#dw_order_Return_createInvoice_String_DetailAnchor">Return.createInvoice(String)</a>.
      *  <p>
      *  Order post-processing APIs (gillian) are now inactive by default and will throw
-     *  an exception if accessed. On sandboxes the APIs can be activated with a feature
-     *  switch &quot;Order Post Processing APIs on Sandboxes&quot;. On PIGs an activation needs
-     *  preliminary approval by Product Management. Please contact support in this case.
-     *  Existing customers using these APIs are not affected by this change and can use the
-     *  APIs until further notice.</p>
+     *  an exception if accessed. Activation needs preliminary approval by Product Management.
+     *  Please contact support in this case. Existing customers using these APIs are not
+     *  affected by this change and can use the APIs until further notice.</p>
      */
     class Invoice extends dw.order.AbstractItemCtnr {
       /**
@@ -31199,11 +32234,11 @@ declare namespace dw {
        *  with an Invoice using
        *  addCaptureTransaction(OrderPaymentInstrument, Money).
        */
-      capturedAmount: dw.value.Money;
+      readonly capturedAmount: dw.value.Money;
       /**
        * The invoice number.
        */
-      invoiceNumber: string;
+      readonly invoiceNumber: string;
       /**
        * Access the collection of InvoiceItems.
        *
@@ -31220,7 +32255,7 @@ declare namespace dw {
        *  FilteringCollection.select(Object) with
        *  QUALIFIER_SERVICEITEMS
        */
-      items: dw.util.FilteringCollection<dw.order.InvoiceItem>;
+      readonly items: dw.util.FilteringCollection<dw.order.InvoiceItem>;
       /**
        * The payment transactions belonging to this Invoice.
        *
@@ -31235,7 +32270,7 @@ declare namespace dw {
        *  FilteringCollection.select(Object) with
        *  QUALIFIER_REFUND
        */
-      paymentTransactions: dw.util.FilteringCollection<
+      readonly paymentTransactions: dw.util.FilteringCollection<
         dw.order.PaymentTransaction
       >;
       /**
@@ -31245,7 +32280,7 @@ declare namespace dw {
        *  with an Invoice using
        *  addRefundTransaction(OrderPaymentInstrument, Money).
        */
-      refundedAmount: dw.value.Money;
+      readonly refundedAmount: dw.value.Money;
       /**
        * The invoice status.
        *  The possible values are STATUS_NOT_PAID, STATUS_MANUAL,
@@ -31257,7 +32292,7 @@ declare namespace dw {
        *  The possible values are TYPE_SHIPPING, TYPE_RETURN,
        *  TYPE_RETURN_CASE, TYPE_APPEASEMENT.
        */
-      type: dw.value.EnumValue;
+      readonly type: dw.value.EnumValue;
 
       /**
        * The invoice will be accounted.
@@ -31412,17 +32447,15 @@ declare namespace dw {
      *  on its creation, each item references exactly one order-item.
      *  <p>
      *  Order post-processing APIs (gillian) are now inactive by default and will throw
-     *  an exception if accessed. On sandboxes the APIs can be activated with a feature
-     *  switch &quot;Order Post Processing APIs on Sandboxes&quot;. On PIGs an activation needs
-     *  preliminary approval by Product Management. Please contact support in this case.
-     *  Existing customers using these APIs are not affected by this change and can use the
-     *  APIs until further notice.</p>
+     *  an exception if accessed. Activation needs preliminary approval by Product Management.
+     *  Please contact support in this case. Existing customers using these APIs are not
+     *  affected by this change and can use the APIs until further notice.</p>
      */
     class InvoiceItem extends dw.order.AbstractItem {
       /**
        * Price of a single unit before discount application.
        */
-      basePrice: dw.value.Money;
+      readonly basePrice: dw.value.Money;
       /**
        * The captured amount for this item.
        */
@@ -31430,7 +32463,7 @@ declare namespace dw {
       /**
        * The number of the invoice to which this item belongs.
        */
-      invoiceNumber: string;
+      readonly invoiceNumber: string;
       /**
        * Returns null or the parent item.
        */
@@ -31438,7 +32471,7 @@ declare namespace dw {
       /**
        * The quantity of this item.
        */
-      quantity: dw.value.Quantity;
+      readonly quantity: dw.value.Quantity;
       /**
        * The refunded amount for this item.
        */
@@ -31505,7 +32538,9 @@ declare namespace dw {
     /**
      * Common line item base class.
      */
-    class LineItem extends dw.object.ExtensibleObject {
+    class LineItem extends dw.object.ExtensibleObject<
+      LineItemCustomAttributes
+    > {
       /**
        * The base price for the line item, which is the price of the unit before applying adjustments, in the
        *  purchase currency. The base price may be net or gross of tax depending on the configured taxation policy.
@@ -31519,7 +32554,7 @@ declare namespace dw {
       /**
        * The line item ctnr of the line item.
        */
-      lineItemCtnr: dw.order.LineItemCtnr;
+      readonly lineItemCtnr: dw.order.LineItemCtnr;
       /**
        * The display text for the line item.
        */
@@ -31533,7 +32568,7 @@ declare namespace dw {
        * Get the price of the line item. If the line item is based on net pricing then the net price is returned. If the
        *  line item is based on gross pricing then the gross price is returned.
        */
-      price: dw.value.Money;
+      readonly price: dw.value.Money;
       /**
        * Return the price amount for the line item. Same as getPrice().getValue().
        */
@@ -31546,7 +32581,7 @@ declare namespace dw {
       /**
        * Get the price used to calculate the tax for this line item.
        */
-      taxBasis: dw.value.Money;
+      readonly taxBasis: dw.value.Money;
       /**
        * The tax class ID for the line item or null if no tax class ID is associated with the line item. In the
        *  case where the tax class ID is null, you should use the default tax class ID.
@@ -31773,7 +32808,9 @@ declare namespace dw {
      *  values in the values they return. Gift certificates are not considered merchandise
      *  as they do not represent a product.</p><p></p>
      */
-    class LineItemCtnr extends dw.object.ExtensibleObject {
+    class LineItemCtnr extends dw.object.ExtensibleObject<
+      LineItemCtnrCustomAttributes
+    > {
       /**
        * constant for Business Type B2B
        */
@@ -31838,7 +32875,7 @@ declare namespace dw {
        *  services such as shipping, but after product-level and
        *  order-level adjustments.
        */
-      adjustedMerchandizeTotalGrossPrice: dw.value.Money;
+      readonly adjustedMerchandizeTotalGrossPrice: dw.value.Money;
       /**
        * The total net price (excluding tax) in purchase currency.
        *
@@ -31846,7 +32883,7 @@ declare namespace dw {
        *  services such as shipping, but after product-level and
        *  order-level adjustments.
        */
-      adjustedMerchandizeTotalNetPrice: dw.value.Money;
+      readonly adjustedMerchandizeTotalNetPrice: dw.value.Money;
       /**
        * The adjusted merchandize total price including product-level and
        *  order-level adjustments. If the line item container is based on net
@@ -31854,7 +32891,7 @@ declare namespace dw {
        *  line item container is based on gross pricing the adjusted merchandize
        *  total gross price is returned.
        */
-      adjustedMerchandizeTotalPrice: dw.value.Money;
+      readonly adjustedMerchandizeTotalPrice: dw.value.Money;
       /**
        * The subtotal tax in purchase currency.
        *
@@ -31862,46 +32899,48 @@ declare namespace dw {
        *  services such as shipping have been added, but after adjustment from
        *  promotions have been added.
        */
-      adjustedMerchandizeTotalTax: dw.value.Money;
+      readonly adjustedMerchandizeTotalTax: dw.value.Money;
       /**
        * The adjusted sum of all shipping line items of the line item container,
        *  including tax after shipping adjustments have been applied.
        */
-      adjustedShippingTotalGrossPrice: dw.value.Money;
+      readonly adjustedShippingTotalGrossPrice: dw.value.Money;
       /**
        * The sum of all shipping line items of the line item container,
        *  excluding tax after shipping adjustments have been applied.
        */
-      adjustedShippingTotalNetPrice: dw.value.Money;
+      readonly adjustedShippingTotalNetPrice: dw.value.Money;
       /**
        * The adjusted shipping total price. If the line item container
        *  is based on net pricing the adjusted shipping total net price is
        *  returned. If the line item container is based on gross pricing the adjusted
        *  shipping total gross price is returned.
        */
-      adjustedShippingTotalPrice: dw.value.Money;
+      readonly adjustedShippingTotalPrice: dw.value.Money;
       /**
        * The tax of all shipping line items of the line item container after
        *  shipping adjustments have been applied.
        */
-      adjustedShippingTotalTax: dw.value.Money;
+      readonly adjustedShippingTotalTax: dw.value.Money;
       /**
        * All gift certificate line items of the container.
        */
-      allGiftCertificateLineItems: dw.util.Collection<
+      readonly allGiftCertificateLineItems: dw.util.Collection<
         dw.order.GiftCertificateLineItem
       >;
       /**
        * All product, shipping, price adjustment, and gift certificate
        *  line items of the line item container.
        */
-      allLineItems: dw.util.Collection<dw.order.LineItem>;
+      readonly allLineItems: dw.util.Collection<dw.order.LineItem>;
       /**
        * All product line items of the container, no matter if they are
        *  dependent or independent. This includes option, bundled and bonus line
        *  items.
        */
-      allProductLineItems: dw.util.Collection<dw.order.ProductLineItem>;
+      readonly allProductLineItems: dw.util.Collection<
+        dw.order.ProductLineItem
+      >;
       /**
        * A hash mapping all products in the line item container to their
        *  total quantities.  The total product quantity is used chiefly
@@ -31914,7 +32953,7 @@ declare namespace dw {
        *  line items that are not option line items. It also excludes product line
        *  items that are not associated to any catalog product.
        */
-      allProductQuantities: dw.util.HashMap<
+      readonly allProductQuantities: dw.util.HashMap<
         dw.catalog.Product,
         dw.value.Quantity
       >;
@@ -31925,29 +32964,31 @@ declare namespace dw {
        *  only applies shipping price adjustments to the the default shipping line
        *  item of shipments, and never to the container.
        */
-      allShippingPriceAdjustments: dw.util.Collection<dw.order.PriceAdjustment>;
+      readonly allShippingPriceAdjustments: dw.util.Collection<
+        dw.order.PriceAdjustment
+      >;
       /**
        * The billing address defined for the container. Returns null if
        *  no billing address has been created yet.
        */
-      billingAddress: dw.order.OrderAddress;
+      readonly billingAddress: dw.order.OrderAddress;
       /**
        * An unsorted collection of the the bonus discount line items
        *  associated with this container.
        */
-      bonusDiscountLineItems: dw.util.Collection<
+      readonly bonusDiscountLineItems: dw.util.Collection<
         dw.order.BonusDiscountLineItem
       >;
       /**
        * The collection of product line items that are bonus items (where
        *  ProductLineItem.isBonusProductLineItem() is true).
        */
-      bonusLineItems: dw.util.Collection<dw.order.ProductLineItem>;
+      readonly bonusLineItems: dw.util.Collection<dw.order.ProductLineItem>;
       /**
        * The type of the business this order has been placed in.
        *  Possible values are BUSINESS_TYPE_B2C or BUSINESS_TYPE_B2B.
        */
-      businessType: dw.value.EnumValue;
+      readonly businessType: dw.value.EnumValue;
       /**
        * The channel type defines in which sales channel this order has been created. This can be used to distinguish
        *  order placed through Storefront, Call Center or Marketplace.
@@ -31956,23 +32997,23 @@ declare namespace dw {
        *  CHANNEL_TYPE_PINTEREST, CHANNEL_TYPE_TWITTER, CHANNEL_TYPE_FACEBOOKADS,
        *  CHANNEL_TYPE_SUBSCRIPTIONS, CHANNEL_TYPE_ONLINERESERVATION or CHANNEL_TYPE_CUSTOMERSERVICECENTER.
        */
-      channelType: dw.value.EnumValue;
+      readonly channelType: dw.value.EnumValue;
       /**
        * A sorted collection of the coupon line items in the container. The coupon line items are returned in the order
        *  they were added to container.
        */
-      couponLineItems: dw.util.Collection<dw.order.CouponLineItem>;
+      readonly couponLineItems: dw.util.Collection<dw.order.CouponLineItem>;
       /**
        * The currency code for this line item container. The currency code
        *  is a 3-character currency mnemonic such as 'USD' or 'EUR'. The currency
        *  code represents the currency in which the calculation is made, and in
        *  which the buyer sees all prices in the store front.
        */
-      currencyCode: string;
+      readonly currencyCode: string;
       /**
        * The customer associated with this container.
        */
-      customer: dw.customer.Customer;
+      readonly customer: dw.customer.Customer;
       /**
        * The email of the customer associated with this container.
        */
@@ -31984,51 +33025,51 @@ declare namespace dw {
       /**
        * The customer number of the customer associated with this container.
        */
-      customerNo: string;
+      readonly customerNo: string;
       /**
        * The default shipment of the line item container.
        */
-      defaultShipment: dw.order.Shipment;
+      readonly defaultShipment: dw.order.Shipment;
       /**
        * The Etag of the line item container. The Etag is a hash that represents the overall container state
        *  including any associated objects like line items.
        */
-      etag: string;
+      readonly etag: string;
       /**
        * All gift certificate line items of the container.
        */
-      giftCertificateLineItems: dw.util.Collection<
+      readonly giftCertificateLineItems: dw.util.Collection<
         dw.order.GiftCertificateLineItem
       >;
       /**
        * An unsorted collection of the PaymentInstrument instances that
        *  represent GiftCertificates in this container.
        */
-      giftCertificatePaymentInstruments: dw.util.Collection<
+      readonly giftCertificatePaymentInstruments: dw.util.Collection<
         dw.order.PaymentInstrument
       >;
       /**
        * The total gross price of all gift certificates in
        *  the cart. Should usually be equal to total net price.
        */
-      giftCertificateTotalGrossPrice: dw.value.Money;
+      readonly giftCertificateTotalGrossPrice: dw.value.Money;
       /**
        * The total net price (excluding tax) of all gift certificates in
        *  the cart. Should usually be equal to total gross price.
        */
-      giftCertificateTotalNetPrice: dw.value.Money;
+      readonly giftCertificateTotalNetPrice: dw.value.Money;
       /**
        * The gift certificate total price. If the line item container is based
        *  on net pricing the gift certificate total net price is returned. If the line
        *  item container is based on gross pricing the gift certificate total gross
        *  price is returned.
        */
-      giftCertificateTotalPrice: dw.value.Money;
+      readonly giftCertificateTotalPrice: dw.value.Money;
       /**
        * The total tax of all gift certificates in
        *  the cart. Should usually be 0.0.
        */
-      giftCertificateTotalTax: dw.value.Money;
+      readonly giftCertificateTotalTax: dw.value.Money;
       /**
        * The total gross price (including tax) in purchase currency.
        *
@@ -32036,7 +33077,7 @@ declare namespace dw {
        *  services such as shipping or adjustment from promotions have
        *  been added.
        */
-      merchandizeTotalGrossPrice: dw.value.Money;
+      readonly merchandizeTotalGrossPrice: dw.value.Money;
       /**
        * The total net price (excluding tax) in purchase currency.
        *
@@ -32044,14 +33085,14 @@ declare namespace dw {
        *  services such as shipping or adjustment from promotion have
        *  been added.
        */
-      merchandizeTotalNetPrice: dw.value.Money;
+      readonly merchandizeTotalNetPrice: dw.value.Money;
       /**
        * The merchandize total price. If the line item container is based
        *  on net pricing the merchandize total net price is returned. If the line
        *  item container is based on gross pricing the merchandize total gross price
        *  is returned.
        */
-      merchandizeTotalPrice: dw.value.Money;
+      readonly merchandizeTotalPrice: dw.value.Money;
       /**
        * The total tax in purchase currency.
        *
@@ -32059,30 +33100,32 @@ declare namespace dw {
        *  services such as shipping or adjustment from promotions have
        *  been added.
        */
-      merchandizeTotalTax: dw.value.Money;
+      readonly merchandizeTotalTax: dw.value.Money;
       /**
        * The list of notes for this object, ordered by creation time
        *  from oldest to newest.
        */
-      notes: dw.util.List<dw.object.Note>;
+      readonly notes: dw.util.List<dw.object.Note>;
       /**
        * The payment instrument of the line item container or null.
        *  This method is deprecated. You should use getPaymentInstruments() or
        *  getGiftCertificatePaymentInstruments() instead.
        */
-      paymentInstrument: dw.order.OrderPaymentInstrument;
+      readonly paymentInstrument: dw.order.OrderPaymentInstrument;
       /**
        * An unsorted collection of the payment instruments in this
        *  container.
        */
-      paymentInstruments: dw.util.Collection<dw.order.PaymentInstrument>;
+      readonly paymentInstruments: dw.util.Collection<
+        dw.order.OrderPaymentInstrument
+      >;
       /**
        * The collection of price adjustments that have been applied to the
        *  totals such as promotion on the purchase value (i.e. $10 Off or 10% Off).
        *  The price adjustments are sorted by the order in which they were applied
        *  to the order by the promotions engine.
        */
-      priceAdjustments: dw.util.Collection<dw.order.PriceAdjustment>;
+      readonly priceAdjustments: dw.util.Collection<dw.order.PriceAdjustment>;
       /**
        * The product line items of the container that are not dependent on
        *  other product line items. This includes line items representing bonus
@@ -32090,7 +33133,7 @@ declare namespace dw {
        *  items. The returned collection is sorted by the position attribute of the
        *  product line items.
        */
-      productLineItems: dw.util.Collection<dw.order.ProductLineItem>;
+      readonly productLineItems: dw.util.Collection<dw.order.ProductLineItem>;
       /**
        * A hash map of all products in the line item container and their
        *  total quantities. The total product quantity is for example used
@@ -32101,65 +33144,70 @@ declare namespace dw {
        *  also excludes product line items that are not associated to any catalog
        *  product, and bonus product line items.
        */
-      productQuantities: dw.util.HashMap<dw.catalog.Product, dw.value.Quantity>;
+      readonly productQuantities: dw.util.HashMap<
+        dw.catalog.Product,
+        dw.value.Quantity
+      >;
       /**
        * The total quantity of all product line items.
        *  Not included are bundled line items and option line items.
        */
-      productQuantityTotal: number;
+      readonly productQuantityTotal: number;
       /**
        * All shipments of the line item container.
        *  The first shipment in the returned collection is the default shipment.
        *  All other shipments are sorted ascending by shipment ID.
        */
-      shipments: dw.util.Collection<dw.order.Shipment>;
+      readonly shipments: dw.util.Collection<dw.order.Shipment>;
       /**
        * The of shipping price adjustments applied to the
        *  shipping total of the container.  Note that the promotions engine
        *  only applies shipping price adjustments to the the default shipping line
        *  item of shipments, and never to the container.
        */
-      shippingPriceAdjustments: dw.util.Collection<dw.order.PriceAdjustment>;
+      readonly shippingPriceAdjustments: dw.util.Collection<
+        dw.order.PriceAdjustment
+      >;
       /**
        * The sum of all shipping line items of the line item container,
        *  including tax before shipping adjustments have been applied.
        */
-      shippingTotalGrossPrice: dw.value.Money;
+      readonly shippingTotalGrossPrice: dw.value.Money;
       /**
        * The sum of all shipping line items of the line item container,
        *  excluding tax before shipping adjustments have been applied.
        */
-      shippingTotalNetPrice: dw.value.Money;
+      readonly shippingTotalNetPrice: dw.value.Money;
       /**
        * The shipping total price. If the line item container is based on
        *  net pricing the shipping total net price is returned. If the line item
        *  container is based on gross pricing the shipping total gross price is
        *  returned.
        */
-      shippingTotalPrice: dw.value.Money;
+      readonly shippingTotalPrice: dw.value.Money;
       /**
        * The tax of all shipping line items of the line item container before
        *  shipping adjustments have been applied.
        */
-      shippingTotalTax: dw.value.Money;
+      readonly shippingTotalTax: dw.value.Money;
       /**
        * The grand total price gross of tax for LineItemCtnr, in purchase currency.
        *
        *  Total prices represent the sum of product prices, services prices and adjustments.
        */
-      totalGrossPrice: dw.value.Money;
+      readonly totalGrossPrice: dw.value.Money;
       /**
        * The grand total price for LineItemCtnr net of tax, in purchase currency.
        *
        *  Total prices represent the sum of product prices, services prices and adjustments.
        */
-      totalNetPrice: dw.value.Money;
+      readonly totalNetPrice: dw.value.Money;
       /**
        * The grand total tax for LineItemCtnr, in purchase currency.
        *
        *  Total prices represent the sum of product prices, services prices and adjustments.
        */
-      totalTax: dw.value.Money;
+      readonly totalTax: dw.value.Money;
 
       /**
        * Adds a note to the object.
@@ -32407,6 +33455,10 @@ declare namespace dw {
        *  order quantity of the product.
        *
        *  If the product list item references an option product, the option values are copied from the product list item.
+       *
+       *  If the product list item is associated with an existing product line item, and the BasketAddProductBehaviour
+       *  setting is MergeQuantities, then the product line item quantity is increased by 1.0 or, if defined, the minimum
+       *  order quantity of the product.
        *
        *  An exception is thrown if
        *
@@ -32827,7 +33879,9 @@ declare namespace dw {
        *
        * @return an unsorted collection containing the set of PaymentInstrument instances associated with this container.
        */
-      getPaymentInstruments(): dw.util.Collection<dw.order.PaymentInstrument>;
+      getPaymentInstruments(): dw.util.Collection<
+        dw.order.OrderPaymentInstrument
+      >;
       /**
        * Returns an unsorted collection of PaymentInstrument instances based on
        *  the specified payment method ID.
@@ -32836,7 +33890,7 @@ declare namespace dw {
        */
       getPaymentInstruments(
         paymentMethodID: string
-      ): dw.util.Collection<dw.order.PaymentInstrument>;
+      ): dw.util.Collection<dw.order.OrderPaymentInstrument>;
       /**
        * Returns the price adjustment associated to the specified
        *  promotion ID.
@@ -33246,11 +34300,13 @@ declare namespace dw {
       /**
        * The collection of AppeasementItems associated with this order.
        */
-      appeasementItems: dw.util.FilteringCollection<dw.order.AppeasementItem>;
+      readonly appeasementItems: dw.util.FilteringCollection<
+        dw.order.AppeasementItem
+      >;
       /**
        * The collection of Appeasements associated with this order.
        */
-      appeasements: dw.util.FilteringCollection<dw.order.Appeasement>;
+      readonly appeasements: dw.util.FilteringCollection<dw.order.Appeasement>;
       /**
        * If this order was cancelled, returns the value of the
        *  cancel code or null.
@@ -33266,7 +34322,7 @@ declare namespace dw {
        *  are calculated on the fly. Associate a payment capture for an PaymentInstrument with an Invoice
        *  using Invoice.addCaptureTransaction(OrderPaymentInstrument, Money).
        */
-      capturedAmount: dw.value.Money;
+      readonly capturedAmount: dw.value.Money;
       /**
        * The confirmation status of the order.
        *  Possible values are CONFIRMATION_STATUS_NOTCONFIRMED and
@@ -33278,7 +34334,7 @@ declare namespace dw {
        *  If an agent user has created the order, the agent user's name
        *  is returned. Otherwise "Customer" is returned.
        */
-      createdBy: string;
+      readonly createdBy: string;
       /**
        * The current order. The current order
        *  represents the most recent order in a chain of orders.
@@ -33289,7 +34345,7 @@ declare namespace dw {
        *  order. If this order has not been replaced, this method returns this
        *  order because this order is the current order.
        */
-      currentOrder: dw.order.Order;
+      readonly currentOrder: dw.order.Order;
       /**
        * The order number of the current order. The current order
        *  represents the most recent order in a chain of orders.
@@ -33301,12 +34357,12 @@ declare namespace dw {
        *  same value as the getOrderNo() method because this order is the
        *  current order.
        */
-      currentOrderNo: string;
+      readonly currentOrderNo: string;
       /**
        * The ID of the locale that was in effect when the order
        *  was placed. This is the customer's locale.
        */
-      customerLocaleID: string;
+      readonly customerLocaleID: string;
       /**
        * The customer-specific reference information for the order, or null.
        */
@@ -33343,23 +34399,21 @@ declare namespace dw {
        *  and easily create accounts for customers. Customer 360 Data Manager matches records from multiple data sources
        *  to determine all the records associated with a specific customer.
        */
-      globalPartyID: string;
+      readonly globalPartyID: string;
       /**
        * Returns true, if the order is imported and false
        *  otherwise.
        */
-      imported: boolean;
+      readonly imported: boolean;
       /**
        * The collection of InvoiceItems associated with this order.
        *
        *  Order post-processing APIs (gillian) are now inactive by default and will throw
-       *  an exception if accessed. On sandboxes the APIs can be activated with a feature
-       *  switch "Order Post Processing APIs on Sandboxes". On PIGs an activation needs
-       *  preliminary approval by Product Management. Please contact support in this case.
-       *  Existing customers using these APIs are not affected by this change and can use the
-       *  APIs until further notice.
+       *  an exception if accessed. Activation needs preliminary approval by Product Management.
+       *  Please contact support in this case. Existing customers using these APIs are not
+       *  affected by this change and can use the APIs until further notice.
        */
-      invoiceItems: dw.util.FilteringCollection<dw.order.InvoiceItem>;
+      readonly invoiceItems: dw.util.FilteringCollection<dw.order.InvoiceItem>;
       /**
        * The invoice number for this Order.
        *
@@ -33372,22 +34426,20 @@ declare namespace dw {
        * The collection of Invoices associated with this order.
        *
        *  Order post-processing APIs (gillian) are now inactive by default and will throw
-       *  an exception if accessed. On sandboxes the APIs can be activated with a feature
-       *  switch "Order Post Processing APIs on Sandboxes". On PIGs an activation needs
-       *  preliminary approval by Product Management. Please contact support in this case.
-       *  Existing customers using these APIs are not affected by this change and can use the
-       *  APIs until further notice.
+       *  an exception if accessed. Activation needs preliminary approval by Product Management.
+       *  Please contact support in this case. Existing customers using these APIs are not
+       *  affected by this change and can use the APIs until further notice.
        */
-      invoices: dw.util.FilteringCollection<dw.order.Invoice>;
+      readonly invoices: dw.util.FilteringCollection<dw.order.Invoice>;
       /**
        * The order number for this order.
        */
-      orderNo: string;
+      readonly orderNo: string;
       /**
        * The URL safe token for this order. The order token is a random string (length 32 bytes) associated with
        *  this one order. It should always be used in situations requiring order access to raise the level of qualification.
        */
-      orderToken: string;
+      readonly orderToken: string;
       /**
        * The original order associated with
        *  this order. The original order represents an order that was the
@@ -33398,7 +34450,7 @@ declare namespace dw {
        *  original representation of the order. If this order is the first
        *  ancestor, this method returns this order.
        */
-      originalOrder: dw.order.Order;
+      readonly originalOrder: dw.order.Order;
       /**
        * The order number of the original order associated with
        *  this order. The original order represents an order that was the
@@ -33409,7 +34461,7 @@ declare namespace dw {
        *  original representation of the order. If this order is the first
        *  ancestor, this method returns the value of getOrderNo().
        */
-      originalOrderNo: string;
+      readonly originalOrderNo: string;
       /**
        * The order payment status value.
        *  Possible values are PAYMENT_STATUS_NOTPAID, PAYMENT_STATUS_PARTPAID
@@ -33423,20 +34475,20 @@ declare namespace dw {
        *  the transaction associated with the first PaymentInstrument
        *  returned by getPaymentInstruments().
        */
-      paymentTransaction: dw.order.PaymentTransaction;
+      readonly paymentTransaction: dw.order.PaymentTransaction;
       /**
        * The sum of the refunded amounts. The refunded amounts are
        *  calculated on the fly. Associate a payment refund for an PaymentInstrument with an Invoice
        *  using Invoice.addRefundTransaction(OrderPaymentInstrument, Money).
        */
-      refundedAmount: dw.value.Money;
+      readonly refundedAmount: dw.value.Money;
       /**
        * The IP address of the remote host from which the order was created.
        *
        *  If the IP address was not captured for the order because order IP logging
        *  was disabled at the time the order was created, null will be returned.
        */
-      remoteHost: string;
+      readonly remoteHost: string;
       /**
        * If this order was replaced by another order,
        *  returns the value of the replace code. Otherwise.
@@ -33456,7 +34508,7 @@ declare namespace dw {
        *  Similarly, calling this method on Order1 will return null as Order1 was
        *  the original order.
        */
-      replacedOrder: dw.order.Order;
+      readonly replacedOrder: dw.order.Order;
       /**
        * The order number that this order replaced or null if this order
        *  did not replace an order. For example, if you have three orders
@@ -33465,85 +34517,77 @@ declare namespace dw {
        *  Order2. Similarly, calling this method on Order1 will return null as
        *  Order1 was the original order.
        */
-      replacedOrderNo: string;
+      readonly replacedOrderNo: string;
       /**
        * The order that replaced this order, or null.
        */
-      replacementOrder: dw.order.Order;
+      readonly replacementOrder: dw.order.Order;
       /**
        * If this order was replaced by another order,
        *  returns the order number that replaced this order. Otherwise
        *  returns null.
        */
-      replacementOrderNo: string;
+      readonly replacementOrderNo: string;
       /**
        * The collection of ReturnCaseItems associated with this order.
        *
        *  Order post-processing APIs (gillian) are now inactive by default and will throw
-       *  an exception if accessed. On sandboxes the APIs can be activated with a feature
-       *  switch "Order Post Processing APIs on Sandboxes". On PIGs an activation needs
-       *  preliminary approval by Product Management. Please contact support in this case.
-       *  Existing customers using these APIs are not affected by this change and can use the
-       *  APIs until further notice.
+       *  an exception if accessed. Activation needs preliminary approval by Product Management.
+       *  Please contact support in this case. Existing customers using these APIs are not
+       *  affected by this change and can use the APIs until further notice.
        */
-      returnCaseItems: dw.util.FilteringCollection<dw.order.ReturnCaseItem>;
+      readonly returnCaseItems: dw.util.FilteringCollection<
+        dw.order.ReturnCaseItem
+      >;
       /**
        * The collection of ReturnCases associated with this order.
        *
        *  Order post-processing APIs (gillian) are now inactive by default and will throw
-       *  an exception if accessed. On sandboxes the APIs can be activated with a feature
-       *  switch "Order Post Processing APIs on Sandboxes". On PIGs an activation needs
-       *  preliminary approval by Product Management. Please contact support in this case.
-       *  Existing customers using these APIs are not affected by this change and can use the
-       *  APIs until further notice.
+       *  an exception if accessed. Activation needs preliminary approval by Product Management.
+       *  Please contact support in this case. Existing customers using these APIs are not
+       *  affected by this change and can use the APIs until further notice.
        */
-      returnCases: dw.util.FilteringCollection<dw.order.ReturnCase>;
+      readonly returnCases: dw.util.FilteringCollection<dw.order.ReturnCase>;
       /**
        * The collection of ReturnItems associated with this order.
        *
        *  Order post-processing APIs (gillian) are now inactive by default and will throw
-       *  an exception if accessed. On sandboxes the APIs can be activated with a feature
-       *  switch "Order Post Processing APIs on Sandboxes". On PIGs an activation needs
-       *  preliminary approval by Product Management. Please contact support in this case.
-       *  Existing customers using these APIs are not affected by this change and can use the
-       *  APIs until further notice.
+       *  an exception if accessed. Activation needs preliminary approval by Product Management.
+       *  Please contact support in this case. Existing customers using these APIs are not
+       *  affected by this change and can use the APIs until further notice.
        */
-      returnItems: dw.util.FilteringCollection<dw.order.ReturnItem>;
+      readonly returnItems: dw.util.FilteringCollection<dw.order.ReturnItem>;
       /**
        * The collection of Returns associated with this order.
        *
        *  Order post-processing APIs (gillian) are now inactive by default and will throw
-       *  an exception if accessed. On sandboxes the APIs can be activated with a feature
-       *  switch "Order Post Processing APIs on Sandboxes". On PIGs an activation needs
-       *  preliminary approval by Product Management. Please contact support in this case.
-       *  Existing customers using these APIs are not affected by this change and can use the
-       *  APIs until further notice.
+       *  an exception if accessed. Activation needs preliminary approval by Product Management.
+       *  Please contact support in this case. Existing customers using these APIs are not
+       *  affected by this change and can use the APIs until further notice.
        */
-      returns: dw.util.FilteringCollection<dw.order.Return>;
+      readonly returns: dw.util.FilteringCollection<dw.order.Return>;
       /**
        * The collection of ShippingOrderItems associated with this order.
        *
        *  Order post-processing APIs (gillian) are now inactive by default and will throw
-       *  an exception if accessed. On sandboxes the APIs can be activated with a feature
-       *  switch "Order Post Processing APIs on Sandboxes". On PIGs an activation needs
-       *  preliminary approval by Product Management. Please contact support in this case.
-       *  Existing customers using these APIs are not affected by this change and can use the
-       *  APIs until further notice.
+       *  an exception if accessed. Activation needs preliminary approval by Product Management.
+       *  Please contact support in this case. Existing customers using these APIs are not
+       *  affected by this change and can use the APIs until further notice.
        */
-      shippingOrderItems: dw.util.FilteringCollection<
+      readonly shippingOrderItems: dw.util.FilteringCollection<
         dw.order.ShippingOrderItem
       >;
       /**
        * The collection of ShippingOrders associated with this order.
        *
        *  Order post-processing APIs (gillian) are now inactive by default and will throw
-       *  an exception if accessed. On sandboxes the APIs can be activated with a feature
-       *  switch "Order Post Processing APIs on Sandboxes". On PIGs an activation needs
-       *  preliminary approval by Product Management. Please contact support in this case.
-       *  Existing customers using these APIs are not affected by this change and can use the
-       *  APIs until further notice.
+       *  an exception if accessed. Activation needs preliminary approval by Product Management.
+       *  Please contact support in this case. Existing customers using these APIs are not
+       *  affected by this change and can use the APIs until further notice.
        */
-      shippingOrders: dw.util.FilteringCollection<dw.order.ShippingOrder>;
+      readonly shippingOrders: dw.util.FilteringCollection<
+        dw.order.ShippingOrder
+      >;
       /**
        * The order shipping status.
        *  Possible values are SHIPPING_STATUS_NOTSHIPPED,
@@ -33553,17 +34597,17 @@ declare namespace dw {
       /**
        * The source code stored with the order or null if no source code is attached to the order.
        */
-      sourceCode: string;
+      readonly sourceCode: string;
       /**
        * The source code group attached to the order or null if no source code group is attached to
        *  the order.
        */
-      sourceCodeGroup: dw.campaign.SourceCodeGroup;
+      readonly sourceCodeGroup: dw.campaign.SourceCodeGroup;
       /**
        * The source code group id stored with the order or null if no source code group is attached
        *  to the order.
        */
-      sourceCodeGroupID: string;
+      readonly sourceCodeGroupID: string;
       /**
        * The status of the order.
        *  Possible values are:
@@ -33611,11 +34655,9 @@ declare namespace dw {
        *  exception.
        *
        *  Order post-processing APIs (gillian) are now inactive by default and will throw
-       *  an exception if accessed. On sandboxes the APIs can be activated with a feature
-       *  switch "Order Post Processing APIs on Sandboxes". On PIGs an activation needs
-       *  preliminary approval by Product Management. Please contact support in this case.
-       *  Existing customers using these APIs are not affected by this change and can use the
-       *  APIs until further notice.
+       *  an exception if accessed. Activation needs preliminary approval by Product Management.
+       *  Please contact support in this case. Existing customers using these APIs are not
+       *  affected by this change and can use the APIs until further notice.
        * @param appeasementNumber the appeasementNumber to be assigned to the newly created appeasement
        * @return the created appeasement
        */
@@ -33627,11 +34669,9 @@ declare namespace dw {
        *  will have an appeasementNumber based on the getOrderNo().
        *
        *  Order post-processing APIs (gillian) are now inactive by default and will throw
-       *  an exception if accessed. On sandboxes the APIs can be activated with a feature
-       *  switch "Order Post Processing APIs on Sandboxes". On PIGs an activation needs
-       *  preliminary approval by Product Management. Please contact support in this case.
-       *  Existing customers using these APIs are not affected by this change and can use the
-       *  APIs until further notice.
+       *  an exception if accessed. Activation needs preliminary approval by Product Management.
+       *  Please contact support in this case. Existing customers using these APIs are not
+       *  affected by this change and can use the APIs until further notice.
        *
        * @return the created appeasement
        */
@@ -33646,11 +34686,9 @@ declare namespace dw {
        *  exception.
        *
        *  Order post-processing APIs (gillian) are now inactive by default and will throw
-       *  an exception if accessed. On sandboxes the APIs can be activated with a feature
-       *  switch "Order Post Processing APIs on Sandboxes". On PIGs an activation needs
-       *  preliminary approval by Product Management. Please contact support in this case.
-       *  Existing customers using these APIs are not affected by this change and can use the
-       *  APIs until further notice.
+       *  an exception if accessed. Activation needs preliminary approval by Product Management.
+       *  Please contact support in this case. Existing customers using these APIs are not
+       *  affected by this change and can use the APIs until further notice.
        * @param returnCaseNumber returnCaseNumber to use
        * @param isRMA whether the new ReturnCase is an RMA (return merchandise authorization)
        * @return null or the ReturnCase associated with the given returnCaseNumber
@@ -33668,11 +34706,9 @@ declare namespace dw {
        *  return cases will have the numbers 1234#RC1, 1234#RC2, 1234#RC3...
        *
        *  Order post-processing APIs (gillian) are now inactive by default and will throw
-       *  an exception if accessed. On sandboxes the APIs can be activated with a feature
-       *  switch "Order Post Processing APIs on Sandboxes". On PIGs an activation needs
-       *  preliminary approval by Product Management. Please contact support in this case.
-       *  Existing customers using these APIs are not affected by this change and can use the
-       *  APIs until further notice.
+       *  an exception if accessed. Activation needs preliminary approval by Product Management.
+       *  Please contact support in this case. Existing customers using these APIs are not
+       *  affected by this change and can use the APIs until further notice.
        * @param isRMA whether the new ReturnCase is an RMA (return merchandise authorization)
        * @return the created ReturnCase
        */
@@ -33681,7 +34717,7 @@ declare namespace dw {
        * Returns the  order item with the given status which wraps a new
        *   service item which is created and added to the order.
        * @param ID the ID of the new service item. This ID will be returned when ShippingLineItem.getID() is called.
-       * @param status the status of the order item, use one of  OrderItem.STATUS_NEW  OrderItem.STATUS_OPEN  OrderItem.STATUS_SHIPPED   Order post-processing APIs (gillian) are now inactive by default and will throw an exception if accessed. On sandboxes the APIs can be activated with a feature switch "Order Post Processing APIs on Sandboxes". On PIGs an activation needs preliminary approval by Product Management. Please contact support in this case. Existing customers using these APIs are not affected by this change and can use the APIs until further notice.
+       * @param status the status of the order item, use one of  OrderItem.STATUS_NEW  OrderItem.STATUS_OPEN  OrderItem.STATUS_SHIPPED   Order post-processing APIs (gillian) are now inactive by default and will throw an exception if accessed. Activation needs preliminary approval by Product Management. Please contact support in this case. Existing customers using these APIs are not affected by this change and can use the APIs until further notice.
        * @return the created order item
        */
       createServiceItem(ID: string, status: string): dw.order.OrderItem;
@@ -33692,11 +34728,9 @@ declare namespace dw {
        *  createShippingOrder(String) for a defined shipping order number.
        *
        *  Order post-processing APIs (gillian) are now inactive by default and will throw
-       *  an exception if accessed. On sandboxes the APIs can be activated with a feature
-       *  switch "Order Post Processing APIs on Sandboxes". On PIGs an activation needs
-       *  preliminary approval by Product Management. Please contact support in this case.
-       *  Existing customers using these APIs are not affected by this change and can use the
-       *  APIs until further notice.
+       *  an exception if accessed. Activation needs preliminary approval by Product Management.
+       *  Please contact support in this case. Existing customers using these APIs are not
+       *  affected by this change and can use the APIs until further notice.
        *
        * @return the created shipping order
        */
@@ -33705,11 +34739,9 @@ declare namespace dw {
        * Creates a new ShippingOrder for this order.
        *
        *  Order post-processing APIs (gillian) are now inactive by default and will throw
-       *  an exception if accessed. On sandboxes the APIs can be activated with a feature
-       *  switch "Order Post Processing APIs on Sandboxes". On PIGs an activation needs
-       *  preliminary approval by Product Management. Please contact support in this case.
-       *  Existing customers using these APIs are not affected by this change and can use the
-       *  APIs until further notice.
+       *  an exception if accessed. Activation needs preliminary approval by Product Management.
+       *  Please contact support in this case. Existing customers using these APIs are not
+       *  affected by this change and can use the APIs until further notice.
        * @param shippingOrderNumber the document number to be used
        * @return the created shipping order
        */
@@ -33882,11 +34914,9 @@ declare namespace dw {
        *  The method returns null if no instance can be found.
        *
        *  Order post-processing APIs (gillian) are now inactive by default and will throw
-       *  an exception if accessed. On sandboxes the APIs can be activated with a feature
-       *  switch "Order Post Processing APIs on Sandboxes". On PIGs an activation needs
-       *  preliminary approval by Product Management. Please contact support in this case.
-       *  Existing customers using these APIs are not affected by this change and can use the
-       *  APIs until further notice.
+       *  an exception if accessed. Activation needs preliminary approval by Product Management.
+       *  Please contact support in this case. Existing customers using these APIs are not
+       *  affected by this change and can use the APIs until further notice.
        * @param invoiceNumber the invoice number
        * @return the invoice associated with the given invoiceNumber
        */
@@ -33896,11 +34926,9 @@ declare namespace dw {
        *  The method returns null if no instance can be found.
        *
        *  Order post-processing APIs (gillian) are now inactive by default and will throw
-       *  an exception if accessed. On sandboxes the APIs can be activated with a feature
-       *  switch "Order Post Processing APIs on Sandboxes". On PIGs an activation needs
-       *  preliminary approval by Product Management. Please contact support in this case.
-       *  Existing customers using these APIs are not affected by this change and can use the
-       *  APIs until further notice.
+       *  an exception if accessed. Activation needs preliminary approval by Product Management.
+       *  Please contact support in this case. Existing customers using these APIs are not
+       *  affected by this change and can use the APIs until further notice.
        * @param invoiceItemID the item ID
        * @return the invoice item associated with the given ID
        */
@@ -33909,11 +34937,9 @@ declare namespace dw {
        * Returns the collection of InvoiceItems associated with this order.
        *
        *  Order post-processing APIs (gillian) are now inactive by default and will throw
-       *  an exception if accessed. On sandboxes the APIs can be activated with a feature
-       *  switch "Order Post Processing APIs on Sandboxes". On PIGs an activation needs
-       *  preliminary approval by Product Management. Please contact support in this case.
-       *  Existing customers using these APIs are not affected by this change and can use the
-       *  APIs until further notice.
+       *  an exception if accessed. Activation needs preliminary approval by Product Management.
+       *  Please contact support in this case. Existing customers using these APIs are not
+       *  affected by this change and can use the APIs until further notice.
        *
        * @return invoice items belonging to this order
        */
@@ -33932,11 +34958,9 @@ declare namespace dw {
        * Returns the collection of Invoices associated with this order.
        *
        *  Order post-processing APIs (gillian) are now inactive by default and will throw
-       *  an exception if accessed. On sandboxes the APIs can be activated with a feature
-       *  switch "Order Post Processing APIs on Sandboxes". On PIGs an activation needs
-       *  preliminary approval by Product Management. Please contact support in this case.
-       *  Existing customers using these APIs are not affected by this change and can use the
-       *  APIs until further notice.
+       *  an exception if accessed. Activation needs preliminary approval by Product Management.
+       *  Please contact support in this case. Existing customers using these APIs are not
+       *  affected by this change and can use the APIs until further notice.
        *
        * @return invoices belonging to this order
        */
@@ -34120,11 +35144,9 @@ declare namespace dw {
        *  The method returns null if no instance can be found.
        *
        *  Order post-processing APIs (gillian) are now inactive by default and will throw
-       *  an exception if accessed. On sandboxes the APIs can be activated with a feature
-       *  switch "Order Post Processing APIs on Sandboxes". On PIGs an activation needs
-       *  preliminary approval by Product Management. Please contact support in this case.
-       *  Existing customers using these APIs are not affected by this change and can use the
-       *  APIs until further notice.
+       *  an exception if accessed. Activation needs preliminary approval by Product Management.
+       *  Please contact support in this case. Existing customers using these APIs are not
+       *  affected by this change and can use the APIs until further notice.
        * @param returnNumber the return number
        * @return the return associated with the given returnNumber
        */
@@ -34134,11 +35156,9 @@ declare namespace dw {
        *  The method returns null if no instance can be found.
        *
        *  Order post-processing APIs (gillian) are now inactive by default and will throw
-       *  an exception if accessed. On sandboxes the APIs can be activated with a feature
-       *  switch "Order Post Processing APIs on Sandboxes". On PIGs an activation needs
-       *  preliminary approval by Product Management. Please contact support in this case.
-       *  Existing customers using these APIs are not affected by this change and can use the
-       *  APIs until further notice.
+       *  an exception if accessed. Activation needs preliminary approval by Product Management.
+       *  Please contact support in this case. Existing customers using these APIs are not
+       *  affected by this change and can use the APIs until further notice.
        * @param returnCaseNumber the return case number
        * @return the return case associated with the given returnCaseNumber
        */
@@ -34148,11 +35168,9 @@ declare namespace dw {
        *  The method returns null if no instance can be found.
        *
        *  Order post-processing APIs (gillian) are now inactive by default and will throw
-       *  an exception if accessed. On sandboxes the APIs can be activated with a feature
-       *  switch "Order Post Processing APIs on Sandboxes". On PIGs an activation needs
-       *  preliminary approval by Product Management. Please contact support in this case.
-       *  Existing customers using these APIs are not affected by this change and can use the
-       *  APIs until further notice.
+       *  an exception if accessed. Activation needs preliminary approval by Product Management.
+       *  Please contact support in this case. Existing customers using these APIs are not
+       *  affected by this change and can use the APIs until further notice.
        * @param returnCaseItemID the ID
        * @return the return case item associated with the given returnCaseItemID
        */
@@ -34161,11 +35179,9 @@ declare namespace dw {
        * Returns the collection of ReturnCaseItems associated with this order.
        *
        *  Order post-processing APIs (gillian) are now inactive by default and will throw
-       *  an exception if accessed. On sandboxes the APIs can be activated with a feature
-       *  switch "Order Post Processing APIs on Sandboxes". On PIGs an activation needs
-       *  preliminary approval by Product Management. Please contact support in this case.
-       *  Existing customers using these APIs are not affected by this change and can use the
-       *  APIs until further notice.
+       *  an exception if accessed. Activation needs preliminary approval by Product Management.
+       *  Please contact support in this case. Existing customers using these APIs are not
+       *  affected by this change and can use the APIs until further notice.
        *
        * @return return case items belonging to this order
        */
@@ -34176,11 +35192,9 @@ declare namespace dw {
        * Returns the collection of ReturnCases associated with this order.
        *
        *  Order post-processing APIs (gillian) are now inactive by default and will throw
-       *  an exception if accessed. On sandboxes the APIs can be activated with a feature
-       *  switch "Order Post Processing APIs on Sandboxes". On PIGs an activation needs
-       *  preliminary approval by Product Management. Please contact support in this case.
-       *  Existing customers using these APIs are not affected by this change and can use the
-       *  APIs until further notice.
+       *  an exception if accessed. Activation needs preliminary approval by Product Management.
+       *  Please contact support in this case. Existing customers using these APIs are not
+       *  affected by this change and can use the APIs until further notice.
        *
        * @return return cases belonging to this order
        */
@@ -34190,11 +35204,9 @@ declare namespace dw {
        *  The method returns null if no instance can be found.
        *
        *  Order post-processing APIs (gillian) are now inactive by default and will throw
-       *  an exception if accessed. On sandboxes the APIs can be activated with a feature
-       *  switch "Order Post Processing APIs on Sandboxes". On PIGs an activation needs
-       *  preliminary approval by Product Management. Please contact support in this case.
-       *  Existing customers using these APIs are not affected by this change and can use the
-       *  APIs until further notice.
+       *  an exception if accessed. Activation needs preliminary approval by Product Management.
+       *  Please contact support in this case. Existing customers using these APIs are not
+       *  affected by this change and can use the APIs until further notice.
        * @param returnItemID the ID
        * @return the return item associated with the given returnItemID
        */
@@ -34203,11 +35215,9 @@ declare namespace dw {
        * Returns the collection of ReturnItems associated with this order.
        *
        *  Order post-processing APIs (gillian) are now inactive by default and will throw
-       *  an exception if accessed. On sandboxes the APIs can be activated with a feature
-       *  switch "Order Post Processing APIs on Sandboxes". On PIGs an activation needs
-       *  preliminary approval by Product Management. Please contact support in this case.
-       *  Existing customers using these APIs are not affected by this change and can use the
-       *  APIs until further notice.
+       *  an exception if accessed. Activation needs preliminary approval by Product Management.
+       *  Please contact support in this case. Existing customers using these APIs are not
+       *  affected by this change and can use the APIs until further notice.
        *
        * @return return items belonging to this order
        */
@@ -34216,11 +35226,9 @@ declare namespace dw {
        * Returns the collection of Returns associated with this order.
        *
        *  Order post-processing APIs (gillian) are now inactive by default and will throw
-       *  an exception if accessed. On sandboxes the APIs can be activated with a feature
-       *  switch "Order Post Processing APIs on Sandboxes". On PIGs an activation needs
-       *  preliminary approval by Product Management. Please contact support in this case.
-       *  Existing customers using these APIs are not affected by this change and can use the
-       *  APIs until further notice.
+       *  an exception if accessed. Activation needs preliminary approval by Product Management.
+       *  Please contact support in this case. Existing customers using these APIs are not
+       *  affected by this change and can use the APIs until further notice.
        *
        * @return returns belonging to this order
        */
@@ -34230,11 +35238,9 @@ declare namespace dw {
        *  The method returns null if no instance can be found.
        *
        *  Order post-processing APIs (gillian) are now inactive by default and will throw
-       *  an exception if accessed. On sandboxes the APIs can be activated with a feature
-       *  switch "Order Post Processing APIs on Sandboxes". On PIGs an activation needs
-       *  preliminary approval by Product Management. Please contact support in this case.
-       *  Existing customers using these APIs are not affected by this change and can use the
-       *  APIs until further notice.
+       *  an exception if accessed. Activation needs preliminary approval by Product Management.
+       *  Please contact support in this case. Existing customers using these APIs are not
+       *  affected by this change and can use the APIs until further notice.
        * @param shippingOrderNumber the shipping order number
        * @return the shipping order associated with the given shippingOrderNumber
        */
@@ -34244,11 +35250,9 @@ declare namespace dw {
        *  The method returns null if no instance can be found.
        *
        *  Order post-processing APIs (gillian) are now inactive by default and will throw
-       *  an exception if accessed. On sandboxes the APIs can be activated with a feature
-       *  switch "Order Post Processing APIs on Sandboxes". On PIGs an activation needs
-       *  preliminary approval by Product Management. Please contact support in this case.
-       *  Existing customers using these APIs are not affected by this change and can use the
-       *  APIs until further notice.
+       *  an exception if accessed. Activation needs preliminary approval by Product Management.
+       *  Please contact support in this case. Existing customers using these APIs are not
+       *  affected by this change and can use the APIs until further notice.
        * @param shippingOrderItemID the ID
        * @return the shipping order item associated with the given shippingOrderItemID
        */
@@ -34259,11 +35263,9 @@ declare namespace dw {
        * Returns the collection of ShippingOrderItems associated with this order.
        *
        *  Order post-processing APIs (gillian) are now inactive by default and will throw
-       *  an exception if accessed. On sandboxes the APIs can be activated with a feature
-       *  switch "Order Post Processing APIs on Sandboxes". On PIGs an activation needs
-       *  preliminary approval by Product Management. Please contact support in this case.
-       *  Existing customers using these APIs are not affected by this change and can use the
-       *  APIs until further notice.
+       *  an exception if accessed. Activation needs preliminary approval by Product Management.
+       *  Please contact support in this case. Existing customers using these APIs are not
+       *  affected by this change and can use the APIs until further notice.
        *
        * @return shipping order items belonging to this order
        */
@@ -34274,11 +35276,9 @@ declare namespace dw {
        * Returns the collection of ShippingOrders associated with this order.
        *
        *  Order post-processing APIs (gillian) are now inactive by default and will throw
-       *  an exception if accessed. On sandboxes the APIs can be activated with a feature
-       *  switch "Order Post Processing APIs on Sandboxes". On PIGs an activation needs
-       *  preliminary approval by Product Management. Please contact support in this case.
-       *  Existing customers using these APIs are not affected by this change and can use the
-       *  APIs until further notice.
+       *  an exception if accessed. Activation needs preliminary approval by Product Management.
+       *  Please contact support in this case. Existing customers using these APIs are not
+       *  affected by this change and can use the APIs until further notice.
        *
        * @return shipping orders belonging to this order
        */
@@ -34486,11 +35486,9 @@ declare namespace dw {
        *  might fail.
        *
        *  Order post-processing APIs (gillian) are now inactive by default and will throw
-       *  an exception if accessed. On sandboxes the APIs can be activated with a feature
-       *  switch "Order Post Processing APIs on Sandboxes". On PIGs an activation needs
-       *  preliminary approval by Product Management. Please contact support in this case.
-       *  Existing customers using these APIs are not affected by this change and can use the
-       *  APIs until further notice.
+       *  an exception if accessed. Activation needs preliminary approval by Product Management.
+       *  Please contact support in this case. Existing customers using these APIs are not
+       *  affected by this change and can use the APIs until further notice.
        * @param status the status to be set, use one of:  ORDER_STATUS_OPEN  ORDER_STATUS_CANCELLED
        */
       setOrderStatus(status: number): void;
@@ -34570,7 +35568,9 @@ declare namespace dw {
      *  <b>Note:</b> this class allows access to sensitive personal and private information.
      *  Pay attention to appropriate legal and regulatory requirements.</p>
      */
-    class OrderAddress extends dw.object.ExtensibleObject {
+    class OrderAddress extends dw.object.ExtensibleObject<
+      OrderAddressCustomAttributes
+    > {
       /**
        * The customer's first address.
        */
@@ -34599,7 +35599,7 @@ declare namespace dw {
        * A concatenation of the Customer's first, middle,
        *  and last names and it' suffix.
        */
-      fullName: string;
+      readonly fullName: string;
       /**
        * The customer's job title.
        */
@@ -34891,11 +35891,9 @@ declare namespace dw {
      *  inventory</a> for <a href="class_dw_order_ShippingOrder.html"> shipping-order</a> creation.
      *  </p><p>
      *  Order post-processing APIs (gillian) are now inactive by default and will throw
-     *  an exception if accessed. On sandboxes the APIs can be activated with a feature
-     *  switch &quot;Order Post Processing APIs on Sandboxes&quot;. On PIGs an activation needs
-     *  preliminary approval by Product Management. Please contact support in this case.
-     *  Existing customers using these APIs are not affected by this change and can use the
-     *  APIs until further notice.</p>
+     *  an exception if accessed. Activation needs preliminary approval by Product Management.
+     *  Please contact support in this case. Existing customers using these APIs are not
+     *  affected by this change and can use the APIs until further notice.</p>
      */
     class OrderItem {
       /**
@@ -34943,47 +35941,47 @@ declare namespace dw {
        * Sum of amounts appeased for this item, calculated by iterating over
        *  invoice items associated with the item.
        */
-      appeasedAmount: dw.value.Money;
+      readonly appeasedAmount: dw.value.Money;
       /**
        * Sum of amounts captured for this item, calculated by iterating over
        *  invoice items associated with the item.
        */
-      capturedAmount: dw.value.Money;
+      readonly capturedAmount: dw.value.Money;
       /**
        * All invoice items associated with this item, each
        *  InvoiceItem will belong to a different
        *  Invoice, which can also be accessed using
        *  Order.getInvoices() or Order.getInvoice(String).
        */
-      invoiceItems: dw.util.Collection<dw.order.InvoiceItem>;
+      readonly invoiceItems: dw.util.Collection<dw.order.InvoiceItem>;
       /**
        * The itemID used to identify the OrderItem. Note this is
        *  not a UUID, it is created internally when the OrderItem
        *  instance is created, and is typically used within export files to
        *  identify the item.
        */
-      itemID: string;
+      readonly itemID: string;
       /**
        * The line item which is being extended by this instance.
        */
-      lineItem: dw.order.LineItem;
+      readonly lineItem: dw.order.LineItem;
       /**
        * Sum of amounts refunded for this item, calculated by iterating over
        *  invoice items associated with the item.
        */
-      refundedAmount: dw.value.Money;
+      readonly refundedAmount: dw.value.Money;
       /**
        * All return case items associated with this item,
        *  each ReturnCaseItem will belong to a different
        *  ReturnCase, which can also be accessed using
        *  Order.getReturnCases() or Order.getReturnCase(String).
        */
-      returnCaseItems: dw.util.Collection<dw.order.ReturnCaseItem>;
+      readonly returnCaseItems: dw.util.Collection<dw.order.ReturnCaseItem>;
       /**
        * The quantity returned, dynamically sum of quantities held by associated
        *  ReturnItems.
        */
-      returnedQuantity: dw.value.Quantity;
+      readonly returnedQuantity: dw.value.Quantity;
       /**
        * The last added non-cancelled shipping order item if one exists, otherwise null.
        *
@@ -34991,7 +35989,7 @@ declare namespace dw {
        *  can exist for one OrderItem, for example if the OrderItem has been split for shipping purposes.
        *  The method returns null if no non-cancelled shipping order item exists.
        */
-      shippingOrderItem: dw.order.ShippingOrderItem;
+      readonly shippingOrderItem: dw.order.ShippingOrderItem;
       /**
        * A collection of the ShippingOrderItems created for this item.
        *  ShippingOrder items represents the whole or part of this item which could
@@ -35000,7 +35998,9 @@ declare namespace dw {
        *  This method is equivalent to getShippingOrderItems(Boolean)
        *  called with parameter true.
        */
-      shippingOrderItems: dw.util.Collection<dw.order.ShippingOrderItem>;
+      readonly shippingOrderItems: dw.util.Collection<
+        dw.order.ShippingOrderItem
+      >;
       /**
        * A collection of all split OrderItems associated with this item. Inverse relation to getSplitSourceItem().
        *
@@ -35014,14 +36014,14 @@ declare namespace dw {
        *  receives the specified quantity and the quantity of the item is set to the remaining quantity. All split items are associated to their originating item via
        *  the "split source item" association.
        */
-      splitItems: dw.util.Collection<dw.order.OrderItem>;
+      readonly splitItems: dw.util.Collection<dw.order.OrderItem>;
       /**
        * The split source item associated with this item, if existing. Inverse relation to getSplitItems().
        *
        *  A split source item is associated after the successful creation of a split item with a quantity less than the existing quantity of the item to split.
        *  For details see getSplitItems().
        */
-      splitSourceItem: dw.order.OrderItem;
+      readonly splitSourceItem: dw.order.OrderItem;
       /**
        * Gets the order item status.
        *  The possible values are:
@@ -35044,7 +36044,7 @@ declare namespace dw {
        *  PRODUCT (method getLineItem() returns a
        *  ProductLineItem
        */
-      type: dw.value.EnumValue;
+      readonly type: dw.value.EnumValue;
 
       /**
        * Please note that this method is disabled by default. Please contact support for enabling it.
@@ -35265,13 +36265,13 @@ declare namespace dw {
        *  It is important to consider that this method will cancel orders with gift certificate line items.
        *
        *
-       *  If an order has any active post-processing objects (e.g. shipping orders, returns, appeasements),
-       *  then it cannot be cancelled directly. Its status is set automatically, based on the statuses of its
-       *  post-processing objects. To cancel such an order, you must cancel all related post-processing objects.
+       *  If an order has any active post-processing objects (e.g. shipping orders, returns, appeasements), then it cannot
+       *  be cancelled directly. Its status is set automatically, based on the statuses of its post-processing objects. To
+       *  cancel such an order, you must cancel all related post-processing objects.
        *
        *
-       *  If your B2C Commerce instance is integrated with Order Management, then you manage order statuses in
-       *  Order Management. Use Order Management API endpoints.
+       *  If your B2C Commerce instance is integrated with Order Management, then you manage order statuses in Order
+       *  Management. Use Order Management API endpoints.
        * @param order the order to be cancelled
        * @return Status 'OK' or 'ERROR'
        */
@@ -35287,8 +36287,7 @@ declare namespace dw {
        *  any of the totals (net, gross, tax) of the basket is N/A
        *  any of the product items is not available (this takes previously reserved items into account)
        *  any campaign-based coupon in the basket is invalid (see CouponLineItem.isValid()
-       *  the basket represents an order being edited, but the order has been already been replaced by another
-       *  order
+       *  the basket represents an order being edited, but the order has already been replaced by another order
        *  the basket represents an order being edited, but the customer associated with the original order is not the
        *  same as the current customer
        *
@@ -35313,6 +36312,14 @@ declare namespace dw {
        *  ProductListItem.getPurchasedQuantity().
        *
        *
+       *  The system generates an order number via hook OrderHooks.createOrderNo(). If no hook is
+       *  registered for the endpoint, the number is generated by calling createOrderSequenceNo(). The format of
+       *  the number is based on the Order Number scheme defined in the Sequence Numbers preference configured for the site
+       *  or organization. The number is guaranteed to be unique, but is not guaranteed to be sequential. It can be higher
+       *  or lower than a previously created number. As a result, sorting orders by order number is not guaranteed to sort
+       *  them in their order of creation.
+       *
+       *
        *  This method must not be used with the ReserveInventoryForOrder pipelet or
        *  Basket.reserveInventory() in the same request.
        *
@@ -35335,8 +36342,17 @@ declare namespace dw {
        */
       static createOrder(basket: dw.order.Basket): dw.order.Order;
       /**
-       * This method is identical to createOrder(Basket) but allows the optional specification of an
+       * This method functions the same as createOrder(Basket), but allows the optional specification of an
        *  orderNo. The orderNo must be unique within the context of a site.
+       *
+       *
+       *  If the orderNo is not specified, the behavior is the same as that of createOrder(Basket).
+       *  In that case, the system generates an order number via hook OrderHooks.createOrderNo(). If
+       *  no hook is registered for the endpoint, the number is generated by calling createOrderSequenceNo(). The
+       *  format of the number is based on the Order Number scheme defined in the Sequence Numbers preference configured
+       *  for the site or organization. The number is guaranteed to be unique, but is not guaranteed to be sequential. It
+       *  can be higher or lower than a previously created number. As a result, sorting orders by order number is not
+       *  guaranteed to sort them in their order of creation.
        *
        *
        *  This method must not be used with the ReserveInventoryForOrder pipelet or
@@ -35344,6 +36360,7 @@ declare namespace dw {
        *
        *
        *  Usage:
+       *
        *
        *
        *   var basket : Basket; // known
@@ -35357,7 +36374,7 @@ declare namespace dw {
        *    // handle e
        *  }
        * @param basket basket to create an order for
-       * @param orderNo optional order number; an order number will be generated if null is specified
+       * @param orderNo optional order number; if null is specified, an order number is generated
        * @return a new order
        */
       static createOrder(
@@ -35369,15 +36386,31 @@ declare namespace dw {
        *
        *
        *  The order number is created via hook OrderHooks.createOrderNo(). If no hook is registered
-       *  for the endpoint, the order number will be generated by calling createOrderSequenceNo().
+       *  for the endpoint, the number is generated by calling createOrderSequenceNo(). The format of the number
+       *  is based on the Order Number scheme defined in the Sequence Numbers preference configured for the site or
+       *  organization.
        *
-       * @return the next available order number
+       *
+       *  The number is guaranteed to be unique, but is not guaranteed to be sequential. It can be higher or lower than a
+       *  previously created number. As a result, sorting orders by order number is not guaranteed to sort them in their
+       *  order of creation.
+       *
+       * @return an available order number
        */
       static createOrderNo(): string;
       /**
-       * Creates an order number that is either taken from the organization or the site order series.
+       * Creates an order number.
        *
-       * @return the next available order number
+       *
+       *  The format of the number is based on the Order Number scheme defined in the Sequence Numbers preference
+       *  configured for the site or organization.
+       *
+       *
+       *  The number is guaranteed to be unique, but is not guaranteed to be sequential. It can be higher or lower than a
+       *  previously created number. As a result, sorting orders by order number is not guaranteed to sort them in their
+       *  order of creation.
+       *
+       * @return an available order number
        */
       static createOrderSequenceNo(): string;
       /**
@@ -35395,12 +36428,9 @@ declare namespace dw {
        *
        *  As a result, zero, one, or multiple ShippingOrders are created.
        *
-       *  Order post-processing APIs (gillian) are now inactive by default and will throw
-       *  an exception if accessed. On sandboxes the APIs can be activated with a feature
-       *  switch "Order Post Processing APIs on Sandboxes". On PIGs an activation needs
-       *  preliminary approval by Product Management. Please contact support in this case.
-       *  Existing customers using these APIs are not affected by this change and can use the
-       *  APIs until further notice.
+       *  Order post-processing APIs (gillian) are now inactive by default and will throw an exception if accessed.
+       *  Activation needs preliminary approval by Product Management. Please contact support in this case. Existing
+       *  customers using these APIs are not affected by this change and can use the APIs until further notice.
        * @param order the order to run the shipping order creation for
        * @return Status 'OK' or 'ERROR' with an error message
        */
@@ -35431,6 +36461,15 @@ declare namespace dw {
        *
        *
        *  Inventory transactions and coupon redemptions associated with the Order will be rolled back.
+       *
+       *
+       *  A basket can only be reopened if no other basket for the customer exists at the moment of the call to
+       *  failOrder since a customer is limited to 1 storefront basket at a time. If, after
+       *  order creation, a call was made to BasketMgr.getCurrentOrNewBasket() or pipelet GetBasket with parameter
+       *  Create=true, a new basket has been created, and failOrder cannot
+       *  reopen the basket the order was created with. If a basket is reopened, it always
+       *  masks sensitive information (e.g., credit card number), because during order creation, basket payment
+       *  information is permanently masked.
        * @param order the order to be placed
        * @param reopenBasketIfPossible reopen the basket if it still exists and limit for number of baskets is not reached
        * @return Status 'OK' or 'ERROR' with an error message. Status detail basket contains the reopened basket, if it has been reopened successfully.
@@ -35450,13 +36489,13 @@ declare namespace dw {
        * Securely resolves an order using the orderNumber and orderToken.
        *
        *
-       *  The order token is generated during order creation in a secure way that is designed to prevent
-       *  access by unauthorized parties. You can retrieve the token via (Order.getOrderToken().
+       *  The order token is generated during order creation in a secure way that is designed to prevent access by
+       *  unauthorized parties. You can retrieve the token via (Order.getOrderToken().
        *
        *
-       *  This version of the getOrder method does not return an exception when the Limit Storefront
-       *  Order Access site preference is enabled. Best security practice is to always enable this
-       *  preference, and to use this method when appropriate.
+       *  This version of the getOrder method does not return an exception when the Limit Storefront Order Access site
+       *  preference is enabled. Best security practice is to always enable this preference, and to use this method when
+       *  appropriate.
        *
        *
        *  You should always use this method in the following cases.
@@ -35502,6 +36541,7 @@ declare namespace dw {
        *  will be called anyway. Error during execution of the callback will be logged, and execution will continue with
        *  the next element from the result set. This method can be used as in this example (which counts the number of
        *  orders):
+       *
        *
        *
        *           var count=0;
@@ -35575,8 +36615,8 @@ declare namespace dw {
        *  >= Greater or equals than - Integer, Number, and Date types only
        *  LIKE Like - String types and Email only; use if leading or trailing wildcards will be used to
        *  support substring search (e.g. custom.country LIKE 'US*')
-       *  ILIKE Caseindependent Like - String types and Email only; use to support case-insensitive queries
-       *  (e.g. custom.country ILIKE 'usa'); also supports wildcards for substring matching
+       *  ILIKE Caseindependent Like - String types and Email only; use to support case-insensitive
+       *  queries (e.g. custom.country ILIKE 'usa'); also supports wildcards for substring matching
        *
        *
        *
@@ -35656,8 +36696,8 @@ declare namespace dw {
        *  >= Greater or equals than - Integer, Number, and Date types only
        *  LIKE Like - String types and Email only; use if leading or trailing wildcards will be used to
        *  support substring search (e.g. custom.country LIKE 'US*')
-       *  ILIKE Caseindependent Like - String types and Email only; use to support case-insensitive queries
-       *  (e.g. custom.country ILIKE 'usa'); also supports wildcards for substring matching
+       *  ILIKE Caseindependent Like - String types and Email only; use to support case-insensitive
+       *  queries (e.g. custom.country ILIKE 'usa'); also supports wildcards for substring matching
        *
        *
        *
@@ -35710,8 +36750,8 @@ declare namespace dw {
        * Searches for order instances. Order access in the storefront can be limited; see the class description.
        *
        *
-       *  The search can be configured with a map, which converts key-value pairs into a query expression. The
-       *  key-value pairs are turned into a sequence of '=' or 'like' conditions, which are combined with AND statements.
+       *  The search can be configured with a map, which converts key-value pairs into a query expression. The key-value
+       *  pairs are turned into a sequence of '=' or 'like' conditions, which are combined with AND statements.
        *
        *
        *  Example:
@@ -35839,8 +36879,8 @@ declare namespace dw {
        *  >= Greater or equals than - Integer, Number, and Date types only
        *  LIKE Like - String types and Email only; use if leading or trailing wildcards will be used to
        *  support substring search (e.g. custom.country LIKE 'US*')
-       *  ILIKE Caseindependent Like - String types and Email only; use to support case-insensitive queries
-       *  (e.g. custom.country ILIKE 'usa'), also supports wildcards for substring matching
+       *  ILIKE Caseindependent Like - String types and Email only; use to support case-insensitive
+       *  queries (e.g. custom.country ILIKE 'usa'), also supports wildcards for substring matching
        *
        *
        *
@@ -35928,8 +36968,8 @@ declare namespace dw {
        *  >= Greater or equals than - Integer, Number, and Date types only
        *  LIKE Like - String types and Email only; use if leading or trailing wildcards will be used to
        *  support substring search (e.g. custom.country LIKE 'US*')
-       *  ILIKE Caseindependent Like - String types and Email only; use to support case-insensitive queries
-       *  (e.g. custom.country ILIKE 'usa'); also supports wildcards for substring matching
+       *  ILIKE Caseindependent Like - String types and Email only; use to support case-insensitive
+       *  queries (e.g. custom.country ILIKE 'usa'); also supports wildcards for substring matching
        *
        *  Note that wildcards are not supported by Search Service.
        *
@@ -35989,8 +37029,8 @@ declare namespace dw {
        * Searches for order instances. Order access in the storefront can be limited; see the class description.
        *
        *
-       *  The search can be configured with a map, which converts key-value pairs into a query expression. The
-       *  key-value pairs are turned into a sequence of '=' or 'like' conditions, which are combined with AND statements.
+       *  The search can be configured with a map, which converts key-value pairs into a query expression. The key-value
+       *  pairs are turned into a sequence of '=' or 'like' conditions, which are combined with AND statements.
        *
        *
        *  Example:
@@ -36091,7 +37131,10 @@ declare namespace dw {
        *  redemptions is reached
        *  OrderProcessStatusCodes.ORDER_NOT_CANCELLED - order is not in status
        *  Order.ORDER_STATUS_CANCELLED
-       *  OrderProcessStatusCodes.INVENTORY_RESERVATION_FAILED - inventory reservation failed
+       *  OrderProcessStatusCodes.INVENTORY_RESERVATION_FAILED - Inventory reservation for the order failed. In
+       *  cases when availability is too low then undoCancel or undoFail results in a reservation failure. This can be
+       *  avoided using the order site preferences to specifically allow overselling. See order site preferences under
+       *  "Constraints for Undoing Failed/Cancelled Orders".
        * @param order the order on which to undo the cancel cancelOrder(Order)
        * @return Status 'OK' or 'ERROR' with one of the error codes described above
        */
@@ -36115,7 +37158,10 @@ declare namespace dw {
        *  redemptions is reached
        *  OrderProcessStatusCodes.ORDER_NOT_FAILED - order is not in status
        *  Order.ORDER_STATUS_FAILED
-       *  OrderProcessStatusCodes.INVENTORY_RESERVATION_FAILED - inventory reservation failed
+       *  OrderProcessStatusCodes.INVENTORY_RESERVATION_FAILED - Inventory reservation for the order failed. In
+       *  cases when availability is too low then undoCancel or undoFail results in a reservation failure. This can be
+       *  avoided using the order site preferences to specifically allow overselling. See order site preferences under
+       *  "Constraints for Undoing Failed/Cancelled Orders".
        * @param order the order on which to undo the fail failOrder(Order)
        * @return Status 'OK' or 'ERROR' with one of the error codes described above
        */
@@ -36145,7 +37191,7 @@ declare namespace dw {
        *
        *  Otherwise, the method throws an exception.
        */
-      bankAccountDriversLicense: string;
+      readonly bankAccountDriversLicense: string;
       /**
        * The account number if the calling context meets
        *  the following criteria:
@@ -36162,13 +37208,13 @@ declare namespace dw {
        *
        *  Otherwise, the method throws an exception.
        */
-      bankAccountNumber: string;
+      readonly bankAccountNumber: string;
       /**
        * The sum of the captured amounts. The captured amounts
        *  are calculated on the fly. Associate a payment capture for an Payment Instrument with an Invoice
        *  using Invoice method addCaptureTransaction.
        */
-      capturedAmount: dw.value.Money;
+      readonly capturedAmount: dw.value.Money;
       /**
        * The de-crypted creditcard number if the calling context meets
        *  the following criteria:
@@ -36192,17 +37238,17 @@ declare namespace dw {
        *
        *  Otherwise, the method returns the masked credit card number.
        */
-      creditCardNumber: string;
+      readonly creditCardNumber: string;
       /**
        * The Payment Transaction for this Payment Instrument or null.
        */
-      paymentTransaction: dw.order.PaymentTransaction;
+      readonly paymentTransaction: dw.order.PaymentTransaction;
       /**
        * The sum of the refunded amounts. The refunded amounts
        *  are calculated on the fly. Associate a payment refund for an Payment Instrument with an Invoice
        *  using Invoice method addRefundTransaction.
        */
-      refundedAmount: dw.value.Money;
+      readonly refundedAmount: dw.value.Money;
 
       /**
        * Returns the driver's license associated with a bank account if the calling
@@ -36358,27 +37404,29 @@ declare namespace dw {
      *  <b>Note:</b> this class handles sensitive financial and card holder data.
      *  Pay special attention to PCI DSS v3. requirements 1, 3, 7, and 9.</p>
      */
-    class PaymentCard extends dw.object.ExtensibleObject {
+    class PaymentCard extends dw.object.ExtensibleObject<
+      PaymentCardCustomAttributes
+    > {
       /**
        * Returns 'true' if payment card is active (enabled), otherwise 'false' is returned.
        */
-      active: boolean;
+      readonly active: boolean;
       /**
        * The unique card type of the payment card.
        */
-      cardType: string;
+      readonly cardType: string;
       /**
        * The description of the payment card.
        */
-      description: dw.content.MarkupText;
+      readonly description: dw.content.MarkupText;
       /**
        * The reference to the payment card image.
        */
-      image: dw.content.MediaFile;
+      readonly image: dw.content.MediaFile;
       /**
        * The name of the payment card.
        */
-      name: string;
+      readonly name: string;
 
       /**
        * Returns the unique card type of the payment card.
@@ -36555,7 +37603,9 @@ declare namespace dw {
        *
        *
        *
-       *  Otherwise, the method returns the masked driver's license number.
+       *  Otherwise, the method returns the masked driver's license number. If a basket is reopened with
+       *  OrderMgr.failOrder(Order, Boolean), it always masks sensitive information
+       *  because during order creation, basket payment information is permanently masked.
        */
       bankAccountDriversLicense: string;
       /**
@@ -36565,7 +37615,7 @@ declare namespace dw {
        *  If the number is empty or null
        *  it will be returned without an exception.
        */
-      bankAccountDriversLicenseLastDigits: string;
+      readonly bankAccountDriversLicenseLastDigits: string;
       /**
        * The driver's license state code associated with a bank account payment instrument.
        *  Returns null for other payment methods.
@@ -36603,7 +37653,9 @@ declare namespace dw {
        *
        *
        *
-       *  Otherwise, the method returns the masked bank account number.
+       *  Otherwise, the method returns the masked bank account number. If a basket is reopened with
+       *  OrderMgr.failOrder(Order, Boolean), it always masks sensitive information
+       *  because during order creation, basket payment information is permanently masked.
        */
       bankAccountNumber: string;
       /**
@@ -36612,7 +37664,7 @@ declare namespace dw {
        *  If the number is empty or null,
        *  it will be returned without an exception.
        */
-      bankAccountNumberLastDigits: string;
+      readonly bankAccountNumberLastDigits: string;
       /**
        * The bank routing number of a bank account payment instrument.
        *  Returns null for other payment methods.
@@ -36637,7 +37689,7 @@ declare namespace dw {
        *  year are set. If either of these attributes are not set, then this method
        *  always returns false.
        */
-      creditCardExpired: boolean;
+      readonly creditCardExpired: boolean;
       /**
        * The name of the credit card owner.
        */
@@ -36678,7 +37730,9 @@ declare namespace dw {
        *
        *
        *
-       *  Otherwise, the method returns the masked credit card number.
+       *  Otherwise, the method returns the masked credit card number. If a basket is reopened with
+       *  OrderMgr.failOrder(Order, Boolean), it always masks sensitive information
+       *  because during order creation, basket payment information is permanently masked.
        */
       creditCardNumber: string;
       /**
@@ -36687,7 +37741,7 @@ declare namespace dw {
        *  If the number is empty or null
        *  it will be returned without an exception.
        */
-      creditCardNumberLastDigits: string;
+      readonly creditCardNumberLastDigits: string;
       /**
        * Secure credit card data can be replaced by a token by utilizing a
        *  tokenization provider, which securely stores the credit card data using
@@ -36726,7 +37780,7 @@ declare namespace dw {
        *  If the driver's license number is empty,
        *  it will be returned without an exception.
        */
-      maskedBankAccountDriversLicense: string;
+      readonly maskedBankAccountDriversLicense: string;
       /**
        * The decrypted bank account number with
        *  all but the last 4 characters replaced with a '*' character.
@@ -36734,7 +37788,7 @@ declare namespace dw {
        *  If the number is empty (i.e. "" or null),
        *  it will be returned without an exception.
        */
-      maskedBankAccountNumber: string;
+      readonly maskedBankAccountNumber: string;
       /**
        * The decrypted credit card number with
        *  all but the last 4 characters replaced with a '*' character.
@@ -36742,17 +37796,17 @@ declare namespace dw {
        *  If the number is empty,
        *  it will be returned without an exception.
        */
-      maskedCreditCardNumber: string;
+      readonly maskedCreditCardNumber: string;
       /**
        * The masked gift certificate code with
        *  all but the last 4 characters replaced with a '*' character.
        */
-      maskedGiftCertificateCode: string;
+      readonly maskedGiftCertificateCode: string;
       /**
        * The identifier of the payment method represented by this
        *  payment instrument.
        */
-      paymentMethod: string;
+      readonly paymentMethod: string;
       /**
        * Returns true if the account information for this Payment Instrument
        *  has been permanently masked as a result of the data retention security policy
@@ -36762,7 +37816,7 @@ declare namespace dw {
        *  or bank account number are recoverable.  The bank account driver's license number
        *  and bank routing number are completely masked.
        */
-      permanentlyMasked: boolean;
+      readonly permanentlyMasked: boolean;
 
       /**
        * Returns the driver's license number associated with the bank account if the
@@ -36791,7 +37845,9 @@ declare namespace dw {
        *
        *
        *
-       *  Otherwise, the method returns the masked driver's license number.
+       *  Otherwise, the method returns the masked driver's license number. If a basket is reopened with
+       *  OrderMgr.failOrder(Order, Boolean), it always masks sensitive information
+       *  because during order creation, basket payment information is permanently masked.
        *
        * @return the driver's license number if the calling context meets the necessary criteria.
        */
@@ -36861,7 +37917,9 @@ declare namespace dw {
        *
        *
        *
-       *  Otherwise, the method returns the masked bank account number.
+       *  Otherwise, the method returns the masked bank account number. If a basket is reopened with
+       *  OrderMgr.failOrder(Order, Boolean), it always masks sensitive information
+       *  because during order creation, basket payment information is permanently masked.
        *
        * @return the bank account number if the calling context meets the necessary criteria.
        */
@@ -36956,7 +38014,9 @@ declare namespace dw {
        *
        *
        *
-       *  Otherwise, the method returns the masked credit card number.
+       *  Otherwise, the method returns the masked credit card number. If a basket is reopened with
+       *  OrderMgr.failOrder(Order, Boolean), it always masks sensitive information
+       *  because during order creation, basket payment information is permanently masked.
        *
        * @return the decrypted credit card number if the calling context meets the necessary criteria.
        */
@@ -37319,37 +38379,39 @@ declare namespace dw {
      *  based on the amount of his order, his customer groups, and his shipping
      *  address.</p>
      */
-    class PaymentMethod extends dw.object.ExtensibleObject {
+    class PaymentMethod extends dw.object.ExtensibleObject<
+      PaymentMethodCustomAttributes
+    > {
       /**
        * Returns 'true' if payment method is active (enabled), otherwise 'false' is returned.
        */
-      active: boolean;
+      readonly active: boolean;
       /**
        * Returns enabled payment cards that are assigned to this payment method, regardless
        *  of current customer, country or payment amount restrictions.
        *  The payment cards are sorted as defined in the Business Manager.
        */
-      activePaymentCards: dw.util.List<dw.order.PaymentCard>;
+      readonly activePaymentCards: dw.util.List<dw.order.PaymentCard>;
       /**
        * The description of the payment method.
        */
-      description: dw.content.MarkupText;
+      readonly description: dw.content.MarkupText;
       /**
        * The unique ID of the payment method.
        */
-      ID: string;
+      readonly ID: string;
       /**
        * The reference to the payment method image.
        */
-      image: dw.content.MediaFile;
+      readonly image: dw.content.MediaFile;
       /**
        * The name of the payment method.
        */
-      name: string;
+      readonly name: string;
       /**
        * The payment processor associated to this payment method.
        */
-      paymentProcessor: dw.order.PaymentProcessor;
+      readonly paymentProcessor: dw.order.PaymentProcessor;
 
       /**
        * Returns enabled payment cards that are assigned to this payment method, regardless
@@ -37481,7 +38543,9 @@ declare namespace dw {
        *  restrictions. The payment methods are sorted as defined in the Business
        *  Manager.
        */
-      static activePaymentMethods: dw.util.List<dw.order.PaymentMethod>;
+      static readonly activePaymentMethods: dw.util.List<
+        dw.order.PaymentMethod
+      >;
 
       /**
        * Returns the sorted list of all enabled payment methods of the current
@@ -37581,11 +38645,13 @@ declare namespace dw {
      *  transaction has one PaymentProcessor which is set by custom code during the
      *  checkout process.</p>
      */
-    class PaymentProcessor extends dw.object.ExtensibleObject {
+    class PaymentProcessor extends dw.object.ExtensibleObject<
+      PaymentProcessorCustomAttributes
+    > {
       /**
        * The 'ID' of this processor.
        */
-      ID: string;
+      readonly ID: string;
 
       /**
        * Returns the 'ID' of this processor.
@@ -37634,7 +38700,9 @@ declare namespace dw {
     /**
      * The PaymentTransaction class represents a payment transaction.
      */
-    class PaymentTransaction extends dw.object.ExtensibleObject {
+    class PaymentTransaction extends dw.object.ExtensibleObject<
+      PaymentTransactionCustomAttributes
+    > {
       /**
        * Constant representing the authorization type of payment transaction.
        */
@@ -37659,7 +38727,7 @@ declare namespace dw {
       /**
        * The payment instrument related to this payment transaction.
        */
-      paymentInstrument: dw.order.OrderPaymentInstrument;
+      readonly paymentInstrument: dw.order.OrderPaymentInstrument;
       /**
        * The payment processor related to this payment transaction.
        */
@@ -37755,11 +38823,11 @@ declare namespace dw {
        *  adjustment was created, this method returns null. This method always
        *  returns null for custom price adjustments.
        */
-      ABTest: dw.campaign.ABTest;
+      readonly ABTest: dw.campaign.ABTest;
       /**
        * The ID of the AB-test related to this price adjustment.
        */
-      ABTestID: string;
+      readonly ABTestID: string;
       /**
        * The Commerce Cloud Digital AB-test segment this price adjustment is
        *  associated with. The associated AB-test segment is determined from the
@@ -37770,11 +38838,11 @@ declare namespace dw {
        *  this price adjustment was created, this method returns null. This method
        *  always returns null for custom price adjustments.
        */
-      ABTestSegment: dw.campaign.ABTestSegment;
+      readonly ABTestSegment: dw.campaign.ABTestSegment;
       /**
        * The ID of the AB-test segment related to this price adjustment.
        */
-      ABTestSegmentID: string;
+      readonly ABTestSegmentID: string;
       /**
        * A Discount instance describing the discount applied to
        *  obtain this price-adjustment. This method only returns a non-null value
@@ -37794,22 +38862,22 @@ declare namespace dw {
        *  Discount to distinguish between types. Each subclass
        *  provides access to specific properties.
        */
-      appliedDiscount: dw.campaign.Discount;
+      readonly appliedDiscount: dw.campaign.Discount;
       /**
        * Returns true if the price adjustment was generated by the Commerce Cloud Digital
        *  promotions engine when applying a promotion assigned to an AB-test.
        */
-      basedOnABTest: boolean;
+      readonly basedOnABTest: boolean;
       /**
        * Returns true if the price adjustment was generated by the Commerce Cloud Digital
        *  promotions engine when applying a promotion assigned to a Campaign or an
        *  AB-test.
        */
-      basedOnCampaign: boolean;
+      readonly basedOnCampaign: boolean;
       /**
        * Identifies if the promotion line item results from a coupon.
        */
-      basedOnCoupon: boolean;
+      readonly basedOnCoupon: boolean;
       /**
        * The Commerce Cloud Digital campaign this price adjustment is associated with.
        *  The associated campaign is determined from the campaignID attribute which
@@ -37825,7 +38893,7 @@ declare namespace dw {
        *  for backwards compatibility and should not be relied upon as it may
        *  change in future releases.
        */
-      campaign: dw.campaign.Campaign;
+      readonly campaign: dw.campaign.Campaign;
       /**
        * The ID of the campaign the price adjustment was based on.
        *
@@ -37834,12 +38902,12 @@ declare namespace dw {
        *  true campaign. This behavior is required for backwards compatibility and
        *  should not be relied upon as it may change in future releases.
        */
-      campaignID: string;
+      readonly campaignID: string;
       /**
        * The coupon line item related to this price adjustment.
        *  If the price adjustment is not based on a coupon, null is returned.
        */
-      couponLineItem: dw.order.CouponLineItem;
+      readonly couponLineItem: dw.order.CouponLineItem;
       /**
        * The name of the user who created the price adjustment.
        *  This method returns a value if the price-adjustment was
@@ -37851,7 +38919,7 @@ declare namespace dw {
        *  If an agent user has created the price adjustment, the agent user's name
        *  is returned. Otherwise "Customer" is returned.
        */
-      createdBy: string;
+      readonly createdBy: string;
       /**
        * Returns true if this PriceAdjustment was added manually by a user.
        *
@@ -37879,11 +38947,11 @@ declare namespace dw {
        *  appropriate Promotion instance. This method always returns null for
        *  custom price adjustments.
        */
-      promotion: dw.campaign.Promotion;
+      readonly promotion: dw.campaign.Promotion;
       /**
        * The ID of the promotion related to this price adjustment.
        */
-      promotionID: string;
+      readonly promotionID: string;
       /**
        * A map representing the product line items to which this price
        *  adjustment is "related" (in the sense defined below) and the portion of
@@ -37923,7 +38991,10 @@ declare namespace dw {
        *  based on gross pricing, and exclusive of tax otherwise. The sum of the
        *  prorated prices always equals the price of this price adjustment.
        */
-      proratedPrices: dw.util.Map<dw.order.ProductLineItem, dw.value.Money>;
+      readonly proratedPrices: dw.util.Map<
+        dw.order.ProductLineItem,
+        dw.value.Money
+      >;
       /**
        * The number of items this price adjustment applies to. This value
        *  is always equal to 1 for price adjustments generated by order or shipping
@@ -37936,7 +39007,7 @@ declare namespace dw {
        *  For custom price adjustments, not generated by the promotions engine,
        *  this method always returns 0.
        */
-      quantity: number;
+      readonly quantity: number;
       /**
        * The reason code of the price adjustment. The list of available
        *  reason codes is editable system meta-data. An example for using the
@@ -38239,41 +39310,43 @@ declare namespace dw {
        * The gross price of the product line item after applying all product-level
        *  adjustments.
        */
-      adjustedGrossPrice: dw.value.Money;
+      readonly adjustedGrossPrice: dw.value.Money;
       /**
        * The net price of the product line item after applying all product-level
        *  adjustments.
        */
-      adjustedNetPrice: dw.value.Money;
+      readonly adjustedNetPrice: dw.value.Money;
       /**
        * The price of the product line item after applying all product-level
        *  adjustments. For net pricing the adjusted net price is returned
        *  (see getAdjustedNetPrice()). For gross pricing, the adjusted
        *  gross price is returned (see getAdjustedGrossPrice()).
        */
-      adjustedPrice: dw.value.Money;
+      readonly adjustedPrice: dw.value.Money;
       /**
        * The tax of the unit after applying adjustments, in the purchase currency.
        */
-      adjustedTax: dw.value.Money;
+      readonly adjustedTax: dw.value.Money;
       /**
        * The parent bonus discount line item of this line item.  Only
        *  bonus product line items that have been selected by the customer as
        *  part of a BONUS_CHOICE discount have one of these.
        */
-      bonusDiscountLineItem: dw.order.BonusDiscountLineItem;
+      readonly bonusDiscountLineItem: dw.order.BonusDiscountLineItem;
       /**
        * Identifies if the product line item represents a bonus line item.
        */
-      bonusProductLineItem: boolean;
+      readonly bonusProductLineItem: boolean;
       /**
        * Identifies if the product line item represents a bundled line item.
        */
-      bundledProductLineItem: boolean;
+      readonly bundledProductLineItem: boolean;
       /**
        * A collection containing the bundled product line items.
        */
-      bundledProductLineItems: dw.util.Collection<dw.order.ProductLineItem>;
+      readonly bundledProductLineItems: dw.util.Collection<
+        dw.order.ProductLineItem
+      >;
       /**
        * Returns true if the product line item represents a catalog product.
        *
@@ -38288,7 +39361,7 @@ declare namespace dw {
        *  If the product is not available during product line item creation it is considered a non catalog product line item without
        *  connection to a product.
        */
-      catalogProduct: boolean;
+      readonly catalogProduct: boolean;
       /**
        * The category the product line item is associated with. If the
        *  line item is not associated with a category, or the category does not
@@ -38333,7 +39406,7 @@ declare namespace dw {
        *  for a 'MinOrderQuantity' of 2.0 and a 'StepQuantity' of 2.5 then values
        *  2.0, 4.5, 7.0... are allowed values.
        */
-      minOrderQuantity: dw.value.Quantity;
+      readonly minOrderQuantity: dw.value.Quantity;
       /**
        * Return the value portion of getMinOrderQuantity().
        */
@@ -38343,48 +39416,48 @@ declare namespace dw {
        *  represents. If the product line item does not represent an option,
        *  null is returned.
        */
-      optionID: string;
+      readonly optionID: string;
       /**
        * The product option model for a product line item representing an option product.
        *
        *  The returned option model has preselected values based on the dependent option line items of this product line
        *  item. Null is returned if this line item does not represent an option product.
        */
-      optionModel: dw.catalog.ProductOptionModel;
+      readonly optionModel: dw.catalog.ProductOptionModel;
       /**
        * Identifies if the product line item represents an option line item.
        *  Option line items do not represent true products but rather options of
        *  products.  An option line item always has a parent product line item
        *  representing a true product.
        */
-      optionProductLineItem: boolean;
+      readonly optionProductLineItem: boolean;
       /**
        * A collection containing option product line items.
        */
-      optionProductLineItems: dw.util.Collection<dw.order.ProductLineItem>;
+      readonly optionProductLineItems: dw.util.Collection<
+        dw.order.ProductLineItem
+      >;
       /**
        * The ID of the product option value this product line item
        *  represents. If the product line item does not represent an option,
        *  null is returned.
        */
-      optionValueID: string;
+      readonly optionValueID: string;
       /**
        * The  order-item extension for this item, or null. An order-item
        *  extension will only exist for a ProductLineItem which belongs to an Order.
        *
        *  Order post-processing APIs (gillian) are now inactive by default and will throw
-       *  an exception if accessed. On sandboxes the APIs can be activated with a feature
-       *  switch "Order Post Processing APIs on Sandboxes". On PIGs an activation needs
-       *  preliminary approval by Product Management. Please contact support in this case.
-       *  Existing customers using these APIs are not affected by this change and can use the
-       *  APIs until further notice.
+       *  an exception if accessed. Activation needs preliminary approval by Product Management.
+       *  Please contact support in this case. Existing customers using these APIs are not
+       *  affected by this change and can use the APIs until further notice.
        */
-      orderItem: dw.order.OrderItem;
+      readonly orderItem: dw.order.OrderItem;
       /**
        * The parent line item of this line item or null if the line item
        *  is independent.
        */
-      parent: dw.order.ProductLineItem;
+      readonly parent: dw.order.ProductLineItem;
       /**
        * The position within the line item container assigned to the ProductLineItem upon its creation, may be
        *  used as a sort-order.
@@ -38406,7 +39479,7 @@ declare namespace dw {
        *  product line item such as promotions on the purchase price
        *  (i.e. $10 Off or 10% Off).
        */
-      priceAdjustments: dw.util.Collection<dw.order.PriceAdjustment>;
+      readonly priceAdjustments: dw.util.Collection<dw.order.PriceAdjustment>;
       /**
        * The product associated with the product line item.
        *
@@ -38414,13 +39487,13 @@ declare namespace dw {
        *  or was not created from a catalog product, or if the product does not exist in the catalog anymore. In these
        *  cases, the method returns null.
        */
-      product: dw.catalog.Product;
+      readonly product: dw.catalog.Product;
       /**
        * The ID of the related product.
        *
        *  Returns empty if no product is related.
        */
-      productID: string;
+      readonly productID: string;
       /**
        * The inventory list the product line item is associated with. If the
        *  line item is not associated with a inventory list, or the inventory list does not
@@ -38434,7 +39507,7 @@ declare namespace dw {
       /**
        * The associated ProductListItem.
        */
-      productListItem: dw.customer.ProductListItem;
+      readonly productListItem: dw.customer.ProductListItem;
       /**
        * The name of the product that was copied when
        *  product was added to line item container.
@@ -38447,7 +39520,7 @@ declare namespace dw {
        *  PriceAdjustment.getProratedPrices(). For net pricing the
        *  net price is returned. For gross pricing, the gross price is returned.
        */
-      proratedPrice: dw.value.Money;
+      readonly proratedPrice: dw.value.Money;
       /**
        * A Map of PriceAdjustment to Money instances. They keys to this
        *  map are the price adjustments that apply to this ProductLineItem either
@@ -38456,7 +39529,7 @@ declare namespace dw {
        *  The values in the map are the portion of the adjustment which applies to
        *  this particular product line item.
        */
-      proratedPriceAdjustmentPrices: dw.util.Map<
+      readonly proratedPriceAdjustmentPrices: dw.util.Map<
         dw.order.ProductLineItem,
         dw.value.Money
       >;
@@ -38468,11 +39541,11 @@ declare namespace dw {
        *  aren't met, the method returns null. If there are multiple product line items that triggered this bonus product,
        *  this method returns the last one by position within the order.
        */
-      qualifyingProductLineItemForBonusProduct: dw.order.ProductLineItem;
+      readonly qualifyingProductLineItemForBonusProduct: dw.order.ProductLineItem;
       /**
        * The quantity of the product represented by this ProductLineItem.
        */
-      quantity: dw.value.Quantity;
+      readonly quantity: dw.value.Quantity;
       /**
        * The value of the quantity of this ProductLineItem.
        */
@@ -38483,7 +39556,7 @@ declare namespace dw {
        *  rendering the cart so that bonus products can be shown next to the
        *  products that triggered their creation.
        */
-      relatedBonusProductLineItems: dw.util.Collection<
+      readonly relatedBonusProductLineItems: dw.util.Collection<
         dw.order.ProductLineItem
       >;
       /**
@@ -38494,7 +39567,7 @@ declare namespace dw {
        *  Method must only be called for basket product line items. Exception is thrown if called for order product line
        *  item.
        */
-      reserved: boolean;
+      readonly reserved: boolean;
       /**
        * The associated Shipment.
        */
@@ -38504,7 +39577,7 @@ declare namespace dw {
        *  The shipping line item can define product-specific shipping
        *  costs for this product line item.
        */
-      shippingLineItem: dw.order.ProductShippingLineItem;
+      readonly shippingLineItem: dw.order.ProductShippingLineItem;
       /**
        * Returns step quantity allowed for the product represented by the ProductLineItem
        *  (copied from product on initialization).
@@ -38513,7 +39586,7 @@ declare namespace dw {
        *  for a 'MinOrderQuantity' of 2.0 and a 'StepQuantity' of 2.5 then values
        *  2.0, 4.5, 7.0... are allowed values.
        */
-      stepQuantity: dw.value.Quantity;
+      readonly stepQuantity: dw.value.Quantity;
       /**
        * Return the value portion of getStepQuantity().
        */
@@ -38717,11 +39790,9 @@ declare namespace dw {
        *  extension will only exist for a ProductLineItem which belongs to an Order.
        *
        *  Order post-processing APIs (gillian) are now inactive by default and will throw
-       *  an exception if accessed. On sandboxes the APIs can be activated with a feature
-       *  switch "Order Post Processing APIs on Sandboxes". On PIGs an activation needs
-       *  preliminary approval by Product Management. Please contact support in this case.
-       *  Existing customers using these APIs are not affected by this change and can use the
-       *  APIs until further notice.
+       *  an exception if accessed. Activation needs preliminary approval by Product Management.
+       *  Please contact support in this case. Existing customers using these APIs are not
+       *  affected by this change and can use the APIs until further notice.
        *
        * @return null or the order-item extension
        */
@@ -39209,17 +40280,17 @@ declare namespace dw {
       /**
        * The shipping amount.
        */
-      amount: dw.value.Money;
+      readonly amount: dw.value.Money;
       /**
        * Returns true if shipping cost is a fixed-price shipping cost,
        *  and false if surcharge shipping cost.
        */
-      fixedPrice: boolean;
+      readonly fixedPrice: boolean;
       /**
        * Returns true if shipping cost is a surcharge to the shipment
        *  shipping cost, and false if fixed-price shipping cost.
        */
-      surcharge: boolean;
+      readonly surcharge: boolean;
 
       /**
        * Returns the shipping amount.
@@ -39257,12 +40328,12 @@ declare namespace dw {
        * The gross price of the product shipping line item after applying
        *  all product-shipping-level adjustments.
        */
-      adjustedGrossPrice: dw.value.Money;
+      readonly adjustedGrossPrice: dw.value.Money;
       /**
        * The net price of the product shipping line item after applying
        *  all product-shipping-level adjustments.
        */
-      adjustedNetPrice: dw.value.Money;
+      readonly adjustedNetPrice: dw.value.Money;
       /**
        * The price of the product shipping line item after applying all
        *  pproduct-shipping-level adjustments. For net pricing the adjusted net
@@ -39270,21 +40341,21 @@ declare namespace dw {
        *  pricing, the adjusted gross price is returned (see
        *  getAdjustedGrossPrice()).
        */
-      adjustedPrice: dw.value.Money;
+      readonly adjustedPrice: dw.value.Money;
       /**
        * The tax of the unit after applying adjustments, in the purchase
        *  currency.
        */
-      adjustedTax: dw.value.Money;
+      readonly adjustedTax: dw.value.Money;
       /**
        * An iterator of price adjustments that have been applied to this
        *  product shipping line item.
        */
-      priceAdjustments: dw.util.Collection<dw.order.PriceAdjustment>;
+      readonly priceAdjustments: dw.util.Collection<dw.order.PriceAdjustment>;
       /**
        * The parent product line item this shipping line item belongs to.
        */
-      productLineItem: dw.order.ProductLineItem;
+      readonly productLineItem: dw.order.ProductLineItem;
       /**
        * The quantity of the shipping cost.
        */
@@ -39292,7 +40363,7 @@ declare namespace dw {
       /**
        * The shipment this shipping line item belongs to.
        */
-      shipment: dw.order.Shipment;
+      readonly shipment: dw.order.Shipment;
       /**
        * The 'surcharge' flag.
        */
@@ -39404,21 +40475,25 @@ declare namespace dw {
        *  with. A product can be shipping with a shipping methods if the shipping
        *  method is not explicitely marked as inapplicable for this product.
        */
-      applicableShippingMethods: dw.util.Collection<dw.order.ShippingMethod>;
+      readonly applicableShippingMethods: dw.util.Collection<
+        dw.order.ShippingMethod
+      >;
       /**
        * The active inapplicable shipping methods for the product related
        *  to this shipping model, i.e. shipping methods the product cannot be
        *  shipped with. A product cannot be shipping with a shipping methods if the
        *  shipping method is explicitely marked as inapplicable for this product.
        */
-      inapplicableShippingMethods: dw.util.Collection<dw.order.ShippingMethod>;
+      readonly inapplicableShippingMethods: dw.util.Collection<
+        dw.order.ShippingMethod
+      >;
       /**
        * The active shipping methods for which either any fixed-price or
        *  surcharge product-level shipping cost is defined for the specified product.
        *  Note that this can include inapplicable shipping methods
        *  (see getInapplicableShippingMethods()).
        */
-      shippingMethodsWithShippingCost: dw.util.Collection<
+      readonly shippingMethodsWithShippingCost: dw.util.Collection<
         dw.order.ShippingMethod
       >;
 
@@ -39487,11 +40562,9 @@ declare namespace dw {
      *  </ul>
      *  <p>
      *  Order post-processing APIs (gillian) are now inactive by default and will throw
-     *  an exception if accessed. On sandboxes the APIs can be activated with a feature
-     *  switch &quot;Order Post Processing APIs on Sandboxes&quot;. On PIGs an activation needs
-     *  preliminary approval by Product Management. Please contact support in this case.
-     *  Existing customers using these APIs are not affected by this change and can use the
-     *  APIs until further notice.</p>
+     *  an exception if accessed. Activation needs preliminary approval by Product Management.
+     *  Please contact support in this case. Existing customers using these APIs are not
+     *  affected by this change and can use the APIs until further notice.</p>
      */
     class Return extends dw.order.AbstractItemCtnr {
       /**
@@ -39526,11 +40599,11 @@ declare namespace dw {
       /**
        * Returns null or the previously created Invoice.
        */
-      invoice: dw.order.Invoice;
+      readonly invoice: dw.order.Invoice;
       /**
        * Returns null or the invoice-number.
        */
-      invoiceNumber: string;
+      readonly invoiceNumber: string;
       /**
        * The ReturnItems contained in the Return, created with method
        *  createItem(String).
@@ -39545,7 +40618,7 @@ declare namespace dw {
        *  FilteringCollection.select(Object) with QUALIFIER_PRODUCTITEMS
        *  FilteringCollection.select(Object) with QUALIFIER_SERVICEITEMS
        */
-      items: dw.util.FilteringCollection<dw.order.ReturnItem>;
+      readonly items: dw.util.FilteringCollection<dw.order.ReturnItem>;
       /**
        * A note for the return.
        */
@@ -39554,11 +40627,11 @@ declare namespace dw {
        * The ReturnCase with which this Return is associated. The ReturnCase
        *  may represent an RMA (return merchandise authorization).
        */
-      returnCase: dw.order.ReturnCase;
+      readonly returnCase: dw.order.ReturnCase;
       /**
        * The return number identifying this return.
        */
-      returnNumber: string;
+      readonly returnNumber: string;
       /**
        * Gets the return status.
        *
@@ -39715,11 +40788,9 @@ declare namespace dw {
      *  </ul>
      *  <p>
      *  Order post-processing APIs (gillian) are now inactive by default and will throw
-     *  an exception if accessed. On sandboxes the APIs can be activated with a feature
-     *  switch &quot;Order Post Processing APIs on Sandboxes&quot;. On PIGs an activation needs
-     *  preliminary approval by Product Management. Please contact support in this case.
-     *  Existing customers using these APIs are not affected by this change and can use the
-     *  APIs until further notice.</p>
+     *  an exception if accessed. Activation needs preliminary approval by Product Management.
+     *  Please contact support in this case. Existing customers using these APIs are not
+     *  affected by this change and can use the APIs until further notice.</p>
      */
     class ReturnCase extends dw.order.AbstractItemCtnr {
       /**
@@ -39766,11 +40837,11 @@ declare namespace dw {
       /**
        * Returns null or the previously created Invoice.
        */
-      invoice: dw.order.Invoice;
+      readonly invoice: dw.order.Invoice;
       /**
        * Returns null or the invoice-number.
        */
-      invoiceNumber: string;
+      readonly invoiceNumber: string;
       /**
        * Access the collection of ReturnCaseItems.
        *
@@ -39783,19 +40854,19 @@ declare namespace dw {
        *  FilteringCollection.select(Object) with QUALIFIER_PRODUCTITEMS
        *  FilteringCollection.select(Object) with QUALIFIER_SERVICEITEMS
        */
-      items: dw.util.FilteringCollection<dw.order.ReturnCaseItem>;
+      readonly items: dw.util.FilteringCollection<dw.order.ReturnCaseItem>;
       /**
        * The mandatory return case number identifying this document.
        */
-      returnCaseNumber: string;
+      readonly returnCaseNumber: string;
       /**
        * Return the collection of Returns associated with this ReturnCase.
        */
-      returns: dw.util.Collection<dw.order.Return>;
+      readonly returns: dw.util.Collection<dw.order.Return>;
       /**
        * Return whether this is an RMA. This is specified when calling Order.createReturnCase(String, Boolean).
        */
-      RMA: boolean;
+      readonly RMA: boolean;
       /**
        * Gets the return case item status. The status of a ReturnCase is read-only and calculated from the status of
        *  the associated ReturnCaseItems.
@@ -39804,7 +40875,7 @@ declare namespace dw {
        *  STATUS_PARTIAL_RETURNED, STATUS_RETURNED,
        *  STATUS_CANCELLED.
        */
-      status: dw.value.EnumValue;
+      readonly status: dw.value.EnumValue;
 
       /**
        * Attempt to confirm the ReturnCase.
@@ -39941,11 +41012,9 @@ declare namespace dw {
      *  When the related ReturnCase were confirmed, only the the custom attributes of the return case item can be changed.
      *  <p>
      *  Order post-processing APIs (gillian) are now inactive by default and will throw
-     *  an exception if accessed. On sandboxes the APIs can be activated with a feature
-     *  switch &quot;Order Post Processing APIs on Sandboxes&quot;. On PIGs an activation needs
-     *  preliminary approval by Product Management. Please contact support in this case.
-     *  Existing customers using these APIs are not affected by this change and can use the
-     *  APIs until further notice.</p>
+     *  an exception if accessed. Activation needs preliminary approval by Product Management.
+     *  Please contact support in this case. Existing customers using these APIs are not
+     *  affected by this change and can use the APIs until further notice.</p>
      */
     class ReturnCaseItem extends dw.order.AbstractItem {
       /**
@@ -39976,7 +41045,7 @@ declare namespace dw {
       /**
        * Price of a single unit before discount application.
        */
-      basePrice: dw.value.Money;
+      readonly basePrice: dw.value.Money;
       /**
        * Return the note for this return case item.
        */
@@ -39992,11 +41061,11 @@ declare namespace dw {
       /**
        * Mandatory number of ReturnCase to which this item belongs
        */
-      returnCaseNumber: string;
+      readonly returnCaseNumber: string;
       /**
        * Unsorted collection of ReturnItems associated with this ReturnCaseItem.
        */
-      returnItems: dw.util.Collection<dw.order.ReturnItem>;
+      readonly returnItems: dw.util.Collection<dw.order.ReturnItem>;
       /**
        * Gets the return case item status.
        *
@@ -40111,17 +41180,15 @@ declare namespace dw {
      *  When the related Return were set to status COMPLETED, only the the custom attributes of the return item can be changed.
      *  <p>
      *  Order post-processing APIs (gillian) are now inactive by default and will throw
-     *  an exception if accessed. On sandboxes the APIs can be activated with a feature
-     *  switch &quot;Order Post Processing APIs on Sandboxes&quot;. On PIGs an activation needs
-     *  preliminary approval by Product Management. Please contact support in this case.
-     *  Existing customers using these APIs are not affected by this change and can use the
-     *  APIs until further notice.</p>
+     *  an exception if accessed. Activation needs preliminary approval by Product Management.
+     *  Please contact support in this case. Existing customers using these APIs are not
+     *  affected by this change and can use the APIs until further notice.</p>
      */
     class ReturnItem extends dw.order.AbstractItem {
       /**
        * Price of a single unit before discount application.
        */
-      basePrice: dw.value.Money;
+      readonly basePrice: dw.value.Money;
       /**
        * Return the note for this return item.
        */
@@ -40138,7 +41205,7 @@ declare namespace dw {
       /**
        * The return case item related to this item. Should never return null.
        */
-      returnCaseItem: dw.order.ReturnCaseItem;
+      readonly returnCaseItem: dw.order.ReturnCaseItem;
       /**
        * The Quantity returned. This may return an N/A quantity.
        */
@@ -40146,7 +41213,7 @@ declare namespace dw {
       /**
        * The mandatory returnNumber of the Return to which this item belongs.
        */
-      returnNumber: string;
+      readonly returnNumber: string;
 
       /**
        * Create a new  tax-item and add to this item.
@@ -40273,7 +41340,9 @@ declare namespace dw {
     /**
      * Represents an order shipment.
      */
-    class Shipment extends dw.object.ExtensibleObject {
+    class Shipment extends dw.object.ExtensibleObject<
+      ShipmentCustomAttributes
+    > {
       /**
        * Shipment shipping status representing 'Not shipped'.
        */
@@ -40298,7 +41367,7 @@ declare namespace dw {
        *  services such as shipping have been added, but after adjustments from i.e.
        *  promotions have been added.
        */
-      adjustedMerchandizeTotalGrossPrice: dw.value.Money;
+      readonly adjustedMerchandizeTotalGrossPrice: dw.value.Money;
       /**
        * The adjusted net price, excluding tax, in the purchase currency.
        *
@@ -40306,7 +41375,7 @@ declare namespace dw {
        *  services such as shipping have been added, but after adjustments from i.e.
        *  promotions have been added.
        */
-      adjustedMerchandizeTotalNetPrice: dw.value.Money;
+      readonly adjustedMerchandizeTotalNetPrice: dw.value.Money;
       /**
        * The merchandize total price after all product discounts.
        *  If the line item container is based on net pricing the adjusted
@@ -40314,7 +41383,7 @@ declare namespace dw {
        *  If the line item container is based on gross pricing the adjusted
        *  merchandize total gross price is returned.
        */
-      adjustedMerchandizeTotalPrice: dw.value.Money;
+      readonly adjustedMerchandizeTotalPrice: dw.value.Money;
       /**
        * The total tax in purchase currency.
        *
@@ -40322,29 +41391,29 @@ declare namespace dw {
        *  services such as shipping have been added, but after adjustments from i.e.
        *  promotions have been added.
        */
-      adjustedMerchandizeTotalTax: dw.value.Money;
+      readonly adjustedMerchandizeTotalTax: dw.value.Money;
       /**
        * The adjusted sum of all shipping line items of the shipment,
        *  including tax after shipping adjustments have been applied.
        */
-      adjustedShippingTotalGrossPrice: dw.value.Money;
+      readonly adjustedShippingTotalGrossPrice: dw.value.Money;
       /**
        * The sum of all shipping line items of the shipment, excluding tax
        *  after shipping adjustments have been applied.
        */
-      adjustedShippingTotalNetPrice: dw.value.Money;
+      readonly adjustedShippingTotalNetPrice: dw.value.Money;
       /**
        * The adjusted shipping total price. If the line item container
        *  is based on net pricing the adjusted shipping total net price is
        *  returned. If the line item container is based on gross pricing the adjusted
        *  shipping total gross price is returned.
        */
-      adjustedShippingTotalPrice: dw.value.Money;
+      readonly adjustedShippingTotalPrice: dw.value.Money;
       /**
        * The tax of all shipping line items of the shipment after shipping
        *  adjustments have been applied.
        */
-      adjustedShippingTotalTax: dw.value.Money;
+      readonly adjustedShippingTotalTax: dw.value.Money;
       /**
        * All line items related to the shipment.
        *
@@ -40361,11 +41430,11 @@ declare namespace dw {
        *  may itself contain bundled or option product line items,
        *  as well as a product-level shipping line item.
        */
-      allLineItems: dw.util.Collection<dw.order.LineItem>;
+      readonly allLineItems: dw.util.Collection<dw.order.LineItem>;
       /**
        * Return true if this shipment is the default shipment.
        */
-      default: boolean;
+      readonly default: boolean;
       /**
        * Returns true if this line item represents a gift, false otherwise.
        */
@@ -40373,7 +41442,7 @@ declare namespace dw {
       /**
        * All gift certificate line items of the shipment.
        */
-      giftCertificateLineItems: dw.util.Collection<
+      readonly giftCertificateLineItems: dw.util.Collection<
         dw.order.GiftCertificateLineItem
       >;
       /**
@@ -40383,7 +41452,7 @@ declare namespace dw {
       /**
        * The ID of this shipment.
        */
-      ID: string;
+      readonly ID: string;
       /**
        * The total gross price, including tax, in the purchase currency.
        *
@@ -40391,7 +41460,7 @@ declare namespace dw {
        *  services such as shipping or adjustments from i.e. promotions have
        *  been added.
        */
-      merchandizeTotalGrossPrice: dw.value.Money;
+      readonly merchandizeTotalGrossPrice: dw.value.Money;
       /**
        * The net price, excluding tax, in the purchase currency.
        *
@@ -40399,19 +41468,19 @@ declare namespace dw {
        *  services such as shipping or adjustments from i.e. promotions have
        *  been added.
        */
-      merchandizeTotalNetPrice: dw.value.Money;
+      readonly merchandizeTotalNetPrice: dw.value.Money;
       /**
        * The merchandize total price. If the line item container is based
        *  on net pricing the merchandize total net price is returned. If the line
        *  item container is based on gross pricing the merchandize total gross price
        *  is returned.
        */
-      merchandizeTotalPrice: dw.value.Money;
+      readonly merchandizeTotalPrice: dw.value.Money;
       /**
        * A collection of price adjustments that have been applied to the
        *  totals such as promotion on the purchase value (i.e. $10 Off or 10% Off).
        */
-      merchandizeTotalPriceAdjustments: dw.util.Collection<
+      readonly merchandizeTotalPriceAdjustments: dw.util.Collection<
         dw.order.PriceAdjustment
       >;
       /**
@@ -40421,12 +41490,12 @@ declare namespace dw {
        *  services such as shipping or adjustments from i.e. promotions have
        *  been added.
        */
-      merchandizeTotalTax: dw.value.Money;
+      readonly merchandizeTotalTax: dw.value.Money;
       /**
        * A collection of all product line items related
        *  to this shipment.
        */
-      productLineItems: dw.util.Collection<dw.order.ProductLineItem>;
+      readonly productLineItems: dw.util.Collection<dw.order.ProductLineItem>;
       /**
        * The merchandise total price of the shipment after considering all
        *  product price adjustments and prorating all Buy-X-Get-Y and order-level
@@ -40434,24 +41503,24 @@ declare namespace dw {
        *  PriceAdjustment.getProratedPrices(). For net pricing the
        *  net price is returned. For gross pricing, the gross price is returned.
        */
-      proratedMerchandizeTotalPrice: dw.value.Money;
+      readonly proratedMerchandizeTotalPrice: dw.value.Money;
       /**
        * The shipment number for this shipment.
        *
        *  When an order is placed (OrderMgr.placeOrder(Order)) shipment number will be filled using a
        *  sequence. Before order was placed null will be returned.
        */
-      shipmentNo: string;
+      readonly shipmentNo: string;
       /**
        * The shipping address or null if none is set.
        */
-      shippingAddress: dw.order.OrderAddress;
+      readonly shippingAddress: dw.order.OrderAddress;
       /**
        * A collection of all shipping line items of the shipment,
        *  excluding any product-level shipping costs that are
        *  associated with ProductLineItems of the shipment.
        */
-      shippingLineItems: dw.util.Collection<dw.order.ShippingLineItem>;
+      readonly shippingLineItems: dw.util.Collection<dw.order.ShippingLineItem>;
       /**
        * The shipping method or null if none is set.
        */
@@ -40459,7 +41528,7 @@ declare namespace dw {
       /**
        * The shipping method ID or null if none is set.
        */
-      shippingMethodID: string;
+      readonly shippingMethodID: string;
       /**
        * A collection of price adjustments that have been applied to the
        *  shipping costs of the shipment, for example by the promotions engine.
@@ -40470,7 +41539,9 @@ declare namespace dw {
        *  retrieve the shipping price adjustments associated with a specific
        *  shipping line item.
        */
-      shippingPriceAdjustments: dw.util.Collection<dw.order.PriceAdjustment>;
+      readonly shippingPriceAdjustments: dw.util.Collection<
+        dw.order.PriceAdjustment
+      >;
       /**
        * The shipping status. Possible values are
        *  SHIPMENT_NOTSHIPPED or SHIPMENT_SHIPPED.
@@ -40480,47 +41551,47 @@ declare namespace dw {
        * The sum of all shipping line items of the shipment,
        *  including tax before shipping adjustments have been applied.
        */
-      shippingTotalGrossPrice: dw.value.Money;
+      readonly shippingTotalGrossPrice: dw.value.Money;
       /**
        * The sum of all shipping line items of the shipment, excluding tax
        *  before shipping adjustments have been applied.
        */
-      shippingTotalNetPrice: dw.value.Money;
+      readonly shippingTotalNetPrice: dw.value.Money;
       /**
        * The shipping total price. If the line item container is based on
        *  net pricing the shipping total net price is returned. If the line item
        *  container is based on gross pricing the shipping total gross price is
        *  returned.
        */
-      shippingTotalPrice: dw.value.Money;
+      readonly shippingTotalPrice: dw.value.Money;
       /**
        * The tax of all shipping line items of the shipment before
        *  shipping adjustments have been applied.
        */
-      shippingTotalTax: dw.value.Money;
+      readonly shippingTotalTax: dw.value.Money;
       /**
        * Convenenience method. Same as
        *  getShippingLineItem(ShippingLineItem.STANDARD_SHIPPING_ID)
        */
-      standardShippingLineItem: dw.order.ShippingLineItem;
+      readonly standardShippingLineItem: dw.order.ShippingLineItem;
       /**
        * The grand total price gross of tax for the shipment, in purchase currency.
        *
        *  Total prices represent the sum of product prices, services prices and adjustments.
        */
-      totalGrossPrice: dw.value.Money;
+      readonly totalGrossPrice: dw.value.Money;
       /**
        * The grand total price for the shipment net of tax, in purchase currency.
        *
        *  Total prices represent the sum of product prices, services prices and adjustments.
        */
-      totalNetPrice: dw.value.Money;
+      readonly totalNetPrice: dw.value.Money;
       /**
        * The total tax for the shipment, in purchase currency.
        *
        *  Total prices represent the sum of product prices, services prices and adjustments.
        */
-      totalTax: dw.value.Money;
+      readonly totalTax: dw.value.Money;
       /**
        * The tracking number of this shipment.
        */
@@ -40950,7 +42021,7 @@ declare namespace dw {
       /**
        * The shipping amount.
        */
-      amount: dw.value.Money;
+      readonly amount: dw.value.Money;
 
       /**
        * Returns the shipping amount.
@@ -40977,7 +42048,9 @@ declare namespace dw {
        *  that the the shipment customer belongs to an assigned customer group of the shipment
        *  (if any are assigned).
        */
-      applicableShippingMethods: dw.util.Collection<dw.order.ShippingMethod>;
+      readonly applicableShippingMethods: dw.util.Collection<
+        dw.order.ShippingMethod
+      >;
       /**
        * The active inapplicable shipping methods for the shipment related
        *  to this shipping model. A shipping method is inapplicable for a shipment
@@ -40986,7 +42059,9 @@ declare namespace dw {
        *  shipping method is restricted to customer groups that the shipment customer
        *  is not a part of.
        */
-      inapplicableShippingMethods: dw.util.Collection<dw.order.ShippingMethod>;
+      readonly inapplicableShippingMethods: dw.util.Collection<
+        dw.order.ShippingMethod
+      >;
 
       /**
        * Returns the active applicable shipping methods for the shipment related
@@ -41103,46 +42178,46 @@ declare namespace dw {
        * The price of this shipping line item including tax after
        *  shipping adjustments have been applied.
        */
-      adjustedGrossPrice: dw.value.Money;
+      readonly adjustedGrossPrice: dw.value.Money;
       /**
        * The price of this shipping line item, excluding tax after
        *  shipping adjustments have been applied.
        */
-      adjustedNetPrice: dw.value.Money;
+      readonly adjustedNetPrice: dw.value.Money;
       /**
        * The adjusted price of this shipping line item. If the line item
        *  container is based on net pricing, the adjusted net price is returned. If
        *  the line item container is based on gross pricing, the adjusted gross
        *  price is returned.
        */
-      adjustedPrice: dw.value.Money;
+      readonly adjustedPrice: dw.value.Money;
       /**
        * The tax of this shipping line item after shipping adjustments
        *  have been applied.
        */
-      adjustedTax: dw.value.Money;
+      readonly adjustedTax: dw.value.Money;
       /**
        * The ID of this ShippingLineItem.
        */
-      ID: string;
+      readonly ID: string;
       /**
        * The  order-item extension for this item, or null.
        *  An order-item extension will only exist for a ShippingLineItem which
        *  belongs to an Order.
        *
        *  Order post-processing APIs (gillian) are now inactive by default and will throw
-       *  an exception if accessed. On sandboxes the APIs can be activated with a feature
-       *  switch "Order Post Processing APIs on Sandboxes". On PIGs an activation needs
-       *  preliminary approval by Product Management. Please contact support in this case.
-       *  Existing customers using these APIs are not affected by this change and can use the
-       *  APIs until further notice.
+       *  an exception if accessed. Activation needs preliminary approval by Product Management.
+       *  Please contact support in this case. Existing customers using these APIs are not
+       *  affected by this change and can use the APIs until further notice.
        */
-      orderItem: dw.order.OrderItem;
+      readonly orderItem: dw.order.OrderItem;
       /**
        * The collection of shipping price adjustments that have been
        *  applied to this shipping line item.
        */
-      shippingPriceAdjustments: dw.util.Collection<dw.order.PriceAdjustment>;
+      readonly shippingPriceAdjustments: dw.util.Collection<
+        dw.order.PriceAdjustment
+      >;
 
       /**
        * Creates a shipping price adjustment to be applied to the shipping line
@@ -41227,11 +42302,9 @@ declare namespace dw {
        *  belongs to an Order.
        *
        *  Order post-processing APIs (gillian) are now inactive by default and will throw
-       *  an exception if accessed. On sandboxes the APIs can be activated with a feature
-       *  switch "Order Post Processing APIs on Sandboxes". On PIGs an activation needs
-       *  preliminary approval by Product Management. Please contact support in this case.
-       *  Existing customers using these APIs are not affected by this change and can use the
-       *  APIs until further notice.
+       *  an exception if accessed. Activation needs preliminary approval by Product Management.
+       *  Please contact support in this case. Existing customers using these APIs are not
+       *  affected by this change and can use the APIs until further notice.
        *
        * @return null or the order-item
        */
@@ -41406,53 +42479,55 @@ declare namespace dw {
     /**
      * ShippingMethod represents how the shipment will be shipped.
      */
-    class ShippingMethod extends dw.object.ExtensibleObject {
+    class ShippingMethod extends dw.object.ExtensibleObject<
+      ShippingMethodCustomAttributes
+    > {
       /**
        * The base shipping method or null if undefined.
        */
-      baseMethod: dw.order.ShippingMethod;
+      readonly baseMethod: dw.order.ShippingMethod;
       /**
        * The currency code associated with the shipping method
        */
-      currencyCode: string;
+      readonly currencyCode: string;
       /**
        * The customer groups assigned to the shipping method.
        *  Assigned ids that do not belong to an existing customer group are ignored.
        */
-      customerGroups: dw.util.Collection<dw.customer.CustomerGroup>;
+      readonly customerGroups: dw.util.Collection<dw.customer.CustomerGroup>;
       /**
        * Returns 'true' if the shipping method is marked as 'default' for the current session's currency.
        *  Otherwise 'false' is returned.
        */
-      defaultMethod: boolean;
+      readonly defaultMethod: boolean;
       /**
        * The dependent shipping methods of this shipping method,
        *  regardless of the online status of the methods.
        *  Dependent shipping methods have this method as their base method.
        */
-      dependentMethods: dw.util.Collection<dw.order.ShippingMethod>;
+      readonly dependentMethods: dw.util.Collection<dw.order.ShippingMethod>;
       /**
        * The description of the shipping method as specified in the current locale or
        *  null if it could not be found.
        */
-      description: string;
+      readonly description: string;
       /**
        * The display name of the shipping method in the current locale or
        *  null if it could not be found.
        */
-      displayName: string;
+      readonly displayName: string;
       /**
        * The ID of the shipping method.
        */
-      ID: string;
+      readonly ID: string;
       /**
        * Returns true if shipping method is online, false otherwise
        */
-      online: boolean;
+      readonly online: boolean;
       /**
        * The tax class id of the shipping method.
        */
-      taxClassID: string;
+      readonly taxClassID: string;
 
       /**
        * Returns the base shipping method or null if undefined.
@@ -41528,14 +42603,16 @@ declare namespace dw {
       /**
        * The active shipping methods of the current site applicable to the session currency and current customer group.
        */
-      static allShippingMethods: dw.util.Collection<dw.order.ShippingMethod>;
+      static readonly allShippingMethods: dw.util.Collection<
+        dw.order.ShippingMethod
+      >;
       /**
        * The default shipping method of the current site applicable to the session currency.
        *
        *  Does an additional check if there is a base method and if their currencies are
        *  the same. Returns NULL if the two currencies are different.
        */
-      static defaultShippingMethod: dw.order.ShippingMethod;
+      static readonly defaultShippingMethod: dw.order.ShippingMethod;
 
       /**
        * Applies product and shipment-level shipping cost to the specified line
@@ -41686,11 +42763,9 @@ declare namespace dw {
      *  </tbody></table>
      *  <p>
      *  Order post-processing APIs (gillian) are now inactive by default and will throw
-     *  an exception if accessed. On sandboxes the APIs can be activated with a feature
-     *  switch &quot;Order Post Processing APIs on Sandboxes&quot;. On PIGs an activation needs
-     *  preliminary approval by Product Management. Please contact support in this case.
-     *  Existing customers using these APIs are not affected by this change and can use the
-     *  APIs until further notice.</p>
+     *  an exception if accessed. Activation needs preliminary approval by Product Management.
+     *  Please contact support in this case. Existing customers using these APIs are not
+     *  affected by this change and can use the APIs until further notice.</p>
      */
     class ShippingOrder extends dw.order.AbstractItemCtnr {
       /**
@@ -41739,11 +42814,11 @@ declare namespace dw {
       /**
        * Returns null or the previously created Invoice.
        */
-      invoice: dw.order.Invoice;
+      readonly invoice: dw.order.Invoice;
       /**
        * Returns null or the invoice-number.
        */
-      invoiceNumber: string;
+      readonly invoiceNumber: string;
       /**
        * A filtering collection of the shipping order items belonging to the
        *  shipping order.
@@ -41762,7 +42837,7 @@ declare namespace dw {
        *  FilteringCollection.select(Object) with
        *  QUALIFIER_SERVICEITEMS
        */
-      items: dw.util.FilteringCollection<dw.order.ShippingOrderItem>;
+      readonly items: dw.util.FilteringCollection<dw.order.ShippingOrderItem>;
       /**
        * Gets the shipping date.
        *
@@ -41783,11 +42858,11 @@ declare namespace dw {
        *
        *  Can be null.
        */
-      shippingMethod: dw.order.ShippingMethod;
+      readonly shippingMethod: dw.order.ShippingMethod;
       /**
        * Gets the shipping order number.
        */
-      shippingOrderNumber: string;
+      readonly shippingOrderNumber: string;
       /**
        * Gets the status of this shipping order. The status is read-only and
        *  calculated from the item status. See class documentation for more
@@ -41796,11 +42871,11 @@ declare namespace dw {
        *  STATUS_WAREHOUSE, STATUS_SHIPPED,
        *  STATUS_CANCELLED.
        */
-      status: dw.value.EnumValue;
+      readonly status: dw.value.EnumValue;
       /**
        * Gets all tracking informations for this shipping order.
        */
-      trackingInfos: dw.util.Collection<dw.order.TrackingInfo>;
+      readonly trackingInfos: dw.util.Collection<dw.order.TrackingInfo>;
 
       /**
        * Adds a tracking info to this shipping order with the given ID.
@@ -42009,11 +43084,9 @@ declare namespace dw {
      *  <a href="class_dw_order_LineItem.html">LineItem</a> associated with an <a href="class_dw_order_Order.html">Order</a>.
      *  <p>
      *  Order post-processing APIs (gillian) are now inactive by default and will throw
-     *  an exception if accessed. On sandboxes the APIs can be activated with a feature
-     *  switch &quot;Order Post Processing APIs on Sandboxes&quot;. On PIGs an activation needs
-     *  preliminary approval by Product Management. Please contact support in this case.
-     *  Existing customers using these APIs are not affected by this change and can use the
-     *  APIs until further notice.</p>
+     *  an exception if accessed. Activation needs preliminary approval by Product Management.
+     *  Please contact support in this case. Existing customers using these APIs are not
+     *  affected by this change and can use the APIs until further notice.</p>
      */
     class ShippingOrderItem extends dw.order.AbstractItem {
       /**
@@ -42036,7 +43109,7 @@ declare namespace dw {
       /**
        * Price of a single unit before discount application.
        */
-      basePrice: dw.value.Money;
+      readonly basePrice: dw.value.Money;
       /**
        * Returns null or the parent item.
        */
@@ -42046,12 +43119,12 @@ declare namespace dw {
        *
        *  The Quantity is equal to the related line item quantity.
        */
-      quantity: dw.value.Quantity;
+      readonly quantity: dw.value.Quantity;
       /**
        * The mandatory shipping order number of the related
        *  ShippingOrder.
        */
-      shippingOrderNumber: string;
+      readonly shippingOrderNumber: string;
       /**
        * Gets the order item status.
        *
@@ -42064,7 +43137,7 @@ declare namespace dw {
        * Gets the tracking refs (tracking infos) the shipping order item is
        *  assigned to.
        */
-      trackingRefs: dw.util.FilteringCollection<dw.order.TrackingRef>;
+      readonly trackingRefs: dw.util.FilteringCollection<dw.order.TrackingRef>;
 
       /**
        * A shipping order item can be assigned
@@ -42244,24 +43317,24 @@ declare namespace dw {
       /**
        * Gross price of SumItem.
        */
-      grossPrice: dw.value.Money;
+      readonly grossPrice: dw.value.Money;
       /**
        * Net price of SumItem.
        */
-      netPrice: dw.value.Money;
+      readonly netPrice: dw.value.Money;
       /**
        * Total tax for SumItem.
        */
-      tax: dw.value.Money;
+      readonly tax: dw.value.Money;
       /**
        * Price of entire SumItem on which tax calculation is based. Same as getNetPrice()
        *  or getGrossPrice() depending on whether the order is based on net or gross prices.
        */
-      taxBasis: dw.value.Money;
+      readonly taxBasis: dw.value.Money;
       /**
        * Tax items representing a tax breakdown for the SumItem.
        */
-      taxItems: dw.util.Collection<dw.order.TaxItem>;
+      readonly taxItems: dw.util.Collection<dw.order.TaxItem>;
 
       /**
        * Gross price of SumItem.
@@ -42304,19 +43377,19 @@ declare namespace dw {
       /**
        * Gets the caption.
        */
-      caption: string;
+      readonly caption: string;
       /**
        * Gets the description.
        */
-      description: string;
+      readonly description: string;
       /**
        * Gets the percentage amount of the rate.
        */
-      rate: number;
+      readonly rate: number;
       /**
        * Gets the tax type.
        */
-      taxType: string;
+      readonly taxType: string;
 
       /**
        * Creates a TaxGroup.
@@ -42366,11 +43439,11 @@ declare namespace dw {
       /**
        * Gets the amount.
        */
-      amount: dw.value.Money;
+      readonly amount: dw.value.Money;
       /**
        * The  tax group.
        */
-      taxGroup: dw.order.TaxGroup;
+      readonly taxGroup: dw.order.TaxGroup;
 
       /**
        * Gets the amount.
@@ -42408,25 +43481,25 @@ declare namespace dw {
        *  Note that this tax class does not appear in the Business Manager
        *  tax module.
        */
-      static customRateTaxClassID: string;
+      static readonly customRateTaxClassID: string;
       /**
        * The ID of the default tax class defined for the site.
        *  This class might be used in case a product or service does not define
        *  a tax class.
        *  If no default tax class is defined, the method returns null.
        */
-      static defaultTaxClassID: string;
+      static readonly defaultTaxClassID: string;
       /**
        * The ID of the default tax jurisdiction defined for the site.
        *  This jurisdiction might be used in case no jurisdiction is defined for
        *  a specific address.
        *  If no default tax jurisdiction is defined, this method returns null.
        */
-      static defaultTaxJurisdictionID: string;
+      static readonly defaultTaxJurisdictionID: string;
       /**
        * The taxation policy (net/gross) configured for the current site.
        */
-      static taxationPolicy: number;
+      static readonly taxationPolicy: number;
       /**
        * The ID of the tax class that represents tax exempt items.
        *  The tax manager will return a tax rate of 0.0 for this tax class.
@@ -42434,7 +43507,7 @@ declare namespace dw {
        *  Note that this tax class does not appear in the Business Manager
        *  tax module.
        */
-      static taxExemptTaxClassID: string;
+      static readonly taxExemptTaxClassID: string;
 
       /**
        * Returns the ID of the tax class that represents items with a custom tax rate.
@@ -42521,7 +43594,7 @@ declare namespace dw {
        *  TrackingRefs, each with an optional quantity value allowing individual items to ship in multiple
        *  parcels with known item quantity in each.
        */
-      ID: string;
+      readonly ID: string;
       /**
        * Get the ship date.
        */
@@ -42529,7 +43602,7 @@ declare namespace dw {
       /**
        * Gets the shipping order.
        */
-      shippingOrder: dw.order.ShippingOrder;
+      readonly shippingOrder: dw.order.ShippingOrder;
       /**
        * Get the tracking number.
        */
@@ -42537,7 +43610,7 @@ declare namespace dw {
       /**
        * Gets the tracking refs (shipping order items) which are assigned to this tracking info.
        */
-      trackingRefs: dw.util.Collection<dw.order.TrackingRef>;
+      readonly trackingRefs: dw.util.Collection<dw.order.TrackingRef>;
       /**
        * Get the id of the shipping warehouse.
        */
@@ -42634,11 +43707,11 @@ declare namespace dw {
       /**
        * Gets the shipping order item which is assigned to the tracking info.
        */
-      shippingOrderItem: dw.order.ShippingOrderItem;
+      readonly shippingOrderItem: dw.order.ShippingOrderItem;
       /**
        * Gets the tracking info, the shipping order item is assigned to.
        */
-      trackingInfo: dw.order.TrackingInfo;
+      readonly trackingInfo: dw.order.TrackingInfo;
 
       /**
        * Gets the quantity, the shipping order item is assigned to the tracking
@@ -43168,11 +44241,9 @@ declare namespace dw {
        *    <br></code>
        *  <p>
        *  Order post-processing APIs (gillian) are now inactive by default and will throw
-       *  an exception if accessed. On sandboxes the APIs can be activated with a feature
-       *  switch &quot;Order Post Processing APIs on Sandboxes&quot;. On PIGs an activation needs
-       *  preliminary approval by Product Management. Please contact support in this case.
-       *  Existing customers using these APIs are not affected by this change and can use the
-       *  APIs until further notice.</p>
+       *  an exception if accessed. Activation needs preliminary approval by Product Management.
+       *  Please contact support in this case. Existing customers using these APIs are not
+       *  affected by this change and can use the APIs until further notice.</p>
        */
       class ReturnHooks {
         /**
@@ -43306,11 +44377,9 @@ declare namespace dw {
        *  </ul>
        *  <p>
        *  Order post-processing APIs (gillian) are now inactive by default and will throw
-       *  an exception if accessed. On sandboxes the APIs can be activated with a feature
-       *  switch &quot;Order Post Processing APIs on Sandboxes&quot;. On PIGs an activation needs
-       *  preliminary approval by Product Management. Please contact support in this case.
-       *  Existing customers using these APIs are not affected by this change and can use the
-       *  APIs until further notice.</p>
+       *  an exception if accessed. Activation needs preliminary approval by Product Management.
+       *  Please contact support in this case. Existing customers using these APIs are not
+       *  affected by this change and can use the APIs until further notice.</p>
        */
       class ShippingOrderHooks {
         /**
@@ -44111,7 +45180,7 @@ declare namespace dw {
        *  defined in your WSDL, the default service is the first service alphabetically. If the service
        *  has multiple ports defined, the default service uses the SOAP port name that is first alphabetically.
        */
-      defaultService: dw.rpc.Stub;
+      readonly defaultService: dw.rpc.Stub;
 
       constructor();
 
@@ -44142,19 +45211,19 @@ declare namespace dw {
       /**
        * The name of the file e.g. sitemap_index.xml
        */
-      fileName: string;
+      readonly fileName: string;
       /**
        * The size of the file in bytes.
        */
-      fileSize: number;
+      readonly fileSize: number;
       /**
        * The URL used to access this file in a storefront request.
        */
-      fileURL: string;
+      readonly fileURL: string;
       /**
        * The host name this file is associated with.
        */
-      hostName: string;
+      readonly hostName: string;
       /**
        * Checks if this instance of sitemap file is valid. Examples for invalid files are:
        *
@@ -44162,7 +45231,7 @@ declare namespace dw {
        *
        *  Additional violations might be added later.
        */
-      valid: boolean;
+      readonly valid: boolean;
 
       /**
        * Returns the name of the file e.g. sitemap_index.xml
@@ -44223,7 +45292,10 @@ declare namespace dw {
        *  Hostname 1 => [SitemapFile hostname1_sitemapfile1, SitemapFile hostname1_sitemapfile2]
        *  Hostname 2 => [SitemapFile hostname2_sitemapfile1]
        */
-      static customSitemapFiles: dw.util.Map<string, dw.sitemap.SitemapFile>;
+      static readonly customSitemapFiles: dw.util.Map<
+        string,
+        dw.sitemap.SitemapFile
+      >;
 
       /**
        * Adds the given File to the appservers custom sitemap directory. All content of the appservers
@@ -44310,7 +45382,7 @@ declare namespace dw {
        *  using the suggested terms as search criteria.
        *  The category lookup is being executed in the current catalog and locale.
        */
-      suggestedCategories: dw.util.Iterator<dw.catalog.Category>;
+      readonly suggestedCategories: dw.util.Iterator<dw.catalog.Category>;
 
       /**
        * This method returns a list of categories which were found
@@ -44338,7 +45410,7 @@ declare namespace dw {
        *  using the suggested terms as search criteria.
        *  The content lookup is being executed in the current library and locale.
        */
-      suggestedContent: dw.util.Iterator<dw.content.Content>;
+      readonly suggestedContent: dw.util.Iterator<dw.content.Content>;
 
       /**
        * This method returns a list of content pages which were found
@@ -44380,7 +45452,7 @@ declare namespace dw {
        *  using the suggested terms as search criteria.
        *  The product lookup is being executed in the current catalog and locale.
        */
-      suggestedProducts: dw.util.Iterator<dw.catalog.Product>;
+      readonly suggestedProducts: dw.util.Iterator<dw.catalog.Product>;
 
       /**
        * This method returns a list of products which were found
@@ -44403,13 +45475,13 @@ declare namespace dw {
        * A list of SuggestedPhrase objects that relates to the
        *  user input search phrase.
        */
-      suggestedPhrases: dw.util.Iterator<dw.suggest.SuggestedPhrase>;
+      readonly suggestedPhrases: dw.util.Iterator<dw.suggest.SuggestedPhrase>;
       /**
        * A list of SuggestedTerms objects. Each of the returned
        *  instances represents a set of terms suggested for a particular single term
        *  of the user input search phrase.
        */
-      suggestedTerms: dw.util.Iterator<dw.suggest.SuggestedTerms>;
+      readonly suggestedTerms: dw.util.Iterator<dw.suggest.SuggestedTerms>;
 
       /**
        * Returns a list of SuggestedPhrase objects that relates to the
@@ -44487,26 +45559,26 @@ declare namespace dw {
        *  The BrandSuggestions container provides access to the found brands (if any) and
        *  the terms suggested by the system with respect to the known product brands in the catalog.
        */
-      brandSuggestions: dw.suggest.BrandSuggestions;
+      readonly brandSuggestions: dw.suggest.BrandSuggestions;
       /**
        * A CategorySuggestions container for the current search phrase.
        *  The CategorySuggestions container provides access to the found categories (if any) and
        *  the terms suggested by the system with respect to the known categories in the catalog.
        */
-      categorySuggestions: dw.suggest.CategorySuggestions;
+      readonly categorySuggestions: dw.suggest.CategorySuggestions;
       /**
        * A ContentSuggestions container for the current search phrase.
        *  The ContentSuggestions container provides access to the found content pages (if any) and
        *  the terms suggested by the system with respect to the known content in the library.
        */
-      contentSuggestions: dw.suggest.ContentSuggestions;
+      readonly contentSuggestions: dw.suggest.ContentSuggestions;
       /**
        * A CustomSuggestions container for the current search phrase.
        *  The CustomSuggestions container provides access to matching
        *  custom phrases (if any) and the terms suggested
        *  by the system with respect to the merchant provided custom phrases.
        */
-      customSuggestions: dw.suggest.CustomSuggestions;
+      readonly customSuggestions: dw.suggest.CustomSuggestions;
       /**
        * The method returns true, if the search suggestions are filtered by the folder. If this returns true it is not
        *  possible for search suggestions to contain Page Designer content as it belongs to no folder.
@@ -44519,20 +45591,24 @@ declare namespace dw {
        *  The search phrases are specific to the region (based on user's IP address),
        *  language (locale) and the user's browser type (agent).
        */
-      popularSearchPhrases: dw.util.Iterator<dw.suggest.SuggestedPhrase>;
+      readonly popularSearchPhrases: dw.util.Iterator<
+        dw.suggest.SuggestedPhrase
+      >;
       /**
        * A ProductSuggestions container for the current search phrase.
        *  The ProductSuggestions container provides access to the found products (if any) and
        *  the terms suggested by the system with respect to the known products in the catalog.
        */
-      productSuggestions: dw.suggest.ProductSuggestions;
+      readonly productSuggestions: dw.suggest.ProductSuggestions;
       /**
        * Use this method to obtain a list of personalized search phrases
        *  that the current user entered recently.
        *
        *  The user is being identified by the CQuotient tracking cookie.
        */
-      recentSearchPhrases: dw.util.Iterator<dw.suggest.SuggestedPhrase>;
+      readonly recentSearchPhrases: dw.util.Iterator<
+        dw.suggest.SuggestedPhrase
+      >;
 
       /**
        * Constructs a new SuggestModel.
@@ -44685,7 +45761,7 @@ declare namespace dw {
       /**
        * This method returns the actual Category object corresponding to this suggested category.
        */
-      category: dw.catalog.Category;
+      readonly category: dw.catalog.Category;
 
       /**
        * This method returns the actual Category object corresponding to this suggested category.
@@ -44703,7 +45779,7 @@ declare namespace dw {
       /**
        * This method returns the actual Content object corresponding to this suggested content.
        */
-      content: dw.content.Content;
+      readonly content: dw.content.Content;
 
       /**
        * This method returns the actual Content object corresponding to this suggested content.
@@ -44721,11 +45797,11 @@ declare namespace dw {
       /**
        * This method returns a flag signaling whether this phrase is a exact match.
        */
-      exactMatch: boolean;
+      readonly exactMatch: boolean;
       /**
        * This method returns the actual phrase as a string value.
        */
-      phrase: string;
+      readonly phrase: string;
 
       /**
        * This method returns the actual phrase as a string value.
@@ -44750,7 +45826,7 @@ declare namespace dw {
        * This method returns the actual ProductSearchHit object
        *  corresponding to this suggested product.
        */
-      productSearchHit: dw.catalog.ProductSearchHit;
+      readonly productSearchHit: dw.catalog.ProductSearchHit;
 
       /**
        * This method returns the actual ProductSearchHit object
@@ -44779,24 +45855,24 @@ declare namespace dw {
       /**
        * Returns whether this suggested term is a additional term that has no corresponding term in the original search phrase.
        */
-      additional: boolean;
+      readonly additional: boolean;
       /**
        * Returns whether this suggested term is a auto completed version of the original term.
        *  In other words, this method returns true if the original term is a prefix of this suggested term.
        */
-      completed: boolean;
+      readonly completed: boolean;
       /**
        * Returns whether this suggested term is a corrected version of the original term.
        */
-      corrected: boolean;
+      readonly corrected: boolean;
       /**
        * Returns whether this suggested term is exactly matching the original term.
        */
-      exactMatch: boolean;
+      readonly exactMatch: boolean;
       /**
        * Returns this suggested term as String value.
        */
-      value: string;
+      readonly value: string;
 
       /**
        * Returns this suggested term as String value.
@@ -44847,23 +45923,23 @@ declare namespace dw {
       /**
        * Returns true if this set of suggested terms is empty.
        */
-      empty: boolean;
+      readonly empty: boolean;
       /**
        * This method returns the suggested term which is considered best matching
        *  with the original term. See getTerms() for a note on ordering of
        *  suggested terms.
        */
-      firstTerm: dw.suggest.SuggestedTerm;
+      readonly firstTerm: dw.suggest.SuggestedTerm;
       /**
        * The original term of the user input, for which this instance
        *  provides a list of suggested terms. Suggested terms can either be corrected,
        *  or completed or exact matching.
        */
-      originalTerm: string;
+      readonly originalTerm: string;
       /**
        * The list of SuggestedTerms suggested for the original term.
        */
-      terms: dw.util.Iterator<dw.suggest.SuggestedTerms>;
+      readonly terms: dw.util.Iterator<dw.suggest.SuggestedTerms>;
 
       /**
        * This method returns the suggested term which is considered best matching
@@ -44909,18 +45985,18 @@ declare namespace dw {
        *  In contrast to the suggested items, the suggested phrases contains the corrected and
        *  completed versions of the original search phrase.
        */
-      searchPhraseSuggestions: dw.suggest.SearchPhraseSuggestions;
+      readonly searchPhraseSuggestions: dw.suggest.SearchPhraseSuggestions;
       /**
        * A list of SuggestedPhrase objects that relates to the
        *  user input search phrase.
        */
-      suggestedPhrases: dw.util.Iterator<dw.suggest.SuggestedPhrase>;
+      readonly suggestedPhrases: dw.util.Iterator<dw.suggest.SuggestedPhrase>;
       /**
        * A list of SuggestedTerms objects. Each of the returned
        *  instances represents a set of terms suggested for a particular single term
        *  of the user input search phrase.
        */
-      suggestedTerms: dw.util.Iterator<dw.suggest.SuggestedTerms>;
+      readonly suggestedTerms: dw.util.Iterator<dw.suggest.SuggestedTerms>;
 
       /**
        * Returns the suggested search phrases that are associated to this suggestions.
@@ -45009,7 +46085,7 @@ declare namespace dw {
        *
        *  This is either an FTPClient or SFTPClient, depending on the protocol.
        */
-      client: any;
+      readonly client: any;
 
       /**
        * Returns the underlying client object.
@@ -45121,7 +46197,7 @@ declare namespace dw {
       /**
        * The underlying HTTP client object.
        */
-      client: dw.net.HTTPClient;
+      readonly client: dw.net.HTTPClient;
       /**
        * The request body encoding to declare.
        */
@@ -45466,37 +46542,37 @@ declare namespace dw {
        * An error-specific code if applicable. For example, this is the HTTP response code for an
        *  HTTPService.
        */
-      error: number;
+      readonly error: number;
       /**
        * An error message on a non-OK status.
        */
-      errorMessage: string;
+      readonly errorMessage: string;
       /**
        * The status of whether the response is the result of a "mock" service call.
        */
-      mockResult: boolean;
+      readonly mockResult: boolean;
       /**
        * An extra error message on failure (if any).
        */
-      msg: string;
+      readonly msg: string;
       /**
        * The actual object returned by the service when the status is OK.
        */
-      object: any;
+      readonly object: any;
       /**
        * The status of whether the service call was successful.
        */
-      ok: boolean;
+      readonly ok: boolean;
       /**
        * The status. This is "OK" on success. Failure codes include "ERROR" and "SERVICE_UNAVAILABLE".
        *
        *  If the status is "SERVICE_UNAVAILABLE", then the unavailableReason is guaranteed to be non-null.
        */
-      status: string;
+      readonly status: string;
       /**
        * The reason the status is SERVICE_UNAVAILABLE.
        */
-      unavailableReason: string;
+      readonly unavailableReason: string;
 
       /**
        * Constructs a new result instance.
@@ -45620,7 +46696,7 @@ declare namespace dw {
       /**
        * The Service Configuration.
        */
-      configuration: dw.svc.ServiceConfig;
+      readonly configuration: dw.svc.ServiceConfig;
       /**
        * The ID of the currently associated Credential.
        */
@@ -45632,14 +46708,14 @@ declare namespace dw {
       /**
        * The property that stores the object returned by createRequest.
        */
-      requestData: any;
+      readonly requestData: any;
       /**
        * The property that stores the object returned by the service.
        *
        *  This property is only useful after the service call(Object...) completes, and is the same as the object
        *  inside the Result.
        */
-      response: any;
+      readonly response: any;
       /**
        * The status of whether this service will throw an error when encountering a problem.
        */
@@ -45815,7 +46891,7 @@ declare namespace dw {
        *  It is usually better to call Service.setURL(String) within createRequest(Service, Object...)
        *  because that allows you to modify the existing URL based on call parameters.
        */
-      URL: string;
+      readonly URL: string;
 
       /**
        * Creates a request object to be used when calling the service.
@@ -45917,23 +46993,25 @@ declare namespace dw {
     /**
      * Configuration object for Services.
      */
-    class ServiceConfig extends dw.object.ExtensibleObject {
+    class ServiceConfig extends dw.object.ExtensibleObject<
+      ServiceConfigCustomAttributes
+    > {
       /**
        * The related service credentials.
        */
-      credential: dw.svc.ServiceCredential;
+      readonly credential: dw.svc.ServiceCredential;
       /**
        * The unique Service ID.
        */
-      ID: string;
+      readonly ID: string;
       /**
        * The related service profile.
        */
-      profile: dw.svc.ServiceProfile;
+      readonly profile: dw.svc.ServiceProfile;
       /**
        * The type of the service, such as HTTP or SOAP.
        */
-      serviceType: string;
+      readonly serviceType: string;
 
       /**
        * Returns the related service credentials.
@@ -45973,19 +47051,19 @@ declare namespace dw {
       /**
        * The unique Credential ID.
        */
-      ID: string;
+      readonly ID: string;
       /**
        * The Password in plain text.
        */
-      password: string;
+      readonly password: string;
       /**
        * Return the URL.
        */
-      URL: string;
+      readonly URL: string;
       /**
        * The User ID.
        */
-      user: string;
+      readonly user: string;
 
       /**
        * Encrypts the password from this object with the given algorithm
@@ -46035,7 +47113,7 @@ declare namespace dw {
       /**
        * The Service Configuration stored in the database.
        */
-      configuration: dw.svc.ServiceConfig;
+      readonly configuration: dw.svc.ServiceConfig;
       /**
        * The status of whether mock mode is enabled for all instances of this definition.
        */
@@ -46043,7 +47121,7 @@ declare namespace dw {
       /**
        * The name of this service.
        */
-      serviceName: string;
+      readonly serviceName: string;
       /**
        * The status of whether the shared throwOnError flag is set.
        */
@@ -46144,31 +47222,33 @@ declare namespace dw {
     /**
      * Configuration object for Service Profiles.
      */
-    class ServiceProfile extends dw.object.ExtensibleObject {
+    class ServiceProfile extends dw.object.ExtensibleObject<
+      ServiceProfileCustomAttributes
+    > {
       /**
        * The maximum number of errors in an interval allowed by the circuit breaker.
        */
-      cbCalls: number;
+      readonly cbCalls: number;
       /**
        * The interval of the circuit breaker in milliseconds.
        */
-      cbMillis: number;
+      readonly cbMillis: number;
       /**
        * The unique Service ID.
        */
-      ID: string;
+      readonly ID: string;
       /**
        * The maximum number of calls in an interval allowed by the rate limiter.
        */
-      rateLimitCalls: number;
+      readonly rateLimitCalls: number;
       /**
        * The interval of the rate limiter in milliseconds.
        */
-      rateLimitMillis: number;
+      readonly rateLimitMillis: number;
       /**
        * The service call timeout in milliseconds.
        */
-      timeoutMillis: number;
+      readonly timeoutMillis: number;
 
       /**
        * Returns the maximum number of errors in an interval allowed by the circuit breaker.
@@ -46510,23 +47590,23 @@ declare namespace dw {
       /**
        * This method returns true if debug logging is enabled for this logging instance.
        */
-      debugEnabled: boolean;
+      readonly debugEnabled: boolean;
       /**
        * This method returns true if error logging is enabled for this logging instance.
        */
-      errorEnabled: boolean;
+      readonly errorEnabled: boolean;
       /**
        * This method returns true if information logging is enabled for this logging instance.
        */
-      infoEnabled: boolean;
+      readonly infoEnabled: boolean;
       /**
        * The Nested Diagnostic Context for this script call.
        */
-      static NDC: dw.system.LogNDC;
+      static readonly NDC: dw.system.LogNDC;
       /**
        * This method returns true if warning logging is enabled for this logging instance.
        */
-      warnEnabled: boolean;
+      readonly warnEnabled: boolean;
 
       /**
        * The method reports an debug level message. Arguments can be embedded into the message, e.g. like "Failure {0} in
@@ -46639,23 +47719,23 @@ declare namespace dw {
       /**
        * This method returns true if debug logging is enabled.
        */
-      debugEnabled: boolean;
+      readonly debugEnabled: boolean;
       /**
        * This method returns true if error logging is enabled.
        */
-      errorEnabled: boolean;
+      readonly errorEnabled: boolean;
       /**
        * This method returns true if info logging is enabled.
        */
-      infoEnabled: boolean;
+      readonly infoEnabled: boolean;
       /**
        * The root logger object.
        */
-      static rootLogger: dw.system.Log;
+      static readonly rootLogger: dw.system.Log;
       /**
        * This method returns true if warning logging is enabled.
        */
-      warnEnabled: boolean;
+      readonly warnEnabled: boolean;
 
       /**
        * The method reports an debug level message. Arguments can be embedded
@@ -46758,7 +47838,9 @@ declare namespace dw {
      *  &quot;Global Preferences&quot; module of the Business Manager, but these preferences
      *  are not accessible through this object.</p>
      */
-    class OrganizationPreferences extends dw.object.ExtensibleObject {}
+    class OrganizationPreferences extends dw.object.ExtensibleObject<
+      OrganizationPreferencesCustomAttributes
+    > {}
 
     /**
      * A helper for executing pipelines from JavaScript. The main purpose for this API is to invoke process pipelines from
@@ -46829,7 +47911,12 @@ declare namespace dw {
      *  <li>etc.</li>
      *  </ul>
      */
-    class PipelineDictionary {}
+    class PipelineDictionary {
+      /**
+       * Returns the attribute with this name
+       */
+      [name: string]: any;
+    }
 
     /**
      * Represents a request in Commerce Cloud Digital. Each pipeline dictionary contains a CurrentRequest object, which is of
@@ -46842,12 +47929,12 @@ declare namespace dw {
        * The client id of the current OCAPI request. If this is not an OCAPI request 'null' is returned. For
        *  client ids owned by Commerce Cloud Digital an alias is returned.
        */
-      clientId: string;
+      readonly clientId: string;
       /**
        * All of the custom attributes associated with the request. The attributes are stored for the life time of
        *  the request.
        */
-      custom: dw.object.CustomAttributes;
+      readonly custom: RequestCustomAttributes;
       /**
        * The physical location for the current request, if available. The
        *  location is calculated based on the IP address of the request. Note, if
@@ -46859,76 +47946,76 @@ declare namespace dw {
        * The Cookies object, which can be used to read cookies sent by the client. Use the method
        *  Response.addHttpCookie() to add a cookie to the outgoing response.
        */
-      httpCookies: dw.web.Cookies;
+      readonly httpCookies: dw.web.Cookies;
       /**
        * A Map containing all HTTP header values.
        */
-      httpHeaders: dw.util.Map<string, string>;
+      readonly httpHeaders: dw.util.Map<string, string>;
       /**
        * The host name or null if there is no host name.
        */
-      httpHost: string;
+      readonly httpHost: string;
       /**
        * The locale or null if there is no associated locale.
        */
-      httpLocale: string;
+      readonly httpLocale: string;
       /**
        * The name of the HTTP method with which this request was made, for example, GET, POST, or PUT.
        */
-      httpMethod: string;
+      readonly httpMethod: string;
       /**
        * The parameter map that contains the HTTP parameters for the current request.
        */
-      httpParameterMap: dw.web.HttpParameterMap;
+      readonly httpParameterMap: dw.web.HttpParameterMap;
       /**
        * A Map containing the raw HTTP parameters sent to the server. The Map contains name/value pairs. Each name
        *  is a String and each value is a String array.
        */
-      httpParameters: dw.util.Map<string, Array<string>>;
+      readonly httpParameters: dw.util.Map<string, Array<string>>;
       /**
        * The path.
        */
-      httpPath: string;
+      readonly httpPath: string;
       /**
        * The HTTP protocol used for this request. Possible values are "http" or "https". If the current activity
        *  is not related to an HTTP request, for example, when the request is part of a job, this method returns null.
        */
-      httpProtocol: string;
+      readonly httpProtocol: string;
       /**
        * The query string or null if there is no query string.
        */
-      httpQueryString: string;
+      readonly httpQueryString: string;
       /**
        * The referer or null if there is no referer.
        */
-      httpReferer: string;
+      readonly httpReferer: string;
       /**
        * The remote address or null if no remote address is found.
        */
-      httpRemoteAddress: string;
+      readonly httpRemoteAddress: string;
       /**
        * Identifies if this request is an HTTP request. The method returns true, if the current processing is related to a
        *  HTTP request. For example during a job execution this flag is false.
        */
-      httpRequest: boolean;
+      readonly httpRequest: boolean;
       /**
        * Returns whether the HTTP communication is secure, which basically means that the communication happens via https.
        *  If the current activity is not related to an HTTP request the method returns false.
        */
-      httpSecure: boolean;
+      readonly httpSecure: boolean;
       /**
        * The complete URL of the request which was received at the server.
        *  This URL does not include SEO optimizations.
        */
-      httpURL: dw.web.URL;
+      readonly httpURL: dw.web.URL;
       /**
        * The HTTP user agent or null if there is no user agent.
        */
-      httpUserAgent: string;
+      readonly httpUserAgent: string;
       /**
        * Returns true if the request represents a request for a remote include, false if it is a top-level request.
        */
-      includeRequest: boolean;
+      readonly includeRequest: boolean;
       /**
        * The locale of the current request. This locale is set by the system based on the information in the URL.
        *  It may be different from the locale returned by getHttpLocale(), which is the preferred locale sent by the user agent.
@@ -46938,28 +48025,28 @@ declare namespace dw {
        * The OCAPI version of the current request. If this is not
        *  an OCAPI request, 'null' is returned.
        */
-      ocapiVersion: string;
+      readonly ocapiVersion: string;
       /**
        * The page meta data that are associated with the current request.
        */
-      pageMetaData: dw.web.PageMetaData;
+      readonly pageMetaData: dw.web.PageMetaData;
       /**
        * The unique identifier of the current request. The unique id is helpful for debugging purpose, e.g. relate
        *  debug messages to a particular request.
        */
-      requestID: string;
+      readonly requestID: string;
       /**
        * The session associated with this request.
        */
-      session: dw.system.Session;
+      readonly session: dw.system.Session;
       /**
        * The form that was submitted by the client if the request represents a form submission.
        */
-      triggeredForm: dw.web.Form;
+      readonly triggeredForm: dw.web.Form;
       /**
        * The form action that was triggered by the client if the request represents a form submission.
        */
-      triggeredFormAction: dw.web.FormAction;
+      readonly triggeredFormAction: dw.web.FormAction;
 
       /**
        * Adds the specified cookie to the outgoing response. This method can be called multiple times to set more than one
@@ -46990,7 +48077,7 @@ declare namespace dw {
        *
        * @return all of the custom attributes associated with the request.
        */
-      getCustom(): dw.object.CustomAttributes;
+      getCustom(): RequestCustomAttributes;
       /**
        * Returns the physical location for the current request, if available. The
        *  location is calculated based on the IP address of the request. Note, if
@@ -47270,9 +48357,19 @@ declare namespace dw {
        */
       static readonly CONTENT_MD5 = "Content-MD5";
       /**
-       * An allowed header name constant for Content-Security-Policy
+       * An allowed header name constant for Content-Security-Policy.
+       *
+       *  The only directive allowed is "frame-ancestors". Note: The Commerce Cloud platform can override this
+       *  header for tools like the Storefront Toolkit.
        */
       static readonly CONTENT_SECURITY_POLICY = "Content-Security-Policy";
+      /**
+       * An allowed header name constant for Content-Security-Policy-Report-Only.
+       *
+       *  You can set this response header only for storefront requests. Report recipient can't be a B2C Commerce system.
+       */
+      static readonly CONTENT_SECURITY_POLICY_REPORT_ONLY =
+        "Content-Security-Policy-Report-Only";
       /**
        * An allowed header name constant for Content-Type
        */
@@ -47306,7 +48403,9 @@ declare namespace dw {
        */
       static readonly X_CONTENT_TYPE_OPTIONS = "X-Content-Type-Options";
       /**
-       * An allowed header name constant for X-FRAME-OPTIONS
+       * An allowed header name constant for X-FRAME-OPTIONS.
+       *
+       *  Note: The Commerce Cloud platform can override this header for tools like the Storefront Toolkit.
        */
       static readonly X_FRAME_OPTIONS = "X-FRAME-OPTIONS";
       /**
@@ -47333,7 +48432,7 @@ declare namespace dw {
       /**
        * A print writer which can be used to print content directly to the response.
        */
-      writer: dw.io.PrintWriter;
+      readonly writer: dw.io.PrintWriter;
 
       /**
        * Adds the specified cookie to the outgoing response. This method can be called multiple times to set more than one
@@ -47533,7 +48632,7 @@ declare namespace dw {
       /**
        * The current click stream if this is an HTTP session, null otherwise.
        */
-      clickStream: dw.web.ClickStream;
+      readonly clickStream: dw.web.ClickStream;
       /**
        * Get the currency associated with the current session. The session
        *  currency is established at session construction time and is typically
@@ -47546,7 +48645,7 @@ declare namespace dw {
        *  attributes are stored for the lifetime of the session and are not
        *  cleared when the customer logs out.
        */
-      custom: dw.object.CustomAttributes;
+      readonly custom: SessionCustomAttributes;
       /**
        * The customer associated with this storefront session. The method
        *  always returns null if called for a non-storefront session
@@ -47555,43 +48654,43 @@ declare namespace dw {
        *  may be anonymous if the customer could not be identified via the
        *  customer cookie.
        */
-      customer: dw.customer.Customer;
+      readonly customer: dw.customer.Customer;
       /**
        * Identifies whether the customer associated with this session
        *  is authenticated. This call is equivalent to customer.isAuthenticated().
        */
-      customerAuthenticated: boolean;
+      readonly customerAuthenticated: boolean;
       /**
        * Identifies whether the customer associated with this session
        *  is externally authenticated.
        */
-      customerExternallyAuthenticated: boolean;
+      readonly customerExternallyAuthenticated: boolean;
       /**
        * The forms object that provides access to all current forms of a customer in the session.
        */
-      forms: dw.web.Forms;
+      readonly forms: dw.web.Forms;
       /**
        * Returns information on the last source code handled by the session.
        *  This may or may not be the session's active source code, e.g., the
        *  last received source code was inactive and therefore was not
        *  set as the session's active source code.
        */
-      lastReceivedSourceCodeInfo: dw.campaign.SourceCodeInfo;
+      readonly lastReceivedSourceCodeInfo: dw.campaign.SourceCodeInfo;
       /**
        * The session's custom privacy attributes.
        *  The attributes are stored for the lifetime of the session and are
        *  automatically cleared when the customer logs out.
        */
-      privacy: dw.object.CustomAttributes;
+      readonly privacy: dw.object.CustomAttributes;
       /**
        * The unique session id. This can safely be used as an identifier
        *  against external systems.
        */
-      sessionID: string;
+      readonly sessionID: string;
       /**
        * Returns information on the session's active source-code.
        */
-      sourceCodeInfo: dw.campaign.SourceCodeInfo;
+      readonly sourceCodeInfo: dw.campaign.SourceCodeInfo;
       /**
        * Returns whether the tracking allowed flag is set in the session.
        *  The value for newly created sessions defaults to the Site Preference "TrackingAllowed" unless
@@ -47602,14 +48701,14 @@ declare namespace dw {
        * Identifies whether the agent user associated with this session
        *  is authenticated.
        */
-      userAuthenticated: boolean;
+      readonly userAuthenticated: boolean;
       /**
        * The current agent user name associated with this session.
        *
        *  Note: this class allows access to sensitive security-related data.
        *  Pay special attention to PCI DSS v3 requirements 2, 4, and 12.
        */
-      userName: string;
+      readonly userName: string;
 
       /**
        * Returns the current click stream if this is an HTTP session, null otherwise.
@@ -47633,7 +48732,7 @@ declare namespace dw {
        *
        * @return the session's custom attributes.
        */
-      getCustom(): dw.object.CustomAttributes;
+      getCustom(): SessionCustomAttributes;
       /**
        * Returns the customer associated with this storefront session. The method
        *  always returns null if called for a non-storefront session
@@ -47770,94 +48869,94 @@ declare namespace dw {
        * The allowed currencies of the current site as a collection of
        *  currency codes.
        */
-      allowedCurrencies: dw.util.List<string>;
+      readonly allowedCurrencies: dw.util.List<string>;
       /**
        * The allowed locales of the current site as a collection of
        *  locale ID's.
        */
-      allowedLocales: dw.util.List<string>;
+      readonly allowedLocales: dw.util.List<string>;
       /**
        * All sites.
        */
-      static allSites: dw.util.List<dw.system.Site>;
+      static readonly allSites: dw.util.List<dw.system.Site>;
       /**
        * A new Calendar object in the time zone of the
        *  current site.
        */
-      static calendar: dw.util.Calendar;
+      static readonly calendar: dw.util.Calendar;
       /**
        * The default currency code for the current site.
        */
-      currencyCode: string;
+      readonly currencyCode: string;
       /**
        * The current site.
        */
-      static current: dw.system.Site;
+      static readonly current: dw.system.Site;
       /**
        * The default currency code for the current site.
        */
-      defaultCurrency: string;
+      readonly defaultCurrency: string;
       /**
        * Return default locale for the site.
        */
-      defaultLocale: string;
+      readonly defaultLocale: string;
       /**
        * The Einstein site Id. Typically this is a concatenation of the realm, underscore character and the site id.
        *  It can be overwritten by support users to help with realm moves to continue using the Einstein data from the old realm.
        *  Used when making calls to the Einstein APIs.
        */
-      einsteinSiteID: string;
+      readonly einsteinSiteID: string;
       /**
        * The configured HTTP host name. If no host name
        *  is configured the method returns the instance hostname.
        */
-      httpHostName: string;
+      readonly httpHostName: string;
       /**
        * The configured HTTPS host name. If no host name
        *  is configured the method returns the HTTP host name or the instance hostname, if
        *  that is not configured as well.
        */
-      httpsHostName: string;
+      readonly httpsHostName: string;
       /**
        * The ID of the site.
        */
-      ID: string;
+      readonly ID: string;
       /**
        * A descriptive name for the site.
        */
-      name: string;
+      readonly name: string;
       /**
        * Whether oms is active in the current site. This depends on a general
        *  property which states whether oms is active for the server,
        *  and a site-dependent preference whether oms is available for the current site.
        */
-      OMSEnabled: boolean;
+      readonly OMSEnabled: boolean;
       /**
        * All page meta tags, defined for this instance for which content can be generated.
        *
        *  The meta tag content is generated based on the home page meta tag context and rules.
        *  The rules are obtained from the current repository domain.
        */
-      pageMetaTags: Array<dw.web.PageMetaTag>;
+      readonly pageMetaTags: Array<dw.web.PageMetaTag>;
       /**
        * This method returns a container of all site preferences of this site.
        */
-      preferences: dw.system.SitePreferences;
+      readonly preferences: dw.system.SitePreferences;
       /**
        * The status of this site.
        *
        *  Possible values are SITE_STATUS_ONLINE, SITE_STATUS_MAINTENANCE, SITE_STATUS_PROTECTED
        */
-      status: number;
+      readonly status: number;
       /**
        * The code for the time zone in which the storefront is
        *  running.
        */
-      timezone: string;
+      readonly timezone: string;
       /**
        * Returns time zone offset in which the storefront is running.
        */
-      timezoneOffset: number;
+      readonly timezoneOffset: number;
 
       /**
        * Returns the allowed currencies of the current site as a collection of
@@ -48052,12 +49151,14 @@ declare namespace dw {
      *  not accessible through this object. (SourceCodeURLParameterName is the one
      *  exception to this rule.)</p>
      */
-    class SitePreferences extends dw.object.ExtensibleObject {
+    class SitePreferences extends dw.object.ExtensibleObject<
+      SitePreferencesCustomAttributes
+    > {
       /**
        * The name of the source code url paremeter configured for the
        *  site.
        */
-      sourceCodeURLParameterName: string;
+      readonly sourceCodeURLParameterName: string;
 
       /**
        * Returns the name of the source code url paremeter configured for the
@@ -48084,17 +49185,17 @@ declare namespace dw {
        *  client programs to check for a specific status and to generate a localized
        *  message.
        */
-      code: string;
+      readonly code: string;
       /**
        * The details either of the first ERROR StatusItem or when there
        *  is no ERROR StatusItem, the first StatusItem in the overall list.
        */
-      details: dw.util.Map<string, string>;
+      readonly details: dw.util.Map<string, string>;
       /**
        * Checks if the status is an ERROR. The Status is an ERROR if one of the
        *  contained StatusItems is an ERROR.
        */
-      error: boolean;
+      readonly error: boolean;
       /**
        * status value to indicate an ERROR status
        */
@@ -48102,7 +49203,7 @@ declare namespace dw {
       /**
        * All status items.
        */
-      items: dw.util.List<dw.system.StatusItem>;
+      readonly items: dw.util.List<dw.system.StatusItem>;
       /**
        * The message either of the first ERROR StatusItem or when there
        *  is no ERROR StatusItem, the first StatusItem in the overall list.
@@ -48111,7 +49212,7 @@ declare namespace dw {
        *  a specific status. The getCode() must be used for that purpose. The actual
        *  message can change from release to release.
        */
-      message: string;
+      readonly message: string;
       /**
        * status value to indicate an OK status
        */
@@ -48120,12 +49221,12 @@ declare namespace dw {
        * The parameters either of the first ERROR StatusItem or when there
        *  is no ERROR StatusItem, the first StatusItem in the overall list.
        */
-      parameters: dw.util.List<string>;
+      readonly parameters: dw.util.List<string>;
       /**
        * The overall status. If all StatusItems are OK, the method returns
        *  OK. If one StatusItem is an ERROR it returns ERROR.
        */
-      status: number;
+      readonly status: number;
 
       /**
        * Creates a Status object with no StatusItems.
@@ -48252,11 +49353,11 @@ declare namespace dw {
       /**
        * The optional details for this StatusItem.
        */
-      details: dw.util.Map<string, string>;
+      readonly details: dw.util.Map<string, string>;
       /**
        * Returns whether this Status Item represents and error.
        */
-      error: boolean;
+      readonly error: boolean;
       /**
        * The default human readable message for this Status.
        *
@@ -48399,34 +49500,34 @@ declare namespace dw {
        * A new Calendar object in the time zone of the
        *  current instance.
        */
-      static calendar: dw.util.Calendar;
+      static readonly calendar: dw.util.Calendar;
       /**
        * The compatibility mode of the custom code version that is currently active. The compatibility mode is
        *  returned as a number, e.g. compatibility mode "15.5" is returned as 1505.
        */
-      static compatibilityMode: number;
+      static readonly compatibilityMode: number;
       /**
        * Returns instance hostname.
        */
-      static instanceHostname: string;
+      static readonly instanceHostname: string;
       /**
        * The instance time zone. The instance time zone is the time zone in which global actions like jobs or
        *  reporting are specified in the system. Keep in mind that the instance time zone is cached at the current session.
        *  Changes will affect only new sessions.
        */
-      static instanceTimeZone: string;
+      static readonly instanceTimeZone: string;
       /**
        * The type of the instance. An application server instance is configured to be of one of three types,
        *  "development system", "staging system" or "production system".
        *  This method returns a constant representing the instance type of this
        *  application server.
        */
-      static instanceType: number;
+      static readonly instanceType: number;
       /**
        * This method returns a container of all global preferences of this
        *  organization (instance).
        */
-      static preferences: dw.system.OrganizationPreferences;
+      static readonly preferences: dw.system.OrganizationPreferences;
 
       /**
        * Returns a new Calendar object in the time zone of the
@@ -49031,7 +50132,7 @@ declare namespace dw {
       /**
        * The number of bytes represented by this object.
        */
-      length: number;
+      readonly length: number;
 
       /**
        * Construct a Bytes object from the given string using the default
@@ -49614,12 +50715,12 @@ declare namespace dw {
       /**
        * Returns true if the collection is empty.
        */
-      empty: boolean;
+      readonly empty: boolean;
       /**
        * The length of the collection. This is similar to
        *  to a ECMA array of 'products.length'.
        */
-      length: number;
+      readonly length: number;
 
       /**
        * Adds the specified objects to the collection. The method can also
@@ -49733,24 +50834,24 @@ declare namespace dw {
       /**
        * Gets the ISO 4217 mnemonic currency code of this currency.
        */
-      currencyCode: string;
+      readonly currencyCode: string;
       /**
        * Gets the default number of fraction digits used with this currency.
        *  For example, the default number of fraction digits for the Euro is 2,
        *  while for the Japanese Yen it's 0.
        */
-      defaultFractionDigits: number;
+      readonly defaultFractionDigits: number;
       /**
        * Gets a long name for this currency. e.g. "United States Dollar".
        *  The returned name is the one stored in the system for this currency.
        *  Currently only English names are available, but in the future
        *  this method may return a locale-specific name.
        */
-      name: string;
+      readonly name: string;
       /**
        * Gets the symbol of this currency. e.g. "$" for the US Dollar.
        */
-      symbol: string;
+      readonly symbol: string;
 
       /**
        * Returns a Currency instance for the given currency code,
@@ -50098,47 +51199,47 @@ declare namespace dw {
        * Returns 'true' if a valid GeoLocation was found for the IP address
        *  (meaning at least Latitude and Longitude were found), false otherwise.
        */
-      available: boolean;
+      readonly available: boolean;
       /**
        * Get the city name in English associated with this location.
        */
-      city: string;
+      readonly city: string;
       /**
        * Get the ISO country code associated with this location.
        */
-      countryCode: string;
+      readonly countryCode: string;
       /**
        * Get the country name in English that the system associates with this location on the
        *  earth.
        */
-      countryName: string;
+      readonly countryName: string;
       /**
        * Get the latitude coordinate associated with this location which is a
        *  number between -90.0 and +90.0.
        */
-      latitude: number;
+      readonly latitude: number;
       /**
        * Get the longitude coordinate associated with this location which is a
        *  number between -180.0 and +180.0.
        */
-      longitude: number;
+      readonly longitude: number;
       /**
        * Get the metro code associated with this location.
        */
-      metroCode: string;
+      readonly metroCode: string;
       /**
        * Get the postal code associated with this location.
        */
-      postalCode: string;
+      readonly postalCode: string;
       /**
        * Get the region (e.g. province or state) code for this location.
        */
-      regionCode: string;
+      readonly regionCode: string;
       /**
        * Get the region (e.g. province in state) name in English that the system
        *  associates with this location.
        */
-      regionName: string;
+      readonly regionName: string;
 
       /**
        * Constructor for a Geolocation object
@@ -50562,7 +51663,7 @@ declare namespace dw {
        * The country/region code for this Locale, which will
        *  either be the empty string or an upercase ISO 3166 2-letter code.
        */
-      country: string;
+      readonly country: string;
       /**
        * A name for the Locale's country that is appropriate for
        *  display to the user, or an empty string if no country has been specified
@@ -50570,7 +51671,7 @@ declare namespace dw {
        *  The display country is returned in the language defined for this locale,
        *  and not in the language of the session locale.
        */
-      displayCountry: string;
+      readonly displayCountry: string;
       /**
        * A name for the Locale's language that is appropriate for
        *  display to the user, or an empty string if no language has been specified
@@ -50578,7 +51679,7 @@ declare namespace dw {
        *  The display language is returned in the language defined for this locale,
        *  and not in the language of the session locale.
        */
-      displayLanguage: string;
+      readonly displayLanguage: string;
       /**
        * A name for the Locale that is appropriate for
        *  display to the user, or an empty string if no display name has been
@@ -50586,7 +51687,7 @@ declare namespace dw {
        *  The display name is returned in the language defined for this locale,
        *  and not in the language of the session locale.
        */
-      displayName: string;
+      readonly displayName: string;
       /**
        * The String representation of the 'localeID'.
        *
@@ -50595,24 +51696,24 @@ declare namespace dw {
        *  language and the country key, concatenated by "_", e.g. "en_US". This
        *  attribute is the primary key of the class.
        */
-      ID: string;
+      readonly ID: string;
       /**
        * A three-letter abbreviation for this Locale's country, or an
        *  empty string if no country has been specified for the Locale
        *  .
        */
-      ISO3Country: string;
+      readonly ISO3Country: string;
       /**
        * A three-letter abbreviation for this Locale's language, or an
        *  empty string if no language has been specified for the
        *  Locale.
        */
-      ISO3Language: string;
+      readonly ISO3Language: string;
       /**
        * The language code for this Locale, which will either
        *  be the empty string or a lowercase ISO 639 code.
        */
-      language: string;
+      readonly language: string;
 
       /**
        * Returns the country/region code for this Locale, which will
@@ -50711,7 +51812,7 @@ declare namespace dw {
       /**
        * Identifies if this map is empty.
        */
-      empty: boolean;
+      readonly empty: boolean;
       /**
        * Convenience variable, for an empty and immutable list.
        */
@@ -50721,7 +51822,7 @@ declare namespace dw {
        *  supports the access to the collections
        *  length similar to a ECMA array, such as 'products.length'.
        */
-      length: number;
+      readonly length: number;
       /**
        * Returns the value associated with the key or null
        */
@@ -50819,11 +51920,11 @@ declare namespace dw {
       /**
        * The entry's key.
        */
-      key: K;
+      readonly key: K;
       /**
        * The entry's value.
        */
-      value: V;
+      readonly value: V;
 
       /**
        * Returns the entry's key.
@@ -50848,12 +51949,12 @@ declare namespace dw {
        * Gets the (possible compound) key. If the key consists of only of a single value, the string array
        *  will simply contain a single element.
        */
-      keyComponents: string;
+      readonly keyComponents: string;
       /**
        * Gets a key that contains only a single key component (i.e. that is not a compound key). Returns null if this is
        *  not a single component key.
        */
-      singleComponentKey: string;
+      readonly singleComponentKey: string;
 
       /**
        * Instantiates a new key using compound key components. A key can consist of a single string (e.g. product id) or
@@ -50895,7 +51996,7 @@ declare namespace dw {
       /**
        * List all known mappings.
        */
-      static mappingNames: dw.util.Collection<string>;
+      static readonly mappingNames: dw.util.Collection<string>;
 
       /**
        * Returns a map containing value(s) associated to the specified key for the specified mapping.
@@ -51686,7 +52787,7 @@ declare namespace dw {
        * The total element count for this iterator. The
        *  method returns -1, if the total count is not known.
        */
-      count: number;
+      readonly count: number;
 
       /**
        * Closes all system resources associated with this iterator.
@@ -51858,7 +52959,7 @@ declare namespace dw {
        *  and a value in between like 0 if both are equal.
        * @param comparator an instance of a PropertyComparator or a comparison function
        */
-      constructor(comparator: T);
+      constructor(comparator: dw.util.PropertyComparator);
       /**
        * Constructor for a new SortedSet. The constructor
        *  initializes the SortedSet with the elements of the
@@ -52309,12 +53410,12 @@ declare namespace dw {
        * The display value of the enumeration value. If no display value
        *  is configured the method return the string representation of the value.
        */
-      displayValue: string;
+      readonly displayValue: string;
       /**
        * The value of the enumeration value. This is either an integer
        *  value or a string.
        */
-      value: any;
+      readonly value: any;
 
       /**
        * Returns the display value of the enumeration value. If no display value
@@ -52349,17 +53450,17 @@ declare namespace dw {
        * The encoding of the text. Encoding is set at creation time and
        *  can't be changed afterwards
        */
-      encoding: string;
+      readonly encoding: string;
       /**
        * The mime type of the text. Mime type is set at creation time and
        *  can't be changed afterwards.
        */
-      mimeType: string;
+      readonly mimeType: string;
       /**
        * The text. Text is set at creation time and can't be changed
        *  afterwards.
        */
-      text: string;
+      readonly text: string;
 
       /**
        * Creates a new MimeEncodedText with explicit values for mime type and
@@ -52411,7 +53512,7 @@ declare namespace dw {
       /**
        * Identifies if the instance contains settings for value and currency.
        */
-      available: boolean;
+      readonly available: boolean;
       /**
        * The ISO 4217 currency mnemonic (such as 'USD', 'EUR') of the currency the
        *  money value relates to.
@@ -52419,20 +53520,20 @@ declare namespace dw {
        *  Note a money instance may also describe a price that is 'not available'.
        *  In this case the value of this attribute is N/A.
        */
-      currencyCode: string;
+      readonly currencyCode: string;
       /**
        * The money as Decimal, null is returned when the money is not available.
        */
-      decimalValue: dw.util.Decimal;
+      readonly decimalValue: dw.util.Decimal;
       /**
        * The value of the money instance.
        */
-      value: number;
+      readonly value: number;
       /**
        * Return the value of the money instance or null if the
        *  Money instance is NOT_AVAILABLE.
        */
-      valueOrNull: number;
+      readonly valueOrNull: number;
 
       /**
        * Constructs a new money instance with the specified amount for the specified
@@ -52652,21 +53753,21 @@ declare namespace dw {
       /**
        * Identifies if the instance contains settings for value and unit.
        */
-      available: boolean;
+      readonly available: boolean;
       /**
        * The quantity as Decimal, null is returned when the quantity is not available.
        */
-      decimalValue: dw.util.Decimal;
+      readonly decimalValue: dw.util.Decimal;
       /**
        * The value for unit which identifies the
        *  unit of measure for the quantity. Examples of unit
        *  are 'inches' or 'pounds'.
        */
-      unit: string;
+      readonly unit: string;
       /**
        * The quantity value.
        */
-      value: number;
+      readonly value: number;
 
       /**
        * Creates a new quantity instance with the specified value and unit.
@@ -52807,7 +53908,7 @@ declare namespace dw {
        * The system generated CSRF token name. Currently, this name is not user configurable. Must be used for
        *  validateRequest() to work
        */
-      static tokenName: string;
+      static readonly tokenName: string;
 
       /**
        * Constructs a new unique CSRF token for this session.
@@ -52848,7 +53949,7 @@ declare namespace dw {
        *  the click stream, which makes it safe to work with the click stream,
        *  while it might be modified.
        */
-      clicks: dw.util.List<dw.web.ClickStreamEntry>;
+      readonly clicks: dw.util.List<dw.web.ClickStreamEntry>;
       /**
        * Identifies if the clickstream recording is enabled or not.
        *  It is considered enabled if either:
@@ -52858,25 +53959,25 @@ declare namespace dw {
        *  When clickstream tracking is not enabled the getFirst method still operates as expected
        *  but the rest of the clicks are not collected.
        */
-      enabled: boolean;
+      readonly enabled: boolean;
       /**
        * The first click within this session. This first click
        *  is stored independent of whether entries are purged.
        */
-      first: dw.web.ClickStreamEntry;
+      readonly first: dw.web.ClickStreamEntry;
       /**
        * The last recorded click stream, which is also typically
        *  the current click. In where rare cases (e.g. RedirectURL pipeline) this
        *  is not the current click, but instead the last recorded click.
        */
-      last: dw.web.ClickStreamEntry;
+      readonly last: dw.web.ClickStreamEntry;
       /**
        * Identifies if this is only a partial click stream. If the maximum number
        *  of clicks (50) is recorded, the oldest entry is automatically purged with
        *  each additional click. In this case, this flag indicates that the click
        *  stream is only partial.
        */
-      partial: boolean;
+      readonly partial: boolean;
 
       /**
        * Returns a collection with all clicks. The first entry is the oldest
@@ -52932,15 +54033,15 @@ declare namespace dw {
       /**
        * The host.
        */
-      host: string;
+      readonly host: string;
       /**
        * The locale sent from the user agent.
        */
-      locale: string;
+      readonly locale: string;
       /**
        * The path.
        */
-      path: string;
+      readonly path: string;
       /**
        * The name of the called pipeline. In most cases the
        *  name can be derived from the path, but not in all cases. If with
@@ -52948,32 +54049,32 @@ declare namespace dw {
        *  the system internally might use a specific pipeline associated with
        *  this landing page.
        */
-      pipelineName: string;
+      readonly pipelineName: string;
       /**
        * The query string.
        */
-      queryString: string;
+      readonly queryString: string;
       /**
        * The referer.
        */
-      referer: string;
+      readonly referer: string;
       /**
        * The remote address.
        */
-      remoteAddress: string;
+      readonly remoteAddress: string;
       /**
        * The entry's timestamp.
        */
-      timestamp: number;
+      readonly timestamp: number;
       /**
        * The full URL for this click. The URL is returned as relative
        *  URL.
        */
-      url: string;
+      readonly url: string;
       /**
        * The user agent.
        */
-      userAgent: string;
+      readonly userAgent: string;
 
       /**
        * Returns the host.
@@ -53088,7 +54189,7 @@ declare namespace dw {
       /**
        * The cookie's name.
        */
-      name: string;
+      readonly name: string;
       /**
        * The path for the cookie.
        */
@@ -53239,7 +54340,7 @@ declare namespace dw {
       /**
        * The number of known cookies.
        */
-      cookieCount: number;
+      readonly cookieCount: number;
       /**
        * Returns the dw.web.Cookie with this name or null
        */
@@ -53261,12 +54362,16 @@ declare namespace dw {
        * The secure key html name to be used for the hidden input field
        *  that will contain the secure key value.
        */
-      secureKeyHtmlName: string;
+      readonly secureKeyHtmlName: string;
       /**
        * The secure key value that is generated for the form to use
        *  in a hidden input field for authentication.
        */
-      secureKeyValue: string;
+      readonly secureKeyValue: string;
+      /**
+       * Returns the Form element with this name.
+       */
+      readonly [name: string]: dw.web.FormElement | any;
 
       /**
        * Returns the secure key html name to be used for the hidden input field
@@ -53292,38 +54397,38 @@ declare namespace dw {
        * The optional description for the action. The description could be used
        *  as tooltip for the action.
        */
-      description: string;
+      readonly description: string;
       /**
        * The optional label for the action. The label would be typically used
        *  as button text.
        */
-      label: string;
+      readonly label: string;
       /**
        * The object that was bound to the form in which the action
        *  is contained. The method is a convenience method for getParent().getObject().
        *  In most cases this is actually the object for which
        *  the specific action is triggered.
        */
-      object: any;
+      readonly object: any;
       /**
        * Identifies if the form action was submitted from
        *  the client to the server.
        */
-      submitted: boolean;
+      readonly submitted: boolean;
       /**
        * Identifies that this action is triggerd. An
        *  action is only triggered if it was submitted and the constraints, regarding
        *  a valid form, are met.
        */
-      triggered: boolean;
+      readonly triggered: boolean;
       /**
        * In case of an image button, returns the x coordinate of the last click.
        */
-      x: number;
+      readonly x: number;
       /**
        * In case of an image button, returns the y coordinate of the last click.
        */
-      y: number;
+      readonly y: number;
 
       /**
        * Returns the optional description for the action. The description could be used
@@ -53386,33 +54491,33 @@ declare namespace dw {
        *  support from a browser, e.g. for credit card related fields. It can be also
        *  used for a unique form name, if one form is used multiple times in a page.
        */
-      dynamicHtmlName: string;
+      readonly dynamicHtmlName: string;
       /**
        * The ID of the form element. The is is unique within the parent
        *  element of the form.
        */
-      formId: string;
+      readonly formId: string;
       /**
        * The global unique name of the field, which can be used as name
        *  in the html form. For radio buttons this name is not unique.
        */
-      htmlName: string;
+      readonly htmlName: string;
       /**
        * The parent within the form.
        */
-      parent: dw.web.FormElement;
+      readonly parent: dw.web.FormElement;
       /**
        * Identifies if this element and all its children elements are
        *  valid. A form element, which was not submitted in the last
        *  request is always valid.
        */
-      valid: boolean;
+      readonly valid: boolean;
       /**
        * Provides a combined view on the validation status as per isValid() and getError(). In
        *  addition it also provides the data as returned by the validation in case a validation
        *  script was used.
        */
-      validationResult: dw.web.FormElementValidationResult;
+      readonly validationResult: dw.web.FormElementValidationResult;
 
       /**
        * This method clears the whole form. After clearing a form it
@@ -53492,7 +54597,7 @@ declare namespace dw {
       /**
        * Provides optional data acquired during validation.
        */
-      data: dw.util.Map<string, string>;
+      readonly data: dw.util.Map<string, string>;
       /**
        * Provides an optional message in case of validation failure.
        */
@@ -53571,11 +54676,11 @@ declare namespace dw {
        *  matched with the value specified as "selected-value". In this way a
        *  selected status can be as determined for non-boolean fields.
        */
-      checked: boolean;
+      readonly checked: boolean;
       /**
        * An optinal description for the field.
        */
-      description: string;
+      readonly description: string;
       /**
        * The error text that will be shown to the user when the field is
        *  invalid. The error messages that may be returned by this method are
@@ -53609,7 +54714,7 @@ declare namespace dw {
        *  If the field is valid, this method returns null. If no error message was
        *  specified in the form field definition, this method also returns null.
        */
-      error: string;
+      readonly error: string;
       /**
        * indicates a boolean/checkbox field in the form definition
        */
@@ -53638,11 +54743,11 @@ declare namespace dw {
       /**
        * An optional label text for the field.
        */
-      label: string;
+      readonly label: string;
       /**
        * Indicates if the field is mandatory.
        */
-      mandatory: boolean;
+      readonly mandatory: boolean;
       /**
        * The maximum length for the form field. A maximum length can
        *  be specified for all form data types, but is only used to validate fields
@@ -53650,14 +54755,14 @@ declare namespace dw {
        *  easy way to dynamically format the user interface. If not specified in
        *  the form definition the default minimum length is Integer.MAX_VALUE.
        */
-      maxLength: number;
+      readonly maxLength: number;
       /**
        * The maximum value for a form field. A maximum value is only
        *  applicable for fields with the data type "int", "number" and "date".
        *  If a maximum value was not specified in the form definition the method
        *  returns null.
        */
-      maxValue: any;
+      readonly maxValue: any;
       /**
        * The minimum length for the form field. A minimum length can
        *  be specified for all form data types, but is only used to validate fields
@@ -53665,14 +54770,14 @@ declare namespace dw {
        *  easy way to dynamically format the user interface. If not specified in
        *  the form definition the default minimum length is 0.
        */
-      minLength: number;
+      readonly minLength: number;
       /**
        * The minimum value for a form field. A minimum value is only
        *  applicable for fields with the data type "int", "number" and "date".
        *  If a minimum value was not specified in the form definition the method
        *  returns null.
        */
-      minValue: any;
+      readonly minValue: any;
       /**
        * A list of possible values for this field. The method
        *  is typically used to render a selection list or to render radio buttons.
@@ -53683,7 +54788,7 @@ declare namespace dw {
        *  definition. A pattern is only used for validation only for string fields.
        *  If no pattern was set, the method returns null.
        */
-      regEx: string;
+      readonly regEx: string;
       /**
        * Identifies if the current selected state of this field is selected. In case of
        *  a boolean field the method directly represent the boolean value. In case
@@ -53691,22 +54796,22 @@ declare namespace dw {
        *  matched with the value specified as "selected-value". In this way a
        *  selected status can be as determined for non-boolean fields.
        */
-      selected: boolean;
+      readonly selected: boolean;
       /**
        * The selected options or null if the field has no option
        *  or non is selected.
        */
-      selectedOption: dw.web.FormFieldOption;
+      readonly selectedOption: dw.web.FormFieldOption;
       /**
        * The object that was optionally associated with the
        *  currently selected option.
        */
-      selectedOptionObject: any;
+      readonly selectedOptionObject: any;
       /**
        * The method returns the type of the field. The type is one of the
        *  FIELD_TYPE constants defined in this class.
        */
-      type: number;
+      readonly type: number;
       /**
        * The internal value representation, which can be a string, a
        *  number, a boolean or a date.
@@ -53951,11 +55056,11 @@ declare namespace dw {
       /**
        * Identifies if this option is checked.
        */
-      checked: boolean;
+      readonly checked: boolean;
       /**
        * The value for the HTML value attribute of a HTML option element.
        */
-      htmlValue: string;
+      readonly htmlValue: string;
       /**
        * The value for the HTML label attribute of the HTML option element.
        *  If not specified in the form option definition the label is identical with
@@ -53965,27 +55070,27 @@ declare namespace dw {
       /**
        * The object that was bound to this option value.
        */
-      object: any;
+      readonly object: any;
       /**
        * The ID of the option. This is an internal ID used to uniquely
        *  reference this option. If not specified in the form option definition
        *  the ID is identical with the string representation of the option value
        *  (see getValue()).
        */
-      optionId: string;
+      readonly optionId: string;
       /**
        * The parent, which is a field element.
        */
-      parent: dw.web.FormField;
+      readonly parent: dw.web.FormField;
       /**
        * Identifies if this option is selected.
        */
-      selected: boolean;
+      readonly selected: boolean;
       /**
        * The actual value associated with this option. This value is formatted
        *  and than returned as HTML value with the method getHtmlValue().
        */
-      value: any;
+      readonly value: any;
 
       /**
        * Returns the value for the HTML value attribute of a HTML option element.
@@ -54057,7 +55162,7 @@ declare namespace dw {
       /**
        * The number of option values.
        */
-      optionsCount: number;
+      readonly optionsCount: number;
 
       /**
        * Returns the number of option values.
@@ -54079,29 +55184,33 @@ declare namespace dw {
       /**
        * The number of elements in the form.
        */
-      childCount: number;
+      readonly childCount: number;
       /**
        * A form-wide error message. If no error message
        *  is present the method returns null.
        */
-      error: string;
+      readonly error: string;
       /**
        * The object that was bound to this form group.
        */
-      object: any;
+      readonly object: any;
       /**
        * The action that was submitted with the last request. The action is
        *  set independent whether the form must be valid for this action. The method
        *  returns null if no action at all was submitted with the last request for this
        *  form group.
        */
-      submittedAction: dw.web.FormAction;
+      readonly submittedAction: dw.web.FormAction;
       /**
        * The action that was triggered with the last request. An action is
        *  only marked as triggered if the constraints regarding form validation are
        *  meet. The method returns null if no action was marked as triggered.
        */
-      triggeredAction: dw.web.FormAction;
+      readonly triggeredAction: dw.web.FormAction;
+      /**
+       * Returns the Form element with this name.
+       */
+      readonly [name: string]: dw.web.FormGroup | dw.web.FormField | any;
 
       /**
        * The method copies the value from a form into the object, which was previously
@@ -54190,24 +55299,24 @@ declare namespace dw {
        * The selected list items if the list is
        *  configured to support selection of items.
        */
-      selectManyItems: dw.util.List<dw.web.FormListItem>;
+      readonly selectManyItems: dw.util.List<dw.web.FormListItem>;
       /**
        * A list of all selected objects if the list is configured
        *  to support the selection of items. The objects are the objects that were
        *  bound to each row.
        */
-      selectManyObjects: dw.util.List<any>;
+      readonly selectManyObjects: dw.util.List<any>;
       /**
        * The default list item if the list is configured to
        *  support the selection of a default item.
        */
-      selectOneItem: dw.web.FormListItem;
+      readonly selectOneItem: dw.web.FormListItem;
       /**
        * The selected object if the list is configured to
        *  support the selection of a default item. The object is the object
        *  bound to the item.
        */
-      selectOneObject: any;
+      readonly selectOneObject: any;
 
       /**
        * returns the selected list items if the list is
@@ -54248,7 +55357,7 @@ declare namespace dw {
       /**
        * The index of this item with the list.
        */
-      itemIndex: number;
+      readonly itemIndex: number;
 
       /**
        * Returns the index of this item with the list.
@@ -54277,68 +55386,68 @@ declare namespace dw {
        *  there is more than one value defined, only the first one is returned. For an
        *  undefined attribute it returns null.
        */
-      booleanValue: boolean;
+      readonly booleanValue: boolean;
       /**
        * The value of the current HttpParameter attribute as a date. If
        *  there is more than one value defined, only the first one is returned. For
        *  an undefined attribute and if attribute is not a date it return null.
        */
-      dateValue: Date;
+      readonly dateValue: Date;
       /**
        * The value of the current HttpParameter attribute as a number. If
        *  there is more than one value defined, only the first one is returned. For
        *  an undefined attribute it returns 0.0.
        */
-      doubleValue: number;
+      readonly doubleValue: number;
       /**
        * Identifies if there is a value for the http parameter attribute
        *  and whether the value is empty.
        *  A value is treated as empty if it's not blank.
        */
-      empty: boolean;
+      readonly empty: boolean;
       /**
        * The value of the current HttpParameter attribute as int. If there
        *  is more than one value defined, only the first one is returned. For an
        *  undefined attribute it returns null.
        */
-      intValue: number;
+      readonly intValue: number;
       /**
        * The raw value for this HttpParameter instance.
        *  The raw value is the not trimmed String value of this HTTP parameter.
        *  If there is more than one value defined, only the first one is returned. For an
        *  undefined attribute the method returns a null.
        */
-      rawValue: string;
+      readonly rawValue: string;
       /**
        * A Collection of all raw values for this HTTP parameter.
        *  The raw value is the not trimmed String value of this HTTP parameter.
        */
-      rawValues: dw.util.Collection<string>;
+      readonly rawValues: dw.util.Collection<string>;
       /**
        * The value of the current HttpParameter attribute. If there is
        *  more than one value defined, only the first one is returned. For an
        *  undefined attribute the method returns a null.
        */
-      stringValue: string;
+      readonly stringValue: string;
       /**
        * A Collection of all defined values for this HTTP parameter.
        */
-      stringValues: dw.util.Collection<string>;
+      readonly stringValues: dw.util.Collection<string>;
       /**
        * Identifies if the parameter was submitted. This is equivalent to the
        *  check, whether the parameter has a value.
        */
-      submitted: boolean;
+      readonly submitted: boolean;
       /**
        * The value of the current HttpParameter attribute. If there is
        *  more than one value defined, only the first one is returned. For an
        *  undefined attribute the method returns null.
        */
-      value: string;
+      readonly value: string;
       /**
        * A Collection of all defined values for this current HTTP parameter.
        */
-      values: dw.util.Collection<string>;
+      readonly values: dw.util.Collection<string>;
 
       /**
        * Identifies if the given value is part of the actual values.
@@ -54501,18 +55610,22 @@ declare namespace dw {
       /**
        * The number of paramters in this http parameter map.
        */
-      parameterCount: number;
+      readonly parameterCount: number;
       /**
        * A collection of all parameter names.
        */
-      parameterNames: dw.util.Set<string>;
+      readonly parameterNames: dw.util.Set<string>;
       /**
        * The HTTP request body as string (e.g. useful for XML posts). A body
        *  is only returned if the request is a POST or PUT request and was not send
        *  with "application/x-www-form-urlencoded" encoding. If the request was send
        *  with that encoding it is interpreted as form data and the body will be empty.
        */
-      requestBodyAsString: string;
+      readonly requestBodyAsString: string;
+      /**
+       * Returns the HttpParameter with this name.
+       */
+      readonly [name: string]: dw.web.HttpParameter | any;
 
       /**
        * Returns the http parameter for the given key or an empty http parameter,
@@ -54602,45 +55715,45 @@ declare namespace dw {
       /**
        * Return begin iteration index. By default begin index is 0.
        */
-      begin: number;
+      readonly begin: number;
       /**
        * Return iteration count, starting with 1.
        */
-      count: number;
+      readonly count: number;
       /**
        * Return end iteration index. By default end index equals 'length - 1', provided that length is determined.
        *  If length cannot be determined end index is -1.
        */
-      end: number;
+      readonly end: number;
       /**
        * Identifies if count is an even value.
        */
-      even: boolean;
+      readonly even: boolean;
       /**
        * Identifies if the iterator is positioned at first iteratable item.
        */
-      first: boolean;
+      readonly first: boolean;
       /**
        * Return iteration index, which is the position of the iterator in the underlying iteratable object.
        *  Index is 0-based and is calculated according the following formula: Index = (Count - 1) * Step.
        */
-      index: number;
+      readonly index: number;
       /**
        * Identifies if the iterator is positioned at last iteratable item.
        */
-      last: boolean;
+      readonly last: boolean;
       /**
        * Return the length of the object. If length cannot be determined, -1 is returned.
        */
-      length: number;
+      readonly length: number;
       /**
        * Identifies if count is an odd value.
        */
-      odd: boolean;
+      readonly odd: boolean;
       /**
        * Return iterator step.
        */
-      step: number;
+      readonly step: number;
 
       /**
        * Return begin iteration index. By default begin index is 0.
@@ -54739,7 +55852,7 @@ declare namespace dw {
       /**
        * All page meta tags added to this container.
        */
-      pageMetaTags: Array<dw.web.PageMetaTag>;
+      readonly pageMetaTags: Array<dw.web.PageMetaTag>;
       /**
        * The page's title.
        */
@@ -54834,23 +55947,23 @@ declare namespace dw {
       /**
        * The page meta tag content.
        */
-      content: string;
+      readonly content: string;
       /**
        * The page meta tag ID.
        */
-      ID: string;
+      readonly ID: string;
       /**
        * Returns true if the page meta tag type is name, false otherwise.
        */
-      name: boolean;
+      readonly name: boolean;
       /**
        * Returns true if the page meta tag type is property, false otherwise.
        */
-      property: boolean;
+      readonly property: boolean;
       /**
        * Returns true if the page meta tag type is title, false otherwise.
        */
-      title: boolean;
+      readonly title: boolean;
 
       /**
        * Returns the page meta tag content.
@@ -54917,34 +56030,34 @@ declare namespace dw {
       /**
        * The count of the number of items in the model.
        */
-      count: number;
+      readonly count: number;
       /**
        * The index number of the current page. The page
        *  counting starts with 0. The method also works with a miss-aligned
        *  start. In that case the start is always treated as the start of
        *  a page.
        */
-      currentPage: number;
+      readonly currentPage: number;
       /**
        * Identifies if the model is empty.
        */
-      empty: boolean;
+      readonly empty: boolean;
       /**
        * The index of the last element on the current page.
        */
-      end: number;
+      readonly end: number;
       /**
        * The maximum possible page number. Counting for pages starts
        *  with 0.  The method also works with a miss-aligned start. In that case
        *  the returned number might be higher than ((count-1) / pageSize).
        */
-      maxPage: number;
+      readonly maxPage: number;
       /**
        * The total page count. The method also works
        *  with a miss-aligned start. In that case the returned number might
        *  be higher than (count / pageSize).
        */
-      pageCount: number;
+      readonly pageCount: number;
       /**
        * An iterator that can be used to iterate through the elements of
        *  the current page.
@@ -54956,7 +56069,7 @@ declare namespace dw {
        *  called only once. The method will always return the same iterator,
        *  which means the method amy return an exhausted iterator.
        */
-      pageElements: dw.util.Iterator<T>;
+      readonly pageElements: dw.util.Iterator<T>;
       /**
        * The size of the page.
        */
@@ -55351,11 +56464,11 @@ declare namespace dw {
        * The URL which was calculated to be the redirect URL.
        *  The Location parameter can be directly used as value for an redirect location.
        */
-      location: string;
+      readonly location: string;
       /**
        * The corresponding status code for the redirect location.
        */
-      status: number;
+      readonly status: number;
 
       /**
        * Returns the URL which was calculated to be the redirect URL.
@@ -55386,12 +56499,12 @@ declare namespace dw {
        *  based on origin url of current request and the configured Static, Dynamic and URLRedirect mappings for
        *  the requested site.
        */
-      static redirect: dw.web.URLRedirect;
+      static readonly redirect: dw.web.URLRedirect;
       /**
        * The relative origin url (without protocol, port, hostname and site path information)
        *  which will be used in getRedirect() to calculate a redirect location for.
        */
-      static redirectOrigin: string;
+      static readonly redirectOrigin: string;
 
       /**
        * Returns an URLRedirect object, containing a location and status. The redirect is calculated
@@ -55444,7 +56557,7 @@ declare namespace dw {
      *  The to-be-transformed image needs to be hosted on Digital.</p><p>
      *
      *  Image transformation parameters are specified as JavaScript object literal. They
-     *  are translated into URL parameters. See <a href="https://documentation.b2c.commercecloud.salesforce.com/DOC1/topic/com.demandware.dochelp/ImageManagement/CreatingImageTransformationURLs.html?cp=0_3_0_5_6_1">Create Image Transformation URLs.</a></p><p>
+     *  are translated into URL parameters. See <a href="https://documentation.b2c.commercecloud.salesforce.com/DOC1/topic/com.demandware.dochelp/content/b2c_commerce/topics/image_management/b2c_creating_image_transformation_urls.html">Create Image Transformation URLs.</a></p><p>
      *
      *  <table>
      *  <tbody><tr>
@@ -56839,7 +57952,7 @@ declare namespace dw {
        *  determined as the first service based on the alphabetic order of the service name, and within
        *  the service the first SOAP port based on the alphabetic order of the port name.
        */
-      defaultService: dw.ws.Port;
+      readonly defaultService: dw.ws.Port;
 
       constructor();
 
