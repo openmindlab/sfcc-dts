@@ -12628,6 +12628,151 @@ declare namespace dw {
     }
 
     /**
+     * Common search refinements base class.
+     */
+    class SearchRefinements {
+      /**
+       * Flag for an ascending sort.
+       */
+      static readonly ASCENDING = 0;
+      /**
+       * Flag for a descending sort.
+       */
+      static readonly DESCENDING = 1;
+      /**
+       * Flag for sorting on value count.
+       */
+      static readonly SORT_VALUE_COUNT = 1;
+      /**
+       * Flag for sorting on value name.
+       */
+      static readonly SORT_VALUE_NAME = 0;
+
+      /**
+       * A sorted list of refinement definitions that are appropriate for
+       *  the deepest common category (or deepest common folder) of the search
+       *  result. The method concatenates the sorted refinement definitions per
+       *  category starting at the root category until reaching the deepest common
+       *  category.
+       *
+       *  The method does not filter out refinement definitions that do
+       *  not provide values for the current search result and can therefore also
+       *  be used on empty search results.
+       */
+      readonly allRefinementDefinitions: dw.util.Collection<
+        dw.catalog.SearchRefinementDefinition
+      >;
+      /**
+       * A sorted list of refinement definitions that are appropriate for
+       *  the deepest common category (or deepest common folder) of the search
+       *  result. The method concatenates the sorted refinement definitions per category
+       *  starting at the root category until reaching the deepest common category.
+       *
+       *  The method also filters out refinement definitions that do not provide
+       *  any values for the current search result.
+       */
+      readonly refinementDefinitions: dw.util.Collection<
+        dw.catalog.SearchRefinementDefinition
+      >;
+
+      /**
+       * Returns a sorted list of refinement definitions that are appropriate for
+       *  the deepest common category (or deepest common folder) of the search
+       *  result. The method concatenates the sorted refinement definitions per
+       *  category starting at the root category until reaching the deepest common
+       *  category.
+       *
+       *  The method does not filter out refinement definitions that do
+       *  not provide values for the current search result and can therefore also
+       *  be used on empty search results.
+       *
+       * @return A sorted list of refinement definitions appropriate for the search result (based on its deepest common category)
+       */
+      getAllRefinementDefinitions(): dw.util.Collection<
+        dw.catalog.SearchRefinementDefinition
+      >;
+      /**
+       * Returns a sorted collection of refinement values for the given refinement
+       *  attribute. The returned collection includes all refinement values for
+       *  which the hit count is greater than 0 within the search result when the
+       *  passed attribute is excluded from filtering the search hits but all other
+       *  refinement filters are still applied. This method is useful for rendering
+       *  broadening options for attributes that the search is currently refined
+       *  by. This method does NOT return refinement values independent of the
+       *  search result.
+       *
+       *  For product search refinements, this method may return slightly different
+       *  results based on the "value set" property of the refinement definition.
+       *  See
+       *  ProductSearchRefinements.getAllRefinementValues(ProductSearchRefinementDefinition)
+       *  for details.
+       * @param attributeName The name of the attribute to return refinement values for.
+       * @return The collection of SearchRefinementValue instances, sorted according to the settings of the refinement definition, or null if there is no refinement definition for the passed attribute name.
+       */
+      getAllRefinementValues(
+        attributeName: string
+      ): dw.util.Collection<dw.catalog.SearchRefinementValue>;
+      /**
+       * Returns a sorted collection of refinement values for the given refinement
+       *  attribute. In general, the returned collection includes all refinement
+       *  values for which hit count is greater than 0 within the search result
+       *  assuming that:
+       *
+       *
+       *  The passed refinement attribute is NOT used to filter the search
+       *  hits.
+       *  All other refinements are still applied.
+       *
+       *
+       *  This is useful for rendering broadening options for the refinement
+       *  definitions that the search is already refined by. It is important to
+       *  note that this method does NOT return refinement values independent of
+       *  the search result.
+       *
+       *  For product search refinements, this method may return slightly different
+       *  results based on the "value set" of the refinement definition. See
+       *  ProductSearchRefinements.getAllRefinementValues(ProductSearchRefinementDefinition)
+       *  for details.
+       * @param attributeName The name of the attribute to return refinement values for.
+       * @param sortMode The sort mode to use to control how the collection is sorted.
+       * @param sortDirection The sort direction to use.
+       * @return The collection of SearchRefinementValue instances, sorted according to the passed parameters.
+       */
+      getAllRefinementValues(
+        attributeName: string,
+        sortMode: number,
+        sortDirection: number
+      ): dw.util.Collection<dw.catalog.SearchRefinementValue>;
+      /**
+       * Returns a sorted list of refinement definitions that are appropriate for
+       *  the deepest common category (or deepest common folder) of the search
+       *  result. The method concatenates the sorted refinement definitions per category
+       *  starting at the root category until reaching the deepest common category.
+       *
+       *  The method also filters out refinement definitions that do not provide
+       *  any values for the current search result.
+       *
+       * @return A sorted list of refinement definitions appropriate for the search result (based on its deepest common category)
+       */
+      getRefinementDefinitions(): dw.util.Collection<
+        dw.catalog.SearchRefinementDefinition
+      >;
+      /**
+       * Returns a collection of refinement values for the given refinement
+       *  attribute, sorting mode and sorting direction.
+       * @param attributeName The attribute name to use when collection refinement values.
+       * @param sortMode The sort mode to use to control how the collection is sorted.
+       * @param sortDirection The sort direction to use.
+       * @return The collection of refinement values.
+       */
+      getRefinementValues(
+        attributeName: string,
+        sortMode: number,
+        sortDirection: number
+      ): dw.util.Collection<dw.catalog.SearchRefinementValue>;
+    }
+
+    /**
      * Represents an option for how to sort products in storefront search results.
      */
     class SortingOption extends dw.object.PersistentObject {
@@ -16558,6 +16703,154 @@ declare namespace dw {
        * @param seed the seed.
        */
       setSeed(seed: dw.util.Bytes): void;
+    }
+
+    /**
+     * <p>This class allows access to signature services offered through the Java
+     *  Cryptography Architecture (JCA). At this time the signature/verification implementation of the
+     *  methods is based on the default RSA JCE provider of the JDK - sun.security.rsa.SunRsaSign</p>
+     *
+     *  <p>dw.crypto.Signature is an adapter to the security provider implementation
+     *  and covers several digest algorithms:
+     *  </p><ul>
+     *   <li>SHA1withRSA (deprecated)</li>
+     *   <li>SHA256withRSA</li>
+     *   <li>SHA384withRSA</li>
+     *   <li>SHA512withRSA</li>
+     *   <li>SHA256withRSA/PSS</li>
+     *   <li>SHA384withRSA/PSS</li>
+     *   <li>SHA512withRSA/PSS</li>
+     *  </ul>
+     *  <p></p>
+     *
+     *  <p>Key size generally ranges between 512 and 65536 bits (the latter of which is unnecessarily large).<br>
+     *  Default key size for RSA is 1024. SHA384withRSA and SHA512withRSA require a key with length of at least 1024 bits.<br>
+     *  When choosing a key size - beware of the tradeoff between security and processing time:<br>
+     *  The longer the key, the harder to break it but also it takes more time for the two sides to sign and verify the signature.<br>
+     *  An exception will be thrown for keys shorter than 2048 bits in this version of the API.
+     *  </p><p>
+     *  <b>Note:</b> this class handles sensitive security-related data.
+     *  Pay special attention to PCI DSS v3. requirements 2, 4, 12, and other relevant requirements.
+     *  </p>
+     */
+    class Signature {
+      /**
+       * Supported digest algorithms exposed as a string array
+       */
+      static readonly SUPPORTED_DIGEST_ALGORITHMS_AS_ARRAY: string;
+
+      constructor();
+
+      /**
+       * Checks to see if a digest algorithm is supported
+       * @param digestAlgorithm the digest algorithm name
+       * @return a boolean indicating success (true) or failure (false)
+       */
+      isDigestAlgorithmSupported(digestAlgorithm: string): boolean;
+      /**
+       * Signs a string and returns a string
+       * @param contentToSign base64 encoded content to sign
+       * @param privateKey base64 encoded private key
+       * @param digestAlgorithm must be one of the currently supported ones
+       * @return the base64 encoded signature
+       */
+      sign(
+        contentToSign: string,
+        privateKey: string,
+        digestAlgorithm: string
+      ): string;
+      /**
+       * Signs a string and returns a string
+       * @param contentToSign base64 encoded content to sign
+       * @param privateKey a reference to a private key entry in the keystore
+       * @param digestAlgorithm must be one of the currently supported ones
+       * @return the base64 encoded signature
+       */
+      sign(
+        contentToSign: string,
+        privateKey: dw.crypto.KeyRef,
+        digestAlgorithm: string
+      ): string;
+      /**
+       * Signs bytes and returns bytes
+       * @param contentToSign transformed with UTF-8 encoding into a byte stream
+       * @param privateKey base64 encoded private key
+       * @param digestAlgorithm must be one of the currently supported ones
+       * @return signature
+       */
+      signBytes(
+        contentToSign: dw.util.Bytes,
+        privateKey: string,
+        digestAlgorithm: string
+      ): dw.util.Bytes;
+      /**
+       * Signs bytes and returns bytes
+       * @param contentToSign transformed with UTF-8 encoding into a byte stream
+       * @param privateKey a reference to a private key entry in the keystore
+       * @param digestAlgorithm must be one of the currently supported ones
+       * @return signature
+       */
+      signBytes(
+        contentToSign: dw.util.Bytes,
+        privateKey: dw.crypto.KeyRef,
+        digestAlgorithm: string
+      ): dw.util.Bytes;
+      /**
+       * Verifies a signature supplied as bytes
+       * @param signature signature to check as bytes
+       * @param contentToVerify as bytes
+       * @param publicKey base64 encoded public key
+       * @param digestAlgorithm must be one of the currently supported ones
+       * @return a boolean indicating success (true) or failure (false)
+       */
+      verifyBytesSignature(
+        signature: dw.util.Bytes,
+        contentToVerify: dw.util.Bytes,
+        publicKey: string,
+        digestAlgorithm: string
+      ): boolean;
+      /**
+       * Verifies a signature supplied as bytes
+       * @param signature signature to check as bytes
+       * @param contentToVerify as bytes
+       * @param certificate a reference to a trusted certificate entry in the keystore
+       * @param digestAlgorithm must be one of the currently supported ones
+       * @return a boolean indicating success (true) or failure (false)
+       */
+      verifyBytesSignature(
+        signature: dw.util.Bytes,
+        contentToVerify: dw.util.Bytes,
+        certificate: dw.crypto.CertificateRef,
+        digestAlgorithm: string
+      ): boolean;
+      /**
+       * Verifies a signature supplied as string
+       * @param signature base64 encoded signature
+       * @param contentToVerify base64 encoded content to verify
+       * @param publicKey base64 encoded public key
+       * @param digestAlgorithm must be one of the currently supported ones
+       * @return a boolean indicating success (true) or failure (false)
+       */
+      verifySignature(
+        signature: string,
+        contentToVerify: string,
+        publicKey: string,
+        digestAlgorithm: string
+      ): boolean;
+      /**
+       * Verifies a signature supplied as string
+       * @param signature base64 encoded signature
+       * @param contentToVerify base64 encoded content to verify
+       * @param certificate a reference to a trusted certificate entry in the keystore
+       * @param digestAlgorithm must be one of the currently supported ones
+       * @return a boolean indicating success (true) or failure (false)
+       */
+      verifySignature(
+        signature: string,
+        contentToVerify: string,
+        certificate: dw.crypto.CertificateRef,
+        digestAlgorithm: string
+      ): boolean;
     }
   }
 
@@ -23685,6 +23978,172 @@ declare namespace dw {
       }
 
       /**
+       * Salesforce Payments payment request. Create a request to use the Salesforce Payments checkout drop-in component.
+       */
+      class SalesforcePaymentRequest {
+        /**
+         * Element for the Stripe credit card CVC field "cardCvc".
+         */
+        static readonly ELEMENT_CARD_CVC = "cardCvc";
+        /**
+         * Element for the Stripe credit card expiration date field "cardExpiry".
+         */
+        static readonly ELEMENT_CARD_EXPIRY = "cardExpiry";
+        /**
+         * Element for the Stripe credit card number field "cardNumber".
+         */
+        static readonly ELEMENT_CARD_NUMBER = "cardNumber";
+        /**
+         * Element for the Stripe IBAN field "iban".
+         */
+        static readonly ELEMENT_IBAN = "iban";
+        /**
+         * Element for the Stripe iDEAL bank selection field "idealBank".
+         */
+        static readonly ELEMENT_IDEAL_BANK = "idealBank";
+        /**
+         * Element for the Stripe payment request button "paymentRequestButton".
+         */
+        static readonly ELEMENT_PAYMENT_REQUEST_BUTTON = "paymentRequestButton";
+        /**
+         * Element type name for Apple Pay payment request buttons.
+         */
+        static readonly ELEMENT_TYPE_APPLEPAY = "applepay";
+        /**
+         * Element type name for Bancontact.
+         */
+        static readonly ELEMENT_TYPE_BANCONTACT = "bancontact";
+        /**
+         * Element type name for credit cards.
+         */
+        static readonly ELEMENT_TYPE_CARD = "card";
+        /**
+         * Element type name for iDEAL.
+         */
+        static readonly ELEMENT_TYPE_IDEAL = "ideal";
+        /**
+         * Element type name for other payment request buttons besides Apple Pay, like Google Pay.
+         */
+        static readonly ELEMENT_TYPE_PAYMENTREQUEST = "paymentrequest";
+        /**
+         * Element type name for SEPA debit.
+         */
+        static readonly ELEMENT_TYPE_SEPA_DEBIT = "sepa_debit";
+
+        /**
+         * The data to include in the call to prepare the basket when a Buy Now button is tapped.
+         */
+        basketData: any;
+        /**
+         * A set containing the element types to exclude from Salesforce Payments components.
+         */
+        readonly exclude: dw.util.Set<any>;
+        /**
+         * The identifier of this payment request.
+         */
+        readonly ID: string;
+        /**
+         * A set containing the specific element types to include from Salesforce Payments components. If the set is
+         *  empty then all applicable and enabled element types will be included by default.
+         */
+        readonly include: dw.util.Set<any>;
+        /**
+         * The DOM element selector where to mount Salesforce Payments components.
+         */
+        readonly selector: string;
+
+        /**
+         * Constructs a payment request using the given identifiers.
+         * @param id identifier for payment request
+         * @param selector DOM element selector where to mount Salesforce Payments components
+         */
+        constructor(id: string, selector: string);
+
+        /**
+         * Adds the given element type to exclude from Salesforce Payments components.
+         * @param elementType element type
+         */
+        addExclude(elementType: string): void;
+        /**
+         * Adds the given element type to include in Salesforce Payments components.
+         * @param elementType element type
+         */
+        addInclude(elementType: string): void;
+        /**
+         * Returns a JS object for the given options to use when a Buy Now button is tapped, in the Salesforce Payments
+         *  format.
+         * @param options JS object containing the payment request options
+         */
+        static format(options: any): any;
+        /**
+         * Returns the data to include in the call to prepare the basket when a Buy Now button is tapped.
+         *
+         * @return JS object containing the basket data
+         */
+        getBasketData(): any;
+        /**
+         * Returns a set containing the element types to exclude from Salesforce Payments components.
+         *
+         * @return set of element types
+         */
+        getExclude(): dw.util.Set<any>;
+        /**
+         * Returns the identifier of this payment request.
+         *
+         * @return payment request identifier
+         */
+        getID(): string;
+        /**
+         * Returns a set containing the specific element types to include from Salesforce Payments components. If the set is
+         *  empty then all applicable and enabled element types will be included by default.
+         *
+         * @return set of element types
+         */
+        getInclude(): dw.util.Set<any>;
+        /**
+         * Returns the DOM element selector where to mount Salesforce Payments components.
+         *
+         * @return DOM element selector
+         */
+        getSelector(): string;
+        /**
+         * Sets the data to include in the call to prepare the basket when a Buy Now button is tapped.
+         * @param basketData JS object containing the basket data
+         */
+        setBasketData(basketData: any): void;
+        /**
+         * Sets the options to use when a Buy Now button is tapped.
+         * @param options JS object containing the payment request options
+         */
+        setOptions(options: any): void;
+        /**
+         * Sets the controller to which to redirect when the shopper returns from a 3rd party payment website. Default is
+         *  the controller for the current page.
+         * @param returnController return controller, such as "Cart-Show"
+         */
+        setReturnController(returnController: string): void;
+        /**
+         * Sets if Salesforce Payments components may provide a control for the shopper to save the payment method for later
+         *  use.
+         * @param savePaymentMethodEnabled if Salesforce Payments components may provide a control for the shopper to save the payment method
+         */
+        setSavePaymentMethodEnabled(savePaymentMethodEnabled: boolean): void;
+        /**
+         * Sets the the options to pass into the Stripe elements.create call for the given element type. For
+         *  more information see the Stripe Elements API documentation.
+         * @param element name of the Stripe element whose creation to configure
+         * @param options JS object containing the options
+         */
+        setStripeCreateElementOptions(element: string, options: any): void;
+        /**
+         * Sets the the options to pass into the stripe.elements call. For more information see the Stripe
+         *  Elements API documentation.
+         * @param options JS object containing the options
+         */
+        setStripeElementsOptions(options: any): void;
+      }
+
+      /**
        * This interface represents all script hooks that can be registered to customize the Salesforce Payments
        *  functionality. It contains the extension points (hook names), and the functions that are called by each extension
        *  point. A function must be defined inside a JavaScript source and must be exported. The script with the exported hook
@@ -27612,7 +28071,7 @@ declare namespace dw {
        * @param path the remote path from which the file info should be listed.
        * @return the remote file information or null if not present.
        */
-      getFileInfo(path: string): SFTPFileInfo;
+      getFileInfo(path: string): dw.net.SFTPFileInfo;
       /**
        * Returns the timeout for this client, in milliseconds.
        *
@@ -27702,6 +28161,69 @@ declare namespace dw {
        * @param timeoutMillis timeout, in milliseconds, up to a maximum of 2 minutes.
        */
       setTimeout(timeoutMillis: number): void;
+    }
+
+    /**
+     * The class is used to store information about a remote file.
+     *  <p>
+     *  <b>Note:</b> when this class is used with sensitive data, be careful in persisting sensitive information to disk.</p>
+     */
+    class SFTPFileInfo {
+      /**
+       * Identifies if the file is a directory.
+       */
+      readonly directory: boolean;
+      /**
+       * The last modification time of the file/directory.
+       */
+      readonly modificationTime: Date;
+      /**
+       * The name of the file/directory.
+       */
+      readonly name: string;
+      /**
+       * The size of the file/directory.
+       */
+      readonly size: number;
+
+      /**
+       * Constructs the SFTPFileInfo instance.
+       * @param name the name of the file.
+       * @param size the size of the file.
+       * @param directory controls if the file is a directory.
+       * @param mtime last modification time.
+       */
+      constructor(
+        name: string,
+        size: number,
+        directory: boolean,
+        mtime: number
+      );
+
+      /**
+       * Identifies if the file is a directory.
+       *
+       * @return true if the file is a directory, false otherwise.
+       */
+      getDirectory(): boolean;
+      /**
+       * Returns the last modification time of the file/directory.
+       *
+       * @return the last modification time.
+       */
+      getModificationTime(): Date;
+      /**
+       * Returns the name of the file/directory.
+       *
+       * @return the name.
+       */
+      getName(): string;
+      /**
+       * Returns the size of the file/directory.
+       *
+       * @return the size.
+       */
+      getSize(): number;
     }
 
     /**
@@ -34608,7 +35130,9 @@ declare namespace dw {
        * @param shippingOrderItemID the ID
        * @return the shipping order item associated with the given shippingOrderItemID
        */
-      getShippingOrderItem(shippingOrderItemID: string): ShippingOrderItem;
+      getShippingOrderItem(
+        shippingOrderItemID: string
+      ): dw.order.ShippingOrderItem;
       /**
        * Returns the collection of ShippingOrderItems associated with this order.
        *
@@ -35339,7 +35863,7 @@ declare namespace dw {
        *  can exist for one OrderItem, for example if the OrderItem has been split for shipping purposes.
        *  The method returns null if no non-cancelled shipping order item exists.
        */
-      readonly shippingOrderItem: ShippingOrderItem;
+      readonly shippingOrderItem: dw.order.ShippingOrderItem;
       /**
        * A collection of the ShippingOrderItems created for this item.
        *  ShippingOrder items represents the whole or part of this item which could
@@ -35479,7 +36003,7 @@ declare namespace dw {
        *
        * @return the last not cancelled shipping order item or null
        */
-      getShippingOrderItem(): ShippingOrderItem;
+      getShippingOrderItem(): dw.order.ShippingOrderItem;
       /**
        * Returns a collection of the ShippingOrderItems created for this item.
        *  ShippingOrder items represents the whole or part of this item which could
@@ -42218,7 +42742,7 @@ declare namespace dw {
       createShippingOrderItem(
         orderItem: dw.order.OrderItem,
         quantity: dw.value.Quantity
-      ): ShippingOrderItem;
+      ): dw.order.ShippingOrderItem;
       /**
        * Create a ShippingOrderItem in the shipping order with
        *  the number shippingOrderNumber.
@@ -42239,7 +42763,7 @@ declare namespace dw {
         orderItem: dw.order.OrderItem,
         quantity: dw.value.Quantity,
         splitIfPartial: boolean
-      ): ShippingOrderItem;
+      ): dw.order.ShippingOrderItem;
       /**
        * Returns null or the previously created Invoice.
        *
@@ -42352,6 +42876,224 @@ declare namespace dw {
        *
        */
       setStatusWarehouse(): void;
+    }
+
+    /**
+     * One or more ShippingOrderItems are contained in a
+     *  <a href="class_dw_order_ShippingOrder.html">ShippingOrder</a>, created using
+     *  <a href="class_dw_order_ShippingOrder.html#dw_order_ShippingOrder_createShippingOrderItem_OrderItem_Quantity_DetailAnchor">ShippingOrder.createShippingOrderItem(OrderItem, Quantity)</a>
+     *  and can be retrieved by
+     *  <a href="class_dw_order_ShippingOrder.html#dw_order_ShippingOrder_getItems_DetailAnchor">ShippingOrder.getItems()</a>. A
+     *  ShippingOrderItem references a single
+     *  <a href="class_dw_order_OrderItem.html">OrderItem</a> which in turn references a
+     *  <a href="class_dw_order_LineItem.html">LineItem</a> associated with an <a href="class_dw_order_Order.html">Order</a>.
+     *  <p>
+     *  Order post-processing APIs (gillian) are now inactive by default and will throw
+     *  an exception if accessed. Activation needs preliminary approval by Product Management.
+     *  Please contact support in this case. Existing customers using these APIs are not
+     *  affected by this change and can use the APIs until further notice.</p>
+     */
+    class ShippingOrderItem extends dw.order.AbstractItem {
+      /**
+       * Constant for Order Item Status CANCELLED
+       */
+      static readonly STATUS_CANCELLED = "CANCELLED";
+      /**
+       * Constant for Order Item Status CONFIRMED
+       */
+      static readonly STATUS_CONFIRMED = "CONFIRMED";
+      /**
+       * Constant for Order Item Status SHIPPED
+       */
+      static readonly STATUS_SHIPPED = "SHIPPED";
+      /**
+       * Constant for Order Item Status WAREHOUSE
+       */
+      static readonly STATUS_WAREHOUSE = "WAREHOUSE";
+
+      /**
+       * Price of a single unit before discount application.
+       */
+      readonly basePrice: dw.value.Money;
+      /**
+       * Returns null or the parent item.
+       */
+      parentItem: dw.order.ShippingOrderItem;
+      /**
+       * The quantity of the shipping order item.
+       *
+       *  The Quantity is equal to the related line item quantity.
+       */
+      readonly quantity: dw.value.Quantity;
+      /**
+       * The mandatory shipping order number of the related
+       *  ShippingOrder.
+       */
+      readonly shippingOrderNumber: string;
+      /**
+       * Gets the order item status.
+       *
+       *  The possible values are STATUS_CONFIRMED,
+       *  STATUS_WAREHOUSE, STATUS_SHIPPED,
+       *  STATUS_CANCELLED.
+       */
+      status: dw.value.EnumValue;
+      /**
+       * Gets the tracking refs (tracking infos) the shipping order item is
+       *  assigned to.
+       */
+      readonly trackingRefs: dw.util.FilteringCollection<dw.order.TrackingRef>;
+
+      /**
+       * A shipping order item can be assigned
+       *  to one or many  tracking infos with
+       *  different quantities. For example an item with quantity 3 may have been
+       *  shipped in 2 packages, each represented by its own
+       *  tracking info - 2
+       *  TrackingRefs would exist with quantities 1 and 2.
+       *
+       *  This method creates and adds a new tracking
+       *  reference to this shipping order item for a given
+       *  tracking info and quantity. The new
+       *  instance is returned.
+       * @param trackingInfoID the id of the tracking info
+       * @param quantity the quantity the which is assigned to the tracking info for this shipping order item. Optional (null is allowed).
+       * @return the new tracking reference
+       */
+      addTrackingRef(
+        trackingInfoID: string,
+        quantity: dw.value.Quantity
+      ): dw.order.TrackingRef;
+      /**
+       * Apply a rate of (factor / divisor) to the prices in this item, with the option to half round up or half round down to the
+       *  nearest cent if necessary.
+       *  Examples:
+       *  TaxBasis beforefactordivisorroundupCalculationTaxBasis after
+       *  $10.0012true10*1/2=$5.00
+       *  $10.00910true10*9/10=$9.00
+       *  $10.0013true10*1/3=3.3333=$3.33
+       *   $2.4712true2.47*1/2=1.235=$1.24
+       *   $2.4712false2.47*1/2=1.235=$1.23
+       *
+       *  Which prices are updated?:
+       *  The rate described above is applied to tax-basis and tax then the net-price and gross-price are recalculated by adding / subtracting
+       *  depending on whether the order is based on net price.
+       *  Example (order based on net price)
+       *  New TaxBasis:$10.00, Tax:$1.00, NetPrice=TaxBasis=$10.00, GrossPrice=TaxBasis+Tax=$11.00
+       *  Example (order based on gross price)
+       *  New TaxBasis:$10.00, Tax:$1.00, NetPrice=TaxBasis-tax=$9.00, GrossPrice=TaxBasis=$10.00
+       * @param factor factor used to calculate rate
+       * @param divisor divisor used to calculate rate
+       * @param roundUp whether to round up or down on 0.5
+       */
+      applyPriceRate(
+        factor: dw.util.Decimal,
+        divisor: dw.util.Decimal,
+        roundUp: boolean
+      ): void;
+      /**
+       * Price of a single unit before discount application.
+       *
+       * @return Price of a single unit before discount application.
+       */
+      getBasePrice(): dw.value.Money;
+      /**
+       * Returns null or the parent item.
+       *
+       * @return null or the parent item.
+       */
+      getParentItem(): dw.order.ShippingOrderItem;
+      /**
+       * The quantity of the shipping order item.
+       *
+       *  The Quantity is equal to the related line item quantity.
+       *
+       * @return the quantity
+       */
+      getQuantity(): dw.value.Quantity;
+      /**
+       * The mandatory shipping order number of the related
+       *  ShippingOrder.
+       *
+       * @return the shipping order number.
+       */
+      getShippingOrderNumber(): string;
+      /**
+       * Gets the order item status.
+       *
+       *  The possible values are STATUS_CONFIRMED,
+       *  STATUS_WAREHOUSE, STATUS_SHIPPED,
+       *  STATUS_CANCELLED.
+       *
+       * @return the status
+       */
+      getStatus(): dw.value.EnumValue;
+      /**
+       * Gets the tracking refs (tracking infos) the shipping order item is
+       *  assigned to.
+       *
+       * @return the tracking refs ( tracking infos - TrackingRef ) the shipping order item is assigned to.
+       */
+      getTrackingRefs(): dw.util.FilteringCollection<dw.order.TrackingRef>;
+      /**
+       * Set a parent item. The parent item must belong to the same
+       *  ShippingOrder. An infinite parent-child loop is disallowed
+       *  as is a parent-child depth greater than 10. Setting a parent item
+       *  indicates a dependency of the child item on the parent item, and can be
+       *  used to form a parallel structure to that accessed using
+       *  ProductLineItem.getParent().
+       * @param parentItem The parent item, null is allowed
+       */
+      setParentItem(parentItem: dw.order.ShippingOrderItem): void;
+      /**
+       * Sets the status. See ShippingOrder for details of
+       *  shipping order status transitions. Do not use this method to set a
+       *  shipping order to status WAREHOUSE, instead use
+       *  ShippingOrder.setStatusWarehouse()
+       *
+       *  This also triggers the setting of the status of the
+       *  LineItem when appropriate. Setting this status can also have an impact on
+       *  the order status, accessed using Order.getStatus() and the
+       *  shipping order status, accessed using ShippingOrder.getStatus().
+       * @param status the status
+       */
+      setStatus(status: string): void;
+      /**
+       * Split the shipping order item.
+       *
+       *  This will also lead to a split of the related LineItem.
+       *  Split means that for the passed quantity a new item is created with this
+       *  quantity as an exact copy of this item. The remaining amount will stay in
+       *  this item.
+       *
+       *  If quantity is equal to getQuantity() no split is done and this
+       *  item is returned itself.
+       *
+       *  This method is equivalent to split(Quantity, Boolean) called
+       *  with splitOrderItem equals to true.
+       * @param quantity the quantity for the newly created item
+       * @return the newly created item or this item
+       */
+      split(quantity: dw.value.Quantity): dw.order.ShippingOrderItem;
+      /**
+       * Split the shipping order item.
+       *
+       *  This will also lead to a split of the related LineItem
+       *  when splitOrderItem is true.
+       *  Split means that for the passed quantity a new item is created with this
+       *  quantity as an exact copy of this item. The remaining amount will stay in
+       *  this item.
+       *
+       *  If quantity is equal to getQuantity() no split is done and this
+       *  item is returned itself.
+       * @param quantity the quantity for the newly created item
+       * @param splitOrderItem true the related LineItem will be splitted too false the related LineItem will not be splitted
+       * @return the newly created item or this item
+       */
+      split(
+        quantity: dw.value.Quantity,
+        splitOrderItem: boolean
+      ): dw.order.ShippingOrderItem;
     }
 
     /**
@@ -42770,7 +43512,7 @@ declare namespace dw {
       /**
        * Gets the shipping order item which is assigned to the tracking info.
        */
-      readonly shippingOrderItem: ShippingOrderItem;
+      readonly shippingOrderItem: dw.order.ShippingOrderItem;
       /**
        * Gets the tracking info, the shipping order item is assigned to.
        */
@@ -42788,7 +43530,7 @@ declare namespace dw {
        *
        * @return the shipping order item
        */
-      getShippingOrderItem(): ShippingOrderItem;
+      getShippingOrderItem(): dw.order.ShippingOrderItem;
       /**
        * Gets the tracking info, the shipping order item is assigned to.
        *
@@ -43676,7 +44418,7 @@ declare namespace dw {
          */
         updateShippingOrderItem(
           shippingOrder: dw.order.ShippingOrder,
-          updateItem: ShippingOrderItem
+          updateItem: dw.order.ShippingOrderItem
         ): dw.system.Status;
       }
     }
@@ -44835,6 +45577,24 @@ declare namespace dw {
     }
 
     /**
+     * This class represents a suggested content page.
+     *  Use <a href="class_dw_suggest_SuggestedContent.html#dw_suggest_SuggestedContent_getContent_DetailAnchor">getContent()</a> method to get access to the actual <a href="class_dw_content_Content.html">Content</a> object.
+     */
+    class SuggestedContent {
+      /**
+       * This method returns the actual Content object corresponding to this suggested content.
+       */
+      readonly content: dw.content.Content;
+
+      /**
+       * This method returns the actual Content object corresponding to this suggested content.
+       *
+       * @return the content object corresponding to this suggested content
+       */
+      getContent(): dw.content.Content;
+    }
+
+    /**
      * This class represents a suggested phrase.
      *  Use <a href="class_dw_suggest_SuggestedPhrase.html#dw_suggest_SuggestedPhrase_getPhrase_DetailAnchor">getPhrase()</a> method to get access to the phrase.
      */
@@ -45685,6 +46445,47 @@ declare namespace dw {
     }
 
     /**
+     * Represents a SOAP WebService.
+     */
+    class SOAPService extends dw.svc.Service {
+      /**
+       * The authentication type.
+       */
+      authentication: string;
+      /**
+       * The serviceClient object.
+       */
+      serviceClient: any;
+
+      /**
+       * Returns the authentication type.
+       *
+       * @return Authentication type.
+       */
+      getAuthentication(): string;
+      /**
+       * Returns the serviceClient object.
+       *
+       * @return serviceClient object.
+       */
+      getServiceClient(): any;
+      /**
+       * Sets the type of authentication. Valid values include "BASIC" and "NONE".
+       *
+       *  The default value is BASIC.
+       * @param authentication Type of authentication.
+       * @return this SOAP WebService.
+       */
+      setAuthentication(authentication: string): dw.svc.SOAPService;
+      /**
+       * Sets the serviceClient object. This must be set in the prepareCall method, prior to execute being called.
+       * @param o serviceClient object.
+       * @return this SOAP WebService.
+       */
+      setServiceClient(o: any): dw.svc.SOAPService;
+    }
+
+    /**
      * Represents a SOAP WebService definition.
      */
     class SOAPServiceDefinition extends dw.svc.ServiceDefinition {}
@@ -45806,6 +46607,192 @@ declare namespace dw {
        * @return this Service.
        */
       setURL(url: string): dw.svc.Service;
+    }
+
+    /**
+     * Defines callbacks for use with the <a href="class_dw_svc_LocalServiceRegistry.html">LocalServiceRegistry</a>.
+     *  <p>
+     *  Note this class itself is not used directly, and is present only for documentation of the available callback methods.
+     *  </p><p>
+     *  These methods are called in sequence when a service is called:
+     *  </p><ol>
+     *  <li><a href="class_dw_svc_ServiceCallback.html#dw_svc_ServiceCallback_initServiceClient_Service_DetailAnchor">initServiceClient(Service)</a> -- Creates the underlying client that will be used to make the call. This is
+     *  intended for SOAP Services. Other client types will be created automatically.
+     *  </li><li><a href="class_dw_svc_ServiceCallback.html#dw_svc_ServiceCallback_createRequest_Service_Object_DetailAnchor">createRequest(Service, Object...)</a> -- Given arguments to the <a href="class_dw_svc_Service.html#dw_svc_Service_call_Object_DetailAnchor">Service.call(Object...)</a>, configure
+     *  the actual service request. This may include setting request headers, defining the message body, etc.
+     *  </li><li><a href="class_dw_svc_ServiceCallback.html#dw_svc_ServiceCallback_execute_Service_Object_DetailAnchor">execute(Service, Object)</a> -- Perform the actual request. At this point the client has been configured
+     *  with the relevant credentials, so the call should be made. This is required for SOAP services.
+     *  </li><li><a href="class_dw_svc_ServiceCallback.html#dw_svc_ServiceCallback_parseResponse_Service_Object_DetailAnchor">parseResponse(Service, Object)</a> -- Convert the result of the call into an object to be returned from the
+     *  <a href="class_dw_svc_Service.html#dw_svc_Service_call_Object_DetailAnchor">Service.call(Object...)</a> method.
+     *  </li></ol>
+     *  If the service is mocked (see <a href="class_dw_svc_Service.html#dw_svc_Service_isMock_DetailAnchor">Service.isMock()</a>), then <a href="class_dw_svc_ServiceCallback.html#dw_svc_ServiceCallback_mockFull_Service_Object_DetailAnchor">mockFull(Service, Object...)</a> takes the place
+     *  of this entire sequence. If that is not implemented, then <a href="class_dw_svc_ServiceCallback.html#dw_svc_ServiceCallback_mockCall_Service_Object_DetailAnchor">mockCall(Service, Object)</a> takes the place of just
+     *  the <a href="class_dw_svc_ServiceCallback.html#dw_svc_ServiceCallback_execute_Service_Object_DetailAnchor">execute(Service, Object)</a> method.
+     *  <p>
+     *  The URL, request, and response objects may be logged. To avoid logging sensitive data,
+     *  <a href="class_dw_svc_ServiceCallback.html#dw_svc_ServiceCallback_filterLogMessage_String_DetailAnchor">filterLogMessage(String)</a> and/or <a href="class_dw_svc_ServiceCallback.html#dw_svc_ServiceCallback_getRequestLogMessage_Object_DetailAnchor">getRequestLogMessage(Object)</a> and
+     *  <a href="class_dw_svc_ServiceCallback.html#dw_svc_ServiceCallback_getResponseLogMessage_Object_DetailAnchor">getResponseLogMessage(Object)</a> must be implemented. If they are not implemented then this logging will not be
+     *  done on Production environments.
+     *  </p><p>
+     *  There are some special considerations for the combination of service type and callback:
+     *  <table>
+     *  <tbody><tr><th>
+     *  </th></tr><tr>
+     *  <td>Service Type</td>
+     *  <td>initServiceClient</td>
+     *  <td>createRequest</td>
+     *  <td>execute</td>
+     *  <td>parseResponse</td>
+     *  </tr>
+     *
+     *  <tr>
+     *  <td>HTTP</td>
+     *  <td>Not normally implemented. Must return a <a href="class_dw_net_HTTPClient.html">HTTPClient</a></td>
+     *  <td>Required unless execute is provided. The return value is expected to be either a String or array of
+     *  <a href="class_dw_net_HTTPRequestPart.html">HTTPRequestPart</a>, which will be used as the request body</td>
+     *  <td>Not called unless a boolean &quot;executeOverride:true&quot; is set on the callback. This is a temporary limitation, a
+     *  future release will always call this callback if it is present</td>
+     *  <td>Required unless execute is provided.</td>
+     *  </tr>
+     *  <tr>
+     *  <td>HTTPForm</td>
+     *  <td>Not normally implemented. Must return a <a href="class_dw_net_HTTPClient.html">HTTPClient</a></td>
+     *  <td>Not normally implemented. Default behavior constructs an &quot;application/x-www-form-urlencoded&quot; request based on a
+     *  Map given as an argument.</td>
+     *  <td>Not normally implemented. The same limitations as HTTP regarding the &quot;executeOverride&quot; flag apply here.</td>
+     *  <td>Optional. Default behavior is to return the response body as a String.</td>
+     *  </tr>
+     *  <tr>
+     *  <td>SOAP</td>
+     *  <td>Optional. This must return the Webservice stub or port</td>
+     *  <td>Required. If initServiceClient was not provided, then this function must call
+     *  <a href="class_dw_svc_SOAPService.html#dw_svc_SOAPService_setServiceClient_Object_DetailAnchor">SOAPService.setServiceClient(Object)</a> with the stub or port</td>
+     *  <td>Required. A typical implementation will call the webservice via a method on the service client</td>
+     *  <td>Optional. Default behavior returns the output of execute</td>
+     *  </tr>
+     *  <tr>
+     *  <td>FTP</td>
+     *  <td>Not normally implemented. Must return a <a href="class_dw_net_FTPClient.html">FTPClient</a> or <a href="class_dw_net_SFTPClient.html">SFTPClient</a></td>
+     *  <td>Required unless execute is defined. If present, it should call
+     *  <a href="class_dw_svc_FTPService.html#dw_svc_FTPService_setOperation_String_Object_DetailAnchor">FTPService.setOperation(String, Object...)</a></td>
+     *  <td>Optional. An implementation may call any required methods on the given client. The default implementation calls
+     *  the Operation that was set up and returns the result.</td>
+     *  <td>Optional. Default behavior returns the output of execute</td>
+     *  </tr>
+     *  <tr>
+     *  <td>GENERIC</td>
+     *  <td>Optional.</td>
+     *  <td>Optional.</td>
+     *  <td>Required. The GENERIC type allows any code to be wrapped in the service framework layer, and it&apos;s up to this
+     *  execute method to define what that logic is.</td>
+     *  <td>Optional.</td>
+     *  </tr>
+     *  </tbody></table></p>
+     */
+    class ServiceCallback {
+      /**
+       * Allows overriding the URL provided by the service configuration.
+       *
+       *  It is usually better to call Service.setURL(String) within createRequest(Service, Object...)
+       *  because that allows you to modify the existing URL based on call parameters.
+       */
+      readonly URL: string;
+
+      /**
+       * Creates a request object to be used when calling the service.
+       *
+       *  The type of the object expected is dependent on the service. For example, the HTTPService expects the
+       *  HTTP request body to be returned.
+       *
+       *  This is required unless the execute method is implemented.
+       *
+       *  It is not recommended to have a service accept a single array or list as a parameter, since doing so requires
+       *  some extra work when actually calling the service. See Service.call(Object...) for more details.
+       * @param service Service being executed.
+       * @param params Parameters given to the call method.
+       * @return Request object to give to the execute method.
+       */
+      createRequest(service: dw.svc.Service, ...params: any[]): any;
+      /**
+       * Provides service-specific execution logic.
+       *
+       *  This can be overridden to execute a chain of FTP commands in the FTPService, or perform the actual remote
+       *  call on a webservice stub in the SOAPService.
+       * @param service Service being executed.
+       * @param request Request object returned by createRequest(Service, Object...).
+       * @return Response from the underlying call, to be sent to parseResponse(Service, Object).
+       */
+      execute(service: dw.svc.Service, request: any): any;
+      /**
+       * Allows filtering communication URL, request, and response log messages.
+       *
+       *  If not implemented, then no filtering will be performed and the message will be logged as-is.
+       * @param msg Original log message.
+       * @return Message to be logged.
+       */
+      filterLogMessage(msg: string): string;
+      /**
+       * Creates a communication log message for the given request.
+       *
+       *  If not implemented then the default logic will be used to convert the request into a log message.
+       * @param request Request object.
+       * @return Log message, or null to create and use the default message.
+       */
+      getRequestLogMessage(request: any): string;
+      /**
+       * Creates a response log message for the given request.
+       *
+       *  If not implemented then the default logic will be used to convert the response into a log message.
+       * @param response Response object.
+       * @return Log message, or null to create and use the default message.
+       */
+      getResponseLogMessage(response: any): string;
+      /**
+       * Allows overriding the URL provided by the service configuration.
+       *
+       *  It is usually better to call Service.setURL(String) within createRequest(Service, Object...)
+       *  because that allows you to modify the existing URL based on call parameters.
+       *
+       * @return URL to use. The default behavior is to use the URL from the service configuration.
+       */
+      getURL(): string;
+      /**
+       * Creates a protocol-specific client object.
+       *
+       *  This does not normally need to be implemented, except in the case of SOAP services.
+       *
+       *  Example declaration:
+       *   initServiceClient: function( svc:SOAPService ) {
+       *  }
+       * @param service the Service object.
+       * @return Client object
+       */
+      initServiceClient(service: dw.svc.Service): any;
+      /**
+       * Override this method to mock the remote portion of the service call.
+       *
+       *  Other callbacks like createRequest and parseResponse are still called.
+       * @param service Service being executed.
+       * @param requestObj Request object returned by createRequest(Service, Object...).
+       * @return Mock response, to be sent to parseResponse(Service, Object).
+       */
+      mockCall(service: dw.svc.Service, requestObj: any): any;
+      /**
+       * Override this method to mock the entire service call, including the createRequest, execute, and parseResponse phases.
+       * @param service Service being executed.
+       * @param args Arguments from the Service call method.
+       * @return Object to return in the service call's Result.
+       */
+      mockFull(service: dw.svc.Service, ...args: any[]): any;
+      /**
+       * Creates a response object from a successful service call.
+       *
+       *  This response object will be the output object of the call method's Result.
+       * @param service Service being executed.
+       * @param response Service-specific response object. For example, the HTTPService service provides the underlying HTTPClient object that made the HTTP call.
+       * @return Object to return in the service call's Result.
+       */
+      parseResponse(service: dw.svc.Service, response: any): any;
     }
 
     /**
