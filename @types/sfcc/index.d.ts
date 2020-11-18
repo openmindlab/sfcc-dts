@@ -34269,9 +34269,9 @@ declare namespace dw {
       /**
        * The Global Party ID reconciles customer identity across multiple systems. For example, as part of the Service for
        *  Commerce experience, service agents can find information for customers who have never called into the call
-       *  center, but have created a profile on the website. Service agents can find guest order data from Commerce Cloud
-       *  and easily create accounts for customers. Customer 360 Data Manager matches records from multiple data sources
-       *  to determine all the records associated with a specific customer.
+       *  center, but have created a profile on the website. Service agents can find guest order data from B2C Commerce and
+       *  easily create accounts for customers. Customer 360 Data Manager matches records from multiple data sources to
+       *  determine all the records associated with a specific customer.
        */
       readonly globalPartyID: string;
       /**
@@ -34310,8 +34310,11 @@ declare namespace dw {
        */
       readonly orderNo: string;
       /**
-       * The URL safe token for this order. The order token is a random string (length 32 bytes) associated with
-       *  this one order. It should always be used in situations requiring order access to raise the level of qualification.
+       * The token for this order. The order token is a string (length 32 bytes) associated
+       *  with this one order. The order token is random. It reduces the capability of malicious
+       *  users to access an order through guessing. Order token can be used to further validate order
+       *  ownership, but should never be used to solely validate ownership. In addition, the storefront
+       *  should ensure authentication and authorization. See the Security Best Practices for Developers for details.
        */
       readonly orderToken: string;
       /**
@@ -34776,9 +34779,9 @@ declare namespace dw {
       /**
        * The Global Party ID reconciles customer identity across multiple systems. For example, as part of the Service for
        *  Commerce experience, service agents can find information for customers who have never called into the call
-       *  center, but have created a profile on the website. Service agents can find guest order data from Commerce Cloud
-       *  and easily create accounts for customers. Customer 360 Data Manager matches records from multiple data sources
-       *  to determine all the records associated with a specific customer.
+       *  center, but have created a profile on the website. Service agents can find guest order data from B2C Commerce and
+       *  easily create accounts for customers. Customer 360 Data Manager matches records from multiple data sources to
+       *  determine all the records associated with a specific customer.
        *
        * @return the Global Party ID associated with this order, or null.
        */
@@ -34895,10 +34898,13 @@ declare namespace dw {
        */
       getOrderNo(): string;
       /**
-       * Returns the URL safe token for this order. The order token is a random string (length 32 bytes) associated with
-       *  this one order. It should always be used in situations requiring order access to raise the level of qualification.
+       * Returns the token for this order. The order token is a string (length 32 bytes) associated
+       *  with this one order. The order token is random. It reduces the capability of malicious
+       *  users to access an order through guessing. Order token can be used to further validate order
+       *  ownership, but should never be used to solely validate ownership. In addition, the storefront
+       *  should ensure authentication and authorization. See the Security Best Practices for Developers for details.
        *
-       * @return the URL safe token for this order.
+       * @return the token for this order.
        */
       getOrderToken(): string;
       /**
@@ -36109,24 +36115,28 @@ declare namespace dw {
      *  <a href="class_dw_order_OrderMgr.html#dw_order_OrderMgr_searchOrders_String_String_Object_DetailAnchor">searchOrders(String, String, Object...)</a> can be limited by the site preference &apos;Limit Storefront Order
      *  Access&apos;. An insecure order access occurs in a storefront session when all of the following are true:
      *  </p><ul>
-     *  <li>The current storefront session is not the session in which the order was created.</li>
-     *  <li>The session customer does not match the order customer.</li>
-     *  <li>The order status is not CREATED.</li>
+     *  <li>The current storefront session isn&#x2019;t the session in which the order was created.</li>
+     *  <li>The session customer doesn&#x2019;t match the order customer.</li>
+     *  <li>The order status isn&#x2019;t CREATED.</li>
      *  </ul>
      *  When an order is accessed in an insecure manner:
      *  <ul>
-     *  <li>If the preference is ACTIVE, the action is disallowed and a SecurityException with a message beginning
-     *  &apos;Unauthorized access to order&apos; is thrown.</li>
-     *  <li>If the preference is NOT ACTIVE, a SecurityException with a message beginning &apos;Unauthorized access to order&apos; is
-     *  logged as an error.</li>
+     *  <li>If the preference is ACTIVE, the action is disallowed and a SecurityException with a message
+     *  beginning &apos;Unauthorized access to order&apos; is thrown.</li>
+     *  <li>If the preference is NOT ACTIVE, a SecurityException with a message beginning &apos;Unauthorized
+     *  access to order&apos; is logged as an error.</li>
      *  </ul>
-     *  Do not use dw.order.OrderMgr.searchOrder methods or <a href="class_dw_order_OrderMgr.html#dw_order_OrderMgr_processOrders_Function_String_Object_DetailAnchor">processOrders(Function, String, Object...)</a> immediately
-     *  after creating or updating an order. The order search index updates asynchronously, so it might not include very
-     *  recent changes. Instead, do one of the following:
+     *  In addition, the storefront should ensure the shopper is properly authenticated and authorized to read
+     *  or modify the content of an order object. For more information, see <a href="https://documentation.b2c.commercecloud.salesforce.com/DOC1/index.jsp?topic=%2Fcom.demandware.dochelp%2Fcontent%2Fb2c_commerce%2Ftopics%2Fb2c_security_best_practices%2Fb2c_developer_authentication_and_authorization.html">Access Control</a>.
+     *  <ul>
+     *  </ul>
+     *  Don&#x2019;t use dw.order.OrderMgr.searchOrder methods or <a href="class_dw_order_OrderMgr.html#dw_order_OrderMgr_processOrders_Function_String_Object_DetailAnchor">processOrders(Function, String, Object...)</a>
+     *  immediately after creating or updating an order. The order search index updates asynchronously, so it
+     *  might not include very recent changes. Instead, do one of the following:
      *  <ul>
      *  <li>In the same request, pass the dw.order.Order object reference to the followup logic.</li>
-     *  <li>For storefront use cases, especially when passing the order reference to a third party, use the order token
-     *  for security by using <a href="class_dw_order_OrderMgr.html#dw_order_OrderMgr_getOrder_String_String_DetailAnchor">getOrder(String, String)</a>.</li>
+     *  <li>For storefront use cases, especially when passing the order reference to a third party, use the
+     *  order token for security by using <a href="class_dw_order_OrderMgr.html#dw_order_OrderMgr_getOrder_String_String_DetailAnchor">getOrder(String, String)</a>.</li>
      *  </ul>
      *  <p></p>
      */
@@ -36369,23 +36379,28 @@ declare namespace dw {
         reopenBasketIfPossible: boolean
       ): dw.system.Status;
       /**
-       * Returns the order with the specified order number. Order access in the storefront can be limited; see the class
-       *  description. Use getOrder(String, String) instead for secure access in a storefront session.
+       * Returns the order with the specified order number. Order access in the storefront can be limited; see
+       *  the class description. Use getOrder(String, String) instead for secure access in a storefront session.
+       *
+       *
+       *  If Limit Storefront Order Access site preference is enabled, this method throws an exception when an
+       *  insecure access is attempted (refer to the conditions of insecure access in the description of OrderMgr
+       *  class). Use getOrder(String, String) instead.
        * @param orderNumber the order number of the order to retrieve
        * @return Order for the specified order number
        */
       static getOrder(orderNumber: string): dw.order.Order;
       /**
-       * Securely resolves an order using the orderNumber and orderToken.
+       * Resolves an order using the orderNumber and orderToken.
        *
        *
-       *  The order token is generated during order creation in a secure way that is designed to prevent access by
-       *  unauthorized parties. You can retrieve the token via (Order.getOrderToken().
+       *  The order token is generated during order creation in a secure way that is designed to reduce the
+       *  possibility of unauthorized access. You can retrieve the token via (Order.getOrderToken().
        *
        *
-       *  This version of the getOrder method does not return an exception when the Limit Storefront Order Access site
-       *  preference is enabled. Best security practice is to always enable this preference, and to use this method when
-       *  appropriate.
+       *  This version of the getOrder method doesn’t return an exception when the Limit Storefront Order
+       *  Access site preference is enabled. Best security practice is to always enable this preference, and to use
+       *  this method when appropriate.
        *
        *
        *  You should always use this method in the following cases.
@@ -36395,7 +36410,7 @@ declare namespace dw {
        *  Storefront use cases
        * @param orderNumber the order number of the order to retrieve
        * @param orderToken the order token of the order to retrieve
-       * @return Order for the specified order number. null is returned if order is not found by number or token does not correspond to the order found
+       * @return Order for the specified order number. null is returned if order is not found by number or token doesn’t correspond to the order found
        */
       static getOrder(orderNumber: string, orderToken: string): dw.order.Order;
       /**
