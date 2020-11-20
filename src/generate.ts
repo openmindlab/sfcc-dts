@@ -1,3 +1,4 @@
+import { ClassDef, ConstructorDef, ConstantDef, PropertyDef, MethodDef } from './models';
 
 import fs from "fs";
 import path from "path";
@@ -91,9 +92,6 @@ const sanitizeType = (type: string, generics: string, isGeneric: boolean) => {
 const sanitizeArg = (arg: string) => config.argsMapping[arg] || arg;
 
 
-const objbToArray = (obj: any): any => {
-  return Object.values(obj);
-};
 
 const sanitizeValue = (obj: any) => {
   switch (obj.class.name) {
@@ -151,20 +149,20 @@ const doc = (obj: any) => {
 const formatArgument = (arg: any, isGeneric: boolean) =>
   `${arg.multiple ? "..." : ""}${sanitizeArg(arg.name)}: ${sanitizeType(arg.class.name, arg.class.generics, isGeneric)}${arg.multiple ? "[]" : ""}`;
 
-const filterComponent = (key: string, prop: string) => {
-  return (element: any) =>
-    (key === "global" && !standardDefinition(element.name)) ||
+function filterComponent<T>(key: string, prop: string) {
+  return (element: T) =>
+    (key === "global" && !standardDefinition((element as any).name)) ||
     (key !== "global" &&
       !(
         config.exclusions[key] &&
         config.exclusions[key][prop] &&
-        config.exclusions[key][prop].includes(element.name)
+        config.exclusions[key][prop].includes((element as any).name)
       ));
 };
 
-const filterConstants = (key: string) => filterComponent(key, "constants");
-const filterProperties = (key: string) => filterComponent(key, "properties");
-const filterMethods = (key: string) => filterComponent(key, "methods");
+const filterConstants = (key: string) => filterComponent<ConstantDef>(key, "constants");
+const filterProperties = (key: string) => filterComponent<PropertyDef>(key, "properties");
+const filterMethods = (key: string) => filterComponent<MethodDef>(key, "methods");
 
 const generateExportFileForClass = (theClass: any) => {
   var packageTokens = theClass.fullClassName.split(".");
@@ -188,8 +186,7 @@ const generateExportFileForClass = (theClass: any) => {
   var sourcePath = path.join(foldersPath, className + ".d.ts");
   fs.writeFileSync(
     sourcePath,
-    `/// <reference path="${
-    packageTokens.length == 0 ? "./" : packageTokens.map(() => "../").join("")
+    `/// <reference path="${packageTokens.length == 0 ? "./" : packageTokens.map(() => "../").join("")
     }index.d.ts" />\nexport = ${theClass.fullClassName.replace(
       "TopLevel.",
       ""
@@ -197,7 +194,7 @@ const generateExportFileForClass = (theClass: any) => {
   );
 };
 
-const generateCodeForClass = (theClass: any, customAttrTypes: Set<string>) => {
+const generateCodeForClass = (theClass: ClassDef, customAttrTypes: Set<string>) => {
   var source = "";
   var packageTokens = theClass.fullClassName.split(".");
   var isTopLevel = false;
@@ -229,6 +226,8 @@ const generateCodeForClass = (theClass: any, customAttrTypes: Set<string>) => {
     if (theClass.hierarchy.length > 1) {
       let hierarchyClass = theClass.hierarchy.pop().name;
       let generics = null;
+
+      // if (theClass.hierarchy.find((h: any) => h.name === 'dw.object.ExtensibleObject')) {
       if (hierarchyClass === 'dw.object.ExtensibleObject') {
         generics = className + 'CustomAttributes';
         customAttrTypes.add(className);
@@ -239,20 +238,21 @@ const generateCodeForClass = (theClass: any, customAttrTypes: Set<string>) => {
     source += "{\n";
   }
 
-  source += objbToArray(theClass.constants)
+  let constants: ConstantDef[] = Object.values(theClass.constants);
+  source += constants
     .filter(filterConstants(className))
     .reduce(
       (constantSource: any, constant: any) =>
-        `${constantSource}${doc(constant)}${isGlobal ? 'declare ' : ''}${isStatic}${readonly}${
-        constant.name
-        }${!constant.value ? ": " + sanitizeType(constant.class.name, constant.class.generics, isGeneric && !isStatic) : ""}${
-        constant.value ? " = " + sanitizeValue(constant) : ""
+        `${constantSource}${doc(constant)}${isGlobal ? 'declare ' : ''}${isStatic}${readonly}${constant.name
+        }${!constant.value ? ": " + sanitizeType(constant.class.name, constant.class.generics, isGeneric && !isStatic) : ""}${constant.value ? " = " + sanitizeValue(constant) : ""
         };\n`,
       ""
     );
   source += "\n";
 
-  source += objbToArray(theClass.properties)
+
+  let properties: PropertyDef[] = Object.values(theClass.properties);
+  source += properties
     .filter(filterProperties(className))
     .reduce(
       (propSource: any, property: any) => {
@@ -268,40 +268,34 @@ const generateCodeForClass = (theClass: any, customAttrTypes: Set<string>) => {
           customAttrTypes.add(className);
         }
 
-        return `${propSource}${doc(property)}${isGlobal ? 'declare ' : ''}${property.static ? isStatic : ""}${
-          property.readonly ? readonly : ""}${property.name}: ${returnType};\n`
+        return `${propSource}${doc(property)}${isGlobal ? 'declare ' : ''}${property.static ? isStatic : ""}${property.readonly ? readonly : ""}${property.name}: ${returnType};\n`
       },
       ""
     );
   source += "\n";
 
   if (!isInterface) {
-    source += objbToArray(theClass.constructors)
-      .map((constructor: any) => {
-        constructor.argsSource = constructor.args.map((m: any) => formatArgument(m, isGeneric)).join(", ");
-        return constructor;
-      })
+
+    let constructors: ConstructorDef[] = Object.values(theClass.constructors);
+
+    source += constructors
       .reduce(
-        (constructorSource: any, constructor: any) =>
-          `${constructorSource}${doc(constructor)}constructor(${
-          constructor.argsSource
+        (constructorSource: string, constructor: ConstructorDef) =>
+          `${constructorSource}${doc(constructor)}constructor(${constructor.args.map((m: any) => formatArgument(m, isGeneric)).join(", ")
           });\n`,
         ""
       );
-    if (theClass.constructors.length === 0 && !isGlobal) {
+    if (Object.keys(theClass.constructors).length === 0 && !isGlobal) {
       source += "private constructor();\n";
     }
     source += "\n";
   }
 
-  source += objbToArray(theClass.methods)
+  let methods: MethodDef[] = Object.values(theClass.methods);
+  source += methods
     .filter(filterMethods(className))
-    .map((method: any) => {
-      method.argsSource = method.args.map((m: any) => formatArgument(m, isGeneric)).join(", ");
-      return method;
-    })
     .reduce(
-      (methodSource: any, method: any) => {
+      (methodSource: string, method: MethodDef) => {
         let returnType = sanitizeType(method.class.name, method.class.generics, isGeneric);
 
         if (!isGeneric) {
@@ -314,7 +308,7 @@ const generateCodeForClass = (theClass: any, customAttrTypes: Set<string>) => {
         }
 
         return `${methodSource}${doc(method)}${isGlobal ? "declare function " : ""}${method.static && !isGlobal ? isStatic : ""
-          }${method.name}(${method.argsSource}): ${returnType};\n`
+          }${method.name}(${method.args.map((m: any) => formatArgument(m, isGeneric)).join(", ")}): ${returnType};\n`
       },
       ""
     );

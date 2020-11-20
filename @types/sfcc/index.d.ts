@@ -442,6 +442,8 @@ declare class NodeModule {
    *  reuse functionality implemented in overridden modules.
    */
   superModule: NodeModule;
+
+  private constructor();
 }
 
 /**
@@ -1440,6 +1442,8 @@ declare namespace dw {
        */
       readonly remediationURL: string;
 
+      private constructor();
+
       /**
        * Returns the ID of the referenced alert description.
        *
@@ -1515,6 +1519,8 @@ declare namespace dw {
      *  (a sample file containing all current menu entries is provided when creating a new extension cartridge in Studio).
      */
     class Alerts {
+      private constructor();
+
       /**
        * Creates a new alert for the given ID.
        *  If such an alert already exists, no new one is created, and the existing one is not modified.
@@ -1677,6 +1683,8 @@ declare namespace dw {
        */
       readonly ID: string;
 
+      private constructor();
+
       /**
        * Get the test ID for this AB-test.
        *
@@ -1696,6 +1704,8 @@ declare namespace dw {
       static readonly assignedTestSegments: dw.util.Collection<
         dw.campaign.ABTestSegment
       >;
+
+      private constructor();
 
       /**
        * Return the AB-test segments to which the current customer is assigned.
@@ -1743,6 +1753,8 @@ declare namespace dw {
        * Get the ID of the AB-test segment.
        */
       readonly ID: string;
+
+      private constructor();
 
       /**
        * Get the AB-test to which this segment belongs.
@@ -1836,6 +1848,8 @@ declare namespace dw {
        */
       readonly merchandiseTotal: dw.value.Money;
 
+      private constructor();
+
       /**
        * The amount of merchandise required in the cart in order to receive the
        *  discount. For an order promotion "Get 15% off orders of $100 or more",
@@ -1916,6 +1930,8 @@ declare namespace dw {
        */
       readonly ruleBased: boolean;
 
+      private constructor();
+
       /**
        * Get the effective price for the passed bonus product. This is expected to
        *  be one of the products returned by getBonusProducts() with one
@@ -1987,6 +2003,8 @@ declare namespace dw {
        *  stock, online and assigned to site catalog.
        */
       readonly bonusProducts: dw.util.Collection<dw.catalog.Product>;
+
+      private constructor();
 
       /**
        * Returns the bonus products associated with this discount that are in
@@ -2088,6 +2106,8 @@ declare namespace dw {
        * Returns stores assigned to the campaign.
        */
       readonly stores: dw.util.Collection<dw.catalog.Store>;
+
+      private constructor();
 
       /**
        * Returns the coupons assigned to the campaign.
@@ -2194,6 +2214,8 @@ declare namespace dw {
       static readonly applicablePromotions: dw.util.Collection<
         dw.campaign.Promotion
       >;
+
+      private constructor();
 
       /**
        * This method has been deprecated and should not be used anymore.
@@ -2499,6 +2521,8 @@ declare namespace dw {
        */
       readonly type: string;
 
+      private constructor();
+
       /**
        * Returns the prefix defined for coupons of type TYPE_SYSTEM_CODES
        *  If no prefix is defined, or coupon is of type TYPE_SINGLE_CODE
@@ -2595,6 +2619,8 @@ declare namespace dw {
        */
       static readonly coupons: dw.util.Collection<dw.campaign.Coupon>;
 
+      private constructor();
+
       /**
        * Returns the coupon with the specified ID.
        * @param couponID the coupon identifier.
@@ -2656,6 +2682,8 @@ declare namespace dw {
        * Returns date of redemption.
        */
       readonly redemptionDate: Date;
+
+      private constructor();
 
       /**
        * Returns email of redeeming customer.
@@ -2732,6 +2760,8 @@ declare namespace dw {
        */
       static readonly TIMEFRAME_REDEMPTION_LIMIT_EXCEEDED =
         "TIMEFRAME_REDEMPTION_LIMIT_EXCEEDED";
+
+      private constructor();
     }
 
     /**
@@ -2900,6 +2930,8 @@ declare namespace dw {
        *  discount plan.
        */
       readonly orderDiscounts: dw.util.Collection<dw.campaign.Discount>;
+
+      private constructor();
 
       /**
        * Get the collection of order discounts that the LineItemCtnr "almost"
@@ -3103,13 +3135,17 @@ declare namespace dw {
      * Represents a <i>free</i> discount in the discount plan, for example
      *  &quot;Free shipping on all orders $25 or more.&quot;
      */
-    class FreeDiscount extends dw.campaign.Discount {}
+    class FreeDiscount extends dw.campaign.Discount {
+      private constructor();
+    }
 
     /**
      * Represents a <i>free shipping</i> discount in the discount plan, for example
      *  &quot;Free shipping on all iPods.&quot;
      */
-    class FreeShippingDiscount extends dw.campaign.Discount {}
+    class FreeShippingDiscount extends dw.campaign.Discount {
+      private constructor();
+    }
 
     /**
      * Represents a <i>percentage-off</i> discount in the discount plan, for example
@@ -3148,6 +3184,8 @@ declare namespace dw {
        */
       readonly percentage: number;
 
+      private constructor();
+
       /**
        * Returns the percentage discount value, for example 10.00 for a "10% off"
        *  discount.
@@ -3167,6 +3205,8 @@ declare namespace dw {
        * The price book identifier.
        */
       readonly priceBookID: string;
+
+      private constructor();
 
       /**
        * Returns the price book identifier.
@@ -3407,6 +3447,8 @@ declare namespace dw {
        *  tags. Tags will be returned in alphabetical order.
        */
       readonly tags: string;
+
+      private constructor();
 
       /**
        * Returns the callout message of the promotion.
@@ -3764,6 +3806,8 @@ declare namespace dw {
        */
       static readonly promotions: dw.util.Collection<dw.campaign.Promotion>;
 
+      private constructor();
+
       /**
        * Identifies active promotions, calculates the applicable
        *  discounts from these promotions and applies these discounts to the
@@ -4022,6 +4066,8 @@ declare namespace dw {
        */
       readonly shippingPromotions: dw.util.Collection<dw.campaign.Promotion>;
 
+      private constructor();
+
       /**
        * Returns all order promotions contained in this plan.
        *
@@ -4202,6 +4248,8 @@ declare namespace dw {
        */
       readonly slotID: string;
 
+      private constructor();
+
       /**
        * Returns the callout message for the slot.
        *
@@ -4261,6 +4309,8 @@ declare namespace dw {
        * A Collection of PriceBooks the SourceCodeGroup is assigned to.
        */
       readonly priceBooks: dw.util.Collection<dw.catalog.PriceBook>;
+
+      private constructor();
 
       /**
        * The ID of the SourceCodeGroup.
@@ -4325,6 +4375,8 @@ declare namespace dw {
        */
       readonly status: number;
 
+      private constructor();
+
       /**
        * The literal source-code.
        *
@@ -4386,6 +4438,8 @@ declare namespace dw {
        * The total fixed price amount.
        */
       readonly totalFixedPrice: number;
+
+      private constructor();
 
       /**
        * Returns the total fixed price amount.
@@ -4451,6 +4505,8 @@ declare namespace dw {
        */
       readonly root: dw.catalog.Category;
 
+      private constructor();
+
       /**
        * Returns the value of the localized extensible object attribute
        *  "shortDescription" for the current locale.
@@ -4495,6 +4551,8 @@ declare namespace dw {
        * A collection containing all of the sorting rules for this site, including global sorting rules.
        */
       static readonly sortingRules: dw.util.Collection<dw.catalog.SortingRule>;
+
+      private constructor();
 
       /**
        * Returns the catalog identified by the specified catalog id.
@@ -4811,6 +4869,8 @@ declare namespace dw {
        *  category.
        */
       readonly topLevel: boolean;
+
+      private constructor();
 
       /**
        * Returns all outgoing recommendations for this category.  The
@@ -5277,6 +5337,8 @@ declare namespace dw {
        */
       readonly shortDescription: dw.content.MarkupText;
 
+      private constructor();
+
       /**
        * Returns the category assignment's callout message in the current locale.
        *
@@ -5361,6 +5423,8 @@ declare namespace dw {
        */
       readonly typeCode: number;
 
+      private constructor();
+
       /**
        * Returns the object for the relation 'sourceCategory'.
        *
@@ -5425,6 +5489,8 @@ declare namespace dw {
        * The parent price book.
        */
       readonly parentPriceBook: dw.catalog.PriceBook;
+
+      private constructor();
 
       /**
        * Returns the currency code of the price book.
@@ -5503,6 +5569,8 @@ declare namespace dw {
        *  to the site, but considered by the price lookup.
        */
       static readonly sitePriceBooks: dw.util.Collection<dw.catalog.PriceBook>;
+
+      private constructor();
 
       /**
        * Returns all price books defined for the organization.
@@ -7084,6 +7152,8 @@ declare namespace dw {
        */
       readonly viewsYear: number;
 
+      private constructor();
+
       /**
        * Returns the date the product became available on the site, or
        *  null if none has been set.
@@ -7759,6 +7829,8 @@ declare namespace dw {
        */
       readonly preorder: dw.value.Quantity;
 
+      private constructor();
+
       /**
        * Returns the backorder quantity.
        *
@@ -7935,6 +8007,8 @@ declare namespace dw {
        *  bundled products, this method returns 0.
        */
       readonly timeToOutOfStock: number;
+
+      private constructor();
 
       /**
        * Returns the availability of the product, which roughly defined is the
@@ -8177,6 +8251,8 @@ declare namespace dw {
        */
       readonly ID: string;
 
+      private constructor();
+
       /**
        * Returns the default in-stock flag of the inventory list.
        *
@@ -8220,6 +8296,8 @@ declare namespace dw {
        *  inventory list is assigned to the current site.
        */
       static readonly inventoryList: dw.catalog.ProductInventoryList;
+
+      private constructor();
 
       /**
        * Returns the inventory list assigned to the current site or null if no
@@ -8316,6 +8394,8 @@ declare namespace dw {
        *  than increments.
        */
       readonly turnover: dw.value.Quantity;
+
+      private constructor();
 
       /**
        * Returns the meta data of this object. If no meta data is available the method returns null. The returned
@@ -8511,6 +8591,8 @@ declare namespace dw {
        */
       readonly typeCode: number;
 
+      private constructor();
+
       /**
        * Returns the source product for this link.
        *
@@ -8535,6 +8617,8 @@ declare namespace dw {
      * Provides helper methods for getting products based on Product ID or <a href="class_dw_catalog_Catalog.html">Catalog</a>.
      */
     class ProductMgr {
+      private constructor();
+
       /**
        * Returns the product with the specified id.
        * @param productID the product identifier.
@@ -8630,6 +8714,8 @@ declare namespace dw {
        */
       readonly optionValues: dw.util.Collection<dw.catalog.ProductOptionValue>;
 
+      private constructor();
+
       /**
        * Returns the default value for the product option.
        *
@@ -8691,6 +8777,8 @@ declare namespace dw {
        * The collection of product options.
        */
       readonly options: dw.util.Collection<dw.catalog.ProductOption>;
+
+      private constructor();
 
       /**
        * Returns the product option for the specified ID.
@@ -8819,6 +8907,8 @@ declare namespace dw {
        */
       readonly productIDModifier: string;
 
+      private constructor();
+
       /**
        * Returns the the product option value's description
        *  in the current locale.
@@ -8887,6 +8977,8 @@ declare namespace dw {
        *  derived from.
        */
       readonly priceInfo: string;
+
+      private constructor();
 
       /**
        * Returns the date from which the associated price point is valid. If such a date doesn't exist, e.g. as in the
@@ -9165,6 +9257,8 @@ declare namespace dw {
        *  product price table.
        */
       readonly priceTable: dw.catalog.ProductPriceTable;
+
+      private constructor();
 
       /**
        * Returns the quantity for which the base price is defined. This
@@ -9595,6 +9689,8 @@ declare namespace dw {
        */
       readonly quantities: dw.util.Collection<dw.value.Quantity>;
 
+      private constructor();
+
       /**
        * Returns the quantity following the passed quantity in the price table.
        *  If the passed quantity is the last entry in the price table, null is
@@ -9892,6 +9988,8 @@ declare namespace dw {
        *  used for the search query.
        */
       readonly representedProducts: dw.util.List<dw.catalog.Product>;
+
+      private constructor();
 
       /**
        * Returns the product that is actually hit by the search and has the highest
@@ -10980,6 +11078,8 @@ declare namespace dw {
        */
       readonly promotionRefinement: boolean;
 
+      private constructor();
+
       /**
        * Identifies if this is a category refinement.
        *
@@ -11015,6 +11115,8 @@ declare namespace dw {
        *  for a range of $50.00 - $99.99.
        */
       readonly valueTo: number;
+
+      private constructor();
 
       /**
        * Returns the lower bound for price refinements.  For example, 50.00
@@ -11088,6 +11190,8 @@ declare namespace dw {
        *  common category of the search result.
        */
       readonly promotionRefinementDefinition: dw.catalog.ProductSearchRefinementDefinition;
+
+      private constructor();
 
       /**
        * Returns the appropriate category refinement definition based on the search
@@ -11176,6 +11280,8 @@ declare namespace dw {
        */
       readonly ID: string;
 
+      private constructor();
+
       /**
        * Returns the ID of the product attribute defintion related to
        *  this variation attribute.  This ID matches the
@@ -11223,6 +11329,8 @@ declare namespace dw {
        * The value for the product variation attribute value.
        */
       readonly value: any;
+
+      private constructor();
 
       /**
        * Returns true if the specified object is equal to this object.
@@ -11428,6 +11536,8 @@ declare namespace dw {
        *  The variation groups are returned in no particular order.
        */
       readonly variationGroups: dw.util.Collection<dw.catalog.VariationGroup>;
+
+      private constructor();
 
       /**
        * Returns the value definitions for the specified attribute. Only values
@@ -11975,6 +12085,8 @@ declare namespace dw {
        *  product ID or category name.
        */
       readonly sourceItemID: string;
+
+      private constructor();
 
       /**
        * Returns the recommendation's callout message in the current locale.
@@ -12794,6 +12906,8 @@ declare namespace dw {
        */
       readonly sortingRule: dw.catalog.SortingRule;
 
+      private constructor();
+
       /**
        * Returns the description of the sorting option for the current locale.
        *
@@ -12829,6 +12943,8 @@ declare namespace dw {
        * The ID of the sorting rule.
        */
       readonly ID: string;
+
+      private constructor();
 
       /**
        * Returns the ID of the sorting rule.
@@ -12936,6 +13052,8 @@ declare namespace dw {
        * The storeLocatorEnabled flag for the store.
        */
       readonly storeLocatorEnabled: boolean;
+
+      private constructor();
 
       /**
        * Returns the address1 of the store.
@@ -13096,6 +13214,8 @@ declare namespace dw {
        */
       readonly stores: dw.util.Collection<dw.catalog.Store>;
 
+      private constructor();
+
       /**
        * Returns the ID of the store group.
        *
@@ -13129,6 +13249,8 @@ declare namespace dw {
        * Get the store id associated with the current session. By default, the session store id is null.
        */
       static readonly storeIDFromSession: string;
+
+      private constructor();
 
       /**
        * Returns all the store groups of the current site.
@@ -13507,6 +13629,8 @@ declare namespace dw {
        *  the master product is returned.
        */
       readonly UPC: string;
+
+      private constructor();
 
       /**
        * Returns all product links of the product variant.
@@ -14040,6 +14164,8 @@ declare namespace dw {
        */
       readonly UPC: string;
 
+      private constructor();
+
       /**
        * Returns all product links of the product variation group.
        *
@@ -14385,6 +14511,8 @@ declare namespace dw {
        */
       readonly template: string;
 
+      private constructor();
+
       /**
        * Returns the Folder associated with this Content. The folder is
        *  used to determine the classification of the content.
@@ -14532,6 +14660,8 @@ declare namespace dw {
        * The content library of the current site.
        */
       static readonly siteLibrary: dw.content.Library;
+
+      private constructor();
 
       /**
        * Returns the content with the corresponding identifier within the current
@@ -14886,6 +15016,8 @@ declare namespace dw {
        */
       readonly folderRefinement: boolean;
 
+      private constructor();
+
       /**
        * Identifies if this is a folder refinement.
        *
@@ -14898,7 +15030,9 @@ declare namespace dw {
      * Represents the value of a content search refinement.
      */
     class ContentSearchRefinementValue extends dw.catalog
-      .SearchRefinementValue {}
+      .SearchRefinementValue {
+      private constructor();
+    }
 
     /**
      * This class provides an interface to refinement options for the content asset
@@ -14942,6 +15076,8 @@ declare namespace dw {
        * A collection of matching folders.
        */
       readonly matchingFolders: dw.util.Collection<dw.content.Folder>;
+
+      private constructor();
 
       /**
        * Returns the number of search hits for the passed folder object.
@@ -15089,6 +15225,8 @@ declare namespace dw {
        */
       readonly template: string;
 
+      private constructor();
+
       /**
        * Returns the content objects for this folder, sorted by position.
        *
@@ -15235,6 +15373,8 @@ declare namespace dw {
        */
       readonly root: dw.content.Folder;
 
+      private constructor();
+
       /**
        * Returns the CMS channel of the library.
        *
@@ -15361,6 +15501,8 @@ declare namespace dw {
        * The original content source, without any links re-written.
        */
       readonly source: string;
+
+      private constructor();
 
       /**
        * Returns the content with all links rewritten for storefront use.
@@ -15605,6 +15747,8 @@ declare namespace dw {
        *  null, if the media file has no view type annotation.
        */
       readonly viewType: string;
+
+      private constructor();
 
       /**
        * Returns an URL to the referenced image file. Image transformation
@@ -16327,6 +16471,8 @@ declare namespace dw {
      * Utility class which handles several common character encodings.
      */
     class Encoding {
+      private constructor();
+
       /**
        * Decode the given string which represents a sequence of characters encoded
        *  in base-64 to a byte array. Characters not in the base-64 alphabet are
@@ -16879,6 +17025,8 @@ declare namespace dw {
        */
       preferredAddress: dw.customer.CustomerAddress;
 
+      private constructor();
+
       /**
        * Creates a new, empty address object with the specified name.
        * @param name the ID of the address to create, must not be null.
@@ -16928,6 +17076,8 @@ declare namespace dw {
      *  Pay attention to appropriate legal and regulatory requirements related to this functionality.
      */
     class AgentUserMgr {
+      private constructor();
+
       /**
        * Logs in an agent user (which for example is authorized to login on-behalf of a customer for
        *  instance to place an order). The login is only allowed during a secure protocol
@@ -17085,6 +17235,8 @@ declare namespace dw {
        */
       readonly status: string;
 
+      private constructor();
+
       /**
        * The customer, corresponding to the login used during authentication. This customer is not logged in after authentication.
        *
@@ -17182,6 +17334,8 @@ declare namespace dw {
        *  this method will return a negative number.
        */
       readonly remainingLoginAttempts: number;
+
+      private constructor();
 
       /**
        * Generate a random token which can be used for resetting the password of the underlying Customer. The token is
@@ -17460,6 +17614,8 @@ declare namespace dw {
        *  the user has a profile.
        */
       readonly registered: boolean;
+
+      private constructor();
 
       /**
        * Creates an externalProfile and attaches it to the list of external profiles for the customer
@@ -17759,6 +17915,8 @@ declare namespace dw {
        */
       readonly visitsYear: number;
 
+      private constructor();
+
       /**
        * Returns the average order value of the customer, or null
        *  if none has been set or the value is no longer valid.
@@ -18017,6 +18175,8 @@ declare namespace dw {
        * The customer's title.
        */
       title: string;
+
+      private constructor();
 
       /**
        * Returns the customer's first address.
@@ -18296,6 +18456,8 @@ declare namespace dw {
        */
       readonly ruleBased: boolean;
 
+      private constructor();
+
       /**
        * Assigns the specified customer to this group.
        *  The customer must be registered and the group must not be rule-based.
@@ -18347,6 +18509,8 @@ declare namespace dw {
        */
       readonly ID: string;
 
+      private constructor();
+
       /**
        * Get the optional description of the customer list.
        *
@@ -18390,6 +18554,8 @@ declare namespace dw {
        * The customer list of the current site.
        */
       static readonly siteCustomerList: dw.customer.CustomerList;
+
+      private constructor();
 
       /**
        * This method authenticates a customer using the supplied login and password. It will not log in the customer into
@@ -19070,6 +19236,8 @@ declare namespace dw {
        */
       static readonly minSpecialChars: number;
 
+      private constructor();
+
       /**
        * Returns the minimum length.
        *
@@ -19160,6 +19328,8 @@ declare namespace dw {
        *  Pay special attention to PCI DSS v3. requirements 1, 3, 7, and 9.
        */
       readonly creditCardNumber: string;
+
+      private constructor();
 
       /**
        * Returns the driver's license number of the bank account number
@@ -19286,6 +19456,8 @@ declare namespace dw {
        */
       readonly lastLoginTime: Date;
 
+      private constructor();
+
       /**
        * Returns the authentication provider ID.
        *
@@ -19339,6 +19511,8 @@ declare namespace dw {
        *  from this, otherwise a real-time query will be used to get the count.
        */
       readonly orderCount: number;
+
+      private constructor();
 
       /**
        * Returns the number of orders the customer has placed in the store. If the
@@ -19514,6 +19688,8 @@ declare namespace dw {
        *  gift registry). This is set at object creation time.
        */
       readonly type: number;
+
+      private constructor();
 
       /**
        * Create a ProductListRegistrant and assign it to the coRegistrant attribute
@@ -19870,6 +20046,8 @@ declare namespace dw {
        */
       readonly type: number;
 
+      private constructor();
+
       /**
        * Create a purchase record for this item.
        * @param quantity The number of items purchased.
@@ -20040,6 +20218,8 @@ declare namespace dw {
        */
       readonly quantity: dw.value.Quantity;
 
+      private constructor();
+
       /**
        * Returns the item that was purchased.
        *
@@ -20078,6 +20258,8 @@ declare namespace dw {
      *  removing product lists.
      */
     class ProductListMgr {
+      private constructor();
+
       /**
        * Creates a new instance of a product list, of the specified type.
        * @param customer The customer owning the product list, must not be null.
@@ -20313,6 +20495,8 @@ declare namespace dw {
        */
       role: string;
 
+      private constructor();
+
       /**
        * Returns the email address of the registrant or null.
        *
@@ -20505,6 +20689,8 @@ declare namespace dw {
        * The wallet of this customer.
        */
       readonly wallet: dw.customer.Wallet;
+
+      private constructor();
 
       /**
        * Returns the customer's address book.
@@ -20825,6 +21011,8 @@ declare namespace dw {
         dw.order.PaymentInstrument
       >;
 
+      private constructor();
+
       /**
        * Creates a new, empty payment instrument object associated with the
        *  related customer for the given payment method.
@@ -20892,6 +21080,8 @@ declare namespace dw {
          */
         readonly refreshToken: string;
 
+        private constructor();
+
         /**
          * Returns the access token
          *
@@ -20941,6 +21131,8 @@ declare namespace dw {
          * The user info response
          */
         readonly userInfoResponse: dw.customer.oauth.OAuthUserInfoResponse;
+
+        private constructor();
 
         /**
          * Returns the access token response
@@ -21066,6 +21258,8 @@ declare namespace dw {
          */
         readonly userInfo: string;
 
+        private constructor();
+
         /**
          * Returns the error status
          *  In cases of errors - more detailed error information
@@ -21092,7 +21286,9 @@ declare namespace dw {
      *  to indicate that the passed aspect attributes failed during validation against the
      *  definition provided through the aspect type of the page.
      */
-    class AspectAttributeValidationException extends APIException {}
+    class AspectAttributeValidationException extends APIException {
+      private constructor();
+    }
 
     /**
      * This class represents a page designer managed component as part of a
@@ -21117,6 +21313,8 @@ declare namespace dw {
        * The type id of this component.
        */
       readonly typeID: string;
+
+      private constructor();
 
       /**
        * Returns the raw attribute value identified by the specified attribute id.
@@ -21287,6 +21485,8 @@ declare namespace dw {
        */
       readonly content: dw.util.Map<string, any>;
 
+      private constructor();
+
       /**
        * Returns the component for which the corresponding component type script is currently executed.
        *
@@ -21380,6 +21580,8 @@ declare namespace dw {
        */
       readonly resources: dw.experience.CustomEditorResources;
 
+      private constructor();
+
       /**
        * Returns the configuration of the custom editor. This is initialized with the values as provided
        *  through the editor definition of the respective attribute definition of type custom.
@@ -21441,6 +21643,8 @@ declare namespace dw {
        *  URLUtils.httpsStatic(String)) does.
        */
       readonly styles: dw.util.List<string>;
+
+      private constructor();
 
       /**
        * Returns the specified script resource URLs. You can further modify this list
@@ -21550,6 +21754,8 @@ declare namespace dw {
        *    ...
        */
       readonly visible: boolean;
+
+      private constructor();
 
       /**
        * Get the aspect type of the page.
@@ -21691,6 +21897,8 @@ declare namespace dw {
      *  accordant methods of <a href="class_dw_experience_Page.html">Page</a> and <a href="class_dw_experience_Component.html">Component</a>.</p>
      */
     class PageMgr {
+      private constructor();
+
       /**
        * Initialize the custom editor of given type id using the passed configuration. The initialization
        *  will trigger the init function of the respective custom editor type for which the passed
@@ -21907,6 +22115,8 @@ declare namespace dw {
        */
       readonly renderParameters: string;
 
+      private constructor();
+
       /**
        * Returns the content attributes of the page. Currently those are not merchant manageable but
        *  are solely set in your respective page type render function.
@@ -21954,6 +22164,8 @@ declare namespace dw {
        *  call should NOT happen in a pagecached context outside of the processing induced by the above mentioned render methods.
        */
       readonly visibleComponents: dw.util.Collection<dw.experience.Component>;
+
+      private constructor();
 
       /**
        * Returns the id of this region.
@@ -22127,6 +22339,8 @@ declare namespace dw {
          */
         readonly type: dw.util.Map<string, any>;
 
+        private constructor();
+
         /**
          * Return the Salesforce CMS record attributes as key value pairs:
          *
@@ -22175,6 +22389,8 @@ declare namespace dw {
          */
         readonly y: number;
 
+        private constructor();
+
         /**
          * Returns the focal point abscissa.
          *
@@ -22209,6 +22425,8 @@ declare namespace dw {
          *  but only on store of the related component attribute.
          */
         readonly metaData: dw.experience.image.ImageMetaData;
+
+        private constructor();
 
         /**
          * Returns the image media file from the current site's library.
@@ -22245,6 +22463,8 @@ declare namespace dw {
          * The image width.
          */
         readonly width: number;
+
+        private constructor();
 
         /**
          * Returns the image height.
@@ -22463,6 +22683,8 @@ declare namespace dw {
          */
         static readonly extensionPointShippingMethodSelected =
           "dw.extensions.applepay.shippingMethodSelected";
+
+        private constructor();
 
         /**
          * Called to authorize the Apple Pay payment for the order. The given order will have been created by the
@@ -22773,6 +22995,8 @@ declare namespace dw {
         static readonly extensionPointTransformProduct =
           "dw.extensions.facebook.feed.transformProduct";
 
+        private constructor();
+
         /**
          * Called after default transformation of given Demandware product to Facebook product as part of the catalog feed
          *  export.
@@ -23028,6 +23252,8 @@ declare namespace dw {
          * The title of the Facebook product.
          */
         title: string;
+
+        private constructor();
 
         /**
          * Returns the age group for the Facebook product.
@@ -23465,6 +23691,8 @@ declare namespace dw {
         static readonly extensionPointBeforeAuthorization =
           "dw.extensions.paymentapi.beforeAuthorization";
 
+        private constructor();
+
         /**
          * Called after the response has been handled for a request to authorize payment for the given order.
          *
@@ -23627,6 +23855,8 @@ declare namespace dw {
          */
         static readonly extensionPointShippingOptionChange =
           "dw.extensions.paymentrequest.shippingOptionChange";
+
+        private constructor();
 
         /**
          * Called after the Payment Request user interface was canceled. The given basket is the one that was passed to other
@@ -23801,6 +24031,8 @@ declare namespace dw {
          */
         readonly paymentMethod: dw.extensions.payments.SalesforcePaymentMethod;
 
+        private constructor();
+
         /**
          * Returns the amount of this payment intent.
          *
@@ -23912,6 +24144,8 @@ declare namespace dw {
          * The type of this payment method.
          */
         readonly type: string;
+
+        private constructor();
 
         /**
          * Returns the bank of this payment method, or null if none is available. Available on
@@ -24174,6 +24408,8 @@ declare namespace dw {
         static readonly extensionPointAsyncPaymentSucceeded =
           "dw.extensions.payments.asyncPaymentSucceeded";
 
+        private constructor();
+
         /**
          * Called when asynchronous payment succeeded for the given order.
          * @param order the order whose asynchronous payment succeeded
@@ -24186,6 +24422,8 @@ declare namespace dw {
        * Contains functionality for use with Salesforce Payments.
        */
       class SalesforcePaymentsMgr {
+        private constructor();
+
         /**
          * Attaches the given payment method to the given customer.
          * @param paymentMethod payment method to attch to customer
@@ -24246,6 +24484,8 @@ declare namespace dw {
          * The ID of the Pinterest product. This is the same as the ID of the Demandware product.
          */
         readonly ID: string;
+
+        private constructor();
 
         /**
          * Returns the availability of the Pinterest product. Possible values are
@@ -24308,6 +24548,8 @@ declare namespace dw {
          */
         static readonly extensionPointTransformProduct =
           "dw.extensions.pinterest.feed.transformProduct";
+
+        private constructor();
 
         /**
          * Called after default transformation of given Demandware product to Pinterest availability as part of the
@@ -24405,6 +24647,8 @@ declare namespace dw {
          */
         status: string;
 
+        private constructor();
+
         /**
          * Returns the item ID for this Pinterest order.
          *
@@ -24497,6 +24741,8 @@ declare namespace dw {
          */
         static readonly extensionPointGetStatus =
           "dw.extensions.pinterest.order.getStatus";
+
+        private constructor();
 
         /**
          * Called to retrieve status for the given order. Return a null status for unknown orders.
@@ -24627,6 +24873,8 @@ declare namespace dw {
          * The Pinterest title of the product.
          */
         title: string;
+
+        private constructor();
 
         /**
          * Returns the availability of the Pinterest product. Possible values are
@@ -25427,6 +25675,8 @@ declare namespace dw {
      *  other classes like a XMLStreamReader to read data.
      */
     class InputStream {
+      private constructor();
+
       /**
        * Closes the input stream.
        *
@@ -25443,6 +25693,8 @@ declare namespace dw {
      *  <b>Note:</b> when this class is used with sensitive data, be careful in persisting sensitive information to disk.</p>
      */
     class OutputStream {
+      private constructor();
+
       /**
        * Closes the output stream.
        *
@@ -25461,6 +25713,8 @@ declare namespace dw {
      *  <b>Note:</b> when this class is used with sensitive data, be careful in persisting sensitive information to disk.</p>
      */
     class PrintWriter extends dw.io.Writer {
+      private constructor();
+
       /**
        * Prints the given string into the output stream.
        * @param str the String object
@@ -26901,6 +27155,8 @@ declare namespace dw {
        */
       readonly jobID: string;
 
+      private constructor();
+
       /**
        * Returns the job context which can be used to share data between steps. NOTE: Steps should be self-contained, the
        *  job context should only be used when necessary and with caution. If two steps which are running in parallel in
@@ -26957,6 +27213,8 @@ declare namespace dw {
        * The ID of the step type of the step this step execution belongs to.
        */
       readonly stepTypeID: string;
+
+      private constructor();
 
       /**
        * Returns the ID of this step execution.
@@ -28680,6 +28938,8 @@ declare namespace dw {
        */
       readonly size: number;
 
+      private constructor();
+
       /**
        * Returns the content type of the file.
        *
@@ -28861,6 +29121,8 @@ declare namespace dw {
        * Returns the custom attribute with this name. Throws an exception if attribute is not defined
        */
       [name: string]: any;
+
+      private constructor();
     }
 
     /**
@@ -28878,6 +29140,8 @@ declare namespace dw {
        * The type of the CustomObject.
        */
       readonly type: string;
+
+      private constructor();
 
       /**
        * Returns the custom attributes of this
@@ -28901,6 +29165,8 @@ declare namespace dw {
      *  To search for system objects, use <a href="class_dw_object_SystemObjectMgr.html">SystemObjectMgr</a>.</p>
      */
     class CustomObjectMgr {
+      private constructor();
+
       /**
        * Returns a new custom object instance of the specified type, using the
        *  given key value. Custom object keys need to be unique for custom object
@@ -29277,6 +29543,8 @@ declare namespace dw {
        */
       readonly text: string;
 
+      private constructor();
+
       /**
        * Return the login ID of user that is stored in the session at the time
        *  the note is created.
@@ -29459,6 +29727,8 @@ declare namespace dw {
        */
       readonly valueTypeCode: number;
 
+      private constructor();
+
       /**
        * Returns all attribute groups the attribute is assigned to.
        *
@@ -29600,6 +29870,8 @@ declare namespace dw {
        */
       readonly system: boolean;
 
+      private constructor();
+
       /**
        * Returns all attribute definitions for this group. The collection
        *  may contain both system attribute definition as well as custom
@@ -29659,6 +29931,8 @@ declare namespace dw {
        * The actual value for the attribute.
        */
       readonly value: any;
+
+      private constructor();
 
       /**
        * Returns a display name that can be used to present this value in
@@ -29741,6 +30015,8 @@ declare namespace dw {
        *  type.
        */
       readonly system: boolean;
+
+      private constructor();
 
       /**
        * Returns a collection of all declared attributes for the object.
@@ -29862,6 +30138,8 @@ declare namespace dw {
        */
       readonly custom: T;
 
+      private constructor();
+
       /**
        * Returns the custom attributes for this object.
        *
@@ -29885,6 +30163,8 @@ declare namespace dw {
      *  Pay attention to appropriate legal and regulatory requirements related to this data.</p>
      */
     class SystemObjectMgr {
+      private constructor();
+
       /**
        * Returns the object type definition for the given system object type.
        *
@@ -30471,6 +30751,8 @@ declare namespace dw {
        */
       status: dw.value.EnumValue;
 
+      private constructor();
+
       /**
        * Creates appeasement items corresponding to certain order items and adds them to the appeasement.
        * @param totalAmount the appeasement amount corresponding to the provided order items; this amount is the net price when the order is net based and respectively - gross price when the order is gross based
@@ -30601,6 +30883,8 @@ declare namespace dw {
        */
       parentItem: dw.order.AppeasementItem;
 
+      private constructor();
+
       /**
        * Returns the number of the Appeasement to which this item belongs.
        *
@@ -30665,6 +30949,8 @@ declare namespace dw {
        *  accessibility in BasketMgr.createBasketFromOrder(Order)).
        */
       readonly orderNoBeingEdited: string;
+
+      private constructor();
 
       /**
        * Returns the timestamp when the inventory for this basket expires.
@@ -31073,6 +31359,8 @@ declare namespace dw {
        */
       static readonly storedBasket: dw.order.Basket;
 
+      private constructor();
+
       /**
        * Creates a new agent basket for the current session customer.
        *
@@ -31360,6 +31648,8 @@ declare namespace dw {
        */
       readonly promotionID: string;
 
+      private constructor();
+
       /**
        * Get the product line items in the current LineItemCtnr representing the
        *  bonus products that the customer has selected for this discount.
@@ -31502,6 +31792,8 @@ declare namespace dw {
        */
       readonly valid: boolean;
 
+      private constructor();
+
       /**
        * Associates the specified price adjustment with the coupon line item.
        *  This method is only applicable if used for price adjustments and
@@ -31581,7 +31873,9 @@ declare namespace dw {
      * This exception is thrown by <a href="class_dw_order_BasketMgr.html#dw_order_BasketMgr_createAgentBasket_DetailAnchor">BasketMgr.createAgentBasket()</a> to indicate that the open agent basket limit for
      *  the current session customer is already reached, and therefore no new agent basket could be created.
      */
-    class CreateAgentBasketLimitExceededException extends APIException {}
+    class CreateAgentBasketLimitExceededException extends APIException {
+      private constructor();
+    }
 
     /**
      * This APIException is thrown by method <a href="class_dw_order_BasketMgr.html#dw_order_BasketMgr_createBasketFromOrder_Order_DetailAnchor">BasketMgr.createBasketFromOrder(Order)</a>
@@ -31592,6 +31886,8 @@ declare namespace dw {
        * Indicates reason why BasketMgr.createBasketFromOrder(Order) failed.
        */
       readonly errorCode: string;
+
+      private constructor();
     }
 
     /**
@@ -31616,13 +31912,17 @@ declare namespace dw {
        * Returns one of the error codes listed in the class doc.
        */
       readonly errorCode: string;
+
+      private constructor();
     }
 
     /**
      * This APIException is thrown by method <a href="class_dw_order_OrderMgr.html#dw_order_OrderMgr_createOrder_Basket_String_DetailAnchor">OrderMgr.createOrder(Basket, String)</a>
      *  to indicate no Order could be created from the Basket.
      */
-    class CreateOrderException extends APIException {}
+    class CreateOrderException extends APIException {
+      private constructor();
+    }
 
     /**
      * Represents a Gift Certificate that can be used to purchase
@@ -31718,6 +32018,8 @@ declare namespace dw {
        *  or STATUS_REDEEMED.
        */
       status: number;
+
+      private constructor();
 
       /**
        * Returns the original amount on the gift certificate.
@@ -31909,6 +32211,8 @@ declare namespace dw {
        */
       shipment: dw.order.Shipment;
 
+      private constructor();
+
       /**
        * Returns the ID of the gift certificate that this line item
        *  was used to create. If this line item has not been used to create
@@ -32035,6 +32339,8 @@ declare namespace dw {
        *  has been fully redeemed.
        */
       static readonly GC_ERROR_REDEEMED = "GIFTCERTIFICATE-120";
+
+      private constructor();
 
       /**
        * Creates a Gift Certificate. If a non-empty Gift Certificate code is specified, the code will be used to create
@@ -32313,6 +32619,8 @@ declare namespace dw {
        */
       readonly type: dw.value.EnumValue;
 
+      private constructor();
+
       /**
        * The invoice will be accounted.
        *
@@ -32495,6 +32803,8 @@ declare namespace dw {
        * The refunded amount for this item.
        */
       refundedAmount: dw.value.Money;
+
+      private constructor();
 
       /**
        * Price of a single unit before discount application.
@@ -34523,6 +34833,8 @@ declare namespace dw {
        */
       status: dw.value.EnumValue;
 
+      private constructor();
+
       /**
        * Creates a new Appeasement associated with this order.
        *
@@ -35525,6 +35837,8 @@ declare namespace dw {
        */
       title: string;
 
+      private constructor();
+
       /**
        * Returns the customer's first address.
        *
@@ -35926,6 +36240,8 @@ declare namespace dw {
        */
       readonly type: dw.value.EnumValue;
 
+      private constructor();
+
       /**
        * Please note that this method is disabled by default. Please contact support for enabling it.
        *
@@ -36141,6 +36457,8 @@ declare namespace dw {
      *  <p></p>
      */
     class OrderMgr {
+      private constructor();
+
       /**
        * This method cancels an order. Only orders in status OPEN, NEW, or COMPLETED can be cancelled.
        *
@@ -37167,6 +37485,8 @@ declare namespace dw {
        */
       readonly refundedAmount: dw.value.Money;
 
+      private constructor();
+
       /**
        * Returns the driver's license associated with a bank account if the calling
        *  context meets the following criteria:
@@ -37344,6 +37664,8 @@ declare namespace dw {
        * The name of the payment card.
        */
       readonly name: string;
+
+      private constructor();
 
       /**
        * Returns the unique card type of the payment card.
@@ -38330,6 +38652,8 @@ declare namespace dw {
        */
       readonly paymentProcessor: dw.order.PaymentProcessor;
 
+      private constructor();
+
       /**
        * Returns enabled payment cards that are assigned to this payment method, regardless
        *  of current customer, country or payment amount restrictions.
@@ -38464,6 +38788,8 @@ declare namespace dw {
         dw.order.PaymentMethod
       >;
 
+      private constructor();
+
       /**
        * Returns the sorted list of all enabled payment methods of the current
        *  site, regardless of any customer group, country, payment amount or currency
@@ -38570,6 +38896,8 @@ declare namespace dw {
        */
       readonly ID: string;
 
+      private constructor();
+
       /**
        * Returns the 'ID' of this processor.
        *
@@ -38659,6 +38987,8 @@ declare namespace dw {
        *  or TYPE_CREDIT.
        */
       type: dw.value.EnumValue;
+
+      private constructor();
 
       /**
        * Returns the amount of the transaction.
@@ -38932,6 +39262,8 @@ declare namespace dw {
        *  why he gave a discount to the customer.
        */
       reasonCode: dw.value.EnumValue;
+
+      private constructor();
 
       /**
        * Returns the Commerce Cloud Digital AB-test this price adjustment is associated with.
@@ -39217,6 +39549,8 @@ declare namespace dw {
        *  The price adjustment limit was created at the shipping item level.
        */
       static readonly TYPE_SHIPPING = "SHIPPING";
+
+      private constructor();
     }
 
     /**
@@ -39508,6 +39842,8 @@ declare namespace dw {
        * Return the value portion of getStepQuantity().
        */
       stepQuantityValue: number;
+
+      private constructor();
 
       /**
        * Creates a product price adjustment.
@@ -40209,6 +40545,8 @@ declare namespace dw {
        */
       readonly surcharge: boolean;
 
+      private constructor();
+
       /**
        * Returns the shipping amount.
        *
@@ -40285,6 +40623,8 @@ declare namespace dw {
        * The 'surcharge' flag.
        */
       surcharge: boolean;
+
+      private constructor();
 
       /**
        * Returns the gross price of the product shipping line item after applying
@@ -40413,6 +40753,8 @@ declare namespace dw {
       readonly shippingMethodsWithShippingCost: dw.util.Collection<
         dw.order.ShippingMethod
       >;
+
+      private constructor();
 
       /**
        * Returns the active applicable shipping methods for the product related
@@ -40555,6 +40897,8 @@ declare namespace dw {
        *  Possible values are STATUS_NEW, STATUS_COMPLETED.
        */
       status: dw.value.EnumValue;
+
+      private constructor();
 
       /**
        * Creates a new Invoice based on this Return.
@@ -40794,6 +41138,8 @@ declare namespace dw {
        */
       readonly status: dw.value.EnumValue;
 
+      private constructor();
+
       /**
        * Attempt to confirm the ReturnCase.
        *  Without items the return case will be canceled
@@ -40992,6 +41338,8 @@ declare namespace dw {
        */
       status: dw.value.EnumValue;
 
+      private constructor();
+
       /**
        * Create a new ReturnItem for this ReturnCaseItem and assign it to the
        *  given Return.
@@ -41131,6 +41479,8 @@ declare namespace dw {
        * The mandatory returnNumber of the Return to which this item belongs.
        */
       readonly returnNumber: string;
+
+      private constructor();
 
       /**
        * Create a new  tax-item and add to this item.
@@ -41470,6 +41820,8 @@ declare namespace dw {
        * The tracking number of this shipment.
        */
       trackingNumber: string;
+
+      private constructor();
 
       /**
        * A shipment has initially no shipping address. This method creates a shipping address for the shipment and
@@ -41843,6 +42195,8 @@ declare namespace dw {
        */
       readonly amount: dw.value.Money;
 
+      private constructor();
+
       /**
        * Returns the shipping amount.
        *
@@ -41882,6 +42236,8 @@ declare namespace dw {
       readonly inapplicableShippingMethods: dw.util.Collection<
         dw.order.ShippingMethod
       >;
+
+      private constructor();
 
       /**
        * Returns the active applicable shipping methods for the shipment related
@@ -42038,6 +42394,8 @@ declare namespace dw {
       readonly shippingPriceAdjustments: dw.util.Collection<
         dw.order.PriceAdjustment
       >;
+
+      private constructor();
 
       /**
        * Creates a shipping price adjustment to be applied to the shipping line
@@ -42349,6 +42707,8 @@ declare namespace dw {
        */
       readonly taxClassID: string;
 
+      private constructor();
+
       /**
        * Returns the base shipping method or null if undefined.
        *
@@ -42433,6 +42793,8 @@ declare namespace dw {
        *  the same. Returns NULL if the two currencies are different.
        */
       static readonly defaultShippingMethod: dw.order.ShippingMethod;
+
+      private constructor();
 
       /**
        * Applies product and shipment-level shipping cost to the specified line
@@ -42697,6 +43059,8 @@ declare namespace dw {
        */
       readonly trackingInfos: dw.util.Collection<dw.order.TrackingInfo>;
 
+      private constructor();
+
       /**
        * Adds a tracking info to this shipping order with the given ID.
        * @param trackingInfoID the tracking info id
@@ -42959,6 +43323,8 @@ declare namespace dw {
        */
       readonly trackingRefs: dw.util.FilteringCollection<dw.order.TrackingRef>;
 
+      private constructor();
+
       /**
        * A shipping order item can be assigned
        *  to one or many  tracking infos with
@@ -43156,6 +43522,8 @@ declare namespace dw {
        */
       readonly taxItems: dw.util.Collection<dw.order.TaxItem>;
 
+      private constructor();
+
       /**
        * Gross price of SumItem.
        *
@@ -43211,6 +43579,8 @@ declare namespace dw {
        */
       readonly taxType: string;
 
+      private constructor();
+
       /**
        * Creates a TaxGroup.
        *  This TaxGroup can be used for example in ReturnItem.addTaxItem(Decimal, TaxGroup).
@@ -43264,6 +43634,8 @@ declare namespace dw {
        * The  tax group.
        */
       readonly taxGroup: dw.order.TaxGroup;
+
+      private constructor();
 
       /**
        * Gets the amount.
@@ -43328,6 +43700,8 @@ declare namespace dw {
        *  tax module.
        */
       static readonly taxExemptTaxClassID: string;
+
+      private constructor();
 
       /**
        * Returns the ID of the tax class that represents items with a custom tax rate.
@@ -43436,6 +43810,8 @@ declare namespace dw {
        */
       warehouseID: string;
 
+      private constructor();
+
       /**
        * Get the Carrier.
        *
@@ -43533,6 +43909,8 @@ declare namespace dw {
        */
       readonly trackingInfo: dw.order.TrackingInfo;
 
+      private constructor();
+
       /**
        * Gets the quantity, the shipping order item is assigned to the tracking
        *  info.
@@ -43600,6 +43978,8 @@ declare namespace dw {
          */
         static readonly extensionPointCalculateTax = "dw.order.calculateTax";
 
+        private constructor();
+
         /**
          * The function is called by extension point extensionPointCalculate. It provides a single place for
          *  the line item container calculation.
@@ -43662,6 +44042,8 @@ declare namespace dw {
          * The extension point name dw.order.createOrderNo.
          */
         static readonly extensionPointCreateOrderNo = "dw.order.createOrderNo";
+
+        private constructor();
 
         /**
          * This hook is responsible for creating a new order number.
@@ -43751,6 +44133,8 @@ declare namespace dw {
          */
         static readonly extensionPointValidateAuthorization =
           "dw.order.payment.validateAuthorization";
+
+        private constructor();
 
         /**
          * The function is called by extension point extensionPointAuthorize. Custom payment authorization - modify the
@@ -44092,6 +44476,8 @@ declare namespace dw {
         static readonly extensionPointNotifyStatusChange =
           "dw.order.return.notifyStatusChange";
 
+        private constructor();
+
         /**
          * The hook provides customization in the process of assigning the returned
          *  amount, quantity etc. Here it is possible to refund differently based on
@@ -44253,6 +44639,8 @@ declare namespace dw {
          */
         static readonly extensionPointUpdateShippingOrderItem =
           "dw.order.shippingorder.updateShippingOrderItem";
+
+        private constructor();
 
         /**
          * After Status change hook.
@@ -45053,6 +45441,8 @@ declare namespace dw {
        */
       readonly valid: boolean;
 
+      private constructor();
+
       /**
        * Returns the name of the file e.g. sitemap_index.xml
        *
@@ -45116,6 +45506,8 @@ declare namespace dw {
         string,
         dw.sitemap.SitemapFile
       >;
+
+      private constructor();
 
       /**
        * Adds the given File to the appservers custom sitemap directory. All content of the appservers
@@ -45184,7 +45576,9 @@ declare namespace dw {
      *  the original user input search query, is accessible
      *  through <a href="class_dw_suggest_SearchPhraseSuggestions.html#dw_suggest_SearchPhraseSuggestions_getSuggestedTerms_DetailAnchor">SearchPhraseSuggestions.getSuggestedTerms()</a> method.</p>
      */
-    class BrandSuggestions extends dw.suggest.Suggestions {}
+    class BrandSuggestions extends dw.suggest.Suggestions {
+      private constructor();
+    }
 
     /**
      * The category suggestion container provides access to
@@ -45203,6 +45597,8 @@ declare namespace dw {
        *  The category lookup is being executed in the current catalog and locale.
        */
       readonly suggestedCategories: dw.util.Iterator<dw.catalog.Category>;
+
+      private constructor();
 
       /**
        * This method returns a list of categories which were found
@@ -45232,6 +45628,8 @@ declare namespace dw {
        */
       readonly suggestedContent: dw.util.Iterator<dw.content.Content>;
 
+      private constructor();
+
       /**
        * This method returns a list of content pages which were found
        *  using the suggested terms as search criteria.
@@ -45254,7 +45652,9 @@ declare namespace dw {
      *  Furthermore the list of suggested terms is accessible
      *  through <a href="class_dw_suggest_SearchPhraseSuggestions.html#dw_suggest_SearchPhraseSuggestions_getSuggestedTerms_DetailAnchor">SearchPhraseSuggestions.getSuggestedTerms()</a> method.</p>
      */
-    class CustomSuggestions extends dw.suggest.Suggestions {}
+    class CustomSuggestions extends dw.suggest.Suggestions {
+      private constructor();
+    }
 
     /**
      * The product suggestion container provides access to
@@ -45273,6 +45673,8 @@ declare namespace dw {
        *  The product lookup is being executed in the current catalog and locale.
        */
       readonly suggestedProducts: dw.util.Iterator<dw.catalog.Product>;
+
+      private constructor();
 
       /**
        * This method returns a list of products which were found
@@ -45302,6 +45704,8 @@ declare namespace dw {
        *  of the user input search phrase.
        */
       readonly suggestedTerms: dw.util.Iterator<dw.suggest.SuggestedTerms>;
+
+      private constructor();
 
       /**
        * Returns a list of SuggestedPhrase objects that relates to the
@@ -45583,6 +45987,8 @@ declare namespace dw {
        */
       readonly category: dw.catalog.Category;
 
+      private constructor();
+
       /**
        * This method returns the actual Category object corresponding to this suggested category.
        *
@@ -45600,6 +46006,8 @@ declare namespace dw {
        * This method returns the actual Content object corresponding to this suggested content.
        */
       readonly content: dw.content.Content;
+
+      private constructor();
 
       /**
        * This method returns the actual Content object corresponding to this suggested content.
@@ -45622,6 +46030,8 @@ declare namespace dw {
        * This method returns the actual phrase as a string value.
        */
       readonly phrase: string;
+
+      private constructor();
 
       /**
        * This method returns the actual phrase as a string value.
@@ -45647,6 +46057,8 @@ declare namespace dw {
        *  corresponding to this suggested product.
        */
       readonly productSearchHit: dw.catalog.ProductSearchHit;
+
+      private constructor();
 
       /**
        * This method returns the actual ProductSearchHit object
@@ -45693,6 +46105,8 @@ declare namespace dw {
        * Returns this suggested term as String value.
        */
       readonly value: string;
+
+      private constructor();
 
       /**
        * Returns this suggested term as String value.
@@ -45760,6 +46174,8 @@ declare namespace dw {
        * The list of SuggestedTerms suggested for the original term.
        */
       readonly terms: dw.util.Iterator<dw.suggest.SuggestedTerms>;
+
+      private constructor();
 
       /**
        * This method returns the suggested term which is considered best matching
@@ -45907,6 +46323,8 @@ declare namespace dw {
        */
       readonly client: any;
 
+      private constructor();
+
       /**
        * Returns the underlying client object.
        *
@@ -45964,6 +46382,8 @@ declare namespace dw {
        */
       autoDisconnect: boolean;
 
+      private constructor();
+
       /**
        * Returns the status of whether the underlying FTP connection will be disconnected after the service call.
        *
@@ -45988,12 +46408,16 @@ declare namespace dw {
      *  pairs in the HTTP request body. The HTTP request will be a POST with a content-type of
      *  <code>application/x-www-form-urlencoded</code>.</p>
      */
-    class HTTPFormService extends dw.svc.HTTPService {}
+    class HTTPFormService extends dw.svc.HTTPService {
+      private constructor();
+    }
 
     /**
      * Represents an HTTP Form POST Service Definition.
      */
-    class HTTPFormServiceDefinition extends dw.svc.HTTPServiceDefinition {}
+    class HTTPFormServiceDefinition extends dw.svc.HTTPServiceDefinition {
+      private constructor();
+    }
 
     /**
      * Represents an HTTP Service.
@@ -46312,6 +46736,8 @@ declare namespace dw {
      *  classes for customization specific to a service type.</p>
      */
     class LocalServiceRegistry {
+      private constructor();
+
       /**
        * Constructs and configures a service with a callback.
        * @param serviceId Unique Service ID.
@@ -46472,6 +46898,8 @@ declare namespace dw {
        */
       serviceClient: any;
 
+      private constructor();
+
       /**
        * Returns the authentication type.
        *
@@ -46503,7 +46931,9 @@ declare namespace dw {
     /**
      * Represents a SOAP WebService definition.
      */
-    class SOAPServiceDefinition extends dw.svc.ServiceDefinition {}
+    class SOAPServiceDefinition extends dw.svc.ServiceDefinition {
+      private constructor();
+    }
 
     /**
      * Base class of Services.
@@ -46713,6 +47143,8 @@ declare namespace dw {
        */
       readonly URL: string;
 
+      private constructor();
+
       /**
        * Creates a request object to be used when calling the service.
        *
@@ -46833,6 +47265,8 @@ declare namespace dw {
        */
       readonly serviceType: string;
 
+      private constructor();
+
       /**
        * Returns the related service credentials.
        *
@@ -46884,6 +47318,8 @@ declare namespace dw {
        * The User ID.
        */
       readonly user: string;
+
+      private constructor();
 
       /**
        * Encrypts the password from this object with the given algorithm
@@ -47070,6 +47506,8 @@ declare namespace dw {
        */
       readonly timeoutMillis: number;
 
+      private constructor();
+
       /**
        * Returns the maximum number of errors in an interval allowed by the circuit breaker.
        *
@@ -47157,6 +47595,8 @@ declare namespace dw {
      *  classes for customization specific to a service type.
      */
     class ServiceRegistry {
+      private constructor();
+
       /**
        * Configure the given serviceId with a callback.
        *
@@ -47241,6 +47681,8 @@ declare namespace dw {
      *  See <a href="class_dw_system_CacheMgr.html">CacheMgr</a> for details about how to configure a custom cache.</p>
      */
     class Cache {
+      private constructor();
+
       /**
        * Returns the value associated with key in this cache, or invokes the loader function to generate the entry if
        *  there is no entry found. The generated entry is stored for future retrieval. If the loader function returns
@@ -47299,6 +47741,8 @@ declare namespace dw {
      *  </pre>
      */
     class CacheMgr {
+      private constructor();
+
       /**
        * Returns the defined cache instance for the given ID. Throws an exception when the requested cache has not been
        *  defined in any caches.json descriptor.
@@ -47313,6 +47757,8 @@ declare namespace dw {
      *  where you can register scripts to customize functionality.
      */
     class HookMgr {
+      private constructor();
+
       /**
        * Calls a hook on base of the specified extensionPoint and function. If a hook throws an exception, then
        *  this method will also throw an exception. If no hook and no system default implementation is provided,
@@ -47345,6 +47791,8 @@ declare namespace dw {
      *  B2C Commerce Script code.
      */
     class InternalObject {
+      private constructor();
+
       /**
        * Returns a string representation of this object.
        *
@@ -47371,6 +47819,8 @@ declare namespace dw {
        * Reserved for future use. Gets the work message.
        */
       workMessage: string;
+
+      private constructor();
 
       /**
        * Reserved for future use. Gets the total work count.
@@ -47427,6 +47877,8 @@ declare namespace dw {
        * This method returns true if warning logging is enabled for this logging instance.
        */
       readonly warnEnabled: boolean;
+
+      private constructor();
 
       /**
        * The method reports an debug level message. Arguments can be embedded into the message, e.g. like "Failure {0} in
@@ -47502,6 +47954,8 @@ declare namespace dw {
      *  interleaved when a server handles multiple script calls near-simultaneously.
      */
     class LogNDC {
+      private constructor();
+
       /**
        * Looks at the last diagnostic context at the top of this NDC without
        *  removing it.
@@ -47556,6 +48010,8 @@ declare namespace dw {
        * This method returns true if warning logging is enabled.
        */
       readonly warnEnabled: boolean;
+
+      private constructor();
 
       /**
        * The method reports an debug level message. Arguments can be embedded
@@ -47660,7 +48116,9 @@ declare namespace dw {
      */
     class OrganizationPreferences extends dw.object.ExtensibleObject<
       OrganizationPreferencesCustomAttributes
-    > {}
+    > {
+      private constructor();
+    }
 
     /**
      * A helper for executing pipelines from JavaScript. The main purpose for this API is to invoke process pipelines from
@@ -47691,6 +48149,8 @@ declare namespace dw {
      *  This feature requires an API version &gt;=15.5.
      */
     class Pipeline {
+      private constructor();
+
       /**
        * Executes a pipeline.
        * @param pipeline the pipeline identifier, must consist of the pipeline name and the start node name, like 'PipelineName-StartNodeName'
@@ -47736,6 +48196,8 @@ declare namespace dw {
        * Returns the attribute with this name
        */
       [name: string]: any;
+
+      private constructor();
     }
 
     /**
@@ -47867,6 +48329,8 @@ declare namespace dw {
        * The form action that was triggered by the client if the request represents a form submission.
        */
       readonly triggeredFormAction: dw.web.FormAction;
+
+      private constructor();
 
       /**
        * Adds the specified cookie to the outgoing response. This method can be called multiple times to set more than one
@@ -48109,6 +48573,8 @@ declare namespace dw {
        */
       static readonly extensionPointOnSession = "dw.system.request.onSession";
 
+      private constructor();
+
       /**
        * The function is called by extension point extensionPointOnRequest.
        *  It is called when a storefront request was received from the client.
@@ -48253,6 +48719,8 @@ declare namespace dw {
        * A print writer which can be used to print content directly to the response.
        */
       readonly writer: dw.io.PrintWriter;
+
+      private constructor();
 
       /**
        * Adds the specified cookie to the outgoing response. This method can be called multiple times to set more than one
@@ -48530,6 +48998,8 @@ declare namespace dw {
        */
       readonly userName: string;
 
+      private constructor();
+
       /**
        * Returns the current click stream if this is an HTTP session, null otherwise.
        *
@@ -48778,6 +49248,8 @@ declare namespace dw {
        */
       readonly timezoneOffset: number;
 
+      private constructor();
+
       /**
        * Returns the allowed currencies of the current site as a collection of
        *  currency codes.
@@ -48979,6 +49451,8 @@ declare namespace dw {
        *  site.
        */
       readonly sourceCodeURLParameterName: string;
+
+      private constructor();
 
       /**
        * Returns the name of the source code url paremeter configured for the
@@ -49349,6 +49823,8 @@ declare namespace dw {
        */
       static readonly preferences: dw.system.OrganizationPreferences;
 
+      private constructor();
+
       /**
        * Returns a new Calendar object in the time zone of the
        *  current instance.
@@ -49425,6 +49901,8 @@ declare namespace dw {
      *  </pre>
      */
     class Transaction {
+      private constructor();
+
       /**
        * Begins a transaction.
        *
@@ -49472,6 +49950,8 @@ declare namespace dw {
      *  </pre>
      */
     class ISML {
+      private constructor();
+
       /**
        * Renders an ISML template and writes the output to the current response. The template may contain ISML tags which
        *  control the character encoding, content type, caching behavior and so on of the response (see ISML
@@ -49523,6 +50003,8 @@ declare namespace dw {
      *  </p><p></p>
      */
     class Velocity {
+      private constructor();
+
       /**
        * Includes the rendered content of the specified action URL, which usually is a pipeline or controller. Must only be used inside a Velocity
        *  template, such as $velocity.remoteInclude('Product-Show','sku','42')
@@ -49632,6 +50114,8 @@ declare namespace dw {
      * The Assert class provides utility methods for assertion events.
      */
     class Assert {
+      private constructor();
+
       /**
        * Propagates an assertion
        *  if the specified objects are not equal.
@@ -50677,6 +51161,8 @@ declare namespace dw {
        */
       readonly symbol: string;
 
+      private constructor();
+
       /**
        * Returns a Currency instance for the given currency code,
        *  or null if there is no such currency.
@@ -50725,6 +51211,8 @@ declare namespace dw {
      * A class with several utility methods for Date objects.
      */
     class DateUtils {
+      private constructor();
+
       /**
        * Returns the current time stamp in the time zone of the
        *  instance.
@@ -50977,6 +51465,8 @@ declare namespace dw {
        *  previously sorted.
        */
       static readonly ORDERBY_REVERSE: any;
+
+      private constructor();
 
       /**
        * Returns a Map containing the elements of this
@@ -51539,6 +52029,8 @@ declare namespace dw {
        */
       readonly language: string;
 
+      private constructor();
+
       /**
        * Returns the country/region code for this Locale, which will
        *  either be the empty string or an upercase ISO 3166 2-letter code.
@@ -51750,6 +52242,8 @@ declare namespace dw {
        */
       readonly value: V;
 
+      private constructor();
+
       /**
        * Returns the entry's key.
        *
@@ -51821,6 +52315,8 @@ declare namespace dw {
        * List all known mappings.
        */
       static readonly mappingNames: dw.util.Collection<string>;
+
+      private constructor();
 
       /**
        * Returns a map containing value(s) associated to the specified key for the specified mapping.
@@ -51932,6 +52428,8 @@ declare namespace dw {
      *  the proper format.
      */
     class SecureEncoder {
+      private constructor();
+
       /**
        * Encodes a given input for use in a general HTML context. E.g.
        *  text content and text attributes. This method takes the UNION of allowed
@@ -52280,6 +52778,8 @@ declare namespace dw {
      *  the untrusted data.
      */
     class SecureFilter {
+      private constructor();
+
       /**
        * Filters illegal characters from a given input for use in a general HTML
        *  context. E.g. text content and text attributes. This method takes the
@@ -52613,6 +53113,8 @@ declare namespace dw {
        */
       readonly count: number;
 
+      private constructor();
+
       /**
        * Closes all system resources associated with this iterator.
        *
@@ -52873,6 +53375,8 @@ declare namespace dw {
        * String truncate mode 'word'. Truncate string to the nearest word.
        */
       static readonly TRUNCATE_WORD = "word";
+
+      private constructor();
 
       /**
        * Interprets a Base64 encoded string as byte stream of an UTF-8 encoded string.
@@ -53204,6 +53708,8 @@ declare namespace dw {
      * Utility methods around generating unique IDs.
      */
     class UUIDUtils {
+      private constructor();
+
       /**
        * The method generates a unique id.
        *
@@ -53240,6 +53746,8 @@ declare namespace dw {
        *  value or a string.
        */
       readonly value: any;
+
+      private constructor();
 
       /**
        * Returns the display value of the enumeration value. If no display value
@@ -53734,6 +54242,8 @@ declare namespace dw {
        */
       static readonly tokenName: string;
 
+      private constructor();
+
       /**
        * Constructs a new unique CSRF token for this session.
        *
@@ -53802,6 +54312,8 @@ declare namespace dw {
        *  stream is only partial.
        */
       readonly partial: boolean;
+
+      private constructor();
 
       /**
        * Returns a collection with all clicks. The first entry is the oldest
@@ -53899,6 +54411,8 @@ declare namespace dw {
        * The user agent.
        */
       readonly userAgent: string;
+
+      private constructor();
 
       /**
        * Returns the host.
@@ -54170,6 +54684,8 @@ declare namespace dw {
        */
       [name: string]: any;
 
+      private constructor();
+
       /**
        * Returns the number of known cookies.
        *
@@ -54196,6 +54712,8 @@ declare namespace dw {
        * Returns the Form element with this name.
        */
       readonly [name: string]: dw.web.FormElement | any;
+
+      private constructor();
 
       /**
        * Returns the secure key html name to be used for the hidden input field
@@ -54253,6 +54771,8 @@ declare namespace dw {
        * In case of an image button, returns the y coordinate of the last click.
        */
       readonly y: number;
+
+      private constructor();
 
       /**
        * Returns the optional description for the action. The description could be used
@@ -54642,6 +55162,8 @@ declare namespace dw {
        */
       value: any;
 
+      private constructor();
+
       /**
        * Returns an optinal description for the field.
        *
@@ -54916,6 +55438,8 @@ declare namespace dw {
        */
       readonly value: any;
 
+      private constructor();
+
       /**
        * Returns the value for the HTML value attribute of a HTML option element.
        *
@@ -54987,6 +55511,8 @@ declare namespace dw {
        * The number of option values.
        */
       readonly optionsCount: number;
+
+      private constructor();
 
       /**
        * Returns the number of option values.
@@ -55142,6 +55668,8 @@ declare namespace dw {
        */
       readonly selectOneObject: any;
 
+      private constructor();
+
       /**
        * returns the selected list items if the list is
        *  configured to support selection of items.
@@ -55183,6 +55711,8 @@ declare namespace dw {
        */
       readonly itemIndex: number;
 
+      private constructor();
+
       /**
        * Returns the index of this item with the list.
        *
@@ -55199,7 +55729,9 @@ declare namespace dw {
      *  <p>
      *  Note that values stored with a form on the session are deleted if the request locale is changed during the session.</p>
      */
-    class Forms {}
+    class Forms {
+      private constructor();
+    }
 
     /**
      * Represents an HTTP parameter.
@@ -55272,6 +55804,8 @@ declare namespace dw {
        * A Collection of all defined values for this current HTTP parameter.
        */
       readonly values: dw.util.Collection<string>;
+
+      private constructor();
 
       /**
        * Identifies if the given value is part of the actual values.
@@ -55451,6 +55985,8 @@ declare namespace dw {
        */
       readonly [name: string]: dw.web.HttpParameter | any;
 
+      private constructor();
+
       /**
        * Returns the http parameter for the given key or an empty http parameter,
        *  if no parameter is defined for that key. An empty parameter returns
@@ -55581,6 +56117,8 @@ declare namespace dw {
        */
       readonly step: number;
 
+      private constructor();
+
       /**
        * Return begin iteration index. By default begin index is 0.
        *
@@ -55683,6 +56221,8 @@ declare namespace dw {
        * The page's title.
        */
       title: string;
+
+      private constructor();
 
       /**
        * Adds a page meta tag to this container.
@@ -55790,6 +56330,8 @@ declare namespace dw {
        * Returns true if the page meta tag type is title, false otherwise.
        */
       readonly title: boolean;
+
+      private constructor();
 
       /**
        * Returns the page meta tag content.
@@ -56059,6 +56601,8 @@ declare namespace dw {
      *  encoding. Unicode escape sequences are also supported.</p>
      */
     class Resource {
+      private constructor();
+
       /**
        * Returns the message from the default properties resource bundle (base
        *  name "message") corresponding to the specified key and the request
@@ -56126,6 +56670,8 @@ declare namespace dw {
      * Represents a URL in Commerce Cloud Digital.
      */
     class URL {
+      private constructor();
+
       /**
        * Makes the URL absolute and ensures that the protocol of the request is used
        *  or http in a mail context.
@@ -56296,6 +56842,8 @@ declare namespace dw {
        */
       readonly status: number;
 
+      private constructor();
+
       /**
        * Returns the URL which was calculated to be the redirect URL.
        *  The Location parameter can be directly used as value for an redirect location.
@@ -56331,6 +56879,8 @@ declare namespace dw {
        *  which will be used in getRedirect() to calculate a redirect location for.
        */
       static readonly redirectOrigin: string;
+
+      private constructor();
 
       /**
        * Returns an URLRedirect object, containing a location and status. The redirect is calculated
@@ -56563,6 +57113,8 @@ declare namespace dw {
        * ID for a site context (= assigned cartridges). See staticURL() method.
        */
       static readonly CONTEXT_SITE = "ContextSite";
+
+      private constructor();
 
       /**
        * Return an absolute URL with protocol and host from the current request.
