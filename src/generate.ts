@@ -1,3 +1,4 @@
+import { ClassDef, ConstructorDef, ConstantDef, PropertyDef, MethodDef, CustomAttr } from './models';
 
 import fs from "fs";
 import path from "path";
@@ -91,9 +92,6 @@ const sanitizeType = (type: string, generics: string, isGeneric: boolean) => {
 const sanitizeArg = (arg: string) => config.argsMapping[arg] || arg;
 
 
-const objbToArray = (obj: any): any => {
-  return Object.values(obj);
-};
 
 const sanitizeValue = (obj: any) => {
   switch (obj.class.name) {
@@ -151,22 +149,22 @@ const doc = (obj: any) => {
 const formatArgument = (arg: any, isGeneric: boolean) =>
   `${arg.multiple ? "..." : ""}${sanitizeArg(arg.name)}: ${sanitizeType(arg.class.name, arg.class.generics, isGeneric)}${arg.multiple ? "[]" : ""}`;
 
-const filterComponent = (key: string, prop: string) => {
-  return (element: any) =>
-    (key === "global" && !standardDefinition(element.name)) ||
+function filterComponent<T>(key: string, prop: string) {
+  return (element: T) =>
+    (key === "global" && !standardDefinition((element as any).name)) ||
     (key !== "global" &&
       !(
         config.exclusions[key] &&
         config.exclusions[key][prop] &&
-        config.exclusions[key][prop].includes(element.name)
+        config.exclusions[key][prop].includes((element as any).name)
       ));
 };
 
-const filterConstants = (key: string) => filterComponent(key, "constants");
-const filterProperties = (key: string) => filterComponent(key, "properties");
-const filterMethods = (key: string) => filterComponent(key, "methods");
+const filterConstants = (key: string) => filterComponent<ConstantDef>(key, "constants");
+const filterProperties = (key: string) => filterComponent<PropertyDef>(key, "properties");
+const filterMethods = (key: string) => filterComponent<MethodDef>(key, "methods");
 
-const generateExportFileForClass = (theClass: any) => {
+const generateExportFileForClass = (theClass: ClassDef) => {
   var packageTokens = theClass.fullClassName.split(".");
   if (packageTokens.length && packageTokens[0] === "TopLevel") {
     packageTokens.shift();
@@ -188,8 +186,7 @@ const generateExportFileForClass = (theClass: any) => {
   var sourcePath = path.join(foldersPath, className + ".d.ts");
   fs.writeFileSync(
     sourcePath,
-    `/// <reference path="${
-    packageTokens.length == 0 ? "./" : packageTokens.map(() => "../").join("")
+    `/// <reference path="${packageTokens.length == 0 ? "./" : packageTokens.map(() => "../").join("")
     }index.d.ts" />\nexport = ${theClass.fullClassName.replace(
       "TopLevel.",
       ""
@@ -197,7 +194,7 @@ const generateExportFileForClass = (theClass: any) => {
   );
 };
 
-const generateCodeForClass = (theClass: any, customAttrTypes: Set<string>) => {
+const generateCodeForClass = (theClass: ClassDef, customAttrTypes: Set<CustomAttr>) => {
   var source = "";
   var packageTokens = theClass.fullClassName.split(".");
   var isTopLevel = false;
@@ -229,9 +226,35 @@ const generateCodeForClass = (theClass: any, customAttrTypes: Set<string>) => {
     if (theClass.hierarchy.length > 1) {
       let hierarchyClass = theClass.hierarchy.pop().name;
       let generics = null;
+
+      // if (theClass.hierarchy.find((h: any) => h.name === 'dw.object.ExtensibleObject')) {
       if (hierarchyClass === 'dw.object.ExtensibleObject') {
         generics = className + 'CustomAttributes';
-        customAttrTypes.add(className);
+        customAttrTypes.add({ name: className });
+      } else if (theClass.hierarchy.find((h: any) => h.name === 'dw.object.ExtensibleObject')) {
+        // extends an extensible class, eg. ProductLineItem -> LineItem -> ExtensibleObject
+        customAttrTypes.add({ name: className, extends: hierarchyClass });
+
+        if (!theClass.properties.custom) {
+          theClass.properties.custom = {
+            "name": "custom",
+            "class": {
+              "name": className + 'CustomAttributes'
+            },
+            "static": false,
+            "readonly": true,
+            "description": "The custom attributes for this object. The returned object is\n used for retrieving and storing attribute values. See\n CustomAttributes for a detailed example of the syntax for\n working with custom attributes.",
+            "deprecated": false
+          };
+          theClass.methods.getCustom = {
+            "name": "getCustom",
+            "args": [],
+            "class": {
+              "name": className + 'CustomAttributes'
+            },
+            "description": "Returns the custom attributes for this extensible object."
+          };
+        }
       }
 
       source += `extends ${sanitizeType(hierarchyClass, generics, isGeneric)} `;
@@ -239,23 +262,26 @@ const generateCodeForClass = (theClass: any, customAttrTypes: Set<string>) => {
     source += "{\n";
   }
 
-  source += objbToArray(theClass.constants)
+  let constants: ConstantDef[] = Object.values(theClass.constants);
+  source += constants
     .filter(filterConstants(className))
+    .sort((a, b) => a.name.localeCompare(b.name))
     .reduce(
-      (constantSource: any, constant: any) =>
-        `${constantSource}${doc(constant)}${isGlobal ? 'declare ' : ''}${isStatic}${readonly}${
-        constant.name
-        }${!constant.value ? ": " + sanitizeType(constant.class.name, constant.class.generics, isGeneric && !isStatic) : ""}${
-        constant.value ? " = " + sanitizeValue(constant) : ""
+      (constantSource: string, constant: ConstantDef) =>
+        `${constantSource}${doc(constant)}${isGlobal ? 'declare ' : ''}${isStatic}${readonly}${constant.name
+        }${!constant.value ? ": " + sanitizeType(constant.class.name, constant.class.generics, isGeneric && !isStatic) : ""}${constant.value ? " = " + sanitizeValue(constant) : ""
         };\n`,
       ""
     );
   source += "\n";
 
-  source += objbToArray(theClass.properties)
+
+  let properties: PropertyDef[] = Object.values(theClass.properties);
+  source += properties
     .filter(filterProperties(className))
+    .sort((a, b) => a.name.localeCompare(b.name))
     .reduce(
-      (propSource: any, property: any) => {
+      (propSource: string, property: PropertyDef) => {
 
         let returnType = sanitizeType(property.class.name, property.class.generics, isGeneric && !property.static);
 
@@ -265,43 +291,40 @@ const generateCodeForClass = (theClass: any, customAttrTypes: Set<string>) => {
 
         if (!config.extensible.includes(theClass.fullClassName) && property.name === 'custom' && returnType === 'dw.object.CustomAttributes') {
           returnType = className + 'CustomAttributes';
-          customAttrTypes.add(className);
+          if (!Array.from(customAttrTypes).find(a => a.name === className)) {
+            customAttrTypes.add({ name: className });
+          }
         }
 
-        return `${propSource}${doc(property)}${isGlobal ? 'declare ' : ''}${property.static ? isStatic : ""}${
-          property.readonly ? readonly : ""}${property.name}: ${returnType};\n`
+        return `${propSource}${doc(property)}${isGlobal ? 'declare ' : ''}${property.static ? isStatic : ""}${property.readonly ? readonly : ""}${property.name}: ${returnType};\n`
       },
       ""
     );
   source += "\n";
 
   if (!isInterface) {
-    source += objbToArray(theClass.constructors)
-      .map((constructor: any) => {
-        constructor.argsSource = constructor.args.map((m: any) => formatArgument(m, isGeneric)).join(", ");
-        return constructor;
-      })
+
+    let constructors: ConstructorDef[] = Object.values(theClass.constructors);
+
+    source += constructors
       .reduce(
-        (constructorSource: any, constructor: any) =>
-          `${constructorSource}${doc(constructor)}constructor(${
-          constructor.argsSource
+        (constructorSource: string, constructor: ConstructorDef) =>
+          `${constructorSource}${doc(constructor)}constructor(${constructor.args.map((m: any) => formatArgument(m, isGeneric)).join(", ")
           });\n`,
         ""
       );
-    if (theClass.constructors.length === 0 && !isGlobal) {
+    if (Object.keys(theClass.constructors).length === 0 && !isGlobal) {
       source += "private constructor();\n";
     }
     source += "\n";
   }
 
-  source += objbToArray(theClass.methods)
+  let methods: MethodDef[] = Object.values(theClass.methods);
+  source += methods
     .filter(filterMethods(className))
-    .map((method: any) => {
-      method.argsSource = method.args.map((m: any) => formatArgument(m, isGeneric)).join(", ");
-      return method;
-    })
+    .sort((a, b) => a.name.localeCompare(b.name))
     .reduce(
-      (methodSource: any, method: any) => {
+      (methodSource: string, method: MethodDef) => {
         let returnType = sanitizeType(method.class.name, method.class.generics, isGeneric);
 
         if (!isGeneric) {
@@ -310,11 +333,13 @@ const generateCodeForClass = (theClass: any, customAttrTypes: Set<string>) => {
 
         if (!config.extensible.includes(theClass.fullClassName) && method.name === 'getCustom' && returnType === 'dw.object.CustomAttributes') {
           returnType = className + 'CustomAttributes';
-          customAttrTypes.add(className);
+          if (!Array.from(customAttrTypes).find(a => a.name === className)) {
+            customAttrTypes.add({ name: className });
+          }
         }
 
         return `${methodSource}${doc(method)}${isGlobal ? "declare function " : ""}${method.static && !isGlobal ? isStatic : ""
-          }${method.name}(${method.argsSource}): ${returnType};\n`
+          }${method.name}(${method.args.map((m: any) => formatArgument(m, isGeneric)).join(", ")}): ${returnType};\n`
       },
       ""
     );
@@ -329,7 +354,7 @@ const generateCodeForClass = (theClass: any, customAttrTypes: Set<string>) => {
   return source + "\n";
 };
 
-const generateCode = (pkg: any, customAttrTypes: Set<string>) =>
+const generateCode = (pkg: any, customAttrTypes: Set<CustomAttr>) =>
   Object.keys(pkg).reduce((source: string, key: string) => {
     if (!config.exclusions.classes[key] && !(pkg[key].package === 'TopLevel' && standardDefinition(key))) {
       if (pkg[key].fullClassName && !config.exclusions.classes[key]) {
@@ -344,7 +369,7 @@ const generateCode = (pkg: any, customAttrTypes: Set<string>) =>
     return source;
   }, "");
 
-let customAttrTypes: Set<string> = new Set<string>();
+let customAttrTypes: Set<CustomAttr> = new Set<CustomAttr>();
 var source = "";
 //source += "declare global {\n";
 source += generateCodeForClass(sfccApi.api.TopLevel.global, customAttrTypes);
@@ -370,9 +395,9 @@ fs.writeFileSync(
 
 let customattrsrc = Array.from(customAttrTypes).map(i => `
 /**
- * Custom attributes for ${i} object.
+ * Custom attributes for ${i.name} object.
  */
-declare class ${i}CustomAttributes {
+declare class ${i.name}CustomAttributes ${i.extends ? 'extends ' + i.extends.substring(i.extends.lastIndexOf('.') + 1, i.extends.length) + 'CustomAttributes' : ''}{
   /**
    * Returns the custom attribute with this name. Throws an exception if attribute is not defined
    */
@@ -386,7 +411,7 @@ fs.writeFileSync(
 
 fs.writeFileSync(
   path.join(basePathGenerated, "attrs.txt"),
-  Array.from(customAttrTypes).sort().join('\n')
+  Array.from(new Set(Array.from(customAttrTypes).map(cu => cu.name))).sort().join('\n')
 );
 
 function checkGenerics(returnType: string, theClass: any, member: any) {
