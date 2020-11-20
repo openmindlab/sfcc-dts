@@ -34,9 +34,11 @@ export type ConstantDef = {
 
 export type PropertyDef = {
   name: string;
+  description: string;
   class: ClassType;
-  static: boolean;
-  readonly: boolean;
+  static?: boolean;
+  readonly?: boolean;
+  deprecated?: boolean;
 }
 
 export type ConstructorDef = {
@@ -62,6 +64,7 @@ export type ClassType = {
 
 export type MethodDef = {
   name: string;
+  description: string;
   class: ClassType;
   args: MethodArg[];
   static?: boolean;

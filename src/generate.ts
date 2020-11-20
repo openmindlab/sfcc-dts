@@ -234,6 +234,27 @@ const generateCodeForClass = (theClass: ClassDef, customAttrTypes: Set<CustomAtt
       } else if (theClass.hierarchy.find((h: any) => h.name === 'dw.object.ExtensibleObject')) {
         // extends an extensible class, eg. ProductLineItem -> LineItem -> ExtensibleObject
         customAttrTypes.add({ name: className, extends: hierarchyClass });
+
+        if (!theClass.properties.custom) {
+          theClass.properties.custom = {
+            "name": "custom",
+            "class": {
+              "name": className + 'CustomAttributes'
+            },
+            "static": false,
+            "readonly": true,
+            "description": "The custom attributes for this object. The returned object is\n used for retrieving and storing attribute values. See\n CustomAttributes for a detailed example of the syntax for\n working with custom attributes.",
+            "deprecated": false
+          };
+          theClass.methods.getCustom = {
+            "name": "getCustom",
+            "args": [],
+            "class": {
+              "name": className + 'CustomAttributes'
+            },
+            "description": "Returns the custom attributes for this extensible object."
+          };
+        }
       }
 
       source += `extends ${sanitizeType(hierarchyClass, generics, isGeneric)} `;
@@ -244,6 +265,7 @@ const generateCodeForClass = (theClass: ClassDef, customAttrTypes: Set<CustomAtt
   let constants: ConstantDef[] = Object.values(theClass.constants);
   source += constants
     .filter(filterConstants(className))
+    .sort((a, b) => a.name.localeCompare(b.name))
     .reduce(
       (constantSource: string, constant: ConstantDef) =>
         `${constantSource}${doc(constant)}${isGlobal ? 'declare ' : ''}${isStatic}${readonly}${constant.name
@@ -257,6 +279,7 @@ const generateCodeForClass = (theClass: ClassDef, customAttrTypes: Set<CustomAtt
   let properties: PropertyDef[] = Object.values(theClass.properties);
   source += properties
     .filter(filterProperties(className))
+    .sort((a, b) => a.name.localeCompare(b.name))
     .reduce(
       (propSource: string, property: PropertyDef) => {
 
@@ -299,6 +322,7 @@ const generateCodeForClass = (theClass: ClassDef, customAttrTypes: Set<CustomAtt
   let methods: MethodDef[] = Object.values(theClass.methods);
   source += methods
     .filter(filterMethods(className))
+    .sort((a, b) => a.name.localeCompare(b.name))
     .reduce(
       (methodSource: string, method: MethodDef) => {
         let returnType = sanitizeType(method.class.name, method.class.generics, isGeneric);

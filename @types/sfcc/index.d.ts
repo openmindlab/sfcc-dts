@@ -6972,6 +6972,13 @@ declare namespace dw {
        */
       readonly costPrice: number;
       /**
+       * The custom attributes for this object. The returned object is
+       *  used for retrieving and storing attribute values. See
+       *  CustomAttributes for a detailed example of the syntax for
+       *  working with custom attributes.
+       */
+      readonly custom: ProductActiveDataCustomAttributes;
+      /**
        * The number of days the product has been available on the site.
        *  The number is calculated based on the current date and the date the
        *  product became available on the site, or if that date has not been set,
@@ -7296,6 +7303,11 @@ declare namespace dw {
        * @return the cost price.
        */
       getCostPrice(): number;
+      /**
+       * Returns the custom attributes for this extensible object.
+       *
+       */
+      getCustom(): ProductActiveDataCustomAttributes;
       /**
        * Returns the number of days the product has been available on the site.
        *  The number is calculated based on the current date and the date the
@@ -11070,6 +11082,13 @@ declare namespace dw {
        */
       readonly categoryRefinement: boolean;
       /**
+       * The custom attributes for this object. The returned object is
+       *  used for retrieving and storing attribute values. See
+       *  CustomAttributes for a detailed example of the syntax for
+       *  working with custom attributes.
+       */
+      readonly custom: ProductSearchRefinementDefinitionCustomAttributes;
+      /**
        * Identifies if this is a price refinement.
        */
       readonly priceRefinement: boolean;
@@ -11080,6 +11099,11 @@ declare namespace dw {
 
       private constructor();
 
+      /**
+       * Returns the custom attributes for this extensible object.
+       *
+       */
+      getCustom(): ProductSearchRefinementDefinitionCustomAttributes;
       /**
        * Identifies if this is a category refinement.
        *
@@ -15012,12 +15036,24 @@ declare namespace dw {
     class ContentSearchRefinementDefinition extends dw.catalog
       .SearchRefinementDefinition {
       /**
+       * The custom attributes for this object. The returned object is
+       *  used for retrieving and storing attribute values. See
+       *  CustomAttributes for a detailed example of the syntax for
+       *  working with custom attributes.
+       */
+      readonly custom: ContentSearchRefinementDefinitionCustomAttributes;
+      /**
        * Identifies if this is a folder refinement.
        */
       readonly folderRefinement: boolean;
 
       private constructor();
 
+      /**
+       * Returns the custom attributes for this extensible object.
+       *
+       */
+      getCustom(): ContentSearchRefinementDefinitionCustomAttributes;
       /**
        * Identifies if this is a folder refinement.
        *
@@ -17793,6 +17829,13 @@ declare namespace dw {
        */
       readonly avgOrderValue: number;
       /**
+       * The custom attributes for this object. The returned object is
+       *  used for retrieving and storing attribute values. See
+       *  CustomAttributes for a detailed example of the syntax for
+       *  working with custom attributes.
+       */
+      readonly custom: CustomerActiveDataCustomAttributes;
+      /**
        * The discount value resulting from coupons, that has been applied
        *  to orders of the customer, or null if none has been set or
        *  the value is no longer valid.
@@ -17924,6 +17967,11 @@ declare namespace dw {
        * @return the average order size.
        */
       getAvgOrderValue(): number;
+      /**
+       * Returns the custom attributes for this extensible object.
+       *
+       */
+      getCustom(): CustomerActiveDataCustomAttributes;
       /**
        * Returns the discount value resulting from coupons, that has been applied
        *  to orders of the customer, or null if none has been set or
@@ -19328,6 +19376,13 @@ declare namespace dw {
        *  Pay special attention to PCI DSS v3. requirements 1, 3, 7, and 9.
        */
       readonly creditCardNumber: string;
+      /**
+       * The custom attributes for this object. The returned object is
+       *  used for retrieving and storing attribute values. See
+       *  CustomAttributes for a detailed example of the syntax for
+       *  working with custom attributes.
+       */
+      readonly custom: CustomerPaymentInstrumentCustomAttributes;
 
       private constructor();
 
@@ -19385,6 +19440,11 @@ declare namespace dw {
        *
        */
       getCreditCardNumber(): string;
+      /**
+       * Returns the custom attributes for this extensible object.
+       *
+       */
+      getCustom(): CustomerPaymentInstrumentCustomAttributes;
     }
 
     /**
@@ -20569,6 +20629,13 @@ declare namespace dw {
        */
       readonly credentials: dw.customer.Credentials;
       /**
+       * The custom attributes for this object. The returned object is
+       *  used for retrieving and storing attribute values. See
+       *  CustomAttributes for a detailed example of the syntax for
+       *  working with custom attributes.
+       */
+      readonly custom: ProfileCustomAttributes;
+      /**
        * The customer object related to this profile.
        */
       readonly customer: dw.customer.Customer;
@@ -20716,6 +20783,11 @@ declare namespace dw {
        * @return the customer's credentials.
        */
       getCredentials(): dw.customer.Credentials;
+      /**
+       * Returns the custom attributes for this extensible object.
+       *
+       */
+      getCustom(): ProfileCustomAttributes;
       /**
        * Returns the customer object related to this profile.
        *
@@ -30922,6 +30994,13 @@ declare namespace dw {
        */
       readonly agentBasket: boolean;
       /**
+       * The custom attributes for this object. The returned object is
+       *  used for retrieving and storing attribute values. See
+       *  CustomAttributes for a detailed example of the syntax for
+       *  working with custom attributes.
+       */
+      readonly custom: BasketCustomAttributes;
+      /**
        * The timestamp when the inventory for this basket expires.
        *
        *  It will return null for the following reasons:
@@ -30952,6 +31031,11 @@ declare namespace dw {
 
       private constructor();
 
+      /**
+       * Returns the custom attributes for this extensible object.
+       *
+       */
+      getCustom(): BasketCustomAttributes;
       /**
        * Returns the timestamp when the inventory for this basket expires.
        *
@@ -32178,6 +32262,13 @@ declare namespace dw {
      */
     class GiftCertificateLineItem extends dw.order.LineItem {
       /**
+       * The custom attributes for this object. The returned object is
+       *  used for retrieving and storing attribute values. See
+       *  CustomAttributes for a detailed example of the syntax for
+       *  working with custom attributes.
+       */
+      readonly custom: GiftCertificateLineItemCustomAttributes;
+      /**
        * The ID of the gift certificate that this line item
        *  was used to create. If this line item has not been used to create
        *  a Gift Certificate, this method returns null.
@@ -32213,6 +32304,11 @@ declare namespace dw {
 
       private constructor();
 
+      /**
+       * Returns the custom attributes for this extensible object.
+       *
+       */
+      getCustom(): GiftCertificateLineItemCustomAttributes;
       /**
        * Returns the ID of the gift certificate that this line item
        *  was used to create. If this line item has not been used to create
@@ -34543,6 +34639,13 @@ declare namespace dw {
        */
       readonly currentOrderNo: string;
       /**
+       * The custom attributes for this object. The returned object is
+       *  used for retrieving and storing attribute values. See
+       *  CustomAttributes for a detailed example of the syntax for
+       *  working with custom attributes.
+       */
+      readonly custom: OrderCustomAttributes;
+      /**
        * The ID of the locale that was in effect when the order
        *  was placed. This is the customer's locale.
        */
@@ -35040,6 +35143,11 @@ declare namespace dw {
        * @return the order number of the current order
        */
       getCurrentOrderNo(): string;
+      /**
+       * Returns the custom attributes for this extensible object.
+       *
+       */
+      getCustom(): OrderCustomAttributes;
       /**
        * Returns the ID of the locale that was in effect when the order
        *  was placed. This is the customer's locale.
@@ -37475,6 +37583,13 @@ declare namespace dw {
        */
       readonly creditCardNumber: string;
       /**
+       * The custom attributes for this object. The returned object is
+       *  used for retrieving and storing attribute values. See
+       *  CustomAttributes for a detailed example of the syntax for
+       *  working with custom attributes.
+       */
+      readonly custom: OrderPaymentInstrumentCustomAttributes;
+      /**
        * The Payment Transaction for this Payment Instrument or null.
        */
       readonly paymentTransaction: dw.order.PaymentTransaction;
@@ -37559,6 +37674,11 @@ declare namespace dw {
        * @return the de-crypted creditcard number if the calling context meets the necessary criteria.
        */
       getCreditCardNumber(): string;
+      /**
+       * Returns the custom attributes for this extensible object.
+       *
+       */
+      getCustom(): OrderPaymentInstrumentCustomAttributes;
       /**
        * Returns the Payment Transaction for this Payment Instrument or null.
        *
@@ -38005,6 +38125,13 @@ declare namespace dw {
        */
       creditCardValidFromYear: number;
       /**
+       * The custom attributes for this object. The returned object is
+       *  used for retrieving and storing attribute values. See
+       *  CustomAttributes for a detailed example of the syntax for
+       *  working with custom attributes.
+       */
+      readonly custom: PaymentInstrumentCustomAttributes;
+      /**
        * The Gift Certificate code for this Payment Instrument.
        */
       giftCertificateCode: string;
@@ -38313,6 +38440,11 @@ declare namespace dw {
        * @return the year in which the credit card became valid
        */
       getCreditCardValidFromYear(): number;
+      /**
+       * Returns the custom attributes for this extensible object.
+       *
+       */
+      getCustom(): PaymentInstrumentCustomAttributes;
       /**
        * Encrypts the driver's license number of the bank account of this object with the given algorithm
        *  and the given public key. Returned is the base64-encoded representation
@@ -39168,6 +39300,13 @@ declare namespace dw {
        */
       readonly createdBy: string;
       /**
+       * The custom attributes for this object. The returned object is
+       *  used for retrieving and storing attribute values. See
+       *  CustomAttributes for a detailed example of the syntax for
+       *  working with custom attributes.
+       */
+      readonly custom: PriceAdjustmentCustomAttributes;
+      /**
        * Returns true if this PriceAdjustment was added manually by a user.
        *
        *  A manual PriceAdjustment is one which has been added as a result of
@@ -39374,6 +39513,11 @@ declare namespace dw {
        * @return the name of the user who created the price adjustment
        */
       getCreatedBy(): string;
+      /**
+       * Returns the custom attributes for this extensible object.
+       *
+       */
+      getCustom(): PriceAdjustmentCustomAttributes;
       /**
        * Returns the promotion associated with this price adjustment. The
        *  associated promotion is determined from the promotionID and campaignID
@@ -39623,6 +39767,13 @@ declare namespace dw {
        * The ID of the category the product line item is associated with.
        */
       categoryID: string;
+      /**
+       * The custom attributes for this object. The returned object is
+       *  used for retrieving and storing attribute values. See
+       *  CustomAttributes for a detailed example of the syntax for
+       *  working with custom attributes.
+       */
+      readonly custom: ProductLineItemCustomAttributes;
       /**
        * The value set for the external line item status
        *  or null if no value set.
@@ -39958,6 +40109,11 @@ declare namespace dw {
        * @return Category ID or null.
        */
       getCategoryID(): string;
+      /**
+       * Returns the custom attributes for this extensible object.
+       *
+       */
+      getCustom(): ProductLineItemCustomAttributes;
       /**
        * Returns the value set for the external line item status
        *  or null if no value set.
@@ -40603,6 +40759,13 @@ declare namespace dw {
        */
       readonly adjustedTax: dw.value.Money;
       /**
+       * The custom attributes for this object. The returned object is
+       *  used for retrieving and storing attribute values. See
+       *  CustomAttributes for a detailed example of the syntax for
+       *  working with custom attributes.
+       */
+      readonly custom: ProductShippingLineItemCustomAttributes;
+      /**
        * An iterator of price adjustments that have been applied to this
        *  product shipping line item.
        */
@@ -40657,6 +40820,11 @@ declare namespace dw {
        * @return the tax of the unit after applying adjustments, in the purchase currency.
        */
       getAdjustedTax(): dw.value.Money;
+      /**
+       * Returns the custom attributes for this extensible object.
+       *
+       */
+      getCustom(): ProductShippingLineItemCustomAttributes;
       /**
        * Returns an iterator of price adjustments that have been applied to this
        *  product shipping line item.
@@ -42373,6 +42541,13 @@ declare namespace dw {
        */
       readonly adjustedTax: dw.value.Money;
       /**
+       * The custom attributes for this object. The returned object is
+       *  used for retrieving and storing attribute values. See
+       *  CustomAttributes for a detailed example of the syntax for
+       *  working with custom attributes.
+       */
+      readonly custom: ShippingLineItemCustomAttributes;
+      /**
        * The ID of this ShippingLineItem.
        */
       readonly ID: string;
@@ -42468,6 +42643,11 @@ declare namespace dw {
        * @return the tax of this shipping line item after shipping adjustments have been applied.
        */
       getAdjustedTax(): dw.value.Money;
+      /**
+       * Returns the custom attributes for this extensible object.
+       *
+       */
+      getCustom(): ShippingLineItemCustomAttributes;
       /**
        * Returns the ID of this ShippingLineItem.
        *
@@ -47303,6 +47483,13 @@ declare namespace dw {
       static readonly ENCRYPTION_ALGORITHM_RSA = "RSA";
 
       /**
+       * The custom attributes for this object. The returned object is
+       *  used for retrieving and storing attribute values. See
+       *  CustomAttributes for a detailed example of the syntax for
+       *  working with custom attributes.
+       */
+      readonly custom: ServiceCredentialCustomAttributes;
+      /**
        * The unique Credential ID.
        */
       readonly ID: string;
@@ -47321,6 +47508,11 @@ declare namespace dw {
 
       private constructor();
 
+      /**
+       * Returns the custom attributes for this extensible object.
+       *
+       */
+      getCustom(): ServiceCredentialCustomAttributes;
       /**
        * Encrypts the password from this object with the given algorithm
        *  and the public key taken from a certificate in the keystore.
@@ -51017,6 +51209,10 @@ declare namespace dw {
      */
     class Collection<T> {
       /**
+       * Returns the value at the specified index.
+       */
+      [index: number]: T;
+      /**
        * Returns true if the collection is empty.
        */
       readonly empty: boolean;
@@ -51025,10 +51221,6 @@ declare namespace dw {
        *  to a ECMA array of 'products.length'.
        */
       readonly length: number;
-      /**
-       * Returns the value at the specified index.
-       */
-      [index: number]: T;
 
       /**
        * Adds the specified objects to the collection. The method can also
@@ -52126,6 +52318,10 @@ declare namespace dw {
      */
     class Map<K, V> {
       /**
+       * Returns the value associated with the key or null
+       */
+      [name: string]: any;
+      /**
        * Identifies if this map is empty.
        */
       readonly empty: boolean;
@@ -52139,10 +52335,6 @@ declare namespace dw {
        *  length similar to a ECMA array, such as 'products.length'.
        */
       readonly length: number;
-      /**
-       * Returns the value associated with the key or null
-       */
-      [name: string]: any;
 
       /**
        * Clears the map of all objects.
@@ -54676,13 +54868,13 @@ declare namespace dw {
      */
     class Cookies {
       /**
-       * The number of known cookies.
-       */
-      readonly cookieCount: number;
-      /**
        * Returns the dw.web.Cookie with this name or null
        */
       [name: string]: any;
+      /**
+       * The number of known cookies.
+       */
+      readonly cookieCount: number;
 
       private constructor();
 
@@ -54699,6 +54891,10 @@ declare namespace dw {
      */
     class Form extends dw.web.FormGroup {
       /**
+       * Returns the Form element with this name.
+       */
+      readonly [name: string]: dw.web.FormElement | any;
+      /**
        * The secure key html name to be used for the hidden input field
        *  that will contain the secure key value.
        */
@@ -54708,10 +54904,6 @@ declare namespace dw {
        *  in a hidden input field for authentication.
        */
       readonly secureKeyValue: string;
-      /**
-       * Returns the Form element with this name.
-       */
-      readonly [name: string]: dw.web.FormElement | any;
 
       private constructor();
 
@@ -55532,6 +55724,10 @@ declare namespace dw {
      */
     class FormGroup extends dw.web.FormElement {
       /**
+       * Returns the Form element with this name.
+       */
+      readonly [name: string]: dw.web.FormGroup | dw.web.FormField | any;
+      /**
        * The number of elements in the form.
        */
       readonly childCount: number;
@@ -55557,10 +55753,6 @@ declare namespace dw {
        *  meet. The method returns null if no action was marked as triggered.
        */
       readonly triggeredAction: dw.web.FormAction;
-      /**
-       * Returns the Form element with this name.
-       */
-      readonly [name: string]: dw.web.FormGroup | dw.web.FormField | any;
 
       /**
        * The method copies the value from a form into the object, which was previously
@@ -55966,6 +56158,10 @@ declare namespace dw {
      */
     class HttpParameterMap {
       /**
+       * Returns the HttpParameter with this name.
+       */
+      readonly [name: string]: dw.web.HttpParameter | any;
+      /**
        * The number of paramters in this http parameter map.
        */
       readonly parameterCount: number;
@@ -55980,10 +56176,6 @@ declare namespace dw {
        *  with that encoding it is interpreted as form data and the body will be empty.
        */
       readonly requestBodyAsString: string;
-      /**
-       * Returns the HttpParameter with this name.
-       */
-      readonly [name: string]: dw.web.HttpParameter | any;
 
       private constructor();
 
