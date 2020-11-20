@@ -81,7 +81,7 @@ declare class ProductCustomAttributes {
 /**
  * Custom attributes for ProductActiveData object.
  */
-declare class ProductActiveDataCustomAttributes {
+declare class ProductActiveDataCustomAttributes extends ActiveDataCustomAttributes {
   /**
    * Returns the custom attribute with this name. Throws an exception if attribute is not defined
    */
@@ -131,7 +131,7 @@ declare class ProductOptionValueCustomAttributes {
 /**
  * Custom attributes for ProductSearchRefinementDefinition object.
  */
-declare class ProductSearchRefinementDefinitionCustomAttributes {
+declare class ProductSearchRefinementDefinitionCustomAttributes extends SearchRefinementDefinitionCustomAttributes {
   /**
    * Returns the custom attribute with this name. Throws an exception if attribute is not defined
    */
@@ -181,7 +181,7 @@ declare class StoreGroupCustomAttributes {
 /**
  * Custom attributes for Variant object.
  */
-declare class VariantCustomAttributes {
+declare class VariantCustomAttributes extends ProductCustomAttributes {
   /**
    * Returns the custom attribute with this name. Throws an exception if attribute is not defined
    */
@@ -191,7 +191,7 @@ declare class VariantCustomAttributes {
 /**
  * Custom attributes for VariationGroup object.
  */
-declare class VariationGroupCustomAttributes {
+declare class VariationGroupCustomAttributes extends ProductCustomAttributes {
   /**
    * Returns the custom attribute with this name. Throws an exception if attribute is not defined
    */
@@ -211,7 +211,7 @@ declare class ContentCustomAttributes {
 /**
  * Custom attributes for ContentSearchRefinementDefinition object.
  */
-declare class ContentSearchRefinementDefinitionCustomAttributes {
+declare class ContentSearchRefinementDefinitionCustomAttributes extends SearchRefinementDefinitionCustomAttributes {
   /**
    * Returns the custom attribute with this name. Throws an exception if attribute is not defined
    */
@@ -241,7 +241,7 @@ declare class LibraryCustomAttributes {
 /**
  * Custom attributes for CustomerActiveData object.
  */
-declare class CustomerActiveDataCustomAttributes {
+declare class CustomerActiveDataCustomAttributes extends ActiveDataCustomAttributes {
   /**
    * Returns the custom attribute with this name. Throws an exception if attribute is not defined
    */
@@ -271,7 +271,7 @@ declare class CustomerGroupCustomAttributes {
 /**
  * Custom attributes for CustomerPaymentInstrument object.
  */
-declare class CustomerPaymentInstrumentCustomAttributes {
+declare class CustomerPaymentInstrumentCustomAttributes extends PaymentInstrumentCustomAttributes {
   /**
    * Returns the custom attribute with this name. Throws an exception if attribute is not defined
    */
@@ -331,7 +331,7 @@ declare class ProductListRegistrantCustomAttributes {
 /**
  * Custom attributes for Profile object.
  */
-declare class ProfileCustomAttributes {
+declare class ProfileCustomAttributes extends EncryptedObjectCustomAttributes {
   /**
    * Returns the custom attribute with this name. Throws an exception if attribute is not defined
    */
@@ -361,7 +361,7 @@ declare class CustomObjectCustomAttributes {
 /**
  * Custom attributes for Basket object.
  */
-declare class BasketCustomAttributes {
+declare class BasketCustomAttributes extends LineItemCtnrCustomAttributes {
   /**
    * Returns the custom attribute with this name. Throws an exception if attribute is not defined
    */
@@ -401,7 +401,7 @@ declare class GiftCertificateCustomAttributes {
 /**
  * Custom attributes for GiftCertificateLineItem object.
  */
-declare class GiftCertificateLineItemCustomAttributes {
+declare class GiftCertificateLineItemCustomAttributes extends LineItemCustomAttributes {
   /**
    * Returns the custom attribute with this name. Throws an exception if attribute is not defined
    */
@@ -431,7 +431,7 @@ declare class LineItemCtnrCustomAttributes {
 /**
  * Custom attributes for Order object.
  */
-declare class OrderCustomAttributes {
+declare class OrderCustomAttributes extends LineItemCtnrCustomAttributes {
   /**
    * Returns the custom attribute with this name. Throws an exception if attribute is not defined
    */
@@ -451,7 +451,7 @@ declare class OrderAddressCustomAttributes {
 /**
  * Custom attributes for OrderPaymentInstrument object.
  */
-declare class OrderPaymentInstrumentCustomAttributes {
+declare class OrderPaymentInstrumentCustomAttributes extends PaymentInstrumentCustomAttributes {
   /**
    * Returns the custom attribute with this name. Throws an exception if attribute is not defined
    */
@@ -471,7 +471,7 @@ declare class PaymentCardCustomAttributes {
 /**
  * Custom attributes for PaymentInstrument object.
  */
-declare class PaymentInstrumentCustomAttributes {
+declare class PaymentInstrumentCustomAttributes extends EncryptedObjectCustomAttributes {
   /**
    * Returns the custom attribute with this name. Throws an exception if attribute is not defined
    */
@@ -511,7 +511,7 @@ declare class PaymentTransactionCustomAttributes {
 /**
  * Custom attributes for PriceAdjustment object.
  */
-declare class PriceAdjustmentCustomAttributes {
+declare class PriceAdjustmentCustomAttributes extends LineItemCustomAttributes {
   /**
    * Returns the custom attribute with this name. Throws an exception if attribute is not defined
    */
@@ -521,7 +521,7 @@ declare class PriceAdjustmentCustomAttributes {
 /**
  * Custom attributes for ProductLineItem object.
  */
-declare class ProductLineItemCustomAttributes {
+declare class ProductLineItemCustomAttributes extends LineItemCustomAttributes {
   /**
    * Returns the custom attribute with this name. Throws an exception if attribute is not defined
    */
@@ -531,7 +531,7 @@ declare class ProductLineItemCustomAttributes {
 /**
  * Custom attributes for ProductShippingLineItem object.
  */
-declare class ProductShippingLineItemCustomAttributes {
+declare class ProductShippingLineItemCustomAttributes extends LineItemCustomAttributes {
   /**
    * Returns the custom attribute with this name. Throws an exception if attribute is not defined
    */
@@ -551,7 +551,7 @@ declare class ShipmentCustomAttributes {
 /**
  * Custom attributes for ShippingLineItem object.
  */
-declare class ShippingLineItemCustomAttributes {
+declare class ShippingLineItemCustomAttributes extends LineItemCustomAttributes {
   /**
    * Returns the custom attribute with this name. Throws an exception if attribute is not defined
    */
@@ -581,7 +581,7 @@ declare class ServiceConfigCustomAttributes {
 /**
  * Custom attributes for ServiceCredential object.
  */
-declare class ServiceCredentialCustomAttributes {
+declare class ServiceCredentialCustomAttributes extends EncryptedObjectCustomAttributes {
   /**
    * Returns the custom attribute with this name. Throws an exception if attribute is not defined
    */

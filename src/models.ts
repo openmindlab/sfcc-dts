@@ -66,3 +66,8 @@ export type MethodDef = {
   args: MethodArg[];
   static?: boolean;
 }
+
+export type CustomAttr = {
+  name: string;
+  extends?: string;
+}

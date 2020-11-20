@@ -1,4 +1,4 @@
-import { ClassDef, ConstructorDef, ConstantDef, PropertyDef, MethodDef } from './models';
+import { ClassDef, ConstructorDef, ConstantDef, PropertyDef, MethodDef, CustomAttr } from './models';
 
 import fs from "fs";
 import path from "path";
@@ -194,7 +194,7 @@ const generateExportFileForClass = (theClass: ClassDef) => {
   );
 };
 
-const generateCodeForClass = (theClass: ClassDef, customAttrTypes: Set<string>) => {
+const generateCodeForClass = (theClass: ClassDef, customAttrTypes: Set<CustomAttr>) => {
   var source = "";
   var packageTokens = theClass.fullClassName.split(".");
   var isTopLevel = false;
@@ -230,10 +230,10 @@ const generateCodeForClass = (theClass: ClassDef, customAttrTypes: Set<string>) 
       // if (theClass.hierarchy.find((h: any) => h.name === 'dw.object.ExtensibleObject')) {
       if (hierarchyClass === 'dw.object.ExtensibleObject') {
         generics = className + 'CustomAttributes';
-        customAttrTypes.add(className);
+        customAttrTypes.add({ name: className });
       } else if (theClass.hierarchy.find((h: any) => h.name === 'dw.object.ExtensibleObject')) {
         // extends an extensible class, eg. ProductLineItem -> LineItem -> ExtensibleObject
-        customAttrTypes.add(className);
+        customAttrTypes.add({ name: className, extends: hierarchyClass });
       }
 
       source += `extends ${sanitizeType(hierarchyClass, generics, isGeneric)} `;
@@ -268,7 +268,9 @@ const generateCodeForClass = (theClass: ClassDef, customAttrTypes: Set<string>) 
 
         if (!config.extensible.includes(theClass.fullClassName) && property.name === 'custom' && returnType === 'dw.object.CustomAttributes') {
           returnType = className + 'CustomAttributes';
-          customAttrTypes.add(className);
+          if (!Array.from(customAttrTypes).find(a => a.name === className)) {
+            customAttrTypes.add({ name: className });
+          }
         }
 
         return `${propSource}${doc(property)}${isGlobal ? 'declare ' : ''}${property.static ? isStatic : ""}${property.readonly ? readonly : ""}${property.name}: ${returnType};\n`
@@ -307,7 +309,9 @@ const generateCodeForClass = (theClass: ClassDef, customAttrTypes: Set<string>) 
 
         if (!config.extensible.includes(theClass.fullClassName) && method.name === 'getCustom' && returnType === 'dw.object.CustomAttributes') {
           returnType = className + 'CustomAttributes';
-          customAttrTypes.add(className);
+          if (!Array.from(customAttrTypes).find(a => a.name === className)) {
+            customAttrTypes.add({ name: className });
+          }
         }
 
         return `${methodSource}${doc(method)}${isGlobal ? "declare function " : ""}${method.static && !isGlobal ? isStatic : ""
@@ -326,7 +330,7 @@ const generateCodeForClass = (theClass: ClassDef, customAttrTypes: Set<string>) 
   return source + "\n";
 };
 
-const generateCode = (pkg: any, customAttrTypes: Set<string>) =>
+const generateCode = (pkg: any, customAttrTypes: Set<CustomAttr>) =>
   Object.keys(pkg).reduce((source: string, key: string) => {
     if (!config.exclusions.classes[key] && !(pkg[key].package === 'TopLevel' && standardDefinition(key))) {
       if (pkg[key].fullClassName && !config.exclusions.classes[key]) {
@@ -341,7 +345,7 @@ const generateCode = (pkg: any, customAttrTypes: Set<string>) =>
     return source;
   }, "");
 
-let customAttrTypes: Set<string> = new Set<string>();
+let customAttrTypes: Set<CustomAttr> = new Set<CustomAttr>();
 var source = "";
 //source += "declare global {\n";
 source += generateCodeForClass(sfccApi.api.TopLevel.global, customAttrTypes);
@@ -367,9 +371,9 @@ fs.writeFileSync(
 
 let customattrsrc = Array.from(customAttrTypes).map(i => `
 /**
- * Custom attributes for ${i} object.
+ * Custom attributes for ${i.name} object.
  */
-declare class ${i}CustomAttributes {
+declare class ${i.name}CustomAttributes ${i.extends ? 'extends ' + i.extends.substring(i.extends.lastIndexOf('.') + 1, i.extends.length) + 'CustomAttributes' : ''}{
   /**
    * Returns the custom attribute with this name. Throws an exception if attribute is not defined
    */
@@ -383,7 +387,7 @@ fs.writeFileSync(
 
 fs.writeFileSync(
   path.join(basePathGenerated, "attrs.txt"),
-  Array.from(customAttrTypes).sort().join('\n')
+  Array.from(new Set(Array.from(customAttrTypes).map(cu => cu.name))).sort().join('\n')
 );
 
 function checkGenerics(returnType: string, theClass: any, member: any) {
