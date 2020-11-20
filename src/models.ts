@@ -1,9 +1,9 @@
 
 export type ClassDef = {
-  "fullClassName": string;
-  "package": string;
-  "description": string;
-  "hierarchy": HierarchyClass[];
+  fullClassName: string;
+  package: string;
+  description: string;
+  hierarchy: HierarchyClass[];
   constants: {
     [name: string]: ConstantDef;
   };
@@ -28,42 +28,41 @@ export type ConstantDef = {
   description: string;
   deprecated: boolean;
   type: 'constant';
-  class: {
-    name: string;
-  }
+  class: ClassType;
 }
 
 
 export type PropertyDef = {
   name: string;
+  class: ClassType;
+  static: boolean;
+  readonly: boolean;
 }
 
 export type ConstructorDef = {
   name: string;
   description: string;
   deprecated: boolean;
-  class: {
-    description: string;
-  }
+  class: ClassType;
   args: MethodArg[];
 }
 
 export type MethodArg = {
-  "name": string;
-  "description": string;
-  "class": {
-    "name": string;
-  },
-  "multiple": boolean;
+  name: string;
+  description: string;
+  class: ClassType;
+  multiple: boolean;
+}
 
+export type ClassType = {
+  name: string;
+  description?: string;
+  generics?: string;
 }
 
 export type MethodDef = {
   name: string;
-  class: {
-    name: string;
-    generics?: string;
-  }
+  class: ClassType;
   args: MethodArg[];
   static?: boolean;
 }

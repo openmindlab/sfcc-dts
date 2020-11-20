@@ -164,7 +164,7 @@ const filterConstants = (key: string) => filterComponent<ConstantDef>(key, "cons
 const filterProperties = (key: string) => filterComponent<PropertyDef>(key, "properties");
 const filterMethods = (key: string) => filterComponent<MethodDef>(key, "methods");
 
-const generateExportFileForClass = (theClass: any) => {
+const generateExportFileForClass = (theClass: ClassDef) => {
   var packageTokens = theClass.fullClassName.split(".");
   if (packageTokens.length && packageTokens[0] === "TopLevel") {
     packageTokens.shift();
@@ -242,7 +242,7 @@ const generateCodeForClass = (theClass: ClassDef, customAttrTypes: Set<string>) 
   source += constants
     .filter(filterConstants(className))
     .reduce(
-      (constantSource: any, constant: any) =>
+      (constantSource: string, constant: ConstantDef) =>
         `${constantSource}${doc(constant)}${isGlobal ? 'declare ' : ''}${isStatic}${readonly}${constant.name
         }${!constant.value ? ": " + sanitizeType(constant.class.name, constant.class.generics, isGeneric && !isStatic) : ""}${constant.value ? " = " + sanitizeValue(constant) : ""
         };\n`,
@@ -255,7 +255,7 @@ const generateCodeForClass = (theClass: ClassDef, customAttrTypes: Set<string>) 
   source += properties
     .filter(filterProperties(className))
     .reduce(
-      (propSource: any, property: any) => {
+      (propSource: string, property: PropertyDef) => {
 
         let returnType = sanitizeType(property.class.name, property.class.generics, isGeneric && !property.static);
 
