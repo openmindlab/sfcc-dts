@@ -231,6 +231,9 @@ const generateCodeForClass = (theClass: ClassDef, customAttrTypes: Set<string>) 
       if (hierarchyClass === 'dw.object.ExtensibleObject') {
         generics = className + 'CustomAttributes';
         customAttrTypes.add(className);
+      } else if (theClass.hierarchy.find((h: any) => h.name === 'dw.object.ExtensibleObject')) {
+        // extends an extensible class, eg. ProductLineItem -> LineItem -> ExtensibleObject
+        customAttrTypes.add(className);
       }
 
       source += `extends ${sanitizeType(hierarchyClass, generics, isGeneric)} `;
