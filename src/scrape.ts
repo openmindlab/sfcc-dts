@@ -25,7 +25,7 @@ const arrayToObj = (array: any[]) => {
 };
 
 
-const mapDetail = ($: CheerioStatic, el: CheerioElement) => {
+const mapDetail = ($: cheerio.Root, el: cheerio.Element) => {
   let detailSignature = $(el).find('.detailSignature').text().trim();
   let parsedPropertyText = /^(?:\n|\s)*(static)?(?:public[\s\t])?(?:\n|\s)*([^\s\t]+)\(([^\)]*)\)(?:\n|\t|\s|:)*([^\s\t]+)?/.exec(detailSignature);
   if (!parsedPropertyText) {
