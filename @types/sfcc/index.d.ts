@@ -1701,9 +1701,7 @@ declare namespace dw {
        * Return the AB-test segments to which the current customer is assigned.
        *  AB-test segments deleted in the meantime will not be returned.
        */
-      static readonly assignedTestSegments: dw.util.Collection<
-        dw.campaign.ABTestSegment
-      >;
+      static readonly assignedTestSegments: dw.util.Collection<dw.campaign.ABTestSegment>;
 
       private constructor();
 
@@ -1713,9 +1711,7 @@ declare namespace dw {
        *
        * @return unordered collection of ABTestSegment instances representing the AB-test segments to which the current customer is assigned.
        */
-      static getAssignedTestSegments(): dw.util.Collection<
-        dw.campaign.ABTestSegment
-      >;
+      static getAssignedTestSegments(): dw.util.Collection<dw.campaign.ABTestSegment>;
       /**
        * Test whether the current customer is a member of the specified AB-test
        *  segment. This method can be used to customize the storefront experience
@@ -2040,9 +2036,8 @@ declare namespace dw {
      *
      *  A campaign can have list of stores or store groups where it can be applicable to.
      */
-    class Campaign extends dw.object.ExtensibleObject<
-      CampaignCustomAttributes
-    > {
+    class Campaign extends dw.object
+      .ExtensibleObject<CampaignCustomAttributes> {
       /**
        * Returns 'true' if the campaign is currently active, otherwise
        *  'false'.
@@ -2089,9 +2084,7 @@ declare namespace dw {
       /**
        * The source codes assigned to the campaign.
        */
-      readonly sourceCodeGroups: dw.util.Collection<
-        dw.campaign.SourceCodeGroup
-      >;
+      readonly sourceCodeGroups: dw.util.Collection<dw.campaign.SourceCodeGroup>;
       /**
        * The start date of the campaign. If no start date is defined for the
        *  campaign, null is returned. A campaign w/o start date is immediately
@@ -2211,9 +2204,7 @@ declare namespace dw {
        *
        *  Note that this method does not return any coupon-based promotions.
        */
-      static readonly applicablePromotions: dw.util.Collection<
-        dw.campaign.Promotion
-      >;
+      static readonly applicablePromotions: dw.util.Collection<dw.campaign.Promotion>;
 
       private constructor();
 
@@ -2349,9 +2340,7 @@ declare namespace dw {
        *
        * @return List of active promotions
        */
-      static getApplicablePromotions(): dw.util.Collection<
-        dw.campaign.Promotion
-      >;
+      static getApplicablePromotions(): dw.util.Collection<dw.campaign.Promotion>;
       /**
        * Returns the campaign identified by the specified ID.
        * @param id Campaign ID
@@ -2912,9 +2901,7 @@ declare namespace dw {
        *  of compatibility rules) by an order discount already in the DiscountPlan
        *  or an approaching order discount with a lower condition threshold.
        */
-      readonly approachingOrderDiscounts: dw.util.Collection<
-        dw.campaign.Discount
-      >;
+      readonly approachingOrderDiscounts: dw.util.Collection<dw.campaign.Discount>;
       /**
        * All bonus discounts contained in the discount plan.
        */
@@ -3240,9 +3227,8 @@ declare namespace dw {
      *  separate &quot;qualifiers&quot;. Qualifiers are the customer groups, source code
      *  groups, or coupons that trigger a given promotion for a customer.</p>
      */
-    class Promotion extends dw.object.ExtensibleObject<
-      PromotionCustomAttributes
-    > {
+    class Promotion extends dw.object
+      .ExtensibleObject<PromotionCustomAttributes> {
       /**
        * Constant representing promotion exclusivity of type class.
        */
@@ -3433,9 +3419,7 @@ declare namespace dw {
        *  If the promotion is not based on source code groups (see isBasedOnSourceCodes()), or no source code group is assigned to the
        *  promotion or its campaign, an empty collection is returned.
        */
-      readonly sourceCodeGroups: dw.util.Collection<
-        dw.campaign.SourceCodeGroup
-      >;
+      readonly sourceCodeGroups: dw.util.Collection<dw.campaign.SourceCodeGroup>;
       /**
        * The effective start date of this instance of the promotion. If no
        *  explicit start date is defined for this instance, the start date of the
@@ -4298,9 +4282,8 @@ declare namespace dw {
      *  The class <a href="class_dw_campaign_SourceCodeInfo.html">SourceCodeInfo</a> represents an individual source
      *  code.
      */
-    class SourceCodeGroup extends dw.object.ExtensibleObject<
-      SourceCodeGroupCustomAttributes
-    > {
+    class SourceCodeGroup extends dw.object
+      .ExtensibleObject<SourceCodeGroupCustomAttributes> {
       /**
        * The ID of the SourceCodeGroup.
        */
@@ -4607,9 +4590,8 @@ declare namespace dw {
     /**
      * Represents a category in a product catalog.
      */
-    class Category extends dw.object.ExtensibleObject<
-      CategoryCustomAttributes
-    > {
+    class Category extends dw.object
+      .ExtensibleObject<CategoryCustomAttributes> {
       /**
        * Constant representing the Variation Group Display Mode individual setting.
        */
@@ -4623,15 +4605,11 @@ declare namespace dw {
        * All outgoing recommendations for this category.  The
        *  recommendations are sorted by their explicitly set order.
        */
-      readonly allRecommendations: dw.util.Collection<
-        dw.catalog.Recommendation
-      >;
+      readonly allRecommendations: dw.util.Collection<dw.catalog.Recommendation>;
       /**
        * A collection of category assignments of the category.
        */
-      readonly categoryAssignments: dw.util.Collection<
-        dw.catalog.CategoryAssignment
-      >;
+      readonly categoryAssignments: dw.util.Collection<dw.catalog.CategoryAssignment>;
       /**
        * The default sorting rule configured for this category,
        *  or null if there is no default rule to be applied for it.
@@ -4672,9 +4650,7 @@ declare namespace dw {
        *  is the target.  If the source category of a link belongs to a different
        *  catalog than the catalog owning this category, it is not returned.
        */
-      readonly incomingCategoryLinks: dw.util.Collection<
-        dw.catalog.CategoryLink
-      >;
+      readonly incomingCategoryLinks: dw.util.Collection<dw.catalog.CategoryLink>;
       /**
        * The value indicating whether the catalog category is "currently
        *  online".  A category is currently online if its online flag equals true
@@ -4689,9 +4665,7 @@ declare namespace dw {
        *  into account. Online flag, online from & to dates set for the current site
        *  takes precedence over the default values.
        */
-      readonly onlineCategoryAssignments: dw.util.Collection<
-        dw.catalog.CategoryAssignment
-      >;
+      readonly onlineCategoryAssignments: dw.util.Collection<dw.catalog.CategoryAssignment>;
       /**
        * The online status flag of the category.
        */
@@ -4709,9 +4683,7 @@ declare namespace dw {
        *  its online flag equals true and the current site date is within the date
        *  range defined by the onlineFrom and onlineTo attributes.
        */
-      readonly onlineIncomingCategoryLinks: dw.util.Collection<
-        dw.catalog.CategoryLink
-      >;
+      readonly onlineIncomingCategoryLinks: dw.util.Collection<dw.catalog.CategoryLink>;
       /**
        * The collection of CategoryLink objects for
        *  which this category is the source. If the target category of a link
@@ -4721,9 +4693,7 @@ declare namespace dw {
        *  its online flag equals true and the current site date is within the date
        *  range defined by the onlineFrom and onlineTo attributes.
        */
-      readonly onlineOutgoingCategoryLinks: dw.util.Collection<
-        dw.catalog.CategoryLink
-      >;
+      readonly onlineOutgoingCategoryLinks: dw.util.Collection<dw.catalog.CategoryLink>;
       /**
        * Returns online products assigned to this category.
        *  Offline products are not included in the returned collection.
@@ -4764,9 +4734,7 @@ declare namespace dw {
        *  recommendations for which the target product is unorderable according to
        *  its product availability model.
        */
-      readonly orderableRecommendations: dw.util.Collection<
-        dw.catalog.Recommendation
-      >;
+      readonly orderableRecommendations: dw.util.Collection<dw.catalog.Recommendation>;
       /**
        * The collection of CategoryLink objects for which this category
        *  is the source.  If the target category of a link belongs to a different
@@ -4774,9 +4742,7 @@ declare namespace dw {
        *  The collection of links is sorted by the explicitly defined order
        *  for this category with unsorted links appearing at the end.
        */
-      readonly outgoingCategoryLinks: dw.util.Collection<
-        dw.catalog.CategoryLink
-      >;
+      readonly outgoingCategoryLinks: dw.util.Collection<dw.catalog.CategoryLink>;
       /**
        * The page description of this category for the default locale or null if not defined.
        */
@@ -4894,9 +4860,7 @@ declare namespace dw {
        *
        * @return Collection of category assignments of the category.
        */
-      getCategoryAssignments(): dw.util.Collection<
-        dw.catalog.CategoryAssignment
-      >;
+      getCategoryAssignments(): dw.util.Collection<dw.catalog.CategoryAssignment>;
       /**
        * Returns the default sorting rule configured for this category,
        *  or null if there is no default rule to be applied for it.
@@ -4972,9 +4936,7 @@ declare namespace dw {
        *
        * @return Collection of online category assignments of the category.
        */
-      getOnlineCategoryAssignments(): dw.util.Collection<
-        dw.catalog.CategoryAssignment
-      >;
+      getOnlineCategoryAssignments(): dw.util.Collection<dw.catalog.CategoryAssignment>;
       /**
        * Returns the online status flag of the category.
        *
@@ -4998,9 +4960,7 @@ declare namespace dw {
        *
        * @return a collection of CategoryLink objects, possibly empty but not null.
        */
-      getOnlineIncomingCategoryLinks(): dw.util.Collection<
-        dw.catalog.CategoryLink
-      >;
+      getOnlineIncomingCategoryLinks(): dw.util.Collection<dw.catalog.CategoryLink>;
       /**
        * Returns the collection of CategoryLink objects for
        *  which this category is the source. If the target category of a link
@@ -5012,9 +4972,7 @@ declare namespace dw {
        *
        * @return a collection of CategoryLink objects, possibly empty but not null.
        */
-      getOnlineOutgoingCategoryLinks(): dw.util.Collection<
-        dw.catalog.CategoryLink
-      >;
+      getOnlineOutgoingCategoryLinks(): dw.util.Collection<dw.catalog.CategoryLink>;
       /**
        * Returns online products assigned to this category.
        *  Offline products are not included in the returned collection.
@@ -5063,9 +5021,7 @@ declare namespace dw {
        *
        * @return the sorted collection of recommendations, never null but possibly empty.
        */
-      getOrderableRecommendations(): dw.util.Collection<
-        dw.catalog.Recommendation
-      >;
+      getOrderableRecommendations(): dw.util.Collection<dw.catalog.Recommendation>;
       /**
        * Returns a list of outgoing recommendations for this category. This method
        *  behaves similarly to getRecommendations(Number) but additionally
@@ -5305,9 +5261,8 @@ declare namespace dw {
     /**
      * Represents a category assignment in Commerce Cloud Digital.
      */
-    class CategoryAssignment extends dw.object.ExtensibleObject<
-      CategoryAssignmentCustomAttributes
-    > {
+    class CategoryAssignment extends dw.object
+      .ExtensibleObject<CategoryAssignmentCustomAttributes> {
       /**
        * The category assignment's callout message in the current locale.
        */
@@ -5448,9 +5403,8 @@ declare namespace dw {
     /**
      * Represents a price book.
      */
-    class PriceBook extends dw.object.ExtensibleObject<
-      PriceBookCustomAttributes
-    > {
+    class PriceBook extends dw.object
+      .ExtensibleObject<PriceBookCustomAttributes> {
       /**
        * The currency code of the price book.
        */
@@ -5583,9 +5537,7 @@ declare namespace dw {
        *
        * @return Collection of applicable price books set in the session.
        */
-      static getApplicablePriceBooks(): dw.util.Collection<
-        dw.catalog.PriceBook
-      >;
+      static getApplicablePriceBooks(): dw.util.Collection<dw.catalog.PriceBook>;
       /**
        * Returns the price book of the current organization matching the
        *  specified ID.
@@ -5672,15 +5624,11 @@ declare namespace dw {
       /**
        * All category assignments for this product in any catalog.
        */
-      readonly allCategoryAssignments: dw.util.Collection<
-        dw.catalog.CategoryAssignment
-      >;
+      readonly allCategoryAssignments: dw.util.Collection<dw.catalog.CategoryAssignment>;
       /**
        * All incoming ProductLinks.
        */
-      readonly allIncomingProductLinks: dw.util.Collection<
-        dw.catalog.ProductLink
-      >;
+      readonly allIncomingProductLinks: dw.util.Collection<dw.catalog.ProductLink>;
       /**
        * All outgoing ProductLinks.
        */
@@ -5755,9 +5703,7 @@ declare namespace dw {
        * A collection of category assignments for this product in
        *  the current site catalog.
        */
-      readonly categoryAssignments: dw.util.Collection<
-        dw.catalog.CategoryAssignment
-      >;
+      readonly categoryAssignments: dw.util.Collection<dw.catalog.CategoryAssignment>;
       /**
        * The classification category associated with this Product. A
        *  product has a single classification category which may or may not be in
@@ -5852,9 +5798,7 @@ declare namespace dw {
        *  recommendations for which the target product is unorderable according to
        *  its product availability model.
        */
-      readonly orderableRecommendations: dw.util.Collection<
-        dw.catalog.Recommendation
-      >;
+      readonly orderableRecommendations: dw.util.Collection<dw.catalog.Recommendation>;
       /**
        * Returns product's page description in the default locale.
        */
@@ -6096,9 +6040,7 @@ declare namespace dw {
        *
        * @return Collection of category assignments of the product in any catalog.
        */
-      getAllCategoryAssignments(): dw.util.Collection<
-        dw.catalog.CategoryAssignment
-      >;
+      getAllCategoryAssignments(): dw.util.Collection<dw.catalog.CategoryAssignment>;
       /**
        * Returns all incoming ProductLinks.
        *
@@ -6235,9 +6177,7 @@ declare namespace dw {
        *
        * @return Collection of category assignments.
        */
-      getCategoryAssignments(): dw.util.Collection<
-        dw.catalog.CategoryAssignment
-      >;
+      getCategoryAssignments(): dw.util.Collection<dw.catalog.CategoryAssignment>;
       /**
        * Returns the classification category associated with this Product. A
        *  product has a single classification category which may or may not be in
@@ -6389,9 +6329,7 @@ declare namespace dw {
        *
        * @return the sorted collection of recommendations, never null but possibly empty.
        */
-      getOrderableRecommendations(): dw.util.Collection<
-        dw.catalog.Recommendation
-      >;
+      getOrderableRecommendations(): dw.util.Collection<dw.catalog.Recommendation>;
       /**
        * Returns a list of outgoing recommendations for this product. This method
        *  behaves similarly to getRecommendations(Number) but additionally
@@ -7640,9 +7578,7 @@ declare namespace dw {
        *  As a result of these rules, this method will never return two attribute
        *  groups with the same ID.
        */
-      readonly attributeGroups: dw.util.Collection<
-        dw.object.ObjectAttributeGroup
-      >;
+      readonly attributeGroups: dw.util.Collection<dw.object.ObjectAttributeGroup>;
       /**
        * An unsorted collection of attribute definitions marked as
        *  order-required. Order-required attributes are usually copied into order
@@ -7652,9 +7588,7 @@ declare namespace dw {
        *  sort order defined for the attributes in the group. This is managed by
        *  merchant in the Business Manager.
        */
-      readonly orderRequiredAttributeDefinitions: dw.util.Collection<
-        dw.object.ObjectAttributeDefinition
-      >;
+      readonly orderRequiredAttributeDefinitions: dw.util.Collection<dw.object.ObjectAttributeDefinition>;
       /**
        * A sorted collection of visible attribute groups of this model.
        *  This method is similar to getAttributeGroups() but only includes
@@ -7662,9 +7596,7 @@ declare namespace dw {
        *  visible. See
        *  getVisibleAttributeDefinitions(ObjectAttributeGroup).
        */
-      readonly visibleAttributeGroups: dw.util.Collection<
-        dw.object.ObjectAttributeGroup
-      >;
+      readonly visibleAttributeGroups: dw.util.Collection<dw.object.ObjectAttributeGroup>;
 
       /**
        * Constructs a product attribute model that is not based on a product nor
@@ -7762,9 +7694,7 @@ declare namespace dw {
        *
        * @return a collection of order-required ObjectAttributeDefinition instances.
        */
-      getOrderRequiredAttributeDefinitions(): dw.util.Collection<
-        dw.object.ObjectAttributeDefinition
-      >;
+      getOrderRequiredAttributeDefinitions(): dw.util.Collection<dw.object.ObjectAttributeDefinition>;
       /**
        * Returns the attribute value for the specified attribute definition. If
        *  the product does not define a value, null is returned.
@@ -7811,9 +7741,7 @@ declare namespace dw {
        *
        * @return sorted collection of visible ObjectAttributeGroup instances.
        */
-      getVisibleAttributeGroups(): dw.util.Collection<
-        dw.object.ObjectAttributeGroup
-      >;
+      getVisibleAttributeGroups(): dw.util.Collection<dw.object.ObjectAttributeGroup>;
     }
 
     /**
@@ -8247,9 +8175,8 @@ declare namespace dw {
      * The ProductInventoryList provides access to ID, description and defaultInStockFlag of the list.
      *  Furthermore inventory records can be accessed by product or product ID.
      */
-    class ProductInventoryList extends dw.object.ExtensibleObject<
-      ProductInventoryListCustomAttributes
-    > {
+    class ProductInventoryList extends dw.object
+      .ExtensibleObject<ProductInventoryListCustomAttributes> {
       /**
        * The default in-stock flag of the inventory list.
        */
@@ -8330,9 +8257,8 @@ declare namespace dw {
     /**
      * The ProductInventoryRecord holds information about a Product&apos;s inventory, and availability.
      */
-    class ProductInventoryRecord extends dw.object.ExtensibleObject<
-      ProductInventoryRecordCustomAttributes
-    > {
+    class ProductInventoryRecord extends dw.object
+      .ExtensibleObject<ProductInventoryRecordCustomAttributes> {
       /**
        * The allocation quantity that is currently set. The quantity unit is the same unit as the product itself.
        */
@@ -8694,9 +8620,8 @@ declare namespace dw {
     /**
      * Represents a product option.
      */
-    class ProductOption extends dw.object.ExtensibleObject<
-      ProductOptionCustomAttributes
-    > {
+    class ProductOption extends dw.object
+      .ExtensibleObject<ProductOptionCustomAttributes> {
       /**
        * The default value for the product option.
        */
@@ -8896,9 +8821,8 @@ declare namespace dw {
     /**
      * Represents the value of a product option.
      */
-    class ProductOptionValue extends dw.object.ExtensibleObject<
-      ProductOptionValueCustomAttributes
-    > {
+    class ProductOptionValue extends dw.object
+      .ExtensibleObject<ProductOptionValueCustomAttributes> {
       /**
        * The the product option value's description
        *  in the current locale.
@@ -11204,9 +11128,7 @@ declare namespace dw {
        *  not provide values for the current search result and can therefore also
        *  be used on empty search results.
        */
-      readonly allRefinementDefinitions: dw.util.Collection<
-        dw.catalog.ProductSearchRefinementDefinition
-      >;
+      readonly allRefinementDefinitions: dw.util.Collection<dw.catalog.ProductSearchRefinementDefinition>;
       /**
        * The appropriate category refinement definition based on the search
        *  result. The category refinement definition returned will be the first that
@@ -11237,9 +11159,7 @@ declare namespace dw {
        *  The method also filters out refinement definitions that do not provide
        *  any values for the current search result.
        */
-      readonly refinementDefinitions: dw.util.Collection<
-        dw.catalog.ProductSearchRefinementDefinition
-      >;
+      readonly refinementDefinitions: dw.util.Collection<dw.catalog.ProductSearchRefinementDefinition>;
 
       private constructor();
 
@@ -11256,9 +11176,7 @@ declare namespace dw {
        *
        * @return A sorted list of refinement definitions appropriate for the search result (based on its deepest common category)
        */
-      getAllRefinementDefinitions(): dw.util.Collection<
-        dw.catalog.ProductSearchRefinementDefinition
-      >;
+      getAllRefinementDefinitions(): dw.util.Collection<dw.catalog.ProductSearchRefinementDefinition>;
       /**
        * Returns the appropriate category refinement definition based on the search
        *  result. The category refinement definition returned will be the first that
@@ -11310,9 +11228,7 @@ declare namespace dw {
        *
        * @return A sorted list of refinement definitions appropriate for the search result (based on its deepest common category)
        */
-      getRefinementDefinitions(): dw.util.Collection<
-        dw.catalog.ProductSearchRefinementDefinition
-      >;
+      getRefinementDefinitions(): dw.util.Collection<dw.catalog.ProductSearchRefinementDefinition>;
       /**
        * Returns the refinement value (incl. product hit count) for the given
        *  refinement definition and the given (selected) value.
@@ -11570,9 +11486,7 @@ declare namespace dw {
        * The object attribute definitions corresponding with the product
        *  variation attributes of the master product.
        */
-      readonly attributeDefinitions: dw.util.Collection<
-        dw.object.ObjectAttributeDefinition
-      >;
+      readonly attributeDefinitions: dw.util.Collection<dw.object.ObjectAttributeDefinition>;
       /**
        * Return the default variant of this model's master product. If no default
        *  variant has been defined, return an arbitrary variant.
@@ -11585,9 +11499,7 @@ declare namespace dw {
       /**
        * A collection of product variation attributes of the variation.
        */
-      readonly productVariationAttributes: dw.util.Collection<
-        dw.catalog.ProductVariationAttributeValue
-      >;
+      readonly productVariationAttributes: dw.util.Collection<dw.catalog.ProductVariationAttributeValue>;
       /**
        * The variant currently selected for this variation model.
        *  Returns null if no variant is selected.
@@ -11651,9 +11563,7 @@ declare namespace dw {
        *
        * @return the collection of ObjectAttributeDefinition instances corresponding with the variation attributes of the master product, sorted by explicit position.
        */
-      getAttributeDefinitions(): dw.util.Collection<
-        dw.object.ObjectAttributeDefinition
-      >;
+      getAttributeDefinitions(): dw.util.Collection<dw.object.ObjectAttributeDefinition>;
       /**
        * Return the default variant of this model's master product. If no default
        *  variant has been defined, return an arbitrary variant.
@@ -11842,9 +11752,7 @@ declare namespace dw {
        *
        * @return a collection of product variation attributes of the variation.
        */
-      getProductVariationAttributes(): dw.util.Collection<
-        dw.catalog.ProductVariationAttributeValue
-      >;
+      getProductVariationAttributes(): dw.util.Collection<dw.catalog.ProductVariationAttributeValue>;
       /**
        * Returns the selected value for the specified attribute. If no value is
        *  selected, null is returned.
@@ -12099,9 +12007,8 @@ declare namespace dw {
     /**
      * Represents a recommendation in Commerce Cloud Digital.
      */
-    class Recommendation extends dw.object.ExtensibleObject<
-      RecommendationCustomAttributes
-    > {
+    class Recommendation extends dw.object
+      .ExtensibleObject<RecommendationCustomAttributes> {
       /**
        * Represents a cross-sell recommendation.
        */
@@ -12654,9 +12561,8 @@ declare namespace dw {
     /**
      * Common search refinement definition base class.
      */
-    class SearchRefinementDefinition extends dw.object.ExtensibleObject<
-      SearchRefinementDefinitionCustomAttributes
-    > {
+    class SearchRefinementDefinition extends dw.object
+      .ExtensibleObject<SearchRefinementDefinitionCustomAttributes> {
       /**
        * The attribute ID. If the refinement definition is not an
        *  attribute refinement, the method returns an empty string.
@@ -12851,9 +12757,7 @@ declare namespace dw {
        *  not provide values for the current search result and can therefore also
        *  be used on empty search results.
        */
-      readonly allRefinementDefinitions: dw.util.Collection<
-        dw.catalog.SearchRefinementDefinition
-      >;
+      readonly allRefinementDefinitions: dw.util.Collection<dw.catalog.SearchRefinementDefinition>;
       /**
        * A sorted list of refinement definitions that are appropriate for
        *  the deepest common category (or deepest common folder) of the search
@@ -12863,9 +12767,7 @@ declare namespace dw {
        *  The method also filters out refinement definitions that do not provide
        *  any values for the current search result.
        */
-      readonly refinementDefinitions: dw.util.Collection<
-        dw.catalog.SearchRefinementDefinition
-      >;
+      readonly refinementDefinitions: dw.util.Collection<dw.catalog.SearchRefinementDefinition>;
 
       /**
        * Returns a sorted list of refinement definitions that are appropriate for
@@ -12880,9 +12782,7 @@ declare namespace dw {
        *
        * @return A sorted list of refinement definitions appropriate for the search result (based on its deepest common category)
        */
-      getAllRefinementDefinitions(): dw.util.Collection<
-        dw.catalog.SearchRefinementDefinition
-      >;
+      getAllRefinementDefinitions(): dw.util.Collection<dw.catalog.SearchRefinementDefinition>;
       /**
        * Returns a sorted collection of refinement values for the given refinement
        *  attribute. The returned collection includes all refinement values for
@@ -12946,9 +12846,7 @@ declare namespace dw {
        *
        * @return A sorted list of refinement definitions appropriate for the search result (based on its deepest common category)
        */
-      getRefinementDefinitions(): dw.util.Collection<
-        dw.catalog.SearchRefinementDefinition
-      >;
+      getRefinementDefinitions(): dw.util.Collection<dw.catalog.SearchRefinementDefinition>;
       /**
        * Returns a collection of refinement values for the given refinement
        *  attribute, sorting mode and sorting direction.
@@ -13278,9 +13176,8 @@ declare namespace dw {
     /**
      * Represents a store group. Store groups can be used to group the stores for different marketing purposes.
      */
-    class StoreGroup extends dw.object.ExtensibleObject<
-      StoreGroupCustomAttributes
-    > {
+    class StoreGroup extends dw.object
+      .ExtensibleObject<StoreGroupCustomAttributes> {
       /**
        * The ID of the store group.
        */
@@ -15168,9 +15065,7 @@ declare namespace dw {
        *  not provide values for the current search result and can therefore also
        *  be used on empty search results.
        */
-      readonly allRefinementDefinitions: dw.util.Collection<
-        dw.content.ContentSearchRefinementDefinition
-      >;
+      readonly allRefinementDefinitions: dw.util.Collection<dw.content.ContentSearchRefinementDefinition>;
       /**
        * The appropriate folder refinement definition based on the search
        *  result. The folder refinement definition returned will be the first that
@@ -15191,9 +15086,7 @@ declare namespace dw {
        *  The method also filters out refinement definitions that do not provide
        *  any values for the current search result.
        */
-      readonly refinementDefinitions: dw.util.Collection<
-        dw.content.ContentSearchRefinementDefinition
-      >;
+      readonly refinementDefinitions: dw.util.Collection<dw.content.ContentSearchRefinementDefinition>;
 
       private constructor();
 
@@ -15210,9 +15103,7 @@ declare namespace dw {
        *
        * @return A sorted list of refinement definitions appropriate for the search result (based on its deepest common category)
        */
-      getAllRefinementDefinitions(): dw.util.Collection<
-        dw.content.ContentSearchRefinementDefinition
-      >;
+      getAllRefinementDefinitions(): dw.util.Collection<dw.content.ContentSearchRefinementDefinition>;
       /**
        * Returns the number of search hits for the passed folder object.
        * @param folder Folder object.
@@ -15258,9 +15149,7 @@ declare namespace dw {
        *
        * @return A sorted list of refinement definitions appropriate for the search result (based on its deepest common category)
        */
-      getRefinementDefinitions(): dw.util.Collection<
-        dw.content.ContentSearchRefinementDefinition
-      >;
+      getRefinementDefinitions(): dw.util.Collection<dw.content.ContentSearchRefinementDefinition>;
       /**
        * Returns the refinement value (incl. content hit count) for the given
        *  refinement definition and the given (selected) value.
@@ -17731,9 +17620,7 @@ declare namespace dw {
       /**
        * A collection of any external profiles the customer may have
        */
-      readonly externalProfiles: dw.util.Collection<
-        dw.customer.ExternalProfile
-      >;
+      readonly externalProfiles: dw.util.Collection<dw.customer.ExternalProfile>;
       /**
        * The Global Party ID for the customer, if there is one.
        *  Global Party ID is created by Customer 360 and identifies a person across multiple systems.
@@ -18252,9 +18139,8 @@ declare namespace dw {
      *  <b>Note:</b> this class allows access to sensitive personal and private information.
      *  Pay attention to appropriate legal and regulatory requirements.</p>
      */
-    class CustomerAddress extends dw.object.ExtensibleObject<
-      CustomerAddressCustomAttributes
-    > {
+    class CustomerAddress extends dw.object
+      .ExtensibleObject<CustomerAddressCustomAttributes> {
       /**
        * The customer's first address.
        */
@@ -18598,9 +18484,8 @@ declare namespace dw {
      *  your custoemer groups. Pay attention to appropriate legal and regulatory requirements
      *  when developing with this data.</p>
      */
-    class CustomerGroup extends dw.object.ExtensibleObject<
-      CustomerGroupCustomAttributes
-    > {
+    class CustomerGroup extends dw.object
+      .ExtensibleObject<CustomerGroupCustomAttributes> {
       /**
        * Gets the value of the description of the customer group.
        */
@@ -18697,9 +18582,7 @@ declare namespace dw {
       /**
        * The customer groups of the current site.
        */
-      static readonly customerGroups: dw.util.Collection<
-        dw.customer.CustomerGroup
-      >;
+      static readonly customerGroups: dw.util.Collection<dw.customer.CustomerGroup>;
       /**
        * An instance of CustomerPasswordConstraints
        *  for the customer list assigned to the current site.
@@ -19583,9 +19466,8 @@ declare namespace dw {
      *  <b>Note:</b> this method handles sensitive financial and card holder data.
      *  Pay special attention to PCI DSS v3. requirements 1, 3, 7, and 9.</p>
      */
-    class EncryptedObject extends dw.object.ExtensibleObject<
-      EncryptedObjectCustomAttributes
-    > {}
+    class EncryptedObject extends dw.object
+      .ExtensibleObject<EncryptedObjectCustomAttributes> {}
 
     /**
      * Represents the credentials of a customer.
@@ -19712,9 +19594,8 @@ declare namespace dw {
      *  ship items to which could not be delivered on event date.
      *  The product list can also hold information about the event date and event location.
      */
-    class ProductList extends dw.object.ExtensibleObject<
-      ProductListCustomAttributes
-    > {
+    class ProductList extends dw.object
+      .ExtensibleObject<ProductListCustomAttributes> {
       /**
        * Constant for when Export Status is Exported
        */
@@ -19842,9 +19723,7 @@ declare namespace dw {
       /**
        * The aggregated purchases from all the individual items.
        */
-      readonly purchases: dw.util.Collection<
-        dw.customer.ProductListItemPurchase
-      >;
+      readonly purchases: dw.util.Collection<dw.customer.ProductListItemPurchase>;
       /**
        * The ProductListRegistrant assigned to the registrant attribute or null
        *  if this list has no registrant.
@@ -20136,9 +20015,8 @@ declare namespace dw {
      *  <li>An item that represents a gift certificate.</li>
      *  </ul>
      */
-    class ProductListItem extends dw.object.ExtensibleObject<
-      ProductListItemCustomAttributes
-    > {
+    class ProductListItem extends dw.object
+      .ExtensibleObject<ProductListItemCustomAttributes> {
       /**
        * Constant representing a gift certificate list item type.
        */
@@ -20199,9 +20077,7 @@ declare namespace dw {
       /**
        * All purchases made for this item.
        */
-      readonly purchases: dw.util.Collection<
-        dw.customer.ProductListItemPurchase
-      >;
+      readonly purchases: dw.util.Collection<dw.customer.ProductListItemPurchase>;
       /**
        * The quantity of the item.
        *  The quantity is the number of products or gift certificates
@@ -20365,9 +20241,8 @@ declare namespace dw {
     /**
      * A record of the purchase of an item contained in a product list.
      */
-    class ProductListItemPurchase extends dw.object.ExtensibleObject<
-      ProductListItemPurchaseCustomAttributes
-    > {
+    class ProductListItemPurchase extends dw.object
+      .ExtensibleObject<ProductListItemPurchaseCustomAttributes> {
       /**
        * The item that was purchased.
        */
@@ -20646,9 +20521,8 @@ declare namespace dw {
      *  such as a gift registry. It holds information about a person associated with the
      *  event such as a bride or groom.
      */
-    class ProductListRegistrant extends dw.object.ExtensibleObject<
-      ProductListRegistrantCustomAttributes
-    > {
+    class ProductListRegistrant extends dw.object
+      .ExtensibleObject<ProductListRegistrantCustomAttributes> {
       /**
        * The email address of the registrant or null.
        */
@@ -21191,9 +21065,7 @@ declare namespace dw {
        * A collection of all payment instruments associated with the
        *  related customer.
        */
-      readonly paymentInstruments: dw.util.Collection<
-        dw.order.PaymentInstrument
-      >;
+      readonly paymentInstruments: dw.util.Collection<dw.order.PaymentInstrument>;
 
       private constructor();
 
@@ -29173,9 +29045,8 @@ declare namespace dw {
     /**
      * Represents the active data for an object in Commerce Cloud Digital.
      */
-    class ActiveData extends dw.object.ExtensibleObject<
-      ActiveDataCustomAttributes
-    > {
+    class ActiveData extends dw.object
+      .ExtensibleObject<ActiveDataCustomAttributes> {
       /**
        * The custom attributes for this object. The returned object can
        *  only be used for retrieving attribute values, not storing them. See
@@ -29312,9 +29183,8 @@ declare namespace dw {
     /**
      * Represents a custom object and its corresponding attributes.
      */
-    class CustomObject extends dw.object.ExtensibleObject<
-      CustomObjectCustomAttributes
-    > {
+    class CustomObject extends dw.object
+      .ExtensibleObject<CustomObjectCustomAttributes> {
       /**
        * The custom attributes of this
        *  object.
@@ -29838,9 +29708,7 @@ declare namespace dw {
       /**
        * All attribute groups the attribute is assigned to.
        */
-      readonly attributeGroups: dw.util.Collection<
-        dw.object.ObjectAttributeGroup
-      >;
+      readonly attributeGroups: dw.util.Collection<dw.object.ObjectAttributeGroup>;
       /**
        * Return the default value for the attribute or null if none is defined.
        */
@@ -29902,9 +29770,7 @@ declare namespace dw {
        *
        *  The collection contains instances of ObjectAttributeValueDefinition.
        */
-      readonly values: dw.util.Collection<
-        dw.object.ObjectAttributeValueDefinition
-      >;
+      readonly values: dw.util.Collection<dw.object.ObjectAttributeValueDefinition>;
       /**
        * A code for the data type stored in the attribute. See constants
        *  defined in this class.
@@ -30028,9 +29894,7 @@ declare namespace dw {
        *  may contain both system attribute definition as well as custom
        *  attribute definitions.
        */
-      readonly attributeDefinitions: dw.util.Collection<
-        dw.object.ObjectTypeDefinition
-      >;
+      readonly attributeDefinitions: dw.util.Collection<dw.object.ObjectTypeDefinition>;
       /**
        * The description of this group in the current locale.
        */
@@ -30063,9 +29927,7 @@ declare namespace dw {
        *
        * @return all attribute definitions for this group.
        */
-      getAttributeDefinitions(): dw.util.Collection<
-        dw.object.ObjectTypeDefinition
-      >;
+      getAttributeDefinitions(): dw.util.Collection<dw.object.ObjectTypeDefinition>;
       /**
        * Returns the description of this group in the current locale.
        *
@@ -30174,17 +30036,13 @@ declare namespace dw {
        *  attribute is not a uniqueness criteria. Additional the isCustom() flag
        *  must be checked.
        */
-      readonly attributeDefinitions: dw.util.Collection<
-        dw.object.ObjectTypeDefinition
-      >;
+      readonly attributeDefinitions: dw.util.Collection<dw.object.ObjectTypeDefinition>;
       /**
        * A collection of all declared attribute groups. A attribute group
        *  is a collection of attribute, which are typically displayed together as
        *  a visual group.
        */
-      readonly attributeGroups: dw.util.Collection<
-        dw.object.ObjectAttributeGroup
-      >;
+      readonly attributeGroups: dw.util.Collection<dw.object.ObjectAttributeGroup>;
       /**
        * The display name of the definition, which can be used in the
        *  user interface.
@@ -30211,9 +30069,7 @@ declare namespace dw {
        *
        * @return a collection of all declared attributes for the object.
        */
-      getAttributeDefinitions(): dw.util.Collection<
-        dw.object.ObjectTypeDefinition
-      >;
+      getAttributeDefinitions(): dw.util.Collection<dw.object.ObjectTypeDefinition>;
       /**
        * Returns the attribute group with the given name within this object
        *  type definition.
@@ -31782,9 +31638,8 @@ declare namespace dw {
      *  product line items representing the chosen bonus products can be retrieved
      *  with <a href="class_dw_order_BonusDiscountLineItem.html#dw_order_BonusDiscountLineItem_getBonusProductLineItems_DetailAnchor">getBonusProductLineItems()</a>.</p>
      */
-    class BonusDiscountLineItem extends dw.object.ExtensibleObject<
-      BonusDiscountLineItemCustomAttributes
-    > {
+    class BonusDiscountLineItem extends dw.object
+      .ExtensibleObject<BonusDiscountLineItemCustomAttributes> {
       /**
        * Returns whether the promotion that triggered the creation of this line item uses a rule to determine the list of
        *  bonus products.
@@ -31935,9 +31790,8 @@ declare namespace dw {
     /**
      * The CouponLineItem class is used to store redeemed coupons in the Basket.
      */
-    class CouponLineItem extends dw.object.ExtensibleObject<
-      CouponLineItemCustomAttributes
-    > {
+    class CouponLineItem extends dw.object
+      .ExtensibleObject<CouponLineItemCustomAttributes> {
       /**
        * Identifies if the coupon is currently applied in the basket. A coupon
        *  line is applied if there exists at least one price adjustment related
@@ -31954,9 +31808,7 @@ declare namespace dw {
        * The bonus discount line items of the line item container triggered
        *  by this coupon.
        */
-      readonly bonusDiscountLineItems: dw.util.Collection<
-        dw.order.BonusDiscountLineItem
-      >;
+      readonly bonusDiscountLineItems: dw.util.Collection<dw.order.BonusDiscountLineItem>;
       /**
        * The coupon code.
        */
@@ -32003,9 +31855,7 @@ declare namespace dw {
        *
        * @return Price adjustments triggered by the coupon
        */
-      getBonusDiscountLineItems(): dw.util.Collection<
-        dw.order.BonusDiscountLineItem
-      >;
+      getBonusDiscountLineItems(): dw.util.Collection<dw.order.BonusDiscountLineItem>;
       /**
        * Returns the coupon code.
        *
@@ -32124,9 +31974,8 @@ declare namespace dw {
      * Represents a Gift Certificate that can be used to purchase
      *  products.
      */
-    class GiftCertificate extends dw.object.ExtensibleObject<
-      GiftCertificateCustomAttributes
-    > {
+    class GiftCertificate extends dw.object
+      .ExtensibleObject<GiftCertificateCustomAttributes> {
       /**
        * Represents a status of 'issued', which indicates that the Gift Certificate
        *  has been created and that it can be used to purchase products.
@@ -32803,9 +32652,7 @@ declare namespace dw {
        *  FilteringCollection.select(Object) with
        *  QUALIFIER_REFUND
        */
-      readonly paymentTransactions: dw.util.FilteringCollection<
-        dw.order.PaymentTransaction
-      >;
+      readonly paymentTransactions: dw.util.FilteringCollection<dw.order.PaymentTransaction>;
       /**
        * The sum of the refunded amounts. The refunded amounts are
        *  calculated on the fly.
@@ -32939,9 +32786,7 @@ declare namespace dw {
        *
        * @return the payment transactions.
        */
-      getPaymentTransactions(): dw.util.FilteringCollection<
-        dw.order.PaymentTransaction
-      >;
+      getPaymentTransactions(): dw.util.FilteringCollection<dw.order.PaymentTransaction>;
       /**
        * Returns the sum of the refunded amounts. The refunded amounts are
        *  calculated on the fly.
@@ -33075,9 +32920,8 @@ declare namespace dw {
     /**
      * Common line item base class.
      */
-    class LineItem extends dw.object.ExtensibleObject<
-      LineItemCustomAttributes
-    > {
+    class LineItem extends dw.object
+      .ExtensibleObject<LineItemCustomAttributes> {
       /**
        * The base price for the line item, which is the price of the unit before applying adjustments, in the
        *  purchase currency. The base price may be net or gross of tax depending on the configured taxation policy.
@@ -33336,9 +33180,8 @@ declare namespace dw {
      *  certificates are not considered merchandise as they do not represent a product.
      *  </p><p></p>
      */
-    class LineItemCtnr extends dw.object.ExtensibleObject<
-      LineItemCtnrCustomAttributes
-    > {
+    class LineItemCtnr extends dw.object
+      .ExtensibleObject<LineItemCtnrCustomAttributes> {
       /**
        * constant for Business Type B2B
        */
@@ -33442,9 +33285,7 @@ declare namespace dw {
       /**
        * All gift certificate line items of the container.
        */
-      readonly allGiftCertificateLineItems: dw.util.Collection<
-        dw.order.GiftCertificateLineItem
-      >;
+      readonly allGiftCertificateLineItems: dw.util.Collection<dw.order.GiftCertificateLineItem>;
       /**
        * All product, shipping, price adjustment, and gift certificate line items of the line item container.
        */
@@ -33453,9 +33294,7 @@ declare namespace dw {
        * All product line items of the container, no matter if they are dependent or independent. This includes
        *  option, bundled and bonus line items.
        */
-      readonly allProductLineItems: dw.util.Collection<
-        dw.order.ProductLineItem
-      >;
+      readonly allProductLineItems: dw.util.Collection<dw.order.ProductLineItem>;
       /**
        * A hash mapping all products in the line item container to their total quantities. The total product
        *  quantity is used chiefly to validate the availability of the items in the cart. This method is not appropriate to
@@ -33475,9 +33314,7 @@ declare namespace dw {
        *  applies shipping price adjustments to the the default shipping line item of shipments, and never to the
        *  container.
        */
-      readonly allShippingPriceAdjustments: dw.util.Collection<
-        dw.order.PriceAdjustment
-      >;
+      readonly allShippingPriceAdjustments: dw.util.Collection<dw.order.PriceAdjustment>;
       /**
        * The billing address defined for the container. Returns null if no billing address has been created yet.
        */
@@ -33485,9 +33322,7 @@ declare namespace dw {
       /**
        * An unsorted collection of the the bonus discount line items associated with this container.
        */
-      readonly bonusDiscountLineItems: dw.util.Collection<
-        dw.order.BonusDiscountLineItem
-      >;
+      readonly bonusDiscountLineItems: dw.util.Collection<dw.order.BonusDiscountLineItem>;
       /**
        * The collection of product line items that are bonus items (where
        *  ProductLineItem.isBonusProductLineItem() is true).
@@ -33550,16 +33385,12 @@ declare namespace dw {
       /**
        * All gift certificate line items of the container.
        */
-      readonly giftCertificateLineItems: dw.util.Collection<
-        dw.order.GiftCertificateLineItem
-      >;
+      readonly giftCertificateLineItems: dw.util.Collection<dw.order.GiftCertificateLineItem>;
       /**
        * An unsorted collection of the PaymentInstrument instances that represent GiftCertificates in this
        *  container.
        */
-      readonly giftCertificatePaymentInstruments: dw.util.Collection<
-        dw.order.PaymentInstrument
-      >;
+      readonly giftCertificatePaymentInstruments: dw.util.Collection<dw.order.PaymentInstrument>;
       /**
        * The total gross price of all gift certificates in the cart. Should usually be equal to total net price.
        */
@@ -33612,9 +33443,7 @@ declare namespace dw {
       /**
        * An unsorted collection of the payment instruments in this container.
        */
-      readonly paymentInstruments: dw.util.Collection<
-        dw.order.OrderPaymentInstrument
-      >;
+      readonly paymentInstruments: dw.util.Collection<dw.order.OrderPaymentInstrument>;
       /**
        * The collection of price adjustments that have been applied to the totals such as promotion on the
        *  purchase value (i.e. $10 Off or 10% Off). The price adjustments are sorted by the order in which they were
@@ -33654,9 +33483,7 @@ declare namespace dw {
        *  promotions engine only applies shipping price adjustments to the the default shipping line item of shipments, and
        *  never to the container.
        */
-      readonly shippingPriceAdjustments: dw.util.Collection<
-        dw.order.PriceAdjustment
-      >;
+      readonly shippingPriceAdjustments: dw.util.Collection<dw.order.PriceAdjustment>;
       /**
        * The sum of all shipping line items of the line item container, including tax before shipping adjustments
        *  have been applied.
@@ -34037,9 +33864,7 @@ declare namespace dw {
        *
        * @return A collection of all GiftCertificateLineItems of the container.
        */
-      getAllGiftCertificateLineItems(): dw.util.Collection<
-        dw.order.GiftCertificateLineItem
-      >;
+      getAllGiftCertificateLineItems(): dw.util.Collection<dw.order.GiftCertificateLineItem>;
       /**
        * Returns all product, shipping, price adjustment, and gift certificate line items of the line item container.
        *
@@ -34085,9 +33910,7 @@ declare namespace dw {
        *
        * @return an unsorted collection of the shipping PriceAdjustment instances associated with this container.
        */
-      getAllShippingPriceAdjustments(): dw.util.Collection<
-        dw.order.PriceAdjustment
-      >;
+      getAllShippingPriceAdjustments(): dw.util.Collection<dw.order.PriceAdjustment>;
       /**
        * Returns the billing address defined for the container. Returns null if no billing address has been created yet.
        *
@@ -34099,9 +33922,7 @@ declare namespace dw {
        *
        * @return An unsorted collection of BonusDiscountLine instances in the container.
        */
-      getBonusDiscountLineItems(): dw.util.Collection<
-        dw.order.BonusDiscountLineItem
-      >;
+      getBonusDiscountLineItems(): dw.util.Collection<dw.order.BonusDiscountLineItem>;
       /**
        * Returns the collection of product line items that are bonus items (where
        *  ProductLineItem.isBonusProductLineItem() is true).
@@ -34194,9 +34015,7 @@ declare namespace dw {
        *
        * @return A collection of all GiftCertificateLineItems of the container.
        */
-      getGiftCertificateLineItems(): dw.util.Collection<
-        dw.order.GiftCertificateLineItem
-      >;
+      getGiftCertificateLineItems(): dw.util.Collection<dw.order.GiftCertificateLineItem>;
       /**
        * Returns all gift certificate line items of the container, no matter if they are dependent or independent.
        * @param giftCertificateId the gift certificate identifier.
@@ -34211,9 +34030,7 @@ declare namespace dw {
        *
        * @return an unsorted collection containing the set of PaymentInstrument instances that represent GiftCertificates.
        */
-      getGiftCertificatePaymentInstruments(): dw.util.Collection<
-        dw.order.PaymentInstrument
-      >;
+      getGiftCertificatePaymentInstruments(): dw.util.Collection<dw.order.PaymentInstrument>;
       /**
        * Returns an unsorted collection containing all PaymentInstruments of type
        *  PaymentInstrument.METHOD_GIFT_CERTIFICATE where the specified code is the same code on the payment instrument.
@@ -34297,9 +34114,7 @@ declare namespace dw {
        *
        * @return an unsorted collection containing the set of PaymentInstrument instances associated with this container.
        */
-      getPaymentInstruments(): dw.util.Collection<
-        dw.order.OrderPaymentInstrument
-      >;
+      getPaymentInstruments(): dw.util.Collection<dw.order.OrderPaymentInstrument>;
       /**
        * Returns an unsorted collection of PaymentInstrument instances based on the specified payment method ID.
        * @param paymentMethodID the ID of the payment method used.
@@ -34408,9 +34223,7 @@ declare namespace dw {
        *
        * @return a collection of shipping price adjustments.
        */
-      getShippingPriceAdjustments(): dw.util.Collection<
-        dw.order.PriceAdjustment
-      >;
+      getShippingPriceAdjustments(): dw.util.Collection<dw.order.PriceAdjustment>;
       /**
        * Returns the sum of all shipping line items of the line item container, including tax before shipping adjustments
        *  have been applied.
@@ -34692,9 +34505,7 @@ declare namespace dw {
       /**
        * The collection of AppeasementItems associated with this order.
        */
-      readonly appeasementItems: dw.util.FilteringCollection<
-        dw.order.AppeasementItem
-      >;
+      readonly appeasementItems: dw.util.FilteringCollection<dw.order.AppeasementItem>;
       /**
        * The collection of Appeasements associated with this order.
        */
@@ -34938,9 +34749,7 @@ declare namespace dw {
        *  Please contact support in this case. Existing customers using these APIs are not
        *  affected by this change and can use the APIs until further notice.
        */
-      readonly returnCaseItems: dw.util.FilteringCollection<
-        dw.order.ReturnCaseItem
-      >;
+      readonly returnCaseItems: dw.util.FilteringCollection<dw.order.ReturnCaseItem>;
       /**
        * The collection of ReturnCases associated with this order.
        *
@@ -34976,9 +34785,7 @@ declare namespace dw {
        *  Please contact support in this case. Existing customers using these APIs are not
        *  affected by this change and can use the APIs until further notice.
        */
-      readonly shippingOrderItems: dw.util.FilteringCollection<
-        dw.order.ShippingOrderItem
-      >;
+      readonly shippingOrderItems: dw.util.FilteringCollection<dw.order.ShippingOrderItem>;
       /**
        * The collection of ShippingOrders associated with this order.
        *
@@ -34987,9 +34794,7 @@ declare namespace dw {
        *  Please contact support in this case. Existing customers using these APIs are not
        *  affected by this change and can use the APIs until further notice.
        */
-      readonly shippingOrders: dw.util.FilteringCollection<
-        dw.order.ShippingOrder
-      >;
+      readonly shippingOrders: dw.util.FilteringCollection<dw.order.ShippingOrder>;
       /**
        * The order shipping status.
        *  Possible values are SHIPPING_STATUS_NOTSHIPPED,
@@ -35181,9 +34986,7 @@ declare namespace dw {
        *
        * @return the appeasement items belonging to this order
        */
-      getAppeasementItems(): dw.util.FilteringCollection<
-        dw.order.AppeasementItem
-      >;
+      getAppeasementItems(): dw.util.FilteringCollection<dw.order.AppeasementItem>;
       /**
        * Returns the collection of Appeasements associated with this order.
        *
@@ -35597,9 +35400,7 @@ declare namespace dw {
        *
        * @return return case items belonging to this order
        */
-      getReturnCaseItems(): dw.util.FilteringCollection<
-        dw.order.ReturnCaseItem
-      >;
+      getReturnCaseItems(): dw.util.FilteringCollection<dw.order.ReturnCaseItem>;
       /**
        * Returns the collection of ReturnCases associated with this order.
        *
@@ -35681,9 +35482,7 @@ declare namespace dw {
        *
        * @return shipping order items belonging to this order
        */
-      getShippingOrderItems(): dw.util.FilteringCollection<
-        dw.order.ShippingOrderItem
-      >;
+      getShippingOrderItems(): dw.util.FilteringCollection<dw.order.ShippingOrderItem>;
       /**
        * Returns the collection of ShippingOrders associated with this order.
        *
@@ -35980,9 +35779,8 @@ declare namespace dw {
      *  <b>Note:</b> this class allows access to sensitive personal and private information.
      *  Pay attention to appropriate legal and regulatory requirements.</p>
      */
-    class OrderAddress extends dw.object.ExtensibleObject<
-      OrderAddressCustomAttributes
-    > {
+    class OrderAddress extends dw.object
+      .ExtensibleObject<OrderAddressCustomAttributes> {
       /**
        * The customer's first address.
        */
@@ -36412,9 +36210,7 @@ declare namespace dw {
        *  This method is equivalent to getShippingOrderItems(Boolean)
        *  called with parameter true.
        */
-      readonly shippingOrderItems: dw.util.Collection<
-        dw.order.ShippingOrderItem
-      >;
+      readonly shippingOrderItems: dw.util.Collection<dw.order.ShippingOrderItem>;
       /**
        * A collection of all split OrderItems associated with this item. Inverse relation to getSplitSourceItem().
        *
@@ -37873,9 +37669,8 @@ declare namespace dw {
      *  <b>Note:</b> this class handles sensitive financial and card holder data.
      *  Pay special attention to PCI DSS v3. requirements 1, 3, 7, and 9.</p>
      */
-    class PaymentCard extends dw.object.ExtensibleObject<
-      PaymentCardCustomAttributes
-    > {
+    class PaymentCard extends dw.object
+      .ExtensibleObject<PaymentCardCustomAttributes> {
       /**
        * Returns 'true' if payment card is active (enabled), otherwise 'false' is returned.
        */
@@ -38862,9 +38657,8 @@ declare namespace dw {
      *  based on the amount of his order, his customer groups, and his shipping
      *  address.</p>
      */
-    class PaymentMethod extends dw.object.ExtensibleObject<
-      PaymentMethodCustomAttributes
-    > {
+    class PaymentMethod extends dw.object
+      .ExtensibleObject<PaymentMethodCustomAttributes> {
       /**
        * Returns 'true' if payment method is active (enabled), otherwise 'false' is returned.
        */
@@ -39028,9 +38822,7 @@ declare namespace dw {
        *  restrictions. The payment methods are sorted as defined in the Business
        *  Manager.
        */
-      static readonly activePaymentMethods: dw.util.List<
-        dw.order.PaymentMethod
-      >;
+      static readonly activePaymentMethods: dw.util.List<dw.order.PaymentMethod>;
 
       private constructor();
 
@@ -39132,9 +38924,8 @@ declare namespace dw {
      *  transaction has one PaymentProcessor which is set by custom code during the
      *  checkout process.</p>
      */
-    class PaymentProcessor extends dw.object.ExtensibleObject<
-      PaymentProcessorCustomAttributes
-    > {
+    class PaymentProcessor extends dw.object
+      .ExtensibleObject<PaymentProcessorCustomAttributes> {
       /**
        * The 'ID' of this processor.
        */
@@ -39189,9 +38980,8 @@ declare namespace dw {
     /**
      * The PaymentTransaction class represents a payment transaction.
      */
-    class PaymentTransaction extends dw.object.ExtensibleObject<
-      PaymentTransactionCustomAttributes
-    > {
+    class PaymentTransaction extends dw.object
+      .ExtensibleObject<PaymentTransactionCustomAttributes> {
       /**
        * Constant representing the authorization type of payment transaction.
        */
@@ -39851,9 +39641,7 @@ declare namespace dw {
       /**
        * A collection containing the bundled product line items.
        */
-      readonly bundledProductLineItems: dw.util.Collection<
-        dw.order.ProductLineItem
-      >;
+      readonly bundledProductLineItems: dw.util.Collection<dw.order.ProductLineItem>;
       /**
        * Returns true if the product line item represents a catalog product.
        *
@@ -39948,9 +39736,7 @@ declare namespace dw {
       /**
        * A collection containing option product line items.
        */
-      readonly optionProductLineItems: dw.util.Collection<
-        dw.order.ProductLineItem
-      >;
+      readonly optionProductLineItems: dw.util.Collection<dw.order.ProductLineItem>;
       /**
        * The ID of the product option value this product line item
        *  represents. If the product line item does not represent an option,
@@ -40070,9 +39856,7 @@ declare namespace dw {
        *  rendering the cart so that bonus products can be shown next to the
        *  products that triggered their creation.
        */
-      readonly relatedBonusProductLineItems: dw.util.Collection<
-        dw.order.ProductLineItem
-      >;
+      readonly relatedBonusProductLineItems: dw.util.Collection<dw.order.ProductLineItem>;
       /**
        * Returns if the product line item is reserved.
        *
@@ -40204,9 +39988,7 @@ declare namespace dw {
        *
        * @return a collection containing the bundled product line items.
        */
-      getBundledProductLineItems(): dw.util.Collection<
-        dw.order.ProductLineItem
-      >;
+      getBundledProductLineItems(): dw.util.Collection<dw.order.ProductLineItem>;
       /**
        * Returns the category the product line item is associated with. If the
        *  line item is not associated with a category, or the category does not
@@ -40482,9 +40264,7 @@ declare namespace dw {
        *
        * @return the bonus product line items triggered by the addition of this product to the cart.
        */
-      getRelatedBonusProductLineItems(): dw.util.Collection<
-        dw.order.ProductLineItem
-      >;
+      getRelatedBonusProductLineItems(): dw.util.Collection<dw.order.ProductLineItem>;
       /**
        * Returns the associated Shipment.
        *
@@ -41012,27 +40792,21 @@ declare namespace dw {
        *  with. A product can be shipping with a shipping methods if the shipping
        *  method is not explicitely marked as inapplicable for this product.
        */
-      readonly applicableShippingMethods: dw.util.Collection<
-        dw.order.ShippingMethod
-      >;
+      readonly applicableShippingMethods: dw.util.Collection<dw.order.ShippingMethod>;
       /**
        * The active inapplicable shipping methods for the product related
        *  to this shipping model, i.e. shipping methods the product cannot be
        *  shipped with. A product cannot be shipping with a shipping methods if the
        *  shipping method is explicitely marked as inapplicable for this product.
        */
-      readonly inapplicableShippingMethods: dw.util.Collection<
-        dw.order.ShippingMethod
-      >;
+      readonly inapplicableShippingMethods: dw.util.Collection<dw.order.ShippingMethod>;
       /**
        * The active shipping methods for which either any fixed-price or
        *  surcharge product-level shipping cost is defined for the specified product.
        *  Note that this can include inapplicable shipping methods
        *  (see getInapplicableShippingMethods()).
        */
-      readonly shippingMethodsWithShippingCost: dw.util.Collection<
-        dw.order.ShippingMethod
-      >;
+      readonly shippingMethodsWithShippingCost: dw.util.Collection<dw.order.ShippingMethod>;
 
       private constructor();
 
@@ -41044,9 +40818,7 @@ declare namespace dw {
        *
        * @return Applicable shipping methods for the product
        */
-      getApplicableShippingMethods(): dw.util.Collection<
-        dw.order.ShippingMethod
-      >;
+      getApplicableShippingMethods(): dw.util.Collection<dw.order.ShippingMethod>;
       /**
        * Returns the active inapplicable shipping methods for the product related
        *  to this shipping model, i.e. shipping methods the product cannot be
@@ -41055,9 +40827,7 @@ declare namespace dw {
        *
        * @return Inapplicable shipping methods for the product
        */
-      getInapplicableShippingMethods(): dw.util.Collection<
-        dw.order.ShippingMethod
-      >;
+      getInapplicableShippingMethods(): dw.util.Collection<dw.order.ShippingMethod>;
       /**
        * Returns the shipping cost object for the related product and
        *  the specified shipping method, or null if no product-level fixed-price or
@@ -41080,9 +40850,7 @@ declare namespace dw {
        *
        * @return Shipping methods with shipping cost
        */
-      getShippingMethodsWithShippingCost(): dw.util.Collection<
-        dw.order.ShippingMethod
-      >;
+      getShippingMethodsWithShippingCost(): dw.util.Collection<dw.order.ShippingMethod>;
     }
 
     /**
@@ -41887,9 +41655,8 @@ declare namespace dw {
     /**
      * Represents an order shipment.
      */
-    class Shipment extends dw.object.ExtensibleObject<
-      ShipmentCustomAttributes
-    > {
+    class Shipment extends dw.object
+      .ExtensibleObject<ShipmentCustomAttributes> {
       /**
        * Shipment shipping status representing 'Not shipped'.
        */
@@ -41973,9 +41740,7 @@ declare namespace dw {
       /**
        * All gift certificate line items of the shipment.
        */
-      readonly giftCertificateLineItems: dw.util.Collection<
-        dw.order.GiftCertificateLineItem
-      >;
+      readonly giftCertificateLineItems: dw.util.Collection<dw.order.GiftCertificateLineItem>;
       /**
        * The value set for gift message or null if no value set.
        */
@@ -42004,9 +41769,7 @@ declare namespace dw {
        * A collection of price adjustments that have been applied to the totals, such as a promotion on the
        *  purchase value (i.e. $10 Off or 10% Off).
        */
-      readonly merchandizeTotalPriceAdjustments: dw.util.Collection<
-        dw.order.PriceAdjustment
-      >;
+      readonly merchandizeTotalPriceAdjustments: dw.util.Collection<dw.order.PriceAdjustment>;
       /**
        * The total product tax in the purchase currency. The total product tax represents the tax on products,
        *  excluding services and adjustments.
@@ -42054,9 +41817,7 @@ declare namespace dw {
        *  item they belong to. Use ShippingLineItem.getShippingPriceAdjustments() to retrieve the shipping
        *  price adjustments associated with a specific shipping line item.
        */
-      readonly shippingPriceAdjustments: dw.util.Collection<
-        dw.order.PriceAdjustment
-      >;
+      readonly shippingPriceAdjustments: dw.util.Collection<dw.order.PriceAdjustment>;
       /**
        * The shipping status. Possible values are SHIPMENT_NOTSHIPPED or SHIPMENT_SHIPPED.
        */
@@ -42217,9 +41978,7 @@ declare namespace dw {
        *
        * @return A collection of all GiftCertificateLineItems of the shipment.
        */
-      getGiftCertificateLineItems(): dw.util.Collection<
-        dw.order.GiftCertificateLineItem
-      >;
+      getGiftCertificateLineItems(): dw.util.Collection<dw.order.GiftCertificateLineItem>;
       /**
        * Returns the value set for gift message or null if no value set.
        *
@@ -42260,9 +42019,7 @@ declare namespace dw {
        *
        * @return a collection of price adjustments that have been applied to the totals, such as a promotion on the purchase value (i.e. $10 Off or 10% Off).
        */
-      getMerchandizeTotalPriceAdjustments(): dw.util.Collection<
-        dw.order.PriceAdjustment
-      >;
+      getMerchandizeTotalPriceAdjustments(): dw.util.Collection<dw.order.PriceAdjustment>;
       /**
        * Returns the total product tax in the purchase currency. The total product tax represents the tax on products,
        *  excluding services and adjustments.
@@ -42345,9 +42102,7 @@ declare namespace dw {
        *
        * @return a collection of price adjustments that have been applied to the shipping costs of the shipment.
        */
-      getShippingPriceAdjustments(): dw.util.Collection<
-        dw.order.PriceAdjustment
-      >;
+      getShippingPriceAdjustments(): dw.util.Collection<dw.order.PriceAdjustment>;
       /**
        * Returns the shipping status. Possible values are SHIPMENT_NOTSHIPPED or SHIPMENT_SHIPPED.
        *
@@ -42502,9 +42257,7 @@ declare namespace dw {
        *  that the the shipment customer belongs to an assigned customer group of the shipment
        *  (if any are assigned).
        */
-      readonly applicableShippingMethods: dw.util.Collection<
-        dw.order.ShippingMethod
-      >;
+      readonly applicableShippingMethods: dw.util.Collection<dw.order.ShippingMethod>;
       /**
        * The active inapplicable shipping methods for the shipment related
        *  to this shipping model. A shipping method is inapplicable for a shipment
@@ -42513,9 +42266,7 @@ declare namespace dw {
        *  shipping method is restricted to customer groups that the shipment customer
        *  is not a part of.
        */
-      readonly inapplicableShippingMethods: dw.util.Collection<
-        dw.order.ShippingMethod
-      >;
+      readonly inapplicableShippingMethods: dw.util.Collection<dw.order.ShippingMethod>;
 
       private constructor();
 
@@ -42529,9 +42280,7 @@ declare namespace dw {
        *
        * @return Applicable shipping methods for the shipment
        */
-      getApplicableShippingMethods(): dw.util.Collection<
-        dw.order.ShippingMethod
-      >;
+      getApplicableShippingMethods(): dw.util.Collection<dw.order.ShippingMethod>;
       /**
        * Returns the active applicable shipping methods for the shipment related
        *  to this shipping model and the specified shipping address. A shipping
@@ -42572,9 +42321,7 @@ declare namespace dw {
        *
        * @return Inapplicable shipping methods for the shipment
        */
-      getInapplicableShippingMethods(): dw.util.Collection<
-        dw.order.ShippingMethod
-      >;
+      getInapplicableShippingMethods(): dw.util.Collection<dw.order.ShippingMethod>;
       /**
        * Returns the active inapplicable shipping methods for the shipment related
        *  to this shipping model and the specified shipping address. A shipping
@@ -42678,9 +42425,7 @@ declare namespace dw {
        * The collection of shipping price adjustments that have been
        *  applied to this shipping line item.
        */
-      readonly shippingPriceAdjustments: dw.util.Collection<
-        dw.order.PriceAdjustment
-      >;
+      readonly shippingPriceAdjustments: dw.util.Collection<dw.order.PriceAdjustment>;
 
       private constructor();
 
@@ -42785,9 +42530,7 @@ declare namespace dw {
        *
        * @return the collection of shipping price adjustments that have been applied to this shipping line item.
        */
-      getShippingPriceAdjustments(): dw.util.Collection<
-        dw.order.PriceAdjustment
-      >;
+      getShippingPriceAdjustments(): dw.util.Collection<dw.order.PriceAdjustment>;
       /**
        * Removes the specified shipping price adjustment from this shipping line
        *  item.
@@ -42949,9 +42692,8 @@ declare namespace dw {
     /**
      * ShippingMethod represents how the shipment will be shipped.
      */
-    class ShippingMethod extends dw.object.ExtensibleObject<
-      ShippingMethodCustomAttributes
-    > {
+    class ShippingMethod extends dw.object
+      .ExtensibleObject<ShippingMethodCustomAttributes> {
       /**
        * The base shipping method or null if undefined.
        */
@@ -43075,9 +42817,7 @@ declare namespace dw {
       /**
        * The active shipping methods of the current site applicable to the session currency and current customer group.
        */
-      static readonly allShippingMethods: dw.util.Collection<
-        dw.order.ShippingMethod
-      >;
+      static readonly allShippingMethods: dw.util.Collection<dw.order.ShippingMethod>;
       /**
        * The default shipping method of the current site applicable to the session currency.
        *
@@ -43135,9 +42875,7 @@ declare namespace dw {
        *
        * @return the active shipping methods of the current site applicable to the session currency and current customer group.
        */
-      static getAllShippingMethods(): dw.util.Collection<
-        dw.order.ShippingMethod
-      >;
+      static getAllShippingMethods(): dw.util.Collection<dw.order.ShippingMethod>;
       /**
        * Returns the default shipping method of the current site applicable to the session currency.
        *
@@ -46107,9 +45845,7 @@ declare namespace dw {
        *  The search phrases are specific to the region (based on user's IP address),
        *  language (locale) and the user's browser type (agent).
        */
-      readonly popularSearchPhrases: dw.util.Iterator<
-        dw.suggest.SuggestedPhrase
-      >;
+      readonly popularSearchPhrases: dw.util.Iterator<dw.suggest.SuggestedPhrase>;
       /**
        * A ProductSuggestions container for the current search phrase.
        *  The ProductSuggestions container provides access to the found products (if any) and
@@ -46122,9 +45858,7 @@ declare namespace dw {
        *
        *  The user is being identified by the CQuotient tracking cookie.
        */
-      readonly recentSearchPhrases: dw.util.Iterator<
-        dw.suggest.SuggestedPhrase
-      >;
+      readonly recentSearchPhrases: dw.util.Iterator<dw.suggest.SuggestedPhrase>;
 
       /**
        * Constructs a new SuggestModel.
@@ -47537,9 +47271,8 @@ declare namespace dw {
     /**
      * Configuration object for Services.
      */
-    class ServiceConfig extends dw.object.ExtensibleObject<
-      ServiceConfigCustomAttributes
-    > {
+    class ServiceConfig extends dw.object
+      .ExtensibleObject<ServiceConfigCustomAttributes> {
       /**
        * The related service credentials.
        */
@@ -47782,9 +47515,8 @@ declare namespace dw {
     /**
      * Configuration object for Service Profiles.
      */
-    class ServiceProfile extends dw.object.ExtensibleObject<
-      ServiceProfileCustomAttributes
-    > {
+    class ServiceProfile extends dw.object
+      .ExtensibleObject<ServiceProfileCustomAttributes> {
       /**
        * The maximum number of errors in an interval allowed by the circuit breaker.
        */
@@ -48418,9 +48150,8 @@ declare namespace dw {
      *  &quot;Global Preferences&quot; module of the Business Manager, but these preferences
      *  are not accessible through this object.</p>
      */
-    class OrganizationPreferences extends dw.object.ExtensibleObject<
-      OrganizationPreferencesCustomAttributes
-    > {
+    class OrganizationPreferences extends dw.object
+      .ExtensibleObject<OrganizationPreferencesCustomAttributes> {
       private constructor();
     }
 
@@ -49747,9 +49478,8 @@ declare namespace dw {
      *  not accessible through this object. (SourceCodeURLParameterName is the one
      *  exception to this rule.)</p>
      */
-    class SitePreferences extends dw.object.ExtensibleObject<
-      SitePreferencesCustomAttributes
-    > {
+    class SitePreferences extends dw.object
+      .ExtensibleObject<SitePreferencesCustomAttributes> {
       /**
        * The name of the source code url paremeter configured for the
        *  site.
