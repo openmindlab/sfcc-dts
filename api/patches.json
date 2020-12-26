@@ -4,8 +4,52 @@
       "catalog": {
         "ProductSearchRefinements": {
           "methods": {
+            "getAllRefinementDefinitions": {
+              "name": "getAllRefinementDefinitions",
+              "args": [],
+              "class": {
+                "name": "Collection",
+                "description": "A sorted list of refinement definitions appropriate for the search result (based on its deepest common category)"
+              },
+              "description": "Returns a sorted list of refinement definitions that are appropriate for\n the deepest common category (or deepest common folder) of the search\n result. The method concatenates the sorted refinement definitions per\n category starting at the root category until reaching the deepest common\n category.\n\n The method does not filter out refinement definitions that do\n not provide values for the current search result and can therefore also\n be used on empty search results.",
+              "deprecated": false
+            },
+            "getRefinementDefinitions": {
+              "name": "getRefinementDefinitions",
+              "args": [],
+              "class": {
+                "name": "Collection",
+                "description": "A sorted list of refinement definitions appropriate for the search result (based on its deepest common category)"
+              },
+              "description": "Returns a sorted list of refinement definitions that are appropriate for\n the deepest common category (or deepest common folder) of the search\n result. The method concatenates the sorted refinement definitions per category\n starting at the root category until reaching the deepest common category.\n\n The method also filters out refinement definitions that do not provide\n any values for the current search result.",
+              "deprecated": false
+            },
             "getAllRefinementValues": null,
             "getRefinementValues": null
+          },
+          "properties": {
+            "allRefinementDefinitions": {
+              "name": "allRefinementDefinitions",
+              "class": {
+                "name": "Collection"
+              },
+              "static": false,
+              "readonly": true,
+              "description": "A sorted list of refinement definitions that are appropriate for\n the deepest common category (or deepest common folder) of the search\n result. The method concatenates the sorted refinement definitions per\n category starting at the root category until reaching the deepest common\n category.\n\n The method does not filter out refinement definitions that do\n not provide values for the current search result and can therefore also\n be used on empty search results.",
+              "deprecated": false,
+              "type": "property"
+            },
+            "refinementDefinitions": {
+              "name": "refinementDefinitions",
+              "class": {
+                "name": "Collection"
+              },
+              "static": false,
+              "readonly": true,
+              "description": "A sorted list of refinement definitions that are appropriate for\n the deepest common category (or deepest common folder) of the search\n result. The method concatenates the sorted refinement definitions per category\n starting at the root category until reaching the deepest common category.\n\n The method also filters out refinement definitions that do not provide\n any values for the current search result.",
+              "deprecated": false,
+              "type": "property"
+            }
           }
         },
         "Variant": {
@@ -22,8 +66,52 @@
       "content": {
         "ContentSearchRefinements": {
           "methods": {
+            "getAllRefinementDefinitions": {
+              "name": "getAllRefinementDefinitions",
+              "args": [],
+              "class": {
+                "name": "Collection",
+                "description": "A sorted list of refinement definitions appropriate for the search result (based on its deepest common category)"
+              },
+              "description": "Returns a sorted list of refinement definitions that are appropriate for\n the deepest common category (or deepest common folder) of the search\n result. The method concatenates the sorted refinement definitions per\n category starting at the root category until reaching the deepest common\n category.\n\n The method does not filter out refinement definitions that do\n not provide values for the current search result and can therefore also\n be used on empty search results.",
+              "deprecated": false
+            },
+            "getRefinementDefinitions": {
+              "name": "getRefinementDefinitions",
+              "args": [],
+              "class": {
+                "name": "Collection",
+                "description": "A sorted list of refinement definitions appropriate for the search result (based on its deepest common category)"
+              },
+              "description": "Returns a sorted list of refinement definitions that are appropriate for\n the deepest common category (or deepest common folder) of the search\n result. The method concatenates the sorted refinement definitions per category\n starting at the root category until reaching the deepest common category.\n\n The method also filters out refinement definitions that do not provide\n any values for the current search result.",
+              "deprecated": false
+            },
             "getAllRefinementValues": null,
             "getRefinementValues": null
+          },
+          "properties": {
+            "allRefinementDefinitions": {
+              "name": "allRefinementDefinitions",
+              "class": {
+                "name": "Collection"
+              },
+              "static": false,
+              "readonly": true,
+              "description": "A sorted list of refinement definitions that are appropriate for\n the deepest common category (or deepest common folder) of the search\n result. The method concatenates the sorted refinement definitions per\n category starting at the root category until reaching the deepest common\n category.\n\n The method does not filter out refinement definitions that do\n not provide values for the current search result and can therefore also\n be used on empty search results.",
+              "deprecated": false,
+              "type": "property"
+            },
+            "refinementDefinitions": {
+              "name": "refinementDefinitions",
+              "class": {
+                "name": "Collection"
+              },
+              "static": false,
+              "readonly": true,
+              "description": "A sorted list of refinement definitions that are appropriate for\n the deepest common category (or deepest common folder) of the search\n result. The method concatenates the sorted refinement definitions per category\n starting at the root category until reaching the deepest common category.\n\n The method also filters out refinement definitions that do not provide\n any values for the current search result.",
+              "deprecated": false,
+              "type": "property"
+            }
           }
         }
       },

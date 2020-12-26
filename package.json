@@ -11,6 +11,10 @@
     "Demandware",
     "sfccs"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/openmindlab/sfcc-dts"
+  },
   "dependencies": {
     "axios": "0.20.0",
     "chalk": "4.1.0",

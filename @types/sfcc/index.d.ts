@@ -11194,6 +11194,20 @@ declare namespace dw {
      */
     class ProductSearchRefinements extends dw.catalog.SearchRefinements {
       /**
+       * A sorted list of refinement definitions that are appropriate for
+       *  the deepest common category (or deepest common folder) of the search
+       *  result. The method concatenates the sorted refinement definitions per
+       *  category starting at the root category until reaching the deepest common
+       *  category.
+       *
+       *  The method does not filter out refinement definitions that do
+       *  not provide values for the current search result and can therefore also
+       *  be used on empty search results.
+       */
+      readonly allRefinementDefinitions: dw.util.Collection<
+        dw.catalog.ProductSearchRefinementDefinition
+      >;
+      /**
        * The appropriate category refinement definition based on the search
        *  result. The category refinement definition returned will be the first that
        *  can be found traversing the category tree upward starting at the deepest
@@ -11214,9 +11228,37 @@ declare namespace dw {
        *  common category of the search result.
        */
       readonly promotionRefinementDefinition: dw.catalog.ProductSearchRefinementDefinition;
+      /**
+       * A sorted list of refinement definitions that are appropriate for
+       *  the deepest common category (or deepest common folder) of the search
+       *  result. The method concatenates the sorted refinement definitions per category
+       *  starting at the root category until reaching the deepest common category.
+       *
+       *  The method also filters out refinement definitions that do not provide
+       *  any values for the current search result.
+       */
+      readonly refinementDefinitions: dw.util.Collection<
+        dw.catalog.ProductSearchRefinementDefinition
+      >;
 
       private constructor();
 
+      /**
+       * Returns a sorted list of refinement definitions that are appropriate for
+       *  the deepest common category (or deepest common folder) of the search
+       *  result. The method concatenates the sorted refinement definitions per
+       *  category starting at the root category until reaching the deepest common
+       *  category.
+       *
+       *  The method does not filter out refinement definitions that do
+       *  not provide values for the current search result and can therefore also
+       *  be used on empty search results.
+       *
+       * @return A sorted list of refinement definitions appropriate for the search result (based on its deepest common category)
+       */
+      getAllRefinementDefinitions(): dw.util.Collection<
+        dw.catalog.ProductSearchRefinementDefinition
+      >;
       /**
        * Returns the appropriate category refinement definition based on the search
        *  result. The category refinement definition returned will be the first that
@@ -11257,6 +11299,20 @@ declare namespace dw {
        * @return The promotion refinement definition or null if none can be found.
        */
       getPromotionRefinementDefinition(): dw.catalog.ProductSearchRefinementDefinition;
+      /**
+       * Returns a sorted list of refinement definitions that are appropriate for
+       *  the deepest common category (or deepest common folder) of the search
+       *  result. The method concatenates the sorted refinement definitions per category
+       *  starting at the root category until reaching the deepest common category.
+       *
+       *  The method also filters out refinement definitions that do not provide
+       *  any values for the current search result.
+       *
+       * @return A sorted list of refinement definitions appropriate for the search result (based on its deepest common category)
+       */
+      getRefinementDefinitions(): dw.util.Collection<
+        dw.catalog.ProductSearchRefinementDefinition
+      >;
       /**
        * Returns the refinement value (incl. product hit count) for the given
        *  refinement definition and the given (selected) value.
@@ -15102,6 +15158,20 @@ declare namespace dw {
      */
     class ContentSearchRefinements extends dw.catalog.SearchRefinements {
       /**
+       * A sorted list of refinement definitions that are appropriate for
+       *  the deepest common category (or deepest common folder) of the search
+       *  result. The method concatenates the sorted refinement definitions per
+       *  category starting at the root category until reaching the deepest common
+       *  category.
+       *
+       *  The method does not filter out refinement definitions that do
+       *  not provide values for the current search result and can therefore also
+       *  be used on empty search results.
+       */
+      readonly allRefinementDefinitions: dw.util.Collection<
+        dw.content.ContentSearchRefinementDefinition
+      >;
+      /**
        * The appropriate folder refinement definition based on the search
        *  result. The folder refinement definition returned will be the first that
        *  can be found traversing the folder tree upward starting at the deepest
@@ -15112,9 +15182,37 @@ declare namespace dw {
        * A collection of matching folders.
        */
       readonly matchingFolders: dw.util.Collection<dw.content.Folder>;
+      /**
+       * A sorted list of refinement definitions that are appropriate for
+       *  the deepest common category (or deepest common folder) of the search
+       *  result. The method concatenates the sorted refinement definitions per category
+       *  starting at the root category until reaching the deepest common category.
+       *
+       *  The method also filters out refinement definitions that do not provide
+       *  any values for the current search result.
+       */
+      readonly refinementDefinitions: dw.util.Collection<
+        dw.content.ContentSearchRefinementDefinition
+      >;
 
       private constructor();
 
+      /**
+       * Returns a sorted list of refinement definitions that are appropriate for
+       *  the deepest common category (or deepest common folder) of the search
+       *  result. The method concatenates the sorted refinement definitions per
+       *  category starting at the root category until reaching the deepest common
+       *  category.
+       *
+       *  The method does not filter out refinement definitions that do
+       *  not provide values for the current search result and can therefore also
+       *  be used on empty search results.
+       *
+       * @return A sorted list of refinement definitions appropriate for the search result (based on its deepest common category)
+       */
+      getAllRefinementDefinitions(): dw.util.Collection<
+        dw.content.ContentSearchRefinementDefinition
+      >;
       /**
        * Returns the number of search hits for the passed folder object.
        * @param folder Folder object.
@@ -15149,6 +15247,20 @@ declare namespace dw {
       getNextLevelFolderRefinementValues(
         folder: dw.content.Folder
       ): dw.util.Collection<dw.content.ContentSearchRefinementValue>;
+      /**
+       * Returns a sorted list of refinement definitions that are appropriate for
+       *  the deepest common category (or deepest common folder) of the search
+       *  result. The method concatenates the sorted refinement definitions per category
+       *  starting at the root category until reaching the deepest common category.
+       *
+       *  The method also filters out refinement definitions that do not provide
+       *  any values for the current search result.
+       *
+       * @return A sorted list of refinement definitions appropriate for the search result (based on its deepest common category)
+       */
+      getRefinementDefinitions(): dw.util.Collection<
+        dw.content.ContentSearchRefinementDefinition
+      >;
       /**
        * Returns the refinement value (incl. content hit count) for the given
        *  refinement definition and the given (selected) value.
