@@ -23,9 +23,7 @@
               },
               "description": "Returns a sorted list of refinement definitions that are appropriate for\n the deepest common category (or deepest common folder) of the search\n result. The method concatenates the sorted refinement definitions per category\n starting at the root category until reaching the deepest common category.\n\n The method also filters out refinement definitions that do not provide\n any values for the current search result.",
               "deprecated": false
-            },
-            "getAllRefinementValues": null,
-            "getRefinementValues": null
+            }
           },
           "properties": {
             "allRefinementDefinitions": {
@@ -85,9 +83,7 @@
               },
               "description": "Returns a sorted list of refinement definitions that are appropriate for\n the deepest common category (or deepest common folder) of the search\n result. The method concatenates the sorted refinement definitions per category\n starting at the root category until reaching the deepest common category.\n\n The method also filters out refinement definitions that do not provide\n any values for the current search result.",
               "deprecated": false
-            },
-            "getAllRefinementValues": null,
-            "getRefinementValues": null
+            }
           },
           "properties": {
             "allRefinementDefinitions": {

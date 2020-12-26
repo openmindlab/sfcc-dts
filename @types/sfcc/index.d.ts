@@ -11178,6 +11178,38 @@ declare namespace dw {
        */
       getAllRefinementDefinitions(): dw.util.Collection<dw.catalog.ProductSearchRefinementDefinition>;
       /**
+       * Returns a sorted collection of refinement values for the passed
+       *  refinement definition. The returned collection includes all refinement
+       *  values for which the hit count is greater than 0 within the search result
+       *  when the passed refinement definition is excluded from filtering the
+       *  search hits but all other refinement filters are still applied. This
+       *  method is useful for rendering broadening options for definitions that
+       *  the search is currently refined by. If the search is not currently
+       *  restricted by the passed refinement definition, then this method will
+       *  return the same result as
+       *  getRefinementValues(ProductSearchRefinementDefinition).
+       *
+       *  For attribute-based refinement definitions, the returned collection
+       *  depends upon how the "value set" property is configured. (Category and
+       *  price refinement definitions do not have such a property.) If this
+       *  property is set to "search result values", the behavior is as described
+       *  above. If this property is set to "all values of category", then the
+       *  returned collection will also include all refinement values for products
+       *  in the category subtree rooted at the search definition's category. This
+       *  setting is useful for refinements whose visualization is supposed to
+       *  remain constant for a certain subtree of a catalog (e.g. color pickers or
+       *  size charts). These additional values are independent of the search
+       *  result and do not contribute towards the value hit counts. If the search
+       *  result is further refined by one of these values, it is possible to get
+       *  an empty search result. Except for this one case this method does NOT
+       *  return refinement values independent of the search result.
+       * @param definition The refinement definition to return refinement values for. Must not be null.
+       * @return The collection of ProductSearchRefinementValue instances, sorted according to the settings of the refinement definition.
+       */
+      getAllRefinementValues(
+        definition: dw.catalog.ProductSearchRefinementDefinition
+      ): dw.util.Collection<any>;
+      /**
        * Returns the appropriate category refinement definition based on the search
        *  result. The category refinement definition returned will be the first that
        *  can be found traversing the category tree upward starting at the deepest
@@ -11251,6 +11283,16 @@ declare namespace dw {
         name: string,
         value: string
       ): dw.catalog.ProductSearchRefinementValue;
+      /**
+       * Returns a collection of refinement values for the given refinement
+       *  definition. The returned refinement values only include those that are
+       *  part of the actual search result (i.e. hit count will always be > 0).
+       * @param definition The refinement definition to return refinement values for.
+       * @return The collection of refinement values sorted according to the settings of the definition.
+       */
+      getRefinementValues(
+        definition: dw.catalog.ProductSearchRefinementDefinition
+      ): dw.util.Collection<any>;
     }
 
     /**
@@ -15105,6 +15147,21 @@ declare namespace dw {
        */
       getAllRefinementDefinitions(): dw.util.Collection<dw.content.ContentSearchRefinementDefinition>;
       /**
+       * Returns a sorted collection of refinement values for the given refinement
+       *  definition. The returned collection includes all refinement values for
+       *  which the hit count is greater than 0 within the search result when the
+       *  passed refinement definitions is excluded from filtering the search hits
+       *  but all other refinement filters are still applied. This is useful for
+       *  rendering broadening options for the refinement definitions that the
+       *  search is already refined by. It is important to note that this method
+       *  does NOT return refinement values independent of the search result.
+       * @param definition The refinement definition to return refinement values for.
+       * @return The collection of ContentSearchRefinementValue instances sorted according to the settings of the definition.
+       */
+      getAllRefinementValues(
+        definition: dw.content.ContentSearchRefinementDefinition
+      ): dw.util.Collection<any>;
+      /**
        * Returns the number of search hits for the passed folder object.
        * @param folder Folder object.
        * @return Number of search hits.
@@ -15172,6 +15229,16 @@ declare namespace dw {
         name: string,
         value: string
       ): dw.content.ContentSearchRefinementValue;
+      /**
+       * Returns a collection of refinement values for the given refinement
+       *  definition. The returned refinement values only include those that are
+       *  part of the actual search result (i.e. hit count will always be > 0).
+       * @param definition The refinement definition to return refinement values for.
+       * @return The collection of refinement values sorted according to the settings of the definition.
+       */
+      getRefinementValues(
+        definition: dw.content.ContentSearchRefinementDefinition
+      ): dw.util.Collection<any>;
     }
 
     /**
