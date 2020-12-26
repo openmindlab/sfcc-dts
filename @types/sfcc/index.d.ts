@@ -11208,7 +11208,7 @@ declare namespace dw {
        */
       getAllRefinementValues(
         definition: dw.catalog.ProductSearchRefinementDefinition
-      ): dw.util.Collection<any>;
+      ): dw.util.Collection<dw.catalog.ProductSearchRefinementValue>;
       /**
        * Returns the appropriate category refinement definition based on the search
        *  result. The category refinement definition returned will be the first that
@@ -11292,7 +11292,7 @@ declare namespace dw {
        */
       getRefinementValues(
         definition: dw.catalog.ProductSearchRefinementDefinition
-      ): dw.util.Collection<any>;
+      ): dw.util.Collection<dw.catalog.ProductSearchRefinementValue>;
     }
 
     /**
@@ -12826,58 +12826,6 @@ declare namespace dw {
        */
       getAllRefinementDefinitions(): dw.util.Collection<dw.catalog.SearchRefinementDefinition>;
       /**
-       * Returns a sorted collection of refinement values for the given refinement
-       *  attribute. The returned collection includes all refinement values for
-       *  which the hit count is greater than 0 within the search result when the
-       *  passed attribute is excluded from filtering the search hits but all other
-       *  refinement filters are still applied. This method is useful for rendering
-       *  broadening options for attributes that the search is currently refined
-       *  by. This method does NOT return refinement values independent of the
-       *  search result.
-       *
-       *  For product search refinements, this method may return slightly different
-       *  results based on the "value set" property of the refinement definition.
-       *  See
-       *  ProductSearchRefinements.getAllRefinementValues(ProductSearchRefinementDefinition)
-       *  for details.
-       * @param attributeName The name of the attribute to return refinement values for.
-       * @return The collection of SearchRefinementValue instances, sorted according to the settings of the refinement definition, or null if there is no refinement definition for the passed attribute name.
-       */
-      getAllRefinementValues(
-        attributeName: string
-      ): dw.util.Collection<dw.catalog.SearchRefinementValue>;
-      /**
-       * Returns a sorted collection of refinement values for the given refinement
-       *  attribute. In general, the returned collection includes all refinement
-       *  values for which hit count is greater than 0 within the search result
-       *  assuming that:
-       *
-       *
-       *  The passed refinement attribute is NOT used to filter the search
-       *  hits.
-       *  All other refinements are still applied.
-       *
-       *
-       *  This is useful for rendering broadening options for the refinement
-       *  definitions that the search is already refined by. It is important to
-       *  note that this method does NOT return refinement values independent of
-       *  the search result.
-       *
-       *  For product search refinements, this method may return slightly different
-       *  results based on the "value set" of the refinement definition. See
-       *  ProductSearchRefinements.getAllRefinementValues(ProductSearchRefinementDefinition)
-       *  for details.
-       * @param attributeName The name of the attribute to return refinement values for.
-       * @param sortMode The sort mode to use to control how the collection is sorted.
-       * @param sortDirection The sort direction to use.
-       * @return The collection of SearchRefinementValue instances, sorted according to the passed parameters.
-       */
-      getAllRefinementValues(
-        attributeName: string,
-        sortMode: number,
-        sortDirection: number
-      ): dw.util.Collection<dw.catalog.SearchRefinementValue>;
-      /**
        * Returns a sorted list of refinement definitions that are appropriate for
        *  the deepest common category (or deepest common folder) of the search
        *  result. The method concatenates the sorted refinement definitions per category
@@ -12889,19 +12837,6 @@ declare namespace dw {
        * @return A sorted list of refinement definitions appropriate for the search result (based on its deepest common category)
        */
       getRefinementDefinitions(): dw.util.Collection<dw.catalog.SearchRefinementDefinition>;
-      /**
-       * Returns a collection of refinement values for the given refinement
-       *  attribute, sorting mode and sorting direction.
-       * @param attributeName The attribute name to use when collection refinement values.
-       * @param sortMode The sort mode to use to control how the collection is sorted.
-       * @param sortDirection The sort direction to use.
-       * @return The collection of refinement values.
-       */
-      getRefinementValues(
-        attributeName: string,
-        sortMode: number,
-        sortDirection: number
-      ): dw.util.Collection<dw.catalog.SearchRefinementValue>;
     }
 
     /**
@@ -15160,7 +15095,7 @@ declare namespace dw {
        */
       getAllRefinementValues(
         definition: dw.content.ContentSearchRefinementDefinition
-      ): dw.util.Collection<any>;
+      ): dw.util.Collection<dw.content.ContentSearchRefinementValue>;
       /**
        * Returns the number of search hits for the passed folder object.
        * @param folder Folder object.
@@ -15238,7 +15173,7 @@ declare namespace dw {
        */
       getRefinementValues(
         definition: dw.content.ContentSearchRefinementDefinition
-      ): dw.util.Collection<any>;
+      ): dw.util.Collection<dw.content.ContentSearchRefinementValue>;
     }
 
     /**

@@ -50,6 +50,13 @@
             }
           }
         },
+        "SearchRefinements": {
+          "methods": {
+            "getAllRefinementValues": null,
+            "getAllRefinementValues0": null,
+            "getRefinementValues": null
+          }
+        },
         "Variant": {
           "methods": {
             "getRecommendations": null
