@@ -26,6 +26,8 @@ const config: any = {
     "dw.util.List",
     "dw.util.ArrayList",
     "dw.util.FilteringCollection",
+    "dw.util.SeekableIterator",
+    "dw.web.LoopIterator",
     "dw.util.Iterator",
     "dw.util.LinkedHashSet",
     "dw.util.Set",

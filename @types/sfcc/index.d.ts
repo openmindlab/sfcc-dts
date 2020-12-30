@@ -8577,7 +8577,7 @@ declare namespace dw {
        *
        * @return Iterator of all site products
        */
-      static queryAllSiteProducts(): dw.util.SeekableIterator;
+      static queryAllSiteProducts(): dw.util.SeekableIterator<dw.catalog.Product>;
       /**
        * Returns all products assigned to the current site.
        *
@@ -8589,7 +8589,7 @@ declare namespace dw {
        *
        * @return Iterator of all site products sorted by product ID.
        */
-      static queryAllSiteProductsSorted(): dw.util.SeekableIterator;
+      static queryAllSiteProductsSorted(): dw.util.SeekableIterator<dw.catalog.Product>;
       /**
        * Returns all products assigned to the the specified catalog, where
        *  assignment has the same meaning as it does for queryAllSiteProducts().
@@ -8601,7 +8601,7 @@ declare namespace dw {
        */
       static queryProductsInCatalog(
         catalog: dw.catalog.Catalog
-      ): dw.util.SeekableIterator;
+      ): dw.util.SeekableIterator<dw.catalog.Product>;
       /**
        * Returns all products assigned to the the specified catalog.
        *  Works like queryProductsInCatalog(), but additionally sorts the result
@@ -8614,7 +8614,7 @@ declare namespace dw {
        */
       static queryProductsInCatalogSorted(
         catalog: dw.catalog.Catalog
-      ): dw.util.SeekableIterator;
+      ): dw.util.SeekableIterator<dw.catalog.Product>;
     }
 
     /**
@@ -18996,7 +18996,7 @@ declare namespace dw {
         queryString: string,
         sortString: string,
         ...args: any[]
-      ): dw.util.SeekableIterator;
+      ): dw.util.SeekableIterator<dw.customer.Profile>;
       /**
        * Searches for profile instances.
        *
@@ -19059,7 +19059,7 @@ declare namespace dw {
       static queryProfiles(
         queryAttributes: dw.util.Map<any, any>,
         sortString: string
-      ): dw.util.SeekableIterator;
+      ): dw.util.SeekableIterator<dw.customer.Profile>;
       /**
        * Logs out the supplied customer and deletes the customer record. The customer must be a registered customer and the customer must currently be logged in. The customer must be
        *  logged in for security reasons to ensure that only the customer itself can remove itself from the system. While logout the customers session is reset to an anonymous session and, if present, the "Remember me" cookie of the customer is removed.
@@ -19183,7 +19183,7 @@ declare namespace dw {
         queryString: string,
         sortString: string,
         ...args: any[]
-      ): dw.util.SeekableIterator;
+      ): dw.util.SeekableIterator<dw.customer.Profile>;
       /**
        * Searches for profile instances.
        *
@@ -19253,7 +19253,7 @@ declare namespace dw {
       static searchProfiles(
         queryAttributes: dw.util.Map<any, any>,
         sortString: string
-      ): dw.util.SeekableIterator;
+      ): dw.util.SeekableIterator<dw.customer.Profile>;
     }
 
     /**
@@ -20426,7 +20426,7 @@ declare namespace dw {
       static queryProductLists(
         queryAttributes: dw.util.Map<any, any>,
         sortString: string
-      ): dw.util.SeekableIterator;
+      ): dw.util.SeekableIterator<dw.customer.ProductList>;
       /**
        * Searches for product list instances.
        *
@@ -20510,7 +20510,7 @@ declare namespace dw {
         queryString: string,
         sortString: string,
         ...args: any[]
-      ): dw.util.SeekableIterator;
+      ): dw.util.SeekableIterator<dw.customer.ProductList>;
       /**
        * Removes the specified product list from the system.
        * @param productList The list to remove, must not be null.
@@ -24329,7 +24329,7 @@ declare namespace dw {
         /**
          * A set containing the element types to exclude from Salesforce Payments components.
          */
-        readonly exclude: dw.util.Set<any>;
+        readonly exclude: dw.util.Set<string>;
         /**
          * The identifier of this payment request.
          */
@@ -24338,7 +24338,7 @@ declare namespace dw {
          * A set containing the specific element types to include from Salesforce Payments components. If the set is
          *  empty then all applicable and enabled element types will be included by default.
          */
-        readonly include: dw.util.Set<any>;
+        readonly include: dw.util.Set<string>;
         /**
          * The DOM element selector where to mount Salesforce Payments components.
          */
@@ -24378,7 +24378,7 @@ declare namespace dw {
          *
          * @return set of element types
          */
-        getExclude(): dw.util.Set<any>;
+        getExclude(): dw.util.Set<string>;
         /**
          * Returns the identifier of this payment request.
          *
@@ -24391,7 +24391,7 @@ declare namespace dw {
          *
          * @return set of element types
          */
-        getInclude(): dw.util.Set<any>;
+        getInclude(): dw.util.Set<string>;
         /**
          * Returns the DOM element selector where to mount Salesforce Payments components.
          *
@@ -29260,7 +29260,9 @@ declare namespace dw {
        *  if not all of its elements are being retrieved. This will ensure the proper cleanup of system resources.
        * @param type The name of the custom object type.
        */
-      static getAllCustomObjects(type: string): dw.util.SeekableIterator;
+      static getAllCustomObjects(
+        type: string
+      ): dw.util.SeekableIterator<dw.object.CustomObject>;
       /**
        * Returns a custom object based on it's type and unique key.
        * @param type The name of the custom object type.
@@ -29442,7 +29444,7 @@ declare namespace dw {
         queryString: string,
         sortString: string,
         ...args: any[]
-      ): dw.util.SeekableIterator;
+      ): dw.util.SeekableIterator<dw.object.CustomObject>;
       /**
        * Searches for custom object instances.
        *
@@ -29502,7 +29504,7 @@ declare namespace dw {
         type: string,
         queryAttributes: dw.util.Map<any, any>,
         sortString: string
-      ): dw.util.SeekableIterator;
+      ): dw.util.SeekableIterator<dw.object.CustomObject>;
       /**
        * Removes a given custom object.
        * @param object the custom object to remove, must not be null.
@@ -30232,7 +30234,9 @@ declare namespace dw {
        * @param type The name of the system object type. If a matching type definition cannot be found for the given type a MetaDataException will be thrown.
        * @return SeekableIterator containing all system objects of a specific type.
        */
-      static getAllSystemObjects(type: string): dw.util.SeekableIterator;
+      static getAllSystemObjects(
+        type: string
+      ): dw.util.SeekableIterator<dw.object.PersistentObject>;
       /**
        * Searches for a single system object instance. The following system
        *  object types are supported:
@@ -30415,7 +30419,7 @@ declare namespace dw {
         queryString: string,
         sortString: string,
         ...args: any[]
-      ): dw.util.SeekableIterator;
+      ): dw.util.SeekableIterator<dw.object.PersistentObject>;
       /**
        * Searches for system object instances. The following system object types
        *  are supported:
@@ -30484,7 +30488,7 @@ declare namespace dw {
         type: string,
         queryAttributes: dw.util.Map<any, any>,
         sortString: string
-      ): dw.util.SeekableIterator;
+      ): dw.util.SeekableIterator<dw.object.PersistentObject>;
     }
   }
 
@@ -36986,7 +36990,7 @@ declare namespace dw {
         queryString: string,
         sortString: string,
         ...args: any[]
-      ): dw.util.SeekableIterator;
+      ): dw.util.SeekableIterator<dw.order.Order>;
       /**
        * Searches for order instances. Order access in the storefront can be limited; see the class description.
        *
@@ -37065,7 +37069,7 @@ declare namespace dw {
       static queryOrders(
         queryAttributes: dw.util.Map<any, any>,
         sortString: string
-      ): dw.util.SeekableIterator;
+      ): dw.util.SeekableIterator<dw.order.Order>;
       /**
        * Searches for a single order instance. Order access in the storefront can be limited; see the class description.
        *
@@ -37273,7 +37277,7 @@ declare namespace dw {
         queryString: string,
         sortString: string,
         ...args: any[]
-      ): dw.util.SeekableIterator;
+      ): dw.util.SeekableIterator<dw.order.Order>;
       /**
        * Searches for order instances. Order access in the storefront can be limited; see the class description.
        *
@@ -37362,7 +37366,7 @@ declare namespace dw {
       static searchOrders(
         queryAttributes: dw.util.Map<any, any>,
         sortString: string
-      ): dw.util.SeekableIterator;
+      ): dw.util.SeekableIterator<dw.order.Order>;
       /**
        * This method is used to turn a CANCELLED order into an OPEN order.
        *
@@ -52382,7 +52386,9 @@ declare namespace dw {
        * @param mappingName the mapping name
        * @return the seekable iterator
        */
-      static keyIterator(mappingName: string): dw.util.SeekableIterator;
+      static keyIterator(
+        mappingName: string
+      ): dw.util.SeekableIterator<dw.util.MappingKey>;
     }
 
     /**
@@ -53142,7 +53148,7 @@ declare namespace dw {
      *  dictionary could be iterated multiple times (for example, by several loop
      *  nodes).
      */
-    class SeekableIterator extends dw.util.Iterator<any> {
+    class SeekableIterator<T> extends dw.util.Iterator<T> {
       /**
        * The total element count for this iterator. The
        *  method returns -1, if the total count is not known.
@@ -53175,7 +53181,7 @@ declare namespace dw {
        *
        * @return the first element of an iterator and closes the iterator or returns null if the iterator doesn't have another element or the methods next(), forward(int) or forward(int,int) have already been called.
        */
-      first(): any;
+      first(): T;
       /**
        * Seeks forward by the given number of elements. The number of
        *  seek steps must be 0 or a positive number.
@@ -53210,7 +53216,7 @@ declare namespace dw {
        *
        * @return the next element from the Iterator.
        */
-      next(): any;
+      next(): T;
     }
 
     /**
@@ -56109,7 +56115,7 @@ declare namespace dw {
      * Iterator used in &lt;ISLOOP&gt; implementation. It defines properties used to determine loop status.
      *  LoopIterator object is assigned to variable declared in &quot;status&quot; attribute of the &lt;ISLOOP&gt; tag.
      */
-    class LoopIterator extends dw.util.Iterator<any> {
+    class LoopIterator<T> extends dw.util.Iterator<T> {
       /**
        * Return begin iteration index. By default begin index is 0.
        */
