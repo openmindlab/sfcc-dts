@@ -708,6 +708,10 @@ declare class SystemError extends Error {
  */
 declare class XML {
   /**
+   * Returns the value associated with the key or null
+   */
+  [name: string]: any;
+  /**
    * The ignoreComments property determines whether or not XML comments are
    *  ignored when XML objects parse the source XML data.
    */
@@ -30234,9 +30238,7 @@ declare namespace dw {
        * @param type The name of the system object type. If a matching type definition cannot be found for the given type a MetaDataException will be thrown.
        * @return SeekableIterator containing all system objects of a specific type.
        */
-      static getAllSystemObjects(
-        type: string
-      ): dw.util.SeekableIterator<dw.object.PersistentObject>;
+      static getAllSystemObjects(type: string): dw.util.SeekableIterator<any>;
       /**
        * Searches for a single system object instance. The following system
        *  object types are supported:
@@ -30419,7 +30421,7 @@ declare namespace dw {
         queryString: string,
         sortString: string,
         ...args: any[]
-      ): dw.util.SeekableIterator<dw.object.PersistentObject>;
+      ): dw.util.SeekableIterator<any>;
       /**
        * Searches for system object instances. The following system object types
        *  are supported:
@@ -30488,7 +30490,7 @@ declare namespace dw {
         type: string,
         queryAttributes: dw.util.Map<any, any>,
         sortString: string
-      ): dw.util.SeekableIterator<dw.object.PersistentObject>;
+      ): dw.util.SeekableIterator<any>;
     }
   }
 

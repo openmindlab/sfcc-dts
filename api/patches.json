@@ -1,5 +1,21 @@
 {
   "api": {
+    "TopLevel": {
+      "XML": {
+        "properties": {
+          "[name: string]": {
+            "name": "[name: string]",
+            "class": {
+              "name": "any"
+            },
+            "static": false,
+            "readonly": false,
+            "description": "Returns the value associated with the key or null",
+            "deprecated": 0
+          }
+        }
+      }
+    },
     "dw": {
       "catalog": {
         "ProductSearchRefinements": {
