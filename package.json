@@ -24,7 +24,7 @@
     "json-merge-patch": "1.0.1",
     "prettier": "2.2.1",
     "prompts": "2.4.0",
-    "properties-reader": "2.1.1",
+    "properties-reader": "2.2.0",
     "xml2js": "0.4.23"
   },
   "devDependencies": {
