@@ -209,6 +209,58 @@
               "deprecated": 0
             }
           }
+        },
+        "Pipelet": {
+          "fullClassName": "dw.system.Pipelet",
+          "package": "dw.system",
+          "description": "An executable pipelet - see https://documentation.b2c.commercecloud.salesforce.com/DOC2/topic/com.demandware.dochelp/DWAPI/pipeletapi/html/api/pipeletList.html",
+          "hierarchy": [
+            {
+              "name": "Object"
+            }
+          ],
+          "constants": {},
+          "constructors": {
+            "name": {
+              "name": "name",
+              "args": [
+                {
+                  "name": "name",
+                  "description": "Pipelet name",
+                  "class": {
+                    "name": "string"
+                  },
+                  "multiple": false
+                }],
+              "class": {
+                "description": ""
+              },
+              "description": "Creates a Pipelet",
+              "deprecated": false
+            }
+          },
+          "properties" : {},
+          "methods": {
+            "execute": {
+              "name": "execute",
+              "args": [
+                {
+                  "name": "args",
+                  "description": "Pipelet parameters",
+                  "class": {
+                    "name": "Object"
+                  },
+                  "multiple": false
+                }
+              ],
+              "class": {
+                "name": "Status",
+                "description": "Execution result"
+              },
+              "description": "Execute the pipelet.",
+              "deprecated": false
+            }
+          }
         }
       },
       "util": {

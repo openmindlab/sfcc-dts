@@ -49968,6 +49968,24 @@ declare namespace dw {
        */
       static wrap(callback: Function): any;
     }
+
+    /**
+     * An executable pipelet - see https://documentation.b2c.commercecloud.salesforce.com/DOC2/topic/com.demandware.dochelp/DWAPI/pipeletapi/html/api/pipeletList.html
+     */
+    class Pipelet {
+      /**
+       * Creates a Pipelet
+       * @param name Pipelet name
+       */
+      constructor(name: string);
+
+      /**
+       * Execute the pipelet.
+       * @param args Pipelet parameters
+       * @return Execution result
+       */
+      execute(args: any): dw.system.Status;
+    }
   }
 
   namespace template {
