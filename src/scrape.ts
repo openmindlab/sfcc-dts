@@ -2,6 +2,9 @@ import axios from "axios";
 import cheerio from "cheerio";
 import cliProgress from 'cli-progress';
 
+const interfaceexcludes = [
+  "dw.io.XMLStreamWriter"
+];
 
 const progress = new cliProgress.SingleBar({}, cliProgress.Presets.rect);
 const api = {};
@@ -233,7 +236,7 @@ const mapDetail = ($: cheerio.Root, el: cheerio.Element) => {
   const collectInterfaces = (obj: any, interfaces: string[]) => {
     if (obj.hierarchy) {
       obj.hierarchy.forEach((el: any) => {
-        if (!interfaces.includes(el.name)) {
+        if (!interfaces.includes(el.name) && !interfaceexcludes.includes(el.name)) {
           interfaces.push(el.name);
         }
       });

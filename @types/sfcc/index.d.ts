@@ -26975,6 +26975,12 @@ declare namespace dw {
       defaultNamespace: string;
 
       /**
+       * Constructs the XMLStreamWriter for a writer.
+       * @param writer the writer for which the XMLStreamWriter is constructed.
+       */
+      constructor(writer: dw.io.Writer);
+
+      /**
        * Close this writer and free any resources associated with the
        *  writer.  This method does not close the underlying writer.
        *
@@ -49984,7 +49990,7 @@ declare namespace dw {
        * @param args Pipelet parameters
        * @return Execution result
        */
-      execute(args: any): dw.system.Status;
+      execute(args: any): any;
     }
   }
 
