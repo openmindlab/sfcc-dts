@@ -1,6 +1,6 @@
 {
   "name": "sfcc-dts",
-  "version": "0.0.28",
+  "version": "0.0.29",
   "description": "",
   "main": "dist/tsplugin.js",
   "author": "openmind",
