@@ -254,7 +254,7 @@
                 }
               ],
               "class": {
-                "name": "Status",
+                "name": "Object",
                 "description": "Execution result"
               },
               "description": "Execute the pipelet.",
