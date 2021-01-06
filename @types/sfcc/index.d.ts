@@ -52010,7 +52010,9 @@ declare namespace dw {
        *  not be reordered as a result of the sort.
        * @param comparator an instance of a PropertyComparator or a comparison function
        */
-      sort(comparator: T): void;
+      sort(
+        comparator: dw.util.PropertyComparator | ((object, object) => number)
+      ): void;
       /**
        * Returns a list containing the elements in this list identified
        *  by the specified arguments.

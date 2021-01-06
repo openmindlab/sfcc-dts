@@ -87,7 +87,7 @@
       "content": {
         "ContentSearchRefinements": {
           "methods": {
-            "getAllRefinementDefinitions": {
+             "getAllRefinementDefinitions": {
               "name": "getAllRefinementDefinitions",
               "args": [],
               "class": {
@@ -107,7 +107,7 @@
               "description": "Returns a sorted list of refinement definitions that are appropriate for\n the deepest common category (or deepest common folder) of the search\n result. The method concatenates the sorted refinement definitions per category\n starting at the root category until reaching the deepest common category.\n\n The method also filters out refinement definitions that do not provide\n any values for the current search result.",
               "deprecated": false
             }
-          },
+        },
           "properties": {
             "allRefinementDefinitions": {
               "name": "allRefinementDefinitions",
@@ -231,15 +231,15 @@
                     "name": "string"
                   },
                   "multiple": false
-                }],
-              "class": {
-                "description": ""
-              },
-              "description": "Creates a Pipelet",
-              "deprecated": false
-            }
-          },
-          "properties" : {},
+                  }],
+                "class": {
+                  "description": ""
+                },
+                "description": "Creates a Pipelet",
+                "deprecated": false
+              }
+            },
+            "properties" : {},
           "methods": {
             "execute": {
               "name": "execute",
@@ -276,6 +276,22 @@
               "description": "Returns the value at the specified index.",
               "deprecated": false,
               "type": "property"
+            }
+          }
+        },
+        "List": {
+          "methods": {
+            "sort0": {
+              "args": [
+                {
+                  "name": "comparator",
+                  "description": "an instance of a PropertyComparator or a comparison function",
+                  "class": {
+                    "name": "dw.util.PropertyComparator | ((object, object) => number)"
+                  },
+                  "multiple": false
+                }
+              ]
             }
           }
         },
