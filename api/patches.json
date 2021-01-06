@@ -288,7 +288,7 @@
                   "name": "comparator",
                   "description": "an instance of a PropertyComparator or a comparison function",
                   "class": {
-                    "name": "dw.util.PropertyComparator | ((object, object) => number)"
+                    "name": "dw.util.PropertyComparator | ((a: object, b: object) => number)"
                   },
                   "multiple": false
                 }
