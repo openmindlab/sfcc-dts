@@ -8286,6 +8286,9 @@ declare namespace dw {
        *  used for retrieving and storing attribute values. See
        *  CustomAttributes for a detailed example of the syntax for
        *  working with custom attributes.
+       *
+       *  When using Omnichannel Inventory (OCI), this class doesn't support custom attributes.
+       *  If OCI is enabled, then attempting to set or modify a custom attribute value throws an UnsupportedOperationException.
        */
       readonly custom: ProductInventoryRecordCustomAttributes;
       /**
@@ -8343,6 +8346,9 @@ declare namespace dw {
        * Returns the meta data of this object. If no meta data is available the method returns null. The returned
        *  ObjectTypeDefinition can be used to retrieve the metadata for any of the custom attributes.
        *
+       *  When using Omnichannel Inventory (OCI), this class doesn't support custom attributes.
+       *  If OCI is enabled, then attempting to set or modify a custom attribute value throws an UnsupportedOperationException.
+       *
        * @return the meta data of this object. If no meta data is available the method returns null.
        */
       describe(): dw.object.ObjectTypeDefinition;
@@ -8371,6 +8377,9 @@ declare namespace dw {
        *  used for retrieving and storing attribute values. See
        *  CustomAttributes for a detailed example of the syntax for
        *  working with custom attributes.
+       *
+       *  When using Omnichannel Inventory (OCI), this class doesn't support custom attributes.
+       *  If OCI is enabled, then attempting to set or modify a custom attribute value throws an UnsupportedOperationException.
        *
        * @return the custom attributes for this object.
        */
@@ -9117,7 +9126,7 @@ declare namespace dw {
        */
       readonly minPricePerUnit: dw.value.Money;
       /**
-       * The price of a product, calculated based on base price quantity
+       * The active price of a product, calculated based on base price quantity
        *  1.00. The price is returned for the currency of the current session.
        *
        *  The price lookup is based on the configuration of price books. It depends
@@ -9132,7 +9141,7 @@ declare namespace dw {
        */
       readonly price: dw.value.Money;
       /**
-       * The price info of a product, calculated based on base price
+       * The active price info of a product, calculated based on base price
        *  quantity 1.00. The price is returned for the currency of the current
        *  session.
        *
@@ -9149,7 +9158,7 @@ declare namespace dw {
        */
       readonly priceInfo: dw.catalog.ProductPriceInfo;
       /**
-       * All the price infos of a product that could have been the basis of the storefront price, calculated based
+       * All the eligible ProductPriceInfo(s), calculated based
        *  on base price quantity 1.00. This will return an empty list if getPriceInfo() would return null, and if there is
        *  only one price info in the collection it will be the same price info as getPriceInfo(). Two or more price infos
        *  indicate that there are that many price books that meet the criteria for returning the price shown in the
@@ -9342,7 +9351,7 @@ declare namespace dw {
        */
       getMinPricePerUnit(): dw.value.Money;
       /**
-       * Returns the price of a product, calculated based on base price quantity
+       * Returns the active price of a product, calculated based on base price quantity
        *  1.00. The price is returned for the currency of the current session.
        *
        *  The price lookup is based on the configuration of price books. It depends
@@ -9359,7 +9368,7 @@ declare namespace dw {
        */
       getPrice(): dw.value.Money;
       /**
-       * Returns the price of a product, calculated based on the passed order
+       * Returns the active price of a product, calculated based on the passed order
        *  quantity. The price is returned for the currency of the current session.
        *
        *  The price lookup is based on the configuration of price books. It depends
@@ -9369,6 +9378,9 @@ declare namespace dw {
        *  If the product represented by this model is an option product, option
        *  prices will be added to the price book price if the price model was
        *  initialized with an option model.
+       *
+       *  If passed order quantity < 1 (and greater than zero), price for quantity
+       *  1 is returned.
        *
        *  If no price could be found, MONEY.NOT_AVAILABLE is returned.
        * @param quantity Quantity price is requested for
@@ -9486,7 +9498,7 @@ declare namespace dw {
         quantity: dw.value.Quantity
       ): dw.value.Money;
       /**
-       * Returns the price info of a product, calculated based on base price
+       * Returns the active price info of a product, calculated based on base price
        *  quantity 1.00. The price is returned for the currency of the current
        *  session.
        *
@@ -9505,7 +9517,7 @@ declare namespace dw {
        */
       getPriceInfo(): dw.catalog.ProductPriceInfo;
       /**
-       * Returns the price info of a product, calculated based on the passed order
+       * Returns the active price info of a product, calculated based on the passed order
        *  quantity. The price is returned for the currency of the current session.
        *
        *  This method is similar to getPrice(Quantity) but instead of
@@ -9524,7 +9536,7 @@ declare namespace dw {
        */
       getPriceInfo(quantity: dw.value.Quantity): dw.catalog.ProductPriceInfo;
       /**
-       * Returns all the price infos of a product that could have been the basis of the storefront price, calculated based
+       * Returns all the eligible ProductPriceInfo(s), calculated based
        *  on base price quantity 1.00. This will return an empty list if getPriceInfo() would return null, and if there is
        *  only one price info in the collection it will be the same price info as getPriceInfo(). Two or more price infos
        *  indicate that there are that many price books that meet the criteria for returning the price shown in the
@@ -14416,6 +14428,10 @@ declare namespace dw {
        */
       readonly onlineFlag: boolean;
       /**
+       * Returns if the content is a Page or not.
+       */
+      readonly page: boolean;
+      /**
        * The page description for the content in the current locale
        *  or null if there is no page description.
        */
@@ -14597,11 +14613,23 @@ declare namespace dw {
        */
       isOnline(): boolean;
       /**
+       * Returns if the content is a Page or not.
+       *
+       * @return true if the content is a Page, false otherwise.
+       */
+      isPage(): boolean;
+      /**
        * Returns the search status of the content.
        *
        * @return true if the content is searchable, false otherwise.
        */
       isSearchable(): boolean;
+      /**
+       * Converts the content into the Page representation if isPage() yields true.
+       *
+       * @return the Page representation of the content if it is a page, null otherwise.
+       */
+      toPage(): dw.experience.Page;
     }
 
     /**
@@ -16189,23 +16217,22 @@ declare namespace dw {
        *
        * Paddings
        *
-       *           "NoPadding": No padding.
+       *           "NoPadding" (deprecated): No padding.
        *           OAEPWith<digest>And<mgf>Padding: Optimal Asymmetric Encryption
        *           Padding scheme defined in PKCS#1, where <digest> should be replaced
        *           by the message digest and <mgf> by the mask generation function.
-       *           Examples: OAEPWITHMD5ANDMGF1PADDING, OAEPWITHSHA1ANDMGF1PADDING,
-       *           OAEPWITHSHA-1ANDMGF1PADDING, OAEPWITHSHA-256ANDMGF1PADDING,
+       *           Examples: OAEPWITHSHA-256ANDMGF1PADDING,
        *           OAEPWITHSHA-384ANDMGF1PADDING, OAEPWITHSHA-512ANDMGF1PADDING
-       *           ISO10126PADDING the ISO10126-2:1991 DEA padding scheme
-       *           PKCS1Padding: Public Key Cryptography Standard #1, a standard
+       *           ISO10126PADDING (deprecated): the ISO10126-2:1991 DEA padding scheme
+       *           PKCS1Padding (deprecated): Public Key Cryptography Standard #1, a standard
        *           for padding from RSA Laboratories that can encrypt messages up
        *           to 11 bytes smaller than the modulus size in bytes.
        *           PKCS5Padding: Public Key Cryptography Standard #1, a standard
        *           for padding from RSA Laboratories, "PKCS#5: Password-Based Encryption Standard," version 1.5, November 1993.
-       *           SSL3Padding: The padding scheme defined in the SSL Protocol Version 3.0, November 18, 1996, section 5.2.3.2 (CBC block cipher)
+       *           SSL3Padding (deprecated): The padding scheme defined in the SSL Protocol Version 3.0, November 18, 1996, section 5.2.3.2 (CBC block cipher)
        * @param message A string to encrypt (will be first converted with UTF-8 encoding into a byte stream)
        * @param key A string ready for use with the algorithm. The key's format depends on the algorithm specified and the keys are assumed to be correctly formulated for the algorithm used, for example that the lengths are correct. Keys are not checked for validity. The cryptographic algorithms can be partitioned into symmetric and asymmetric (or public key/private key). Symmetric algorithms include password-based algorithms. Symmetric keys are usually a base64-encoded array of bytes. Asymmetric keys are "key pairs" with a public key and a private key. To encrypt using asymmetric algorithms, provide the public key. To decrypt using asymmetric algorithms, provide the private key from the same pair in PKCS#8 format, base64-encoded. See class documentation on how to generate a key pair. If the cryptographic algorithm is symmetric (for example, AES) or asymmetric (for example, RSA), the key needs to be passed as a base64-encoded string. The only exception is the symmetric cryptographic algorithms Password Based Encryption (PBE). With PBE the key needs to be passed as plain string (without any encoding).
-       * @param transformation The transformation has to be in "algorithm/mode/padding" format. Symmetric or "secret key" algorithms use the same key to encrypt and to decrypt the data. Asymmetric or "public key" cryptography uses a public/private key pair, and then publishes the public key. Only the holder of the private key will be able to decrypt. The public key and private key are also known as a "key pair". Supported Symmetric transformations include:  "AES" or Rijndael, Advanced Encryption Standard as specified by NIST AES with key length of 256 is the preferred choice for symmetric encryption Keysizes: 128, 192, or 256 Modes: "ECB","CBC","PCBC","CTR" Padding: "NOPADDING", "PKCS5Padding", "ISO10126PADDING"   Supported Asymmetric transformations include:  "RSA" Mode: "ECB" Padding: "NOPADDING", PKCS1PADDING", "OAEPWITHMD5ANDMGF1PADDING", "OAEPWITHSHA1ANDMGF1PADDING", "OAEPWITHSHA-1ANDMGF1PADDING", "OAEPWITHSHA-256ANDMGF1PADDING", "OAEPWITHSHA-384ANDMGF1PADDING", "OAEPWITHSHA-512ANDMGF1PADDING"  Note that for RSA the key length should be at least 2048 bits.
+       * @param transformation The transformation has to be in "algorithm/mode/padding" format. Symmetric or "secret key" algorithms use the same key to encrypt and to decrypt the data. Asymmetric or "public key" cryptography uses a public/private key pair, and then publishes the public key. Only the holder of the private key will be able to decrypt. The public key and private key are also known as a "key pair". Supported Symmetric transformations include:  "AES" or Rijndael, Advanced Encryption Standard as specified by NIST AES with key length of 256 is the preferred choice for symmetric encryption Keysizes: 128, 192, or 256 Modes: "ECB","CBC","PCBC","CTR" Padding: "NOPADDING" (deprecated), "PKCS5Padding", "ISO10126PADDING" (deprecated)   Supported Asymmetric transformations include:  "RSA" Mode: "ECB" Padding: "NOPADDING" (deprecated), PKCS1PADDING" (deprecated), "OAEPWITHMD5ANDMGF1PADDING" (deprecated), "OAEPWITHSHA1ANDMGF1PADDING" (deprecated), "OAEPWITHSHA-1ANDMGF1PADDING" (deprecated), "OAEPWITHSHA-256ANDMGF1PADDING", "OAEPWITHSHA-384ANDMGF1PADDING", "OAEPWITHSHA-512ANDMGF1PADDING"  Note that for RSA the key length should be at least 2048 bits.
        * @param saltOrIV Initialization value appropriate for the algorithm, this might be a Binary Salt or AlgorithmParameter or InitializationVector. (As binary values cannot be passed, the equivalent Base64 String should be passed for any binary salt value). Should be appropriate for the algorithm being used. If this value is null, a default initialization value will be used by the engine. The same value used to Encrypt needs to be supplied to the Decrypt function for many algorithms to successfully decrypt the data, so it is best practice to specify an appropriate value. Requirements for the size and generation of DES initialization vectors (IV) are derived from FIPS 74 and FIPS 81 from the National Institute of Standards and Technology. CBC mode requires an IV with length 64 bits; CFB uses 48-64 bits; OFB uses 64 bits. If the IV is to be used with DES in the OFB mode, then it is not acceptable for the IV to remain fixed for multiple encryptions, if the same key is used for those encryptions. For Block Encryption algorithms this is the encoded Base64 String equivalent to the a random number to use as a "salt" to use with the algorithm. The algorithm must contain a Feedback Mode other than ECB. This must be a binary value that is exactly the same size as the algorithm block size. RC5 uses an optional 8-byte initialization vector (IV), but only in feedback mode (see CFB above). For Password Based Encryption algorithms, the salt is the encoded Base64 String equivalent to a random number value to transform the password into a key. PBE derives an encryption key from a password. In order to make the task of getting from password to key very time-consuming for an attacker, most PBE implementations will mix in a random number, known as a salt, to create the key. The salt value and the iteration count are then combined into a PBEParameterSpecification to initialize the cipher.  The PKCS#5 spec from RSA Labs defines the parameters for password-based encryption (PBE). The RSA algorithm requires a salt with length as defined in PKCS#1. DSA has a specific initialization that uses three integers to build a DSAParameterSpec (a prime, a sub-prime and a base). To use this algorithm you should use the JCE or another provider to supply a DSAParameterSpec and then supply the Base64 equivalent string as the "salt". Please see the documentation from the provider for additional restrictions.
        * @param iterations The number of passes to make when turning a passphrase into a key. This is only applicable for some types of algorithm. Password Based Encryption (PBE) algorithms use this parameter, and Block Encryption algorithms do not. If this value is relevant to the algorithm it would be best practice to supply it, as the same value would be needed to decrypt the data.
        * @return the encrypted message encoded as a String using base 64 encoding.
@@ -16333,23 +16360,22 @@ declare namespace dw {
        *
        * Paddings
        *
-       *           "NoPadding": No padding.
+       *           "NoPadding" (deprecated): No padding.
        *           OAEPWith<digest>And<mgf>Padding: Optimal Asymmetric Encryption
        *           Padding scheme defined in PKCS#1, where <digest> should be replaced
        *           by the message digest and <mgf> by the mask generation function.
-       *           Examples: OAEPWITHMD5ANDMGF1PADDING, OAEPWITHSHA1ANDMGF1PADDING,
-       *           OAEPWITHSHA-1ANDMGF1PADDING, OAEPWITHSHA-256ANDMGF1PADDING,
+       *           Examples: OAEPWITHSHA-256ANDMGF1PADDING,
        *           OAEPWITHSHA-384ANDMGF1PADDING, OAEPWITHSHA-512ANDMGF1PADDING
-       *           ISO10126PADDING the ISO10126-2:1991 DEA padding scheme
-       *           PKCS1Padding: Public Key Cryptography Standard #1, a standard
+       *           ISO10126PADDING (deprecated): the ISO10126-2:1991 DEA padding scheme
+       *           PKCS1Padding (deprecated): Public Key Cryptography Standard #1, a standard
        *           for padding from RSA Laboratories that can encrypt messages up
        *           to 11 bytes smaller than the modulus size in bytes.
        *           PKCS5Padding: Public Key Cryptography Standard #1, a standard
        *           for padding from RSA Laboratories, "PKCS#5: Password-Based Encryption Standard," version 1.5, November 1993.
-       *           SSL3Padding: The padding scheme defined in the SSL Protocol Version 3.0, November 18, 1996, section 5.2.3.2 (CBC block cipher)
+       *           SSL3Padding (deprecated): The padding scheme defined in the SSL Protocol Version 3.0, November 18, 1996, section 5.2.3.2 (CBC block cipher)
        * @param message A string to encrypt (will be first converted with UTF-8 encoding into a byte stream)
        * @param key A string ready for use with the algorithm. The key's format depends on the algorithm specified and the keys are assumed to be correctly formulated for the algorithm used, for example that the lengths are correct. Keys are not checked for validity. The cryptographic algorithms can be partitioned into symmetric and asymmetric (or public key/private key). Symmetric algorithms include password-based algorithms. Symmetric keys are usually a base64-encoded array of bytes. Asymmetric keys are "key pairs" with a public key and a private key. To encrypt using asymmetric algorithms, provide the public key. To decrypt using asymmetric algorithms, provide the private key from the same pair in PKCS#8 format, base64-encoded. See class documentation on how to generate a key pair. If the cryptographic algorithm is symmetric (for example, AES) or asymmetric (for example, RSA), the key needs to be passed as a base64-encoded string. The only exception is the symmetric cryptographic algorithms Password Based Encryption (PBE). With PBE the key needs to be passed as plain string (without any encoding).
-       * @param transformation The transformation has to be in "algorithm/mode/padding" format. Symmetric or "secret key" algorithms use the same key to encrypt and to decrypt the data. Asymmetric or "public key" cryptography uses a public/private key pair, and then publishes the public key. Only the holder of the private key will be able to decrypt. The public key and private key are also known as a "key pair". Supported Symmetric transformations include:  "AES" or Rijndael, Advanced Encryption Standard as specified by NIST AES with key length of 256 is the preferred choice for symmetric encryption Keysizes: 128, 192, or 256 Modes: "ECB","CBC","PCBC","CTR" Padding: "NOPADDING", "PKCS5Padding", "ISO10126PADDING"   Supported Asymmetric transformations include:  "RSA" Mode: "ECB" Padding: "NOPADDING", PKCS1PADDING", "OAEPWITHMD5ANDMGF1PADDING", "OAEPWITHSHA1ANDMGF1PADDING", "OAEPWITHSHA-1ANDMGF1PADDING", "OAEPWITHSHA-256ANDMGF1PADDING", "OAEPWITHSHA-384ANDMGF1PADDING", "OAEPWITHSHA-512ANDMGF1PADDING"  Note that for RSA the key length should be at least 2048 bits.
+       * @param transformation The transformation has to be in "algorithm/mode/padding" format. Symmetric or "secret key" algorithms use the same key to encrypt and to decrypt the data. Asymmetric or "public key" cryptography uses a public/private key pair, and then publishes the public key. Only the holder of the private key will be able to decrypt. The public key and private key are also known as a "key pair". Supported Symmetric transformations include:  "AES" or Rijndael, Advanced Encryption Standard as specified by NIST AES with key length of 256 is the preferred choice for symmetric encryption Keysizes: 128, 192, or 256 Modes: "ECB","CBC","PCBC","CTR" Padding: "NOPADDING" (deprecated), "PKCS5Padding", "ISO10126PADDING" (deprecated)   Supported Asymmetric transformations include:  "RSA" Mode: "ECB" Padding: "NOPADDING" (deprecated), PKCS1PADDING" (deprecated), "OAEPWITHMD5ANDMGF1PADDING" (deprecated), "OAEPWITHSHA1ANDMGF1PADDING" (deprecated), "OAEPWITHSHA-1ANDMGF1PADDING" (deprecated), "OAEPWITHSHA-256ANDMGF1PADDING", "OAEPWITHSHA-384ANDMGF1PADDING", "OAEPWITHSHA-512ANDMGF1PADDING"  Note that for RSA the key length should be at least 2048 bits.
        * @param saltOrIV Initialization value appropriate for the algorithm, this might be a Binary Salt or AlgorithmParameter or InitializationVector. (As binary values cannot be passed, the equivalent Base64 String should be passed for any binary salt value). Should be appropriate for the algorithm being used. The same value used to Encrypt needs to be supplied to the Decrypt function for many algorithms to successfully decrypt the data, so it is best practice to specify an appropriate value. Requirements for the size and generation of DES initialization vectors (IV) are derived from FIPS 74 and FIPS 81 from the National Institute of Standards and Technology. CBC mode requires an IV with length 64 bits; CFB uses 48-64 bits; OFB uses 64 bits. If the IV is to be used with DES in the OFB mode, then it is not acceptable for the IV to remain fixed for multiple encryptions, if the same key is used for those encryptions. For Block Encryption algorithms this is the encoded Base64 String equivalent to the a random number to use as a "salt" to use with the algorithm. The algorithm must contain a Feedback Mode other than ECB. This must be a binary value that is exactly the same size as the algorithm block size. RC5 uses an optional 8-byte initialization vector (IV), but only in feedback mode (see CFB above). For Password Based Encryption algorithms, the salt is the encoded Base64 String equivalent to a random number value to transform the password into a key. PBE derives an encryption key from a password. In order to make the task of getting from password to key very time-consuming for an attacker, most PBE implementations will mix in a random number, known as a salt, to create the key. The salt value and the iteration count are then combined into a PBEParameterSpecification to initialize the cipher.  The PKCS#5 spec from RSA Labs defines the parameters for password-based encryption (PBE). The RSA algorithm requires a salt with length as defined in PKCS#1. DSA has a specific initialization that uses three integers to build a DSAParameterSpec (a prime, a sub-prime and a base). To use this algorithm you should use the JCE or another provider to supply a DSAParameterSpec and then supply the Base64 equivalent string as the "salt". Please see the documentation from the provider for additional restrictions.
        * @param iterations The number of passes to make when turning a passphrase into a key. This is only applicable for some types of algorithm. Password Based Encryption (PBE) algorithms use this parameter, and Block Encryption algorithms do not. If this value is relevant to the algorithm it would be best practice to supply it, as the same value would be needed to decrypt the data.
        * @return the encrypted message encoded as a String using base 64 encoding.
@@ -16928,6 +16954,630 @@ declare namespace dw {
        */
       static readonly SUPPORTED_DIGEST_ALGORITHMS_AS_ARRAY: string;
 
+      constructor();
+
+      /**
+       * Checks to see if a digest algorithm is supported
+       * @param digestAlgorithm the digest algorithm name
+       * @return a boolean indicating success (true) or failure (false)
+       */
+      isDigestAlgorithmSupported(digestAlgorithm: string): boolean;
+      /**
+       * Signs a string and returns a string
+       * @param contentToSign base64 encoded content to sign
+       * @param privateKey base64 encoded private key
+       * @param digestAlgorithm must be one of the currently supported ones
+       * @return the base64 encoded signature
+       */
+      sign(
+        contentToSign: string,
+        privateKey: string,
+        digestAlgorithm: string
+      ): string;
+      /**
+       * Signs a string and returns a string
+       * @param contentToSign base64 encoded content to sign
+       * @param privateKey a reference to a private key entry in the keystore
+       * @param digestAlgorithm must be one of the currently supported ones
+       * @return the base64 encoded signature
+       */
+      sign(
+        contentToSign: string,
+        privateKey: dw.crypto.KeyRef,
+        digestAlgorithm: string
+      ): string;
+      /**
+       * Signs bytes and returns bytes
+       * @param contentToSign transformed with UTF-8 encoding into a byte stream
+       * @param privateKey base64 encoded private key
+       * @param digestAlgorithm must be one of the currently supported ones
+       * @return signature
+       */
+      signBytes(
+        contentToSign: dw.util.Bytes,
+        privateKey: string,
+        digestAlgorithm: string
+      ): dw.util.Bytes;
+      /**
+       * Signs bytes and returns bytes
+       * @param contentToSign transformed with UTF-8 encoding into a byte stream
+       * @param privateKey a reference to a private key entry in the keystore
+       * @param digestAlgorithm must be one of the currently supported ones
+       * @return signature
+       */
+      signBytes(
+        contentToSign: dw.util.Bytes,
+        privateKey: dw.crypto.KeyRef,
+        digestAlgorithm: string
+      ): dw.util.Bytes;
+      /**
+       * Verifies a signature supplied as bytes
+       * @param signature signature to check as bytes
+       * @param contentToVerify as bytes
+       * @param publicKey base64 encoded public key
+       * @param digestAlgorithm must be one of the currently supported ones
+       * @return a boolean indicating success (true) or failure (false)
+       */
+      verifyBytesSignature(
+        signature: dw.util.Bytes,
+        contentToVerify: dw.util.Bytes,
+        publicKey: string,
+        digestAlgorithm: string
+      ): boolean;
+      /**
+       * Verifies a signature supplied as bytes
+       * @param signature signature to check as bytes
+       * @param contentToVerify as bytes
+       * @param certificate a reference to a trusted certificate entry in the keystore
+       * @param digestAlgorithm must be one of the currently supported ones
+       * @return a boolean indicating success (true) or failure (false)
+       */
+      verifyBytesSignature(
+        signature: dw.util.Bytes,
+        contentToVerify: dw.util.Bytes,
+        certificate: dw.crypto.CertificateRef,
+        digestAlgorithm: string
+      ): boolean;
+      /**
+       * Verifies a signature supplied as string
+       * @param signature base64 encoded signature
+       * @param contentToVerify base64 encoded content to verify
+       * @param publicKey base64 encoded public key
+       * @param digestAlgorithm must be one of the currently supported ones
+       * @return a boolean indicating success (true) or failure (false)
+       */
+      verifySignature(
+        signature: string,
+        contentToVerify: string,
+        publicKey: string,
+        digestAlgorithm: string
+      ): boolean;
+      /**
+       * Verifies a signature supplied as string
+       * @param signature base64 encoded signature
+       * @param contentToVerify base64 encoded content to verify
+       * @param certificate a reference to a trusted certificate entry in the keystore
+       * @param digestAlgorithm must be one of the currently supported ones
+       * @return a boolean indicating success (true) or failure (false)
+       */
+      verifySignature(
+        signature: string,
+        contentToVerify: string,
+        certificate: dw.crypto.CertificateRef,
+        digestAlgorithm: string
+      ): boolean;
+    }
+
+    /**
+     * This API provides access to Deprecated algorithms.
+     *  <p>
+     *  See <a href="class_dw_crypto_Cipher.html">Cipher</a> for full documentation. WeakCipher is simply a drop-in replacement that <b>only</b> supports
+     *  deprecated algorithms and key lengths. This is helpful when you need to deal with weak algorithms for backward
+     *  compatibility purposes, but Cipher should always be used for new development and for anything intended to be secure.
+     *  </p><p>
+     *  <b>Note:</b> this class handles sensitive security-related data. Pay special attention to PCI DSS v3 requirements 2,
+     *  4, and 12.</p>
+     */
+    class WeakCipher {
+      /**
+       * Strings containing keys, plain texts, cipher texts etc. are internally
+       *  converted into byte arrays using this encoding (currently UTF8).
+       */
+      static readonly CHAR_ENCODING = "UTF8";
+
+      constructor();
+
+      /**
+       * Decrypts the message using the given parameters. See
+       *  Cipher.decrypt(String, String, String, String, Number) for full documentation.
+       * @param base64Msg the base64 encoded data to decrypt
+       * @param key The decryption key
+       * @param transformation Transformation in "algorithm/mode/padding" format.
+       * @param saltOrIV Initialization value appropriate for the algorithm.
+       * @param iterations The number of passes to make when turning a passphrase into a key, if applicable
+       * @return the original plaintext message.
+       */
+      decrypt(
+        base64Msg: string,
+        key: string,
+        transformation: string,
+        saltOrIV: string,
+        iterations: number
+      ): string;
+      /**
+       * Alternative method to decrypt(String, String, String, String, Number), which allows using a key in the
+       *  keystore for the decryption. See Cipher.decrypt(String, KeyRef, String, String, Number) for full
+       *  documentation.
+       * @param base64Msg the base64 encoded data to decrypt
+       * @param privateKey No Comment In JavaDoc
+       * @param transformation Transformation in "algorithm/mode/padding" format.
+       * @param saltOrIV Initialization value appropriate for the algorithm.
+       * @param iterations The number of passes to make when turning a passphrase into a key, if applicable
+       * @return the original plaintext message.
+       */
+      decrypt(
+        base64Msg: string,
+        privateKey: dw.crypto.KeyRef,
+        transformation: string,
+        saltOrIV: string,
+        iterations: number
+      ): string;
+      /**
+       * Decrypts the message using the given parameters. See
+       *  Cipher.decrypt_3(String, String, String, String, Number) for full documentation.
+       * @param base64Msg the base64 encoded data to decrypt
+       * @param key The decryption key
+       * @param transformation Transformation in "algorithm/mode/padding" format.
+       * @param saltOrIV Initialization value appropriate for the algorithm.
+       * @param iterations The number of passes to make when turning a passphrase into a key, if applicable
+       * @return the original plaintext message.
+       */
+      decrypt(
+        base64Msg: string,
+        key: string,
+        transformation: string,
+        saltOrIV: string,
+        iterations: number
+      ): string;
+      /**
+       * Alternative method to decrypt_3(String, String, String, String, Number), which allows using a key in the
+       *  keystore for the decryption. See Cipher.decrypt_3(String, KeyRef, String, String, Number) for full
+       *  documentation.
+       * @param base64Msg the base64 encoded data to decrypt
+       * @param privateKey No Comment In JavaDoc
+       * @param transformation Transformation in "algorithm/mode/padding" format.
+       * @param saltOrIV Initialization value appropriate for the algorithm.
+       * @param iterations The number of passes to make when turning a passphrase into a key, if applicable
+       * @return the original plaintext message.
+       */
+      decrypt(
+        base64Msg: string,
+        privateKey: dw.crypto.KeyRef,
+        transformation: string,
+        saltOrIV: string,
+        iterations: number
+      ): string;
+      /**
+       * Lower-level decryption API. Decrypts the passed bytes using the specified
+       *  key and applying the transformations described by the specified
+       *  parameters. See Cipher.decryptBytes(Bytes, String, String, String, Number) for full
+       *  documentation.
+       * @param encryptedBytes The bytes to decrypt.
+       * @param key The key to use for decryption.
+       * @param transformation The transformation used to originally encrypt.
+       * @param saltOrIV the salt or IV to use.
+       * @param iterations the iterations to use.
+       * @return The decrypted bytes.
+       */
+      decryptBytes(
+        encryptedBytes: dw.util.Bytes,
+        key: string,
+        transformation: string,
+        saltOrIV: string,
+        iterations: number
+      ): dw.util.Bytes;
+      /**
+       * Alternative method to decryptBytes(Bytes, String, String, String, Number), which allows to use a key in
+       *  the keystore for the decryption. See Cipher.decryptBytes(Bytes, KeyRef, String, String, Number) for full
+       *  documentation.
+       * @param encryptedBytes The bytes to decrypt.
+       * @param privateKey No Comment In JavaDoc
+       * @param transformation The transformation used to originally encrypt.
+       * @param saltOrIV the salt or IV to use.
+       * @param iterations the iterations to use.
+       * @return The decrypted bytes.
+       */
+      decryptBytes(
+        encryptedBytes: dw.util.Bytes,
+        privateKey: dw.crypto.KeyRef,
+        transformation: string,
+        saltOrIV: string,
+        iterations: number
+      ): dw.util.Bytes;
+      /**
+       * Lower-level decryption API. Decrypts the passed bytes using the specified
+       *  key and applying the transformations described by the specified
+       *  parameters. See Cipher.decryptBytes_3(Bytes, String, String, String, Number) for full
+       *  documentation.
+       * @param encryptedBytes The bytes to decrypt.
+       * @param key The key to use for decryption.
+       * @param transformation The transformation used to originally encrypt.
+       * @param saltOrIV the salt or IV to use.
+       * @param iterations the iterations to use.
+       * @return The decrypted bytes.
+       */
+      decryptBytes(
+        encryptedBytes: dw.util.Bytes,
+        key: string,
+        transformation: string,
+        saltOrIV: string,
+        iterations: number
+      ): dw.util.Bytes;
+      /**
+       * Alternative method to decryptBytes_3(Bytes, String, String, String, Number), which allows to use a key in
+       *  the keystore for the decryption. See Cipher.decryptBytes_3(Bytes, KeyRef, String, String, Number) for full
+       *  documentation.
+       * @param encryptedBytes The bytes to decrypt.
+       * @param privateKey No Comment In JavaDoc
+       * @param transformation The transformation used to originally encrypt.
+       * @param saltOrIV the salt or IV to use.
+       * @param iterations the iterations to use.
+       * @return The decrypted bytes.
+       */
+      decryptBytes(
+        encryptedBytes: dw.util.Bytes,
+        privateKey: dw.crypto.KeyRef,
+        transformation: string,
+        saltOrIV: string,
+        iterations: number
+      ): dw.util.Bytes;
+      /**
+       * Encrypt the passed message by using the specified key and applying the
+       *  transformations described by the specified parameters.
+       *
+       *  See Cipher.encrypt(String, String, String, String, Number) for full documentation.
+       * @param message Message to encrypt (this will be converted to UTF-8 first)
+       * @param key Key
+       * @param transformation Transformation in "algorithm/mode/padding" format
+       * @param saltOrIV Initialization value appropriate for the algorithm
+       * @param iterations The number of passes to make when turning a passphrase into a key, if applicable
+       * @return Base64-encoded encrypted data
+       */
+      encrypt(
+        message: string,
+        key: string,
+        transformation: string,
+        saltOrIV: string,
+        iterations: number
+      ): string;
+      /**
+       * Encrypt the passed message by using the specified key and applying the
+       *  transformations described by the specified parameters.
+       *
+       *  See Cipher.encrypt(String, CertificateRef, String, String, Number) for full documentation.
+       * @param message Message to encrypt (this will be converted to UTF-8 first)
+       * @param publicKey A reference to a public key in the key store
+       * @param transformation Transformation in "algorithm/mode/padding" format
+       * @param saltOrIV Initialization value appropriate for the algorithm
+       * @param iterations The number of passes to make when turning a passphrase into a key, if applicable
+       * @return Base64-encoded encrypted data
+       */
+      encrypt(
+        message: string,
+        publicKey: dw.crypto.CertificateRef,
+        transformation: string,
+        saltOrIV: string,
+        iterations: number
+      ): string;
+      /**
+       * Encrypt the passed message by using the specified key and applying the
+       *  transformations described by the specified parameters.
+       *
+       *  See Cipher.encrypt_3(String, String, String, String, Number) for full documentation.
+       * @param message Message to encrypt (this will be converted to UTF-8 first)
+       * @param key Key
+       * @param transformation Transformation in "algorithm/mode/padding" format
+       * @param saltOrIV Initialization value appropriate for the algorithm
+       * @param iterations The number of passes to make when turning a passphrase into a key, if applicable
+       * @return Base64-encoded encrypted data
+       */
+      encrypt(
+        message: string,
+        key: string,
+        transformation: string,
+        saltOrIV: string,
+        iterations: number
+      ): string;
+      /**
+       * Encrypt the passed message by using the specified key and applying the
+       *  transformations described by the specified parameters.
+       *
+       *  See Cipher.encrypt_3(String, CertificateRef, String, String, Number) for full documentation.
+       * @param message Message to encrypt (this will be converted to UTF-8 first)
+       * @param publicKey A reference to a public key in the key store
+       * @param transformation Transformation in "algorithm/mode/padding" format
+       * @param saltOrIV Initialization value appropriate for the algorithm
+       * @param iterations The number of passes to make when turning a passphrase into a key, if applicable
+       * @return Base64-encoded encrypted data
+       */
+      encrypt(
+        message: string,
+        publicKey: dw.crypto.CertificateRef,
+        transformation: string,
+        saltOrIV: string,
+        iterations: number
+      ): string;
+      /**
+       * Lower-level encryption API. Encrypts the passed bytes by using the specified key and applying the transformations
+       *  described by the specified parameters. See Cipher.encryptBytes(Bytes, String, String, String, Number)
+       *  for full documentation.
+       * @param messageBytes The bytes to encrypt.
+       * @param key The key to use for encryption.
+       * @param transformation Transformation in "algorithm/mode/padding" format.
+       * @param saltOrIV Initialization value appropriate for the algorithm.
+       * @param iterations The number of passes to make when turning a passphrase into a key.
+       * @return the encrypted bytes.
+       */
+      encryptBytes(
+        messageBytes: dw.util.Bytes,
+        key: string,
+        transformation: string,
+        saltOrIV: string,
+        iterations: number
+      ): dw.util.Bytes;
+      /**
+       * Alternative method to encryptBytes(Bytes, String, String, String, Number), which allows
+       *  to use a key in the keystore for the encryption. See Cipher.encryptBytes(Bytes, CertificateRef, String, String, Number) for full documentation.
+       * @param messageBytes The bytes to encrypt.
+       * @param publicKey A reference to a public key in the key store.
+       * @param transformation Transformation in "algorithm/mode/padding" format.
+       * @param saltOrIV Initialization value appropriate for the algorithm.
+       * @param iterations The number of passes to make when turning a passphrase into a key.
+       * @return the encrypted bytes.
+       */
+      encryptBytes(
+        messageBytes: dw.util.Bytes,
+        publicKey: dw.crypto.CertificateRef,
+        transformation: string,
+        saltOrIV: string,
+        iterations: number
+      ): dw.util.Bytes;
+      /**
+       * Lower-level encryption API. Encrypts the passed bytes by using the specified key and applying the transformations
+       *  described by the specified parameters. See Cipher.encryptBytes_3(Bytes, String, String, String, Number)
+       *  for full documentation.
+       * @param messageBytes The bytes to encrypt.
+       * @param key The key to use for encryption.
+       * @param transformation Transformation in "algorithm/mode/padding" format.
+       * @param saltOrIV Initialization value appropriate for the algorithm.
+       * @param iterations The number of passes to make when turning a passphrase into a key.
+       * @return the encrypted bytes.
+       */
+      encryptBytes(
+        messageBytes: dw.util.Bytes,
+        key: string,
+        transformation: string,
+        saltOrIV: string,
+        iterations: number
+      ): dw.util.Bytes;
+      /**
+       * Alternative method to encryptBytes_3(Bytes, String, String, String, Number), which allows
+       *  to use a key in the keystore for the encryption. See Cipher.encryptBytes_3(Bytes, CertificateRef, String, String, Number) for full documentation.
+       * @param messageBytes The bytes to encrypt.
+       * @param publicKey A reference to a public key in the key store.
+       * @param transformation Transformation in "algorithm/mode/padding" format.
+       * @param saltOrIV Initialization value appropriate for the algorithm.
+       * @param iterations The number of passes to make when turning a passphrase into a key.
+       * @return the encrypted bytes.
+       */
+      encryptBytes(
+        messageBytes: dw.util.Bytes,
+        publicKey: dw.crypto.CertificateRef,
+        transformation: string,
+        saltOrIV: string,
+        iterations: number
+      ): dw.util.Bytes;
+    }
+
+    /**
+     * This API provides access to Deprecated algorithms.
+     *  <p>
+     *  See <a href="class_dw_crypto_Mac.html">Mac</a> for full documentation. WeakMac is simply a drop-in replacement that <b>only</b> supports
+     *  deprecated algorithms. This is helpful when you need to deal with weak algorithms for backward
+     *  compatibility purposes, but Mac should always be used for new development and for anything intended to be secure.
+     *  </p><p>
+     *  This class provides the functionality of a &quot;Message Authentication Code&quot; (MAC) algorithm.
+     *  A MAC provides a way to check the integrity of information transmitted over or
+     *  stored in an unreliable medium, based on a secret key.
+     *  Typically, message authentication codes are used between two parties
+     *  that share a secret key in order to validate information transmitted between these parties.
+     *  A MAC mechanism that is based on cryptographic hash functions is referred to as HMAC.
+     *  HMAC can be used with any cryptographic hash function, e.g., SHA256,
+     *  in combination with a secret shared key. HMAC is specified in RFC 2104.
+     *  </p><p>
+     *  <b>Note:</b> this class handles sensitive security-related data.
+     *  Pay special attention to PCI DSS v3. requirements 2, 4, and 12.</p>
+     */
+    class WeakMac {
+      /**
+       * Constant representing the HMAC-MD5 keyed-hashing algorithm as defined in RFC 2104 "HMAC: Keyed-Hashing for Message Authentication" (February 1997).
+       *  This algorithm uses as MD5 cryptographic hash function.
+       *
+       *  This algorithm is obsolete. Do not use it for any sensitive data
+       */
+      static readonly HMAC_MD5 = "HmacMD5";
+      /**
+       * Constant representing the HmacSHA1 algorithms as defined in RFC 2104 "HMAC: Keyed-Hashing for Message Authentication" (February 1997)
+       *  with SHA-1 as the message digest algorithm.
+       *
+       *  This algorithm is obsolete. Do not use it for any sensitive data
+       */
+      static readonly HMAC_SHA_1 = "HmacSHA1";
+
+      /**
+       * Construct a Mac encryption instance with the specified algorithm name. The
+       *  supported algorithms are:
+       *
+       *
+       *  HmacMD5
+       *  HmacSHA1
+       * @param algorithm the standard name of the digest algorithm, must not be null.
+       */
+      constructor(algorithm: string);
+
+      /**
+       * Computes the hash value for the passed string input using the passed secret key.
+       *  Given input and the given key will be first converted with UTF-8 encoding into a byte array.
+       *  The resulting hash is typically converted with base64 back into a string.
+       * @param input A string to calculate a RFC 2104 compliant HMAC hash value for.
+       * @param key The secret key ready for use with the algorithm. The key's format depends on the chosen algorithm and the keys are assumed to be correctly formulated for the algorithm used, for example that the lengths are correct. Keys are not checked for validity. Only such keys that have no key parameters associated with them.
+       * @return The resulting hash value as bytes.
+       */
+      digest(input: string, key: string): dw.util.Bytes;
+      /**
+       * Computes the hash value for the passed string input using the passed secret key.
+       *  Given input will be first converted with UTF-8 encoding into a byte array.
+       *  The resulting hash is typically converted with base64 back into a string.
+       * @param input A string to calculate a RFC 2104 compliant HMAC hash value for.
+       * @param key The secret key as bytes ready for use with the algorithm. The key's format depends on the chosen algorithm and the keys are assumed to be correctly formulated for the algorithm used, for example that the lengths are correct. Keys are not checked for validity. Only such keys that have no key parameters associated with them.
+       * @return The resulting hash value as bytes.
+       */
+      digest(input: string, key: dw.util.Bytes): dw.util.Bytes;
+      /**
+       * Computes the hash value for the passed bytes input using the passed secret key.
+       * @param input The bytes to calculate a RFC 2104 compliant HMAC hash value.
+       * @param key The secret key as byte array ready for use with the algorithm. The key's format depends on the chosen algorithm and the keys are assumed to be correctly formulated for the algorithm used, for example that the lengths are correct. Keys are not checked for validity. Only such keys that have no key parameters associated with them.
+       * @return The resulting hash value as bytes.
+       */
+      digest(input: dw.util.Bytes, key: dw.util.Bytes): dw.util.Bytes;
+    }
+
+    /**
+     * This API provides access to Deprecated algorithms.
+     *  <p>
+     *  See <a href="class_dw_crypto_MessageDigest.html">MessageDigest</a> for full documentation. WeakMessageDigest is simply a drop-in replacement that <b>only</b> supports
+     *  deprecated algorithms. This is helpful when you need to deal with weak algorithms for backward
+     *  compatibility purposes, but MessageDigest should always be used for new development and for anything intended to be secure.
+     *  </p><p>
+     *  <b>Note:</b> this class handles sensitive security-related data.
+     *  Pay special attention to PCI DSS v3. requirements 2, 4, and 12.</p>
+     */
+    class WeakMessageDigest {
+      /**
+       * Constant representing the MD2 algorithm.
+       *
+       *  This algorithm is obsolete. Do not use it for any sensitive data
+       */
+      static readonly DIGEST_MD2 = "MD2";
+      /**
+       * Constant representing the MD5 algorithm.
+       *
+       *  This algorithm is obsolete. Do not use it for any sensitive data
+       */
+      static readonly DIGEST_MD5 = "MD5";
+      /**
+       * Constant representing the SHA algorithm.
+       *
+       *  This algorithm is obsolete. Do not use it for any sensitive data
+       */
+      static readonly DIGEST_SHA = "SHA";
+      /**
+       * Constant representing the SHA 1 algorithm.
+       *
+       *  This algorithm is obsolete. Do not use it for any sensitive data
+       */
+      static readonly DIGEST_SHA_1 = "SHA-1";
+
+      /**
+       * Construct a MessageDigest with the specified algorithm name.
+       * @param algorithm The standard name of the digest algorithm, must not be null and must be a supported algorithm.
+       */
+      constructor(algorithm: string);
+
+      /**
+       * Digests the passed string and returns a computed hash value as a string.
+       *  The passed String is first encoded into a sequence of bytes using the
+       *  platform's default encoding. The digest then performs any prerequisite
+       *  padding, before computing the hash value. The hash is then converted into
+       *  a string by converting all digits to hexadecimal.
+       * @param input The value to hash as String, must not be null.
+       * @return The resulting hash value as hex-encoded string.
+       */
+      digest(input: string): string;
+      /**
+       * Computes the hash value for the passed array of bytes. The algorithm
+       *  argument is optional. If null, then the algorithm established at
+       *  construction time is used.
+       *
+       *  The binary representation of the message is typically derived from a
+       *  string and the resulting hash is typically converted with base64 back
+       *  into a string. Example:
+       *
+       *
+       *  Encoding.toBase64( digest( "MD5", new Bytes( "my password", "UTF-8" ) ) );
+       * @param algorithm The standard name of the digest algorithm, or null if the algorithm passed at construction time is to be used. The algorithm must be a supported algorithm.
+       * @param input The value to hash, must not be null.
+       * @return The resulting hash value.
+       */
+      digest(algorithm: string, input: dw.util.Bytes): dw.util.Bytes;
+      /**
+       * Completes the hash computation by performing final operations such as
+       *  padding.
+       *
+       *  The binary representation of the message is typically derived from a
+       *  string and the resulting hash is typically converted with base64 back
+       *  into a string. Example:
+       *
+       *
+       *  Encoding.toBase64( digest() );
+       *
+       * @return The resulting hash value.
+       */
+      digest(): dw.util.Bytes;
+      /**
+       * Computes the hash value for the passed Bytes.
+       *
+       *  The binary representation of the message is typically derived from a
+       *  string and the resulting hash is typically converted with base64 back
+       *  into a string. Example:
+       *
+       *
+       *  Encoding.toBase64( digest( new Bytes( "my password", "UTF-8" ) ) );
+       * @param input The value to hash, must not be null.
+       * @return The resulting hash value.
+       */
+      digestBytes(input: dw.util.Bytes): dw.util.Bytes;
+      /**
+       * Updates the digest using the passed Bytes.
+       * @param input The value to hash, must not be null.
+       */
+      updateBytes(input: dw.util.Bytes): void;
+    }
+
+    /**
+     * This API provides access to Deprecated algorithms.
+     *  <p>
+     *  See <a href="class_dw_crypto_Signature.html">Signature</a> for full documentation. WeakSignature is simply a drop-in replacement that <b>only</b> supports
+     *  deprecated algorithms. This is helpful when you need to deal with weak algorithms for backward compatibility
+     *  purposes, but Signature should always be used for new development and for anything intended to be secure.
+     *  </p><p>
+     *  </p><p>
+     *  This class allows access to signature services offered through the Java Cryptography Architecture (JCA). At this time
+     *  the signature/verification implementation of the methods is based on the default RSA JCE provider of the JDK -
+     *  sun.security.rsa.SunRsaSign
+     *  </p>
+     *  <p>
+     *  dw.crypto.WeakSignature is an adapter to the security provider implementation and only covers one digest algorithm:
+     *  </p><ul>
+     *  <li>SHA1withRSA</li>
+     *  </ul>
+     *  <p></p>
+     *  <p>
+     *  <b>Note:</b> this class handles sensitive security-related data. Pay special attention to PCI DSS v3. requirements 2,
+     *  4, 12, and other relevant requirements.
+     *  </p>
+     */
+    class WeakSignature {
       constructor();
 
       /**
@@ -18469,6 +19119,31 @@ declare namespace dw {
     }
 
     /**
+     * Provides helper methods for managing customer context, such as the Effective Time for which the customer is shopping
+     *  at
+     */
+    class CustomerContextMgr {
+      /**
+       * Get the effective time associated with the customer. By default, the effective time is null.
+       */
+      static effectiveTime: Date;
+
+      private constructor();
+
+      /**
+       * Get the effective time associated with the customer. By default, the effective time is null.
+       *
+       * @return effective time. When null is returned it means no effective time is associated with the customer
+       */
+      static getEffectiveTime(): Date;
+      /**
+       * Set the effective time for the customer. Null is allowed to remove effective time from the customer.
+       * @param effectiveTime the effective time.
+       */
+      static setEffectiveTime(effectiveTime: Date): void;
+    }
+
+    /**
      * CustomerGroups provide a means to segment customers by various criteria. A
      *  merchant can then provide different site experiences (e.g. promotions,
      *  prices, sorting rules) to each customer segment. Customer groups can consist
@@ -19558,31 +20233,90 @@ declare namespace dw {
     /**
      * The class provides access to past orders of the customer.
      *  <p>
-     *  <b>Note:</b> this class allows access to sensitive financial and card holder data.
-     *  Pay special attention to PCI DSS v3. requirements 1, 3, 7, and 9.
-     *  It also allows access to sensitive personal and private information.
-     *  Pay attention to appropriate legal and regulatory requirements related to this data.</p>
+     *  <b>Note:</b> this class allows access to sensitive financial and cardholder data. Pay special attention to PCI DSS
+     *  v3. requirements 1, 3, 7, and 9. It also allows access to sensitive personal and private information. Pay attention
+     *  to appropriate legal and regulatory requirements related to this data.</p>
      */
     class OrderHistory {
       /**
-       * The number of orders the customer has placed in the store. If the
-       *  customer is anonymous, this method always returns zero. If an active data
-       *  record is available for this customer, the orders count will be retrieved
-       *  from this, otherwise a real-time query will be used to get the count.
+       * The number of orders the customer has placed in the store.
+       *
+       *  If the customer is anonymous, this method always returns zero. If an active data record is available for this
+       *  customer, the orders count is retrieved from that record, otherwise a real-time query is used to get the count.
        */
       readonly orderCount: number;
+      /**
+       * Retrieves the order history for the customer in the current storefront site.
+       *
+       *  If the result exceeds 1000 orders, only the first 1000 orders are retrieved. Same as
+       *
+       *   orderHistory.getOrders( null, "creationDate DESC" )
+       *
+       *
+       *
+       *  It is strongly recommended to call SeekableIterator.close() on the returned
+       *  SeekableIterator if not all of its elements are being retrieved. This will ensure the proper cleanup of system
+       *  resources.
+       */
+      readonly orders: dw.util.SeekableIterator<dw.order.Order>;
 
       private constructor();
 
       /**
-       * Returns the number of orders the customer has placed in the store. If the
-       *  customer is anonymous, this method always returns zero. If an active data
-       *  record is available for this customer, the orders count will be retrieved
-       *  from this, otherwise a real-time query will be used to get the count.
+       * Returns the number of orders the customer has placed in the store.
+       *
+       *  If the customer is anonymous, this method always returns zero. If an active data record is available for this
+       *  customer, the orders count is retrieved from that record, otherwise a real-time query is used to get the count.
        *
        * @return the number of orders the customer has placed in the store.
        */
       getOrderCount(): number;
+      /**
+       * Retrieves the order history for the customer in the current storefront site.
+       *
+       *  If the result exceeds 1000 orders, only the first 1000 orders are retrieved. Same as
+       *
+       *   orderHistory.getOrders( null, "creationDate DESC" )
+       *
+       *
+       *
+       *  It is strongly recommended to call SeekableIterator.close() on the returned
+       *  SeekableIterator if not all of its elements are being retrieved. This will ensure the proper cleanup of system
+       *  resources.
+       *
+       * @return the orders
+       */
+      getOrders(): dw.util.SeekableIterator<dw.order.Order>;
+      /**
+       * Retrieves the order history for the customer in the current storefront site.
+       *
+       *  If the result exceeds 1000 orders, only the first 1000 orders are retrieved. Optionally, you can retrieve a subset
+       *  of the orders by specifying a query. At maximum 3 expressions are allowed to be specified and no custom attribute
+       *  expressions are allowed.
+       *
+       *
+       *  It is strongly recommended to call SeekableIterator.close() on the returned
+       *  SeekableIterator if not all of its elements are being retrieved. This will ensure the proper cleanup of system
+       *  resources.
+       *
+       *  Example:
+       *
+       *              var orderHistory : dw.customer.OrderHistory = customer.getOrderHistory();
+       *             var orders = orderHistory.getOrders("status = {0}", "creationDate DESC", dw.order.Order.ORDER_STATUS_NEW);
+       *             for each (var order : dw.order.Order in orders) {
+       *                 // ... process orders
+       *             }
+       *             orders.close();
+       * @param query optional query
+       * @param sortString optional sort string
+       * @param params optional parameters for the query
+       * @return the orders
+       */
+      getOrders(
+        query: string,
+        sortString: string,
+        ...params: any[]
+      ): dw.util.SeekableIterator<dw.order.Order>;
     }
 
     /**
@@ -21749,9 +22483,17 @@ declare namespace dw {
        */
       readonly aspectTypeID: string;
       /**
+       * The classification Folder associated with this page.
+       */
+      readonly classificationFolder: dw.content.Folder;
+      /**
        * The description of this page.
        */
       readonly description: string;
+      /**
+       * All folders to which this page is assigned.
+       */
+      readonly folders: dw.util.Collection<dw.content.Folder>;
       /**
        * The id of this page.
        */
@@ -21843,11 +22585,23 @@ declare namespace dw {
        */
       getAttribute(attributeID: string): any;
       /**
+       * Returns the classification Folder associated with this page.
+       *
+       * @return the classification Folder if one is assigned, null otherwise.
+       */
+      getClassificationFolder(): dw.content.Folder;
+      /**
        * Returns the description of this page.
        *
        * @return the page description
        */
       getDescription(): string;
+      /**
+       * Returns all folders to which this page is assigned.
+       *
+       * @return Collection of Folder objects.
+       */
+      getFolders(): dw.util.Collection<dw.content.Folder>;
       /**
        * Returns the id of this page.
        *
@@ -24071,8 +24825,16 @@ declare namespace dw {
 
     namespace payments {
       /**
-       * Salesforce Payments payment intent. A payment intent is created when the shopper is ready to checkout and pay using
-       *  Salesforce Payments.
+       * <p>
+       *  Commerce Cloud Payments representation of a payment intent object. See Commerce Cloud Payments documentation for how
+       *  to gain access and configure it for use on your sites.
+       *  </p>
+       *  <p>
+       *  A payment intent is automatically created when a shopper is ready to pay for items in their basket. It becomes
+       *  confirmed when the shopper provides information to the payment provider that is acceptable to authorize payment for a
+       *  given amount. Once that information has been provided it becomes available as the payment method associated with the
+       *  payment intent.
+       *  </p>
        */
       class SalesforcePaymentIntent {
         /**
@@ -24080,8 +24842,7 @@ declare namespace dw {
          */
         readonly amount: dw.value.Money;
         /**
-         * Returns true if this payment intent has been confirmed for the correct amount, or false
-         *  if not.
+         * Returns true if this payment intent has been confirmed, or false if not.
          */
         readonly confirmed: boolean;
         /**
@@ -24132,17 +24893,24 @@ declare namespace dw {
          */
         getPaymentMethod(): dw.extensions.payments.SalesforcePaymentMethod;
         /**
-         * Returns true if this payment intent has been confirmed for the correct amount, or false
-         *  if not.
+         * Returns true if this payment intent has been confirmed, or false if not.
          *
-         * @return true if this payment intent has been confirmed for the correct amount
+         * @return true if this payment intent has been confirmed
          */
         isConfirmed(): boolean;
       }
 
       /**
-       * Salesforce Payments payment method. A payment method contains information about the credential used to make payment,
-       *  such as a credit card.
+       * <p>
+       *  Commerce Cloud Payments representation of a payment method object. See Commerce Cloud Payments documentation for how
+       *  to gain access and configure it for use on your sites.
+       *  </p>
+       *  <p>
+       *  A payment method contains information about a credential used by a shopper to attempt payment, such as a payment card
+       *  or bank account. The available information differs for each type of payment method. It includes only limited
+       *  information that can be safely presented to a shopper to remind them what credential they used, and specifically not
+       *  complete card, account, or other numbers that could be used to make future payments.
+       *  </p>
        */
       class SalesforcePaymentMethod {
         /**
@@ -24188,7 +24956,7 @@ declare namespace dw {
          */
         readonly brand: string;
         /**
-         * The bank branch code of this payment method, or null if none is available. Available on
+         * The country of this payment method, or null if none is available. Available on
          *  TYPE_SEPA_DEBIT type methods.
          */
         readonly country: string;
@@ -24245,7 +25013,7 @@ declare namespace dw {
          */
         getBrand(): string;
         /**
-         * Returns the bank branch code of this payment method, or null if none is available. Available on
+         * Returns the country of this payment method, or null if none is available. Available on
          *  TYPE_SEPA_DEBIT type methods.
          *
          * @return payment method country
@@ -24274,7 +25042,19 @@ declare namespace dw {
       }
 
       /**
-       * Salesforce Payments payment request. Create a request to use the Salesforce Payments checkout drop-in component.
+       * <p>
+       *  Commerce Cloud Payments request for a shopper to make payment. See Commerce Cloud Payments documentation for how to
+       *  gain access and configure it for use on your sites.
+       *  </p>
+       *  <p>
+       *  A request is required to render payment methods and/or express checkout buttons using <code>&lt;ispayment&gt;</code>
+       *  or <code>&lt;isbuynow&gt;</code>. You can call methods on the payment request to configure which payment methods
+       *  and/or express checkout buttons may be presented, and customize their visual presentation.
+       *  </p>
+       *  <p>
+       *  When used with <code>&lt;isbuynow&gt;</code> you must provide the necessary data to prepare the shopper basket to buy
+       *  the product, and the necessary payment request options for the browser payment app.
+       *  </p>
        */
       class SalesforcePaymentRequest {
         /**
@@ -24327,11 +25107,15 @@ declare namespace dw {
         static readonly ELEMENT_TYPE_SEPA_DEBIT = "sepa_debit";
 
         /**
-         * The data to include in the call to prepare the basket when a Buy Now button is tapped.
+         * A JS object containing the data used to prepare the shopper basket when a Buy Now button is tapped.
          */
         basketData: any;
         /**
-         * A set containing the element types to exclude from Salesforce Payments components.
+         * Returns a set containing the element types to be explicitly excluded from mounted components. See the element
+         *  type constants in this class for the full list of supported element types.
+         *
+         *
+         *  Note: if an element type is both explicitly included and excluded, it will not be presented.
          */
         readonly exclude: dw.util.Set<string>;
         /**
@@ -24339,46 +25123,122 @@ declare namespace dw {
          */
         readonly ID: string;
         /**
-         * A set containing the specific element types to include from Salesforce Payments components. If the set is
-         *  empty then all applicable and enabled element types will be included by default.
+         * Returns a set containing the specific element types to include in mounted components. If the set is
+         *  empty then all applicable and enabled element types will be included by default. See the element type constants
+         *  in this class for the full list of supported element types.
+         *
+         *
+         *  Note: if an element type is both explicitly included and excluded, it will not be presented.
          */
         readonly include: dw.util.Set<string>;
         /**
-         * The DOM element selector where to mount Salesforce Payments components.
+         * The DOM element selector where to mount payment methods and/or express checkout buttons.
          */
         readonly selector: string;
 
         /**
          * Constructs a payment request using the given identifiers.
          * @param id identifier for payment request
-         * @param selector DOM element selector where to mount Salesforce Payments components
+         * @param selector DOM element selector where to mount payment methods and/or express checkout buttons
          */
         constructor(id: string, selector: string);
 
         /**
-         * Adds the given element type to exclude from Salesforce Payments components.
+         * Adds the given element type to explicitly exclude from mounted components. It is not necessary to explicitly
+         *  exclude element types that are not enabled for the site, or are not applicable for the current shopper and/or
+         *  their basket. See the element type constants in this class for the full list of supported element types.
+         *
+         *
+         *  Note: if an element type is both explicitly included and excluded, it will not be presented.
          * @param elementType element type
          */
         addExclude(elementType: string): void;
         /**
-         * Adds the given element type to include in Salesforce Payments components.
+         * Adds the given element type to include in mounted components. Call this method to include only a specific list of
+         *  element types to be presented when applicable and enabled for the site. See the element type constants in this
+         *  class for the full list of supported element types.
+         *
+         *
+         *  Note: if an element type is both explicitly included and excluded, it will not be presented.
          * @param elementType element type
          */
         addInclude(elementType: string): void;
         /**
-         * Returns a JS object for the given options to use when a Buy Now button is tapped, in the Salesforce Payments
-         *  format.
-         * @param options JS object containing the payment request options
+         * Returns a JS object containing the payment request options to use when a Buy Now button is tapped, in the
+         *  appropriate format for use in client side JavaScript. This method is provided as a convenience to adjust values
+         *  in B2C Commerce API standard formats to their equivalents as expected by Stripe JS APIs. The following example
+         *  shows options set in B2C Commerce API format, and the resulting output.
+         *
+         *
+         * SalesforcePaymentRequest.format({
+         *     currency: 'GBP',
+         *     total: {
+         *         label: 'Total',
+         *         amount: '26.44'
+         *     },
+         *     displayItems: [{
+         *         label: 'Merchandise',
+         *         amount: '19.19'
+         *     }, {
+         *         label: 'Tax',
+         *         amount: '1.26'
+         *     }, {
+         *         label: 'Ground',
+         *         amount: '5.99'
+         *     }],
+         *     requestPayerPhone: false,
+         *     shippingOptions: [{
+         *         id: 'GBP001',
+         *         label: 'Ground',
+         *         detail: 'Order received within 7-10 business days',
+         *         amount: '5.99'
+         *     }]
+         * });
+         *
+         *
+         *  returns
+         *
+         *
+         * {
+         *     currency: 'gbp',
+         *     total: {
+         *         label: 'Total',
+         *         amount: '2644'
+         *     },
+         *     displayItems: [{
+         *         label: 'Merchandise',
+         *         amount: '1919'
+         *     }, {
+         *         label: 'Tax',
+         *         amount: '126'
+         *     }, {
+         *         label: 'Ground',
+         *         amount: '599'
+         *     }],
+         *     requestPayerPhone: false,
+         *     shippingOptions: [{
+         *         id: 'GBP001',
+         *         label: 'Ground',
+         *         detail: 'Order received within 7-10 business days',
+         *         amount: '599'
+         *     }]
+         * }
+         * @param options JS object containing payment request options in B2C Commerce API standard format
+         * @return JS object containing equivalent payment request options in Stripe JS API format
          */
         static format(options: any): any;
         /**
-         * Returns the data to include in the call to prepare the basket when a Buy Now button is tapped.
+         * Returns a JS object containing the data used to prepare the shopper basket when a Buy Now button is tapped.
          *
          * @return JS object containing the basket data
          */
         getBasketData(): any;
         /**
-         * Returns a set containing the element types to exclude from Salesforce Payments components.
+         * Returns a set containing the element types to be explicitly excluded from mounted components. See the element
+         *  type constants in this class for the full list of supported element types.
+         *
+         *
+         *  Note: if an element type is both explicitly included and excluded, it will not be presented.
          *
          * @return set of element types
          */
@@ -24390,25 +25250,97 @@ declare namespace dw {
          */
         getID(): string;
         /**
-         * Returns a set containing the specific element types to include from Salesforce Payments components. If the set is
-         *  empty then all applicable and enabled element types will be included by default.
+         * Returns a set containing the specific element types to include in mounted components. If the set is
+         *  empty then all applicable and enabled element types will be included by default. See the element type constants
+         *  in this class for the full list of supported element types.
+         *
+         *
+         *  Note: if an element type is both explicitly included and excluded, it will not be presented.
          *
          * @return set of element types
          */
         getInclude(): dw.util.Set<string>;
         /**
-         * Returns the DOM element selector where to mount Salesforce Payments components.
+         * Returns the DOM element selector where to mount payment methods and/or express checkout buttons.
          *
          * @return DOM element selector
          */
         getSelector(): string;
         /**
-         * Sets the data to include in the call to prepare the basket when a Buy Now button is tapped.
+         * Sets the data used to prepare the shopper basket when a Buy Now button is tapped. For convenience this method
+         *  accepts a JS object to set all of the following properties at once:
+         *
+         *
+         *  sku - SKU of the product to add exclusively to the basket (required)
+         *  quantity - integer quantity of the product, default is 1
+         *  shippingMethod - ID of the shipping method to set on the shipment, default is the site default
+         *  shipping method for the basket currency
+         *  options - JS array containing one JS object per selected product option, default is no selected options
+         *
+         *  id - product option ID
+         *  valueId - product option value ID
+         *
+         *
+         *
+         *  The following example shows how to set all of the supported basket data.
+         *
+         *
+         * request.setBasketData({
+         *     sku: 'tv-pdp-6010fdM',
+         *     quantity: 1,
+         *     shippingMethod: '001',
+         *     options: [{
+         *         id: 'tvWarranty',
+         *         valueId: '000'
+         *     }]
+         * });
          * @param basketData JS object containing the basket data
          */
         setBasketData(basketData: any): void;
         /**
-         * Sets the options to use when a Buy Now button is tapped.
+         * Sets the payment request options to use when a Buy Now button is tapped. For convenience this method accepts a
+         *  JS object to set all options at once. The following example shows how to set options including currency,
+         *  labels, and amounts, in B2C Commerce API format.
+         *
+         *
+         * request.setOptions({
+         *     currency: 'GBP',
+         *     total: {
+         *         label: 'Total',
+         *         amount: '26.44'
+         *     },
+         *     displayItems: [{
+         *         label: 'Merchandise',
+         *         amount: '19.19'
+         *     }, {
+         *         label: 'Tax',
+         *         amount: '1.26'
+         *     }, {
+         *         label: 'Ground',
+         *         amount: '5.99'
+         *     }],
+         *     requestPayerPhone: false,
+         *     shippingOptions: [{
+         *         id: 'GBP001',
+         *         label: 'Ground',
+         *         detail: 'Order received within 7-10 business days',
+         *         amount: '5.99'
+         *     }]
+         * });
+         *
+         *
+         *  The total option must match the total that will result from preparing the shopper basket using the
+         *  data provided to setBasketData(Object) in this request. The id of each JS object in the
+         *  shippingOptions array must equal the ID of the corresponding site shipping method that the shopper
+         *  may select in the browser payment app.
+         *
+         *
+         *  For more information on the available payment request options see the Stripe Payment Request object API
+         *  documentation.
+         *
+         *
+         *  Note: The Stripe Payment Request country option will be set automatically to the country of the
+         *  Salesforce Payments account associated with the Commerce Cloud instance and is not included here.
          * @param options JS object containing the payment request options
          */
         setOptions(options: any): void;
@@ -24419,9 +25351,10 @@ declare namespace dw {
          */
         setReturnController(returnController: string): void;
         /**
-         * Sets if Salesforce Payments components may provide a control for the shopper to save the payment method for later
-         *  use.
-         * @param savePaymentMethodEnabled if Salesforce Payments components may provide a control for the shopper to save the payment method
+         * Sets if mounted components may provide a control for the shopper to save their payment method for later use. When
+         *  set to false no control will be provided. When set to true a control may be provided,
+         *  if applicable for the shopper and presented payment method, but is not guaranteed.
+         * @param savePaymentMethodEnabled if mounted components may provide a control for the shopper to save their payment method
          */
         setSavePaymentMethodEnabled(savePaymentMethodEnabled: boolean): void;
         /**
@@ -24440,24 +25373,30 @@ declare namespace dw {
       }
 
       /**
-       * This interface represents all script hooks that can be registered to customize the Salesforce Payments
-       *  functionality. It contains the extension points (hook names), and the functions that are called by each extension
+       * <p>
+       *  This interface represents all script hooks that can be registered to customize the Commerce Cloud Payments
+       *  functionality. See Commerce Cloud Payments documentation for how to gain access and configure it for use on your
+       *  sites.
+       *  </p>
+       *  <p>
+       *  It contains the extension points (hook names), and the functions that are called by each extension
        *  point. A function must be defined inside a JavaScript source and must be exported. The script with the exported hook
        *  function must be located inside a site cartridge. Inside the site cartridge a &apos;package.json&apos; file with a &apos;hooks&apos;
        *  entry must exist.
-       *
+       *  </p>
        *  <pre> &quot;hooks&quot;: &quot;./hooks.json&quot;
        *  </pre>
-       *
+       *  <p>
        *  The hooks entry links to a json file, relative to the &apos;package.json&apos; file. This file lists all registered hooks
        *  inside the hooks property:
-       *
+       *  </p>
        *  <pre> &quot;hooks&quot;: [
        *       {&quot;name&quot;: &quot;dw.extensions.payments.asyncPaymentSucceeded&quot;, &quot;script&quot;: &quot;./payments.js&quot;}
        *  ]
        *  </pre>
-       *
+       *  <p>
        *  A hook entry has a &apos;name&apos; and a &apos;script&apos; property.
+       *  </p>
        *  <ul>
        *  <li>The &apos;name&apos; contains the extension point, the hook name.</li>
        *  <li>The &apos;script&apos; contains the script relative to the hooks file, with the exported hook function.</li>
@@ -24481,15 +25420,19 @@ declare namespace dw {
       }
 
       /**
-       * Contains functionality for use with Salesforce Payments.
+       * Contains functionality for use with Commerce Cloud Payments. See Commerce Cloud Payments documentation for how to
+       *  gain access and configure it for use on your sites.
        */
       class SalesforcePaymentsMgr {
         private constructor();
 
         /**
-         * Attaches the given payment method to the given customer.
-         * @param paymentMethod payment method to attch to customer
-         * @param customer customer whose payment method to save
+         * Attaches the given payment method to the given customer. Use this method to attach a payment method of type
+         *  SalesforcePaymentMethod.TYPE_CARD to a shopper who registers as a customer after placing an order, and
+         *  has affirmatively elected to save their card as part of the registration process. This method will throw an error
+         *  if passed incompatible payment method and/or customer objects.
+         * @param paymentMethod payment method to attach to customer
+         * @param customer customer whose payment method to attach
          */
         static attachPaymentMethod(
           paymentMethod: dw.extensions.payments.SalesforcePaymentMethod,
@@ -24505,7 +25448,9 @@ declare namespace dw {
           paymentMethod: dw.extensions.payments.SalesforcePaymentMethod
         ): void;
         /**
-         * Returns a collection containing the payment methods attached to the given customer.
+         * Returns a collection containing the payment methods attached to the given customer. The collection will be empty
+         *  if there are no payment methods attached to the customer, or there was an error retrieving the attached payment
+         *  methods.
          * @param customer customer whose payment methods to get
          * @return collection of attached payment methods
          */
@@ -24513,16 +25458,16 @@ declare namespace dw {
           customer: dw.customer.Customer
         ): dw.util.Collection<dw.extensions.payments.SalesforcePaymentMethod>;
         /**
-         * Gets the payment intent for the given basket.
-         * @param basket basket to checkout and pay using Salesforce Payments
+         * Returns the payment intent for the given basket, or null if the given basket has none.
+         * @param basket basket to checkout and pay using Commerce Cloud Payments
          * @return The payment intent
          */
         static getPaymentIntent(
           basket: dw.order.Basket
         ): dw.extensions.payments.SalesforcePaymentIntent;
         /**
-         * Gets the payment intent for the given order.
-         * @param order order paid using Salesforce Payments
+         * Returns the payment intent for the given order, or null if the given order has none.
+         * @param order order paid using Commerce Cloud Payments
          * @return The payment intent
          */
         static getPaymentIntent(
@@ -31624,33 +32569,24 @@ declare namespace dw {
     }
 
     /**
-     * Line item representing an applied <a href="class_dw_campaign_BonusChoiceDiscount.html">BonusChoiceDiscount</a> in
-     *  a LineItemCtnr. This type of line item can only be created by the Commerce Cloud
-     *  Digital promotions engine when applying a BonusChoiceDiscount. A
-     *  BonusDiscountLineItem is basically a placeholder in the cart which entitles a
-     *  customer to add one or more bonus products to his basket from a configured
-     *  list of products. Merchants typically display this type of line item in the
-     *  cart by showing the corresponding promotion callout message. They typically
-     *  provide links to the bonus products that the customer can choose from. This
-     *  line item can be removed from the cart but will be re-added each time the
-     *  promotions engine re-applies discounts. Merchants may however add custom
-     *  logic to show/hide this line item since it just a placeholder and not an
-     *  actual product line item.
+     * Line item representing an applied <a href="class_dw_campaign_BonusChoiceDiscount.html">BonusChoiceDiscount</a> in a LineItemCtnr. This type of line item
+     *  can only be created by the B2C Commerce promotions engine when applying a BonusChoiceDiscount.
+     *  A BonusDiscountLineItem is basically a placeholder in the cart which entitles a customer to add one or more bonus
+     *  products to his basket from a configured list of products. Merchants typically display this type of line item in the
+     *  cart by showing the corresponding promotion callout message. They typically provide links to the bonus products that
+     *  the customer can choose from. This line item can be removed from the cart but will be re-added each time the
+     *  promotions engine re-applies discounts. Merchants may however add custom logic to show/hide this line item since it
+     *  just a placeholder and not an actual product line item.
      *  <p>
-     *  The number of products that a customer is allowed to choose from is
-     *  determined by <a href="class_dw_order_BonusDiscountLineItem.html#dw_order_BonusDiscountLineItem_getMaxBonusItems_DetailAnchor">getMaxBonusItems()</a>. The collection of products the
-     *  customer can choose from is determined by <a href="class_dw_order_BonusDiscountLineItem.html#dw_order_BonusDiscountLineItem_getBonusProducts_DetailAnchor">getBonusProducts()</a>. When a
-     *  customer chooses a bonus product in the storefront, it is necessary to use
-     *  the <code>AddBonusProductToBasket</code> pipelet instead of the usual
-     *  <code>AddProductToBasket</code> pipelet, in order to associate this
-     *  BonusDiscountLineItem with the newly created bonus ProductLineItem.
-     *  Alternatively, the API method
+     *  The number of products that a customer is allowed to choose from is determined by <a href="class_dw_order_BonusDiscountLineItem.html#dw_order_BonusDiscountLineItem_getMaxBonusItems_DetailAnchor">getMaxBonusItems()</a>. The
+     *  collection of products the customer can choose from is determined by <a href="class_dw_order_BonusDiscountLineItem.html#dw_order_BonusDiscountLineItem_getBonusProducts_DetailAnchor">getBonusProducts()</a>. When a customer
+     *  chooses a bonus product in the storefront, it is necessary to use the <code>AddBonusProductToBasket</code> pipelet
+     *  instead of the usual <code>AddProductToBasket</code> pipelet, in order to associate this BonusDiscountLineItem with
+     *  the newly created bonus ProductLineItem. Alternatively, the API method
      *  <a href="class_dw_order_LineItemCtnr.html#dw_order_LineItemCtnr_createBonusProductLineItem_BonusDiscountLineItem_Product_ProductOptionModel_Shipment_DetailAnchor">LineItemCtnr.createBonusProductLineItem(BonusDiscountLineItem, Product, ProductOptionModel, Shipment)</a>
-     *  can be used instead. The system does proper validations in order to prevent
-     *  incorrect or too many bonus products from being associated with this
-     *  BonusDiscountLineItem. Once a customer has selected bonus products, the
-     *  product line items representing the chosen bonus products can be retrieved
-     *  with <a href="class_dw_order_BonusDiscountLineItem.html#dw_order_BonusDiscountLineItem_getBonusProductLineItems_DetailAnchor">getBonusProductLineItems()</a>.</p>
+     *  can be used instead. The system does proper validations in order to prevent incorrect or too many bonus products from
+     *  being associated with this BonusDiscountLineItem. Once a customer has selected bonus products, the product line items
+     *  representing the chosen bonus products can be retrieved with <a href="class_dw_order_BonusDiscountLineItem.html#dw_order_BonusDiscountLineItem_getBonusProductLineItems_DetailAnchor">getBonusProductLineItems()</a>.</p>
      */
     class BonusDiscountLineItem extends dw.object
       .ExtensibleObject<BonusDiscountLineItemCustomAttributes> {
@@ -31813,9 +32749,8 @@ declare namespace dw {
        */
       readonly applied: boolean;
       /**
-       * Returns true the line item represents a coupon of a Commerce Cloud Digital
-       *  campaign. If the coupon line item represents a custom coupon code,
-       *  the method returns false.
+       * Returns true if the line item represents a coupon of a campaign. If the coupon line item represents a custom
+       *  coupon code, the method returns false.
        */
       readonly basedOnCampaign: boolean;
       /**
@@ -31857,9 +32792,8 @@ declare namespace dw {
       private constructor();
 
       /**
-       * Associates the specified price adjustment with the coupon line item.
-       *  This method is only applicable if used for price adjustments and
-       *  coupon line items NOT based on Commerce Cloud Digital campaigns.
+       * Associates the specified price adjustment with the coupon line item. This method is only applicable if used for
+       *  price adjustments and coupon line items NOT based on B2C Commerce campaigns.
        * @param priceAdjustment Price adjustment to be associated with coupon line item.
        */
       associatePriceAdjustment(priceAdjustment: dw.order.PriceAdjustment): void;
@@ -31911,9 +32845,8 @@ declare namespace dw {
        */
       isApplied(): boolean;
       /**
-       * Returns true the line item represents a coupon of a Commerce Cloud Digital
-       *  campaign. If the coupon line item represents a custom coupon code,
-       *  the method returns false.
+       * Returns true if the line item represents a coupon of a campaign. If the coupon line item represents a custom
+       *  coupon code, the method returns false.
        *
        */
       isBasedOnCampaign(): boolean;
@@ -33568,9 +34501,9 @@ declare namespace dw {
       /**
        * Creates a new CouponLineItem for this container based on the supplied coupon code.
        *
-       *  The created coupon line item is based on the Commerce Cloud Digital campaign system if campaignBased parameter is
-       *  true. In that case, if the supplied coupon code is not valid, APIException with type
-       *  'CreateCouponLineItemException' is thrown.
+       *  The created coupon line item is based on the B2C Commerce campaign system if campaignBased parameter is true. In
+       *  that case, if the supplied coupon code is not valid, APIException with type 'CreateCouponLineItemException' is
+       *  thrown.
        *
        *  If you want to create a custom coupon line item, you must call this method with campaignBased = false or to use
        *  createCouponLineItem(String).
@@ -33589,9 +34522,9 @@ declare namespace dw {
        *
        *
        *  An dw.order.CreateCouponLineItemException is thrown in case of campaignBased = true only. Indicates that the
-       *  provided coupon code is not a valid coupon code to create a coupon line item based on the Commerce Cloud Digital
-       *  campaign system. The error code property (CreateCouponLineItemException.errorCode) will be set to one of the
-       *  following values:
+       *  provided coupon code is not a valid coupon code to create a coupon line item based on the B2C Commerce campaign
+       *  system. The error code property (CreateCouponLineItemException.errorCode) will be set to one of the following
+       *  values:
        *
        *  CouponStatusCodes.COUPON_CODE_ALREADY_IN_BASKET = Indicates that coupon code has already
        *  been added to basket.
@@ -33611,7 +34544,7 @@ declare namespace dw {
        *  CouponStatusCodes.NO_ACTIVE_PROMOTION = Indicates that coupon is not assigned to an
        *  active promotion.
        * @param couponCode the coupon code to be represented by the coupon line item
-       * @param campaignBased the flag if the created coupon line item should be based on the Commerce Cloud Digital campaign system
+       * @param campaignBased the flag if the created coupon line item should be based on the B2C Commerce campaign system
        * @return the created coupon line item
        */
       createCouponLineItem(
@@ -33619,13 +34552,13 @@ declare namespace dw {
         campaignBased: boolean
       ): dw.order.CouponLineItem;
       /**
-       * Creates a coupon line item that is not based on the Commerce Cloud Digital campaign system and associates it with
-       *  the specified coupon code.
+       * Creates a coupon line item that is not based on the B2C Commerce campaign system and associates it with the
+       *  specified coupon code.
        *
        *  There may not be any other coupon line item in the container with the specific coupon code, otherwise an
        *  exception is thrown.
        *
-       *  If you want to create a coupon line item based on the Commerce Cloud Digital campaign system, you must use
+       *  If you want to create a coupon line item based on the B2C Commerce campaign system, you must use
        *  createCouponLineItem(String, Boolean) with campaignBased = true.
        * @param couponCode couponCode represented by the coupon line item.
        * @return New coupon line item.
@@ -33678,16 +34611,16 @@ declare namespace dw {
       ): dw.order.OrderPaymentInstrument;
       /**
        * Creates an order price adjustment.
-       *  The promotion id is mandatory and must not be the ID of any actual promotion defined in Commerce Cloud Digital;
-       *  otherwise an exception is thrown.
+       *  The promotion id is mandatory and must not be the ID of any actual promotion defined in B2C Commerce; otherwise
+       *  an exception is thrown.
        * @param promotionID Promotion ID
        * @return The new price adjustment
        */
       createPriceAdjustment(promotionID: string): dw.order.PriceAdjustment;
       /**
        * Creates an order level price adjustment for a specific discount.
-       *  The promotion id is mandatory and must not be the ID of any actual promotion defined in Commerce Cloud Digital;
-       *  otherwise an exception is thrown.
+       *  The promotion id is mandatory and must not be the ID of any actual promotion defined in B2C Commerce; otherwise
+       *  an exception is thrown.
        *  The possible discount types are supported: PercentageDiscount and
        *  AmountDiscount.
        *  Examples:
@@ -33794,8 +34727,8 @@ declare namespace dw {
       createShipment(id: string): dw.order.Shipment;
       /**
        * Creates a shipping price adjustment to be applied to the container.
-       *  The promotion ID is mandatory and must not be the ID of any actual promotion defined in Commerce Cloud Digital;
-       *  otherwise the method will throw an exception.
+       *  The promotion ID is mandatory and must not be the ID of any actual promotion defined in B2C Commerce; otherwise
+       *  the method will throw an exception.
        *  If there already exists a shipping price adjustment referring to the specified promotion ID, an exception is
        *  thrown.
        * @param promotionID Promotion ID
@@ -36484,6 +37417,8 @@ declare namespace dw {
      *  <li>For storefront use cases, especially when passing the order reference to a third party, use the
      *  order token for security by using <a href="class_dw_order_OrderMgr.html#dw_order_OrderMgr_getOrder_String_String_DetailAnchor">getOrder(String, String)</a>.</li>
      *  </ul>
+     *  When implementing order history functionality, don&apos;t use the search or query methods in this class. Instead, use
+     *  <a href="class_dw_customer_OrderHistory.html#dw_customer_OrderHistory_getOrders_String_String_Object_DetailAnchor">OrderHistory.getOrders(String, String, Object...)</a>.
      *  <p></p>
      */
     class OrderMgr {
@@ -36568,6 +37503,14 @@ declare namespace dw {
        *  index. See OrderMgr.
        *
        *
+       *  Please note that this method might result in an order with a different customer ID than the originating
+       *  registered customer attached to the session. This happens if a registered customer logs in with the "RememberMe"
+       *  flag set to true, but is later logged out (either explicitly, or automatically via session
+       *  expiration) before calling this method. This is due to the internal order creation logic, which creates a new
+       *  guest customer and attaches it to the order in such cases. To avoid this situation, have your custom code verify
+       *  that the customer is authenticated before it calls this method.
+       *
+       *
        *  Usage:
        *
        *
@@ -36586,17 +37529,18 @@ declare namespace dw {
        */
       static createOrder(basket: dw.order.Basket): dw.order.Order;
       /**
-       * This method functions the same as createOrder(Basket), but allows the optional specification of an
-       *  orderNo. The orderNo must be unique within the context of a site.
+       * This method functions the same as createOrder(Basket), but allows the optional specification of
+       *  an orderNo. The orderNo must be unique within the context of a site.
        *
        *
-       *  If the orderNo is not specified, the behavior is the same as that of createOrder(Basket).
-       *  In that case, the system generates an order number via hook OrderHooks.createOrderNo(). If
-       *  no hook is registered for the endpoint, the number is generated by calling createOrderSequenceNo(). The
-       *  format of the number is based on the Order Number scheme defined in the Sequence Numbers preference configured
-       *  for the site or organization. The number is guaranteed to be unique, but is not guaranteed to be sequential. It
-       *  can be higher or lower than a previously created number. As a result, sorting orders by order number is not
-       *  guaranteed to sort them in their order of creation.
+       *  If the orderNo is not specified, the behavior is the same as that of
+       *  createOrder(Basket). In that case, the system generates an order number via hook
+       *  OrderHooks.createOrderNo(). If no hook is registered for the endpoint, the number is
+       *  generated by calling createOrderSequenceNo(). The format of the number is based on the Order Number
+       *  scheme defined in the Sequence Numbers preference configured for the site or organization. The number is
+       *  guaranteed to be unique, but is not guaranteed to be sequential. It can be higher or lower than a previously
+       *  created number. As a result, sorting orders by order number is not guaranteed to sort them in their order of
+       *  creation.
        *
        *
        *  This method must not be used with the ReserveInventoryForOrder pipelet or
@@ -36605,6 +37549,14 @@ declare namespace dw {
        *
        *  When an order is created, search results don't include it until the next asynchronous update of the order search
        *  index. See OrderMgr.
+       *
+       *
+       *  Please note that this method might result in an order with a different customer ID than the originating
+       *  registered customer attached to the session. This happens if a registered customer logs in with the "RememberMe"
+       *  flag set to true, but is later logged out (either explicitly, or automatically via session
+       *  expiration) before calling this method. This is due to the internal order creation logic, which creates a new
+       *  guest customer and attaches it to the order in such cases. To avoid this situation, have your custom code verify
+       *  that the customer is authenticated before it calls this method.
        *
        *
        *  Usage:
@@ -36712,12 +37664,11 @@ declare namespace dw {
        *
        *
        *  A basket can only be reopened if no other basket for the customer exists at the moment of the call to
-       *  failOrder since a customer is limited to 1 storefront basket at a time. If, after
-       *  order creation, a call was made to BasketMgr.getCurrentOrNewBasket() or pipelet GetBasket with parameter
-       *  Create=true, a new basket has been created, and failOrder cannot
-       *  reopen the basket the order was created with. If a basket is reopened, it always
-       *  masks sensitive information (e.g., credit card number), because during order creation, basket payment
-       *  information is permanently masked.
+       *  failOrder, since a customer is limited to 1 storefront basket at a time. If, after order creation, a
+       *  call was made to BasketMgr.getCurrentOrNewBasket() or pipelet GetBasket with parameter Create=true, then
+       *  a new basket has been created, and failOrder cannot reopen the basket the order was created with. If
+       *  a basket is reopened, it always masks sensitive information (e.g., credit card number), because during order
+       *  creation, basket payment information is permanently masked.
        * @param order the order to be placed
        * @param reopenBasketIfPossible reopen the basket if it still exists and limit for number of baskets is not reached
        * @return Status 'OK' or 'ERROR' with an error message. Status detail basket contains the reopened basket, if it has been reopened successfully.
@@ -36900,7 +37851,8 @@ declare namespace dw {
        *
        *
        *  The search can be configured using a simple query language, which provides most common filter and operator
-       *  functionality.
+       *  functionality. When implementing order history functionality, don't use the search or query methods in this
+       *  class. Instead, use OrderHistory.getOrders(String, String, Object...).
        *
        *
        *  The identifier for an attribute to use in a query condition is always the ID of the attribute as defined
@@ -37004,7 +37956,9 @@ declare namespace dw {
        *
        *
        *  The search can be configured with a map, which converts key-value pairs into a query expression. The key-value
-       *  pairs are turned into a sequence of '=' or 'like' conditions, which are combined with AND statements.
+       *  pairs are turned into a sequence of '=' or 'like' conditions, which are combined with AND statements. When
+       *  implementing order history functionality, don't use the search or query methods in this class. Instead, use
+       *  OrderHistory.getOrders(String, String, Object...).
        *
        *
        *  Example:
@@ -37176,7 +38130,8 @@ declare namespace dw {
        *
        *
        *  The search can be configured using a simple query language, which provides most common filter and operator
-       *  functionality.
+       *  functionality. When implementing order history functionality, don't use the search or query methods in this
+       *  class. Instead, use OrderHistory.getOrders(String, String, Object...).
        *
        *
        *  The identifier for an attribute to use in a query condition is always the ID of the attribute as defined
@@ -38899,13 +39854,11 @@ declare namespace dw {
     }
 
     /**
-     * A PaymentProcessor represents an entity that processes payments of one or
-     *  more types. In the Commerce Cloud Digital system, a payment processor is just a container
-     *  for configuration values, which describe, for example, the parameters (URL,
+     * A PaymentProcessor represents an entity that processes payments of one or more types. In the B2C Commerce system, a
+     *  payment processor is just a container for configuration values, which describe, for example, the parameters (URL,
      *  merchant ID, password, etc) required for connecting to a payment gateway.
      *  <p>
      *  The system has several built in PaymentProcessors. These are:
-     *
      *  </p><ul>
      *  <li>BASIC_CREDIT</li>
      *  <li>BASIC_GIFT_CERTIFICATE</li>
@@ -38915,28 +39868,21 @@ declare namespace dw {
      *  <li>PAYPAL_EXPRESS</li>
      *  <li>VERISIGN_CREDIT</li>
      *  </ul>
-     *
-     *  The first two of these are merely placeholders with no associated preference
-     *  values. The remaining system payment processors define preference values
-     *  which are maintained in the Business Manager and are used in conjunction with
-     *  built-in Commerce Cloud Digital payment integrations. Preferences of system
-     *  PaymentProcessors are not intended to be read programmatically.
+     *  The first two of these are merely placeholders with no associated preference values. The remaining system payment
+     *  processors define preference values which are maintained in the Business Manager and are used in conjunction with
+     *  built-in B2C Commerce payment integrations. Preferences of system PaymentProcessors are not intended to be read
+     *  programmatically.
      *  <p>
-     *  Merchants may also define custom payment processors. This is done by defining
-     *  a payment processor with an arbitrary ID in the Business Manager, and then
-     *  configuring an attribute group with the same ID on the
-     *  <a href="class_dw_system_SitePreferences.html">SitePreferences</a> system object. Attributes added to the
-     *  group will be considered preferences of the payment processor and will be
-     *  readable through <a href="class_dw_order_PaymentProcessor.html#dw_order_PaymentProcessor_getPreferenceValue_String_DetailAnchor">getPreferenceValue(String)</a>. Merchants can design
-     *  their checkout process to read these preferences at run time for connecting
-     *  to their payment gateways.
+     *  Merchants may also define custom payment processors. This is done by defining a payment processor with an arbitrary
+     *  ID in the Business Manager, and then configuring an attribute group with the same ID on the
+     *  <a href="class_dw_system_SitePreferences.html">SitePreferences</a> system object. Attributes added to the group will be considered preferences of the
+     *  payment processor and will be readable through <a href="class_dw_order_PaymentProcessor.html#dw_order_PaymentProcessor_getPreferenceValue_String_DetailAnchor">getPreferenceValue(String)</a>. Merchants can design their
+     *  checkout process to read these preferences at run time for connecting to their payment gateways.
      *  </p><p>
-     *  Every <a href="class_dw_order_PaymentMethod.html">PaymentMethod</a> in the system is associated with at most
-     *  one PaymentProcessor. This basically represents the physical payment gateway
-     *  which processes the (logical) payment method. Each payment processor may be
-     *  associated with an arbitrary number of payment methods. Also, each payment
-     *  transaction has one PaymentProcessor which is set by custom code during the
-     *  checkout process.</p>
+     *  Every <a href="class_dw_order_PaymentMethod.html">PaymentMethod</a> in the system is associated with at most one PaymentProcessor. This basically
+     *  represents the physical payment gateway which processes the (logical) payment method. Each payment processor may be
+     *  associated with an arbitrary number of payment methods. Also, each payment transaction has one PaymentProcessor which
+     *  is set by custom code during the checkout process.</p>
      */
     class PaymentProcessor extends dw.object
       .ExtensibleObject<PaymentProcessorCustomAttributes> {
@@ -39094,29 +40040,23 @@ declare namespace dw {
     }
 
     /**
-     * The PriceAdjustment class represents an adjustment to the price of an order.
-     *  A PriceAdjustment can apply to a ProductLineItem, ShippingLineItem,
-     *  ProductShippingLineItem, or a LineItemCtnr, and are generally categorized as
-     *  product-level, shipping-level, or order-level. PriceAdjustments are generated
-     *  by the Commerce Cloud Digital promotions engine when applying discounts. See
-     *  <a href="class_dw_campaign_PromotionMgr.html#dw_campaign_PromotionMgr_applyDiscounts_DiscountPlan_DetailAnchor">PromotionMgr.applyDiscounts(DiscountPlan)</a>.
-     *  They may also be generated by custom code through the API. See for example
-     *  <a href="class_dw_order_ProductLineItem.html#dw_order_ProductLineItem_createPriceAdjustment_String_DetailAnchor">ProductLineItem.createPriceAdjustment(String)</a>. In the latter
-     *  case, the PriceAdjustment is called &quot;custom&quot;; in the former case, it is
-     *  called &quot;system&quot;. System price adjustments are associated with the promotion
-     *  that triggered their creation. If the promotion was coupon-based, then the
-     *  price adjustment will additionally be associated with a coupon line item in
-     *  the LineItemCtnr.
+     * The PriceAdjustment class represents an adjustment to the price of an order. A PriceAdjustment can apply to a
+     *  ProductLineItem, ShippingLineItem, ProductShippingLineItem, or a LineItemCtnr, and are generally categorized as
+     *  product-level, shipping-level, or order-level. PriceAdjustments are generated by the B2C Commerce promotions engine
+     *  when applying discounts. See <a href="class_dw_campaign_PromotionMgr.html#dw_campaign_PromotionMgr_applyDiscounts_DiscountPlan_DetailAnchor">PromotionMgr.applyDiscounts(DiscountPlan)</a>. They may also be
+     *  generated by custom code through the API. See for example
+     *  <a href="class_dw_order_ProductLineItem.html#dw_order_ProductLineItem_createPriceAdjustment_String_DetailAnchor">ProductLineItem.createPriceAdjustment(String)</a>. In the latter case, the PriceAdjustment is called
+     *  &quot;custom&quot;; in the former case, it is called &quot;system&quot;. System price adjustments are associated with the promotion that
+     *  triggered their creation. If the promotion was coupon-based, then the price adjustment will additionally be
+     *  associated with a coupon line item in the LineItemCtnr.
      */
     class PriceAdjustment extends dw.order.LineItem {
       /**
-       * The Commerce Cloud Digital AB-test this price adjustment is associated with.
-       *  The associated AB-test is determined from the ABTestID attribute which is
-       *  set by the promotions engine when applying discounts.
+       * The B2C Commerce AB-test this price adjustment is associated with. The associated AB-test is determined
+       *  from the ABTestID attribute which is set by the promotions engine when applying discounts.
        *
-       *  If the AB-test has been removed from the system since this price
-       *  adjustment was created, this method returns null. This method always
-       *  returns null for custom price adjustments.
+       *  If the AB-test has been removed from the system since this price adjustment was created, this method returns
+       *  null. This method always returns null for custom price adjustments.
        */
       readonly ABTest: dw.campaign.ABTest;
       /**
@@ -39124,14 +40064,11 @@ declare namespace dw {
        */
       readonly ABTestID: string;
       /**
-       * The Commerce Cloud Digital AB-test segment this price adjustment is
-       *  associated with. The associated AB-test segment is determined from the
-       *  ABTestSegmentID attribute which is set by the promotions engine when
-       *  applying discounts.
+       * The B2C Commerce AB-test segment this price adjustment is associated with. The associated AB-test segment
+       *  is determined from the ABTestSegmentID attribute which is set by the promotions engine when applying discounts.
        *
-       *  If the AB-test, or this segment, has been removed from the system since
-       *  this price adjustment was created, this method returns null. This method
-       *  always returns null for custom price adjustments.
+       *  If the AB-test, or this segment, has been removed from the system since this price adjustment was created, this
+       *  method returns null. This method always returns null for custom price adjustments.
        */
       readonly ABTestSegment: dw.campaign.ABTestSegment;
       /**
@@ -39159,14 +40096,13 @@ declare namespace dw {
        */
       readonly appliedDiscount: dw.campaign.Discount;
       /**
-       * Returns true if the price adjustment was generated by the Commerce Cloud Digital
-       *  promotions engine when applying a promotion assigned to an AB-test.
+       * Returns true if the price adjustment was generated by the B2C Commerce promotions engine when applying a
+       *  promotion assigned to an AB-test.
        */
       readonly basedOnABTest: boolean;
       /**
-       * Returns true if the price adjustment was generated by the Commerce Cloud Digital
-       *  promotions engine when applying a promotion assigned to a Campaign or an
-       *  AB-test.
+       * Returns true if the price adjustment was generated by the B2C Commerce promotions engine when applying a
+       *  promotion assigned to a Campaign or an AB-test.
        */
       readonly basedOnCampaign: boolean;
       /**
@@ -39174,27 +40110,22 @@ declare namespace dw {
        */
       readonly basedOnCoupon: boolean;
       /**
-       * The Commerce Cloud Digital campaign this price adjustment is associated with.
-       *  The associated campaign is determined from the campaignID attribute which
-       *  is set by the promotions engine when applying discounts.
+       * The B2C Commerce campaign this price adjustment is associated with. The associated campaign is determined
+       *  from the campaignID attribute which is set by the promotions engine when applying discounts.
        *
-       *  If the campaign has been removed from the system since this price
-       *  adjustment was created, this method returns null. This method always
-       *  returns null for custom price adjustments.
+       *  If the campaign has been removed from the system since this price adjustment was created, this method returns
+       *  null. This method always returns null for custom price adjustments.
        *
-       *  Note: If the price adjustment was generated by a Commerce Cloud Digital promotion as
-       *  part of an AB-test, then a Campaign object will be returned, but it is a
-       *  mock implementation, and not a true Campaign. This behavior is required
-       *  for backwards compatibility and should not be relied upon as it may
-       *  change in future releases.
+       *  Note: If the price adjustment was generated by a B2C Commerce promotion as part of an AB-test, then a Campaign
+       *  object will be returned, but it is a mock implementation, and not a true Campaign. This behavior is required for
+       *  backwards compatibility and should not be relied upon as it may change in future releases.
        */
       readonly campaign: dw.campaign.Campaign;
       /**
        * The ID of the campaign the price adjustment was based on.
        *
-       *  Note:If the price adjustment was generated by a Commerce Cloud Digital promotion as
-       *  part of an AB-test, then an ID will be returned but it is not the ID of a
-       *  true campaign. This behavior is required for backwards compatibility and
+       *  Note:If the price adjustment was generated by a B2C Commerce promotion as part of an AB-test, then an ID will be
+       *  returned but it is not the ID of a true campaign. This behavior is required for backwards compatibility and
        *  should not be relied upon as it may change in future releases.
        */
       readonly campaignID: string;
@@ -39321,15 +40252,13 @@ declare namespace dw {
       private constructor();
 
       /**
-       * Returns the Commerce Cloud Digital AB-test this price adjustment is associated with.
-       *  The associated AB-test is determined from the ABTestID attribute which is
-       *  set by the promotions engine when applying discounts.
+       * Returns the B2C Commerce AB-test this price adjustment is associated with. The associated AB-test is determined
+       *  from the ABTestID attribute which is set by the promotions engine when applying discounts.
        *
-       *  If the AB-test has been removed from the system since this price
-       *  adjustment was created, this method returns null. This method always
-       *  returns null for custom price adjustments.
+       *  If the AB-test has been removed from the system since this price adjustment was created, this method returns
+       *  null. This method always returns null for custom price adjustments.
        *
-       * @return the Commerce Cloud Digital AB-test the price adjustment was based on, or null if it was not based on an AB-test.
+       * @return the B2C Commerce AB-test the price adjustment was based on, or null if it was not based on an AB-test.
        */
       getABTest(): dw.campaign.ABTest;
       /**
@@ -39339,16 +40268,13 @@ declare namespace dw {
        */
       getABTestID(): string;
       /**
-       * Returns the Commerce Cloud Digital AB-test segment this price adjustment is
-       *  associated with. The associated AB-test segment is determined from the
-       *  ABTestSegmentID attribute which is set by the promotions engine when
-       *  applying discounts.
+       * Returns the B2C Commerce AB-test segment this price adjustment is associated with. The associated AB-test segment
+       *  is determined from the ABTestSegmentID attribute which is set by the promotions engine when applying discounts.
        *
-       *  If the AB-test, or this segment, has been removed from the system since
-       *  this price adjustment was created, this method returns null. This method
-       *  always returns null for custom price adjustments.
+       *  If the AB-test, or this segment, has been removed from the system since this price adjustment was created, this
+       *  method returns null. This method always returns null for custom price adjustments.
        *
-       * @return the Commerce Cloud Digital AB-test segment the price adjustment was based on, or null if it was not based on an AB-test.
+       * @return the B2C Commerce AB-test segment the price adjustment was based on, or null if it was not based on an AB-test.
        */
       getABTestSegment(): dw.campaign.ABTestSegment;
       /**
@@ -39380,32 +40306,27 @@ declare namespace dw {
        */
       getAppliedDiscount(): dw.campaign.Discount;
       /**
-       * Returns the Commerce Cloud Digital campaign this price adjustment is associated with.
-       *  The associated campaign is determined from the campaignID attribute which
-       *  is set by the promotions engine when applying discounts.
+       * Returns the B2C Commerce campaign this price adjustment is associated with. The associated campaign is determined
+       *  from the campaignID attribute which is set by the promotions engine when applying discounts.
        *
-       *  If the campaign has been removed from the system since this price
-       *  adjustment was created, this method returns null. This method always
-       *  returns null for custom price adjustments.
+       *  If the campaign has been removed from the system since this price adjustment was created, this method returns
+       *  null. This method always returns null for custom price adjustments.
        *
-       *  Note: If the price adjustment was generated by a Commerce Cloud Digital promotion as
-       *  part of an AB-test, then a Campaign object will be returned, but it is a
-       *  mock implementation, and not a true Campaign. This behavior is required
-       *  for backwards compatibility and should not be relied upon as it may
-       *  change in future releases.
+       *  Note: If the price adjustment was generated by a B2C Commerce promotion as part of an AB-test, then a Campaign
+       *  object will be returned, but it is a mock implementation, and not a true Campaign. This behavior is required for
+       *  backwards compatibility and should not be relied upon as it may change in future releases.
        *
-       * @return the Commerce Cloud Digital campaign the price adjustment was based on, or null if it was not based on a campaign.
+       * @return the B2C Commerce campaign the price adjustment was based on, or null if it was not based on a campaign.
        */
       getCampaign(): dw.campaign.Campaign;
       /**
        * Returns the ID of the campaign the price adjustment was based on.
        *
-       *  Note:If the price adjustment was generated by a Commerce Cloud Digital promotion as
-       *  part of an AB-test, then an ID will be returned but it is not the ID of a
-       *  true campaign. This behavior is required for backwards compatibility and
+       *  Note:If the price adjustment was generated by a B2C Commerce promotion as part of an AB-test, then an ID will be
+       *  returned but it is not the ID of a true campaign. This behavior is required for backwards compatibility and
        *  should not be relied upon as it may change in future releases.
        *
-       * @return the ID of the Commerce Cloud Digital campaign the price adjustment was based on, or null if it was not based on a campaign.
+       * @return the ID of the B2C Commerce campaign the price adjustment was based on, or null if it was not based on a campaign.
        */
       getCampaignID(): string;
       /**
@@ -39529,18 +40450,17 @@ declare namespace dw {
        */
       getReasonCode(): dw.value.EnumValue;
       /**
-       * Returns true if the price adjustment was generated by the Commerce Cloud Digital
-       *  promotions engine when applying a promotion assigned to an AB-test.
+       * Returns true if the price adjustment was generated by the B2C Commerce promotions engine when applying a
+       *  promotion assigned to an AB-test.
        *
-       * @return true if the price adjustment was generated by the Commerce Cloud Digital promotions engine when applying a promotion assigned to an AB-test, false otherwise.
+       * @return true if the price adjustment was generated by the B2C Commerce promotions engine when applying a promotion assigned to an AB-test, false otherwise.
        */
       isBasedOnABTest(): boolean;
       /**
-       * Returns true if the price adjustment was generated by the Commerce Cloud Digital
-       *  promotions engine when applying a promotion assigned to a Campaign or an
-       *  AB-test.
+       * Returns true if the price adjustment was generated by the B2C Commerce promotions engine when applying a
+       *  promotion assigned to a Campaign or an AB-test.
        *
-       * @return true if the price adjustment was generated by the Commerce Cloud Digital promotions engine, false otherwise.
+       * @return true if the price adjustment was generated by the B2C Commerce promotions engine, false otherwise.
        */
       isBasedOnCampaign(): boolean;
       /**
@@ -39552,7 +40472,7 @@ declare namespace dw {
       /**
        * Returns true if this PriceAdjustment was created by custom script code.
        *
-       * @return true if this PriceAdjustment was created by custom script code, or false if it was created by Commerce Cloud Digital promotions engine.
+       * @return true if this PriceAdjustment was created by custom script code, or false if it was created by B2C Commerce promotions engine.
        */
       isCustom(): boolean;
       /**
@@ -39910,8 +40830,8 @@ declare namespace dw {
        * Creates a product price adjustment.
        *
        *  The price adjustment line item is being initialized with the tax class code and tax rate of the product line
-       *  item. The promotion ID is mandatory and must not be the ID of any actual promotion defined in Commerce Cloud
-       *  Digital. If there already exists a price adjustment for the same promotionID, an exception is thrown.
+       *  item. The promotion ID is mandatory and must not be the ID of any actual promotion defined in B2C Commerce. If
+       *  there already exists a price adjustment for the same promotionID, an exception is thrown.
        * @param promotionID Promotion ID
        * @return The new price adjustment
        */
@@ -39920,8 +40840,8 @@ declare namespace dw {
        * Creates a product price adjustment representing a specific discount. The price adjustment line item is
        *  initialized with the tax class code and tax rate of the product line item.
        *
-       *  The promotion ID is mandatory and must not be the ID of any actual promotion defined in Commerce Cloud Digital.
-       *  If a price adjustment already exists for the same promotionID, an exception is thrown.
+       *  The promotion ID is mandatory and must not be the ID of any actual promotion defined in B2C Commerce. If a price
+       *  adjustment already exists for the same promotionID, an exception is thrown.
        *
        *
        *  The possible discounts are FixedPriceDiscount, AmountDiscount,
@@ -42444,14 +43364,10 @@ declare namespace dw {
       private constructor();
 
       /**
-       * Creates a shipping price adjustment to be applied to the shipping line
-       *  item.
-       *
-       *  The promotion ID is mandatory and must not be the ID of any actual
-       *  promotion defined in Commerce Cloud Digital.
-       *
-       *  If there already exists a shipping price adjustment on this shipping line
-       *  item referring to the specified promotion ID, an exception is thrown.
+       * Creates a shipping price adjustment to be applied to the shipping line item.
+       *  The promotion ID is mandatory and must not be the ID of any actual promotion defined in B2C Commerce.
+       *  If there already exists a shipping price adjustment on this shipping line item referring to the specified
+       *  promotion ID, an exception is thrown.
        * @param promotionID Promotion ID
        * @return The new price adjustment line item.
        */
@@ -42459,16 +43375,12 @@ declare namespace dw {
         promotionID: string
       ): dw.order.PriceAdjustment;
       /**
-       * Creates a shipping price adjustment to be applied to the shipping line
-       *  item.
-       *
-       *  The promotion ID is mandatory and must not be the ID of any actual
-       *  promotion defined in Commerce Cloud Digital. If a shipping price adjustment on this shipping line
-       *  item referring to the specified promotion ID already exists, an exception is thrown.
-       *
-       *  The possible values for discount are PercentageDiscount,
-       *  AmountDiscount, FixedPriceShippingDiscount.
-       *
+       * Creates a shipping price adjustment to be applied to the shipping line item.
+       *  The promotion ID is mandatory and must not be the ID of any actual promotion defined in B2C Commerce. If a
+       *  shipping price adjustment on this shipping line item referring to the specified promotion ID already exists, an
+       *  exception is thrown.
+       *  The possible values for discount are PercentageDiscount, AmountDiscount,
+       *  FixedPriceShippingDiscount.
        *  Examples:
        *
        *
@@ -45405,9 +46317,8 @@ declare namespace dw {
     }
 
     /**
-     * Represents a web service defined in a WSDL file. The implementation is backed by a JAX-RPC framework. In general,
-     *  you should use the newer dw.ws package and <a href="class_dw_ws_WebReference2.html">WebReference2</a> class for doc-style SOAP web service calls. However, if your web service WSDL
-     *  is using RPC-style calls, you must use a WebReference object instead.
+     * Represents a web service defined in a WSDL file. The implementation is backed by a JAX-RPC framework.
+     *  You should use the newer dw.ws package and <a href="class_dw_ws_WebReference2.html">WebReference2</a> class instead, which is based on JAX-WS.
      *  <p>
      *  Use the Services module in Business Manager to set timeout values, not the methods for this class.
      *  The Services module provides better analytics and timeout management.
@@ -48902,7 +49813,7 @@ declare namespace dw {
     }
 
     /**
-     * Represents a session in Commerce Cloud Digital. The session has some well-defined
+     * Represents a session in B2C Commerce. The session has some well-defined
      *  attributes like the current authenticated customer or the click stream, but also
      *  supports storing custom values in the session.
      *
@@ -48910,7 +49821,7 @@ declare namespace dw {
      *  <ul>
      *  <li>
      *  A session is created in Digital on the first user click. This is guaranteed even if
-     *  Commerce Cloud Digital caches the HTML pages. It is not guaranteed when the pages are cached by a CDN.
+     *  B2C Commerce caches the HTML pages. It is not guaranteed when the pages are cached by a CDN.
      *  </li>
      *  <li>
      *  A session is identified with a unique ID, called the session ID.
@@ -48931,13 +49842,11 @@ declare namespace dw {
      *  loads the session data from the persistent storage.
      *  </li>
      *  <li>
-     *  There are two timeouts: a soft one when the session is not used anymore, and a
-     *  hard one, which renders a session ID invalid if it is too old, regardless of whether
-     *  it is still used. The soft timeout takes care of automatic logout and clearing
-     *  all privacy data, but it is still possible to use the session ID to re-open
-     *  the session. The hard timeout prevents a session from being reopened
-     *  after a certain time. For example, if the session ID is accidentally pasted into a URL after
-     *  the hard timeout, it will not reopen the session.
+     *  There are two session timeouts. A soft timeout occurs 30 minutes after the last request has been made.
+     *  The soft timeout logs out and clears all privacy data, but it is still possible to use the session ID
+     *  to reopen the session. A hard timeout renders a session ID invalid after six hours, even if the session
+     *  is still in use. The hard timeout prevents a session from being reopened. For example, if the session ID
+     *  is pasted into a URL after the hard timeout, the session doesn&apos;t reopen.
      *  </li>
      *  </ul>
      *
@@ -48947,14 +49856,14 @@ declare namespace dw {
      *  All primitive types (boolean, number, string, Number, String, Boolean, Date) are supported.
      *  </li>
      *  <li>
-     *  All Commerce Cloud Digital value types (Money, Quantity, Decimal, Calendar) are supported.
+     *  All B2C Commerce value types (Money, Quantity, Decimal, Calendar) are supported.
      *  </li>
      *  <li>
      *  Strings are limited to 2000 characters.
      *  </li>
      *  <li>
      *  No other types can be stored in a session. In particular, persistent objects,
-     *  collections, and scripted objects cannot be stored in a session. Commerce Cloud Digital
+     *  collections, and scripted objects cannot be stored in a session. B2C Commerce
      *  will report unsupported values with a deprecation message in the log files.
      *  An unsupported value will be stored in the session, but the results are undefined.
      *  Since version compatibility mode 19.10 unsupported types will no longer be accepted,
@@ -58377,10 +59286,11 @@ declare namespace dw {
     }
 
     /**
-     * Represents a web service defined in a WSDL file. The implementation is backed by a JAX-WS framework. In general,
-     *  you should use WebReference2 instead of <a href="class_dw_rpc_WebReference.html">WebReference</a>. However, if your web service
-     *  WSDL is using RPC-style calls, you must use <a href="class_dw_rpc_WebReference.html">WebReference</a>.
+     * Represents a web service defined in a WSDL file. The implementation is backed by a JAX-WS framework.
      *  <p>
+     *  This implementation does not support <code>RPC/encoded</code> WSDLs. Such a WSDL must be migrated to a
+     *  supported encoding such as <code>Document/literal</code> to work with this API.
+     *  </p><p>
      *  To create an instance of a WebReference2, you put a web service WSDL file in the <code>webreferences2</code>
      *  directory and reference the WSDL file in a B2C Commerce Script. You then request the service <a href="class_dw_ws_Port.html">Port</a>
      *  using one the the get service methods. For example, if your WSDL file is <code>MyWSDL.wsdl</code>,
@@ -58395,6 +59305,22 @@ declare namespace dw {
      *  Note that all script classes representing your WSDL file are placed in the <code>webreferences2</code>
      *  package. To use classes in the <code>webreferences2</code> package, you do not need to use the <code>importPackage</code>
      *  statement in your B2C Commerce Script file.
+     *
+     *  <p>
+     *  The generated API may be customized via a property file named <code>&lt;WSDLFile&gt;.properties</code>.
+     *  For example, if your WSDL file is <code>MyWSDL.wsdl</code>, the property file name is <code>MyWSDL.wsdl.properties</code>.
+     *  Supported properties include:
+     *
+     *  </p><ul>
+     *  <li><code>namespace=true</code>: If the WSDL contains different types with the same name a compilation error may occur. Set this
+     *  flag to generate a namespace-aware <a href="class_dw_ws_Port.html">Port</a>, which will have classes separated into packages based on their associated
+     *  namespace. The default value is <code>false</code>.
+     *  </li><li><code>underscoreBinding=asCharInWord</code>: If you have elements in a WSDL schema that contain the underscore character,
+     *  code generation may fail. This property will resolve the problem. The default value is <code>asWordSeparator</code>.
+     *  </li><li><code>collectionType=indexed</code>: The generated API will use array types instead of List types for collections. This
+     *  results in code that is more compatible with older <code>webreferences</code>-based implementations. The default behavior is
+     *  to generate Lists.
+     *  </li></ul>
      */
     class WebReference2 {
       /**
