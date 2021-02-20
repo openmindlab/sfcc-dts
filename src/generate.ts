@@ -115,7 +115,7 @@ const standardDefinition = (element: string): boolean => {
   //   return true;
   // }
   // return false;
-  if (element === 'Iterator') {
+  if (element === 'Iterator' || element === 'Iterable') {
     return true;
   }
   // if (element === 'module') {
