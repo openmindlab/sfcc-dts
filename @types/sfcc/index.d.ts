@@ -35,14 +35,6 @@ declare const webreferences2: any;
  */
 declare const customer: dw.customer.Customer;
 /**
- * represents an error during pipelet execution
- */
-declare const PIPELET_ERROR: number;
-/**
- * represents the next pipelet to fire
- */
-declare const PIPELET_NEXT: number;
-/**
  * The current request.
  */
 declare const request: dw.system.Request;
@@ -54,29 +46,6 @@ declare const response: dw.system.Response;
  * The current session.
  */
 declare const session: dw.system.Session;
-/**
- * Provides access to the SlotContent object.  Available only in ISML
- *  templates that are defined as the Slot's template.  For example,
- *  <isprint value="${slotcontent.callout}"> will print out the callout message
- *  of the active Slot.
- */
-declare const slotcontent: any;
-/**
- * Provides access to WSDL definition files in a Cartridge's webreferences
- *  folder. For example, webreferences.mywebservice loads the
- *  mywebservice.wsdl file and returns an instance of dw.rpc.WebReference.
- *  The WebReference instance enables you to access the actual web service
- *  via the WebReference.getDefaultService() method.
- */
-declare const webreferences: any;
-/**
- * Provides access to WSDL definition files in a Cartridge's webreferences2
- *  folder. For example, webreferences2.mywebservice loads the
- *  mywebservice.wsdl file and returns an instance of dw.ws.WebReference2.
- *  The WebReference2 instance enables you to access the actual web service
- *  via the WebReference2.getDefaultService() method.
- */
-declare const webreferences2: any;
 
 /**
  * The method tests, whether the given object is empty. The interpretation
@@ -1493,18 +1462,6 @@ declare namespace dw {
        */
       readonly priority: string;
       /**
-       * String constant to denote the 'action required' priority.
-       */
-      static PRIORITY_ACTION: string;
-      /**
-       * String constant to denote the 'informational' priority.
-       */
-      static PRIORITY_INFO: string;
-      /**
-       * String constant to denote the 'warning' priority.
-       */
-      static PRIORITY_WARN: string;
-      /**
        * The URL of the page where the user can resolve the alert, as provided in the
        *  'alerts.json' descriptor file.
        */
@@ -2498,23 +2455,6 @@ declare namespace dw {
        */
       static readonly COUPON_UNKNOWN = "COUPON_UNKNOWN";
 
-      /**
-       * Indicates that the coupon has already been applied to the basket.
-       */
-      static COUPON_ALREADY_APPLIED: string;
-      /**
-       * Indicates that the coupon has already been redeemed.
-       */
-      static COUPON_ALREADY_REDEEMED: string;
-      /**
-       * Indicates that the coupon is not currently redeemable.
-       */
-      static COUPON_NOT_REDEEMABLE: string;
-      /**
-       * Indicates that the coupon code is not valid.
-       */
-      static COUPON_UNKNOWN: string;
-
       constructor();
     }
 
@@ -2594,18 +2534,6 @@ declare namespace dw {
        *  and TYPE_SYSTEM_CODES.
        */
       readonly type: string;
-      /**
-       * Constant representing coupon type multiple-codes.
-       */
-      static TYPE_MULTIPLE_CODES: string;
-      /**
-       * Constant representing coupon type single-code.
-       */
-      static TYPE_SINGLE_CODE: string;
-      /**
-       * Constant representing coupon type system-codes.
-       */
-      static TYPE_SYSTEM_CODES: string;
 
       private constructor();
 
@@ -2704,10 +2632,6 @@ declare namespace dw {
        * All coupons in the current site in no specific order.
        */
       static readonly coupons: dw.util.Collection<dw.campaign.Coupon>;
-      /**
-       * Indicates that an error occurred because a valid data domain cannot be found for given siteID.
-       */
-      static MR_ERROR_INVALID_SITE_ID: string;
 
       private constructor();
 
@@ -2851,53 +2775,6 @@ declare namespace dw {
       static readonly TIMEFRAME_REDEMPTION_LIMIT_EXCEEDED =
         "TIMEFRAME_REDEMPTION_LIMIT_EXCEEDED";
 
-      /**
-       * Coupon is currently applied in basket = Coupon code is valid for redemption and
-       *  Coupon is assigned to one or multiple applicable! promotions.
-       */
-      static APPLIED: string;
-      /**
-       * Indicates that another code of the same MultiCode/System coupon has already been added to basket.
-       */
-      static COUPON_ALREADY_IN_BASKET: string;
-      /**
-       * Indicates that coupon code has already been added to basket.
-       */
-      static COUPON_CODE_ALREADY_IN_BASKET: string;
-      /**
-       * Indicates that code of MultiCode/System coupon has already been redeemed.
-       */
-      static COUPON_CODE_ALREADY_REDEEMED: string;
-      /**
-       * Indicates that coupon not found for given coupon code or that the code itself was not found.
-       */
-      static COUPON_CODE_UNKNOWN: string;
-      /**
-       * Indicates that coupon is not enabled.
-       */
-      static COUPON_DISABLED: string;
-      /**
-       * Indicates that No. of redemptions per code & customer exceeded.
-       */
-      static CUSTOMER_REDEMPTION_LIMIT_EXCEEDED: string;
-      /**
-       * Indicates that coupon is not assigned to an active promotion.
-       */
-      static NO_ACTIVE_PROMOTION: string;
-      /**
-       * Coupon is assigned to one or multiple active promotions, but none of these promotions is currently applicable.
-       */
-      static NO_APPLICABLE_PROMOTION: string;
-      /**
-       * Indicates that no. of redemptions per code exceeded.
-       *  Usually happens for single code coupons
-       */
-      static REDEMPTION_LIMIT_EXCEEDED: string;
-      /**
-       * Indicates that No. of redemptions per code,customer & time exceeded.
-       */
-      static TIMEFRAME_REDEMPTION_LIMIT_EXCEEDED: string;
-
       private constructor();
     }
 
@@ -2982,50 +2859,6 @@ declare namespace dw {
        * The type of the discount.
        */
       readonly type: string;
-      /**
-       * Constant representing discounts of type amount.
-       */
-      static TYPE_AMOUNT: string;
-      /**
-       * Constant representing discounts of type bonus.
-       */
-      static TYPE_BONUS: string;
-      /**
-       * Constant representing discounts of type bonus choice.
-       */
-      static TYPE_BONUS_CHOICE: string;
-      /**
-       * Constant representing discounts of type fixed-price.
-       */
-      static TYPE_FIXED_PRICE: string;
-      /**
-       * Constant representing discounts of type fixed price shipping.
-       */
-      static TYPE_FIXED_PRICE_SHIPPING: string;
-      /**
-       * Constant representing discounts of type free.
-       */
-      static TYPE_FREE: string;
-      /**
-       * Constant representing discounts of type free shipping.
-       */
-      static TYPE_FREE_SHIPPING: string;
-      /**
-       * Constant representing discounts of type percentage.
-       */
-      static TYPE_PERCENTAGE: string;
-      /**
-       * Constant representing discounts of type percent off options.
-       */
-      static TYPE_PERCENTAGE_OFF_OPTIONS: string;
-      /**
-       * Constant representing discounts of type price book price.
-       */
-      static TYPE_PRICEBOOK_PRICE: string;
-      /**
-       * Constant representing discounts of type total fixed price.
-       */
-      static TYPE_TOTAL_FIXED_PRICE: string;
 
       /**
        * Returns the tier index by quantity Id of Product promotion. ProductLineItems may have more than one quantity, but
@@ -3553,18 +3386,6 @@ declare namespace dw {
        */
       readonly exclusivity: string;
       /**
-       * Constant representing promotion exclusivity of type class.
-       */
-      static EXCLUSIVITY_CLASS: string;
-      /**
-       * Constant representing promotion exclusivity of type global.
-       */
-      static EXCLUSIVITY_GLOBAL: string;
-      /**
-       * Constant representing promotion exclusivity of type no.
-       */
-      static EXCLUSIVITY_NO: string;
-      /**
        * The unique ID of the promotion.
        */
       readonly ID: string;
@@ -3586,33 +3407,11 @@ declare namespace dw {
        */
       readonly name: string;
       /**
-       * Constant representing promotion class of type order.
-       */
-      static PROMOTION_CLASS_ORDER: string;
-      /**
-       * Constant representing promotion class of type product.
-       */
-      static PROMOTION_CLASS_PRODUCT: string;
-      /**
-       * Constant representing promotion class of type shipping.
-       */
-      static PROMOTION_CLASS_SHIPPING: string;
-      /**
        * The promotion class indicating the general type of the promotion.
        *  Possible values are PROMOTION_CLASS_PRODUCT,
        *  PROMOTION_CLASS_ORDER, and PROMOTION_CLASS_SHIPPING.
        */
       readonly promotionClass: string;
-      /**
-       * Constant indicating that that all qualifier conditions must be met in
-       *  order for this promotion to apply for a given customer.
-       */
-      static QUALIFIER_MATCH_MODE_ALL: string;
-      /**
-       * Constant indicating that that at least one qualifier condition must be
-       *  met in order for this promotion to apply for a given customer.
-       */
-      static QUALIFIER_MATCH_MODE_ANY: string;
       /**
        * The qualifier matching mode specified by this promotion. A
        *  promotion may have up to 3 qualifier conditions based on whether it is
@@ -4275,23 +4074,6 @@ declare namespace dw {
        * All shipping promotions contained in this plan.
        */
       readonly shippingPromotions: dw.util.Collection<dw.campaign.Promotion>;
-      /**
-       * Constant indicating that a collection of promotions should be sorted
-       *  first by exclusivity, then rank, promotion class, etc.  See class-level
-       *  javadoc for details.  This is the default sort order for methods that
-       *  return a collection of promotions.
-       */
-      static SORT_BY_EXCLUSIVITY: number;
-      /**
-       * Constant indicating that a collection of promotions should be sorted by
-       *  start date ascending. If there is no explicit start date for a promotion
-       *  the start date of its containing Campaign or AB-test is used instead.
-       *  Promotions without a start date are sorted before promotions with a start
-       *  date in the future and after promotions with a start date in the past. In
-       *  case two promotion assignments have the same start date, they are sorted
-       *  by their ID.
-       */
-      static SORT_BY_START_DATE: number;
 
       private constructor();
 
@@ -4600,18 +4382,6 @@ declare namespace dw {
        *  STATUS_INACTIVE - The source code is found and active.
        */
       readonly status: number;
-      /**
-       * The literal source-code is found and currently active.
-       */
-      static STATUS_ACTIVE: number;
-      /**
-       * The literal source-code is found but not active.
-       */
-      static STATUS_INACTIVE: number;
-      /**
-       * The literal source-code is not found in the system.
-       */
-      static STATUS_INVALID: number;
 
       private constructor();
 
@@ -4662,17 +4432,6 @@ declare namespace dw {
        *  in any source-code group.
        */
       static readonly CODE_INVALID = "CODE_INVALID";
-
-      /**
-       * Indicates that the specified source code was found in one or more
-       *  source-code groups, none of which are active.
-       */
-      static CODE_INACTIVE: string;
-      /**
-       * Indicates that the specified source code is not contained
-       *  in any source-code group.
-       */
-      static CODE_INVALID: string;
 
       constructor();
     }
@@ -4892,14 +4651,6 @@ declare namespace dw {
        * The description of the catalog category for the current locale.
        */
       readonly description: string;
-      /**
-       * Constant representing the Variation Group Display Mode individual setting.
-       */
-      static DISPLAY_MODE_INDIVIDUAL: number;
-      /**
-       * Constant representing the Variation Group Display Mode merged setting.
-       */
-      static DISPLAY_MODE_MERGED: number;
       /**
        * The Variation Groups Display Mode of the category or null if no display mode is defined.
        */
@@ -5639,26 +5390,6 @@ declare namespace dw {
        */
       static readonly LINKTYPE_UP_SELL = 5;
 
-      /**
-       * Represents an accessory category link.
-       */
-      static LINKTYPE_ACCESSORY: number;
-      /**
-       * Represents a cross-sell category link.
-       */
-      static LINKTYPE_CROSS_SELL: number;
-      /**
-       * Represents a miscellaneous category link.
-       */
-      static LINKTYPE_OTHER: number;
-      /**
-       * Represents a spare part category link.
-       */
-      static LINKTYPE_SPARE_PART: number;
-      /**
-       * Represents an up-sell category link.
-       */
-      static LINKTYPE_UP_SELL: number;
       /**
        * The object for the relation 'sourceCategory'.
        */
@@ -8167,22 +7898,6 @@ declare namespace dw {
        */
       readonly availability: number;
       /**
-       * Indicates that the product stock has run out, but will be replenished, and is therefore available for ordering.
-       */
-      static AVAILABILITY_STATUS_BACKORDER: string;
-      /**
-       * Indicates that the product is in stock and available for ordering.
-       */
-      static AVAILABILITY_STATUS_IN_STOCK: string;
-      /**
-       * Indicates that the product is not currently available for ordering.
-       */
-      static AVAILABILITY_STATUS_NOT_AVAILABLE: string;
-      /**
-       * Indicates that the product is not yet in stock but is available for ordering.
-       */
-      static AVAILABILITY_STATUS_PREORDER: string;
-      /**
        * The availability-status for the minimum-orderable-quantity (MOQ) of
        *  the product.  The MOQ essentially represents a single orderable unit, and
        *  therefore can be represented by a single availability-status.  This
@@ -8932,38 +8647,6 @@ declare namespace dw {
        */
       static readonly LINKTYPE_UP_SELL = 3;
 
-      /**
-       * Represents an accessory product link.
-       */
-      static LINKTYPE_ACCESSORY: number;
-      /**
-       * Represents an alternative order unit product link.
-       */
-      static LINKTYPE_ALT_ORDERUNIT: number;
-      /**
-       * Represents a cross-sell product link.
-       */
-      static LINKTYPE_CROSS_SELL: number;
-      /**
-       * Represents a newer verion link.
-       */
-      static LINKTYPE_NEWER_VERSION: number;
-      /**
-       * Represents a miscellaneous product link.
-       */
-      static LINKTYPE_OTHER: number;
-      /**
-       * Represents a replacement product link.
-       */
-      static LINKTYPE_REPLACEMENT: number;
-      /**
-       * Represents a spare part product link.
-       */
-      static LINKTYPE_SPARE_PART: number;
-      /**
-       * Represents an up-sell product link.
-       */
-      static LINKTYPE_UP_SELL: number;
       /**
        * The source product for this link.
        */
@@ -10240,31 +9923,6 @@ declare namespace dw {
        */
       readonly firstRepresentedProductID: string;
       /**
-       * Constant representing a product search hit type based on the presentation product of a hit. This hit type is used with product bundles.
-       */
-      static HIT_TYPE_PRODUCT_BUNDLE: string;
-      /**
-       * Constant representing a product search hit type based on the presentation product of a hit. This hit type is used with master products.
-       */
-      static HIT_TYPE_PRODUCT_MASTER: string;
-      /**
-       * Constant representing a product search hit type based on the presentation product of a hit. This hit type is used with product sets.
-       */
-      static HIT_TYPE_PRODUCT_SET: string;
-      /**
-       * Constant representing a product search hit type based on the presentation product of a hit. This hit type is used with single, non-complex products, including product variants that
-       *  are assigned to a category and are returned as the presentation product.
-       */
-      static HIT_TYPE_SIMPLE: string;
-      /**
-       * Constant representing a product search hit type based on the presentation product of a hit. This hit type is used with slicing groups.
-       */
-      static HIT_TYPE_SLICING_GROUP: string;
-      /**
-       * Constant representing a product search hit type based on the presentation product of a hit. This hit type is used with variation groups.
-       */
-      static HIT_TYPE_VARIATION_GROUP: string;
-      /**
        * The type of the product wrapped by this search hit. The product type returned will be one of the hit types:
        *
        *   HIT_TYPE_SIMPLE
@@ -10677,10 +10335,6 @@ declare namespace dw {
        */
       categoryID: string;
       /**
-       * URL Parameter for the category ID
-       */
-      static CATEGORYID_PARAMETER: string;
-      /**
        * The method returns true, if this is a pure search for a category. The
        *  method checks, that a category ID is specified and no search phrase is
        *  specified.
@@ -10699,10 +10353,6 @@ declare namespace dw {
        *  based on the refinement category, keyword sorting rule assignment, etc.
        */
       readonly effectiveSortingRule: dw.catalog.SortingRule;
-      /**
-       * The maximum number of product IDs that can be passed to setProductIDs(List)
-       */
-      static MAXIMUM_PRODUCT_IDS: number;
       /**
        * Get the flag indicating whether unorderable products should be excluded
        *  when the next call to getProducts() is made. If this value has not been
@@ -10723,14 +10373,6 @@ declare namespace dw {
        */
       readonly personalizedSort: boolean;
       /**
-       * URL Parameter for the maximum price
-       */
-      static PRICE_MAX_PARAMETER: string;
-      /**
-       * URL Parameter for the minimum price
-       */
-      static PRICE_MIN_PARAMETER: string;
-      /**
        * The maximum price by which the search result is refined.
        */
       priceMax: number;
@@ -10742,10 +10384,6 @@ declare namespace dw {
        * The product id that was specified in the search query.
        */
       productID: string;
-      /**
-       * URL Parameter for the product ID
-       */
-      static PRODUCTID_PARAMETER: string;
       /**
        * A list of product IDs that were specified in the search query or an empty list if no product ID set.
        */
@@ -10765,38 +10403,11 @@ declare namespace dw {
        */
       readonly productSearchHits: dw.util.Iterator<dw.catalog.ProductSearchHit>;
       /**
-       * constant indicating that all related products should be returned for the next product search by promotion ID
-       */
-      static PROMOTION_PRODUCT_TYPE_ALL: string;
-      /**
-       * constant indicating that only bonus products should be returned for the next product search by promotion ID. This
-       *  constant should be set using setPromotionProductType(String) when using the search model to find the
-       *  available list of bonus products for a Choice of Bonus Product (Rule) promotion, along with
-       *  setPromotionID(String).
-       */
-      static PROMOTION_PRODUCT_TYPE_BONUS: string;
-      /**
-       * constant indicating that only discounted products should be returned for the next product search by promotion ID
-       */
-      static PROMOTION_PRODUCT_TYPE_DISCOUNTED: string;
-      /**
-       * URL Parameter for the promotion product type
-       */
-      static PROMOTION_PRODUCT_TYPE_PARAMETER: string;
-      /**
-       * constant indicating that only qualifying products should be returned for the next product search by promotion ID
-       */
-      static PROMOTION_PRODUCT_TYPE_QUALIFYING: string;
-      /**
        * The promotion id that was specified in the search query or null if no promotion id set. If multiple
        *  promotion id's specified the method returns only the first id. See setPromotionIDs(List) and
        *  getPromotionIDs().
        */
       promotionID: string;
-      /**
-       * URL Parameter for the promotion ID
-       */
-      static PROMOTIONID_PARAMETER: string;
       /**
        * A list of promotion id's that were specified in the search query or an empty list if no promotion id set.
        */
@@ -10810,14 +10421,6 @@ declare namespace dw {
        *  be recursive.
        */
       recursiveCategorySearch: boolean;
-      /**
-       * URL Parameter prefix for a refinement name
-       */
-      static REFINE_NAME_PARAMETER_PREFIX: string;
-      /**
-       * URL Parameter prefix for a refinement value
-       */
-      static REFINE_VALUE_PARAMETER_PREFIX: string;
       /**
        * The method returns true, if the search is refined by a category.
        *  The method checks, that a category ID is specified.
@@ -10859,22 +10462,6 @@ declare namespace dw {
        *  as lists of corrected and completed search terms.
        */
       readonly searchPhraseSuggestions: dw.suggest.SearchPhraseSuggestions;
-      /**
-       * URL Parameter prefix for a refinement value
-       */
-      static SORT_BY_PARAMETER_PREFIX: string;
-      /**
-       * URL Parameter prefix for a refinement value
-       */
-      static SORT_DIRECTION_PARAMETER_PREFIX: string;
-      /**
-       * URL Parameter prefix for a sorting option
-       */
-      static SORTING_OPTION_PARAMETER: string;
-      /**
-       * URL Parameter prefix for a sorting rule
-       */
-      static SORTING_RULE_PARAMETER: string;
       /**
        * The sorting rule explicitly set on this model to be used
        *  to order the products in the results of this query, or null
@@ -12632,18 +12219,6 @@ declare namespace dw {
        */
       readonly name: string;
       /**
-       * Represents a cross-sell recommendation.
-       */
-      static RECOMMENDATION_TYPE_CROSS_SELL: number;
-      /**
-       * Represents a recommendation that is neither a cross-sell or an up-sell.
-       */
-      static RECOMMENDATION_TYPE_OTHER: number;
-      /**
-       * Represents an up-sell recommendation.
-       */
-      static RECOMMENDATION_TYPE_UP_SELL: number;
-      /**
        * The type of the recommendation.
        */
       readonly recommendationType: number;
@@ -12793,25 +12368,9 @@ declare namespace dw {
        */
       readonly refinedSearch: boolean;
       /**
-       * URL Parameter for the Search Phrase
-       */
-      static SEARCH_PHRASE_PARAMETER: string;
-      /**
        * The search phrase used in this search.
        */
       searchPhrase: string;
-      /**
-       * Sorting parameter ASCENDING
-       */
-      static SORT_DIRECTION_ASCENDING: number;
-      /**
-       * Sorting parameter DESCENDING
-       */
-      static SORT_DIRECTION_DESCENDING: number;
-      /**
-       * Sorting parameter NO_SORT - will remove a sorting condition
-       */
-      static SORT_DIRECTION_NONE: number;
 
       /**
        * Adds a refinement. The method can be called to add an additional query
@@ -13376,14 +12935,6 @@ declare namespace dw {
        */
       readonly allRefinementDefinitions: dw.util.Collection<dw.catalog.SearchRefinementDefinition>;
       /**
-       * Flag for an ascending sort.
-       */
-      static ASCENDING: number;
-      /**
-       * Flag for a descending sort.
-       */
-      static DESCENDING: number;
-      /**
        * A sorted list of refinement definitions that are appropriate for
        *  the deepest common category (or deepest common folder) of the search
        *  result. The method concatenates the sorted refinement definitions per category
@@ -13393,14 +12944,6 @@ declare namespace dw {
        *  any values for the current search result.
        */
       readonly refinementDefinitions: dw.util.Collection<dw.catalog.SearchRefinementDefinition>;
-      /**
-       * Flag for sorting on value count.
-       */
-      static SORT_VALUE_COUNT: number;
-      /**
-       * Flag for sorting on value name.
-       */
-      static SORT_VALUE_NAME: number;
 
       /**
        * Returns a sorted list of refinement definitions that are appropriate for
@@ -15218,10 +14761,6 @@ declare namespace dw {
       static readonly PRIVATE_LIBRARY = "PrivateLibrary";
 
       /**
-       * The input string to identify that the library is a private site library when invoking getLibrary(String).
-       */
-      static PRIVATE_LIBRARY: string;
-      /**
        * The content library of the current site.
        */
       static readonly siteLibrary: dw.content.Library;
@@ -15301,10 +14840,6 @@ declare namespace dw {
        */
       contentID: string;
       /**
-       * URL Parameter for the content ID
-       */
-      static CONTENTID_PARAMETER: string;
-      /**
        * The deepest common folder of all content assets in the search result.
        */
       readonly deepestCommonFolder: dw.content.Folder;
@@ -15321,10 +14856,6 @@ declare namespace dw {
        * The folder ID against which the search results apply.
        */
       folderID: string;
-      /**
-       * URL Parameter for the folder ID
-       */
-      static FOLDERID_PARAMETER: string;
       /**
        * The method returns true, if this is a pure search for a folder. The
        *  method checks, that a folder ID is specified and no search phrase is
@@ -16565,12 +16096,6 @@ declare namespace dw {
        */
       static readonly CHAR_ENCODING = "UTF8";
 
-      /**
-       * Strings containing keys, plain texts, cipher texts etc. are internally
-       *  converted into byte arrays using this encoding (currently UTF8).
-       */
-      static CHAR_ENCODING: string;
-
       constructor();
 
       /**
@@ -17291,32 +16816,6 @@ declare namespace dw {
       static readonly HMAC_SHA_512 = "HmacSHA512";
 
       /**
-       * Constant representing the HMAC-MD5 keyed-hashing algorithm as defined in RFC 2104 "HMAC: Keyed-Hashing for Message Authentication" (February 1997).
-       *  This algorithm uses as MD5 cryptographic hash function.
-       */
-      static HMAC_MD5: string;
-      /**
-       * Constant representing the HmacSHA1 algorithms as defined in RFC 2104 "HMAC: Keyed-Hashing for Message Authentication" (February 1997)
-       *  with SHA-1 as the message digest algorithm.
-       */
-      static HMAC_SHA_1: string;
-      /**
-       * Constant representing the HmacSHA256 algorithms as defined in RFC 2104 "HMAC: Keyed-Hashing for Message Authentication" (February 1997)
-       *  with SHA-256 as the message digest algorithm.
-       */
-      static HMAC_SHA_256: string;
-      /**
-       * Constant representing the HmacSHA384 algorithms as defined in RFC 2104 "HMAC: Keyed-Hashing for Message Authentication" (February 1997)
-       *  with SHA-384 as the message digest algorithm.
-       */
-      static HMAC_SHA_384: string;
-      /**
-       * Constant representing the HmacSHA512 algorithms as defined in RFC 2104 "HMAC: Keyed-Hashing for Message Authentication" (February 1997)
-       *  with SHA-512 as the message digest algorithm.
-       */
-      static HMAC_SHA_512: string;
-
-      /**
        * Construct a Mac encryption instance with the specified algorithm name. The
        *  supported algorithms are:
        *
@@ -17390,31 +16889,6 @@ declare namespace dw {
        * Constant representing the SHA 512 algorithm
        */
       static readonly DIGEST_SHA_512 = "SHA-512";
-
-      /**
-       * Constant representing the MD2 algorithm.
-       */
-      static DIGEST_MD2: string;
-      /**
-       * Constant representing the MD5 algorithm.
-       */
-      static DIGEST_MD5: string;
-      /**
-       * Constant representing the SHA algorithm.
-       */
-      static DIGEST_SHA: string;
-      /**
-       * Constant representing the SHA 1 algorithm.
-       */
-      static DIGEST_SHA_1: string;
-      /**
-       * Constant representing the SHA 256 algorithm
-       */
-      static DIGEST_SHA_256: string;
-      /**
-       * Constant representing the SHA 512 algorithm
-       */
-      static DIGEST_SHA_512: string;
 
       /**
        * Construct a MessageDigest with the specified algorithm name. The
@@ -17598,11 +17072,6 @@ declare namespace dw {
        */
       static readonly SUPPORTED_DIGEST_ALGORITHMS_AS_ARRAY: string;
 
-      /**
-       * Supported digest algorithms exposed as a string array
-       */
-      static SUPPORTED_DIGEST_ALGORITHMS_AS_ARRAY: string;
-
       constructor();
 
       /**
@@ -17733,12 +17202,6 @@ declare namespace dw {
        *  converted into byte arrays using this encoding (currently UTF8).
        */
       static readonly CHAR_ENCODING = "UTF8";
-
-      /**
-       * Strings containing keys, plain texts, cipher texts etc. are internally
-       *  converted into byte arrays using this encoding (currently UTF8).
-       */
-      static CHAR_ENCODING: string;
 
       constructor();
 
@@ -18070,21 +17533,6 @@ declare namespace dw {
       static readonly HMAC_SHA_1 = "HmacSHA1";
 
       /**
-       * Constant representing the HMAC-MD5 keyed-hashing algorithm as defined in RFC 2104 "HMAC: Keyed-Hashing for Message Authentication" (February 1997).
-       *  This algorithm uses as MD5 cryptographic hash function.
-       *
-       *  This algorithm is obsolete. Do not use it for any sensitive data
-       */
-      static HMAC_MD5: string;
-      /**
-       * Constant representing the HmacSHA1 algorithms as defined in RFC 2104 "HMAC: Keyed-Hashing for Message Authentication" (February 1997)
-       *  with SHA-1 as the message digest algorithm.
-       *
-       *  This algorithm is obsolete. Do not use it for any sensitive data
-       */
-      static HMAC_SHA_1: string;
-
-      /**
        * Construct a Mac encryption instance with the specified algorithm name. The
        *  supported algorithms are:
        *
@@ -18157,31 +17605,6 @@ declare namespace dw {
        *  This algorithm is obsolete. Do not use it for any sensitive data
        */
       static readonly DIGEST_SHA_1 = "SHA-1";
-
-      /**
-       * Constant representing the MD2 algorithm.
-       *
-       *  This algorithm is obsolete. Do not use it for any sensitive data
-       */
-      static DIGEST_MD2: string;
-      /**
-       * Constant representing the MD5 algorithm.
-       *
-       *  This algorithm is obsolete. Do not use it for any sensitive data
-       */
-      static DIGEST_MD5: string;
-      /**
-       * Constant representing the SHA algorithm.
-       *
-       *  This algorithm is obsolete. Do not use it for any sensitive data
-       */
-      static DIGEST_SHA: string;
-      /**
-       * Constant representing the SHA 1 algorithm.
-       *
-       *  This algorithm is obsolete. Do not use it for any sensitive data
-       */
-      static DIGEST_SHA_1: string;
 
       /**
        * Construct a MessageDigest with the specified algorithm name.
@@ -18575,61 +17998,6 @@ declare namespace dw {
        *  number of failed login attempts was exceeded.
        */
       static readonly USER_LOCKED = "USER_LOCKED";
-
-      /**
-       * Indicates that the agent user is not available.
-       */
-      static AGENT_USER_NOT_AVAILABLE: string;
-      /**
-       * Indicates that the agent user is not logged in.
-       */
-      static AGENT_USER_NOT_LOGGED_IN: string;
-      /**
-       * Indicates that the given agent user login or password was wrong.
-       */
-      static CREDENTIALS_INVALID: string;
-      /**
-       * Indicates that the customer is disabled.
-       */
-      static CUSTOMER_DISABLED: string;
-      /**
-       * Indicates that the customer is either not registered or not registered with the current site.
-       */
-      static CUSTOMER_UNREGISTERED: string;
-      /**
-       * Indicates that the current connection is not secure (HTTP instead of HTTPS)
-       *  and the server is configured to require a secure connection.
-       */
-      static INSECURE_CONNECTION: string;
-      /**
-       * Indicates that the given agent user does not have the permission
-       *  'Login_Agent' which is required to login to the storefront as an agent
-       *  user.
-       */
-      static INSUFFICIENT_PERMISSION: string;
-      /**
-       * Indicates that the agent user login was successful.
-       */
-      static LOGIN_SUCCESSFUL: string;
-      /**
-       * Indicates that the current context is not a storefront request.
-       */
-      static NO_STOREFRONT: string;
-      /**
-       * Indicates that the given agent user password has expired and needs to be
-       *  changed in the Business Manager.
-       */
-      static PASSWORD_EXPIRED: string;
-      /**
-       * Indicates that the agent user account has been disabled in the Business
-       *  Manager.
-       */
-      static USER_DISABLED: string;
-      /**
-       * Indicates that the agent user account is locked, because the maximum
-       *  number of failed login attempts was exceeded.
-       */
-      static USER_LOCKED: string;
     }
 
     /**
@@ -18666,10 +18034,6 @@ declare namespace dw {
       static readonly ERROR_UNKNOWN = "ERROR_UNKNOWN";
 
       /**
-       * Authentication was successful
-       */
-      static AUTH_OK: string;
-      /**
        * checks whether the authentication was successful or not
        */
       readonly authenticated: boolean;
@@ -18677,30 +18041,6 @@ declare namespace dw {
        * The customer, corresponding to the login used during authentication. This customer is not logged in after authentication.
        */
       readonly customer: dw.customer.Customer;
-      /**
-       * customer could be found, but is disabled. Password was not verified.
-       */
-      static ERROR_CUSTOMER_DISABLED: string;
-      /**
-       * customer could be found, but is locked (too many failed login attempts). Password was verified before.
-       */
-      static ERROR_CUSTOMER_LOCKED: string;
-      /**
-       * customer could not be found
-       */
-      static ERROR_CUSTOMER_NOT_FOUND: string;
-      /**
-       * Password does match, but is expired.
-       */
-      static ERROR_PASSWORD_EXPIRED: string;
-      /**
-       * the used password is not correct
-       */
-      static ERROR_PASSWORD_MISMATCH: string;
-      /**
-       * Any other error
-       */
-      static ERROR_UNKNOWN: string;
       /**
        * the status code (see the constants above)
        */
@@ -20478,7 +19818,7 @@ declare namespace dw {
        *  Date yyyy-MM-dd e.g. 2007-05-31 (Default TimeZone = UTC)
        *  DateTime yyyy-MM-dd'T'hh:mm:ss+Z e.g. 2007-05-31T00:00+Z (Z TimeZone = UTC) or 2007-05-31T00:00:00
        *  Boolean true, false
-       *  Email '[email protected]ndware.com', '*@demandware.com'
+       *  Email '[email protected]', '*@demandware.com'
        *  Set of String 'String', 'Str*', 'Strin?'
        *  Set of Integer 1, 3E4
        *  Set of Number 1.0, 3.99E5
@@ -20915,13 +20255,6 @@ declare namespace dw {
       static readonly CUSTOMER_ADDRESS_REFERENCED_BY_PRODUCT_LIST =
         "CUSTOMER_ADDRESS_REFERENCED_BY_PRODUCT_LIST";
 
-      /**
-       * Indicates that an error occurred when trying to perform
-       *  an operation on an address that is currently associated
-       *  with a product list.
-       */
-      static CUSTOMER_ADDRESS_REFERENCED_BY_PRODUCT_LIST: string;
-
       constructor();
     }
 
@@ -21198,14 +20531,6 @@ declare namespace dw {
        */
       eventType: string;
       /**
-       * Constant for when Export Status is Exported
-       */
-      static EXPORT_STATUS_EXPORTED: number;
-      /**
-       * Constant for when Export Status is Not Exported
-       */
-      static EXPORT_STATUS_NOTEXPORTED: number;
-      /**
        * The export status of the product list.
        *  Possible values are: EXPORT_STATUS_NOTEXPORTED,
        *  EXPORT_STATUS_EXPORTED.
@@ -21272,30 +20597,6 @@ declare namespace dw {
        *  gift registry). This is set at object creation time.
        */
       readonly type: number;
-      /**
-       * Constant representing a custom list type attribute.
-       */
-      static TYPE_CUSTOM_1: number;
-      /**
-       * Constant representing a custom list type attribute.
-       */
-      static TYPE_CUSTOM_2: number;
-      /**
-       * Constant representing a custom list type attribute.
-       */
-      static TYPE_CUSTOM_3: number;
-      /**
-       * Constant representing the gift registry type attribute.
-       */
-      static TYPE_GIFT_REGISTRY: number;
-      /**
-       * Constant representing the shopping list type attribute.
-       */
-      static TYPE_SHOPPING_LIST: number;
-      /**
-       * Constant representing the wish list registry type attribute.
-       */
-      static TYPE_WISH_LIST: number;
 
       private constructor();
 
@@ -21650,14 +20951,6 @@ declare namespace dw {
        * The type of this product list item.
        */
       readonly type: number;
-      /**
-       * Constant representing a gift certificate list item type.
-       */
-      static TYPE_GIFT_CERTIFICATE: number;
-      /**
-       * Constant representing a product list item type.
-       */
-      static TYPE_PRODUCT: number;
 
       private constructor();
 
@@ -24193,34 +23486,6 @@ declare namespace dw {
          */
         readonly eventName: string;
         /**
-         * Error reason code representing an invalid billing address.
-         */
-        static REASON_BILLING_ADDRESS: string;
-        /**
-         * Error reason code representing an error or failure not otherwise specified.
-         */
-        static REASON_FAILURE: string;
-        /**
-         * Error reason code representing the PIN is incorrect.
-         */
-        static REASON_PIN_INCORRECT: string;
-        /**
-         * Error reason code representing a PIN lockout.
-         */
-        static REASON_PIN_LOCKOUT: string;
-        /**
-         * Error reason code representing a PIN is required.
-         */
-        static REASON_PIN_REQUIRED: string;
-        /**
-         * Error reason code representing an invalid shipping address.
-         */
-        static REASON_SHIPPING_ADDRESS: string;
-        /**
-         * Error reason code representing invalid shipping contact information.
-         */
-        static REASON_SHIPPING_CONTACT: string;
-        /**
          * URL to navigate to in response to this result.
          */
         readonly redirect: dw.web.URL;
@@ -24228,11 +23493,6 @@ declare namespace dw {
          * Status describing the outcome of this result.
          */
         readonly status: dw.system.Status;
-        /**
-         * Key for the detail to be used in Status objects to indicate
-         *  the reason to communicate to Apple Pay for errors.
-         */
-        static STATUS_REASON_DETAIL_KEY: string;
 
         /**
          * Constructs a result with the given outcome information.
@@ -24357,47 +23617,6 @@ declare namespace dw {
          */
         static readonly extensionPointShippingMethodSelected =
           "dw.extensions.applepay.shippingMethodSelected";
-
-        /**
-         * The extension point name dw.extensions.applepay.cancel.
-         */
-        static extensionPointCancel: string;
-        /**
-         * The extension point name dw.extensions.applepay.getRequest.
-         */
-        static extensionPointGetRequest: string;
-        /**
-         * The extension point name dw.extensions.applepay.paymentAuthorized.authorizeOrderPayment.
-         */
-        static extensionPointPaymentAuthorizedAuthorizeOrderPayment: string;
-        /**
-         * The extension point name dw.extensions.applepay.paymentAuthorized.createOrder.
-         */
-        static extensionPointPaymentAuthorizedCreateOrder: string;
-        /**
-         * The extension point name dw.extensions.applepay.paymentAuthorized.failOrder.
-         */
-        static extensionPointPaymentAuthorizedFailOrder: string;
-        /**
-         * The extension point name dw.extensions.applepay.paymentAuthorized.placeOrder.
-         */
-        static extensionPointPaymentAuthorizedPlaceOrder: string;
-        /**
-         * The extension point name dw.extensions.applepay.paymentMethodSelected.
-         */
-        static extensionPointPaymentMethodSelected: string;
-        /**
-         * The extension point name dw.extensions.applepay.prepareBasket.
-         */
-        static extensionPointPrepareBasket: string;
-        /**
-         * The extension point name dw.extensions.applepay.shippingContactSelected.
-         */
-        static extensionPointShippingContactSelected: string;
-        /**
-         * The extension point name dw.extensions.applepay.shippingMethodSelected.
-         */
-        static extensionPointShippingMethodSelected: string;
 
         private constructor();
 
@@ -24710,11 +23929,6 @@ declare namespace dw {
         static readonly extensionPointTransformProduct =
           "dw.extensions.facebook.feed.transformProduct";
 
-        /**
-         * The extension point name dw.extensions.facebook.feed.transformProduct.
-         */
-        static extensionPointTransformProduct: string;
-
         private constructor();
 
         /**
@@ -24836,26 +24050,6 @@ declare namespace dw {
         static readonly SHIPPING_WEIGHT_UNIT_OZ = "oz";
 
         /**
-         * Indicates that the product is for adults.
-         */
-        static AGE_GROUP_ADULT: string;
-        /**
-         * Indicates that the product is for infant children.
-         */
-        static AGE_GROUP_INFANT: string;
-        /**
-         * Indicates that the product is for children.
-         */
-        static AGE_GROUP_KIDS: string;
-        /**
-         * Indicates that the product is for newborn children.
-         */
-        static AGE_GROUP_NEWBORN: string;
-        /**
-         * Indicates that the product is for toddler children.
-         */
-        static AGE_GROUP_TODDLER: string;
-        /**
          * The age group for the Facebook product.
          */
         ageGroup: string;
@@ -24863,22 +24057,6 @@ declare namespace dw {
          * The availability of the Facebook product.
          */
         availability: string;
-        /**
-         * Indicates that the product can be ordered for later shipment.
-         */
-        static AVAILABILITY_AVAILABLE_FOR_ORDER: string;
-        /**
-         * Indicates that the product is available to ship immediately.
-         */
-        static AVAILABILITY_IN_STOCK: string;
-        /**
-         * Indicates that the product is out of stock.
-         */
-        static AVAILABILITY_OUT_OF_STOCK: string;
-        /**
-         * Indicates that the product will be available in the future.
-         */
-        static AVAILABILITY_PREORDER: string;
         /**
          * The Facebook brand of the product.
          */
@@ -24891,18 +24069,6 @@ declare namespace dw {
          * The condition of the Facebook product.
          */
         condition: string;
-        /**
-         * Indicates that the product is new.
-         */
-        static CONDITION_NEW: string;
-        /**
-         * Indicates that the product is used but has been refurbished.
-         */
-        static CONDITION_REFURBISHED: string;
-        /**
-         * Indicates that the product has been used.
-         */
-        static CONDITION_USED: string;
         /**
          * The Facebook custom label 0 value of the product.
          */
@@ -24935,18 +24101,6 @@ declare namespace dw {
          * The gender for the Facebook product.
          */
         gender: string;
-        /**
-         * Indicates that the product is for females.
-         */
-        static GENDER_FEMALE: string;
-        /**
-         * Indicates that the product is for males.
-         */
-        static GENDER_MALE: string;
-        /**
-         * Indicates that the product is for both males and females.
-         */
-        static GENDER_UNISEX: string;
         /**
          * The category of this product in the Google category taxonomy. If the value is longer than 250 characters
          *  it is truncated.
@@ -25004,38 +24158,6 @@ declare namespace dw {
          * The start date of the Facebook sale price of the product.
          */
         salePriceEffectiveDateStart: Date;
-        /**
-         * Indicates that the product is measured in centimeters.
-         */
-        static SHIPPING_SIZE_UNIT_CM: string;
-        /**
-         * Indicates that the product is measured in feet.
-         */
-        static SHIPPING_SIZE_UNIT_FT: string;
-        /**
-         * Indicates that the product is measured in inches.
-         */
-        static SHIPPING_SIZE_UNIT_IN: string;
-        /**
-         * Indicates that the product is measured in meters.
-         */
-        static SHIPPING_SIZE_UNIT_M: string;
-        /**
-         * Indicates that the product is weighed in grams.
-         */
-        static SHIPPING_WEIGHT_UNIT_G: string;
-        /**
-         * Indicates that the product is weighed in kilograms.
-         */
-        static SHIPPING_WEIGHT_UNIT_KG: string;
-        /**
-         * Indicates that the product is weighed in pounds.
-         */
-        static SHIPPING_WEIGHT_UNIT_LB: string;
-        /**
-         * Indicates that the product is weighed in ounces.
-         */
-        static SHIPPING_WEIGHT_UNIT_OZ: string;
         /**
          * The shipping height of the product.
          */
@@ -25503,15 +24625,6 @@ declare namespace dw {
         static readonly extensionPointBeforeAuthorization =
           "dw.extensions.paymentapi.beforeAuthorization";
 
-        /**
-         * The extension point name dw.extensions.paymentapi.afterAuthorization.
-         */
-        static extensionPointAfterAuthorization: string;
-        /**
-         * The extension point name .
-         */
-        static extensionPointBeforeAuthorization: string;
-
         private constructor();
 
         /**
@@ -25676,31 +24789,6 @@ declare namespace dw {
          */
         static readonly extensionPointShippingOptionChange =
           "dw.extensions.paymentrequest.shippingOptionChange";
-
-        /**
-         * The extension point name dw.extensions.paymentrequest.abort.
-         */
-        static extensionPointAbort: string;
-        /**
-         * The extension point name dw.extensions.paymentrequest.getPaymentRequest.
-         */
-        static extensionPointGetPaymentRequest: string;
-        /**
-         * The extension point name dw.extensions.paymentrequest.paymentAccepted.authorizeOrderPayment.
-         */
-        static extensionPointPaymentAcceptedAuthorizeOrderPayment: string;
-        /**
-         * The extension point name .
-         */
-        static extensionPointPaymentAcceptedPlaceOrder: string;
-        /**
-         * The extension point name .
-         */
-        static extensionPointShippingAddressChange: string;
-        /**
-         * The extension point name dw.extensions.paymentrequest.shippingOptionChange.
-         */
-        static extensionPointShippingOptionChange: string;
 
         private constructor();
 
@@ -26004,22 +25092,6 @@ declare namespace dw {
          * The type of this payment method.
          */
         readonly type: string;
-        /**
-         * Represents the Bancontact payment method.
-         */
-        static TYPE_BANCONTACT: string;
-        /**
-         * Represents a credit card type of payment method.
-         */
-        static TYPE_CARD: string;
-        /**
-         * Represents the iDEAL payment method.
-         */
-        static TYPE_IDEAL: string;
-        /**
-         * Represents the SEPA Debit payment method.
-         */
-        static TYPE_SEPA_DEBIT: string;
 
         private constructor();
 
@@ -26156,54 +25228,6 @@ declare namespace dw {
          * A JS object containing the data used to prepare the shopper basket when a Buy Now button is tapped.
          */
         basketData: any;
-        /**
-         * Element for the Stripe credit card CVC field "cardCvc".
-         */
-        static ELEMENT_CARD_CVC: string;
-        /**
-         * Element for the Stripe credit card expiration date field "cardExpiry".
-         */
-        static ELEMENT_CARD_EXPIRY: string;
-        /**
-         * Element for the Stripe credit card number field "cardNumber".
-         */
-        static ELEMENT_CARD_NUMBER: string;
-        /**
-         * Element for the Stripe IBAN field "iban".
-         */
-        static ELEMENT_IBAN: string;
-        /**
-         * Element for the Stripe iDEAL bank selection field "idealBank".
-         */
-        static ELEMENT_IDEAL_BANK: string;
-        /**
-         * Element for the Stripe payment request button "paymentRequestButton".
-         */
-        static ELEMENT_PAYMENT_REQUEST_BUTTON: string;
-        /**
-         * Element type name for Apple Pay payment request buttons.
-         */
-        static ELEMENT_TYPE_APPLEPAY: string;
-        /**
-         * Element type name for Bancontact.
-         */
-        static ELEMENT_TYPE_BANCONTACT: string;
-        /**
-         * Element type name for credit cards.
-         */
-        static ELEMENT_TYPE_CARD: string;
-        /**
-         * Element type name for iDEAL.
-         */
-        static ELEMENT_TYPE_IDEAL: string;
-        /**
-         * Element type name for other payment request buttons besides Apple Pay, like Google Pay.
-         */
-        static ELEMENT_TYPE_PAYMENTREQUEST: string;
-        /**
-         * Element type name for SEPA debit.
-         */
-        static ELEMENT_TYPE_SEPA_DEBIT: string;
         /**
          * Returns a set containing the element types to be explicitly excluded from mounted components. See the element
          *  type constants in this class for the full list of supported element types.
@@ -26566,11 +25590,6 @@ declare namespace dw {
         static readonly extensionPointAsyncPaymentSucceeded =
           "dw.extensions.payments.asyncPaymentSucceeded";
 
-        /**
-         * The extension point name dw.extensions.payments.asyncPaymentSucceeded.
-         */
-        static extensionPointAsyncPaymentSucceeded: string;
-
         private constructor();
 
         /**
@@ -26718,15 +25737,6 @@ declare namespace dw {
         static readonly extensionPointTransformProduct =
           "dw.extensions.pinterest.feed.transformProduct";
 
-        /**
-         * The extension point name dw.extensions.pinterest.feed.transformAvailability.
-         */
-        static extensionPointTransformAvailability: string;
-        /**
-         * The extension point name dw.extensions.pinterest.feed.transformProduct.
-         */
-        static extensionPointTransformProduct: string;
-
         private constructor();
 
         /**
@@ -26807,18 +25817,6 @@ declare namespace dw {
          */
         readonly orderNo: string;
         /**
-         * Indicates that payment has not been made.
-         */
-        static PAYMENT_STATUS_NOT_PAID: string;
-        /**
-         * Indicates that payment is complete.
-         */
-        static PAYMENT_STATUS_PAID: string;
-        /**
-         * Indicates that payment is incomplete.
-         */
-        static PAYMENT_STATUS_PART_PAID: string;
-        /**
          * The status of this Pinterest order. Possible values are
          *  PAYMENT_STATUS_PAID,
          *  PAYMENT_STATUS_NOT_PAID,
@@ -26836,34 +25834,6 @@ declare namespace dw {
          *  or STATUS_RETURNED.
          */
         status: string;
-        /**
-         * Indicates an order on backorder.
-         */
-        static STATUS_BACKORDER: string;
-        /**
-         * Indicates an order that has been canceled.
-         */
-        static STATUS_CANCELLED: string;
-        /**
-         * Indicates an order that has been delivered.
-         */
-        static STATUS_DELIVERED: string;
-        /**
-         * Indicates an order in progress.
-         */
-        static STATUS_IN_PROGRESS: string;
-        /**
-         * Indicates a new order.
-         */
-        static STATUS_NEW: string;
-        /**
-         * Indicates an order that has been returned.
-         */
-        static STATUS_RETURNED: string;
-        /**
-         * Indicates an order that has shipped.
-         */
-        static STATUS_SHIPPED: string;
 
         private constructor();
 
@@ -26960,11 +25930,6 @@ declare namespace dw {
         static readonly extensionPointGetStatus =
           "dw.extensions.pinterest.order.getStatus";
 
-        /**
-         * The extension point name dw.extensions.pinterest.order.getStatus.
-         */
-        static extensionPointGetStatus: string;
-
         private constructor();
 
         /**
@@ -27013,18 +25978,6 @@ declare namespace dw {
          */
         availability: string;
         /**
-         * Indicates that the product is in stock.
-         */
-        static AVAILABILITY_IN_STOCK: string;
-        /**
-         * Indicates that the product is not in stock.
-         */
-        static AVAILABILITY_OUT_OF_STOCK: string;
-        /**
-         * Indicates that the product is availabile in preorder.
-         */
-        static AVAILABILITY_PREORDER: string;
-        /**
          * The Pinterest brand of the product.
          */
         brand: string;
@@ -27047,18 +26000,6 @@ declare namespace dw {
          *  CONDITION_USED.
          */
         condition: string;
-        /**
-         * Indicates that the product has never been used.
-         */
-        static CONDITION_NEW: string;
-        /**
-         * Indicates that the product has been used but refurbished.
-         */
-        static CONDITION_REFURBISHED: string;
-        /**
-         * Indicates that the product has been used.
-         */
-        static CONDITION_USED: string;
         /**
          * The Pinterest description of the product.
          */
@@ -27532,25 +26473,9 @@ declare namespace dw {
       static readonly TEMP = "TEMP";
 
       /**
-       * Catalogs root directory.
-       */
-      static CATALOGS: string;
-      /**
-       * Customer snapshots root directory.
-       */
-      static CUSTOMER_SNAPSHOTS: string;
-      /**
-       * Customer Payment Instrument root directory.
-       */
-      static CUSTOMERPI: string;
-      /**
        * Indicates that this file is a directory.
        */
       readonly directory: boolean;
-      /**
-       * Reserved for future use.
-       */
-      static DYNAMIC: string;
       /**
        * Indicates if this file is a file.
        */
@@ -27562,14 +26487,6 @@ declare namespace dw {
        */
       readonly fullPath: string;
       /**
-       * Import/export root directory.
-       */
-      static IMPEX: string;
-      /**
-       * Libraries root directory.
-       */
-      static LIBRARIES: string;
-      /**
        * The name of the file or directory denoted by this object. This is
        *  just the last name in the pathname's name sequence. If the pathname's
        *  name sequence is empty, then the empty string is returned.
@@ -27580,26 +26497,10 @@ declare namespace dw {
        */
       readonly path: string;
       /**
-       * RealmData root directory.
-       */
-      static REALMDATA: string;
-      /**
        * The root directory type, e.g. "IMPEX" represented by this
        *  File.
        */
       readonly rootDirectoryType: string;
-      /**
-       * The UNIX style '/' path separator, which must be used for files paths.
-       */
-      static SEPARATOR: string;
-      /**
-       * Static content root directory.
-       */
-      static STATIC: string;
-      /**
-       * Temp root directory.
-       */
-      static TEMP: string;
 
       /**
        * Creates a File from the given absolute file path in the
@@ -28372,67 +27273,6 @@ declare namespace dw {
        * Represents the start of an element in an XML document.
        */
       static readonly START_ELEMENT = 1;
-
-      /**
-       * Represents an attribute in an element.
-       */
-      static ATTRIBUTE: number;
-      /**
-       * Represents a CDATA section in an element.
-       */
-      static CDATA: number;
-      /**
-       * Represents the character data in an XML document.
-       */
-      static CHARACTERS: number;
-      /**
-       * Represents a comment in an XML document.
-       */
-      static COMMENT: number;
-      /**
-       * Represents the document type definition.
-       */
-      static DTD: number;
-      /**
-       * Represents the end of an XML document.
-       */
-      static END_DOCUMENT: number;
-      /**
-       * Represents the end of an element in an XML document.
-       */
-      static END_ELEMENT: number;
-      /**
-       * Represents the entity declaration in an XML document.
-       */
-      static ENTITY_DECLARATION: number;
-      /**
-       * Represents an entity reference in an XML document.
-       */
-      static ENTITY_REFERENCE: number;
-      /**
-       * Represents a namespace declaration in an XML document.
-       */
-      static NAMESPACE: number;
-      /**
-       * Represents the notation declaration in an XML document.
-       */
-      static NOTATION_DECLARATION: number;
-      /**
-       * Represents processing instruction in an XML document.
-       */
-      static PROCESSING_INSTRUCTION: number;
-      /**
-       * Represents a space in an XML document.
-       */
-      static SPACE: number;
-      /**
-       * Represents the start of an XML document.
-       */
-      static START_DOCUMENT: number;
-      /**
-       * Represents the start of an element in an XML document.
-       */
-      static START_ELEMENT: number;
 
       constructor();
     }
@@ -29653,24 +28493,6 @@ declare namespace dw {
        */
       readonly connected: boolean;
       /**
-       * The default size for get() returning a File is 5MB
-       */
-      static DEFAULT_GET_FILE_SIZE: number;
-      /**
-       * The default size for get() returning a String is 2MB
-       */
-      static DEFAULT_GET_STRING_SIZE: number;
-      /**
-       * The maximum size for get() returning a File is forty times the default size for getting a file. The
-       *  largest file allowed is 200MB.
-       */
-      static MAX_GET_FILE_SIZE: number;
-      /**
-       * The maximum size for get() returning a String is five times the default size for getting a String.
-       *  The largest String allowed is 10MB.
-       */
-      static MAX_GET_STRING_SIZE: number;
-      /**
        * The reply code from the last FTP action.
        */
       readonly replyCode: number;
@@ -30029,25 +28851,10 @@ declare namespace dw {
         dw.util.List<string>
       >;
       /**
-       * The default size for sendAndReceiveToFile() returning a File is 5MB deprecated in favor of
-       *  MAX_GET_FILE_SIZE
-       */
-      static DEFAULT_GET_FILE_SIZE: number;
-      /**
        * The returned message body as text for HTTP status code greater or equal to 400. Error messages are not
        *  written to the response file.
        */
       readonly errorText: string;
-      /**
-       * The maximum permitted size (in bytes) of an HTTP response when calling operations which write the response to
-       *  file. (200MB)
-       */
-      static MAX_GET_FILE_SIZE: number;
-      /**
-       * The maximum permitted size (in bytes) of an HTTP response when calling operations which store the response in
-       *  memory. (10MB)
-       */
-      static MAX_GET_MEM_SIZE: number;
       /**
        * All response headers as a map in which each entry represents an individual header. The key of the entry
        *  holds the header name and the entry value holds a list of all header values.
@@ -30602,14 +29409,6 @@ declare namespace dw {
        */
       readonly errorMessage: string;
       /**
-       * The maximum size for get() methods returning a File is 200 MB.
-       */
-      static MAX_GET_FILE_SIZE: number;
-      /**
-       * The maximum size for get() methods returning a String is 10 MB.
-       */
-      static MAX_GET_STRING_SIZE: number;
-      /**
        * The timeout for this client, in milliseconds.
        */
       timeout: number;
@@ -30971,52 +29770,6 @@ declare namespace dw {
         string,
         dw.util.List<string>
       >;
-      /**
-       * The default encoding character set.
-       */
-      static DEFAULT_ENCODING: string;
-      /**
-       * The default size for get() returning a File is 5MB.
-       */
-      static DEFAULT_GET_FILE_SIZE: number;
-      /**
-       * The default size for get() returning a String is 2MB.
-       */
-      static DEFAULT_GET_STRING_SIZE: number;
-      /**
-       * The depth of searching a WebDAV destination using the PROPFIND method -
-       *  if that depth is given to the PROPFIND method as an input parameter the
-       *  destination will be searched only on the level of the given path and a
-       *  list of all containing files on that level will be returned [is not
-       *  supported by every server].
-       */
-      static DEPTH_0: number;
-      /**
-       * The depth of searching a WebDAV destination using the PROPFIND method -
-       *  if that depth is given to the PROPFIND method as an input parameter the
-       *  destination will be searched until one level under the given path and a
-       *  list of all containing files in that two levels [/path and one level
-       *  underneath] will be returned [is not supported by every server].
-       */
-      static DEPTH_1: number;
-      /**
-       * The depth of searching a WebDAV destination using the PROPFIND method -
-       *  if that depth is given to the PROPFIND method as an input parameter the
-       *  destination will be fully searched and a list of all containing files
-       *  will be returned [is not supported by every server].
-       */
-      static DEPTH_INIFINITY: number;
-      /**
-       * The maximum size for get() returning a File is forty times
-       *  the default size for getting a file. The largest file allowed is 200MB.
-       */
-      static MAX_GET_FILE_SIZE: number;
-      /**
-       * The maximum size for get() returning a String is five
-       *  times the default size for getting a String. The largest String allowed
-       *  is 10MB.
-       */
-      static MAX_GET_STRING_SIZE: number;
       /**
        * The status code after the execution of a method.
        */
@@ -32152,78 +30905,6 @@ declare namespace dw {
        */
       readonly unit: string;
       /**
-       * Boolean value type.
-       */
-      static VALUE_TYPE_BOOLEAN: number;
-      /**
-       * Date value type.
-       */
-      static VALUE_TYPE_DATE: number;
-      /**
-       * Date and Time value type.
-       */
-      static VALUE_TYPE_DATETIME: number;
-      /**
-       * Email value type.
-       */
-      static VALUE_TYPE_EMAIL: number;
-      /**
-       * Enum of int value type.
-       */
-      static VALUE_TYPE_ENUM_OF_INT: number;
-      /**
-       * Enum of String value type.
-       */
-      static VALUE_TYPE_ENUM_OF_STRING: number;
-      /**
-       * HTML value type.
-       */
-      static VALUE_TYPE_HTML: number;
-      /**
-       * Image value type.
-       */
-      static VALUE_TYPE_IMAGE: number;
-      /**
-       * int value type.
-       */
-      static VALUE_TYPE_INT: number;
-      /**
-       * Money value type.
-       */
-      static VALUE_TYPE_MONEY: number;
-      /**
-       * Number value type.
-       */
-      static VALUE_TYPE_NUMBER: number;
-      /**
-       * Password value type.
-       */
-      static VALUE_TYPE_PASSWORD: number;
-      /**
-       * Quantity value type.
-       */
-      static VALUE_TYPE_QUANTITY: number;
-      /**
-       * Set of int value type.
-       */
-      static VALUE_TYPE_SET_OF_INT: number;
-      /**
-       * Set of Number value type.
-       */
-      static VALUE_TYPE_SET_OF_NUMBER: number;
-      /**
-       * Set of String value type.
-       */
-      static VALUE_TYPE_SET_OF_STRING: number;
-      /**
-       * String value type.
-       */
-      static VALUE_TYPE_STRING: number;
-      /**
-       * Text value type.
-       */
-      static VALUE_TYPE_TEXT: number;
-      /**
        * The list of attribute values. In the user interface only the
        *  values specified in this list should be offered as valid input values.
        *
@@ -33243,26 +31924,6 @@ declare namespace dw {
        */
       readonly items: dw.util.FilteringCollection<dw.order.AppeasementItem>;
       /**
-       * Sorting by item id. Use with method getItems() as an argument to method FilteringCollection.sort(Object).
-       */
-      static ORDERBY_ITEMID: any;
-      /**
-       * Sorting by the position of the related order item. Use with method getItems() as an argument to method FilteringCollection.sort(Object).
-       */
-      static ORDERBY_ITEMPOSITION: any;
-      /**
-       * Unsorted, as it is. Use with method getItems() as an argument to method FilteringCollection.sort(Object).
-       */
-      static ORDERBY_UNSORTED: any;
-      /**
-       * Selects the product items. Use with method getItems() as an argument to method FilteringCollection.select(Object).
-       */
-      static QUALIFIER_PRODUCTITEMS: any;
-      /**
-       * Selects the service items. Use with method getItems() as an argument to method FilteringCollection.select(Object).
-       */
-      static QUALIFIER_SERVICEITEMS: any;
-      /**
        * The reason code for the appeasement. The list of reason codes can be updated
        *  by updating meta-data for Appeasement.
        */
@@ -33276,14 +31937,6 @@ declare namespace dw {
        *  The possible values are STATUS_OPEN, STATUS_COMPLETED.
        */
       status: dw.value.EnumValue;
-      /**
-       * Constant for Appeasement Status COMPLETED
-       */
-      static STATUS_COMPLETED: string;
-      /**
-       * Constant for Appeasement Status OPEN
-       */
-      static STATUS_OPEN: string;
 
       private constructor();
 
@@ -34586,27 +33239,6 @@ declare namespace dw {
        *  or STATUS_REDEEMED.
        */
       status: number;
-      /**
-       * Represents a status of 'issued', which indicates that the Gift Certificate
-       *  has been created and that it can be used to purchase products.
-       */
-      static STATUS_ISSUED: number;
-      /**
-       * Represents a status of 'partially redeemed', which indicates that the Gift Certificate
-       *  has been used to purchase products, but that there is still a balance on
-       *  the gift certificate.
-       */
-      static STATUS_PARTIALLY_REDEEMED: number;
-      /**
-       * Represents a status of 'pending', which indicates that the Gift Certificate
-       *  has been created but that it cannot be used yet.
-       */
-      static STATUS_PENDING: number;
-      /**
-       * Represents a status of 'redeemed', which indicates that the Gift Certificate
-       *  has been used and no longer contains a balance.
-       */
-      static STATUS_REDEEMED: number;
 
       private constructor();
 
@@ -34941,38 +33573,6 @@ declare namespace dw {
        */
       static readonly GC_ERROR_REDEEMED = "GIFTCERTIFICATE-120";
 
-      /**
-       * Indicates that an error occurred because the Gift Certificate
-       *  is currently disabled.
-       */
-      static GC_ERROR_DISABLED: string;
-      /**
-       * Indicates that an error occurred because the Gift Certificate
-       *  does not have a sufficient balance to perform the requested
-       *  operation.
-       */
-      static GC_ERROR_INSUFFICIENT_BALANCE: string;
-      /**
-       * Indicates that an error occurred because the Gift Certificate
-       *  Amount was not valid.
-       */
-      static GC_ERROR_INVALID_AMOUNT: string;
-      /**
-       * Indicates that an error occurred because the Gift Certificate
-       *  ID was not valid.
-       */
-      static GC_ERROR_INVALID_CODE: string;
-      /**
-       * Indicates that an error occurred because the Gift Certificate
-       *  has been fully redeemed.
-       */
-      static GC_ERROR_PENDING: string;
-      /**
-       * Indicates that an error occurred because the Gift Certificate
-       *  has been fully redeemed.
-       */
-      static GC_ERROR_REDEEMED: string;
-
       private constructor();
 
       /**
@@ -35075,38 +33675,6 @@ declare namespace dw {
        *  has been fully redeemed.
        */
       static readonly GIFTCERTIFICATE_REDEEMED = "GIFTCERTIFICATE_REDEEMED";
-
-      /**
-       * Indicates that an error occurred because the Gift Certificate
-       *  was in a different currency than the Basket.
-       */
-      static GIFTCERTIFICATE_CURRENCY_MISMATCH: string;
-      /**
-       * Indicates that an error occurred because the Gift Certificate
-       *  is currently disabled.
-       */
-      static GIFTCERTIFICATE_DISABLED: string;
-      /**
-       * Indicates that an error occurred because the Gift Certificate
-       *  does not have a sufficient balance to perform the requested
-       *  operation.
-       */
-      static GIFTCERTIFICATE_INSUFFICIENT_BALANCE: string;
-      /**
-       * Indicates that an error occurred because the Gift Certificate
-       *  was not found.
-       */
-      static GIFTCERTIFICATE_NOT_FOUND: string;
-      /**
-       * Indicates that an error occurred because the Gift Certificate
-       *  is pending and is not available for use.
-       */
-      static GIFTCERTIFICATE_PENDING: string;
-      /**
-       * Indicates that an error occurred because the Gift Certificate
-       *  has been fully redeemed.
-       */
-      static GIFTCERTIFICATE_REDEEMED: string;
 
       constructor();
     }
@@ -35254,32 +33822,6 @@ declare namespace dw {
        */
       readonly items: dw.util.FilteringCollection<dw.order.InvoiceItem>;
       /**
-       * Sorting by creation date. Use with method getPaymentTransactions() as an argument to
-       *  method FilteringCollection.sort(Object).
-       */
-      static ORDERBY_CREATION_DATE: any;
-      /**
-       * Sorting by item id. Use with method getItems() as an argument to
-       *  method FilteringCollection.sort(Object).
-       */
-      static ORDERBY_ITEMID: any;
-      /**
-       * Sorting by the position of the related oder item. Use with method
-       *  getItems() as an argument to method
-       *  FilteringCollection.sort(Object).
-       */
-      static ORDERBY_ITEMPOSITION: any;
-      /**
-       * Reverse orders. Use as an argument
-       *  to method FilteringCollection.sort(Object).
-       */
-      static ORDERBY_REVERSE: any;
-      /**
-       * Unsorted , as it is. Use with method getItems() as an argument
-       *  to method FilteringCollection.sort(Object).
-       */
-      static ORDERBY_UNSORTED: any;
-      /**
        * The payment transactions belonging to this Invoice.
        *
        *  This FilteringCollection can be sorted / filtered using:
@@ -35295,26 +33837,6 @@ declare namespace dw {
        */
       readonly paymentTransactions: dw.util.FilteringCollection<dw.order.PaymentTransaction>;
       /**
-       * Selects the capture transactions. Use with method getPaymentTransactions() as an
-       *  argument to method FilteringCollection.select(Object).
-       */
-      static QUALIFIER_CAPTURE: any;
-      /**
-       * Selects the product items. Use with method getItems() as an
-       *  argument to method FilteringCollection.select(Object).
-       */
-      static QUALIFIER_PRODUCTITEMS: any;
-      /**
-       * Selects the refund transactions. Use with method getPaymentTransactions() as an
-       *  argument to method FilteringCollection.select(Object).
-       */
-      static QUALIFIER_REFUND: any;
-      /**
-       * Selects for the service items. Use with method getItems() as an
-       *  argument to method FilteringCollection.select(Object).
-       */
-      static QUALIFIER_SERVICEITEMS: any;
-      /**
        * The sum of the refunded amounts. The refunded amounts are
        *  calculated on the fly.
        *  Associate a payment capture for a OrderPaymentInstrument
@@ -35329,56 +33851,11 @@ declare namespace dw {
        */
       status: dw.value.EnumValue;
       /**
-       * Constant for Invoice Status Failed.
-       *  The invoice handling failed.
-       */
-      static STATUS_FAILED: string;
-      /**
-       * Constant for Invoice Status Manual.
-       *  The invoice is not paid but will not be handled automatically.
-       *  A manual invoice handling (capture or refund) is necessary.
-       */
-      static STATUS_MANUAL: string;
-      /**
-       * Constant for Invoice Status Not Paid.
-       *  The invoice is not paid and will be handled automatically.
-       */
-      static STATUS_NOT_PAID: string;
-      /**
-       * Constant for Invoice Status Paid.
-       *  The invoice was successfully paid.
-       */
-      static STATUS_PAID: string;
-      /**
        * The invoice type.
        *  The possible values are TYPE_SHIPPING, TYPE_RETURN,
        *  TYPE_RETURN_CASE, TYPE_APPEASEMENT.
        */
       readonly type: dw.value.EnumValue;
-      /**
-       * Constant for Invoice Type Appeasement.
-       *  The invoice was created for an appeasement.
-       *  The invoice amount needs to be refunded.
-       */
-      static TYPE_APPEASEMENT: string;
-      /**
-       * Constant for Invoice Type Return.
-       *  The invoice was created for a return.
-       *  The invoice amount needs to be refunded.
-       */
-      static TYPE_RETURN: string;
-      /**
-       * Constant for Invoice Type Return Case.
-       *  The invoice was created for a return case.
-       *  The invoice amount needs to be refunded.
-       */
-      static TYPE_RETURN_CASE: string;
-      /**
-       * Constant for Invoice Type Shipping.
-       *  The invoice was created for a shipping order.
-       *  The invoice amount needs to be captured.
-       */
-      static TYPE_SHIPPING: string;
 
       private constructor();
 
@@ -36052,66 +34529,10 @@ declare namespace dw {
        */
       readonly bonusLineItems: dw.util.Collection<dw.order.ProductLineItem>;
       /**
-       * constant for Business Type B2B
-       */
-      static BUSINESS_TYPE_B2B: number;
-      /**
-       * constant for Business Type B2C
-       */
-      static BUSINESS_TYPE_B2C: number;
-      /**
        * The type of the business this order has been placed in.
        *  Possible values are BUSINESS_TYPE_B2C or BUSINESS_TYPE_B2B.
        */
       readonly businessType: dw.value.EnumValue;
-      /**
-       * constant for Channel Type CallCenter
-       */
-      static CHANNEL_TYPE_CALLCENTER: number;
-      /**
-       * constant for Channel Type Customer Service Center
-       */
-      static CHANNEL_TYPE_CUSTOMERSERVICECENTER: number;
-      /**
-       * constant for Channel Type DSS
-       */
-      static CHANNEL_TYPE_DSS: number;
-      /**
-       * constant for Channel Type Facebook Ads
-       */
-      static CHANNEL_TYPE_FACEBOOKADS: number;
-      /**
-       * constant for Channel Type Instagram Commerce
-       */
-      static CHANNEL_TYPE_INSTAGRAMCOMMERCE: number;
-      /**
-       * constant for Channel Type Marketplace
-       */
-      static CHANNEL_TYPE_MARKETPLACE: number;
-      /**
-       * constant for Channel Type Online Reservation
-       */
-      static CHANNEL_TYPE_ONLINERESERVATION: number;
-      /**
-       * constant for Channel Type Pinterest
-       */
-      static CHANNEL_TYPE_PINTEREST: number;
-      /**
-       * constant for Channel Type Store
-       */
-      static CHANNEL_TYPE_STORE: number;
-      /**
-       * constant for Channel Type Storefront
-       */
-      static CHANNEL_TYPE_STOREFRONT: number;
-      /**
-       * constant for Channel Type Subscriptions
-       */
-      static CHANNEL_TYPE_SUBSCRIPTIONS: number;
-      /**
-       * constant for Channel Type Twitter
-       */
-      static CHANNEL_TYPE_TWITTER: number;
       /**
        * The channel type defines in which sales channel this order has been created. This can be used to distinguish
        *  order placed through Storefront, Call Center or Marketplace.
@@ -37306,14 +35727,6 @@ declare namespace dw {
        */
       readonly capturedAmount: dw.value.Money;
       /**
-       * constant for when Confirmation Status is Confirmed
-       */
-      static CONFIRMATION_STATUS_CONFIRMED: number;
-      /**
-       * constant for when Confirmation Status is Not Confirmed
-       */
-      static CONFIRMATION_STATUS_NOTCONFIRMED: number;
-      /**
        * The confirmation status of the order.
        *  Possible values are CONFIRMATION_STATUS_NOTCONFIRMED and
        *  CONFIRMATION_STATUS_CONFIRMED.
@@ -37364,22 +35777,6 @@ declare namespace dw {
        * The customer-specific reference information for the order, or null.
        */
       customerOrderReference: string;
-      /**
-       * constant for when Export Status is Exported
-       */
-      static EXPORT_STATUS_EXPORTED: number;
-      /**
-       * constant for when Export Status is Failed
-       */
-      static EXPORT_STATUS_FAILED: number;
-      /**
-       * constant for when Export Status is Not Exported
-       */
-      static EXPORT_STATUS_NOTEXPORTED: number;
-      /**
-       * constant for when Export Status is ready to be exported.
-       */
-      static EXPORT_STATUS_READY: number;
       /**
        * A date after which an order can be exported.
        */
@@ -37445,34 +35842,6 @@ declare namespace dw {
        */
       readonly invoices: dw.util.FilteringCollection<dw.order.Invoice>;
       /**
-       * constant for when Order Status is Cancelled
-       */
-      static ORDER_STATUS_CANCELLED: number;
-      /**
-       * constant for when Order Status is Completed
-       */
-      static ORDER_STATUS_COMPLETED: number;
-      /**
-       * constant for when Order Status is Created
-       */
-      static ORDER_STATUS_CREATED: number;
-      /**
-       * constant for when Order Status is Failed
-       */
-      static ORDER_STATUS_FAILED: number;
-      /**
-       * constant for when Order Status is New
-       */
-      static ORDER_STATUS_NEW: number;
-      /**
-       * constant for when Order Status is Open
-       */
-      static ORDER_STATUS_OPEN: number;
-      /**
-       * constant for when Order Status is Replaced
-       */
-      static ORDER_STATUS_REPLACED: number;
-      /**
        * The order number for this order.
        */
       readonly orderNo: string;
@@ -37506,18 +35875,6 @@ declare namespace dw {
        *  ancestor, this method returns the value of getOrderNo().
        */
       readonly originalOrderNo: string;
-      /**
-       * constant for when Payment Status is Not Paid
-       */
-      static PAYMENT_STATUS_NOTPAID: number;
-      /**
-       * constant for when Payment Status is Paid
-       */
-      static PAYMENT_STATUS_PAID: number;
-      /**
-       * constant for when Payment Status is Part Paid
-       */
-      static PAYMENT_STATUS_PARTPAID: number;
       /**
        * The order payment status value.
        *  Possible values are PAYMENT_STATUS_NOTPAID, PAYMENT_STATUS_PARTPAID
@@ -37620,18 +35977,6 @@ declare namespace dw {
        *  affected by this change and can use the APIs until further notice.
        */
       readonly returns: dw.util.FilteringCollection<dw.order.Return>;
-      /**
-       * constant for when Shipping Status is Not shipped
-       */
-      static SHIPPING_STATUS_NOTSHIPPED: number;
-      /**
-       * constant for when Shipping Status is Part Shipped
-       */
-      static SHIPPING_STATUS_PARTSHIPPED: number;
-      /**
-       * constant for when Shipping Status is Shipped
-       */
-      static SHIPPING_STATUS_SHIPPED: number;
       /**
        * The collection of ShippingOrderItems associated with this order.
        *
@@ -39101,38 +37446,6 @@ declare namespace dw {
        */
       status: dw.value.EnumValue;
       /**
-       * Constant for Order Item Status BACKORDER
-       */
-      static STATUS_BACKORDER: string;
-      /**
-       * Constant for Order Item Status CANCELLED
-       */
-      static STATUS_CANCELLED: string;
-      /**
-       * Constant for Order Item Status CONFIRMED
-       */
-      static STATUS_CONFIRMED: string;
-      /**
-       * Constant for Order Item Status CREATED
-       */
-      static STATUS_CREATED: string;
-      /**
-       * Constant for Order Item Status NEW
-       */
-      static STATUS_NEW: string;
-      /**
-       * Constant for Order Item Status OPEN
-       */
-      static STATUS_OPEN: string;
-      /**
-       * Constant for Order Item Status SHIPPED
-       */
-      static STATUS_SHIPPED: string;
-      /**
-       * Constant for Order Item Status WAREHOUSE
-       */
-      static STATUS_WAREHOUSE: string;
-      /**
        * The type of line item with which this instance is associated, one
        *  of
        *
@@ -39142,14 +37455,6 @@ declare namespace dw {
        *  ProductLineItem
        */
       readonly type: dw.value.EnumValue;
-      /**
-       * Constant for Order Item Type PRODUCT
-       */
-      static TYPE_PRODUCT: string;
-      /**
-       * Constant for Order Item Type SERVICE
-       */
-      static TYPE_SERVICE: string;
 
       private constructor();
 
@@ -39817,7 +38122,7 @@ declare namespace dw {
        *  DateTime
        *  yyyy-MM-dd'T'hh:mm:ss+Z e.g. 2007-05-31T00:00+Z (Z TimeZone = UTC) or 2007-05-31T00:00:00
        *  Boolean true, false
-       *  Email 's[email protected]', '*@demandware.com'
+       *  Email '[email protected]', '*@demandware.com'
        *  Set of String 'String', 'Str*', 'Strin?'
        *  Set of Integer 1, 3E4
        *  Set of Number 1.0, 3.99E5
@@ -40576,55 +38881,6 @@ declare namespace dw {
        */
       static readonly ORDER_NOT_PLACED = "ORDER_NOT_PLACED";
 
-      /**
-       * Indicates that a coupon in the order is not valid.
-       */
-      static COUPON_INVALID: string;
-      /**
-       * Indicates that no inventory could be reserved for the order.
-       */
-      static INVENTORY_RESERVATION_FAILED: string;
-      /**
-       * Indicates that the order could not be used because
-       *  it has already been cancelled.
-       */
-      static ORDER_ALREADY_CANCELLED: string;
-      /**
-       * Indicates that the order could not be used because it
-       *  has already been exported.
-       */
-      static ORDER_ALREADY_EXPORTED: string;
-      /**
-       * Indicates that the order could not be used because
-       *  it has already been failed.
-       */
-      static ORDER_ALREADY_FAILED: string;
-      /**
-       * Indicates that the order could not be used because
-       *  it has already been replaced.
-       */
-      static ORDER_ALREADY_REPLACED: string;
-      /**
-       * Indicates that the order could not be used because it
-       *  contains gift certificates.
-       */
-      static ORDER_CONTAINS_GC: string;
-      /**
-       * Indicates that the order could not be used because
-       *  it is not cancelled.
-       */
-      static ORDER_NOT_CANCELLED: string;
-      /**
-       * Indicates that the order could not be used because
-       *  it has not been failed.
-       */
-      static ORDER_NOT_FAILED: string;
-      /**
-       * Indicates that the order could not be used because
-       *  it has not been placed.
-       */
-      static ORDER_NOT_PLACED: string;
-
       constructor();
     }
 
@@ -41005,10 +39261,6 @@ declare namespace dw {
        */
       readonly custom: PaymentInstrumentCustomAttributes;
       /**
-       * Constant for specification of the public key encryption algorithm RSA.
-       */
-      static ENCRYPTION_ALGORITHM_RSA: string;
-      /**
        * The Gift Certificate code for this Payment Instrument.
        */
       giftCertificateCode: string;
@@ -41045,30 +39297,6 @@ declare namespace dw {
        *  all but the last 4 characters replaced with a '*' character.
        */
       readonly maskedGiftCertificateCode: string;
-      /**
-       * Represents a bank transfer type of payment.
-       */
-      static METHOD_BANK_TRANSFER: string;
-      /**
-       * Represents a 'bill me later' type of payment.
-       */
-      static METHOD_BML: string;
-      /**
-       * Represents a credit card type of payment.
-       */
-      static METHOD_CREDIT_CARD: string;
-      /**
-       * Represents an Android Pay payment.
-       */
-      static METHOD_DW_ANDROID_PAY: string;
-      /**
-       * Represents an Apple Pay payment.
-       */
-      static METHOD_DW_APPLE_PAY: string;
-      /**
-       * Represents a gift certificate.
-       */
-      static METHOD_GIFT_CERTIFICATE: string;
       /**
        * The identifier of the payment method represented by this
        *  payment instrument.
@@ -41959,19 +40187,6 @@ declare namespace dw {
       static readonly CREDITCARD_INVALID_SECURITY_CODE =
         "CREDITCARD_INVALID_SECURITY_CODE";
 
-      /**
-       * The code indicates that the credit card number is incorrect.
-       */
-      static CREDITCARD_INVALID_CARD_NUMBER: string;
-      /**
-       * The code indicates that the credit card is expired.
-       */
-      static CREDITCARD_INVALID_EXPIRATION_DATE: string;
-      /**
-       * The code indicates that the credit card security code length is invalid.
-       */
-      static CREDITCARD_INVALID_SECURITY_CODE: string;
-
       constructor();
     }
 
@@ -42019,22 +40234,6 @@ declare namespace dw {
        *  or TYPE_CREDIT.
        */
       type: dw.value.EnumValue;
-      /**
-       * Constant representing the authorization type of payment transaction.
-       */
-      static TYPE_AUTH: string;
-      /**
-       * Constant representing the authorization reversal type of payment transaction.
-       */
-      static TYPE_AUTH_REVERSAL: string;
-      /**
-       * Constant representing the capture type of payment transaction.
-       */
-      static TYPE_CAPTURE: string;
-      /**
-       * Constant representing the credit type of payment transaction.
-       */
-      static TYPE_CREDIT: string;
 
       private constructor();
 
@@ -42583,22 +40782,6 @@ declare namespace dw {
        *  The price adjustment limit was created at the shipping item level.
        */
       static readonly TYPE_SHIPPING = "SHIPPING";
-
-      /**
-       * Constant for Price Adjustment Limit Type Item.
-       *  The price adjustment limit was created at the item level.
-       */
-      static TYPE_ITEM: string;
-      /**
-       * Constant for Price Adjustment Limit Type Order.
-       *  The price adjustment limit was created at the order level.
-       */
-      static TYPE_ORDER: string;
-      /**
-       * Constant for Price Adjustment Limit Type Shipping.
-       *  The price adjustment limit was created at the shipping item level.
-       */
-      static TYPE_SHIPPING: string;
 
       private constructor();
     }
@@ -43667,10 +41850,6 @@ declare namespace dw {
        */
       readonly priceAdjustments: dw.util.Collection<dw.order.PriceAdjustment>;
       /**
-       * Reserved constant.
-       */
-      static PRODUCT_SHIPPING_ID: string;
-      /**
        * The parent product line item this shipping line item belongs to.
        */
       readonly productLineItem: dw.order.ProductLineItem;
@@ -43946,26 +42125,6 @@ declare namespace dw {
        */
       note: string;
       /**
-       * Sorting by item id. Use with method getItems() as an argument to method FilteringCollection.sort(Object).
-       */
-      static ORDERBY_ITEMID: any;
-      /**
-       * Sorting by the position of the related oder item. Use with method getItems() as an argument to method FilteringCollection.sort(Object).
-       */
-      static ORDERBY_ITEMPOSITION: any;
-      /**
-       * Unsorted , as it is. Use with method getItems() as an argument to method FilteringCollection.sort(Object).
-       */
-      static ORDERBY_UNSORTED: any;
-      /**
-       * Selects the product items. Use with method getItems() as an argument to method FilteringCollection.select(Object).
-       */
-      static QUALIFIER_PRODUCTITEMS: any;
-      /**
-       * Selects for the service items. Use with method getItems() as an argument to method FilteringCollection.select(Object).
-       */
-      static QUALIFIER_SERVICEITEMS: any;
-      /**
        * The ReturnCase with which this Return is associated. The ReturnCase
        *  may represent an RMA (return merchandise authorization).
        */
@@ -43980,14 +42139,6 @@ declare namespace dw {
        *  Possible values are STATUS_NEW, STATUS_COMPLETED.
        */
       status: dw.value.EnumValue;
-      /**
-       * Constant for Return Status COMPLETED
-       */
-      static STATUS_COMPLETED: string;
-      /**
-       * Constant for Return Status NEW
-       */
-      static STATUS_NEW: string;
 
       private constructor();
 
@@ -44220,26 +42371,6 @@ declare namespace dw {
        */
       readonly items: dw.util.FilteringCollection<dw.order.ReturnCaseItem>;
       /**
-       * Sorting by item id. Use with method getItems() as an argument to method FilteringCollection.sort(Object).
-       */
-      static ORDERBY_ITEMID: any;
-      /**
-       * Sorting by the position of the related oder item. Use with method getItems() as an argument to method FilteringCollection.sort(Object).
-       */
-      static ORDERBY_ITEMPOSITION: any;
-      /**
-       * Unsorted , as it is. Use with method getItems() as an argument to method FilteringCollection.sort(Object).
-       */
-      static ORDERBY_UNSORTED: any;
-      /**
-       * Selects the product items. Use with method getItems() as an argument to method FilteringCollection.select(Object).
-       */
-      static QUALIFIER_PRODUCTITEMS: any;
-      /**
-       * Selects for the service items. Use with method getItems() as an argument to method FilteringCollection.select(Object).
-       */
-      static QUALIFIER_SERVICEITEMS: any;
-      /**
        * The mandatory return case number identifying this document.
        */
       readonly returnCaseNumber: string;
@@ -44260,26 +42391,6 @@ declare namespace dw {
        *  STATUS_CANCELLED.
        */
       readonly status: dw.value.EnumValue;
-      /**
-       * constant for ReturnCase Status CANCELLED
-       */
-      static STATUS_CANCELLED: string;
-      /**
-       * constant for ReturnCase Status CONFIRMED
-       */
-      static STATUS_CONFIRMED: string;
-      /**
-       * constant for ReturnCase Status NEW
-       */
-      static STATUS_NEW: string;
-      /**
-       * constant for ReturnCase Status PARTIAL RETURNED
-       */
-      static STATUS_PARTIAL_RETURNED: string;
-      /**
-       * constant for ReturnCase Status RETURNED
-       */
-      static STATUS_RETURNED: string;
 
       private constructor();
 
@@ -44492,26 +42603,6 @@ declare namespace dw {
        *  STATUS_CANCELLED.
        */
       status: dw.value.EnumValue;
-      /**
-       * constant for ReturnCase Status CANCELLED
-       */
-      static STATUS_CANCELLED: string;
-      /**
-       * constant for ReturnCase Status CONFIRMED
-       */
-      static STATUS_CONFIRMED: string;
-      /**
-       * constant for ReturnCase Status NEW
-       */
-      static STATUS_NEW: string;
-      /**
-       * constant for ReturnCase Status PARTIAL RETURNED
-       */
-      static STATUS_PARTIAL_RETURNED: string;
-      /**
-       * constant for ReturnCase Status RETURNED
-       */
-      static STATUS_RETURNED: string;
 
       private constructor();
 
@@ -44931,28 +43022,12 @@ declare namespace dw {
        */
       readonly proratedMerchandizeTotalPrice: dw.value.Money;
       /**
-       * Shipment shipping status representing 'Not shipped'.
-       */
-      static SHIPMENT_NOTSHIPPED: number;
-      /**
-       * Shipment shipping status representing 'Shipped'.
-       */
-      static SHIPMENT_SHIPPED: number;
-      /**
        * The shipment number for this shipment.
        *
        *  When an order is placed (OrderMgr.placeOrder(Order)) shipment number will be filled using a
        *  sequence. Before order was placed null will be returned.
        */
       readonly shipmentNo: string;
-      /**
-       * Shipment shipping status representing 'Not shipped'.
-       */
-      static SHIPPING_STATUS_NOTSHIPPED: number;
-      /**
-       * Shipment shipping status representing 'Shipped'.
-       */
-      static SHIPPING_STATUS_SHIPPED: number;
       /**
        * The shipping address or null if none is set.
        */
@@ -45586,10 +43661,6 @@ declare namespace dw {
        *  applied to this shipping line item.
        */
       readonly shippingPriceAdjustments: dw.util.Collection<dw.order.PriceAdjustment>;
-      /**
-       * Constant used to get the standard shipping line item.
-       */
-      static STANDARD_SHIPPING_ID: string;
 
       private constructor();
 
@@ -46214,32 +44285,6 @@ declare namespace dw {
        */
       readonly items: dw.util.FilteringCollection<dw.order.ShippingOrderItem>;
       /**
-       * Sorting by item id. Use with method getItems() as an argument to
-       *  method FilteringCollection.sort(Object).
-       */
-      static ORDERBY_ITEMID: any;
-      /**
-       * Sorting by the position of the related oder item. Use with method
-       *  getItems() as an argument to method
-       *  FilteringCollection.sort(Object).
-       */
-      static ORDERBY_ITEMPOSITION: any;
-      /**
-       * Unsorted , as it is. Use with method getItems() as an argument
-       *  to method FilteringCollection.sort(Object).
-       */
-      static ORDERBY_UNSORTED: any;
-      /**
-       * Selects the product items. Use with method getItems() as an
-       *  argument to method FilteringCollection.select(Object).
-       */
-      static QUALIFIER_PRODUCTITEMS: any;
-      /**
-       * Selects for the service items. Use with method getItems() as an
-       *  argument to method FilteringCollection.select(Object).
-       */
-      static QUALIFIER_SERVICEITEMS: any;
-      /**
        * Gets the shipping date.
        *
        *  Returns null if this shipping order is not yet shipped.
@@ -46273,22 +44318,6 @@ declare namespace dw {
        *  STATUS_CANCELLED.
        */
       readonly status: dw.value.EnumValue;
-      /**
-       * Constant for Shipping Order Status CANCELLED
-       */
-      static STATUS_CANCELLED: string;
-      /**
-       * Constant for Shipping Order Status CONFIRMED
-       */
-      static STATUS_CONFIRMED: string;
-      /**
-       * Constant for Shipping Order Status SHIPPED
-       */
-      static STATUS_SHIPPED: string;
-      /**
-       * Constant for Shipping Order Status WAREHOUSE
-       */
-      static STATUS_WAREHOUSE: string;
       /**
        * Gets all tracking informations for this shipping order.
        */
@@ -46564,22 +44593,6 @@ declare namespace dw {
        *  STATUS_CANCELLED.
        */
       status: dw.value.EnumValue;
-      /**
-       * Constant for Order Item Status CANCELLED
-       */
-      static STATUS_CANCELLED: string;
-      /**
-       * Constant for Order Item Status CONFIRMED
-       */
-      static STATUS_CONFIRMED: string;
-      /**
-       * Constant for Order Item Status SHIPPED
-       */
-      static STATUS_SHIPPED: string;
-      /**
-       * Constant for Order Item Status WAREHOUSE
-       */
-      static STATUS_WAREHOUSE: string;
       /**
        * Gets the tracking refs (tracking infos) the shipping order item is
        *  assigned to.
@@ -46957,14 +44970,6 @@ declare namespace dw {
        */
       static readonly defaultTaxJurisdictionID: string;
       /**
-       * Constant representing the gross taxation policy.
-       */
-      static TAX_POLICY_GROSS: number;
-      /**
-       * Constant representing the net taxation policy.
-       */
-      static TAX_POLICY_NET: number;
-      /**
        * The taxation policy (net/gross) configured for the current site.
        */
       static readonly taxationPolicy: number;
@@ -47254,19 +45259,6 @@ declare namespace dw {
          */
         static readonly extensionPointCalculateTax = "dw.order.calculateTax";
 
-        /**
-         * The extension point name dw.order.calculate.
-         */
-        static extensionPointCalculate: string;
-        /**
-         * The extension point name dw.order.calculateShipping.
-         */
-        static extensionPointCalculateShipping: string;
-        /**
-         * The extension point name dw.order.calculateTax.
-         */
-        static extensionPointCalculateTax: string;
-
         private constructor();
 
         /**
@@ -47331,11 +45323,6 @@ declare namespace dw {
          * The extension point name dw.order.createOrderNo.
          */
         static readonly extensionPointCreateOrderNo = "dw.order.createOrderNo";
-
-        /**
-         * The extension point name dw.order.createOrderNo.
-         */
-        static extensionPointCreateOrderNo: string;
 
         private constructor();
 
@@ -47427,37 +45414,6 @@ declare namespace dw {
          */
         static readonly extensionPointValidateAuthorization =
           "dw.order.payment.validateAuthorization";
-
-        /**
-         * The extension point name dw.order.payment.authorize.
-         *   This hook is optional.
-         */
-        static extensionPointAuthorize: string;
-        /**
-         * The extension point name dw.order.payment.authorizeCreditCard.
-         *   This hook is optional.
-         */
-        static extensionPointAuthorizeCreditCard: string;
-        /**
-         * The extension point name dw.order.payment.capture.
-         */
-        static extensionPointCapture: string;
-        /**
-         * The extension point name dw.order.payment.reauthorize.
-         */
-        static extensionPointReauthorize: string;
-        /**
-         * The extension point name dw.order.payment.refund.
-         */
-        static extensionPointRefund: string;
-        /**
-         * The extension point name dw.order.payment.releaseAuthorization.
-         */
-        static extensionPointReleaseAuthorization: string;
-        /**
-         * The extension point name dw.order.payment.validateAuthorization.
-         */
-        static extensionPointValidateAuthorization: string;
 
         private constructor();
 
@@ -47801,27 +45757,6 @@ declare namespace dw {
         static readonly extensionPointNotifyStatusChange =
           "dw.order.return.notifyStatusChange";
 
-        /**
-         * The extension point name dw.order.return.addReturnItem.
-         */
-        static extensionPointAddReturnItem: string;
-        /**
-         * The extension point name dw.order.return.afterStatusChange.
-         */
-        static extensionPointAfterStatusChange: string;
-        /**
-         * The extension point name dw.order.return.changeStatus.
-         */
-        static extensionPointChangeStatus: string;
-        /**
-         * The extension point name dw.order.return.createReturn.
-         */
-        static extensionPointCreateReturn: string;
-        /**
-         * The extension point name dw.order.return.notifyStatusChange.
-         */
-        static extensionPointNotifyStatusChange: string;
-
         private constructor();
 
         /**
@@ -47985,48 +45920,6 @@ declare namespace dw {
          */
         static readonly extensionPointUpdateShippingOrderItem =
           "dw.order.shippingorder.updateShippingOrderItem";
-
-        /**
-         * The extension point name dw.order.shippingorder.afterStatusChange.
-         */
-        static extensionPointAfterStatusChange: string;
-        /**
-         * The extension point name dw.order.shippingorder.changeStatus.
-         */
-        static extensionPointChangeStatus: string;
-        /**
-         * The extension point name dw.order.shippingorder.createShippingOrders.
-         */
-        static extensionPointCreateShippingOrders: string;
-        /**
-         * The extension point name dw.order.shippingorder.notifyStatusChange.
-         */
-        static extensionPointNotifyStatusChange: string;
-        /**
-         * The extension point name
-         *  dw.order.shippingorder.prepareCreateShippingOrders.
-         */
-        static extensionPointPrepareCreateShippingOrders: string;
-        /**
-         * The extension point name dw.order.shippingorder.resolveShippingOrder .
-         */
-        static extensionPointResolveShippingOrder: string;
-        /**
-         * The extension point name dw.order.shippingorder.setShippingOrderCancelled.
-         */
-        static extensionPointShippingOrderCancelled: string;
-        /**
-         * The extension point name dw.order.shippingorder.setShippingOrderShipped.
-         */
-        static extensionPointShippingOrderShipped: string;
-        /**
-         * The extension point name dw.order.shippingorder.setShippingOrderWarehouse.
-         */
-        static extensionPointShippingOrderWarehouse: string;
-        /**
-         * The extension point name dw.order.shippingorder.updateShippingOrderItem.
-         */
-        static extensionPointUpdateShippingOrderItem: string;
 
         private constructor();
 
@@ -48446,112 +46339,6 @@ declare namespace dw {
        */
       static readonly WS_USERNAME_TOKEN = "UsernameToken";
 
-      /**
-       * WS-Security action property name.
-       *  Allowed property values are WS_NO_SECURITY, WS_TIMESTAMP, WS_ENCRYPT, WS_SIGNATURE, WS_USERNAME_TOKEN or
-       *  a space separated String with multiple values.
-       */
-      static WS_ACTION: string;
-      /**
-       * WS-Security encryption: the encryption/decryption keystore alias name
-       */
-      static WS_ENC_PROP_KEYSTORE_ALIAS: string;
-      /**
-       * WS-Security encryption: the encryption/decryption keystore password
-       */
-      static WS_ENC_PROP_KEYSTORE_PW: string;
-      /**
-       * WS-Security encryption: the encryption/decryption keystore type ( jks or pkcs12 ),
-       *                          default is jks.
-       *  Note: the keystore file must have the basename of the WSDL file and the
-       *  file extension based on the keystore type. For example: MyService.jks.
-       *  The keystore file must be placed in the same cartridge directory
-       *  as the WSDL file.
-       */
-      static WS_ENC_PROP_KEYSTORE_TYPE: string;
-      /**
-       * WS-Security action: encrypt the message.
-       *  The encryption-specific parameters define how to encrypt, which keys
-       *  to use, and other parameters.
-       */
-      static WS_ENCRYPT: string;
-      /**
-       * WS-Security encryption: defines which parts of the request are encrypted.
-       */
-      static WS_ENCRYPTION_PARTS: string;
-      /**
-       * WS-Security encryption: the user's name for encryption.
-       */
-      static WS_ENCRYPTION_USER: string;
-      /**
-       * WS-Security action: no security
-       */
-      static WS_NO_SECURITY: string;
-      /**
-       * WS-Security password type: parameter for UsernameToken action to define the encoding
-       *  of the password. Allowed values are PW_DIGEST or PW_TEXT.
-       */
-      static WS_PASSWORD_TYPE: string;
-      /**
-       * WS-Security password of type digest: use a password digest to send the password information.
-       */
-      static WS_PW_DIGEST: string;
-      /**
-       * WS-Security password of type text: send the password information in clear text.
-       */
-      static WS_PW_TEXT: string;
-      /**
-       * A secrets map with the username/password entries is needed to create the password
-       *  callback object.
-       */
-      static WS_SECRETS_MAP: string;
-      /**
-       * WS-Security signature: sets the signature digest algorithm to use.
-       */
-      static WS_SIG_DIGEST_ALGO: string;
-      /**
-       * WS-Security signature: the signature keystore alias name
-       */
-      static WS_SIG_PROP_KEYSTORE_ALIAS: string;
-      /**
-       * WS-Security signature: the signature keystore password.
-       */
-      static WS_SIG_PROP_KEYSTORE_PW: string;
-      /**
-       * WS-Security: the signature keystore type ( jks or pkcs12 ). The default is jks.
-       *  Note: The keystore file must have the basename of the WSDL file and the
-       *  file extension of the keystore type. For example: MyService.jks.
-       *  The keystore file must be placed in the same cartridge directory
-       *  as the WSDL file.
-       */
-      static WS_SIG_PROP_KEYSTORE_TYPE: string;
-      /**
-       * WS-Security action: sign the message.
-       *  The signature-specific parameters define how to sign, which keys
-       *  to use, and other parameters.
-       */
-      static WS_SIGNATURE: string;
-      /**
-       * WS-Security signature: defines which parts of the request are signed.
-       */
-      static WS_SIGNATURE_PARTS: string;
-      /**
-       * WS-Security signature: the user's name for signature.
-       */
-      static WS_SIGNATURE_USER: string;
-      /**
-       * WS-Security action: add a timestamp to the security header.
-       */
-      static WS_TIMESTAMP: string;
-      /**
-       * WS-Security user name.
-       */
-      static WS_USER: string;
-      /**
-       * WS-Security action: add a UsernameToken identification.
-       */
-      static WS_USERNAME_TOKEN: string;
-
       constructor();
 
       /**
@@ -48765,36 +46552,9 @@ declare namespace dw {
       static readonly USERNAME_PROPERTY: string;
 
       /**
-       * This property allows the user to set the web service connection timeout value in milliseconds. By default,
-       *  the web service connection timeout is 5000 milliseconds (5 seconds). The minimum allowed value is 100 milliseconds
-       *  and the maximum allowed value is 15000 milliseconds (15 seconds). Demandware recommends setting timeout values
-       *  in Business Manager Services module as it provides better analytics and timeout management.
-       */
-      static CONNECTION_TIMEOUT: string;
-      /**
-       * Standard property: target service endpoint address. The
-       *  URI scheme for the endpoint address specification must
-       *  correspond to the protocol/transport binding for this
-       *  stub class.
-       */
-      static ENDPOINT_ADDRESS_PROPERTY: string;
-      /**
        * The password.
        */
       password: string;
-      /**
-       * Standard property: password for authentication.
-       */
-      static PASSWORD_PROPERTY: string;
-      /**
-       * Standard property: this boolean property is used by a service
-       *  client to indicate whether or not it wants to participate in
-       *  a session with a service endpoint. If this property is set to
-       *  true, the service client indicates that it wants the session
-       *  to be maintained. If set to false, the session is not maintained.
-       *  The default value for this property is false.
-       */
-      static SESSION_MAINTAIN_PROPERTY: string;
       /**
        * The current read timeout value in milliseconds for this Stub.
        */
@@ -48806,10 +46566,6 @@ declare namespace dw {
        *  Pay special attention to PCI DSS v3. requirements 2, 4, and 12.
        */
       username: string;
-      /**
-       * Standard property: user name for authentication.
-       */
-      static USERNAME_PROPERTY: string;
 
       constructor();
 
@@ -49332,10 +47088,6 @@ declare namespace dw {
        *  possible for search suggestions to contain Page Designer content as it belongs to no folder.
        */
       filteredByFolder: boolean;
-      /**
-       * The maximum number of suggestions that can be obtain from this model: 10
-       */
-      static MAX_SUGGESTIONS: number;
       /**
        * Use this method to obtain a list of search phrases
        *  that currently are very popular among all users across the Site.
@@ -50314,10 +48066,6 @@ declare namespace dw {
        */
       readonly error: number;
       /**
-       * Status indicating a general service error.
-       */
-      static ERROR: string;
-      /**
        * An error message on a non-OK status.
        */
       readonly errorMessage: string;
@@ -50338,39 +48086,11 @@ declare namespace dw {
        */
       readonly ok: boolean;
       /**
-       * Status indicating a successful service call.
-       */
-      static OK: string;
-      /**
-       * Status indicating the service is unavailable. This includes timeouts, rate limits, and remote server issues.
-       */
-      static SERVICE_UNAVAILABLE: string;
-      /**
        * The status. This is "OK" on success. Failure codes include "ERROR" and "SERVICE_UNAVAILABLE".
        *
        *  If the status is "SERVICE_UNAVAILABLE", then the unavailableReason is guaranteed to be non-null.
        */
       readonly status: string;
-      /**
-       * Unavailable reason: No call was made because the circuit breaker prevented it.
-       */
-      static UNAVAILABLE_CIRCUIT_BROKEN: string;
-      /**
-       * Unavailable reason: No call was made because the service was not configured correctly.
-       */
-      static UNAVAILABLE_CONFIG_PROBLEM: string;
-      /**
-       * Unavailable reason: No call was made because the service is disabled.
-       */
-      static UNAVAILABLE_DISABLED: string;
-      /**
-       * Unavailable reason: No call was made because the rate limit was hit.
-       */
-      static UNAVAILABLE_RATE_LIMITED: string;
-      /**
-       * Unavailable reason: A real call was made but a timeout occurred.
-       */
-      static UNAVAILABLE_TIMEOUT: string;
       /**
        * The reason the status is SERVICE_UNAVAILABLE.
        */
@@ -50864,10 +48584,6 @@ declare namespace dw {
        *  working with custom attributes.
        */
       readonly custom: ServiceCredentialCustomAttributes;
-      /**
-       * Constant for specification of the public key encryption algorithm RSA.
-       */
-      static ENCRYPTION_ALGORITHM_RSA: string;
       /**
        * The unique Credential ID.
        */
@@ -52142,15 +49858,6 @@ declare namespace dw {
        */
       static readonly extensionPointOnSession = "dw.system.request.onSession";
 
-      /**
-       * The extension point name dw.system.request.onRequest.
-       */
-      static extensionPointOnRequest: string;
-      /**
-       * The extension point name dw.system.request.onSession.
-       */
-      static extensionPointOnSession: string;
-
       private constructor();
 
       /**
@@ -52294,120 +50001,9 @@ declare namespace dw {
       static readonly X_XSS_PROTECTION = "X-XSS-Protection";
 
       /**
-       * An allowed header name constant for Access-Control-Allow-Credentials
-       */
-      static ACCESS_CONTROL_ALLOW_CREDENTIALS: string;
-      /**
-       * An allowed header name constant for Access-Control-Allow-Headers
-       */
-      static ACCESS_CONTROL_ALLOW_HEADERS: string;
-      /**
-       * An allowed header name constant for Access-Control-Allow-Methods
-       */
-      static ACCESS_CONTROL_ALLOW_METHODS: string;
-      /**
-       * An allowed header name constant for Access-Control-Allow-Origin
-       */
-      static ACCESS_CONTROL_ALLOW_ORIGIN: string;
-      /**
-       * An allowed header name constant for Access-Control-Expose-Headers
-       */
-      static ACCESS_CONTROL_EXPOSE_HEADERS: string;
-      /**
-       * An allowed header name constant for Allow
-       */
-      static ALLOW: string;
-      /**
-       * An allowed header name constant for Content-Disposition
-       */
-      static CONTENT_DISPOSITION: string;
-      /**
-       * An allowed header name constant for Content-Language
-       */
-      static CONTENT_LANGUAGE: string;
-      /**
-       * An allowed header name constant for Content-Location
-       */
-      static CONTENT_LOCATION: string;
-      /**
-       * An allowed header name constant for Content-MD5
-       */
-      static CONTENT_MD5: string;
-      /**
-       * An allowed header name constant for Content-Security-Policy.
-       *
-       *  The only directive allowed is "frame-ancestors". Note: The Commerce Cloud platform can override this
-       *  header for tools like the Storefront Toolkit.
-       */
-      static CONTENT_SECURITY_POLICY: string;
-      /**
-       * An allowed header name constant for Content-Security-Policy-Report-Only.
-       *
-       *  You can set this response header only for storefront requests. Report recipient can't be a B2C Commerce system.
-       */
-      static CONTENT_SECURITY_POLICY_REPORT_ONLY: string;
-      /**
-       * An allowed header name constant for Content-Type
-       */
-      static CONTENT_TYPE: string;
-      /**
-       * An allowed header name constant for Location
-       */
-      static LOCATION: string;
-      /**
-       * An allowed header name constant for Platform for Privacy Preferences Project
-       */
-      static PLATFORM_FOR_PRIVACY_PREFERENCES_PROJECT: string;
-      /**
-       * An allowed header name constant for Referrer-Policy
-       */
-      static REFERRER_POLICY: string;
-      /**
-       * An allowed header name constant for Refresh
-       */
-      static REFRESH: string;
-      /**
-       * An allowed header name constant for Retry-After
-       */
-      static RETRY_AFTER: string;
-      /**
-       * An allowed header name constant for Vary
-       */
-      static VARY: string;
-      /**
        * A print writer which can be used to print content directly to the response.
        */
       readonly writer: dw.io.PrintWriter;
-      /**
-       * An allowed header name constant for X-Content-Type-Options
-       */
-      static X_CONTENT_TYPE_OPTIONS: string;
-      /**
-       * An allowed header name constant for X-FRAME-OPTIONS.
-       *
-       *  Note: The Commerce Cloud platform can override this header for tools like the Storefront Toolkit.
-       */
-      static X_FRAME_OPTIONS: string;
-      /**
-       * An allowed value ALLOW-FROM for X-FRAME-OPTIONS
-       */
-      static X_FRAME_OPTIONS_ALLOW_FROM: string;
-      /**
-       * An allowed value DENY for X-FRAME-OPTIONS
-       */
-      static X_FRAME_OPTIONS_DENY_VALUE: string;
-      /**
-       * An allowed value SAME-ORIGIN value for X-FRAME-OPTIONS
-       */
-      static X_FRAME_OPTIONS_SAMEORIGIN_VALUE: string;
-      /**
-       * An allowed header name constant for X-Robots-Tag
-       */
-      static X_ROBOTS_TAG: string;
-      /**
-       * An allowed header name constant for X-XSS-Protection
-       */
-      static X_XSS_PROTECTION: string;
 
       private constructor();
 
@@ -52919,18 +50515,6 @@ declare namespace dw {
        * This method returns a container of all site preferences of this site.
        */
       readonly preferences: dw.system.SitePreferences;
-      /**
-       * Constant that represents the Site under maintenance/offline
-       */
-      static SITE_STATUS_MAINTENANCE: number;
-      /**
-       * Constant that represents the Site is Online
-       */
-      static SITE_STATUS_ONLINE: number;
-      /**
-       * Constant that represents the Site is in preview mode or online/password (protected)
-       */
-      static SITE_STATUS_PROTECTED: number;
       /**
        * The status of this site.
        *
@@ -53499,10 +51083,6 @@ declare namespace dw {
        */
       static readonly compatibilityMode: number;
       /**
-       * Represents the development system.
-       */
-      static DEVELOPMENT_SYSTEM: number;
-      /**
        * Returns instance hostname.
        */
       static readonly instanceHostname: string;
@@ -53524,14 +51104,6 @@ declare namespace dw {
        *  organization (instance).
        */
       static readonly preferences: dw.system.OrganizationPreferences;
-      /**
-       * Represents the production system.
-       */
-      static PRODUCTION_SYSTEM: number;
-      /**
-       * Represents the staging system.
-       */
-      static STAGING_SYSTEM: number;
 
       private constructor();
 
@@ -54165,10 +51737,6 @@ declare namespace dw {
        * The number of bytes represented by this object.
        */
       readonly length: number;
-      /**
-       * The maximum number of bytes that a Bytes object can represent == 10KB
-       */
-      static MAX_BYTES: number;
 
       /**
        * Construct a Bytes object from the given string using the default
@@ -54426,155 +51994,11 @@ declare namespace dw {
       static readonly ZONE_OFFSET = 15;
 
       /**
-       * Indicates whether the HOUR is before or after noon.
-       */
-      static AM_PM: number;
-      /**
-       * Value for the month of year field representing April.
-       */
-      static APRIL: number;
-      /**
-       * Value for the month of year field representing August.
-       */
-      static AUGUST: number;
-      /**
-       * Represents a date.
-       */
-      static DATE: number;
-      /**
-       * Represents a day of the month.
-       */
-      static DAY_OF_MONTH: number;
-      /**
-       * Represents a day of the week.
-       */
-      static DAY_OF_WEEK: number;
-      /**
-       * Represents a day of the week in a month.
-       */
-      static DAY_OF_WEEK_IN_MONTH: number;
-      /**
-       * Represents a day of the year.
-       */
-      static DAY_OF_YEAR: number;
-      /**
-       * Value for the month of year field representing December.
-       */
-      static DECEMBER: number;
-      /**
-       * Indicates the daylight savings offset in milliseconds.
-       */
-      static DST_OFFSET: number;
-      /**
-       * Indicates the era such as 'AD' or 'BC' in the Julian calendar.
-       */
-      static ERA: number;
-      /**
-       * Value for the month of year field representing February.
-       */
-      static FEBRUARY: number;
-      /**
        * The first day of the week base on locale context. For example, in the US
        *  the first day of the week is SUNDAY. However, in France the
        *  first day of the week is MONDAY.
        */
       firstDayOfWeek: number;
-      /**
-       * Value for the day of the week field representing Friday.
-       */
-      static FRIDAY: number;
-      /**
-       * Represents an hour.
-       */
-      static HOUR: number;
-      /**
-       * Represents an hour of the day.
-       */
-      static HOUR_OF_DAY: number;
-      /**
-       * The input date pattern, for instance MM/dd/yyyy
-       */
-      static INPUT_DATE_PATTERN: number;
-      /**
-       * The input date time pattern, for instance MM/dd/yyyy h:mm a
-       */
-      static INPUT_DATE_TIME_PATTERN: number;
-      /**
-       * The input time pattern, for instance h:mm a
-       */
-      static INPUT_TIME_PATTERN: number;
-      /**
-       * Value for the month of year field representing January.
-       */
-      static JANUARY: number;
-      /**
-       * Value for the month of year field representing July.
-       */
-      static JULY: number;
-      /**
-       * Value for the month of year field representing June.
-       */
-      static JUNE: number;
-      /**
-       * The long date pattern, for instance MMM/d/yyyy
-       */
-      static LONG_DATE_PATTERN: number;
-      /**
-       * Value for the month of year field representing March.
-       */
-      static MARCH: number;
-      /**
-       * Value for the month of year field representing May.
-       */
-      static MAY: number;
-      /**
-       * Represents a millisecond.
-       */
-      static MILLISECOND: number;
-      /**
-       * Represents a minute.
-       */
-      static MINUTE: number;
-      /**
-       * Value for the day of the week field representing Monday.
-       */
-      static MONDAY: number;
-      /**
-       * Represents a month where the first month of the year is 0.
-       */
-      static MONTH: number;
-      /**
-       * Value for the month of year field representing November.
-       */
-      static NOVEMBER: number;
-      /**
-       * Value for the month of year field representing October.
-       */
-      static OCTOBER: number;
-      /**
-       * Value for the day of the week field representing Saturday.
-       */
-      static SATURDAY: number;
-      /**
-       * Represents a second.
-       */
-      static SECOND: number;
-      /**
-       * Value for the month of year field representing September.
-       */
-      static SEPTEMBER: number;
-      /**
-       * The short date pattern, for instance M/d/yy
-       */
-      static SHORT_DATE_PATTERN: number;
-      /**
-       * Value for the day of the week field representing Sunday.
-       */
-      static SUNDAY: number;
-      /**
-       * Value for the day of the week field representing Thursday.
-       */
-      static THURSDAY: number;
       /**
        * The current time stamp of this calendar. This method
        *  is also used to convert a Calendar into a Date.
@@ -54585,37 +52009,9 @@ declare namespace dw {
        */
       time: Date;
       /**
-       * The time pattern, for instance h:mm:ss a
-       */
-      static TIME_PATTERN: number;
-      /**
        * The current time zone of this calendar.
        */
       timeZone: string;
-      /**
-       * Value for the day of the week field representing Tuesday.
-       */
-      static TUESDAY: number;
-      /**
-       * Value for the day of the week field representing Wednesday.
-       */
-      static WEDNESDAY: number;
-      /**
-       * Represents a week of the month.
-       */
-      static WEEK_OF_MONTH: number;
-      /**
-       * Represents a week in the year.
-       */
-      static WEEK_OF_YEAR: number;
-      /**
-       * Represents a year.
-       */
-      static YEAR: number;
-      /**
-       * Indicates the raw offset from GMT in milliseconds.
-       */
-      static ZONE_OFFSET: number;
 
       /**
        * Creates a new Calendar object that is set to the current
@@ -55369,14 +52765,6 @@ declare namespace dw {
        *  previously sorted.
        */
       static readonly ORDERBY_REVERSE: any;
-
-      /**
-       * Pass this orderBy with the sort(Object) method to
-       *  obtain a new FilteringCollection with the reversed sort
-       *  order. Only use on a FilteringCollection which has been
-       *  previously sorted.
-       */
-      static ORDERBY_REVERSE: any;
 
       private constructor();
 
@@ -57294,31 +54682,6 @@ declare namespace dw {
        */
       static readonly TRUNCATE_WORD = "word";
 
-      /**
-       * String encoding type HTML.
-       */
-      static ENCODE_TYPE_HTML: number;
-      /**
-       * String encoding type WML.
-       */
-      static ENCODE_TYPE_WML: number;
-      /**
-       * String encoding type XML.
-       */
-      static ENCODE_TYPE_XML: number;
-      /**
-       * String truncate mode 'char'. Truncate string to the nearest character. Default mode if no truncate mode is specified.
-       */
-      static TRUNCATE_CHAR: string;
-      /**
-       * String truncate mode 'sentence'. Truncate string to the nearest sentence.
-       */
-      static TRUNCATE_SENTENCE: string;
-      /**
-       * String truncate mode 'word'. Truncate string to the nearest word.
-       */
-      static TRUNCATE_WORD: string;
-
       private constructor();
 
       /**
@@ -57800,10 +55163,6 @@ declare namespace dw {
        * The money as Decimal, null is returned when the money is not available.
        */
       readonly decimalValue: dw.util.Decimal;
-      /**
-       * Represents that there is no money available.
-       */
-      static NOT_AVAILABLE: dw.value.Money;
       /**
        * The value of the money instance.
        */
@@ -58462,10 +55821,6 @@ declare namespace dw {
        * The domain associated with the cookie.
        */
       domain: string;
-      /**
-       * Default name for cookies with empty strings.
-       */
-      static EMPTYNAME: string;
       /**
        * Identifies if the cookie is http-only.
        */
@@ -60358,10 +57713,6 @@ declare namespace dw {
        */
       readonly currentPage: number;
       /**
-       * The default page size.
-       */
-      static DEFAULT_PAGE_SIZE: number;
-      /**
        * Identifies if the model is empty.
        */
       readonly empty: boolean;
@@ -60369,10 +57720,6 @@ declare namespace dw {
        * The index of the last element on the current page.
        */
       readonly end: number;
-      /**
-       * The maximum supported page size.
-       */
-      static MAX_PAGE_SIZE: number;
       /**
        * The maximum possible page number. Counting for pages starts
        *  with 0.  The method also works with a miss-aligned start. In that case
@@ -60401,14 +57748,6 @@ declare namespace dw {
        * The size of the page.
        */
       pageSize: number;
-      /**
-       * The URL Parameter used for the page size.
-       */
-      static PAGING_SIZE_PARAMETER: string;
-      /**
-       * The URL parameter used for the start position.
-       */
-      static PAGING_START_PARAMETER: string;
       /**
        * The current start position from which iteration will start.
        */
@@ -61080,19 +58419,6 @@ declare namespace dw {
        * ID for a site context (= assigned cartridges). See staticURL() method.
        */
       static readonly CONTEXT_SITE = "ContextSite";
-
-      /**
-       * ID for a catalog context. See staticURL() method.
-       */
-      static CONTEXT_CATALOG: string;
-      /**
-       * ID for a library context. See staticURL() method.
-       */
-      static CONTEXT_LIBRARY: string;
-      /**
-       * ID for a site context (= assigned cartridges). See staticURL() method.
-       */
-      static CONTEXT_SITE: string;
 
       private constructor();
 
@@ -61953,36 +59279,6 @@ declare namespace dw {
        */
       static readonly USERNAME_PROPERTY: string;
 
-      /**
-       * Property constant for controlling the content type encoding of an outgoing message.
-       */
-      static ENCODING: string;
-      /**
-       * The target service endpoint address. When using this property, the URI
-       *  scheme for the endpoint address specification must correspond to the
-       *  protocol/transport binding for the binding in use.
-       */
-      static ENDPOINT_ADDRESS_PROPERTY: string;
-      /**
-       * Password for authentication. This property is used with the USERNAME_PROPERTY.
-       *  You can also use the  WSUtil.setUserNamePassword(String, String, Object) method instead of using these
-       *  properties.
-       */
-      static PASSWORD_PROPERTY: string;
-      /**
-       * This boolean property is used by a service client to indicate whether or not it wants to
-       *  participate in a session with a service endpoint. If this property is set to true, the service client indicates
-       *  that it wants the session to be maintained. If set to false, the session is not maintained. The default value
-       *  for this property is false.
-       */
-      static SESSION_MAINTAIN_PROPERTY: string;
-      /**
-       * User name for authentication. This property is used with the PASSWORD_PROPERTY.
-       *  You can also use the WSUtil.setUserNamePassword(String, String, Object) method instead of using these
-       *  properties.
-       */
-      static USERNAME_PROPERTY: string;
-
       constructor();
     }
 
@@ -62159,167 +59455,6 @@ declare namespace dw {
        * WS-Security action: Add a UsernameToken identification.
        */
       static readonly WS_USERNAME_TOKEN = "UsernameToken";
-
-      /**
-       * This key identifier method is used when the X.509 Certificate is included in the message.
-       *  The certificate is Base-64 encoded and included in the request via a BinarySecurityToken element
-       */
-      static KEY_ID_TYPE_DIRECT_REFERENCE: string;
-      /**
-       * This Key Identifier method only applies for Encryption. Unlike the previous methods
-       *  it refers to the way the EncryptedData references the EncryptedKey Element,
-       *  rather than the way the EncryptedKey Element refers to the public key.
-       */
-      static KEY_ID_TYPE_ENC_KEY_SHA1: string;
-      /**
-       * This key identifier method means that the Issuer Name and Serial Number of a X.509
-       *  Certificate is included directly in the KeyInfo Element.
-       */
-      static KEY_ID_TYPE_ISSUE_SERIAL: string;
-      /**
-       * This Key Identifier method refers to a Certificate via a Base-64 encoding of the
-       *  Subject Key Identifier.
-       */
-      static KEY_ID_TYPE_SKI_IDENTIFIER: string;
-      /**
-       * This Key Identifier method refers to the Certificate via a SHA-1 Thumbprint.
-       *  The certificate may or may not be included in the request.
-       */
-      static KEY_ID_TYPE_THUMBPRINT: string;
-      /**
-       * This key identifier method is similar to KEY_ID_TYPE_DIRECT_REFERENCE, in that the certificate is
-       *  included in the request. However, instead of referring to a certificate, the certificate is
-       *  included directly in the KeyInfo element.
-       */
-      static KEY_ID_TYPE_X509_KEY_IDENTIFIER: string;
-      /**
-       * WS-Security action property name.
-       *  Allowed property values are WS_NO_SECURITY, WS_TIMESTAMP, WS_ENCRYPT,
-       *  WS_SIGNATURE, WS_USERNAME_TOKEN or a space separated list of these values.
-       */
-      static WS_ACTION: string;
-      /**
-       * Defines which key identifier type to use for encryption. Permissible
-       *  values are:
-       *
-       *  KEY_ID_TYPE_ISSUE_SERIAL  (default value)
-       *  KEY_ID_TYPE_DIRECT_REFERENCE
-       *  KEY_ID_TYPE_X509_KEY_IDENTIFIER
-       *  KEY_ID_TYPE_THUMBPRINT
-       *  KEY_ID_TYPE_SKI_IDENTIFIER
-       *  KEY_ID_TYPE_ENC_KEY_SHA1
-       */
-      static WS_ENC_KEY_ID: string;
-      /**
-       * WS-Security Encryption: The encryption and decryption keystore alias name
-       */
-      static WS_ENC_PROP_KEYSTORE_ALIAS: string;
-      /**
-       * WS-Security Encryption: The encryption and decryption keystore password
-       */
-      static WS_ENC_PROP_KEYSTORE_PW: string;
-      /**
-       * WS-Security Encryption: The encryption/decryption keystore type ( jks or pkcs12 ),
-       *                          default is jks.
-       *  Note: The keystore file has the basename of the WSDL file and the
-       *  file extension based on the keystore type (e.g. MyService.jks).
-       *  The keystore file has to be placed in the same cartridge directory
-       *  as the WSDL file.
-       */
-      static WS_ENC_PROP_KEYSTORE_TYPE: string;
-      /**
-       * WS-Security action: Encrypt the message.
-       *  The encryption specific parameters define how to encrypt.
-       */
-      static WS_ENCRYPT: string;
-      /**
-       * WS-Security Encryption: Defines which parts of the request shall be encrypted.
-       */
-      static WS_ENCRYPTION_PARTS: string;
-      /**
-       * WS-Security Encryption: The user's name for encryption.
-       */
-      static WS_ENCRYPTION_USER: string;
-      /**
-       * WS-Security action: No security.
-       */
-      static WS_NO_SECURITY: string;
-      /**
-       * WS-Security password type: Parameter for UsernameToken action to define the encoding
-       *  of the password. Allowed values are PW_DIGEST or PW_TEXT.
-       */
-      static WS_PASSWORD_TYPE: string;
-      /**
-       * WS-Security password type "digest": Use a password digest to send the password information.
-       */
-      static WS_PW_DIGEST: string;
-      /**
-       * WS-Security password type "text": Send the password information in clear.
-       */
-      static WS_PW_TEXT: string;
-      /**
-       * A secrets map with the username and password entries needed to create the password
-       *  callback object.
-       */
-      static WS_SECRETS_MAP: string;
-      /**
-       * WS-Security Signature: Defines which signature digest algorithm to use.
-       */
-      static WS_SIG_DIGEST_ALGO: string;
-      /**
-       * Defines which key identifier type to use for signature.
-       *
-       *  Permissible values are:
-       *
-       *  KEY_ID_TYPE_ISSUE_SERIAL
-       *  KEY_ID_TYPE_DIRECT_REFERENCE (default value)
-       *  KEY_ID_TYPE_X509_KEY_ID_IDENTIFIER
-       *  KEY_ID_TYPE_THUMBPRINT
-       *  KEY_ID_TYPE_SKI_IDENTIFIER
-       */
-      static WS_SIG_KEY_ID: string;
-      /**
-       * WS-Security Signature: The signature keystore alias name.
-       */
-      static WS_SIG_PROP_KEYSTORE_ALIAS: string;
-      /**
-       * WS-Security Signature: The signature keystore password.
-       */
-      static WS_SIG_PROP_KEYSTORE_PW: string;
-      /**
-       * WS-Security: The signature keystore type ( jks or pkcs12 ), default is jks.
-       *  Note: The keystore file has the basename of the WSDL file and the
-       *  file extension based on the keystore type (e.g. MyService.jks).
-       *  The keystore file has to be placed in the same cartridge directory
-       *  as the WSDL file.
-       */
-      static WS_SIG_PROP_KEYSTORE_TYPE: string;
-      /**
-       * WS-Security action: Sign the message.
-       *  The signature specific parameters define how to sign and which keys
-       *  to use.
-       */
-      static WS_SIGNATURE: string;
-      /**
-       * WS-Security Signature: Defines which parts of the request shall be signed.
-       */
-      static WS_SIGNATURE_PARTS: string;
-      /**
-       * WS-Security Signature: The user's name for signature.
-       */
-      static WS_SIGNATURE_USER: string;
-      /**
-       * WS-Security action: Add a timestamp to the security header.
-       */
-      static WS_TIMESTAMP: string;
-      /**
-       * WS-Security user name.
-       */
-      static WS_USER: string;
-      /**
-       * WS-Security action: Add a UsernameToken identification.
-       */
-      static WS_USERNAME_TOKEN: string;
 
       constructor();
 

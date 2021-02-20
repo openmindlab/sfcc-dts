@@ -279,6 +279,7 @@ const generateCodeForClass = (theClass: ClassDef, customAttrTypes: Set<CustomAtt
 
 
   let properties: PropertyDef[] = Object.values(theClass.properties);
+  properties = properties.filter(prop => !constants.find(co => co.name == prop.name)); // properties my duplicate constants
   source += properties
     .filter(filterProperties(className))
     .sort((a, b) => a.name.localeCompare(b.name))
