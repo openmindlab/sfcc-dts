@@ -1,4 +1,6 @@
 ActiveData
+Appeasement
+AppeasementItem
 Basket
 BonusDiscountLineItem
 Campaign
@@ -17,6 +19,8 @@ EncryptedObject
 Folder
 GiftCertificate
 GiftCertificateLineItem
+Invoice
+InvoiceItem
 Library
 LineItem
 LineItemCtnr
@@ -48,6 +52,10 @@ Profile
 Promotion
 Recommendation
 Request
+Return
+ReturnCase
+ReturnCaseItem
+ReturnItem
 SearchRefinementDefinition
 ServiceConfig
 ServiceCredential
@@ -56,6 +64,8 @@ Session
 Shipment
 ShippingLineItem
 ShippingMethod
+ShippingOrder
+ShippingOrderItem
 SitePreferences
 SourceCodeGroup
 Store
