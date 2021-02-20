@@ -1,3 +1,5 @@
+AbstractItem
+AbstractItemCtnr
 ActiveData
 Appeasement
 AppeasementItem
@@ -70,5 +72,6 @@ SitePreferences
 SourceCodeGroup
 Store
 StoreGroup
+TrackingInfo
 Variant
 VariationGroup

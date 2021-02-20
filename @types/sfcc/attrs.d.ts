@@ -359,6 +359,26 @@ declare class CustomObjectCustomAttributes {
 }
 
 /**
+ * Custom attributes for AbstractItem object.
+ */
+declare class AbstractItemCustomAttributes {
+  /**
+   * Returns the custom attribute with this name. Throws an exception if attribute is not defined
+   */
+  [name: string]: any;
+}
+
+/**
+ * Custom attributes for AbstractItemCtnr object.
+ */
+declare class AbstractItemCtnrCustomAttributes {
+  /**
+   * Returns the custom attribute with this name. Throws an exception if attribute is not defined
+   */
+  [name: string]: any;
+}
+
+/**
  * Custom attributes for Appeasement object.
  */
 declare class AppeasementCustomAttributes extends AbstractItemCtnrCustomAttributes {
@@ -662,6 +682,16 @@ declare class ShippingOrderCustomAttributes extends AbstractItemCtnrCustomAttrib
  * Custom attributes for ShippingOrderItem object.
  */
 declare class ShippingOrderItemCustomAttributes extends AbstractItemCustomAttributes {
+  /**
+   * Returns the custom attribute with this name. Throws an exception if attribute is not defined
+   */
+  [name: string]: any;
+}
+
+/**
+ * Custom attributes for TrackingInfo object.
+ */
+declare class TrackingInfoCustomAttributes {
   /**
    * Returns the custom attribute with this name. Throws an exception if attribute is not defined
    */

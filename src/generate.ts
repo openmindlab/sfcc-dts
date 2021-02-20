@@ -35,6 +35,7 @@ const config: any = {
     "dw.web.PagingModel",
     "Array",
     "TopLevel.Array",
+    "dw.object.Extensible",
     "dw.object.ExtensibleObject",
     "dw.object.SimpleExtensible"
   ],
@@ -230,7 +231,7 @@ const generateCodeForClass = (theClass: ClassDef, customAttrTypes: Set<CustomAtt
       let generics = null;
 
       // if (theClass.hierarchy.find((h: any) => h.name === 'dw.object.ExtensibleObject')) {
-      if (hierarchyClass === 'dw.object.ExtensibleObject') {
+      if (hierarchyClass === 'dw.object.ExtensibleObject' || hierarchyClass === 'dw.object.Extensible') {
         generics = className + 'CustomAttributes';
         customAttrTypes.add({ name: className });
       } else if (theClass.hierarchy.find((h: any) => h.name === 'dw.object.ExtensibleObject' || h.name === 'dw.object.Extensible')) {

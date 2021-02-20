@@ -30654,7 +30654,7 @@ declare namespace dw {
      *  The <a href="class_dw_object_Extensible.html#dw_object_Extensible_getCustom_DetailAnchor">getCustom()</a> method is the central point to retrieve and store the objects attribute
      *  values themselves.
      */
-    class Extensible {
+    class Extensible<T> {
       /**
        * The custom attributes for this object.
        */
@@ -31632,7 +31632,8 @@ declare namespace dw {
      *  OrderItem, the order <a href="class_dw_order_LineItem.html">LineItem</a> which has been extended, and the <a href="class_dw_order_Order.html">Order</a>. In addition it defines
      *  methods to access item level prices and the item id. Supports custom-properties.
      */
-    class AbstractItem extends dw.object.Extensible {
+    class AbstractItem extends dw.object
+      .Extensible<AbstractItemCustomAttributes> {
       /**
        * Gross price of item.
        */
@@ -31745,7 +31746,8 @@ declare namespace dw {
      *  <li>The object is customizable using custom properties</li>
      *  </ul>
      */
-    class AbstractItemCtnr extends dw.object.Extensible {
+    class AbstractItemCtnr extends dw.object
+      .Extensible<AbstractItemCtnrCustomAttributes> {
       /**
        * Created by this user.
        */
@@ -45054,7 +45056,8 @@ declare namespace dw {
      * Provides basic information about a tracking info. An instance is identified by an ID and can be referenced from n ShippingOrderItems
      *  using <a href="class_dw_order_TrackingRef.html">TrackingRef</a>s. This also allows one <a href="class_dw_order_ShippingOrderItem.html">ShippingOrderItem</a> to be associated with n TrackingInfo.
      */
-    class TrackingInfo extends dw.object.Extensible {
+    class TrackingInfo extends dw.object
+      .Extensible<TrackingInfoCustomAttributes> {
       /**
        * Get the Carrier.
        */
