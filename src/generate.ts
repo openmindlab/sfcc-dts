@@ -341,7 +341,7 @@ const generateCodeForClass = (theClass: ClassDef, customAttrTypes: Set<CustomAtt
         }
 
         return `${methodSource}${doc(method)}${isGlobal ? "declare function " : ""}${method.static && !isGlobal ? isStatic : ""
-          }${method.name}(${method.args.map((m: any) => formatArgument(m, isGeneric)).join(", ")}): ${returnType};\n`
+          }${method.name.replace('@@iterator', '[Symbol.iterator]')}(${method.args.map((m: any) => formatArgument(m, isGeneric)).join(", ")}): ${returnType};\n`
       },
       ""
     );
