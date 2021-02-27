@@ -11675,7 +11675,7 @@ declare namespace dw {
       /**
        * A collection of product variation attributes of the variation.
        */
-      readonly productVariationAttributes: dw.util.Collection<dw.catalog.ProductVariationAttributeValue>;
+      readonly productVariationAttributes: dw.util.Collection<dw.catalog.ProductVariationAttribute>;
       /**
        * The variant currently selected for this variation model.
        *  Returns null if no variant is selected.
@@ -11928,7 +11928,7 @@ declare namespace dw {
        *
        * @return a collection of product variation attributes of the variation.
        */
-      getProductVariationAttributes(): dw.util.Collection<dw.catalog.ProductVariationAttributeValue>;
+      getProductVariationAttributes(): dw.util.Collection<dw.catalog.ProductVariationAttribute>;
       /**
        * Returns the selected value for the specified attribute. If no value is
        *  selected, null is returned.
@@ -19818,7 +19818,7 @@ declare namespace dw {
        *  Date yyyy-MM-dd e.g. 2007-05-31 (Default TimeZone = UTC)
        *  DateTime yyyy-MM-dd'T'hh:mm:ss+Z e.g. 2007-05-31T00:00+Z (Z TimeZone = UTC) or 2007-05-31T00:00:00
        *  Boolean true, false
-       *  Email '[email protected]', '*@demandware.com'
+       *  Email '[email protected]ndware.com', '*@demandware.com'
        *  Set of String 'String', 'Str*', 'Strin?'
        *  Set of Integer 1, 3E4
        *  Set of Number 1.0, 3.99E5
@@ -38124,7 +38124,7 @@ declare namespace dw {
        *  DateTime
        *  yyyy-MM-dd'T'hh:mm:ss+Z e.g. 2007-05-31T00:00+Z (Z TimeZone = UTC) or 2007-05-31T00:00:00
        *  Boolean true, false
-       *  Email '[email protected]', '*@demandware.com'
+       *  Email 'sea[email protected]', '*@demandware.com'
        *  Set of String 'String', 'Str*', 'Strin?'
        *  Set of Integer 1, 3E4
        *  Set of Number 1.0, 3.99E5
