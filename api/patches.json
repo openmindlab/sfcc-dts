@@ -477,6 +477,20 @@
             }
           }
         },
+        "Forms": {
+          "properties": {
+            "[name: string]": {
+              "name": "[name: string]",
+              "class": {
+                "name": "dw.web.Form"
+              },
+              "static": false,
+              "readonly": false,
+              "description": "Returns the dw.web.Form with this name or null",
+              "deprecated": 0
+            }
+          }
+        },
         "FormGroup": {
           "properties": {
             "[name: string]": {

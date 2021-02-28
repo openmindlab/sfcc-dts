@@ -34491,7 +34491,13 @@ declare namespace dw {
       /**
        * All product, shipping, price adjustment, and gift certificate line items of the line item container.
        */
-      readonly allLineItems: dw.util.Collection<dw.order.LineItem>;
+      readonly allLineItems: dw.util.Collection<
+        | dw.order.ProductLineItem
+        | dw.order.ProductShippingLineItem
+        | dw.order.ShippingLineItem
+        | dw.order.GiftCertificateLineItem
+        | dw.order.PriceAdjustment
+      >;
       /**
        * All product line items of the container, no matter if they are dependent or independent. This includes
        *  option, bundled and bonus line items.
@@ -35072,7 +35078,13 @@ declare namespace dw {
        *
        * @return A collection of all product, shipping, price adjustment, and gift certificate line items of the container, in that order.
        */
-      getAllLineItems(): dw.util.Collection<dw.order.LineItem>;
+      getAllLineItems(): dw.util.Collection<
+        | dw.order.ProductLineItem
+        | dw.order.ProductShippingLineItem
+        | dw.order.ShippingLineItem
+        | dw.order.GiftCertificateLineItem
+        | dw.order.PriceAdjustment
+      >;
       /**
        * Returns all product line items of the container, no matter if they are dependent or independent. This includes
        *  option, bundled and bonus line items.
@@ -57039,6 +57051,11 @@ declare namespace dw {
      *  Note that values stored with a form on the session are deleted if the request locale is changed during the session.</p>
      */
     class Forms {
+      /**
+       * Returns the dw.web.Form with this name or null
+       */
+      [name: string]: dw.web.Form;
+
       private constructor();
     }
 
