@@ -48041,7 +48041,7 @@ declare namespace dw {
     /**
      * Represents the result of a service call.
      */
-    class Result {
+    class Result<T> {
       /**
        * Status indicating a general service error.
        */
@@ -48095,7 +48095,7 @@ declare namespace dw {
       /**
        * The actual object returned by the service when the status is OK.
        */
-      readonly object: any;
+      readonly object: T;
       /**
        * The status of whether the service call was successful.
        */
@@ -48141,7 +48141,7 @@ declare namespace dw {
        *
        * @return Object returned by the service.
        */
-      getObject(): any;
+      getObject(): T;
       /**
        * Returns the status. This is "OK" on success. Failure codes include "ERROR" and "SERVICE_UNAVAILABLE".
        *
@@ -48271,7 +48271,7 @@ declare namespace dw {
        * @param args Arguments to pass. If there is a single argument and that argument is an array, then each item in the array will become a separate argument. For example, the following results in three separate arguments to the service:  svc.call( [1,2,3] )  and is functionally equivalent to  svc.call( 1, 2, 3 )  This can be avoided by explicitly forming a List, enclosing the array in another array, or by sending a second argument. The following will all send the array as a List in the first argument.  svc.call( ArrayList([1,2,3]) )   svc.call( [[1,2,3]] )   svc.call( [1,2,3], "" )  Another option is to change the definition of the associated ServiceCallback.createRequest(Service, Object...) to accept an object instead, and pass the array as a field of that object:  svc.call( { 'data': [1,2,3] } )
        * @return Result of the service.
        */
-      call(...args: any[]): dw.svc.Result;
+      call(...args: any[]): dw.svc.Result<any>;
       /**
        * Returns the Service Configuration.
        *

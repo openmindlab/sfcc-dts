@@ -195,6 +195,44 @@
           }
         }
       },
+      "svc": {
+        "Result": {
+          "fullClassName": "dw.svc.Result",
+          "package": "dw.svc",
+          "description": "Represents the result of a service call.",
+          "generics": "T",
+          "hierarchy": [
+            {
+              "name": "Object"
+            }
+          ],
+          "properties": {
+            "object": {
+              "name": "object",
+              "class": {
+                "name": "T"
+              },
+              "static": false,
+              "readonly": true,
+              "description": "The actual object returned by the service when the status is OK.",
+              "deprecated": false,
+              "type": "property"
+            }
+          },
+          "methods": {
+            "getObject": {
+              "name": "getObject",
+              "args": [],
+              "class": {
+                "name": "T",
+                "description": "Object returned by the service."
+              },
+              "description": "Returns the actual object returned by the service when the status is OK.",
+              "deprecated": false
+            }
+          }
+        }
+      },
       "system": {
         "Pipelet": {
           "fullClassName": "dw.system.Pipelet",
@@ -520,6 +558,8 @@
           }
         }
       }
+
+
     }
   }
 }

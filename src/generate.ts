@@ -37,7 +37,8 @@ const config: any = {
     "TopLevel.Array",
     "dw.object.Extensible",
     "dw.object.ExtensibleObject",
-    "dw.object.SimpleExtensible"
+    "dw.object.SimpleExtensible",
+    "dw.svc.Result"
   ],
   maps: [
     "dw.util.Map",
