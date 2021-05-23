@@ -26,9 +26,22 @@ interface Attributedefinition {
   maxvalue: string;
 }
 
+interface AttributeId {
+  attributeid: string;
+}
+
+interface Groupdefinition {
+  groupid: string;
+  displayname: string;
+  attribute: AttributeId[];
+}
+
 interface ObjectTypeExtensions {
   typeid: string;
   attributedefinitions: Attributedefinition[];
+  groupdefinitions: {
+    attributegroup: Groupdefinition[];
+  }
 }
 
 
@@ -92,6 +105,90 @@ declare class ${typename}CustomAttributes {
   }
 
   fs.writeFileSync(outpath, out);
+}
+
+
+function attributeConstant(at: AttributeId) {
+
+  return `${at.attributeid} : '${at.attributeid}'
+ `;
+}
+
+
+
+export async function generateConstants(extensions: string, dest: string) {
+  let typeExtensions: ObjectTypeExtensions[] = await parseMeta(extensions);
+
+
+  let customattrsrc = Array.from(typeExtensions).filter(i => i.attributedefinitions && i.attributedefinitions.length > 0)
+    .filter((i: ObjectTypeExtensions) => i.typeid == 'OrganizationPreferences')
+    .map((i: ObjectTypeExtensions) => {
+      return `
+/**
+ * Organization preferences.
+ */
+const organization = {
+
+  ${i.groupdefinitions.attributegroup.map(gd => {
+        return `
+    ${toConstant(gd.groupid)} : {
+      ${ensureArray(gd, 'attribute') && gd.attribute.map(a => attributeConstant(a))}
+    }`
+      })}
+}`
+    }).join('\n');
+
+
+  customattrsrc += Array.from(typeExtensions).filter(i => i.attributedefinitions && i.attributedefinitions.length > 0)
+    .filter((i: ObjectTypeExtensions) => i.typeid == 'SitePreferences')
+    .map((i: ObjectTypeExtensions) => {
+      return `
+/**
+ * Site preferences.
+ */
+const site = {
+
+  ${i.groupdefinitions.attributegroup.map(gd => {
+        return `
+    ${toConstant(gd.groupid)} : {
+      ${ensureArray(gd, 'attribute') && gd.attribute.map(a => attributeConstant(a))}
+    }`
+      })}
+}`
+    }).join('\n');
+
+  customattrsrc += `
+  module.exports = {
+    organization: organization,
+    site: site,
+  };
+  `;
+
+  let prettierconfig = {} as any;
+  if (fs.existsSync('.prettierrc')) {
+    try {
+      prettierconfig = JSON.parse(fs.readFileSync('.prettierrc', 'utf8'));
+    } catch (e) {
+      console.log(chalk.red(`Unable to parse local .prettierrc: ${e}`));
+    }
+  }
+
+  prettierconfig.parser = "babel";
+  prettierconfig.proseWrap = 'always';
+
+  let out = customattrsrc;
+  try {
+    out = prettier.format(customattrsrc, prettierconfig)
+  } catch (e) {
+    console.error(chalk.red(`Prettier format failed, check generated file at ${dest}\n${e}`));
+  }
+
+  fs.writeFileSync(dest, out);
+}
+
+
+function toConstant(val: string) {
+  return val.replace(/ /g, '_').replace(/[- \( \)]/g, '_');
 }
 
 function mapAttribute(at: Attributedefinition) {
@@ -174,6 +271,7 @@ function ensureArray(object: any, field: string) {
   if (object && object[field] && !object[field].length) {
     object[field] = [object[field]];
   }
+  return true;
 }
 
 function cleanupEntry(i: any) {

@@ -3,3 +3,4 @@ dist
 api/sfcc-api.json
 api/sfcc-api-patched.json
 test/*.js
+.vscode/*

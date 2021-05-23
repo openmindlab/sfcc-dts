@@ -57,10 +57,12 @@
     "generate": "node dist/generate.js",
     "makepatch": "node dist/makepatch.js",
     "sfcc-dts-setup": "node dist/setup.js",
-    "sfcc-dts-updateattrs": "node dist/updateattrs.js"
+    "sfcc-dts-updateattrs": "node dist/updateattrs.js",
+    "sfcc-dts-generateconstants": "node dist/generateconstants.js"
   },
   "bin": {
     "sfcc-dts-setup": "dist/setup.js",
-    "sfcc-dts-updateattrs": "dist/updateattrs.js"
+    "sfcc-dts-updateattrs": "dist/updateattrs.js",
+    "sfcc-dts-generateconstants": "dist/generateconstants.js"
   }
 }
