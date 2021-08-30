@@ -26778,6 +26778,11 @@ declare namespace dw {
        * @param line an array of strings.
        */
       writeNext(...line: string[]): void;
+      /**
+       * Write a single line to the CSV file.
+       * @param line an array of strings.
+       */
+      writeNext(line: string[]): void;
     }
 
     /**
