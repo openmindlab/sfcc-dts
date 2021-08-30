@@ -249,8 +249,8 @@ async function parseMeta(source: string): Promise<ObjectTypeExtensions[]> {
     normalizeTags: true,
     mergeAttrs: true,
     explicitArray: false,
-    attrNameProcessors: [function (name) { return name.replace(/-/g, ''); }],
-    tagNameProcessors: [function (name) { return name.replace(/-/g, ''); }]
+    attrNameProcessors: [function (name : string) { return name.replace(/-/g, ''); }],
+    tagNameProcessors: [function (name : string) { return name.replace(/-/g, ''); }]
   });
   let exts = await parser.parseStringPromise(fs.readFileSync(source, 'utf-8'),);
 
