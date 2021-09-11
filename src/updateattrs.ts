@@ -21,11 +21,11 @@ import { generateCustomTypes } from './customtypes';
   log(`Welcome to ${chalk.magentaBright('sfcc-dts')} custom attributes definition generator.\n`);
 
   let defaultpath = './sites/site_template/meta/';
-  let extensions;
+  let extensionspath;
 
-  if (fs.existsSync(path.join(defaultpath, 'system-objecttype-extensions.xml'))) {
-    log(`system-objecttype-extensions.xml detected at ${defaultpath}`);
-    extensions = path.join(defaultpath, 'system-objecttype-extensions.xml');
+  if (fs.existsSync(defaultpath)) {
+    log(`directory ${defaultpath} available`);
+    extensionspath = defaultpath;
   }
   else {
 
@@ -35,20 +35,20 @@ import { generateCustomTypes } from './customtypes';
         name: 'meta',
         message: 'Directory containing system-objecttype-extensions.xml?',
         initial: defaultpath,
-        validate: value => !fs.existsSync(path.join(value, 'system-objecttype-extensions.xml')) ? `system-objecttype-extensions.xml not found in ${path.join(value, 'system-objecttype-extensions.xml')}` : true
+        validate: value => !fs.existsSync(value) ? `directory ${value} not found` : true
       }
     ]);
-    extensions = path.join(response.meta, 'system-objecttype-extensions.xml');
+    extensionspath = response.meta;
   }
 
   log(`Generating definitions for custom attributes`);
-  if (extensions) {
-    await generateCustomTypes(extensions);
+  if (extensionspath) {
+    await generateCustomTypes(extensionspath);
   }
 
   log(`Write @types/dw/index.d.ts`);
   let references = '/// <reference path="../../node_modules/sfcc-dts/@types/sfcc/index.d.ts" />\n';
-  if (extensions) {
+  if (extensionspath) {
     references += '/// <reference path="./attrs.d.ts" />\n';
   }
   else {

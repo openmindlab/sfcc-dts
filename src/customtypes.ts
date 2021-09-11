@@ -47,14 +47,22 @@ interface ObjectTypeExtensions {
 
 
 
-export async function generateCustomTypes(extensions: string) {
-  let typeExtensions: ObjectTypeExtensions[] = await parseMeta(extensions);
+export async function generateCustomTypes(extensionsfolder: string) {
+
+  let typeExtensions: ObjectTypeExtensions[] = [];
+  let folder = fs.readdirSync(extensionsfolder).filter(i => !fs.lstatSync(path.join(extensionsfolder, i)).isDirectory() && i.endsWith('.xml'));
+  for (let j = 0; j < folder.length; j++) {
+    let extensions = path.join(extensionsfolder, folder[j]);
+    typeExtensions = typeExtensions.concat(await parseMeta(extensions));
+  }
+
+  typeExtensions = typeExtensions.filter(te => te.typeid && te.attributedefinitions && te.attributedefinitions.length > 0).sort((a, b) => a.typeid.localeCompare(b.typeid));
 
   let attrspath = path.join(__dirname, '../@types/sfcc/attrs.txt');
   console.log('path is ' + attrspath);
   let customObjList = new Set(fs.readFileSync(attrspath, 'utf8').split('\n'));
 
-  let customattrsrc = Array.from(typeExtensions).filter(i => i.attributedefinitions && i.attributedefinitions.length > 0).map((i: ObjectTypeExtensions) => {
+  let customattrsrc = typeExtensions.map((i: ObjectTypeExtensions) => {
     let typename = i.typeid;
     customObjList.delete(typename);
     return `
@@ -249,8 +257,8 @@ async function parseMeta(source: string): Promise<ObjectTypeExtensions[]> {
     normalizeTags: true,
     mergeAttrs: true,
     explicitArray: false,
-    attrNameProcessors: [function (name : string) { return name.replace(/-/g, ''); }],
-    tagNameProcessors: [function (name : string) { return name.replace(/-/g, ''); }]
+    attrNameProcessors: [function (name: string) { return name.replace(/-/g, ''); }],
+    tagNameProcessors: [function (name: string) { return name.replace(/-/g, ''); }]
   });
   let exts = await parser.parseStringPromise(fs.readFileSync(source, 'utf-8'),);
 
