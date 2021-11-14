@@ -58,11 +58,21 @@ export async function generateCustomTypes(extensionsfolder: string) {
 
   typeExtensions = typeExtensions.filter(te => te.typeid && te.attributedefinitions && te.attributedefinitions.length > 0).sort((a, b) => a.typeid.localeCompare(b.typeid));
 
+  let uniquetypes: any = {};
+  typeExtensions.forEach(ts => {
+    if (!uniquetypes[ts.typeid]) {
+      uniquetypes[ts.typeid] = ts;
+    } else {
+      uniquetypes[ts.typeid].attributedefinitions = uniquetypes[ts.typeid].attributedefinitions.concat(ts.attributedefinitions);
+    }
+  });
+
   let attrspath = path.join(__dirname, '../@types/sfcc/attrs.txt');
   console.log('path is ' + attrspath);
   let customObjList = new Set(fs.readFileSync(attrspath, 'utf8').split('\n'));
 
-  let customattrsrc = typeExtensions.map((i: ObjectTypeExtensions) => {
+  let customattrsrc = Object.keys(uniquetypes).map((k: string) => {
+    let i: ObjectTypeExtensions = uniquetypes[k];
     let typename = i.typeid;
     customObjList.delete(typename);
     return `
