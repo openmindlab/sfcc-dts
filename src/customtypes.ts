@@ -75,6 +75,8 @@ export async function generateCustomTypes(extensionsfolder: string) {
     let i: ObjectTypeExtensions = uniquetypes[k];
     let typename = i.typeid;
     customObjList.delete(typename);
+
+    i.attributedefinitions = i.attributedefinitions.sort((a, b) => a.attributeid.localeCompare(b.attributeid));
     return `
 /**
  * Custom attributes for ${typename} object.
