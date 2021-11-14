@@ -5552,6 +5552,16 @@ declare namespace dw {
       private constructor();
 
       /**
+       * Assign a price book to a site. This requires a transaction, see Transaction.wrap(Function)
+       * @param priceBook price book to be assigned
+       * @param siteId id of the site to be assigned to, such as 'SiteGenesis'. The site has to be a storefront site.
+       * @return true if price book is assigned to site. Throws an exception if price book doesn't exist or site doesn't exist or site is not a storefront site.
+       */
+      static assignPriceBookToSite(
+        priceBook: dw.catalog.PriceBook,
+        siteId: string
+      ): boolean;
+      /**
        * Returns all price books defined for the organization.
        *
        * @return All price books of the organization.
@@ -5590,6 +5600,26 @@ declare namespace dw {
       static setApplicablePriceBooks(
         ...priceBooks: dw.catalog.PriceBook[]
       ): void;
+      /**
+       * Unassign a price book from all sites. This requires a transaction, see
+       *  Transaction.wrap(Function)
+       * @param priceBook price book to be unassigned
+       * @return true if price book is unassigned from all sites. Throws an exception if price book doesn't exist
+       */
+      static unassignPriceBookFromAllSites(
+        priceBook: dw.catalog.PriceBook
+      ): boolean;
+      /**
+       * Unassign a price book from a site. This requires a transaction, see
+       *  Transaction.wrap(Function)
+       * @param priceBook price book to be unassigned
+       * @param siteId id of the site to be unassigned from, such as 'SiteGenesis'. The site has to be a storefront site.
+       * @return true if price book is unassigned from site. Throws an exception if price book doesn't exist or site doesn't exist or site is not a storefront site.
+       */
+      static unassignPriceBookFromSite(
+        priceBook: dw.catalog.PriceBook,
+        siteId: string
+      ): boolean;
     }
 
     /**
@@ -16406,7 +16436,7 @@ declare namespace dw {
        *           SSL3Padding: The padding scheme defined in the SSL Protocol Version 3.0, November 18, 1996, section 5.2.3.2 (CBC block cipher)
        * @param message A string to encrypt (will be first converted with UTF-8 encoding into a byte stream)
        * @param key A string ready for use with the algorithm. The key's format depends on the algorithm specified and the keys are assumed to be correctly formulated for the algorithm used, for example that the lengths are correct. Keys are not checked for validity. The cryptographic algorithms can be partitioned into symmetric and asymmetric (or public key/private key). Symmetric algorithms include password-based algorithms. Symmetric keys are usually a base64-encoded array of bytes. Asymmetric keys are "key pairs" with a public key and a private key. To encrypt using asymmetric algorithms, provide the public key. To decrypt using asymmetric algorithms, provide the private key from the same pair in PKCS#8 format, base64-encoded. See class documentation on how to generate a key pair. If the cryptographic algorithm is symmetric (for example, AES) or asymmetric (for example, RSA), the key needs to be passed as a base64-encoded string. The only exception is the symmetric cryptographic algorithms Password Based Encryption (PBE). With PBE the key needs to be passed as plain string (without any encoding).
-       * @param transformation The transformation has to be in "algorithm/mode/padding" format. Symmetric or "secret key" algorithms use the same key to encrypt and to decrypt the data. Asymmetric or "public key" cryptography uses a public/private key pair, and then publishes the public key. Only the holder of the private key will be able to decrypt. The public key and private key are also known as a "key pair". Supported Symmetric transformations include:  "AES" or Rijndael, Advanced Encryption Standard as specified by NIST AES with key length of 256 is the preferred choice for symmetric encryption Keysizes: 128, 192, or 256 Modes: "ECB","CBC","PCBC","CTR","CTS","CFB","CFB8","CFB16","CFB24".."CFB64", "OFB","OFB8","OFB16","OFB24".."OFB64" Padding: "PKCS5Padding"   Note that ARCFOUR, Blowfish, DES, RC2, DESede, DESedeWrap, PBEWithMD5AndDES, PBEWithMD5AndTripleDES1, PBEWithSHA1AndDESede and PBEWithSHA1AndRC2_40 transformations have been deprecated. Also, PKCS5Padding is the only supported Padding. NOPADDING and ISO10126PADDING have been deprecated. Supported Asymmetric transformations include:  "RSA" Mode: "NONE" Padding: "OAEPWITHSHA-256ANDMGF1PADDING", "OAEPWITHSHA-384ANDMGF1PADDING", "OAEPWITHSHA-512ANDMGF1PADDING"   Note that for RSA the key length should be at least 2048 bits. The ECB mode has been deprecated. Also, the following Padding options have been deprecated: NOPADDING, PKCS1PADDING, OAEPWITHMD5ANDMGF1PADDING, OAEPWITHSHA1ANDMGF1PADDING and OAEPWITHSHA-1ANDMGF1PADDING.
+       * @param transformation The transformation has to be in "algorithm/mode/padding" format. Symmetric or "secret key" algorithms use the same key to encrypt and to decrypt the data. Asymmetric or "public key" cryptography uses a public/private key pair, and then publishes the public key. Only the holder of the private key will be able to decrypt. The public key and private key are also known as a "key pair". Supported Symmetric transformations include:  "AES" or Rijndael, Advanced Encryption Standard as specified by NIST AES with key length of 256 is the preferred choice for symmetric encryption Keysizes: 128, 192, or 256 Modes: "ECB","CBC","PCBC","CTR","CTS","CFB","CFB8","CFB16","CFB24".."CFB64", "OFB","OFB8","OFB16","OFB24".."OFB64" Padding: "PKCS5Padding"   Note that ARCFOUR, Blowfish, DES, RC2, DESede, DESedeWrap, PBEWithMD5AndDES, PBEWithMD5AndTripleDES1, PBEWithSHA1AndDESede and PBEWithSHA1AndRC2_40 transformations have been deprecated. Also, PKCS5Padding is the only supported Padding. NOPADDING and ISO10126PADDING have been deprecated. Supported Asymmetric transformations include:  "RSA" Mode: "ECB" Padding: "OAEPWITHSHA-256ANDMGF1PADDING", "OAEPWITHSHA-384ANDMGF1PADDING", "OAEPWITHSHA-512ANDMGF1PADDING"   Note that for RSA the key length should be at least 2048 bits. Also, the following Padding options have been deprecated: NOPADDING, PKCS1PADDING, OAEPWITHMD5ANDMGF1PADDING, OAEPWITHSHA1ANDMGF1PADDING and OAEPWITHSHA-1ANDMGF1PADDING.
        * @param saltOrIV Initialization value appropriate for the algorithm, this might be a Binary Salt or AlgorithmParameter or InitializationVector. (As binary values cannot be passed, the equivalent Base64 String should be passed for any binary salt value). Should be appropriate for the algorithm being used. If this value is null, a default initialization value will be used by the engine. The same value used to Encrypt needs to be supplied to the Decrypt function for many algorithms to successfully decrypt the data, so it is best practice to specify an appropriate value. Requirements for the size and generation of DES initialization vectors (IV) are derived from FIPS 74 and FIPS 81 from the National Institute of Standards and Technology. CBC mode requires an IV with length 64 bits; CFB uses 48-64 bits; OFB uses 64 bits. If the IV is to be used with DES in the OFB mode, then it is not acceptable for the IV to remain fixed for multiple encryptions, if the same key is used for those encryptions. For Block Encryption algorithms this is the encoded Base64 String equivalent to the a random number to use as a "salt" to use with the algorithm. The algorithm must contain a Feedback Mode other than ECB. This must be a binary value that is exactly the same size as the algorithm block size. RC5 uses an optional 8-byte initialization vector (IV), but only in feedback mode (see CFB above). For Password Based Encryption algorithms, the salt is the encoded Base64 String equivalent to a random number value to transform the password into a key. PBE derives an encryption key from a password. In order to make the task of getting from password to key very time-consuming for an attacker, most PBE implementations will mix in a random number, known as a salt, to create the key. The salt value and the iteration count are then combined into a PBEParameterSpecification to initialize the cipher.  The PKCS#5 spec from RSA Labs defines the parameters for password-based encryption (PBE). The RSA algorithm requires a salt with length as defined in PKCS#1. DSA has a specific initialization that uses three integers to build a DSAParameterSpec (a prime, a sub-prime and a base). To use this algorithm you should use the JCE or another provider to supply a DSAParameterSpec and then supply the Base64 equivalent string as the "salt". Please see the documentation from the provider for additional restrictions.
        * @param iterations The number of passes to make when turning a passphrase into a key. This is only applicable for some types of algorithm. Password Based Encryption (PBE) algorithms use this parameter, and Block Encryption algorithms do not. If this value is relevant to the algorithm it would be best practice to supply it, as the same value would be needed to decrypt the data.
        * @return the encrypted message encoded as a String using base 64 encoding.
@@ -16549,7 +16579,7 @@ declare namespace dw {
        *           SSL3Padding: The padding scheme defined in the SSL Protocol Version 3.0, November 18, 1996, section 5.2.3.2 (CBC block cipher)
        * @param message A string to encrypt (will be first converted with UTF-8 encoding into a byte stream)
        * @param key A string ready for use with the algorithm. The key's format depends on the algorithm specified and the keys are assumed to be correctly formulated for the algorithm used, for example that the lengths are correct. Keys are not checked for validity. The cryptographic algorithms can be partitioned into symmetric and asymmetric (or public key/private key). Symmetric algorithms include password-based algorithms. Symmetric keys are usually a base64-encoded array of bytes. Asymmetric keys are "key pairs" with a public key and a private key. To encrypt using asymmetric algorithms, provide the public key. To decrypt using asymmetric algorithms, provide the private key from the same pair in PKCS#8 format, base64-encoded. See class documentation on how to generate a key pair. If the cryptographic algorithm is symmetric (for example, AES) or asymmetric (for example, RSA), the key needs to be passed as a base64-encoded string. The only exception is the symmetric cryptographic algorithms Password Based Encryption (PBE). With PBE the key needs to be passed as plain string (without any encoding).
-       * @param transformation The transformation has to be in "algorithm/mode/padding" format. Symmetric or "secret key" algorithms use the same key to encrypt and to decrypt the data. Asymmetric or "public key" cryptography uses a public/private key pair, and then publishes the public key. Only the holder of the private key will be able to decrypt. The public key and private key are also known as a "key pair". Supported Symmetric transformations include:  "AES" or Rijndael, Advanced Encryption Standard as specified by NIST AES with key length of 256 is the preferred choice for symmetric encryption Keysizes: 128, 192, or 256 Modes: "ECB","CBC","PCBC","CTR","CTS","CFB","CFB8","CFB16","CFB24".."CFB64", "OFB","OFB8","OFB16","OFB24".."OFB64" Padding: "PKCS5Padding"   Note that ARCFOUR, Blowfish, DES, RC2, DESede, DESedeWrap, PBEWithMD5AndDES, PBEWithMD5AndTripleDES1, PBEWithSHA1AndDESede and PBEWithSHA1AndRC2_40 transformations have been deprecated. Also, PKCS5Padding is the only supported Padding. NOPADDING and ISO10126PADDING have been deprecated. Supported Asymmetric transformations include:  "RSA" Mode: "NONE" Padding: "OAEPWITHSHA-256ANDMGF1PADDING", "OAEPWITHSHA-384ANDMGF1PADDING", "OAEPWITHSHA-512ANDMGF1PADDING"   Note that for RSA the key length should be at least 2048 bits. The ECB mode has been deprecated. Also, the following Padding options have been deprecated: NOPADDING, PKCS1PADDING, OAEPWITHMD5ANDMGF1PADDING, OAEPWITHSHA1ANDMGF1PADDING and OAEPWITHSHA-1ANDMGF1PADDING.
+       * @param transformation The transformation has to be in "algorithm/mode/padding" format. Symmetric or "secret key" algorithms use the same key to encrypt and to decrypt the data. Asymmetric or "public key" cryptography uses a public/private key pair, and then publishes the public key. Only the holder of the private key will be able to decrypt. The public key and private key are also known as a "key pair". Supported Symmetric transformations include:  "AES" or Rijndael, Advanced Encryption Standard as specified by NIST AES with key length of 256 is the preferred choice for symmetric encryption Keysizes: 128, 192, or 256 Modes: "ECB","CBC","PCBC","CTR","CTS","CFB","CFB8","CFB16","CFB24".."CFB64", "OFB","OFB8","OFB16","OFB24".."OFB64" Padding: "PKCS5Padding"   Note that ARCFOUR, Blowfish, DES, RC2, DESede, DESedeWrap, PBEWithMD5AndDES, PBEWithMD5AndTripleDES1, PBEWithSHA1AndDESede and PBEWithSHA1AndRC2_40 transformations have been deprecated. Also, PKCS5Padding is the only supported Padding. NOPADDING and ISO10126PADDING have been deprecated. Supported Asymmetric transformations include:  "RSA" Mode: "ECB" Padding: "OAEPWITHSHA-256ANDMGF1PADDING", "OAEPWITHSHA-384ANDMGF1PADDING", "OAEPWITHSHA-512ANDMGF1PADDING"   Note that for RSA the key length should be at least 2048 bits. Also, the following Padding options have been deprecated: NOPADDING, PKCS1PADDING, OAEPWITHMD5ANDMGF1PADDING, OAEPWITHSHA1ANDMGF1PADDING and OAEPWITHSHA-1ANDMGF1PADDING.
        * @param saltOrIV Initialization value appropriate for the algorithm, this might be a Binary Salt or AlgorithmParameter or InitializationVector. (As binary values cannot be passed, the equivalent Base64 String should be passed for any binary salt value). Should be appropriate for the algorithm being used. The same value used to Encrypt needs to be supplied to the Decrypt function for many algorithms to successfully decrypt the data, so it is best practice to specify an appropriate value. Requirements for the size and generation of DES initialization vectors (IV) are derived from FIPS 74 and FIPS 81 from the National Institute of Standards and Technology. CBC mode requires an IV with length 64 bits; CFB uses 48-64 bits; OFB uses 64 bits. If the IV is to be used with DES in the OFB mode, then it is not acceptable for the IV to remain fixed for multiple encryptions, if the same key is used for those encryptions. For Block Encryption algorithms this is the encoded Base64 String equivalent to the a random number to use as a "salt" to use with the algorithm. The algorithm must contain a Feedback Mode other than ECB. This must be a binary value that is exactly the same size as the algorithm block size. RC5 uses an optional 8-byte initialization vector (IV), but only in feedback mode (see CFB above). For Password Based Encryption algorithms, the salt is the encoded Base64 String equivalent to a random number value to transform the password into a key. PBE derives an encryption key from a password. In order to make the task of getting from password to key very time-consuming for an attacker, most PBE implementations will mix in a random number, known as a salt, to create the key. The salt value and the iteration count are then combined into a PBEParameterSpecification to initialize the cipher.  The PKCS#5 spec from RSA Labs defines the parameters for password-based encryption (PBE). The RSA algorithm requires a salt with length as defined in PKCS#1. DSA has a specific initialization that uses three integers to build a DSAParameterSpec (a prime, a sub-prime and a base). To use this algorithm you should use the JCE or another provider to supply a DSAParameterSpec and then supply the Base64 equivalent string as the "salt". Please see the documentation from the provider for additional restrictions.
        * @param iterations The number of passes to make when turning a passphrase into a key. This is only applicable for some types of algorithm. Password Based Encryption (PBE) algorithms use this parameter, and Block Encryption algorithms do not. If this value is relevant to the algorithm it would be best practice to supply it, as the same value would be needed to decrypt the data.
        * @return the encrypted message encoded as a String using base 64 encoding.
@@ -18431,6 +18461,10 @@ declare namespace dw {
        */
       readonly authenticated: boolean;
       /**
+       * The Salesforce CDP (Customer Data Platform) data for this customer.
+       */
+      readonly CDPData: dw.customer.CustomerCDPData;
+      /**
        * The customer groups this customer is member of.
        *
        *  Result contains static customer groups in storefront and job session
@@ -18505,6 +18539,12 @@ declare namespace dw {
        *
        */
       getAddressBook(): dw.customer.AddressBook;
+      /**
+       * Returns the Salesforce CDP (Customer Data Platform) data for this customer.
+       *
+       * @return the Salesforce CDP data for this customer.
+       */
+      getCDPData(): dw.customer.CustomerCDPData;
       /**
        * Returns the customer groups this customer is member of.
        *
@@ -19293,6 +19333,36 @@ declare namespace dw {
     }
 
     /**
+     * Represents the read-only Customer&apos;s Salesforce CDP (Customer Data Platform) data for a <a href="class_dw_customer_Customer.html">Customer</a> in Commerce
+     *  Cloud. Please see Salesforce CDP enablement documentation
+     */
+    class CustomerCDPData {
+      /**
+       * Return true if the CDPData is empty (has no meaningful data)
+       */
+      readonly empty: boolean;
+      /**
+       * An array containing the CDP segments for the customer, or an empty array if no segments found
+       */
+      readonly segments: string;
+
+      private constructor();
+
+      /**
+       * Returns an array containing the CDP segments for the customer, or an empty array if no segments found
+       *
+       * @return a collection containing the CDP segments for the customer
+       */
+      getSegments(): String[];
+      /**
+       * Return true if the CDPData is empty (has no meaningful data)
+       *
+       * @return true if CDPData is empty, false otherwise
+       */
+      isEmpty(): boolean;
+    }
+
+    /**
      * Provides helper methods for managing customer context, such as the Effective Time for which the customer is shopping
      *  at
      */
@@ -19874,7 +19944,7 @@ declare namespace dw {
        *  Date yyyy-MM-dd e.g. 2007-05-31 (Default TimeZone = UTC)
        *  DateTime yyyy-MM-dd'T'hh:mm:ss+Z e.g. 2007-05-31T00:00+Z (Z TimeZone = UTC) or 2007-05-31T00:00:00
        *  Boolean true, false
-       *  Email '[email protected]', '*@demandware.com'
+       *  Email '[email protected]andware.com', '*@demandware.com'
        *  Set of String 'String', 'Str*', 'Strin?'
        *  Set of Integer 1, 3E4
        *  Set of Number 1.0, 3.99E5
@@ -25555,6 +25625,10 @@ declare namespace dw {
          */
         basketData: any;
         /**
+         * A JS object containing the billing details to use when a Stripe PaymentMethod is created.
+         */
+        billingDetails: any;
+        /**
          * Returns a set containing the element types to be explicitly excluded from mounted components. See the element
          *  type constants in this class for the full list of supported element types.
          *
@@ -25741,6 +25815,12 @@ declare namespace dw {
          */
         getBasketData(): any;
         /**
+         * Returns a JS object containing the billing details to use when a Stripe PaymentMethod is created.
+         *
+         * @return JS object containing the billing details
+         */
+        getBillingDetails(): any;
+        /**
          * Returns a set containing the element types to be explicitly excluded from mounted components. See the element
          *  type constants in this class for the full list of supported element types.
          *
@@ -25804,6 +25884,28 @@ declare namespace dw {
          * @param basketData JS object containing the basket data
          */
         setBasketData(basketData: any): void;
+        /**
+         * Sets the billing details to use when a Stripe PaymentMethod is created. For convenience this method accepts a
+         *  JS object to set all details at once. The following example shows how to set details including address.
+         *
+         *
+         * request.setBillingDetails({
+         *     address: {
+         *         city: 'Wien',
+         *         country: 'AT',
+         *         line1: 'Opernring 2',
+         *         postal_code: '1010'
+         *     },
+         *     email: '[email protected]',
+         *     name: 'Johann Hummel'
+         * });
+         *
+         *
+         *  For more information on the available billing details see the Stripe create PaymentMethod API
+         *  documentation.
+         * @param billingDetails JS object containing the billing details
+         */
+        setBillingDetails(billingDetails: any): void;
         /**
          * Sets the payment request options to use when a Buy Now button is tapped. For convenience this method accepts a
          *  JS object to set all options at once. The following example shows how to set options including currency,
@@ -40730,6 +40832,14 @@ declare namespace dw {
       static readonly TYPE_CREDIT = "CREDIT";
 
       /**
+       * The payment service-specific account id.
+       */
+      accountID: string;
+      /**
+       * The payment service-specific account type.
+       */
+      accountType: string;
+      /**
        * The amount of the transaction.
        */
       amount: dw.value.Money;
@@ -40754,6 +40864,18 @@ declare namespace dw {
 
       private constructor();
 
+      /**
+       * Returns the payment service-specific account id.
+       *
+       * @return the payment service-specific account id.
+       */
+      getAccountID(): string;
+      /**
+       * Returns the payment service-specific account type.
+       *
+       * @return the payment service-specific account type.
+       */
+      getAccountType(): string;
       /**
        * Returns the amount of the transaction.
        *
@@ -40786,6 +40908,16 @@ declare namespace dw {
        * @return the value of the transaction type where the value is one of TYPE_AUTH, TYPE_AUTH_REVERSAL, TYPE_CAPTURE or TYPE_CREDIT.
        */
       getType(): dw.value.EnumValue;
+      /**
+       * Sets the payment service-specific account id.
+       * @param accountID the payment service-specific account id.
+       */
+      setAccountID(accountID: string): void;
+      /**
+       * Sets the payment service-specific account type.
+       * @param accountType the payment service-specific account type.
+       */
+      setAccountType(accountType: string): void;
       /**
        * Sets the amount of the transaction.
        * @param amount the amount of the transaction.
@@ -50496,6 +50628,10 @@ declare namespace dw {
        * An allowed header name constant for Location
        */
       static readonly LOCATION = "Location";
+      /**
+       * An allowed header name constant for Permissions-Policy
+       */
+      static readonly PERMISSIONS_POLICY = "Permissions-Policy";
       /**
        * An allowed header name constant for Platform for Privacy Preferences Project
        */
