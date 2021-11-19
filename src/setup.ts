@@ -33,12 +33,12 @@ import { generateCustomTypes } from './customtypes';
     name: 'meta',
     message: 'Directory containing system-objecttype-extensions.xml?',
     initial: './sites/site_template/meta/',
-    validate: value => !fs.existsSync(path.join(value, 'system-objecttype-extensions.xml')) ? `system-objecttype-extensions.xml not found in ${path.join(value, 'system-objecttype-extensions.xml')}` : true
+    validate: value => !fs.existsSync(value) ? `directory ${value} not found` : true
   }
   ]);
 
   let cartridgeroot = response.cartridgeroot;
-  let extensions = path.join(response.meta, 'system-objecttype-extensions.xml');
+  let extensions = response.meta;
   log(`Ready to go, will setup the project using cartridges in ${cartridgeroot} and custom attributes definition in ${extensions}\n`);
 
   let tsconfig: any = {}
