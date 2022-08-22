@@ -132,137 +132,137 @@ const mapDetail = ($: cheerio.Root, el: cheerio.Element) => {
   console.log(`Scraping ${classLinks.length} classes`);
   progress.start(classLinks.length, 0);
 
+  // old style for loop to make one request at a time...
+  for (let j = 0; j < classLinks.length; j++) {
+    const classLink = classLinks[j];
+    try {
+      let classPage = await instance.get(baseUrl + classLink);
+      let $ = cheerio.load(classPage.data);
+      let deprecated = $('.classSumary .parameters .parameterTitle').filter((i, el) => $(el).text().indexOf('Deprecated') >= 0);
+      let $class = $("div[id^=class_]");
 
-  return Promise.all(
-    classLinks.map(async (classLink) => {
-      try {
-        let classPage = await instance.get(baseUrl + classLink);
-        let $ = cheerio.load(classPage.data);
-        let deprecated = $('.classSumary .parameters .parameterTitle').filter((i, el) => $(el).text().indexOf('Deprecated') >= 0);
-        let $class = $("div[id^=class_]");
 
+      if ($class.length > 0 && deprecated.length === 0) {
+        let fullClassName = $class.eq(0).attr("id").split("_")[1];
+        let className = fullClassName.split('.').slice(-1)[0];
+        var packageName = $('.packageName').text().trim();
+        var classes = packageName.split('.').reduce((classesInPackage: any, packageName: string) => {
+          return classesInPackage[packageName] || (classesInPackage[packageName] = {});
+        }, api);
+        if (!(className in classes)) {
+          // console.log('Parsing ' + className);
 
-        if ($class.length > 0 && deprecated.length === 0) {
-          let fullClassName = $class.eq(0).attr("id").split("_")[1];
-          let className = fullClassName.split('.').slice(-1)[0];
-          var packageName = $('.packageName').text().trim();
-          var classes = packageName.split('.').reduce((classesInPackage: any, packageName: string) => {
-            return classesInPackage[packageName] || (classesInPackage[packageName] = {});
-          }, api);
-          if (!(className in classes)) {
-            // console.log('Parsing ' + className);
+          let methods = arrayToObj($(".section")
+            .filter(
+              (i, el) =>
+                $(el).find(".header").text().indexOf("Method Detail") >= 0
+            )
+            .find(".detailItem")
+            .map((i, el) => {
+              return mapDetail($, el);
+            })
+            .get());
 
-            let methods = arrayToObj($(".section")
+          classes[className] = {
+            fullClassName: fullClassName,
+            package: packageName,
+            description: $('.classSummaryDetail .description').html().trim(),
+            hierarchy: $(".hierarchy a[href]")
+              .map((i, el) => ({
+                name: $(el).text().trim(),
+                // link: $(el).attr("href"),
+              }))
+              .get(),
+            constants: arrayToObj($(".section")
+              .filter((i, el) => $(el).find(".header").text().trim() === "Constants")
+              .find(".summaryItem")
+              .map((i, el) => {
+                let description: string = $(el).find(".description").text();
+                let propertyText = $(el).text().replace(description, '').trim();
+                let parsedPropertyText = /^(\n|\s)*([^\s\t]+)(\n|\t|\s|:)*([^\s\t]+)(\n|\t|\s)*(=(\n|\t|\s)*(("[^"]+")|([^\s\t\n]+)))?/.exec(
+                  propertyText
+                );
+                return {
+                  name: parsedPropertyText[2].trim(),
+                  value: parsedPropertyText[8] ? parsedPropertyText[8].trim() : null,
+                  class: {
+                    name:
+                      $(el).find("a[href] span").text().trim() ||
+                      parsedPropertyText[4].trim(),
+                    // link: $(el).find("a[href]").attr("href"),
+                  },
+                  description: description.trim(),
+                  deprecated: !!$(el).find(".dep").length,
+                  type: "constant"
+                };
+              })
+              .get()),
+            properties: arrayToObj($(".section")
+              .filter(
+                (i, el) => $(el).find(".header").text().trim() === "Properties"
+              )
+              .find(".summaryItem")
+              .map((i, el) => {
+
+                let propertyEL = $(el);
+                if (propertyEL.find('.description')) {
+                  propertyEL = propertyEL.clone();
+                  propertyEL.find('.description').remove();
+                }
+                let propertyText: string = propertyEL.text().trim();
+
+                let parsedPropertyText = /^(\n|\s)*(static)?(\n|\s)*([^\s\t]+)(\n|\t|\s|:)*([^\s\t]+)/.exec(
+                  propertyText
+                );
+
+                let name = parsedPropertyText[4].trim();
+                let isStatic = !!parsedPropertyText[2];
+                let getter = methods[`get${name.charAt(0).toUpperCase()}${name.substring(1)}`];
+                if (getter && getter.static) {
+                  // properties don't have the "static" modifier in docs, try to determine it from the getter
+                  isStatic = true; // e.g. dw.system.System.instanceHostname
+                }
+
+                return {
+                  name: name,
+                  class: {
+                    name:
+                      $(el).find("a[href] span").text().trim() ||
+                      parsedPropertyText[6].trim(),
+                    // link: $(el).find("a[href]").attr("href"),
+                  },
+                  static: isStatic,
+                  readonly: propertyText.indexOf("Read Only") > 0,
+                  description: $(el).find(".description").text().trim(),
+                  deprecated: !!$(el).find(".dep").length,
+                  type: "property"
+                };
+              })
+              .get()),
+            constructors: arrayToObj($(".section")
               .filter(
                 (i, el) =>
-                  $(el).find(".header").text().indexOf("Method Detail") >= 0
+                  $(el)
+                    .find(".header")
+                    .text()
+                    .indexOf("Constructor Detail") >= 0
+                  && $(el).find('.summaryItem').eq(0).text().indexOf('This class does not have a constructor') < 0
               )
               .find(".detailItem")
               .map((i, el) => {
                 return mapDetail($, el);
               })
-              .get());
-
-            classes[className] = {
-              fullClassName: fullClassName,
-              package: packageName,
-              description: $('.classSummaryDetail .description').html().trim(),
-              hierarchy: $(".hierarchy a[href]")
-                .map((i, el) => ({
-                  name: $(el).text().trim(),
-                  // link: $(el).attr("href"),
-                }))
-                .get(),
-              constants: arrayToObj($(".section")
-                .filter((i, el) => $(el).find(".header").text().trim() === "Constants")
-                .find(".summaryItem")
-                .map((i, el) => {
-                  let description: string = $(el).find(".description").text();
-                  let propertyText = $(el).text().replace(description, '').trim();
-                  let parsedPropertyText = /^(\n|\s)*([^\s\t]+)(\n|\t|\s|:)*([^\s\t]+)(\n|\t|\s)*(=(\n|\t|\s)*(("[^"]+")|([^\s\t\n]+)))?/.exec(
-                    propertyText
-                  );
-                  return {
-                    name: parsedPropertyText[2].trim(),
-                    value: parsedPropertyText[8] ? parsedPropertyText[8].trim() : null,
-                    class: {
-                      name:
-                        $(el).find("a[href] span").text().trim() ||
-                        parsedPropertyText[4].trim(),
-                      // link: $(el).find("a[href]").attr("href"),
-                    },
-                    description: description.trim(),
-                    deprecated: !!$(el).find(".dep").length,
-                    type: "constant"
-                  };
-                })
-                .get()),
-              properties: arrayToObj($(".section")
-                .filter(
-                  (i, el) => $(el).find(".header").text().trim() === "Properties"
-                )
-                .find(".summaryItem")
-                .map((i, el) => {
-
-                  let propertyEL = $(el);
-                  if (propertyEL.find('.description')) {
-                    propertyEL = propertyEL.clone();
-                    propertyEL.find('.description').remove();
-                  }
-                  let propertyText: string = propertyEL.text().trim();
-
-                  let parsedPropertyText = /^(\n|\s)*(static)?(\n|\s)*([^\s\t]+)(\n|\t|\s|:)*([^\s\t]+)/.exec(
-                    propertyText
-                  );
-
-                  let name = parsedPropertyText[4].trim();
-                  let isStatic = !!parsedPropertyText[2];
-                  let getter = methods[`get${name.charAt(0).toUpperCase()}${name.substring(1)}`];
-                  if (getter && getter.static) {
-                    // properties don't have the "static" modifier in docs, try to determine it from the getter
-                    isStatic = true; // e.g. dw.system.System.instanceHostname
-                  }
-
-                  return {
-                    name: name,
-                    class: {
-                      name:
-                        $(el).find("a[href] span").text().trim() ||
-                        parsedPropertyText[6].trim(),
-                      // link: $(el).find("a[href]").attr("href"),
-                    },
-                    static: isStatic,
-                    readonly: propertyText.indexOf("Read Only") > 0,
-                    description: $(el).find(".description").text().trim(),
-                    deprecated: !!$(el).find(".dep").length,
-                    type: "property"
-                  };
-                })
-                .get()),
-              constructors: arrayToObj($(".section")
-                .filter(
-                  (i, el) =>
-                    $(el)
-                      .find(".header")
-                      .text()
-                      .indexOf("Constructor Detail") >= 0
-                    && $(el).find('.summaryItem').eq(0).text().indexOf('This class does not have a constructor') < 0
-                )
-                .find(".detailItem")
-                .map((i, el) => {
-                  return mapDetail($, el);
-                })
-                .get()),
-              methods: methods
-            };
-          }
+              .get()),
+            methods: methods
+          };
         }
-      } catch (e) {
-        console.error(`\nError fetching ${classLink}: ${e.message}`);
       }
-      progress.increment();
-    })
-  );
+    } catch (e) {
+      console.error(`\nError fetching ${classLink}: ${e.message}`);
+    }
+    progress.increment();
+  }
+
 })().then(() => {
   progress.stop();
   finish(api);
