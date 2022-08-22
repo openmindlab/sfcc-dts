@@ -1,7 +1,7 @@
 #!/usr/bin/env node
-import chalk from "chalk";
 import fs from "fs";
 import path from "path";
+import chalk from "picocolors";
 import prettier from "prettier";
 import xml2js from 'xml2js';
 

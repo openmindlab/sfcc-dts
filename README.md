@@ -2,12 +2,6 @@
 
 > High quality Salesforce Commerce Cloud type definitions. A dw-api-types "done right"
 
-<div>
-	<br>
-	<a href="https://openmindonline.it" target="_blank"><img width="200" src="https://raw.githubusercontent.com/openmindlab/sfcc-dts/HEAD/openmind.svg" alt="openmind"></a>
-	<br>
-	<br>
-</div>
 
 ## Features
 
@@ -74,7 +68,5 @@ Still in the checklist:
 * Find a proper way to define module.superModule augmenting the standard NodeModule definition
 
 ## License
-
-Copyright (c) 2020 openmind
 
 Released under the MIT license.

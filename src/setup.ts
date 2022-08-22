@@ -1,16 +1,16 @@
 #!/usr/bin/env node
-import path from "path";
-import fs from "fs";
-import chalk from "chalk";
-import prompts from "prompts";
 import { execSync } from "child_process";
-import { log } from 'console';
 import { parse, stringify } from 'comment-json';
+import { log } from 'console';
+import fs from "fs";
+import path from "path";
+import pc from "picocolors";
+import prompts from "prompts";
 import { generateCustomTypes } from './customtypes';
 
 (async () => {
 
-  const banner = chalk`
+  const banner = `
                 _|_|                                        _|    _|                
     _|_|_|    _|        _|_|_|    _|_|_|                _|_|_|  _|_|_|_|    _|_|_|  
   _|_|      _|_|_|_|  _|        _|        _|_|_|_|_|  _|    _|    _|      _|_|      
@@ -18,9 +18,9 @@ import { generateCustomTypes } from './customtypes';
   _|_|_|      _|        _|_|_|    _|_|_|                _|_|_|      _|_|  _|_|_|    
                                                                                     
                                                                     `;
-  log(chalk.hex('ed26f3')(banner));
+  log(pc.magenta(banner));
 
-  log(`Welcome to ${chalk.magentaBright('sfcc-dts')} interactive project setup wizard.\n`);
+  log(`Welcome to ${pc.magenta('sfcc-dts')} interactive project setup wizard.\n`);
   const response = await prompts([{
     type: 'text',
     name: 'cartridgeroot',
@@ -108,7 +108,7 @@ import { generateCustomTypes } from './customtypes';
 
   fs.writeFileSync('tsconfig.json', stringify(tsconfig, null, 2));
 
-  let packagejson = parse(fs.readFileSync('package.json', 'utf8'));
+  let packagejson : any = parse(fs.readFileSync('package.json', 'utf8'));
 
   if (!packagejson.devDependencies || !packagejson.devDependencies['sfcc-dts']) {
     log(`Installing local copy of sfcc-dts`);

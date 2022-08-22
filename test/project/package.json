@@ -2,7 +2,7 @@
   "name": "testpackage",
   "version": "0.0.4",
   "description": "",
-  "author": "openmind",
+  "author": "openmindlab",
   "license": "MIT",
   "dependencies": {
     "axios": "^0.19.2",

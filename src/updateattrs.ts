@@ -1,14 +1,14 @@
 #!/usr/bin/env node
-import chalk from "chalk";
 import { log } from 'console';
 import fs from "fs";
 import path from "path";
+import pc from "picocolors";
 import prompts from "prompts";
 import { generateCustomTypes } from './customtypes';
 
 (async () => {
 
-  const banner = chalk`
+  const banner = `
                 _|_|                                        _|    _|                
     _|_|_|    _|        _|_|_|    _|_|_|                _|_|_|  _|_|_|_|    _|_|_|  
   _|_|      _|_|_|_|  _|        _|        _|_|_|_|_|  _|    _|    _|      _|_|      
@@ -16,9 +16,9 @@ import { generateCustomTypes } from './customtypes';
   _|_|_|      _|        _|_|_|    _|_|_|                _|_|_|      _|_|  _|_|_|    
                                                                                     
                                                                     `;
-  log(chalk.hex('ed26f3')(banner));
+  log(pc.magenta(banner));
 
-  log(`Welcome to ${chalk.magentaBright('sfcc-dts')} custom attributes definition generator.\n`);
+  log(`Welcome to ${pc.magenta('sfcc-dts')} custom attributes definition generator.\n`);
 
   let defaultpath = './sites/site_template/meta/';
   let extensionspath;
