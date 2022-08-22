@@ -1,6 +1,7 @@
 import axios from "axios";
 import cheerio from "cheerio";
 import cliProgress from 'cli-progress';
+import https from "https";
 
 const interfaceexcludes = [
   "dw.io.XMLStreamWriter"
@@ -69,7 +70,13 @@ const mapDetail = ($: cheerio.Root, el: cheerio.Element) => {
 (async () => {
   const baseUrl =
     "https://documentation.b2c.commercecloud.salesforce.com/DOC1/topic/com.demandware.dochelp/DWAPI/scriptapi/html/api/";
-  let response = await axios.get(baseUrl + "classList.html");
+
+  let instance = axios.create({
+    timeout: 120000, //optional
+    httpsAgent: new https.Agent({ keepAlive: true })
+  })
+
+  let response = await instance.get(baseUrl + "classList.html");
   let $ = cheerio.load(response.data);
   let classLinks = $("a[href^=class_]")
     .map((i, el) => $(el).attr("href"))
@@ -78,10 +85,11 @@ const mapDetail = ($: cheerio.Root, el: cheerio.Element) => {
   console.log(`Scraping ${classLinks.length} classes`);
   progress.start(classLinks.length, 0);
 
+
   return Promise.all(
     classLinks.map(async (classLink) => {
       try {
-        let classPage = await axios.get(baseUrl + classLink);
+        let classPage = await instance.get(baseUrl + classLink);
         let $ = cheerio.load(classPage.data);
         let deprecated = $('.classSumary .parameters .parameterTitle').filter((i, el) => $(el).text().indexOf('Deprecated') >= 0);
         let $class = $("div[id^=class_]");
@@ -203,7 +211,7 @@ const mapDetail = ($: cheerio.Root, el: cheerio.Element) => {
           }
         }
       } catch (e) {
-        console.error(e);
+        console.error(`\nError fetching ${classLink}: ${e.message}`);
       }
       progress.increment();
     })
