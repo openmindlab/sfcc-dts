@@ -1,7 +1,9 @@
 import axios from "axios";
 import cheerio from "cheerio";
 import cliProgress from 'cli-progress';
+import fs from "fs";
 import https from "https";
+import path from "path";
 
 const interfaceexcludes = [
   "dw.io.XMLStreamWriter"
@@ -28,6 +30,51 @@ const arrayToObj = (array: any[]) => {
   return initialValue;
 };
 
+
+const collectClasses = (obj: any, mapping: any) => {
+  if (obj.fullClassName) {
+    if (!obj.fullClassName.startsWith('TopLevel.')) {
+      mapping[obj.fullClassName.split('.').pop()] = obj.fullClassName;
+    }
+  } else {
+    Object.keys(obj).forEach((key) => collectClasses(obj[key], mapping));
+  }
+  return mapping;
+}
+
+const collectInterfaces = (obj: any, interfaces: string[]) => {
+  if (obj.hierarchy) {
+    obj.hierarchy.forEach((el: any) => {
+      if (!interfaces.includes(el.name) && !interfaceexcludes.includes(el.name)) {
+        interfaces.push(el.name);
+      }
+    });
+  } else {
+    Object.keys(obj).forEach((key) => collectInterfaces(obj[key], interfaces));
+  }
+  return interfaces;
+}
+
+const sort = (obj: any) => {
+  if (obj.fullClassName) return obj;
+  return Object.keys(obj).sort().reduce(function (sortedObj: any, key: string) {
+    sortedObj[key] = sort(obj[key]);
+    return sortedObj;
+  }, {});
+};
+
+const finish = (api: any) => {
+  const apiSorted = sort(api);
+  const apiMapping = collectClasses(apiSorted, {});
+  const apiInterfaces = collectInterfaces(apiSorted, []);
+
+  console.log('Writing files')
+  fs.writeFileSync(path.join(process.cwd(), './api/sfcc-api.json'), JSON.stringify({
+    api: apiSorted,
+    mapping: apiMapping,
+    interfaces: apiInterfaces
+  }, null, 2));
+}
 
 const mapDetail = ($: cheerio.Root, el: cheerio.Element) => {
   let detailSignature = $(el).find('.detailSignature').text().trim();
@@ -130,7 +177,7 @@ const mapDetail = ($: cheerio.Root, el: cheerio.Element) => {
                 .filter((i, el) => $(el).find(".header").text().trim() === "Constants")
                 .find(".summaryItem")
                 .map((i, el) => {
-                  let description = $(el).find(".description").text();
+                  let description: string = $(el).find(".description").text();
                   let propertyText = $(el).text().replace(description, '').trim();
                   let parsedPropertyText = /^(\n|\s)*([^\s\t]+)(\n|\t|\s|:)*([^\s\t]+)(\n|\t|\s)*(=(\n|\t|\s)*(("[^"]+")|([^\s\t\n]+)))?/.exec(
                     propertyText
@@ -162,7 +209,7 @@ const mapDetail = ($: cheerio.Root, el: cheerio.Element) => {
                     propertyEL = propertyEL.clone();
                     propertyEL.find('.description').remove();
                   }
-                  let propertyText = propertyEL.text().trim();
+                  let propertyText: string = propertyEL.text().trim();
 
                   let parsedPropertyText = /^(\n|\s)*(static)?(\n|\s)*([^\s\t]+)(\n|\t|\s|:)*([^\s\t]+)/.exec(
                     propertyText
@@ -218,48 +265,6 @@ const mapDetail = ($: cheerio.Root, el: cheerio.Element) => {
   );
 })().then(() => {
   progress.stop();
-  const fs = require('fs');
-  const path = require('path');
-
-  const sort = (obj: any) => {
-    if (obj.fullClassName) return obj;
-    return Object.keys(obj).sort().reduce(function (sortedObj: any, key: string) {
-      sortedObj[key] = sort(obj[key]);
-      return sortedObj;
-    }, {});
-  };
-  const apiSorted = sort(api);
-  const collectClasses = (obj: any, mapping: any) => {
-    if (obj.fullClassName) {
-      if (!obj.fullClassName.startsWith('TopLevel.')) {
-        mapping[obj.fullClassName.split('.').pop()] = obj.fullClassName;
-      }
-    } else {
-      Object.keys(obj).forEach((key) => collectClasses(obj[key], mapping));
-    }
-    return mapping;
-  }
-  const apiMapping = collectClasses(apiSorted, {});
-
-  const collectInterfaces = (obj: any, interfaces: string[]) => {
-    if (obj.hierarchy) {
-      obj.hierarchy.forEach((el: any) => {
-        if (!interfaces.includes(el.name) && !interfaceexcludes.includes(el.name)) {
-          interfaces.push(el.name);
-        }
-      });
-    } else {
-      Object.keys(obj).forEach((key) => collectInterfaces(obj[key], interfaces));
-    }
-    return interfaces;
-  }
-  const apiInterfaces = collectInterfaces(apiSorted, []);
-
-  console.log('Writing files')
-  fs.writeFileSync(path.join(process.cwd(), './api/sfcc-api.json'), JSON.stringify({
-    api: apiSorted,
-    mapping: apiMapping,
-    interfaces: apiInterfaces
-  }, null, 2));
+  finish(api);
 });
 
