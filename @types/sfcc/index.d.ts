@@ -168,7 +168,7 @@ declare class ConversionError extends Error {
 }
 
 /**
- * This isn&apos;t a built-in type. It describes the properties an object must have in order
+ * This isn't a built-in type. It describes the properties an object must have in order
  *  to work as an iterator since ECMAScript 2015.
  */
 declare class ES6Iterator {
@@ -251,7 +251,7 @@ declare class Fault extends Error {
  *
  *  When a generator function is called, the body of the function does not
  *  execute straight away; instead, it returns a generator-iterator object.
- *  Each call to the generator-iterator&apos;s next() method will execute the
+ *  Each call to the generator-iterator's next() method will execute the
  *  body of the function up to the next <b>yield</b> statement and return its result.
  *  When either the end of the function or a return statement is reached,
  *  a StopIteration exception is thrown.
@@ -276,7 +276,7 @@ declare class Fault extends Error {
  *  <pre> <code>
  *   var gen = fib();
  *   for (var i = 0; i &lt; 10; i++) {
- *     document.write(<b><i>gen.next()</i></b> &quot; &quot;);
+ *     document.write(<b><i>gen.next()</i></b> " ");
  *   }
  *  </code>
  *  </pre>
@@ -377,7 +377,7 @@ declare class InternalError extends Error {
  *  implementation, the module object can be accessed via the <a href="class_TopLevel_global.html#TopLevel_global_module_DetailAnchor"> module</a> variable.
  *  <p>
  *  A module has a unique absolute id. The same module may be resolved by <a href="class_TopLevel_global.html#TopLevel_global_require_String_DetailAnchor"> require(String)</a>
- *  for different path arguments, like relative paths (starting with &quot;./&quot; or &quot;../&quot;), or absolute paths. See the
+ *  for different path arguments, like relative paths (starting with "./" or "../"), or absolute paths. See the
  *  documentation of require for more details about the lookup procedure.
  *  </p>
  *  <p>
@@ -390,7 +390,7 @@ declare class InternalError extends Error {
  *
  *  <pre> // Greeting.js
  *  exports.sayHello = function() {
- *      return &apos;Hello World!&apos;;
+ *      return 'Hello World!';
  *  };
  *  </pre>
  *
@@ -398,14 +398,14 @@ declare class InternalError extends Error {
  *
  *  <pre> // Greeting.js
  *  module.exports.sayHello = function() {
- *      return &apos;Hello World!&apos;;
+ *      return 'Hello World!';
  *  };
  *  </pre>
  *
  *  With the above implementation, a caller (for example another module in the same directory) could call the module
  *  function like this:
  *
- *  <pre> var message = require(&apos;./Greeting&apos;).sayHello();
+ *  <pre> var message = require('./Greeting').sayHello();
  *  </pre>
  *
  *  It is also possible to replace the whole module exports object with a completely different value, for example with a
@@ -413,13 +413,13 @@ declare class InternalError extends Error {
  *
  *  <pre> // Greeting.js
  *  module.exports = function sayHello() {
- *      return &apos;Hi!&apos;;
+ *      return 'Hi!';
  *  }
  *  </pre>
  *
  *  Now the result of require would be a function, which can be invoked directly like:
  *
- *  <pre> var message = require(&apos;./Greeting&apos;)();
+ *  <pre> var message = require('./Greeting')();
  *  </pre>
  *
  *  This construction can be used for exporting constructor functions, so that a module becomes something like a class:
@@ -427,7 +427,7 @@ declare class InternalError extends Error {
  *  <pre> // Greeting.js
  *  function Greeting()
  *  {
- *      this.message = &apos;Hi!&apos;;
+ *      this.message = 'Hi!';
  *  }
  *
  *  Greeting.prototype.getMessage = function() {
@@ -439,7 +439,7 @@ declare class InternalError extends Error {
  *
  *  which would be used like:
  *
- *  <pre> var Greeting = require(&apos;./Greeting&apos;);
+ *  <pre> var Greeting = require('./Greeting');
  *  var m = new Greeting().getMessage();
  *  </pre>
  */
@@ -640,7 +640,7 @@ declare class StopIteration {
 }
 
 /**
- * This error indicates an error in the system, which doesn&apos;t fall into
+ * This error indicates an error in the system, which doesn't fall into
  *  any of the other error categories like for example IOError. The SystemError
  *  is always related to a systems internal Java exception. The class provides
  *  access to some more details about this internal Java exception.
@@ -680,7 +680,7 @@ declare class SystemError extends Error {
 /**
  * The XML object contains functions and properties for working with XML
  *  instances. The XML object implements the powerful XML-handling standards
- *  defined in the ECMA-357 specification (known as &quot;E4X&quot;).
+ *  defined in the ECMA-357 specification (known as "E4X").
  *  <p>
  *  Use the toXMLString() method to return a string representation of the XML
  *  object regardless of whether the XML object has simple content or complex
@@ -690,8 +690,8 @@ declare class SystemError extends Error {
  *  When dealing with XML streams use <a href="class_dw_io_XMLStreamReader.html">XMLStreamReader</a> and
  *  <a href="class_dw_io_XMLStreamWriter.html">XMLStreamWriter</a>. The following example shows how:
  *
- *  </p><pre> var id : String = &quot;p42&quot;;
- *  var pname : String = &quot;a product&quot;;
+ *  </p><pre> var id : String = "p42";
+ *  var pname : String = "a product";
  *
  *  // use E4X syntax
  *  var product : XML =
@@ -700,8 +700,8 @@ declare class SystemError extends Error {
  *      &lt;shortdesc&gt;&lt;/shortdesc&gt;
  *    &lt;/product&gt;;
  *
- *  product.shortdesc = &quot;a fine product&quot;;
- *  product.longdesc = &quot;this is a fine product&quot;;
+ *  product.shortdesc = "a fine product";
+ *  product.longdesc = "this is a fine product";
  *
  *  var xmlString = product.toXMLString();
  *
@@ -714,7 +714,7 @@ declare class SystemError extends Error {
  *
  *  </p><p>
  *
- *  </p><pre> &lt;product id=&quot;p42&quot;&gt;
+ *  </p><pre> &lt;product id="p42"&gt;
  *    &lt;name&gt;a product&lt;/name&gt;
  *    &lt;shortdesc&gt;a fine product&lt;/shortdesc&gt;
  *    &lt;longdesc&gt;this is a fine product&lt;/longdesc&gt;
@@ -1508,39 +1508,39 @@ declare namespace dw {
 
     /**
      * <p>Allow creation, removal, re-validation and retrieval of alerts that might get visible to Business Manager users.</p>
-     *  <p>The alerts have to be registered by the &apos;alerts.json&apos; descriptor file in a cartridge assigned to the Business Manager site.
-     *  The descriptor file itself has to be defined in &apos;package.json&apos; of that cartridge using a property &apos;alerts&apos; and providing its path
-     *  that is relative to the &apos;package.json&apos;.
-     *  The &apos;alert.json&apos; descriptor files contain the &apos;alert descriptions&apos;, which are referenced by their ID throughout the API.</p>
-     *  <p>For example, the &apos;alerts.json&apos; file could have the following content:</p>
+     *  <p>The alerts have to be registered by the 'alerts.json' descriptor file in a cartridge assigned to the Business Manager site.
+     *  The descriptor file itself has to be defined in 'package.json' of that cartridge using a property 'alerts' and providing its path
+     *  that is relative to the 'package.json'.
+     *  The 'alert.json' descriptor files contain the 'alert descriptions', which are referenced by their ID throughout the API.</p>
+     *  <p>For example, the 'alerts.json' file could have the following content:</p>
      *  <pre> {
-     *    &quot;alerts&quot;: [
+     *    "alerts": [
      *      {
-     *        &quot;alert-id&quot;: &quot;missing_org_config&quot;,
-     *        &quot;menu-action&quot;: &quot;global-prefs_custom_prefs&quot;,
-     *        &quot;message-resource-id&quot;: &quot;global.missing_org_config&quot;,
-     *        &quot;priority&quot;: &quot;ACTION&quot;,
-     *        &quot;remediation&quot;: {
-     *          &quot;pipeline&quot;:&quot;GlobalCustomPreferences&quot;,
-     *          &quot;start-node&quot;:&quot;View&quot;
+     *        "alert-id": "missing_org_config",
+     *        "menu-action": "global-prefs_custom_prefs",
+     *        "message-resource-id": "global.missing_org_config",
+     *        "priority": "ACTION",
+     *        "remediation": {
+     *          "pipeline":"GlobalCustomPreferences",
+     *          "start-node":"View"
      *        }
      *      },
      *      {
-     *        &quot;alert-id&quot;:&quot;promo_in_past&quot;,
-     *        &quot;menu-action&quot;:&quot;marketing_promotions&quot;,
-     *        &quot;context-object-type&quot;:&quot;Promotion&quot;,
-     *        &quot;message-resource-id&quot;:&quot;promotion.in_the_past&quot;,
-     *        &quot;priority&quot;:&quot;WARN&quot;,
-     *        &quot;remediation&quot;: {
-     *          &quot;pipeline&quot;:&quot;ViewApplication&quot;,
-     *          &quot;start-node&quot;:&quot;BM&quot;,
-     *          &quot;parameter&quot;:&quot;screen=Promotion&quot;
+     *        "alert-id":"promo_in_past",
+     *        "menu-action":"marketing_promotions",
+     *        "context-object-type":"Promotion",
+     *        "message-resource-id":"promotion.in_the_past",
+     *        "priority":"WARN",
+     *        "remediation": {
+     *          "pipeline":"ViewApplication",
+     *          "start-node":"BM",
+     *          "parameter":"screen=Promotion"
      *        }
      *      }
      *    ]
      *  }
      *  </pre>
-     *  The referenced menu actions can be found in the &apos;bm_extensions.xml&apos; file of a Business manager extension cartridge
+     *  The referenced menu actions can be found in the 'bm_extensions.xml' file of a Business manager extension cartridge
      *  (a sample file containing all current menu entries is provided when creating a new extension cartridge in Studio).
      */
     class Alerts {
@@ -1695,7 +1695,7 @@ declare namespace dw {
      * Object representing an AB-test in Commerce Cloud Digital.
      *  <p>
      *  AB-tests provide the merchant the ability to compare one set of storefront
-     *  &quot;experiences&quot; - promotions, sorting rules, and slot configurations in
+     *  "experiences" - promotions, sorting rules, and slot configurations in
      *  particular - against another set. The merchant configures different AB-test
      *  segments which define the sets of experiences that the merchant wishes to
      *  test. AB-tests run for a configured period of time, and customers are
@@ -1755,9 +1755,9 @@ declare namespace dw {
      *  Each AB-test defines 1 or more segments to which customers are randomly
      *  assigned by the platform when they qualify for the AB-test. Customers are
      *  assigned to segments according to allocation percentages controlled by the
-     *  merchant. Each AB-test segment defines a set of &quot;experiences&quot; that the
+     *  merchant. Each AB-test segment defines a set of "experiences" that the
      *  merchant is testing and which which apply only to the customers in that
-     *  segment.  There is always one &quot;control&quot; segment which contains only the
+     *  segment.  There is always one "control" segment which contains only the
      *  default set of experiences for that site.</p>
      */
     class ABTestSegment extends dw.object.PersistentObject {
@@ -1800,7 +1800,7 @@ declare namespace dw {
 
     /**
      * Represents an <i>amount-off</i> discount in the discount plan, for example
-     *  &quot;$10 off all orders $100 or more&quot;.
+     *  "$10 off all orders $100 or more".
      */
     class AmountDiscount extends dw.campaign.Discount {
       /**
@@ -1824,7 +1824,7 @@ declare namespace dw {
 
     /**
      * Transient class representing a discount that a <a href="class_dw_order_LineItemCtnr.html">LineItemCtnr</a>
-     *  &quot;almost&quot; qualifies for based on the amount of merchandise in it. Storefronts
+     *  "almost" qualifies for based on the amount of merchandise in it. Storefronts
      *  can display information about approaching discounts to customers in order to
      *  entice them to buy more merchandise.
      *  <p>
@@ -1905,8 +1905,8 @@ declare namespace dw {
 
     /**
      * Represents a <i>choice of bonus products</i> discount in the discount plan,
-     *  for example &quot;Choose 3 DVDs from a list of 20 options with your purchase of
-     *  any DVD player.&quot;
+     *  for example "Choose 3 DVDs from a list of 20 options with your purchase of
+     *  any DVD player."
      */
     class BonusChoiceDiscount extends dw.campaign.Discount {
       /**
@@ -2016,7 +2016,7 @@ declare namespace dw {
 
     /**
      * Represents a <i>bonus</i> discount in the discount plan, for example
-     *  &quot;Get a free DVD with your purchase of any DVD player.&quot;
+     *  "Get a free DVD with your purchase of any DVD player."
      */
     class BonusDiscount extends dw.campaign.Discount {
       /**
@@ -2050,11 +2050,11 @@ declare namespace dw {
      *  This list may be extended in the future.
      *  <p>
      *  A campaign can have a start and end date or be open-ended.  It may also have
-     *  &quot;qualifiers&quot; which determine which customers the campaign applies to.
+     *  "qualifiers" which determine which customers the campaign applies to.
      *  The currently supported qualifiers are:
      *
      *  </p><ul>
-     *  <li>Customer groups (where &quot;Everyone&quot; is a possible customer group)</li>
+     *  <li>Customer groups (where "Everyone" is a possible customer group)</li>
      *  <li>Source codes</li>
      *  <li>Coupons</li>
      *  </ul>
@@ -3093,7 +3093,7 @@ declare namespace dw {
 
     /**
      * Represents a <i>fix price</i> discount in the discount plan, for example
-     *  &quot;Shipping only 0.99 all orders $25 or more.&quot;
+     *  "Shipping only 0.99 all orders $25 or more."
      */
     class FixedPriceDiscount extends dw.campaign.Discount {
       /**
@@ -3119,7 +3119,7 @@ declare namespace dw {
 
     /**
      * Represents a <i>fixed price shipping</i> discount in the discount plan, for
-     *  example &quot;Shipping only 0.99 for iPods.&quot;
+     *  example "Shipping only 0.99 for iPods."
      */
     class FixedPriceShippingDiscount extends dw.campaign.Discount {
       /**
@@ -3145,7 +3145,7 @@ declare namespace dw {
 
     /**
      * Represents a <i>free</i> discount in the discount plan, for example
-     *  &quot;Free shipping on all orders $25 or more.&quot;
+     *  "Free shipping on all orders $25 or more."
      */
     class FreeDiscount extends dw.campaign.Discount {
       private constructor();
@@ -3153,7 +3153,7 @@ declare namespace dw {
 
     /**
      * Represents a <i>free shipping</i> discount in the discount plan, for example
-     *  &quot;Free shipping on all iPods.&quot;
+     *  "Free shipping on all iPods."
      */
     class FreeShippingDiscount extends dw.campaign.Discount {
       private constructor();
@@ -3161,7 +3161,7 @@ declare namespace dw {
 
     /**
      * Represents a <i>percentage-off</i> discount in the discount plan, for example
-     *  &quot;10% off all T-Shirts&quot;.
+     *  "10% off all T-Shirts".
      */
     class PercentageDiscount extends dw.campaign.Discount {
       /**
@@ -3187,7 +3187,7 @@ declare namespace dw {
 
     /**
      * Represents a <i>percentage-off options</i> discount in the discount plan, for
-     *  example &quot;50% off monogramming on shirts&quot;.
+     *  example "50% off monogramming on shirts".
      */
     class PercentageOptionDiscount extends dw.campaign.Discount {
       /**
@@ -3208,7 +3208,7 @@ declare namespace dw {
     }
 
     /**
-     * Discount representing that a product&apos;s price has been calculated from a
+     * Discount representing that a product's price has been calculated from a
      *  separate sales price book other than the standard price book assigned to the
      *  site.
      */
@@ -3233,9 +3233,9 @@ declare namespace dw {
      *  promotions include:
      *
      *  <ul>
-     *  <li>&quot;Get 20% off your order&quot;</li>
-     *  <li>&quot;$15 off a given product&quot;</li>
-     *  <li>&quot;free shipping for all orders over $50&quot;</li>
+     *  <li>"Get 20% off your order"</li>
+     *  <li>"$15 off a given product"</li>
+     *  <li>"free shipping for all orders over $50"</li>
      *  <li>Get a bonus product with purchase of another product</li>
      *  </ul>
      *
@@ -3243,13 +3243,13 @@ declare namespace dw {
      *  such as name, callout message, and description, but the details of the
      *  promotion rules are not available in the API due to their complexity.
      *  <p>
-     *  Commerce Cloud Digital allows merchants to create a single logical &quot;promotion
-     *  rule&quot; (e.g. &quot;Get 20% off your order&quot;) and then assign it to one or more
-     *  &quot;containers&quot; where the supported container types are campaigns or AB-tests. A
+     *  Commerce Cloud Digital allows merchants to create a single logical "promotion
+     *  rule" (e.g. "Get 20% off your order") and then assign it to one or more
+     *  "containers" where the supported container types are campaigns or AB-tests. A
      *  Promotion represents a specific instance of a promotion rule assigned to a
      *  container. Promotion rules themselves that are not assigned to any container
      *  are inaccessible through the API. Each instance (i.e. assignment) can have
-     *  separate &quot;qualifiers&quot;. Qualifiers are the customer groups, source code
+     *  separate "qualifiers". Qualifiers are the customer groups, source code
      *  groups, or coupons that trigger a given promotion for a customer.</p>
      */
     class Promotion extends dw.object
@@ -4335,12 +4335,12 @@ declare namespace dw {
     }
 
     /**
-     * Class representing a code (i.e. a &quot;source code&quot;) that has been applied to a
-     *  customer&apos;s session. Source codes can qualify customers for different
+     * Class representing a code (i.e. a "source code") that has been applied to a
+     *  customer's session. Source codes can qualify customers for different
      *  campaigns, promotions, and other site experiences from those that the typical
      *  customer sees. Codes are organized into source code groups.
      *  <p>
-     *  Typically, a code is applied to a customer&apos;s session automatically by
+     *  Typically, a code is applied to a customer's session automatically by
      *  Commerce Cloud Digital when a customer accesses a Digital URL with a well
      *  known request parameter in the querystring.  A code may also be explicitly
      *  applied to a customer session using the <code>SetSourceCode</code>
@@ -4438,8 +4438,8 @@ declare namespace dw {
 
     /**
      * Represents a <i>total fix price</i> discount on a group of products in the
-     *  discount plan.  For example:  &quot;buy 3 products of type X for a total price
-     *  of $29.99&quot;.
+     *  discount plan.  For example:  "buy 3 products of type X for a total price
+     *  of $29.99".
      */
     class TotalFixedPriceDiscount extends dw.campaign.Discount {
       /**
@@ -4462,8 +4462,8 @@ declare namespace dw {
     /**
      * Represents a Commerce Cloud Digital Catalog. Catalogs are containers of products
      *  and other product-related information and can be shared between sites. Every
-     *  product in the system is contained in (or &quot;owned by&quot;) exactly one catalog.
-     *  Every site has a single &quot;site catalog&quot; which defines the products that are
+     *  product in the system is contained in (or "owned by") exactly one catalog.
+     *  Every site has a single "site catalog" which defines the products that are
      *  available to purchase on that site. The static method
      *  <a href="class_dw_catalog_CatalogMgr.html#dw_catalog_CatalogMgr_getSiteCatalog_DetailAnchor">CatalogMgr.getSiteCatalog()</a> returns the site catalog for
      *  the current site.
@@ -4472,9 +4472,9 @@ declare namespace dw {
      *  category. Products are assigned to categories within catalogs. They can be
      *  assigned to categories in their owning catalog, or other catalogs. They can
      *  be assigned to multiple categories within the same catalog. Products that are
-     *  not assigned to any categories are considered &quot;uncategorized.&quot; A product has
-     *  a single &quot;classification category&quot; in some catalog, and one
-     *  &quot;primary category&quot; per catalog. The classification category defines the
+     *  not assigned to any categories are considered "uncategorized." A product has
+     *  a single "classification category" in some catalog, and one
+     *  "primary category" per catalog. The classification category defines the
      *  attribute set of the product. The primary category is used as standard
      *  presentation context within that catalog in the storefront.
      *  </p><p>
@@ -4482,9 +4482,9 @@ declare namespace dw {
      *  catalog types, it is common practice to have two general types of catalog:
      *
      *  </p><ul>
-     *  <li>&quot;Product catalogs&quot; typically contain detailed product information and are
+     *  <li>"Product catalogs" typically contain detailed product information and are
      *  frequently generated from some backend PIM system.</li>
-     *  <li>&quot;Site Catalogs&quot; define the category structure of the storefront and
+     *  <li>"Site Catalogs" define the category structure of the storefront and
      *  contain primarily the assignments of these categories to the products defined
      *  in the product catalogs. The site catalog is assigned to the site.</li>
      *  </ul>
@@ -5631,13 +5631,13 @@ declare namespace dw {
      *  <li><b>Simple product</b></li>
      *  <li><b>Master products:</b> This type of product defines a template for a set
      *  of related products which differ only by a set of defined
-     *  &quot;variation attributes&quot;, such as size or color. Master products are not
+     *  "variation attributes", such as size or color. Master products are not
      *  orderable themselves. The variation information for a master product is
      *  available through its <a href="class_dw_catalog_ProductVariationModel.html">ProductVariationModel</a>.</li>
      *  <li><b>Variant:</b> Variants are the actual orderable products that are
      *  related to a master product. Each variant of a master product has a unique
      *  set of values for the defined variation attributes. Variants are said to be
-     *  &quot;mastered&quot; by the corresponding master product.</li>
+     *  "mastered" by the corresponding master product.</li>
      *  <li><b>Option products:</b> Option products define additional options, such
      *  as a warranty, which can be purchased for a defined price at the time the
      *  product is purchased. The option information for an option product is
@@ -5646,7 +5646,7 @@ declare namespace dw {
      *  merchant can sell as a collection in the storefront, for example an outfit of
      *  clothes. Product-sets are not orderable and therefore do not define prices.
      *  They exist only to group the products together in the storefront UI. Members
-     *  of the set are called &quot;product-set-products&quot;.</li>
+     *  of the set are called "product-set-products".</li>
      *  <li><b>Products bundles:</b> A collection of products which can be ordered as
      *  a single unit and therefore can define its own price and inventory record.</li>
      *  </ul>
@@ -5659,7 +5659,7 @@ declare namespace dw {
      *  links. This class provides the methods for retrieving these referenced
      *  products.
      *  </p><p>
-     *  Products belong to a catalog (the &quot;owning&quot; catalog) and are assigned to
+     *  Products belong to a catalog (the "owning" catalog) and are assigned to
      *  categories in other catalogs. Products assigned to categories in the site
      *  catalog are typically orderable on the site.
      *  </p><p>
@@ -7546,7 +7546,7 @@ declare namespace dw {
     /**
      * Class representing the complete attribute model for products in the system.
      *  An instance of this class provides methods to access the attribute
-     *  definitions and groups for the system object type &apos;Product&apos; and perhaps
+     *  definitions and groups for the system object type 'Product' and perhaps
      *  additional information depending on how the instance is obtained.
      *  A ProductAttributeModel can be obtained in one of three ways:
      *
@@ -7554,7 +7554,7 @@ declare namespace dw {
      *  <li><b><a href="class_dw_catalog_ProductAttributeModel.html#dw_catalog_ProductAttributeModel_ProductAttributeModel_DetailAnchor">ProductAttributeModel()</a>:</b> When the no-arg constructor is
      *  used the model represents:
      *     <ul>
-     *     <li>the attribute groups of the system object type &apos;Product&apos; (i.e. the
+     *     <li>the attribute groups of the system object type 'Product' (i.e. the
      *     global product attribute groups) and their bound attributes</li>
      *     </ul>
      *  </li>
@@ -7570,8 +7570,8 @@ declare namespace dw {
      *  model for a Product is retrieved, the model represents:
      *     <ul>
      *     <li>the global product attribute groups</li>
-     *     <li>product attribute groups of the product&apos;s classification category</li>
-     *     <li>product attribute groups of any parent categories of the product&apos;s classification category</li>
+     *     <li>product attribute groups of the product's classification category</li>
+     *     <li>product attribute groups of any parent categories of the product's classification category</li>
      *     </ul>
      *  In this case, the model additionally provides access to the attribute values
      *  of the product.  If the product lacks a classification category, then only
@@ -7590,11 +7590,11 @@ declare namespace dw {
      *  <li>Call <a href="class_dw_catalog_ProductAttributeModel.html#dw_catalog_ProductAttributeModel_getVisibleAttributeGroups_DetailAnchor">getVisibleAttributeGroups()</a> to get the groups that are
      *  appropriate for this product and all other products assigned to the same
      *  classification category.</li>
-     *  <li>Iterate the groups, and display each as a &quot;group&quot; in the UI.</li>
+     *  <li>Iterate the groups, and display each as a "group" in the UI.</li>
      *  <li>Call <a href="class_dw_catalog_ProductAttributeModel.html#dw_catalog_ProductAttributeModel_getVisibleAttributeDefinitions_ObjectAttributeGroup_DetailAnchor">getVisibleAttributeDefinitions(ObjectAttributeGroup)</a> for
      *  each group. Iterate and display the attribute names using
      *  <a href="class_dw_object_ObjectAttributeDefinition.html#dw_object_ObjectAttributeDefinition_getDisplayName_DetailAnchor">ObjectAttributeDefinition.getDisplayName()</a>.</li>
-     *  <li>For each attribute, get the product&apos;s display value(s) for that
+     *  <li>For each attribute, get the product's display value(s) for that
      *  attribute, using <code>getDisplayValue()</code>. This might require custom
      *  display logic based on the type of attribute (strings, dates, multi-value
      *  attributes, etc).</li>
@@ -8246,7 +8246,7 @@ declare namespace dw {
      *  <p>
      *  When using Omnichannel Inventory (OCI):
      *  </p><ul>
-     *  <li>B2C Commerce uses ProductInventoryLists to reference and expose OCI Locations and Location Groups. They&apos;re
+     *  <li>B2C Commerce uses ProductInventoryLists to reference and expose OCI Locations and Location Groups. They're
      *  required for synchronizing availability data and creating reservations.</li>
      *  <li>Create a ProductInventoryList in B2C Commerce for each OCI Location and Location Group that B2C Commerce will
      *  access. The ProductInventoryList ID must match the External Reference field on the corresponding Location or Location
@@ -8367,7 +8367,7 @@ declare namespace dw {
     }
 
     /**
-     * The ProductInventoryRecord holds information about a Product&apos;s inventory, and availability.
+     * The ProductInventoryRecord holds information about a Product's inventory, and availability.
      *  <p>
      *  When using Omnichannel Inventory (OCI):
      *  </p><ul>
@@ -8631,7 +8631,7 @@ declare namespace dw {
        *
        *  When using OCI, throws an IllegalStateException.
        *  This method should not be called within a storefront request.
-       * @param quantity the allocation quantity to set.
+       * @param quantity the allocation quantity to set (must be greater than or equal to zero).
        */
       setAllocation(quantity: number): void;
       /**
@@ -8641,7 +8641,7 @@ declare namespace dw {
        *
        *  When using OCI, throws an IllegalStateException.
        *  This method must not be called within a storefront request.
-       * @param quantity the allocation quantity to set.
+       * @param quantity the allocation quantity to set (must be greater than or equal to zero).
        * @param allocationResetDate the date allocation quantity was effectively calculated  the reset date must not be older than 48 hours the reset date must not be older than the prior reset date. see getAllocationResetDate()
        */
       setAllocation(quantity: number, allocationResetDate: Date): void;
@@ -9235,7 +9235,7 @@ declare namespace dw {
      *  <b>Variation Price Fallback:</b><br>
      *  <ul>
      *  <li>If no applicable pricebooks for a variant is found, the price lookup gets
-     *  the price books from the variant&apos;s master product</li>
+     *  the price books from the variant's master product</li>
      *  <li>A price books is also not applicable of the price definition for the
      *  variant in the price book is not valid at the current time.</li>
      *  </ul>
@@ -9920,7 +9920,7 @@ declare namespace dw {
      *
      *  Example:
      *
-     *  Given a product master P1 called &quot;Sweater&quot; with attributes color and size that has the following variants:
+     *  Given a product master P1 called "Sweater" with attributes color and size that has the following variants:
      *  <ul>
      *      <li>V1 - color: red, size: small</li>
      *      <li>V2 - color: red, size: large</li>
@@ -9930,13 +9930,13 @@ declare namespace dw {
      *      <li>V6 - color: yellow, size: large</li>
      *  </ul>
      *
-     *  A search for &quot;red sweater&quot; should hit the first two variants, V1 and V2
+     *  A search for "red sweater" should hit the first two variants, V1 and V2
      *  that are both red. The ProductSearchHit for this result encompass the master and the red variants but not the other
      *  non-relevant variants.
      *
      *  The variants hit by the query can be retrieved by <a href="class_dw_catalog_ProductSearchHit.html#dw_catalog_ProductSearchHit_getRepresentedProducts_DetailAnchor">getRepresentedProducts()</a>, returning a list that contains the two red sweater variants.
      *
-     *  The master product &quot;Sweater&quot; is returned by <a href="class_dw_catalog_ProductSearchHit.html#dw_catalog_ProductSearchHit_getProduct_DetailAnchor">getProduct()</a>.
+     *  The master product "Sweater" is returned by <a href="class_dw_catalog_ProductSearchHit.html#dw_catalog_ProductSearchHit_getProduct_DetailAnchor">getProduct()</a>.
      *
      *  Furthermore, to get the first or last of that list of variants hit by the query we can call
      *  <a href="class_dw_catalog_ProductSearchHit.html#dw_catalog_ProductSearchHit_getFirstRepresentedProduct_DetailAnchor">getFirstRepresentedProduct()</a> or <a href="class_dw_catalog_ProductSearchHit.html#dw_catalog_ProductSearchHit_getLastRepresentedProduct_DetailAnchor">getLastRepresentedProduct()</a>. The product with the highest
@@ -11305,16 +11305,16 @@ declare namespace dw {
     /**
      * This class provides an interface to refinement options for the product
      *  search. In a typical usage, the client application UI displays the search
-     *  refinements along with the search results and allows customers to &quot;refine&quot;
+     *  refinements along with the search results and allows customers to "refine"
      *  the results (i.e. limit the results that are shown) by specifying additional
-     *  product criteria, or &quot;relax&quot; (i.e. broaden) the results after previously
+     *  product criteria, or "relax" (i.e. broaden) the results after previously
      *  refining. The four types of product search refinements are:
      *
      *  <ul>
      *  <li><b>Refine By Category:</b> Limit the products to those assigned to
      *  specific child/ancestor categories of the search category.</li>
      *  <li><b>Refine By Attribute:</b> Limit the products to those with specific
-     *  values for a given attribute. Values may be grouped into &quot;buckets&quot; so that a
+     *  values for a given attribute. Values may be grouped into "buckets" so that a
      *  given set of values are represented as a single refinement option.</li>
      *  <li><b>Refine By Price:</b> Limit the products to those whose prices fall in
      *  a specific range.</li>
@@ -11707,13 +11707,13 @@ declare namespace dw {
      *  <a href="class_dw_catalog_ProductVariationModel.html#dw_catalog_ProductVariationModel_isSelectedAttributeValue_ProductVariationAttribute_ProductVariationAttributeValue_DetailAnchor">isSelectedAttributeValue(ProductVariationAttribute, ProductVariationAttributeValue)</a>.
      *  </p><p>
      *  The method <a href="class_dw_catalog_ProductVariationModel.html#dw_catalog_ProductVariationModel_setSelectedAttributeValue_String_String_DetailAnchor">setSelectedAttributeValue(String, String)</a> can be used to modify
-     *  the selected values. Depending on the product type, it&apos;s possible to select or modify
+     *  the selected values. Depending on the product type, it's possible to select or modify
      *  variation attribute values:
      *
      *  </p><ul>
-     *      <li>If this model was constructed for a master product, it&apos;s possible to select and modify all variation attributes.</li>
-     *      <li>If this model was constructed for a variation group, it&apos;s possible to select and modify all variation attributes that are not defined by the variation group.</li>
-     *      <li>If this model was constructed for a variation product, it&apos;s not possible to select or modify any of the variation attributes.</li>
+     *      <li>If this model was constructed for a master product, it's possible to select and modify all variation attributes.</li>
+     *      <li>If this model was constructed for a variation group, it's possible to select and modify all variation attributes that are not defined by the variation group.</li>
+     *      <li>If this model was constructed for a variation product, it's not possible to select or modify any of the variation attributes.</li>
      *  </ul>
      *
      *  <p>
@@ -15239,16 +15239,16 @@ declare namespace dw {
     /**
      * This class provides an interface to refinement options for the content asset
      *  search. In a typical usage, the client application UI displays the search
-     *  refinements along with the search results and allows customers to &quot;refine&quot;
+     *  refinements along with the search results and allows customers to "refine"
      *  the results (i.e. limit the results that are shown) by specifying additional
-     *  criteria, or &quot;relax&quot; (i.e. broaden) the results after previously refining.
+     *  criteria, or "relax" (i.e. broaden) the results after previously refining.
      *  The two types of content search refinements are:
      *
      *  <ul>
      *  <li><b>Refine By Folder:</b> Limit the content assets to those assigned to
      *  specific child/ancestor folder of the search folder.</li>
      *  <li><b>Refine By Attribute:</b> Limit the content assets to those with
-     *  specific values for a given attribute. Values may be grouped into &quot;buckets&quot;
+     *  specific values for a given attribute. Values may be grouped into "buckets"
      *  so that a given set of values are represented as a single refinement option.</li>
      *  </ul>
      *
@@ -15687,7 +15687,7 @@ declare namespace dw {
      *
      *  </p><ul>
      *  <p>
-     *  </p><li><code><b>$url(&apos;&lt;pipeline&gt;&apos; [, &apos;&lt;key1&gt;&apos;, &apos;&lt;value1&gt;&apos;, &apos;&lt;key2&gt;&apos;, &apos;&lt;value2&gt;&apos;, ...])$</b></code></li>
+     *  </p><li><code><b>$url('&lt;pipeline&gt;' [, '&lt;key1&gt;', '&lt;value1&gt;', '&lt;key2&gt;', '&lt;value2&gt;', ...])$</b></code></li>
      *  <p>
      *  <u>Description:</u><br>
      *  The <code>$url()$</code> function creates and absolute URL and retains the protocol incoming
@@ -15696,44 +15696,44 @@ declare namespace dw {
      *  </p><p>
      *  <u>Example:</u><br>
      *  MarkupText:<br>
-     *  &#xA0;&#xA0;&#xA0;<code>$url(&apos;MyLinkPipeline-Start&apos;, &apos;key1&apos;, &apos;value1&apos;, &apos;key2&apos;, &apos;value2&apos;)$</code><br>
+     *  &nbsp;&nbsp;&nbsp;<code>$url('MyLinkPipeline-Start', 'key1', 'value1', 'key2', 'value2')$</code><br>
      *  is rewritten to:<br>
-     *  &#xA0;&#xA0;&#xA0;<code>http://&lt;host&gt;:&lt;port&gt;/on/demandware.store/&lt;current site&gt;/default/MyLinkPipeline-Start?key1=value1&amp;key2=value2</code><br>
+     *  &nbsp;&nbsp;&nbsp;<code>http://&lt;host&gt;:&lt;port&gt;/on/demandware.store/&lt;current site&gt;/default/MyLinkPipeline-Start?key1=value1&amp;key2=value2</code><br>
      *  Note that the incoming protocol was http in the example above.
      *
      *
      *  </p><p>
-     *  </p><li><code><b>$httpUrl(&apos;&lt;pipeline&gt;&apos; [, &apos;&lt;key1&gt;&apos;, &apos;&lt;value1&gt;&apos;, &apos;&lt;key2&gt;&apos;, &apos;&lt;value2&gt;&apos;, ...])$</b></code></li>
+     *  </p><li><code><b>$httpUrl('&lt;pipeline&gt;' [, '&lt;key1&gt;', '&lt;value1&gt;', '&lt;key2&gt;', '&lt;value2&gt;', ...])$</b></code></li>
      *  <p>
      *  <u>Description:</u><br>
      *  The <code>$httpUrl()$</code> function creates an absolute URL but always with the fix protocol
-     *  &quot;http&quot;. The protocol type of the incomming request is ignored.<br>
+     *  "http". The protocol type of the incomming request is ignored.<br>
      *
      *  </p><p>
      *  <u>Example:</u><br>
      *  MarkupText:<br>
-     *  &#xA0;&#xA0;&#xA0;<code>$httpUrl(&apos;MyLinkPipeline-Start&apos;, &apos;key1&apos;, &apos;value1&apos;, &apos;key2&apos;, &apos;value2&apos;)$</code><br>
+     *  &nbsp;&nbsp;&nbsp;<code>$httpUrl('MyLinkPipeline-Start', 'key1', 'value1', 'key2', 'value2')$</code><br>
      *  is rewritten to:<br>
-     *  &#xA0;&#xA0;&#xA0;<code>http://&lt;host&gt;:&apos;&lt;port&gt;/on/demandware.store/&lt;current site&gt;/default/MyLinkPipeline-Start?key1=value1&amp;key2=value2</code>
+     *  &nbsp;&nbsp;&nbsp;<code>http://&lt;host&gt;:'&lt;port&gt;/on/demandware.store/&lt;current site&gt;/default/MyLinkPipeline-Start?key1=value1&amp;key2=value2</code>
      *
      *
      *  </p><p>
-     *  </p><li><code><b>$httpsUrl(&apos;&lt;pipeline&gt;&apos; [, &apos;&lt;key1&gt;&apos;, &apos;&lt;value1&gt;&apos;, &apos;&lt;key2&gt;&apos;, &apos;&lt;value2&gt;&apos;, ...])$</b></code></li>
+     *  </p><li><code><b>$httpsUrl('&lt;pipeline&gt;' [, '&lt;key1&gt;', '&lt;value1&gt;', '&lt;key2&gt;', '&lt;value2&gt;', ...])$</b></code></li>
      *  <p>
      *  <u>Description:</u><br>
      *  The <code>$httpsUrl()$</code> function creates an absolute URL but always with the fix protocol
-     *  &quot;https&quot;. The protocol type of the incomming request is ignored.
+     *  "https". The protocol type of the incomming request is ignored.
      *
      *  </p><p>
      *  <u>Example:</u><br>
      *  MarkupText:<br>
-     *  &#xA0;&#xA0;&#xA0;<code>$httpsUrl(&apos;MyLinkPipeline-Start&apos;, &apos;key1&apos;, &apos;value1&apos;, &apos;key2&apos;, &apos;value2&apos;)$</code><br>
+     *  &nbsp;&nbsp;&nbsp;<code>$httpsUrl('MyLinkPipeline-Start', 'key1', 'value1', 'key2', 'value2')$</code><br>
      *  is rewritten to:<br>
-     *  &#xA0;&#xA0;&#xA0;<code>https://&lt;host&gt;:&lt;port&gt;/on/demandware.store/&lt;current site&gt;/default/MyLinkPipeline-Start?key1=value1&amp;key2=value2</code>
+     *  &nbsp;&nbsp;&nbsp;<code>https://&lt;host&gt;:&lt;port&gt;/on/demandware.store/&lt;current site&gt;/default/MyLinkPipeline-Start?key1=value1&amp;key2=value2</code>
      *  </p><p>
      *
      *  </p><p>
-     *  </p><li><code><b>$include(&apos;&lt;pipeline&gt;&apos; [, &apos;&lt;key1&gt;&apos;, &apos;&lt;value1&gt;&apos;, &apos;&lt;key2&gt;&apos;, &apos;&lt;value2&gt;&apos;, ...])$</b></code></li>
+     *  </p><li><code><b>$include('&lt;pipeline&gt;' [, '&lt;key1&gt;', '&lt;value1&gt;', '&lt;key2&gt;', '&lt;value2&gt;', ...])$</b></code></li>
      *  <p>
      *  <u>Description:</u><br>
      *  The <code>$include()$</code> function creates a relative URL which is post processed by the
@@ -15742,8 +15742,8 @@ declare namespace dw {
      *  </p><p>
      *  <u>Example:</u><br>
      *  MarkupText:<br>
-     *  &#xA0;&#xA0;&#xA0;<code>$include(&apos;MyIncludePipeline-Start&apos;,&apos;key1&apos;, &apos;value1&apos;, &apos;key2&apos; ,&apos;value2&apos;)$</code><br>
-     *  results in the content delivered by the &apos;MyIncludePipeline-Start&apos; pipeline.
+     *  &nbsp;&nbsp;&nbsp;<code>$include('MyIncludePipeline-Start','key1', 'value1', 'key2' ,'value2')$</code><br>
+     *  results in the content delivered by the 'MyIncludePipeline-Start' pipeline.
      *
      *
      *  </p><p>
@@ -15752,7 +15752,7 @@ declare namespace dw {
      *  <u>Description:</u><br>
      *  The <code>$staticlink$</code> function can be used to create a URL to a static resource
      *  (such as an image). The URL being generated depends on the owner of the MarkupText instance.
-     *  For example, a product&apos;s long description (which is a MarkupText) will generate
+     *  For example, a product's long description (which is a MarkupText) will generate
      *  links to static resources within the catalog. Possible URL targets are catalogs
      *  (for catalog related objects like products and categories), the content library
      *  (for library related objects like folders and assets) or the organization
@@ -15761,9 +15761,9 @@ declare namespace dw {
      *  </p><p>
      *  <u>Example:</u><br>
      *  MarkupText: (owned by a content asset)<br>
-     *  &#xA0;&#xA0;&#xA0;<code>&lt;img src=&quot;demo/content/bullet.gif?$staticlink$&quot;&gt;</code><br>
+     *  &nbsp;&nbsp;&nbsp;<code>&lt;img src="demo/content/bullet.gif?$staticlink$"&gt;</code><br>
      *  is rewritten to:<br>
-     *  &#xA0;&#xA0;&#xA0;<code>&lt;img src=&quot;/on/demandware.static/&lt;current site&gt;/&lt;library&gt;/default/v1178201405900/demo/content/bullet.gif&quot;&gt;</code>
+     *  &nbsp;&nbsp;&nbsp;<code>&lt;img src="/on/demandware.static/&lt;current site&gt;/&lt;library&gt;/default/v1178201405900/demo/content/bullet.gif"&gt;</code>
      *
      *  </p></ul>
      */
@@ -15870,7 +15870,7 @@ declare namespace dw {
      *          itself through this service; that is, the overlaid image can itself
      *          be a transformed image.</p><p>
      *
-     *          If the overlaid image extends over the primary image&apos;s boundaries,
+     *          If the overlaid image extends over the primary image's boundaries,
      *          the overlaid image is cropped so that it fits directly over the
      *          primary image.
      *      </p></td>
@@ -15911,7 +15911,7 @@ declare namespace dw {
      *          <code>gif</code>. If no target format is specified, no format
      *          conversion is performed.<p>
      *
-     *          The attribute value must reference the source image. Source image&apos;s
+     *          The attribute value must reference the source image. Source image's
      *          format is recognized by the file extension which must be
      *          <code>tif</code>, <code>tiff</code>, <code>jpg</code>,
      *          <code>jpeg</code>, <code>png</code>, or <code>gif</code>.</p><p>
@@ -15929,8 +15929,8 @@ declare namespace dw {
      *          The <code>quality</code> parameter specifies a quality setting for <code>jpg</code> and <code>jp2</code> images,
      *          and specifies the compression level for <code>png</code> images.<p>
      *
-     *          For <code>jpg</code> and <code>jp2</code> images, you can set values from 1&#x2013;100 for the highest quality.
-     *          The default quality is 80. If you&apos;re not changing the default quality, you don&apos;t need to pass in a value.</p><p>
+     *          For <code>jpg</code> and <code>jp2</code> images, you can set values from 1–100 for the highest quality.
+     *          The default quality is 80. If you're not changing the default quality, you don't need to pass in a value.</p><p>
      *
      *          For <code>png</code> images, the quality setting has no effect on the appearance of the <code>png</code>, since the compression is always lossless.
      *          Instead you can use the quality setting to set the zlib compression level and filter-type for PNG images.
@@ -15974,7 +15974,7 @@ declare namespace dw {
      *
      *  Example:</p><p>
      *     The following code</p><p>
-     *     <code>var url = product.getImage(&apos;thumbnail&apos;, 0).getImageURL({scaleWidth: 100, format: &apos;jpg&apos;});</code></p><p>
+     *     <code>var url = product.getImage('thumbnail', 0).getImageURL({scaleWidth: 100, format: 'jpg'});</code></p><p>
      *     will produce an image transformation URL like</p><p>
      *     <code>http://&lt;image server host name&gt;/.../on/demandware.static/.../&lt;path to image&gt;/image.jpg?sw=100&amp;sfrm=png</code>.</p>
      */
@@ -16166,7 +16166,7 @@ declare namespace dw {
      *  and the like, as well as some related algorithms, are defined in the PKCS series of
      *  documents published by RSALabs (the research arm of RSA Security).</p><p>
      *  Many internet standards documenting security protocols and concepts are described
-     *  in documents originally described as &quot;Request For Comment&quot; and thus widely known
+     *  in documents originally described as "Request For Comment" and thus widely known
      *  as RFCs. Many of them are available on the Internet FAQ Archives website.</p><p>
      *
      *  dw.crypto.Cipher is intentionally an Adapter to the full cryptography power supplied
@@ -16862,7 +16862,7 @@ declare namespace dw {
     }
 
     /**
-     * This class provides the functionality of a &quot;Message Authentication Code&quot; (MAC) algorithm.
+     * This class provides the functionality of a "Message Authentication Code" (MAC) algorithm.
      *  A MAC provides a way to check the integrity of information transmitted over or
      *  stored in an unreliable medium, based on a secret key.
      *  Typically, message authentication codes are used between two parties
@@ -17590,7 +17590,7 @@ declare namespace dw {
      *  deprecated algorithms. This is helpful when you need to deal with weak algorithms for backward
      *  compatibility purposes, but Mac should always be used for new development and for anything intended to be secure.
      *  </p><p>
-     *  This class provides the functionality of a &quot;Message Authentication Code&quot; (MAC) algorithm.
+     *  This class provides the functionality of a "Message Authentication Code" (MAC) algorithm.
      *  A MAC provides a way to check the integrity of information transmitted over or
      *  stored in an unreliable medium, based on a secret key.
      *  Typically, message authentication codes are used between two parties
@@ -18161,13 +18161,13 @@ declare namespace dw {
      *  login and password but through an external authentication provider via the OAuth2 protocol.
      *
      *  In such cases, the AuthenticationProviderID will point to an OAuth provider configured in the system
-     *  and the ExternalID will be the unique identifier of the customer on the Authentication Provider&apos;s system.
+     *  and the ExternalID will be the unique identifier of the customer on the Authentication Provider's system.
      *
-     *  For example, if an authentication provider with ID &quot;Google123&quot; is configured pointing to Google
+     *  For example, if an authentication provider with ID "Google123" is configured pointing to Google
      *  and the customer has a logged in into Google in the past and has created a profile there, Google
      *  assigns a unique number identifier to that customer. If the storefront is configured to allow
      *  authentication through Google and a new customer logs into the storefront using Google,
-     *  the AuthenticationProviderID property of his Credentials will contain &quot;Google123&quot; and
+     *  the AuthenticationProviderID property of his Credentials will contain "Google123" and
      *  the ExternalID property will contain whatever unique identifier Google has assigned to him.
      *  In such cases the password-related properties of the Credentials will be empty.
      *  <p>
@@ -19004,7 +19004,7 @@ declare namespace dw {
     }
 
     /**
-     * The Address class represents a customer&apos;s address.
+     * The Address class represents a customer's address.
      *  <p>
      *  <b>Note:</b> this class allows access to sensitive personal and private information.
      *  Pay attention to appropriate legal and regulatory requirements.</p>
@@ -19333,7 +19333,7 @@ declare namespace dw {
     }
 
     /**
-     * Represents the read-only Customer&apos;s Salesforce CDP (Customer Data Platform) data for a <a href="class_dw_customer_Customer.html">Customer</a> in Commerce
+     * Represents the read-only Customer's Salesforce CDP (Customer Data Platform) data for a <a href="class_dw_customer_Customer.html">Customer</a> in Commerce
      *  Cloud. Please see Salesforce CDP enablement documentation
      */
     class CustomerCDPData {
@@ -19393,7 +19393,7 @@ declare namespace dw {
      *  prices, sorting rules) to each customer segment. Customer groups can consist
      *  of either an explicit list of customers or a business rule that dynamically
      *  determines whether a customer is a member. The former type is called
-     *  &quot;explicit&quot; and the latter type is called &quot;dynamic&quot;.
+     *  "explicit" and the latter type is called "dynamic".
      *
      *  <ul>
      *  <li><b>Explicit customer group:</b> Consists of an explicit list of
@@ -19944,7 +19944,7 @@ declare namespace dw {
        *  Date yyyy-MM-dd e.g. 2007-05-31 (Default TimeZone = UTC)
        *  DateTime yyyy-MM-dd'T'hh:mm:ss+Z e.g. 2007-05-31T00:00+Z (Z TimeZone = UTC) or 2007-05-31T00:00:00
        *  Boolean true, false
-       *  Email '[email protected]andware.com', '*@demandware.com'
+       *  Email '[email protected]', '*@demandware.com'
        *  Set of String 'String', 'Str*', 'Strin?'
        *  Set of Integer 1, 3E4
        *  Set of Number 1.0, 3.99E5
@@ -20401,13 +20401,13 @@ declare namespace dw {
      *  login and password but through an external authentication provider via the OAuth2 protocol.
      *
      *  In such cases, the AuthenticationProviderID will point to an OAuth provider configured in the system
-     *  and the ExternalID will be the unique identifier of the customer on the Authentication Provider&apos;s system.
+     *  and the ExternalID will be the unique identifier of the customer on the Authentication Provider's system.
      *
-     *  For example, if an authentication provider with ID &quot;Google123&quot; is configured pointing to Google
+     *  For example, if an authentication provider with ID "Google123" is configured pointing to Google
      *  and the customer has a logged in into Google in the past and has created a profile there, Google
      *  assigns a unique number identifier to that customer. If the storefront is configured to allow
      *  authentication through Google and a new customer logs into the storefront using Google,
-     *  the AuthenticationProviderID property of his Credentials will contain &quot;Google123&quot; and
+     *  the AuthenticationProviderID property of his Credentials will contain "Google123" and
      *  the ExternalID property will contain whatever unique identifier Google has assigned to him.
      *  <p>
      *  <b>Note:</b> this class handles sensitive security-related data.
@@ -20477,9 +20477,10 @@ declare namespace dw {
     /**
      * The class provides access to past orders of the customer.
      *  <p>
-     *  <b>Note:</b> this class allows access to sensitive financial and cardholder data. Pay special attention to PCI DSS
+     *  <b>Note:</b> This class allows access to sensitive financial and cardholder data. Pay special attention to PCI DSS
      *  v3. requirements 1, 3, 7, and 9. It also allows access to sensitive personal and private information. Pay attention
-     *  to appropriate legal and regulatory requirements related to this data.</p>
+     *  to appropriate legal and regulatory requirements related to this data.
+     *  <b>Note:</b> The following methods do not work with Salesforce Order Management orders.</p>
      */
     class OrderHistory {
       /**
@@ -20995,7 +20996,7 @@ declare namespace dw {
     /**
      * An item in a product list.  Types of items are:<br>
      *  <ul>
-     *  <li>An item that references a product via the product&apos;s SKU.</li>
+     *  <li>An item that references a product via the product's SKU.</li>
      *  <li>An item that represents a gift certificate.</li>
      *  </ul>
      */
@@ -22114,7 +22115,7 @@ declare namespace dw {
         /**
          * A map of additional tokens found in the response.
          */
-        readonly extraTokens: dw.util.Map<any, any>;
+        readonly extraTokens: dw.util.Map<string, string>;
         /**
          * The ID token, if available
          */
@@ -22155,7 +22156,7 @@ declare namespace dw {
          *
          * @return Additional tokens provided by the token end-point. May be null or empty.
          */
-        getExtraTokens(): dw.util.Map<any, any>;
+        getExtraTokens(): dw.util.Map<string, string>;
         /**
          * Returns the ID token, if available
          *
@@ -22216,8 +22217,8 @@ declare namespace dw {
        *   <li>call <a href="class_dw_customer_oauth_OAuthLoginFlowMgr.html#dw_customer_oauth_OAuthLoginFlowMgr_initiateOAuthLogin_String_DetailAnchor">initiateOAuthLogin(String)</a></li>
        *   <li>redirect the user to the returned link</li>
        *   <li>when the user authenticates there the server will call back to
-       *   a URL configured on the provider&apos;s web site</li>
-       *   <li>when processing the request made from the provider&apos;s web site
+       *   a URL configured on the provider's web site</li>
+       *   <li>when processing the request made from the provider's web site
        *   you have two choices - either call the <a href="class_dw_customer_oauth_OAuthLoginFlowMgr.html#dw_customer_oauth_OAuthLoginFlowMgr_obtainAccessToken_DetailAnchor">obtainAccessToken()</a>
        *   and <a href="class_dw_customer_oauth_OAuthLoginFlowMgr.html#dw_customer_oauth_OAuthLoginFlowMgr_obtainUserInfo_String_String_DetailAnchor">obtainUserInfo(String, String)</a>
        *   methods one after another separately (gives you more flexibility),
@@ -22452,11 +22453,11 @@ declare namespace dw {
     /**
      * A config that drives how the component is rendered. One can basically decide which kind of tag is used as wrapper
      *  element (e.g. <code>&lt;div&gt;...&lt;/div&gt;</code>) and which attributes are to be placed into this wrapper
-     *  element (e.g. <code>class=&quot;foo bar&quot;</code>). In case no attributes are provided then the system default settings will
+     *  element (e.g. <code>class="foo bar"</code>). In case no attributes are provided then the system default settings will
      *  apply. In case no tag name is provided then the system default one will apply.
      *  <ul>
      *  <li>tag_name : div</li>
-     *  <li>attributes : {&quot;class&quot;:&quot;experience-component experience-[COMPONENT_TYPE_ID]&quot;}</li>
+     *  <li>attributes : {"class":"experience-component experience-[COMPONENT_TYPE_ID]"}</li>
      *  </ul>
      *  As the [COMPONENT_TYPE_ID] can contain dots due to its package like naming scheme (e.g. assets.image)
      *  any occurrences of these dots will be replaced by dashes (e.g. assets-image) so that CSS selectors
@@ -23022,17 +23023,18 @@ declare namespace dw {
     /**
      * Provides functionality for getting, rendering and serializing page designer managed pages.
      *  <p>
-     *  The basic flow is to initiate page rendering by ID via
+     *  The basic flow is to determine a page by either id, category or product
      *  </p><ul>
+     *   <li><a href="class_dw_experience_PageMgr.html#dw_experience_PageMgr_getPage_String_DetailAnchor">getPage(String)</a></li>
+     *   <li><a href="class_dw_experience_PageMgr.html#dw_experience_PageMgr_getPageByCategory_Category_Boolean_String_DetailAnchor">getPageByCategory(Category, Boolean, String)</a></li>
+     *   <li><a href="class_dw_experience_PageMgr.html#dw_experience_PageMgr_getPageByProduct_Product_Boolean_String_DetailAnchor">getPageByProduct(Product, Boolean, String)</a></li>
+     *  </ul>
+     *  and then to initiate rendering of this page via
+     *  <ul>
      *   <li><a href="class_dw_experience_PageMgr.html#dw_experience_PageMgr_renderPage_String_String_DetailAnchor">renderPage(String, String)</a></li>
      *   <li><a href="class_dw_experience_PageMgr.html#dw_experience_PageMgr_renderPage_String_Map_String_DetailAnchor">renderPage(String, Map, String)</a></li>
      *  </ul>
-     *  and accordingly page serialization by ID via
-     *  <ul>
-     *   <li><a href="class_dw_experience_PageMgr.html#dw_experience_PageMgr_serializePage_String_String_DetailAnchor">serializePage(String, String)</a></li>
-     *   <li><a href="class_dw_experience_PageMgr.html#dw_experience_PageMgr_serializePage_String_Map_String_DetailAnchor">serializePage(String, Map, String)</a></li>
-     *  </ul>
-     *  This will trigger page rendering/serialization from a top level perspective, i.e. the page serves as entry point and root container of components.
+     *  This will trigger page rendering from a top level perspective, i.e. the page serves as entry point and root container of components.
      *  <p></p>
      *  <p>As a related page or component template will likely want to trigger rendering of nested components
      *  within its regions it can do this by first fetching the desired region by ID via
@@ -23040,6 +23042,15 @@ declare namespace dw {
      *  with the recently retrieved region (and optionally provide <a href="class_dw_experience_RegionRenderSettings.html">RegionRenderSettings</a> for customized
      *  rendering of region and component wrapper elements).
      *  </p>
+     *  <p>
+     *  Similar to the rendering you can also serialize such page to json via
+     *  </p><ul>
+     *   <li><a href="class_dw_experience_PageMgr.html#dw_experience_PageMgr_serializePage_String_String_DetailAnchor">serializePage(String, String)</a></li>
+     *   <li><a href="class_dw_experience_PageMgr.html#dw_experience_PageMgr_serializePage_String_Map_String_DetailAnchor">serializePage(String, Map, String)</a></li>
+     *  </ul>
+     *  This will trigger page serialization from a top level perspective, i.e. the page serves as entry point and root container of components,
+     *  which will automatically traverse all visible components and attach their serialization result to the emitted json.
+     *  <p></p>
      *
      *  <p>Various attributes required for rendering and serialization in the corresponding template can be accessed with the
      *  accordant methods of <a href="class_dw_experience_Page.html">Page</a> and <a href="class_dw_experience_Component.html">Component</a>.</p>
@@ -23071,14 +23082,42 @@ declare namespace dw {
        */
       static getPage(pageID: string): dw.experience.Page;
       /**
-       * Get the dynamic page for given category (including bottom up traversal of the category tree) and aspect type.
+       * Get the dynamic page for the given category (including bottom up traversal of the category tree) and aspect type.
        * @param category category to find the page for, i.e. starting point (inclusive) for the bottom up traversal
        * @param pageMustBeVisible while doing the bottom up traversal any attached page whose Page.isVisible() does not yield true will be bypassed in the search
        * @param aspectTypeID id of the page-category-assignment aspect type
-       * @return the page assigned to the given category. If this none is found there then the path upwards in the category tree is traversed until a category is found that has a page assigned. If category assignments are not supported by the given aspect type or none is found within the aforementioned path of categories then null is returned.
+       * @return the page assigned to the given category. If none is found then the path upwards in the category tree is traversed until a category is found that has an implicit (but not explicit) page assignment. If category assignments are not supported by the given aspect type or none is found within the aforementioned path of categories then null is returned.
        */
       static getPage(
         category: dw.catalog.Category,
+        pageMustBeVisible: boolean,
+        aspectTypeID: string
+      ): dw.experience.Page;
+      /**
+       * Get the dynamic page for the given category (including bottom up traversal of the category tree) and aspect type.
+       * @param category category to find the page for, i.e. starting point (inclusive) for the bottom up traversal
+       * @param pageMustBeVisible while doing the bottom up traversal any attached page whose Page.isVisible() does not yield true will be bypassed in the search
+       * @param aspectTypeID id of the page-category-assignment aspect type
+       * @return the page assigned to the given category. If none is found then the path upwards in the category tree is traversed until a category is found that has an implicit (but not explicit) page assignment. If category assignments are not supported by the given aspect type or none is found within the aforementioned path of categories then null is returned.
+       */
+      static getPageByCategory(
+        category: dw.catalog.Category,
+        pageMustBeVisible: boolean,
+        aspectTypeID: string
+      ): dw.experience.Page;
+      /**
+       * Get the dynamic page for the given product and aspect type.
+       *
+       *  No bottom up traversal of the product's category tree is performed. If you require this then  a
+       *  separate call to getPageByCategory(Category, Boolean, String) (with the category of your choice, e.g. the default
+       *  category of the product) needs to be made.
+       * @param product product to find the page for
+       * @param pageMustBeVisible an attached page whose Page.isVisible() does not yield true will be bypassed in the search
+       * @param aspectTypeID id of the page-product-assignment aspect type
+       * @return the page assigned to the given product. If product assignments are not supported by the given aspect type then null is returned.
+       */
+      static getPageByProduct(
+        product: dw.catalog.Product,
         pageMustBeVisible: boolean,
         aspectTypeID: string
       ): dw.experience.Page;
@@ -23528,13 +23567,13 @@ declare namespace dw {
     /**
      * A config that drives how the region is rendered. One can basically decide which kind of tag is used as wrapper
      *  element (e.g. <code>&lt;div&gt;...&lt;/div&gt;</code>) and which attributes are to be placed into this wrapper
-     *  element (e.g. <code>class=&quot;foo bar&quot;</code>).
+     *  element (e.g. <code>class="foo bar"</code>).
      *  <p>
      *  If no attributes are provided for the region render settings then the system default ones will apply. Also if no tag
      *  name is provided then the system default one will apply.
      *  </p><ul>
      *  <li>tag_name : div</li>
-     *  <li>attributes : {&quot;class&quot;:&quot;experience-region experience-[REGION_ID]&quot;}</li>
+     *  <li>attributes : {"class":"experience-region experience-[REGION_ID]"}</li>
      *  </ul>
      *  Furthermore the render settings for components in this region can be specified - in case nothing is set per component
      *  then the default component render setting will be applied during rendering. If also no default component render
@@ -23825,8 +23864,8 @@ declare namespace dw {
        *  that indicates the shipping contact information provided by Apple Pay is invalid:
        *  </p>
        *
-       *  <pre> var ApplePayHookResult = require(&apos;dw/extensions/applepay/ApplePayHookResult&apos;);
-       *  var Status = require(&apos;dw/system/Status&apos;);
+       *  <pre> var ApplePayHookResult = require('dw/extensions/applepay/ApplePayHookResult');
+       *  var Status = require('dw/system/Status');
        *
        *  var error = new Status(Status.ERROR);
        *  error.addDetail(ApplePayHookResult.STATUS_REASON_DETAIL_KEY, ApplePayHookResult.REASON_SHIPPING_CONTACT);
@@ -23941,26 +23980,26 @@ declare namespace dw {
        *  </p><p>
        *  The extension points (hook names), and the functions that are called by each extension point. A function must be
        *  defined inside a JavaScript source and must be exported. The script with the exported hook function must be located
-       *  inside a site cartridge. Inside the site cartridge a &apos;package.json&apos; file with a &apos;hooks&apos; entry must exist.
+       *  inside a site cartridge. Inside the site cartridge a 'package.json' file with a 'hooks' entry must exist.
        *  </p><p>
        *
-       *  </p><pre> &quot;hooks&quot;: &quot;./hooks.json&quot;
+       *  </p><pre> "hooks": "./hooks.json"
        *  </pre>
        *
-       *  The hooks entry links to a json file, relative to the &apos;package.json&apos; file. This file lists all registered hooks
+       *  The hooks entry links to a json file, relative to the 'package.json' file. This file lists all registered hooks
        *  inside the hooks property:
        *  <p>
        *
-       *  </p><pre> &quot;hooks&quot;: [
-       *       {&quot;name&quot;: &quot;dw.extensions.applepay.getRequest&quot;, &quot;script&quot;: &quot;./applepay.ds&quot;}
-       *       {&quot;name&quot;: &quot;dw.extensions.applepay.shippingContactSelected&quot;, &quot;script&quot;: &quot;./applepay.ds&quot;}
+       *  </p><pre> "hooks": [
+       *       {"name": "dw.extensions.applepay.getRequest", "script": "./applepay.ds"}
+       *       {"name": "dw.extensions.applepay.shippingContactSelected", "script": "./applepay.ds"}
        *  ]
        *  </pre>
        *  <p>
-       *  A hook entry has a &apos;name&apos; and a &apos;script&apos; property.
+       *  A hook entry has a 'name' and a 'script' property.
        *  </p><ul>
-       *  <li>The &apos;name&apos; contains the extension point, the hook name.</li>
-       *  <li>The &apos;script&apos; contains the script relative to the hooks file, with the exported hook function.</li>
+       *  <li>The 'name' contains the extension point, the hook name.</li>
+       *  <li>The 'script' contains the script relative to the hooks file, with the exported hook function.</li>
        *  </ul>
        */
       class ApplePayHooks {
@@ -24297,25 +24336,25 @@ declare namespace dw {
        *  </p><p>
        *  The extension points (hook names), and the functions that are called by each extension point. A function must be
        *  defined inside a JavaScript source and must be exported. The script with the exported hook function must be located
-       *  inside a site cartridge. Inside the site cartridge a &apos;package.json&apos; file with a &apos;hooks&apos; entry must exist.
+       *  inside a site cartridge. Inside the site cartridge a 'package.json' file with a 'hooks' entry must exist.
        *  </p><p>
        *
-       *  </p><pre> &quot;hooks&quot;: &quot;./hooks.json&quot;
+       *  </p><pre> "hooks": "./hooks.json"
        *  </pre>
        *
-       *  The hooks entry links to a json file, relative to the &apos;package.json&apos; file. This file lists all registered hooks
+       *  The hooks entry links to a json file, relative to the 'package.json' file. This file lists all registered hooks
        *  inside the hooks property:
        *  <p>
        *
-       *  </p><pre> &quot;hooks&quot;: [
-       *       {&quot;name&quot;: &quot;dw.extensions.facebook.feed.transformProduct&quot;, &quot;script&quot;: &quot;./hooks.ds&quot;}
+       *  </p><pre> "hooks": [
+       *       {"name": "dw.extensions.facebook.feed.transformProduct", "script": "./hooks.ds"}
        *  ]
        *  </pre>
        *  <p>
-       *  A hook entry has a &apos;name&apos; and a &apos;script&apos; property.
+       *  A hook entry has a 'name' and a 'script' property.
        *  </p><ul>
-       *  <li>The &apos;name&apos; contains the extension point, the hook name.</li>
-       *  <li>The &apos;script&apos; contains the script relative to the hooks file, with the exported hook function.</li>
+       *  <li>The 'name' contains the extension point, the hook name.</li>
+       *  <li>The 'script' contains the script relative to the hooks file, with the exported hook function.</li>
        *  </ul>
        */
       class FacebookFeedHooks {
@@ -24987,26 +25026,26 @@ declare namespace dw {
        *  </p><p>
        *  The extension points (hook names), and the functions that are called by each extension point. A function must be
        *  defined inside a JavaScript source and must be exported. The script with the exported hook function must be located
-       *  inside a site cartridge. Inside the site cartridge a &apos;package.json&apos; file with a &apos;hooks&apos; entry must exist.
+       *  inside a site cartridge. Inside the site cartridge a 'package.json' file with a 'hooks' entry must exist.
        *  </p><p>
        *
-       *  </p><pre> &quot;hooks&quot;: &quot;./hooks.json&quot;
+       *  </p><pre> "hooks": "./hooks.json"
        *  </pre>
        *
-       *  The hooks entry links to a json file, relative to the &apos;package.json&apos; file. This file lists all registered hooks
+       *  The hooks entry links to a json file, relative to the 'package.json' file. This file lists all registered hooks
        *  inside the hooks property:
        *  <p>
        *
-       *  </p><pre> &quot;hooks&quot;: [
-       *       {&quot;name&quot;: &quot;dw.extensions.paymentapi.beforeAuthorization&quot;, &quot;script&quot;: &quot;./payment.ds&quot;}
-       *       {&quot;name&quot;: &quot;dw.extensions.paymentapi.afterAuthorization&quot;, &quot;script&quot;: &quot;./payment.ds&quot;}
+       *  </p><pre> "hooks": [
+       *       {"name": "dw.extensions.paymentapi.beforeAuthorization", "script": "./payment.ds"}
+       *       {"name": "dw.extensions.paymentapi.afterAuthorization", "script": "./payment.ds"}
        *  ]
        *  </pre>
        *  <p>
-       *  A hook entry has a &apos;name&apos; and a &apos;script&apos; property.
+       *  A hook entry has a 'name' and a 'script' property.
        *  </p><ul>
-       *  <li>The &apos;name&apos; contains the extension point, the hook name.</li>
-       *  <li>The &apos;script&apos; contains the script relative to the hooks file, with the exported hook function.</li>
+       *  <li>The 'name' contains the extension point, the hook name.</li>
+       *  <li>The 'script' contains the script relative to the hooks file, with the exported hook function.</li>
        *  </ul>
        */
       class PaymentApiHooks {
@@ -25132,26 +25171,26 @@ declare namespace dw {
        *  </p><p>
        *  The extension points (hook names), and the functions that are called by each extension point. A function must be
        *  defined inside a JavaScript source and must be exported. The script with the exported hook function must be located
-       *  inside a site cartridge. Inside the site cartridge a &apos;package.json&apos; file with a &apos;hooks&apos; entry must exist.
+       *  inside a site cartridge. Inside the site cartridge a 'package.json' file with a 'hooks' entry must exist.
        *  </p><p>
        *
-       *  </p><pre> &quot;hooks&quot;: &quot;./hooks.json&quot;
+       *  </p><pre> "hooks": "./hooks.json"
        *  </pre>
        *
-       *  The hooks entry links to a json file, relative to the &apos;package.json&apos; file. This file lists all registered hooks
+       *  The hooks entry links to a json file, relative to the 'package.json' file. This file lists all registered hooks
        *  inside the hooks property:
        *  <p>
        *
-       *  </p><pre> &quot;hooks&quot;: [
-       *       {&quot;name&quot;: &quot;dw.extensions.paymentrequest.getPaymentRequest&quot;, &quot;script&quot;: &quot;./paymentrequest.ds&quot;}
-       *       {&quot;name&quot;: &quot;dw.extensions.paymentrequest.shippingAddressChange&quot;, &quot;script&quot;: &quot;./paymentrequest.ds&quot;}
+       *  </p><pre> "hooks": [
+       *       {"name": "dw.extensions.paymentrequest.getPaymentRequest", "script": "./paymentrequest.ds"}
+       *       {"name": "dw.extensions.paymentrequest.shippingAddressChange", "script": "./paymentrequest.ds"}
        *  ]
        *  </pre>
        *  <p>
-       *  A hook entry has a &apos;name&apos; and a &apos;script&apos; property.
+       *  A hook entry has a 'name' and a 'script' property.
        *  </p><ul>
-       *  <li>The &apos;name&apos; contains the extension point, the hook name.</li>
-       *  <li>The &apos;script&apos; contains the script relative to the hooks file, with the exported hook function.</li>
+       *  <li>The 'name' contains the extension point, the hook name.</li>
+       *  <li>The 'script' contains the script relative to the hooks file, with the exported hook function.</li>
        *  </ul>
        */
       class PaymentRequestHooks {
@@ -25340,7 +25379,238 @@ declare namespace dw {
     namespace payments {
       /**
        * <p>
-       *  Commerce Cloud Payments representation of a payment intent object. See Commerce Cloud Payments documentation for how
+       *  Salesforce Payments representation of a PayPal order object. See Salesforce Payments documentation for how
+       *  to gain access and configure it for use on your sites.
+       *  </p>
+       *  <p>
+       *  A PayPal order is automatically created when a shopper is ready to pay for items in their basket. It becomes
+       *  completed when the shopper provides information to the payment provider that is acceptable to authorize payment for a
+       *  given amount.
+       *  </p>
+       */
+      class SalesforcePayPalOrder {
+        /**
+         * The amount of this PayPal order.
+         */
+        readonly amount: dw.value.Money;
+        /**
+         * The ID of the capture against this order, or null if not available.
+         */
+        readonly captureID: string;
+        /**
+         * Returns true if this PayPal order has been completed, or false if not.
+         */
+        readonly completed: boolean;
+        /**
+         * The identifier of this PayPal order.
+         */
+        readonly ID: string;
+        /**
+         * The payer information for this PayPal order, or null if not known.
+         */
+        readonly payer: dw.extensions.payments.SalesforcePayPalOrderPayer;
+        /**
+         * The shipping address for this PayPal order, or null if not known.
+         */
+        readonly shipping: dw.extensions.payments.SalesforcePayPalOrderAddress;
+
+        private constructor();
+
+        /**
+         * Returns the amount of this PayPal order.
+         *
+         * @return PayPal order amount
+         */
+        getAmount(): dw.value.Money;
+        /**
+         * Returns the ID of the capture against this order, or null if not available.
+         *
+         * @return PayPal order capture identifier
+         */
+        getCaptureID(): string;
+        /**
+         * Returns the identifier of this PayPal order.
+         *
+         * @return PayPal order identifier
+         */
+        getID(): string;
+        /**
+         * Returns the payer information for this PayPal order, or null if not known.
+         *
+         * @return order payer information
+         */
+        getPayer(): dw.extensions.payments.SalesforcePayPalOrderPayer;
+        /**
+         * Returns the payment instrument for this PayPal order in the given basket, or null if the given
+         *  basket has none.
+         * @param basket basket
+         * @return basket payment instrument
+         */
+        getPaymentInstrument(
+          basket: dw.order.Basket
+        ): dw.order.OrderPaymentInstrument;
+        /**
+         * Returns the payment instrument for this payment intent in the given order, or null if the given
+         *  order has none.
+         * @param order order
+         * @return order payment instrument
+         */
+        getPaymentInstrument(
+          order: dw.order.Order
+        ): dw.order.OrderPaymentInstrument;
+        /**
+         * Returns the shipping address for this PayPal order, or null if not known.
+         *
+         * @return order shipping address
+         */
+        getShipping(): dw.extensions.payments.SalesforcePayPalOrderAddress;
+        /**
+         * Returns true if this PayPal order has been completed, or false if not.
+         *
+         * @return true if this PayPal order has been completed
+         */
+        isCompleted(): boolean;
+      }
+
+      /**
+       * <p>
+       *  Salesforce Payments representation of a PayPal order address object. See Salesforce Payments documentation
+       *  for how to gain access and configure it for use on your sites.
+       *  </p>
+       */
+      class SalesforcePayPalOrderAddress {
+        /**
+         * The address line 1.
+         */
+        readonly addressLine1: string;
+        /**
+         * The address line 2.
+         */
+        readonly addressLine2: string;
+        /**
+         * The address highest level sub-division in a country, which is usually a province, state, or ISO-3166-2
+         *  subdivision.
+         */
+        readonly adminArea1: string;
+        /**
+         * The address city, town, or village.
+         */
+        readonly adminArea2: string;
+        /**
+         * The address two-character ISO 3166-1 code that identifies the country or region.
+         */
+        readonly countryCode: string;
+        /**
+         * The address full name.
+         */
+        readonly fullName: string;
+        /**
+         * The address postal code.
+         */
+        readonly postalCode: string;
+
+        private constructor();
+
+        /**
+         * Returns the address line 1.
+         *
+         * @return address line 1
+         */
+        getAddressLine1(): string;
+        /**
+         * Returns the address line 2.
+         *
+         * @return address line 2
+         */
+        getAddressLine2(): string;
+        /**
+         * Returns the address highest level sub-division in a country, which is usually a province, state, or ISO-3166-2
+         *  subdivision.
+         *
+         * @return address highest level sub-division in a country, such as a state
+         */
+        getAdminArea1(): string;
+        /**
+         * Returns the address city, town, or village.
+         *
+         * @return address city, town, or village
+         */
+        getAdminArea2(): string;
+        /**
+         * Returns the address two-character ISO 3166-1 code that identifies the country or region.
+         *
+         * @return address country code
+         */
+        getCountryCode(): string;
+        /**
+         * Returns the address full name.
+         *
+         * @return address full name
+         */
+        getFullName(): string;
+        /**
+         * Returns the address postal code.
+         *
+         * @return address postal code
+         */
+        getPostalCode(): string;
+      }
+
+      /**
+       * <p>
+       *  Salesforce Payments representation of a PayPal order's payer object. See Salesforce Payments documentation
+       *  for how to gain access and configure it for use on your sites.
+       *  </p>
+       */
+      class SalesforcePayPalOrderPayer {
+        /**
+         * The payer's email address.
+         */
+        readonly emailAddress: string;
+        /**
+         * The payer's given name.
+         */
+        readonly givenName: string;
+        /**
+         * The payer's national phone number.
+         */
+        readonly phone: string;
+        /**
+         * The payer's surname.
+         */
+        readonly surname: string;
+
+        private constructor();
+
+        /**
+         * Returns the payer's email address.
+         *
+         * @return payer's email address
+         */
+        getEmailAddress(): string;
+        /**
+         * Returns the payer's given name.
+         *
+         * @return payer's given name
+         */
+        getGivenName(): string;
+        /**
+         * Returns the payer's national phone number.
+         *
+         * @return payer's national phone number
+         */
+        getPhone(): string;
+        /**
+         * Returns the payer's surname.
+         *
+         * @return payer's surname
+         */
+        getSurname(): string;
+      }
+
+      /**
+       * <p>
+       *  Salesforce Payments representation of a payment intent object. See Salesforce Payments documentation for how
        *  to gain access and configure it for use on your sites.
        *  </p>
        *  <p>
@@ -25416,7 +25686,7 @@ declare namespace dw {
 
       /**
        * <p>
-       *  Commerce Cloud Payments representation of a payment method object. See Commerce Cloud Payments documentation for how
+       *  Salesforce Payments representation of a payment method object. See Salesforce Payments documentation for how
        *  to gain access and configure it for use on your sites.
        *  </p>
        *  <p>
@@ -25436,9 +25706,17 @@ declare namespace dw {
          */
         static readonly TYPE_CARD = "card";
         /**
+         * Represents the EPS (Electronic Payment Standard) payment method.
+         */
+        static readonly TYPE_EPS = "eps";
+        /**
          * Represents the iDEAL payment method.
          */
         static readonly TYPE_IDEAL = "ideal";
+        /**
+         * Represents the Klarna payment method.
+         */
+        static readonly TYPE_KLARNA = "klarna";
         /**
          * Represents the SEPA Debit payment method.
          */
@@ -25446,7 +25724,7 @@ declare namespace dw {
 
         /**
          * The bank of this payment method, or null if none is available. Available on
-         *  TYPE_IDEAL type methods.
+         *  TYPE_IDEAL and TYPE_EPS type methods.
          */
         readonly bank: string;
         /**
@@ -25485,6 +25763,11 @@ declare namespace dw {
          */
         readonly last4: string;
         /**
+         * The payment method category of this payment method, or null if none is available. Available
+         *  on TYPE_KLARNA type methods.
+         */
+        readonly paymentMethodCategory: string;
+        /**
          * The type of this payment method.
          */
         readonly type: string;
@@ -25493,7 +25776,7 @@ declare namespace dw {
 
         /**
          * Returns the bank of this payment method, or null if none is available. Available on
-         *  TYPE_IDEAL type methods.
+         *  TYPE_IDEAL and TYPE_EPS type methods.
          *
          * @return payment method bank
          */
@@ -25548,6 +25831,13 @@ declare namespace dw {
          */
         getLast4(): string;
         /**
+         * Returns the payment method category of this payment method, or null if none is available. Available
+         *  on TYPE_KLARNA type methods.
+         *
+         * @return payment method category
+         */
+        getPaymentMethodCategory(): string;
+        /**
          * Returns the type of this payment method.
          *
          * @return payment method type
@@ -25557,7 +25847,7 @@ declare namespace dw {
 
       /**
        * <p>
-       *  Commerce Cloud Payments request for a shopper to make payment. See Commerce Cloud Payments documentation for how to
+       *  Salesforce Payments request for a shopper to make payment. See Salesforce Payments documentation for how to
        *  gain access and configure it for use on your sites.
        *  </p>
        *  <p>
@@ -25584,6 +25874,10 @@ declare namespace dw {
          */
         static readonly ELEMENT_CARD_NUMBER = "cardNumber";
         /**
+         * Element for the Stripe EPS bank selection field "epsBank".
+         */
+        static readonly ELEMENT_EPS_BANK = "epsBank";
+        /**
          * Element for the Stripe IBAN field "iban".
          */
         static readonly ELEMENT_IBAN = "iban";
@@ -25608,6 +25902,10 @@ declare namespace dw {
          */
         static readonly ELEMENT_TYPE_CARD = "card";
         /**
+         * Element type name for EPS.
+         */
+        static readonly ELEMENT_TYPE_EPS = "eps";
+        /**
          * Element type name for iDEAL.
          */
         static readonly ELEMENT_TYPE_IDEAL = "ideal";
@@ -25616,9 +25914,46 @@ declare namespace dw {
          */
         static readonly ELEMENT_TYPE_PAYMENTREQUEST = "paymentrequest";
         /**
+         * Element type name for PayPal in multi-step checkout.
+         */
+        static readonly ELEMENT_TYPE_PAYPAL = "paypal";
+        /**
+         * Element type name for PayPal in express checkout.
+         */
+        static readonly ELEMENT_TYPE_PAYPAL_EXPRESS = "paypalexpress";
+        /**
          * Element type name for SEPA debit.
          */
         static readonly ELEMENT_TYPE_SEPA_DEBIT = "sepa_debit";
+        /**
+         * PayPal application context shipping_preference value "GET_FROM_FILE", to use the
+         *  customer-provided shipping address on the PayPal site.
+         */
+        static readonly PAYPAL_SHIPPING_PREFERENCE_GET_FROM_FILE =
+          "GET_FROM_FILE";
+        /**
+         * PayPal application context shipping_preference value "NO_SHIPPING", to redact the
+         *  shipping address from the PayPal site. Recommended for digital goods.
+         */
+        static readonly PAYPAL_SHIPPING_PREFERENCE_NO_SHIPPING = "NO_SHIPPING";
+        /**
+         * PayPal application context shipping_preference value "SET_PROVIDED_ADDRESS", to use the
+         *  merchant-provided address. The customer cannot change this address on the PayPal site.
+         */
+        static readonly PAYPAL_SHIPPING_PREFERENCE_SET_PROVIDED_ADDRESS =
+          "SET_PROVIDED_ADDRESS";
+        /**
+         * PayPal application context user_action value "CONTINUE". Use this option when the final
+         *  amount is not known when the checkout flow is initiated and you want to redirect the customer to the merchant
+         *  page without processing the payment.
+         */
+        static readonly PAYPAL_USER_ACTION_CONTINUE = "CONTINUE";
+        /**
+         * PayPal application context user_action value "PAY_NOW". Use this option when the final
+         *  amount is known when the checkout is initiated and you want to process the payment immediately when the customer
+         *  clicks Pay Now.
+         */
+        static readonly PAYPAL_USER_ACTION_PAY_NOW = "PAY_NOW";
 
         /**
          * A JS object containing the data used to prepare the shopper basket when a Buy Now button is tapped.
@@ -25653,6 +25988,16 @@ declare namespace dw {
          * The DOM element selector where to mount payment methods and/or express checkout buttons.
          */
         readonly selector: string;
+        /**
+         * Returns true if the payment method should be always saved for future use off session, or
+         *  false if the payment method should be only saved for future use on session when appropriate.
+         */
+        setupFutureUsage: boolean;
+        /**
+         * The complete description that appears on your customers' statements for payments made by this request, or
+         *  null if the default statement descriptor for your account will be used.
+         */
+        statementDescriptor: string;
 
         /**
          * Constructs a payment request using the given identifiers.
@@ -25854,6 +26199,20 @@ declare namespace dw {
          */
         getSelector(): string;
         /**
+         * Returns true if the payment method should be always saved for future use off session, or
+         *  false if the payment method should be only saved for future use on session when appropriate.
+         *
+         * @return true if the payment method should be always saved for future use off session, false if the payment method should be only saved for future use on session when appropriate.
+         */
+        getSetupFutureUsage(): boolean;
+        /**
+         * Returns the complete description that appears on your customers' statements for payments made by this request, or
+         *  null if the default statement descriptor for your account will be used.
+         *
+         * @return statement descriptor for payments made by this request, or null if the account default will be used
+         */
+        getStatementDescriptor(): string;
+        /**
          * Sets the data used to prepare the shopper basket when a Buy Now button is tapped. For convenience this method
          *  accepts a JS object to set all of the following properties at once:
          *
@@ -25954,6 +26313,24 @@ declare namespace dw {
          */
         setOptions(options: any): void;
         /**
+         * Sets the the options to pass into the paypal.Buttons call. For more information see the PayPal
+         *  Buttons API documentation.
+         * @param options JS object containing the options
+         */
+        setPayPalButtonsOptions(options: any): void;
+        /**
+         * Sets the PayPal order application context shipping_preference value. For more information see the
+         *  PayPal Orders API documentation.
+         * @param shippingPreference constant indicating the shipping preference
+         */
+        setPayPalShippingPreference(shippingPreference: string): void;
+        /**
+         * Sets the PayPal order application context user_action value. For more information see the PayPal
+         *  Orders API documentation.
+         * @param userAction constant indicating the user action
+         */
+        setPayPalUserAction(userAction: string): void;
+        /**
          * Sets the controller to which to redirect when the shopper returns from a 3rd party payment website. Default is
          *  the controller for the current page.
          * @param returnController return controller, such as "Cart-Show"
@@ -25966,6 +26343,17 @@ declare namespace dw {
          * @param savePaymentMethodEnabled if mounted components may provide a control for the shopper to save their payment method
          */
         setSavePaymentMethodEnabled(savePaymentMethodEnabled: boolean): void;
+        /**
+         * Sets if the payment method should be always saved for future use off session.
+         * @param setupFutureUsage true if the payment method should be always saved for future use off session, or false if the payment method should be only saved for future use on session when appropriate.
+         */
+        setSetupFutureUsage(setupFutureUsage: boolean): void;
+        /**
+         * Sets the complete description that appears on your customers' statements for payments made by this request. Set
+         *  this to null to use the default statement descriptor for your account.
+         * @param statementDescriptor statement descriptor for payments made by this request, or null to use the account default
+         */
+        setStatementDescriptor(statementDescriptor: string): void;
         /**
          * Sets the the options to pass into the Stripe elements.create call for the given element type. For
          *  more information see the Stripe Elements API documentation.
@@ -25983,32 +26371,32 @@ declare namespace dw {
 
       /**
        * <p>
-       *  This interface represents all script hooks that can be registered to customize the Commerce Cloud Payments
-       *  functionality. See Commerce Cloud Payments documentation for how to gain access and configure it for use on your
+       *  This interface represents all script hooks that can be registered to customize the Salesforce Payments
+       *  functionality. See Salesforce Payments documentation for how to gain access and configure it for use on your
        *  sites.
        *  </p>
        *  <p>
        *  It contains the extension points (hook names), and the functions that are called by each extension
        *  point. A function must be defined inside a JavaScript source and must be exported. The script with the exported hook
-       *  function must be located inside a site cartridge. Inside the site cartridge a &apos;package.json&apos; file with a &apos;hooks&apos;
+       *  function must be located inside a site cartridge. Inside the site cartridge a 'package.json' file with a 'hooks'
        *  entry must exist.
        *  </p>
-       *  <pre> &quot;hooks&quot;: &quot;./hooks.json&quot;
+       *  <pre> "hooks": "./hooks.json"
        *  </pre>
        *  <p>
-       *  The hooks entry links to a json file, relative to the &apos;package.json&apos; file. This file lists all registered hooks
+       *  The hooks entry links to a json file, relative to the 'package.json' file. This file lists all registered hooks
        *  inside the hooks property:
        *  </p>
-       *  <pre> &quot;hooks&quot;: [
-       *       {&quot;name&quot;: &quot;dw.extensions.payments.asyncPaymentSucceeded&quot;, &quot;script&quot;: &quot;./payments.js&quot;}
+       *  <pre> "hooks": [
+       *       {"name": "dw.extensions.payments.asyncPaymentSucceeded", "script": "./payments.js"}
        *  ]
        *  </pre>
        *  <p>
-       *  A hook entry has a &apos;name&apos; and a &apos;script&apos; property.
+       *  A hook entry has a 'name' and a 'script' property.
        *  </p>
        *  <ul>
-       *  <li>The &apos;name&apos; contains the extension point, the hook name.</li>
-       *  <li>The &apos;script&apos; contains the script relative to the hooks file, with the exported hook function.</li>
+       *  <li>The 'name' contains the extension point, the hook name.</li>
+       *  <li>The 'script' contains the script relative to the hooks file, with the exported hook function.</li>
        *  </ul>
        */
       class SalesforcePaymentsHooks {
@@ -26029,7 +26417,7 @@ declare namespace dw {
       }
 
       /**
-       * Contains functionality for use with Commerce Cloud Payments. See Commerce Cloud Payments documentation for how to
+       * Contains functionality for use with Salesforce Payments. See Salesforce Payments documentation for how to
        *  gain access and configure it for use on your sites.
        */
       class SalesforcePaymentsMgr {
@@ -26073,7 +26461,7 @@ declare namespace dw {
         ): dw.util.Collection<dw.extensions.payments.SalesforcePaymentMethod>;
         /**
          * Returns the payment intent for the given basket, or null if the given basket has none.
-         * @param basket basket to checkout and pay using Commerce Cloud Payments
+         * @param basket basket to checkout and pay using Salesforce Payments
          * @return The payment intent
          */
         static getPaymentIntent(
@@ -26081,7 +26469,7 @@ declare namespace dw {
         ): dw.extensions.payments.SalesforcePaymentIntent;
         /**
          * Returns the payment intent for the given order, or null if the given order has none.
-         * @param order order paid using Commerce Cloud Payments
+         * @param order order paid using Salesforce Payments
          * @return The payment intent
          */
         static getPaymentIntent(
@@ -26093,11 +26481,61 @@ declare namespace dw {
          * @return a payments site configuration or null if no payments site configuration found
          */
         static getPaymentsSiteConfig(): dw.extensions.payments.SalesforcePaymentsSiteConfiguration;
+        /**
+         * Returns the PayPal order for the given basket, or null if the given basket has none.
+         * @param basket basket to checkout and pay using Salesforce Payments
+         * @return The PayPal order
+         */
+        static getPayPalOrder(
+          basket: dw.order.Basket
+        ): dw.extensions.payments.SalesforcePayPalOrder;
+        /**
+         * Returns the PayPal order for the given order, or null if the given order has none.
+         * @param order order paid using Salesforce Payments
+         * @return The PayPal order
+         */
+        static getPayPalOrder(
+          order: dw.order.Order
+        ): dw.extensions.payments.SalesforcePayPalOrder;
+        /**
+         * Returns a collection containing the payment methods saved to be presented to the given customer for reuse in
+         *  checkouts. The collection will be empty if there are no payment methods saved for the customer, or there was an
+         *  error retrieving the saved payment methods.
+         * @param customer customer whose payment methods to get
+         * @return collection of attached payment methods
+         */
+        static getSavedPaymentMethods(
+          customer: dw.customer.Customer
+        ): dw.util.Collection<dw.extensions.payments.SalesforcePaymentMethod>;
+        /**
+         * Handles the account registration of the shopper who placed the given order. Use this method to ensure the
+         *  registered customer profile is associated with the order in Salesforce Payments.
+         * @param order order paid using Salesforce Payments
+         */
+        static onCustomerRegistered(order: dw.order.Order): void;
+        /**
+         * Removes the given saved payment method so that it is no longer presented to the given customer for reuse in
+         *  checkouts. The payment method remains in the payment account, but is no longer saved for use by the customer.
+         * @param paymentMethod payment method to detach from customer
+         */
+        static removeSavedPaymentMethod(
+          paymentMethod: dw.extensions.payments.SalesforcePaymentMethod
+        ): void;
+        /**
+         * Saves the given payment method to be presented to the given customer for reuse in subsequent checkouts. This
+         *  method will throw an error if passed incompatible payment method and/or customer objects.
+         * @param customer customer for which to save the payment method
+         * @param paymentMethod payment method to save for the customer
+         */
+        static savePaymentMethod(
+          customer: dw.customer.Customer,
+          paymentMethod: dw.extensions.payments.SalesforcePaymentMethod
+        ): void;
       }
 
       /**
        * <p>
-       *  Commerce Cloud Payments representation of a payment site configuration object. See Commerce Cloud Payments
+       *  Salesforce Payments representation of a payment site configuration object. See Salesforce Payments
        *  documentation for how to gain access and configure it for use on your sites.
        *  </p>
        *  <p>
@@ -26191,25 +26629,25 @@ declare namespace dw {
        *  </p><p>
        *  The extension points (hook names), and the functions that are called by each extension point. A function must be
        *  defined inside a JavaScript source and must be exported. The script with the exported hook function must be located
-       *  inside a site cartridge. Inside the site cartridge a &apos;package.json&apos; file with a &apos;hooks&apos; entry must exist.
+       *  inside a site cartridge. Inside the site cartridge a 'package.json' file with a 'hooks' entry must exist.
        *  </p><p>
        *
-       *  </p><pre> &quot;hooks&quot;: &quot;./hooks.json&quot;
+       *  </p><pre> "hooks": "./hooks.json"
        *  </pre>
        *
-       *  The hooks entry links to a json file, relative to the &apos;package.json&apos; file. This file lists all registered hooks
+       *  The hooks entry links to a json file, relative to the 'package.json' file. This file lists all registered hooks
        *  inside the hooks property:
        *  <p>
        *
-       *  </p><pre> &quot;hooks&quot;: [
-       *       {&quot;name&quot;: &quot;dw.extensions.pinterest.feed.transformProduct&quot;, &quot;script&quot;: &quot;./hooks.ds&quot;}
+       *  </p><pre> "hooks": [
+       *       {"name": "dw.extensions.pinterest.feed.transformProduct", "script": "./hooks.ds"}
        *  ]
        *  </pre>
        *  <p>
-       *  A hook entry has a &apos;name&apos; and a &apos;script&apos; property.
+       *  A hook entry has a 'name' and a 'script' property.
        *  </p><ul>
-       *  <li>The &apos;name&apos; contains the extension point, the hook name.</li>
-       *  <li>The &apos;script&apos; contains the script relative to the hooks file, with the exported hook function.</li>
+       *  <li>The 'name' contains the extension point, the hook name.</li>
+       *  <li>The 'script' contains the script relative to the hooks file, with the exported hook function.</li>
        *  </ul>
        */
       class PinterestFeedHooks {
@@ -26389,25 +26827,25 @@ declare namespace dw {
        *  </p><p>
        *  The extension points (hook names), and the functions that are called by each extension point. A function must be
        *  defined inside a JavaScript source and must be exported. The script with the exported hook function must be located
-       *  inside a site cartridge. Inside the site cartridge a &apos;package.json&apos; file with a &apos;hooks&apos; entry must exist.
+       *  inside a site cartridge. Inside the site cartridge a 'package.json' file with a 'hooks' entry must exist.
        *  </p><p>
        *
-       *  </p><pre> &quot;hooks&quot;: &quot;./hooks.json&quot;
+       *  </p><pre> "hooks": "./hooks.json"
        *  </pre>
        *
-       *  The hooks entry links to a json file, relative to the &apos;package.json&apos; file. This file lists all registered hooks
+       *  The hooks entry links to a json file, relative to the 'package.json' file. This file lists all registered hooks
        *  inside the hooks property:
        *  <p>
        *
-       *  </p><pre> &quot;hooks&quot;: [
-       *       {&quot;name&quot;: &quot;dw.extensions.pinterest.order.getStatus&quot;, &quot;script&quot;: &quot;./hooks.ds&quot;}
+       *  </p><pre> "hooks": [
+       *       {"name": "dw.extensions.pinterest.order.getStatus", "script": "./hooks.ds"}
        *  ]
        *  </pre>
        *  <p>
-       *  A hook entry has a &apos;name&apos; and a &apos;script&apos; property.
+       *  A hook entry has a 'name' and a 'script' property.
        *  </p><ul>
-       *  <li>The &apos;name&apos; contains the extension point, the hook name.</li>
-       *  <li>The &apos;script&apos; contains the script relative to the hooks file, with the exported hook function.</li>
+       *  <li>The 'name' contains the extension point, the hook name.</li>
+       *  <li>The 'script' contains the script relative to the hooks file, with the exported hook function.</li>
        *  </ul>
        */
       class PinterestOrderHooks {
@@ -26890,7 +27328,7 @@ declare namespace dw {
     /**
      * Represents a file resource accessible from scripting. As with
      *  <code>java.io.File</code>, a <code>File</code> is essentially an
-     *  &quot;abstract pathname&quot; which may or may not denote an actual file on the file
+     *  "abstract pathname" which may or may not denote an actual file on the file
      *  system.  Methods <code>createNewFile</code>,
      *  <code>mkdir</code>, <code>mkdirs</code>, and <code>remove</code> are provided
      *  to actually manipulate physical files.
@@ -27350,7 +27788,7 @@ declare namespace dw {
 
     /**
      * The class represent a stream of bytes that can be read from the
-     *  application. The InputStream itself doesn&apos;t provide any methods
+     *  application. The InputStream itself doesn't provide any methods
      *  to read the data. Instead the InputStream can be chained with
      *  other classes like a XMLStreamReader to read data.
      */
@@ -27366,7 +27804,7 @@ declare namespace dw {
 
     /**
      * The class represent a stream of bytes that can be written from the
-     *  application. The OutputStream itself doesn&apos;t provide any methods
+     *  application. The OutputStream itself doesn't provide any methods
      *  to write the data. Instead the OutputStream can be chained with
      *  other classes like a XMLStreamWriter to write data.
      *  <p>
@@ -27387,7 +27825,7 @@ declare namespace dw {
      *
      *  Printwriter is available in the template scripting context and is used
      *  to write data into the template output stream. You cannot instantiate this class
-     *  directly. Instead, the system assigns the object to variable named &apos;out&apos; in the script context
+     *  directly. Instead, the system assigns the object to variable named 'out' in the script context
      *  to be used by the template scripts.
      *  <p>
      *  <b>Note:</b> when this class is used with sensitive data, be careful in persisting sensitive information to disk.</p>
@@ -27885,10 +28323,10 @@ declare namespace dw {
      *  <p>
      *
      *  The following is a code sample to read an XML file containing multiple
-     *  &quot;myobject&quot; sub-elements.  Only one myObject instance is kept in memory at
+     *  "myobject" sub-elements.  Only one myObject instance is kept in memory at
      *  any given time to keep memory consumption low:
      *
-     *  </p><pre> var fileReader : FileReader = new FileReader(file, &quot;UTF-8&quot;);
+     *  </p><pre> var fileReader : FileReader = new FileReader(file, "UTF-8");
      *  var xmlStreamReader : XMLStreamReader = new XMLStreamReader(fileReader);
      *
      *  while (xmlStreamReader.hasNext())
@@ -27896,9 +28334,9 @@ declare namespace dw {
      *    if (xmlStreamReader.next() == XMLStreamConstants.START_ELEMENT)
      *    {
      *      var localElementName : String = xmlStreamReader.getLocalName();
-     *      if (localElementName == &quot;myobject&quot;)
+     *      if (localElementName == "myobject")
      *      {
-     *        // read single &quot;myobject&quot; as XML
+     *        // read single "myobject" as XML
      *        var myObject : XML = xmlStreamReader.getXMLObject();
      *
      *        // process myObject
@@ -28548,24 +28986,24 @@ declare namespace dw {
      *  </p><p>
      *
      *  The XMLStreamWriter does not perform well-formedness checking on its input.
-     *  However the writeCharacters method escapes &apos;&amp;&apos; , &apos;&lt;&apos; and &apos;&gt;&apos;. For attribute
-     *  values the writeAttribute method escapes the above characters plus &apos;&quot;&apos; to
+     *  However the writeCharacters method escapes '&amp;' , '&lt;' and '&gt;'. For attribute
+     *  values the writeAttribute method escapes the above characters plus '"' to
      *  ensure that all character content and attribute values are well formed.
      *  </p><p>
      *  The following example illustrates how to use this class:
      *
-     *  </p><pre> var fileWriter : FileWriter = new FileWriter(file, &quot;UTF-8&quot;);
+     *  </p><pre> var fileWriter : FileWriter = new FileWriter(file, "UTF-8");
      *  var xsw : XMLStreamWriter = new XMLStreamWriter(fileWriter);
      *
      *  xsw.writeStartDocument();
-     *  xsw.writeStartElement(&quot;products&quot;);
-     *    xsw.writeStartElement(&quot;product&quot;);
-     *    xsw.writeAttribute(&quot;id&quot;, &quot;p42&quot;);
-     *      xsw.writeStartElement(&quot;name&quot;);
-     *        xsw.writeCharacters(&quot;blue t-shirt&quot;);
+     *  xsw.writeStartElement("products");
+     *    xsw.writeStartElement("product");
+     *    xsw.writeAttribute("id", "p42");
+     *      xsw.writeStartElement("name");
+     *        xsw.writeCharacters("blue t-shirt");
      *      xsw.writeEndElement();
-     *      xsw.writeStartElement(&quot;rating&quot;);
-     *        xsw.writeCharacters(&quot;2.0&quot;);
+     *      xsw.writeStartElement("rating");
+     *        xsw.writeCharacters("2.0");
      *      xsw.writeEndElement();
      *    xsw.writeEndElement();
      *  xsw.writeEndElement();
@@ -28579,9 +29017,9 @@ declare namespace dw {
      *
      *  The code above will write the following to file:
      *
-     *  </p><pre> &lt;?xml version=&quot;1.0&quot; ?&gt;
+     *  </p><pre> &lt;?xml version="1.0" ?&gt;
      *  &lt;products&gt;
-     *    &lt;product id=&quot;p42&quot;&gt;
+     *    &lt;product id="p42"&gt;
      *      &lt;name&gt;a blue t-shirt&lt;/name&gt;
      *      &lt;rating&gt;2.0&lt;/rating&gt;
      *    &lt;/product&gt;
@@ -28816,8 +29254,8 @@ declare namespace dw {
     /**
      * Represents an execution of a job. The job execution can be accessed from a <a href="class_dw_job_JobStepExecution.html">JobStepExecution</a> via
      *  <a href="class_dw_job_JobStepExecution.html#dw_job_JobStepExecution_getJobExecution_DetailAnchor">JobStepExecution.getJobExecution()</a>. If a pipeline is used to implement a step the step execution is available
-     *  in the pipeline dictionary under the key &apos;JobStepExecution&apos;. If a script module is used to implement a step the step
-     *  execution is available as the second parameter of the module&apos;s function that is used to execute the step, e.g.:
+     *  in the pipeline dictionary under the key 'JobStepExecution'. If a script module is used to implement a step the step
+     *  execution is available as the second parameter of the module's function that is used to execute the step, e.g.:
      *
      *  <pre> ...
      *  exports.execute( parameters, stepExecution)
@@ -28874,8 +29312,8 @@ declare namespace dw {
     /**
      * Represents an execution of a step that belongs to a job. The job execution this step execution belongs to can be
      *  accessed via <a href="class_dw_job_JobStepExecution.html#dw_job_JobStepExecution_getJobExecution_DetailAnchor">getJobExecution()</a>. If a pipeline is used to implement a step this step execution is available
-     *  in the pipeline dictionary under the key &apos;JobStepExecution&apos;. If a script module is used to implement a step this step
-     *  execution is available as the second parameter of the module&apos;s function that is used to execute the step, e.g.:
+     *  in the pipeline dictionary under the key 'JobStepExecution'. If a script module is used to implement a step this step
+     *  execution is available as the second parameter of the module's function that is used to execute the step, e.g.:
      *
      *  <pre> ...
      *  exports.execute( parameters, stepExecution)
@@ -28952,8 +29390,8 @@ declare namespace dw {
      *
      *  </p><pre> <code>
      *   var ftp : FTPClient = new dw.net.FTPClient();
-     *   ftp.connect(&quot;my.ftp-server.com&quot;, &quot;username&quot;, &quot;password&quot;);
-     *   var data : String = ftp.get(&quot;simple.txt&quot;);
+     *   ftp.connect("my.ftp-server.com", "username", "password");
+     *   var data : String = ftp.get("simple.txt");
      *   ftp.disconnect();
      *  </code>
      *  </pre>
@@ -29308,7 +29746,7 @@ declare namespace dw {
      *  <pre> <code>
      *  var httpClient : HTTPClient = new HTTPClient();
      *  var message : String;
-     *  httpClient.open(&apos;GET&apos;, &apos;http://www.myinstance.com/feed.xml&apos;);
+     *  httpClient.open('GET', 'http://www.myinstance.com/feed.xml');
      *  httpClient.setTimeout(3000);
      *  httpClient.send();
      *  if (httpClient.statusCode == 200)
@@ -29318,7 +29756,7 @@ declare namespace dw {
      *  else
      *  {
      *      // error handling
-     *      message=&quot;An error occurred with status code &quot;+httpClient.statusCode;
+     *      message="An error occurred with status code "+httpClient.statusCode;
      *  }
      *  </code>
      *  </pre>
@@ -29341,6 +29779,10 @@ declare namespace dw {
       static readonly MAX_GET_MEM_SIZE = 10485760;
 
       /**
+       * Determines whether redirect handling is enabled.
+       */
+      allowRedirect: boolean;
+      /**
        * All response headers as a map containing the name and value of the response header.
        */
       readonly allResponseHeaders: dw.util.HashMap<
@@ -29361,6 +29803,10 @@ declare namespace dw {
        *  written to the response file.
        */
       readonly errorText: string;
+      /**
+       * Gets the identity used for mutual TLS (mTLS).
+       */
+      identity: dw.crypto.KeyRef;
       /**
        * All response headers as a map in which each entry represents an individual header. The key of the entry
        *  holds the header name and the entry value holds a list of all header values.
@@ -29402,6 +29848,12 @@ declare namespace dw {
        */
       enableCaching(ttl: number): void;
       /**
+       * Determines whether redirect handling is enabled.
+       *
+       * @return true if redirect handling is enabled, false otherwise.
+       */
+      getAllowRedirect(): boolean;
+      /**
        * Returns all response headers as a map containing the name and value of the response header.
        *
        * @return a map containing the names and corresponding values of the response headers.
@@ -29427,6 +29879,12 @@ declare namespace dw {
        * @return the returned message body as text.
        */
       getErrorText(): string;
+      /**
+       * Gets the identity used for mutual TLS (mTLS).
+       *
+       * @return Reference to the private key, or null if not configured
+       */
+      getIdentity(): dw.crypto.KeyRef;
       /**
        * Returns a specific response header from the last HTTP operation. The method returns null if the specific header
        *  was not returned.
@@ -29586,6 +30044,21 @@ declare namespace dw {
        * @return true if the returned code was a positive status code.
        */
       sendMultiPart(...parts: dw.net.HTTPRequestPart[]): boolean;
+      /**
+       * Sets whether automatic HTTP redirect handling is enabled.
+       *  The default value is true. Set it to false to disable all redirects.
+       * @param allowRedirect true or false for enabling or disabling automatic HTTP redirect
+       */
+      setAllowRedirect(allowRedirect: boolean): void;
+      /**
+       * Sets the identity (private key) to use when mutual TLS (mTLS) is configured.
+       *
+       *  If this is not set and mTLS is used then the private key will be chosen from the key store based on the host
+       *  name.
+       *  If this is set to a reference named "__NONE__" then no private key will be used even if one is requested by the remote server.
+       * @param keyRef Reference to the private key
+       */
+      setIdentity(keyRef: dw.crypto.KeyRef): void;
       /**
        * Sets a request header for the next HTTP operation.
        * @param key the request header.
@@ -29982,8 +30455,8 @@ declare namespace dw {
      *
      *  </p><pre> <code>
      *   var sftp : SFTPClient = new dw.net.SFTPClient();
-     *   sftp.connect(&quot;my.sftp-server.com&quot;, &quot;username&quot;, &quot;password&quot;);
-     *   var data : String = sftp.get(&quot;simple.txt&quot;);
+     *   sftp.connect("my.sftp-server.com", "username", "password");
+     *   var data : String = sftp.get("simple.txt");
      *   sftp.disconnect();
      *  </code>
      *  </pre>
@@ -30290,8 +30763,8 @@ declare namespace dw {
      *  <b>Note:</b> when this class is used with sensitive data, be careful in persisting sensitive information to disk.
      *   The client can be used as shown in the following example:
      *  </p><p>
-     *  </p><pre> var webdavClient : WebDAVClient = new WebDAVClient(&quot;http://mywebdav.server.com&quot;,&quot;myusername&quot;, &quot;mypassword&quot;);
-     *  var getString : String = webdavClient.get(&quot;myData.xml&quot;,&quot;UTF-8&quot;);
+     *  </p><pre> var webdavClient : WebDAVClient = new WebDAVClient("http://mywebdav.server.com","myusername", "mypassword");
+     *  var getString : String = webdavClient.get("myData.xml","UTF-8");
      *  var message : String;
      *
      *  if (webdavClient.succeeded())
@@ -30301,7 +30774,7 @@ declare namespace dw {
      *  else
      *  {
      *      // error handling
-     *      message=&quot;An error occured with status code &quot;+webdavClient.statusCode;
+     *      message="An error occured with status code "+webdavClient.statusCode;
      *  }
      *
      *  var data : XML = new XML(getString);
@@ -31374,7 +31847,7 @@ declare namespace dw {
     }
 
     /**
-     * Represents the definition of an object&apos;s attribute.
+     * Represents the definition of an object's attribute.
      */
     class ObjectAttributeDefinition {
       /**
@@ -31746,12 +32219,12 @@ declare namespace dw {
      *  object.  A short example should suffice to demonstrate how this metadata can
      *  be used in a script:
      *
-     *  <pre> var co : CustomObject = CustomObjectMgr.getCustomObject(&quot;sample&quot;, &quot;MyCustomObject&quot;);
+     *  <pre> var co : CustomObject = CustomObjectMgr.getCustomObject("sample", "MyCustomObject");
      *
      *  // get the object type definition
      *  var typeDef : ObjectTypeDefinition = co.describe();
-     *  // get the custom object attribute definition for name &quot;enumIntValue&quot;
-     *  var attrDef : ObjectAttributeDefinition = typeDef.getCustomAttributeDefinition( &quot;enumIntValue&quot; );
+     *  // get the custom object attribute definition for name "enumIntValue"
+     *  var attrDef : ObjectAttributeDefinition = typeDef.getCustomAttributeDefinition( "enumIntValue" );
      *  // get the collection of object attribute value definitions
      *  var valueDefs : Collection = attrDef.getValues();
      *
@@ -31975,7 +32448,9 @@ declare namespace dw {
        * @param type The name of the system object type. If a matching type definition cannot be found for the given type a MetaDataException will be thrown.
        * @return SeekableIterator containing all system objects of a specific type.
        */
-      static getAllSystemObjects(type: string): dw.util.SeekableIterator<any>;
+      static getAllSystemObjects(
+        type: string
+      ): dw.util.SeekableIterator<dw.object.PersistentObject>;
       /**
        * Searches for a single system object instance. The following system
        *  object types are supported:
@@ -32158,7 +32633,7 @@ declare namespace dw {
         queryString: string,
         sortString: string,
         ...args: any[]
-      ): dw.util.SeekableIterator<any>;
+      ): dw.util.SeekableIterator<dw.object.PersistentObject>;
       /**
        * Searches for system object instances. The following system object types
        *  are supported:
@@ -32227,7 +32702,7 @@ declare namespace dw {
         type: string,
         queryAttributes: dw.util.Map<any, any>,
         sortString: string
-      ): dw.util.SeekableIterator<any>;
+      ): dw.util.SeekableIterator<dw.object.PersistentObject>;
     }
   }
 
@@ -33188,18 +33663,21 @@ declare namespace dw {
       static readonly currentOrNewBasket: dw.order.Basket;
       /**
        * This method returns the stored basket of the session customer or null if none is found. A stored
-       *  basket is returned in the following situation: - During one visit, a customer-X logs in and receives a basket-A -
-       *  In a later visit, a second basket-B is created for an anonymous customer who then logs in as customer-X. In this
-       *  case basket-B is reassigned to him and basket-A is accessible as the stored basket. Now it is possible to merge
-       *  the information from the stored basket to the active basket.
+       *  basket is returned in the following situation:
+       *
+       *  During one visit, a customer-X logs in and receives a basket-A.
+       *  In a later visit, a second basket-B is created for an anonymous customer who then logs in as customer-X.
+       *
+       *  In this case basket-B is reassigned to him and basket-A is accessible as the stored basket. Now it is possible to
+       *  merge the information from the stored basket to the active basket.
        *
        *  A stored basket will exist only if the corresponding setting is selected in the Business Manager site
        *  preferences' baskets section. A basket is valid for the configured basket lifetime.
        *
        *  Typical usage:
        *
-       *   var storedBasket : Basket = BasketMgr.getStoredBasket();
-       *  var currentBasket : Basket = BasketMgr.getCurrentOrNewBasket();
+       *   var currentBasket : Basket = BasketMgr.getCurrentOrNewBasket();
+       *  var storedBasket : Basket = BasketMgr.getStoredBasket();
        *  if (storedBasket) {
        *      // transfer all the data needed from the stored to the active basket
        *  }
@@ -33383,18 +33861,21 @@ declare namespace dw {
       static getCurrentOrNewBasket(): dw.order.Basket;
       /**
        * This method returns the stored basket of the session customer or null if none is found. A stored
-       *  basket is returned in the following situation: - During one visit, a customer-X logs in and receives a basket-A -
-       *  In a later visit, a second basket-B is created for an anonymous customer who then logs in as customer-X. In this
-       *  case basket-B is reassigned to him and basket-A is accessible as the stored basket. Now it is possible to merge
-       *  the information from the stored basket to the active basket.
+       *  basket is returned in the following situation:
+       *
+       *  During one visit, a customer-X logs in and receives a basket-A.
+       *  In a later visit, a second basket-B is created for an anonymous customer who then logs in as customer-X.
+       *
+       *  In this case basket-B is reassigned to him and basket-A is accessible as the stored basket. Now it is possible to
+       *  merge the information from the stored basket to the active basket.
        *
        *  A stored basket will exist only if the corresponding setting is selected in the Business Manager site
        *  preferences' baskets section. A basket is valid for the configured basket lifetime.
        *
        *  Typical usage:
        *
-       *   var storedBasket : Basket = BasketMgr.getStoredBasket();
-       *  var currentBasket : Basket = BasketMgr.getCurrentOrNewBasket();
+       *   var currentBasket : Basket = BasketMgr.getCurrentOrNewBasket();
+       *  var storedBasket : Basket = BasketMgr.getStoredBasket();
        *  if (storedBasket) {
        *      // transfer all the data needed from the stored to the active basket
        *  }
@@ -33723,7 +34204,7 @@ declare namespace dw {
      * This exception could be thrown by <a href="class_dw_order_LineItemCtnr.html#dw_order_LineItemCtnr_createCouponLineItem_String_Boolean_DetailAnchor">LineItemCtnr.createCouponLineItem(String, Boolean)</a>
      *  when the provided coupon code is invalid.
      *  <p>
-     *  &apos;errorCode&apos; property is set to one of the following values:
+     *  'errorCode' property is set to one of the following values:
      *  </p><ul>
      *  <li><a href="class_dw_campaign_CouponStatusCodes.html#dw_campaign_CouponStatusCodes_COUPON_CODE_ALREADY_IN_BASKET_DetailAnchor">CouponStatusCodes.COUPON_CODE_ALREADY_IN_BASKET</a> = Indicates that coupon code has already been added to basket.</li>
      *  <li><a href="class_dw_campaign_CouponStatusCodes.html#dw_campaign_CouponStatusCodes_COUPON_ALREADY_IN_BASKET_DetailAnchor">CouponStatusCodes.COUPON_ALREADY_IN_BASKET</a> = Indicates that another code of the same MultiCode/System coupon has already been added to basket.</li>
@@ -34917,9 +35398,8 @@ declare namespace dw {
        *  not affected by the previous value of this attribute.
        *
        *  The value used as a basis depends on the type of line item this is and on the promotion preferences for the
-       *  current site. If the "old" tax basis rules are used, then the tax basis will simply be equal to
-       *  getPrice(). If the "new" tax basis rules used, then the tax basis depends upon line item type as
-       *  follows:
+       *  current site. If you tax products, shipping, and discounts based on price (default), then the tax basis will simply be equal to
+       *  getPrice(). If you tax products and shipping only based on adjusted price, then the tax basis depends upon line item type as follows:
        *
        *  ProductLineItem: basis equals ProductLineItem.getProratedPrice().
        *  ShippingLineItem: basis equals ShippingLineItem.getAdjustedPrice().
@@ -34973,7 +35453,7 @@ declare namespace dw {
      *  merchandise, whereas getShippingTotalGrossPrice() returns the price of all shipments in the container, including tax
      *  on the shipments in the container.</li>
      *  </ul>
-     *  There are also a set of methods that provide access to &apos;adjusted&apos; values. The adjusted-based methods return values
+     *  There are also a set of methods that provide access to 'adjusted' values. The adjusted-based methods return values
      *  where promotions have been applied. For example, the getAdjustedMerchandizeTotalNetPrice() method returns the net
      *  price of all merchandise after product-level and order-level promotions have been applied. Whereas the
      *  getAdjustedMerchandizeTotalGrossPrice() method returns the price of all merchandise after product-level and
@@ -34983,7 +35463,7 @@ declare namespace dw {
      *  These are the total-based methods getTotalNetPrice(), getTotalTax() and getTotalGrossPrice(). These methods return
      *  the totals of all items in the container and include any order-level promotions.
      *  </p><p>
-     *  Note that all merchandise-related methods do not include &apos;gift certificates&apos; values in the values they return. Gift
+     *  Note that all merchandise-related methods do not include 'gift certificates' values in the values they return. Gift
      *  certificates are not considered merchandise as they do not represent a product.
      *  </p><p></p>
      */
@@ -35537,6 +36017,7 @@ declare namespace dw {
        *  If the specified productID does not represent a product of the site catalog, the method creates a new product
        *  line item and initializes it with the specified product ID and with a quantity, minimum order quantity, and step
        *  quantity value of 1.0.
+       *  If the provided SKU references a product that is not available as described in method ProductLineItem.isCatalogProduct(), the new product line item is considered a non-catalog product line item without a connection to a product. Such product line items are not included in reservation requests in either OCI-based inventory or eCom-based inventory when calling Basket.reserveInventory() or OrderMgr.createOrder(Basket).
        * @param productID The product ID.
        * @param shipment Shipment
        * @return The new product line item
@@ -36245,6 +36726,16 @@ declare namespace dw {
        */
       static readonly CONFIRMATION_STATUS_NOTCONFIRMED = 0;
       /**
+       * The encryption algorithm "RSA/ECB/OAEPWithSHA-256AndMGF1Padding".
+       */
+      static readonly ENCRYPTION_ALGORITHM_RSA_ECB_OAEPWITHSHA_256ANDMGF1PADDING =
+        "RSA/ECB/OAEPWithSHA-256AndMGF1Padding";
+      /**
+       * The outdated encryption algorithm "RSA/ECB/PKCS1Padding". Please do not use anymore!
+       */
+      static readonly ENCRYPTION_ALGORITHM_RSA_ECB_PKCS1PADDING =
+        "RSA/ECB/PKCS1Padding";
+      /**
        * constant for when Export Status is Exported
        */
       static readonly EXPORT_STATUS_EXPORTED = 1;
@@ -36460,6 +36951,18 @@ declare namespace dw {
        *  affected by this change and can use the APIs until further notice.
        */
       readonly invoices: dw.util.FilteringCollection<dw.order.Invoice>;
+      /**
+       * The order export XML as String object.
+       *
+       *  NOTE: This method will return payment instrument data masked. If payment instrument re-encryption is needed
+       *  please use getOrderExportXML(String, String) instead.
+       *
+       *  Example:
+       *
+       *   var orderXMLAsString : String = order.getOrderExportXML();
+       *  var orderXML : XML = new XML(orderXMLAsString);
+       */
+      readonly orderExportXML: string;
       /**
        * The order number for this order.
        */
@@ -36999,41 +37502,74 @@ declare namespace dw {
       /**
        * Returns the order export XML as String object.
        *
-       *  NOTE: This method is deprecated and will be removed soon. Use getOrderExportXML(String, String) instead.
+       *  NOTE: This method will return payment instrument data masked. If payment instrument re-encryption is needed
+       *  please use getOrderExportXML(String, String) instead.
        *
        *  Example:
-       *       var orderXmlAsString : String = order.getOrderExportXML(null, null, false);
-       *      var orderXml : XML = new XML(orderXmlAsString);
        *
-       *  This method can be called for placed orders only, otherwise an exception will be thrown.
+       *   var orderXMLAsString : String = order.getOrderExportXML();
+       *  var orderXML : XML = new XML(orderXMLAsString);
        *
-       *  Also, an exception will be thrown if the method is called in a transaction with changes.
-       * @param encryptionMethod the algorithm to be used for the encryption of the payment instruments if order payments re-encryption is needed
-       * @param encryptionKey the base64 encoded form of the public key to be used to encrypt the payment instruments if order payments re-encryption is needed
+       * @return the order export XML
+       */
+      getOrderExportXML(): string;
+      /**
+       * Returns the order export XML as String object, with payment instrument data re-encrypted using the given
+       *  encryption algorithm and key.
+       *
+       *  NOTE: If no encryption is needed or desired please always use getOrderExportXML() instead, which returns
+       *  the payment instrument data masked. Do not pass in any null arguments!
+       *
+       *  Example:
+       *
+       *   var orderXMLAsString : String = order.getOrderExportXML( "RSA/ECB/PKCS1Padding", "[key]" );
+       *  var orderXML : XML = new XML( orderXMLAsString );
+       * @param encryptionAlgorithm The encryption algorithm to be used for the re-encryption of the payment instrument data (credit card number, bank account number, bank account driver's license number). Must be a valid, non-null algorithm. Currently, only ENCRYPTION_ALGORITHM_RSA_ECB_PKCS1PADDING is supported, but this will be fixed and support for ENCRYPTION_ALGORITHM_RSA_ECB_OAEPWITHSHA56ANDMGF1PADDING will be added soon.
+       * @param encryptionKey The Base64 encoded form of the public key to be used for the re-encryption of the payment instrument data. Must be a valid, non-blank key.
+       * @return the order export XML
+       */
+      getOrderExportXML(
+        encryptionAlgorithm: string,
+        encryptionKey: string
+      ): string;
+      /**
+       * Returns the order export XML as String object, with payment instrument data re-encrypted using the given
+       *  encryption algorithm and key.
+       *
+       *  NOTE: If no encryption is needed or desired please always use getOrderExportXML() instead, which returns
+       *  the payment instrument data masked. Do not pass in any null arguments!
+       *
+       *  Example:
+       *
+       *   var orderXMLAsString : String = order.getOrderExportXML( "RSA/ECB/PKCS1Padding", "[key]", false );
+       *  var orderXML : XML = new XML( orderXMLAsString );
+       * @param encryptionAlgorithm The encryption algorithm to be used for the re-encryption of the payment instrument data (credit card number, bank account number, bank account driver's license number). Must be a valid, non-null algorithm. Currently, only ENCRYPTION_ALGORITHM_RSA_ECB_PKCS1PADDING is supported, but this will be fixed and support for ENCRYPTION_ALGORITHM_RSA_ECB_OAEPWITHSHA56ANDMGF1PADDING will be added soon.
+       * @param encryptionKey The Base64 encoded form of the public key to be used for the re-encryption of the payment instrument data. Must be a valid, non-blank key.
        * @param encryptUsingEKID ignored
        * @return the order export XML
        */
       getOrderExportXML(
-        encryptionMethod: string,
+        encryptionAlgorithm: string,
         encryptionKey: string,
         encryptUsingEKID: boolean
       ): string;
       /**
-       * Returns the order export XML as String object.
+       * Returns the order export XML as String object, with payment instrument data re-encrypted using the given
+       *  encryption algorithm and key.
+       *
+       *  NOTE: If no encryption is needed or desired please always use getOrderExportXML() instead, which returns
+       *  the payment instrument data masked.
        *
        *  Example:
-       *       var orderXmlAsString : String = order.getOrderExportXML(null, null);
-       *      var orderXml : XML = new XML(orderXmlAsString);
        *
-       *  This method can be called for placed orders only, otherwise an exception will be thrown.
-       *
-       *  Also, an exception will be thrown if the method is called in a transaction with changes.
-       * @param encryptionMethod the algorithm to be used for the encryption of the payment instruments if order payments re-encryption is needed
-       * @param encryptionKey the base64 encoded form of the public key to be used to encrypt the payment instruments if order payments re-encryption is needed
+       *   var orderXMLAsString : String = order.getOrderExportXML( "RSA/ECB/PKCS1Padding", "[key]" );
+       *  var orderXML : XML = new XML( orderXMLAsString );
+       * @param encryptionAlgorithm The encryption algorithm used for the re-encryption of the payment instrument data (credit card number, bank account number, bank account driver's license number). Must be one of the following:  ENCRYPTION_ALGORITHM_RSA_ECB_OAEPWITHSHA56ANDMGF1PADDING – The current and preferred algorithm.  ENCRYPTION_ALGORITHM_RSA_ECB_PKCS1PADDING – This algorithm is outdated/deprecated and will be removed in a future release. Please do not use anymore.
+       * @param encryptionKey The Base64 encoded form of the public key used for the re-encryption of the payment instrument data. Must be a valid, non-blank key.
        * @return the order export XML
        */
       getOrderExportXML(
-        encryptionMethod: string,
+        encryptionAlgorithm: string,
         encryptionKey: string
       ): string;
       /**
@@ -37593,7 +38129,7 @@ declare namespace dw {
     }
 
     /**
-     * The Address class represents a customer&apos;s address.
+     * The Address class represents a customer's address.
      *  <p>
      *  <b>Note:</b> this class allows access to sensitive personal and private information.
      *  Pay attention to appropriate legal and regulatory requirements.</p>
@@ -38263,33 +38799,33 @@ declare namespace dw {
      *  </p>
      *  <p>
      *  Pipelet GetOrder and methods provided to access orders such as <a href="class_dw_order_OrderMgr.html#dw_order_OrderMgr_getOrder_String_DetailAnchor">getOrder(String)</a> and
-     *  <a href="class_dw_order_OrderMgr.html#dw_order_OrderMgr_searchOrders_String_String_Object_DetailAnchor">searchOrders(String, String, Object...)</a> can be limited by the site preference &apos;Limit Storefront Order
-     *  Access&apos;. An insecure order access occurs in a storefront session when all of the following are true:
+     *  <a href="class_dw_order_OrderMgr.html#dw_order_OrderMgr_searchOrders_String_String_Object_DetailAnchor">searchOrders(String, String, Object...)</a> can be limited by the site preference 'Limit Storefront Order
+     *  Access'. An insecure order access occurs in a storefront session when all of the following are true:
      *  </p><ul>
-     *  <li>The current storefront session isn&#x2019;t the session in which the order was created.</li>
-     *  <li>The session customer doesn&#x2019;t match the order customer.</li>
-     *  <li>The order status isn&#x2019;t CREATED.</li>
+     *  <li>The current storefront session isn’t the session in which the order was created.</li>
+     *  <li>The session customer doesn’t match the order customer.</li>
+     *  <li>The order status isn’t CREATED.</li>
      *  </ul>
      *  When an order is accessed in an insecure manner:
      *  <ul>
      *  <li>If the preference is ACTIVE, the action is disallowed and a SecurityException with a message
-     *  beginning &apos;Unauthorized access to order&apos; is thrown.</li>
-     *  <li>If the preference is NOT ACTIVE, a SecurityException with a message beginning &apos;Unauthorized
-     *  access to order&apos; is logged as an error.</li>
+     *  beginning 'Unauthorized access to order' is thrown.</li>
+     *  <li>If the preference is NOT ACTIVE, a SecurityException with a message beginning 'Unauthorized
+     *  access to order' is logged as an error.</li>
      *  </ul>
      *  In addition, the storefront should ensure the shopper is properly authenticated and authorized to read
      *  or modify the content of an order object. For more information, see <a href="https://documentation.b2c.commercecloud.salesforce.com/DOC1/index.jsp?topic=%2Fcom.demandware.dochelp%2Fcontent%2Fb2c_commerce%2Ftopics%2Fb2c_security_best_practices%2Fb2c_developer_authentication_and_authorization.html">Access Control</a>.
      *  <ul>
      *  </ul>
-     *  Don&#x2019;t use dw.order.OrderMgr.searchOrder methods or <a href="class_dw_order_OrderMgr.html#dw_order_OrderMgr_processOrders_Function_String_Object_DetailAnchor">processOrders(Function, String, Object...)</a>
-     *  immediately after creating or updating an order. The order search index updates asynchronously, so it
+     *  Don’t use dw.order.OrderMgr.searchOrder methods or <a href="class_dw_order_OrderMgr.html#dw_order_OrderMgr_processOrders_Function_String_Object_DetailAnchor">processOrders(Function, String, Object...)</a>
+     *  immediately after creating or updating an order. The order search index updates asynchronously, typically within seconds but occasionally longer depending on search service load, so it
      *  might not include very recent changes. Instead, do one of the following:
      *  <ul>
      *  <li>In the same request, pass the dw.order.Order object reference to the followup logic.</li>
      *  <li>For storefront use cases, especially when passing the order reference to a third party, use the
      *  order token for security by using <a href="class_dw_order_OrderMgr.html#dw_order_OrderMgr_getOrder_String_String_DetailAnchor">getOrder(String, String)</a>.</li>
      *  </ul>
-     *  When implementing order history functionality, don&apos;t use the search or query methods in this class. Instead, use
+     *  When implementing order history functionality, don't use the search or query methods in this class. Instead, use
      *  <a href="class_dw_customer_OrderHistory.html#dw_customer_OrderHistory_getOrders_String_String_Object_DetailAnchor">OrderHistory.getOrders(String, String, Object...)</a>.
      *  <p></p>
      */
@@ -39655,9 +40191,14 @@ declare namespace dw {
      */
     class PaymentInstrument extends dw.customer.EncryptedObject {
       /**
-       * Constant for specification of the public key encryption algorithm RSA.
+       * The outdated encryption algorithm "RSA/ECB/PKCS1Padding". Please do not use anymore!
        */
       static readonly ENCRYPTION_ALGORITHM_RSA = "RSA";
+      /**
+       * The encryption algorithm "RSA/ECB/OAEPWithSHA-256AndMGF1Padding".
+       */
+      static readonly ENCRYPTION_ALGORITHM_RSA_ECB_OAEPWITHSHA_256ANDMGF1PADDING =
+        "RSA/ECB/OAEPWithSHA-256AndMGF1Padding";
       /**
        * Represents a bank transfer type of payment.
        */
@@ -40194,71 +40735,69 @@ declare namespace dw {
        */
       getCustom(): PaymentInstrumentCustomAttributes;
       /**
-       * Encrypts the driver's license number of the bank account of this object with the given algorithm
-       *  and the given public key. Returned is the base64-encoded representation
-       *  of the result.
-       *  See also Cipher.encrypt(String, String, String, String, Number) on how to generate RSA key pairs.
+       * Encrypts the driver's license number of the bank account of this object with the given algorithm and the given
+       *  public key. Returned is the Base64 encoded representation of the result.
        *
-       *  If account information has been masked due to the data retention security
-       *  policy for the site, the returned value is the base64-encoded representation
-       *  of the encrypted form of the masked number.
-       * @param algorithm The algorithm to be used for the encryption of this bank account driver's license. Currently only "RSA" is supported.
-       * @param publicKey A base64 encoded form of the public key to be used to encrypt this bank account driver's license number.
-       * @return the base64-encoded representation of the bank account driver's license.
+       *  See also Cipher.encrypt(String, String, String, String, Number) on how to generate RSA key
+       *  pairs.
+       *
+       *  If account information has been masked due to the data retention security policy for the site, the returned value
+       *  is the Base64 encoded representation of the encrypted form of the masked number.
+       * @param algorithm The algorithm to be used for the encryption of this credit card number. Must be a valid, non-null algorithm. Currently, only the following algorithms are supported:  ENCRYPTION_ALGORITHM_RSA – outdated, please do not use anymore  ENCRYPTION_ALGORITHM_RSA_ECB_OAEPWITHSHA56ANDMGF1PADDING – the current algorithm
+       * @param publicKey A Base64 encoded form of the public key to be used to encrypt this bank account driver's license number. Must be a valid, non-blank key.
+       * @return the Base64 encoded representation of the bank account driver's license.
        */
       getEncryptedBankAccountDriversLicense(
         algorithm: string,
         publicKey: string
       ): string;
       /**
-       * Encrypts the bank account number of this object with the given algorithm
-       *  and the given public key. Returned is the base64-encoded representation
-       *  of the result.
+       * Encrypts the bank account number of this object with the given algorithm and the given public key. Returned is
+       *  the Base64 encoded representation of the result.
        *
-       *  If account information has been masked due to the data retention security
-       *  policy for the site, the returned value is the base64-encoded representation
-       *  of the encrypted form of the masked number.
-       * @param algorithm The algorithm to be used for the encryption of this credit card number. Currently only "RSA" is supported.
-       * @param publicKey A base64 encoded form of the public key to be used to encrypt this credit card number.
-       * @return the base64-encoded representation of the bank account number.
+       *  If account information has been masked due to the data retention security policy for the site, the returned value
+       *  is the Base64 encoded representation of the encrypted form of the masked number.
+       * @param algorithm The algorithm to be used for the encryption of this credit card number. Must be a valid, non-null algorithm. Currently, only the following algorithms are supported:  ENCRYPTION_ALGORITHM_RSA – outdated, please do not use anymore  ENCRYPTION_ALGORITHM_RSA_ECB_OAEPWITHSHA56ANDMGF1PADDING – the current algorithm
+       * @param publicKey A Base64 encoded form of the public key to be used to encrypt this credit card number. Must be a valid, non-blank key.
+       * @return the Base64 encoded representation of the bank account number.
        */
       getEncryptedBankAccountNumber(
         algorithm: string,
         publicKey: string
       ): string;
       /**
-       * Encrypts the credit card number of this object with the given algorithm
-       *  and the given public key. Returned is the base64-encoded representation
-       *  of the result.
-       *  See also Cipher.encrypt(String, String, String, String, Number) on how to generate RSA key pairs.
+       * Encrypts the credit card number of this object with the given algorithm and the given public key. Returned is the
+       *  Base64 encoded representation of the result.
        *
-       *  If account information has been masked due to the data retention security
-       *  policy for the site, the returned value is the base64-encoded representation
-       *  of the encrypted form of the masked number.
-       * @param algorithm The algorithm to be used for the encryption of this credit card number. Currently only "RSA" is supported.
-       * @param publicKey A base64 encoded form of the public key to be used to encrypt this credit card number.
-       * @return the base64-encoded representation of the credit card number.
+       *  See also Cipher.encrypt(String, String, String, String, Number) on how to generate RSA key
+       *  pairs.
+       *
+       *  If account information has been masked due to the data retention security policy for the site, the returned value
+       *  is the Base64 encoded representation of the encrypted form of the masked number.
+       * @param algorithm The algorithm to be used for the encryption of this credit card number. Must be a valid, non-null algorithm. Currently, only the following algorithms are supported:  ENCRYPTION_ALGORITHM_RSA – outdated, please do not use anymore  ENCRYPTION_ALGORITHM_RSA_ECB_OAEPWITHSHA56ANDMGF1PADDING – the current algorithm
+       * @param publicKey A Base64 encoded form of the public key to be used to encrypt this credit card number. Must be a valid, non-blank key.
+       * @return the Base64 encoded representation of the credit card number.
        */
       getEncryptedCreditCardNumber(
         algorithm: string,
         publicKey: string
       ): string;
       /**
-       * Encrypts the credit card number of this object with the given algorithm
-       *  and the public key taken from a certificate in the keystore.
-       *  Returned is the base64-encoded representation of the result.
-       *  See also Cipher.encrypt(String, CertificateRef, String, String, Number) on how to generate RSA key pairs.
+       * Encrypts the credit card number of this object with the given algorithm and the public key taken from a
+       *  certificate in the keystore. Returned is the Base64 encoded representation of the result.
        *
-       *  If account information has been masked due to the data retention security
-       *  policy for the site, the returned value is the base64-encoded representation
-       *  of the encrypted form of the masked number.
-       * @param algorithm The algorithm to be used for the encryption of this credit card number. Currently only "RSA" is supported.
-       * @param publicKey A reference to a trusted certificate entry containing the public key in the keystore.
-       * @return the base64-encoded representation of the credit card number.
+       *  See also Cipher.encrypt(String, CertificateRef, String, String, Number) on how to generate RSA
+       *  key pairs.
+       *
+       *  If account information has been masked due to the data retention security policy for the site, the returned value
+       *  is the Base64 encoded representation of the encrypted form of the masked number.
+       * @param algorithm The algorithm to be used for the encryption of this credit card number. Must be a valid, non-null algorithm. Currently, only the following algorithms are supported:  ENCRYPTION_ALGORITHM_RSA – outdated, please do not use anymore  ENCRYPTION_ALGORITHM_RSA_ECB_OAEPWITHSHA56ANDMGF1PADDING – the current algorithm
+       * @param certificateRef A reference to a trusted certificate entry containing the public key in the keystore. Must be non-null.
+       * @return the Base64 encoded representation of the credit card number.
        */
       getEncryptedCreditCardNumber(
         algorithm: string,
-        publicKey: dw.crypto.CertificateRef
+        certificateRef: dw.crypto.CertificateRef
       ): string;
       /**
        * Returns the Gift Certificate code for this Payment Instrument.
@@ -40948,7 +41487,7 @@ declare namespace dw {
      *  when applying discounts. See <a href="class_dw_campaign_PromotionMgr.html#dw_campaign_PromotionMgr_applyDiscounts_DiscountPlan_DetailAnchor">PromotionMgr.applyDiscounts(DiscountPlan)</a>. They may also be
      *  generated by custom code through the API. See for example
      *  <a href="class_dw_order_ProductLineItem.html#dw_order_ProductLineItem_createPriceAdjustment_String_DetailAnchor">ProductLineItem.createPriceAdjustment(String)</a>. In the latter case, the PriceAdjustment is called
-     *  &quot;custom&quot;; in the former case, it is called &quot;system&quot;. System price adjustments are associated with the promotion that
+     *  "custom"; in the former case, it is called "system". System price adjustments are associated with the promotion that
      *  triggered their creation. If the promotion was coupon-based, then the price adjustment will additionally be
      *  associated with a coupon line item in the LineItemCtnr.
      */
@@ -44818,8 +45357,8 @@ declare namespace dw {
      *  </ul>
      *  <br>
      *  The following status transitions are supported. Every status transition is
-     *  documented by the addition of an order note such as &apos;Shipping order 123456
-     *  status changed to WAREHOUSE.&apos;:
+     *  documented by the addition of an order note such as 'Shipping order 123456
+     *  status changed to WAREHOUSE.':
      *  <table>
      *  <tbody><tr>
      *  <th>From</th>
@@ -45488,7 +46027,7 @@ declare namespace dw {
     }
 
     /**
-     * Contains the formal definition of a tax including a type (it&apos;s just the key),
+     * Contains the formal definition of a tax including a type (it's just the key),
      *  a <a href="class_dw_order_TaxGroup.html#dw_order_TaxGroup_getRate_DetailAnchor"> percentage value</a> if provided, a <a href="class_dw_order_TaxGroup.html#dw_order_TaxGroup_getCaption_DetailAnchor"> caption</a> and a <a href="class_dw_order_TaxGroup.html#dw_order_TaxGroup_getDescription_DetailAnchor"> description</a>.
      */
     class TaxGroup {
@@ -45874,24 +46413,24 @@ declare namespace dw {
        * This interface represents all script hooks that can be registered to customize the order and basket calculation
        *  functionality. It contains the extension points (hook names), and the functions that are called by each extension
        *  point. A function must be defined inside a JavaScript source and must be exported. The script with the exported hook
-       *  function must be located inside a site cartridge. Inside the site cartridge a &apos;package.json&apos; file with a &apos;hooks&apos;
+       *  function must be located inside a site cartridge. Inside the site cartridge a 'package.json' file with a 'hooks'
        *  entry must exist.
        *
-       *  <pre> &quot;hooks&quot;: &quot;./hooks.json&quot;
+       *  <pre> "hooks": "./hooks.json"
        *  </pre>
        *
-       *  The hooks entry links to a json file, relative to the &apos;package.json&apos; file. This file lists all registered hooks
+       *  The hooks entry links to a json file, relative to the 'package.json' file. This file lists all registered hooks
        *  inside the hooks property:
        *
-       *  <pre> &quot;hooks&quot;: [
-       *       {&quot;name&quot;: &quot;dw.order.calculate&quot;, &quot;script&quot;: &quot;./calculate.js&quot;}
+       *  <pre> "hooks": [
+       *       {"name": "dw.order.calculate", "script": "./calculate.js"}
        *  ]
        *  </pre>
        *
-       *  A hook entry has a &apos;name&apos; and a &apos;script&apos; property.
+       *  A hook entry has a 'name' and a 'script' property.
        *  <ul>
-       *  <li>The &apos;name&apos; contains the extension point, the hook name.</li>
-       *  <li>The &apos;script&apos; contains the script relative to the hooks file, with the exported hook function.</li>
+       *  <li>The 'name' contains the extension point, the hook name.</li>
+       *  <li>The 'script' contains the script relative to the hooks file, with the exported hook function.</li>
        *  </ul>
        */
       class CalculateHooks {
@@ -45949,23 +46488,23 @@ declare namespace dw {
        * This interface represents all script hooks that can be registered to customize the order logic. It contains the
        *  extension points (hook names), and the functions that are called by each extension point. A function must be defined
        *  inside a JavaScript source and must be exported. The script with the exported hook function must be located inside a
-       *  site cartridge. Inside the site cartridge a &apos;package.json&apos; file with a &apos;hooks&apos; entry must exist.
+       *  site cartridge. Inside the site cartridge a 'package.json' file with a 'hooks' entry must exist.
        *  <p>
-       *  &quot;hooks&quot;: &quot;./hooks.json&quot;
+       *  "hooks": "./hooks.json"
        *  </p>
-       *  The hooks entry links to a json file, relative to the &apos;package.json&apos; file. This file lists all registered hooks
+       *  The hooks entry links to a json file, relative to the 'package.json' file. This file lists all registered hooks
        *  inside the hooks property:
        *  <p>
        *
-       *  </p><pre> &quot;hooks&quot;: [
-       *     {&quot;name&quot;: &quot;dw.order.createOrderNo&quot;, &quot;script&quot;: &quot;./orders.ds&quot;},
+       *  </p><pre> "hooks": [
+       *     {"name": "dw.order.createOrderNo", "script": "./orders.ds"},
        *  ]
        *  </pre>
        *  <p></p>
-       *  A hook entry has a &apos;name&apos; and a &apos;script&apos; property.
+       *  A hook entry has a 'name' and a 'script' property.
        *  <ul>
-       *  <li>The &apos;name&apos; contains the extension point, the hook name.</li>
-       *  <li>The &apos;script&apos; contains the script relative to the hooks file, with the exported hook function.</li>
+       *  <li>The 'name' contains the extension point, the hook name.</li>
+       *  <li>The 'script' contains the script relative to the hooks file, with the exported hook function.</li>
        *  </ul>
        */
       class OrderHooks {
@@ -46006,26 +46545,26 @@ declare namespace dw {
        *  points (hook names), and the functions that are called by each extension
        *  point. A function must be defined inside a JavaScript source and must be
        *  exported. The script with the exported hook function must be located inside a
-       *  site cartridge. Inside the site cartridge a &apos;package.json&apos; file with a
-       *  &apos;hooks&apos; entry must exist.
+       *  site cartridge. Inside the site cartridge a 'package.json' file with a
+       *  'hooks' entry must exist.
        *  <p>
-       *  &quot;hooks&quot;: &quot;./hooks.json&quot;
+       *  "hooks": "./hooks.json"
        *  </p>
-       *  The hooks entry links to a json file, relative to the &apos;package.json&apos; file.
+       *  The hooks entry links to a json file, relative to the 'package.json' file.
        *  This file lists all registered hooks inside the hooks property:
        *  <p>
        *
-       *  </p><pre> &quot;hooks&quot;: [
-       *       {&quot;name&quot;: &quot;dw.order.payment.authorize&quot;, &quot;script&quot;: &quot;./authorize.js&quot;},
-       *       {&quot;name&quot;: &quot;dw.order.payment.validateAuthorization&quot;, &quot;script&quot;: &quot;./validateAuthorization.js&quot;},
+       *  </p><pre> "hooks": [
+       *       {"name": "dw.order.payment.authorize", "script": "./authorize.js"},
+       *       {"name": "dw.order.payment.validateAuthorization", "script": "./validateAuthorization.js"},
        *  ]
        *  </pre>
        *
        *  <p></p>
-       *  A hook entry has a &apos;name&apos; and a &apos;script&apos; property.
+       *  A hook entry has a 'name' and a 'script' property.
        *  <ul>
-       *  <li>The &apos;name&apos; contains the extension point, the hook name.</li>
-       *  <li>The &apos;script&apos; contains the script relative to the hooks file, with the
+       *  <li>The 'name' contains the extension point, the hook name.</li>
+       *  <li>The 'script' contains the script relative to the hooks file, with the
        *  exported hook function.</li>
        *  </ul>
        */
@@ -46212,27 +46751,27 @@ declare namespace dw {
        *  points (hook names), and the functions that are called by each extension
        *  point. A function must be defined inside a JavaScript source and must be
        *  exported. The script with the exported hook function must be located inside a
-       *  site cartridge. Inside the site cartridge a &apos;package.json&apos; file with a
-       *  &apos;hooks&apos; entry must exist.
+       *  site cartridge. Inside the site cartridge a 'package.json' file with a
+       *  'hooks' entry must exist.
        *  <p>
-       *  &quot;hooks&quot;: &quot;./hooks.json&quot;
+       *  "hooks": "./hooks.json"
        *  </p>
-       *  The hooks entry links to a json file, relative to the &apos;package.json&apos; file.
+       *  The hooks entry links to a json file, relative to the 'package.json' file.
        *  This file lists all registered hooks inside the hooks property:
        *  <p>
        *
-       *  </p><pre> &quot;hooks&quot;: [
-       *     {&quot;name&quot;: &quot;dw.order.return.createReturn&quot;,           &quot;script&quot;: &quot;./returns.ds&quot;},
-       *     {&quot;name&quot;: &quot;dw.order.return.addReturnItem&quot;,          &quot;script&quot;: &quot;./returns.ds&quot;},
-       *     {&quot;name&quot;: &quot;dw.order.return.changeStatus&quot;,           &quot;script&quot;: &quot;./returns.ds&quot;},
+       *  </p><pre> "hooks": [
+       *     {"name": "dw.order.return.createReturn",           "script": "./returns.ds"},
+       *     {"name": "dw.order.return.addReturnItem",          "script": "./returns.ds"},
+       *     {"name": "dw.order.return.changeStatus",           "script": "./returns.ds"},
        *  ]
        *  </pre>
        *
        *  <p></p>
-       *  A hook entry has a &apos;name&apos; and a &apos;script&apos; property.
+       *  A hook entry has a 'name' and a 'script' property.
        *  <ul>
-       *  <li>The &apos;name&apos; contains the extension point, the hook name.</li>
-       *  <li>The &apos;script&apos; contains the script relative to the hooks file, with the
+       *  <li>The 'name' contains the extension point, the hook name.</li>
+       *  <li>The 'script' contains the script relative to the hooks file, with the
        *  exported hook function.</li>
        *  </ul>
        *
@@ -46492,24 +47031,24 @@ declare namespace dw {
        *  the functions that are called by each extension point. A function must be
        *  defined inside a JavaScript source and must be exported. The script with the
        *  exported hook function must be located inside a site cartridge. Inside the
-       *  site cartridge a &apos;package.json&apos; file with a &apos;hooks&apos; entry must exist.
+       *  site cartridge a 'package.json' file with a 'hooks' entry must exist.
        *  <p>
-       *  &quot;hooks&quot;: &quot;./hooks.json&quot;
+       *  "hooks": "./hooks.json"
        *  </p>
-       *  The hooks entry links to a json file, relative to the &apos;package.json&apos; file.
+       *  The hooks entry links to a json file, relative to the 'package.json' file.
        *  This file lists all registered hooks inside the hooks property:
        *  <p>
        *
-       *  </p><pre> &quot;hooks&quot;: [
-       *       {&quot;name&quot;: &quot;dw.order.shippingorder.updateShippingOrderItem&quot;, &quot;script&quot;: &quot;./shippingOrderUpdate.ds&quot;},
+       *  </p><pre> "hooks": [
+       *       {"name": "dw.order.shippingorder.updateShippingOrderItem", "script": "./shippingOrderUpdate.ds"},
        *  ]
        *  </pre>
        *
        *  <p></p>
-       *  A hook entry has a &apos;name&apos; and a &apos;script&apos; property.
+       *  A hook entry has a 'name' and a 'script' property.
        *  <ul>
-       *  <li>The &apos;name&apos; contains the extension point, the hook name.</li>
-       *  <li>The &apos;script&apos; contains the script relative to the hooks file, with the
+       *  <li>The 'name' contains the extension point, the hook name.</li>
+       *  <li>The 'script' contains the script relative to the hooks file, with the
        *  exported hook function.</li>
        *  </ul>
        *  <p>
@@ -46777,47 +47316,47 @@ declare namespace dw {
      *
      *  function execute( args : PipelineDictionary ) : Number
      *  {
-     *      var WSU_NS : String = &quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd&quot;;
+     *      var WSU_NS : String = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd";
      *
      *      try
      *      {
      *
      *      // define a map with all the secrets
      *      var secretsMap   : Map = new HashMap();
-     *      secretsMap.put(&quot;myclientkey&quot;, &quot;ckpass&quot;);
-     *      secretsMap.put(&quot;myservicekey&quot;, &quot;ckpass&quot;);
-     *      secretsMap.put(&quot;username&quot;, &quot;password&quot;);
+     *      secretsMap.put("myclientkey", "ckpass");
+     *      secretsMap.put("myservicekey", "ckpass");
+     *      secretsMap.put("username", "password");
      *
      *      var requestCfg   : Map = new HashMap();
      *
      *      // define the ws actions to be performed
-     *      requestCfg.put(SOAPUtil.WS_ACTION, SOAPUtil.WS_USERNAME_TOKEN + &quot; &quot; +
-     *                                         SOAPUtil.WS_TIMESTAMP + &quot; &quot; +
-     *                                         SOAPUtil.WS_SIGNATURE + &quot; &quot; +
+     *      requestCfg.put(SOAPUtil.WS_ACTION, SOAPUtil.WS_USERNAME_TOKEN + " " +
+     *                                         SOAPUtil.WS_TIMESTAMP + " " +
+     *                                         SOAPUtil.WS_SIGNATURE + " " +
      *                                         SOAPUtil.WS_ENCRYPT);
-     *      requestCfg.put(SOAPUtil.WS_USER, &quot;username&quot;);
+     *      requestCfg.put(SOAPUtil.WS_USER, "username");
      *      requestCfg.put(SOAPUtil.WS_PASSWORD_TYPE, SOAPUtil.WS_PW_DIGEST );
-     *      requestCfg.put(SOAPUtil.WS_SIG_DIGEST_ALGO, &quot;http://www.w3.org/2001/04/xmlenc#sha256&quot; );
+     *      requestCfg.put(SOAPUtil.WS_SIG_DIGEST_ALGO, "http://www.w3.org/2001/04/xmlenc#sha256" );
      *
      *      // define signature properties
      *      // the keystore file has the basename of the WSDL file and the
      *      // file extension based on the keystore type (e.g. HelloWorld.jks).
      *      // The keystore file has to be placed beside the WSDL file.
-     *      requestCfg.put(SOAPUtil.WS_SIG_PROP_KEYSTORE_TYPE, &quot;jks&quot;);
-     *      requestCfg.put(SOAPUtil.WS_SIG_PROP_KEYSTORE_PW, &quot;cspass&quot;);
-     *      requestCfg.put(SOAPUtil.WS_SIG_PROP_KEYSTORE_ALIAS, &quot;myclientkey&quot;);
+     *      requestCfg.put(SOAPUtil.WS_SIG_PROP_KEYSTORE_TYPE, "jks");
+     *      requestCfg.put(SOAPUtil.WS_SIG_PROP_KEYSTORE_PW, "cspass");
+     *      requestCfg.put(SOAPUtil.WS_SIG_PROP_KEYSTORE_ALIAS, "myclientkey");
      *
-     *      requestCfg.put(SOAPUtil.WS_SIGNATURE_USER, &quot;myclientkey&quot;);
+     *      requestCfg.put(SOAPUtil.WS_SIGNATURE_USER, "myclientkey");
      *
      *      // define enrcryption properties
-     *      requestCfg.put(SOAPUtil.WS_ENC_PROP_KEYSTORE_TYPE, &quot;jks&quot;);
-     *      requestCfg.put(SOAPUtil.WS_ENC_PROP_KEYSTORE_PW, &quot;cspass&quot;);
-     *      requestCfg.put(SOAPUtil.WS_ENC_PROP_KEYSTORE_ALIAS, &quot;myservicekey&quot;);
+     *      requestCfg.put(SOAPUtil.WS_ENC_PROP_KEYSTORE_TYPE, "jks");
+     *      requestCfg.put(SOAPUtil.WS_ENC_PROP_KEYSTORE_PW, "cspass");
+     *      requestCfg.put(SOAPUtil.WS_ENC_PROP_KEYSTORE_ALIAS, "myservicekey");
      *
-     *      requestCfg.put(SOAPUtil.WS_ENCRYPTION_USER, &quot;myservicekey&quot;);
-     *      requestCfg.put(SOAPUtil.WS_SIGNATURE_PARTS, &quot;{Element}{http://schemas.xmlsoap.org/soap/envelope/}Body&quot;);
-     *      requestCfg.put(SOAPUtil.WS_ENCRYPTION_PARTS,&quot;{Element}{&quot; + WSU_NS + &quot;}
-     *       Timestamp;&quot;+&quot;{Content}{http://schemas.xmlsoap.org/soap/envelope/}Body&quot;);
+     *      requestCfg.put(SOAPUtil.WS_ENCRYPTION_USER, "myservicekey");
+     *      requestCfg.put(SOAPUtil.WS_SIGNATURE_PARTS, "{Element}{http://schemas.xmlsoap.org/soap/envelope/}Body");
+     *      requestCfg.put(SOAPUtil.WS_ENCRYPTION_PARTS,"{Element}{" + WSU_NS + "}
+     *       Timestamp;"+"{Content}{http://schemas.xmlsoap.org/soap/envelope/}Body");
      *
      *      // set the secrets for the callback
      *      requestCfg.put(SOAPUtil.WS_SECRETS_MAP, secretsMap);
@@ -46825,23 +47364,23 @@ declare namespace dw {
      *      var responseCfg : Map = new HashMap();
      *
      *      // define the ws actions to be performed for the response
-     *      responseCfg.put(SOAPUtil.WS_ACTION, SOAPUtil.WS_TIMESTAMP + &quot; &quot; +
-     *                                          SOAPUtil.WS_SIGNATURE + &quot; &quot; +
+     *      responseCfg.put(SOAPUtil.WS_ACTION, SOAPUtil.WS_TIMESTAMP + " " +
+     *                                          SOAPUtil.WS_SIGNATURE + " " +
      *                                          SOAPUtil.WS_ENCRYPT);
      *
      *      // define signature properties
-     *      responseCfg.put(SOAPUtil.WS_SIG_PROP_KEYSTORE_TYPE, &quot;jks&quot;);
-     *      responseCfg.put(SOAPUtil.WS_SIG_PROP_KEYSTORE_PW, &quot;cspass&quot;);
-     *      responseCfg.put(SOAPUtil.WS_SIG_PROP_KEYSTORE_ALIAS, &quot;myservicekey&quot;);
+     *      responseCfg.put(SOAPUtil.WS_SIG_PROP_KEYSTORE_TYPE, "jks");
+     *      responseCfg.put(SOAPUtil.WS_SIG_PROP_KEYSTORE_PW, "cspass");
+     *      responseCfg.put(SOAPUtil.WS_SIG_PROP_KEYSTORE_ALIAS, "myservicekey");
      *
-     *      responseCfg.put(SOAPUtil.WS_SIGNATURE_USER, &quot;myservicekey&quot;);
+     *      responseCfg.put(SOAPUtil.WS_SIGNATURE_USER, "myservicekey");
      *
      *      // define decryption properties
-     *      responseCfg.put(SOAPUtil.WS_ENC_PROP_KEYSTORE_TYPE, &quot;jks&quot;);
-     *      responseCfg.put(SOAPUtil.WS_ENC_PROP_KEYSTORE_PW, &quot;cspass&quot;);
-     *      responseCfg.put(SOAPUtil.WS_ENC_PROP_KEYSTORE_ALIAS, &quot;myclientkey&quot;);
+     *      responseCfg.put(SOAPUtil.WS_ENC_PROP_KEYSTORE_TYPE, "jks");
+     *      responseCfg.put(SOAPUtil.WS_ENC_PROP_KEYSTORE_PW, "cspass");
+     *      responseCfg.put(SOAPUtil.WS_ENC_PROP_KEYSTORE_ALIAS, "myclientkey");
      *
-     *      responseCfg.put(SOAPUtil.WS_ENCRYPTION_USER, &quot;myclientkey&quot;);
+     *      responseCfg.put(SOAPUtil.WS_ENCRYPTION_USER, "myclientkey");
      *
      *      // set the secrets for the callback
      *      responseCfg.put(SOAPUtil.WS_SECRETS_MAP, secretsMap);
@@ -46854,7 +47393,7 @@ declare namespace dw {
      *          //var h : Hello = new helloWorldService.Hello();
      *          var h = new helloWorldService.com.support.ws.security.test.Hello2();
      *
-     *          h.setName(&apos;Send Text from client Axis ...&apos;);
+     *          h.setName('Send Text from client Axis ...');
      *
      *          // call the web service
      *          var response  = stub.hello2(h);
@@ -46863,14 +47402,14 @@ declare namespace dw {
      *
      *
      *      args.OutStr = result;
-     *      Logger.error(&quot;Hello World We Are SIGNED old version Send Text from client ...&quot;, result);
+     *      Logger.error("Hello World We Are SIGNED old version Send Text from client ...", result);
      *
      *      return PIPELET_NEXT;
      *
      *      }
      *      catch (e)
      *      {
-     *          Logger.error(&quot;Error in helloWorldRpc.ds is: &quot; + e);
+     *          Logger.error("Error in helloWorldRpc.ds is: " + e);
      *          return PIPELET_ERROR;
      *      }
      *
@@ -47421,8 +47960,8 @@ declare namespace dw {
      *  WebDAV (<a href="class_dw_io_File.html">File</a> represent a file in WebDAV) to the appservers shared file system.
      *  </p><p>
      *  Please note that all provided methods are operating in appservers shared file system. These modifications are visible
-     *  via &quot;Custom Sitemaps&quot; tab under <i>Merchant Tools</i> =&gt; <i>SEO</i> =&gt; <i>Sitemaps - Custom Sitemaps</i> in
-     *  Business Manager. To publish all changes, the system job &quot;Create Sitemap Schedule&quot; must be executed afterwards.</p>
+     *  via "Custom Sitemaps" tab under <i>Merchant Tools</i> =&gt; <i>SEO</i> =&gt; <i>Sitemaps - Custom Sitemaps</i> in
+     *  Business Manager. To publish all changes, the system job "Create Sitemap Schedule" must be executed afterwards.</p>
      */
     class SitemapMgr {
       /**
@@ -47700,7 +48239,7 @@ declare namespace dw {
      *  The terms can be used to present a advanced user experience in the
      *  storefront, e.g. show auto completed words, spell corrections and so on.
      *  The SuggestModel script API will always create suggestions with Autocorrections
-     *  regardless of the value of &quot;Search Autocorrections&quot; search preference.</p>
+     *  regardless of the value of "Search Autocorrections" search preference.</p>
      */
     class SuggestModel {
       /**
@@ -48375,6 +48914,10 @@ declare namespace dw {
        */
       encoding: string;
       /**
+       * Gets the identity used for mutual TLS (mTLS).
+       */
+      identity: dw.crypto.KeyRef;
+      /**
        * The output file, or null if there is none.
        */
       outFile: dw.io.File;
@@ -48422,6 +48965,12 @@ declare namespace dw {
        */
       getEncoding(): string;
       /**
+       * Gets the identity used for mutual TLS (mTLS).
+       *
+       * @return Reference to the private key, or null if not configured
+       */
+      getIdentity(): dw.crypto.KeyRef;
+      /**
        * Returns the output file, or null if there is none.
        *
        * @return Output file or null.
@@ -48464,6 +49013,15 @@ declare namespace dw {
        * @return this HTTP Service.
        */
       setEncoding(encoding: string): dw.svc.HTTPService;
+      /**
+       * Sets the identity (private key) to use when mutual TLS (mTLS) is configured.
+       *
+       *  If this is not set and mTLS is used then the private key will be chosen from the key store based on the host
+       *  name.
+       *  If this is set to a reference named "__NONE__" then no private key will be used even if one is requested by the remote server.
+       * @param keyRef Reference to the private key
+       */
+      setIdentity(keyRef: dw.crypto.KeyRef): dw.svc.HTTPService;
       /**
        * Sets the output file in which to write the HTTP response body.
        *
@@ -48619,26 +49177,26 @@ declare namespace dw {
      *  <li>The service is defined in the Business Manager and configured with necessary credentials.</li>
      *  <li>An instance of the service is created and configured in a script:
      *
-     *  <pre> var myFTPService = LocalServiceRegistry.createService(&quot;MyFTPService&quot;, {
-     *  &#xA0;&#xA0;&#xA0;&#xA0;mockExec : function(svc:FTPService, params) {
-     *  &#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;return [
-     *  &#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;{ &quot;name&quot;: &quot;file1&quot;, &quot;timestamp&quot;: new Date(2011, 02, 21)},
-     *  &#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;{ &quot;name&quot;: &quot;file2&quot;, &quot;timestamp&quot;: new Date(2012, 02, 21)},
-     *  &#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;{ &quot;name&quot;: &quot;file3&quot;, &quot;timestamp&quot;: new Date(2013, 02, 21)}
-     *  &#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;];
-     *  &#xA0;&#xA0;&#xA0;&#xA0;},
-     *  &#xA0;&#xA0;&#xA0;&#xA0;createRequest: function(svc:FTPService, params) {
-     *  &#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;svc.setOperation(&quot;list&quot;, &quot;/&quot;);
-     *  &#xA0;&#xA0;&#xA0;&#xA0;},
-     *  &#xA0;&#xA0;&#xA0;&#xA0;parseResponse : function(svc:FTPService, listOutput) {
-     *  &#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;var x : Array = [];
-     *  &#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;var resp : Array = listOutput;
-     *  &#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;for(var i = 0; i &lt; resp.length; i++) {
-     *  &#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;var f = resp[i];
-     *  &#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;x.push( { &quot;name&quot;: f[&apos;name&apos;], &quot;timestamp&quot;: f[&apos;timestamp&apos;] } );
-     *  &#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;}
-     *  &#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;return x;
-     *  &#xA0;&#xA0;&#xA0;&#xA0;}
+     *  <pre> var myFTPService = LocalServiceRegistry.createService("MyFTPService", {
+     *  &nbsp;&nbsp;&nbsp;&nbsp;mockExec : function(svc:FTPService, params) {
+     *  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return [
+     *  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ "name": "file1", "timestamp": new Date(2011, 02, 21)},
+     *  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ "name": "file2", "timestamp": new Date(2012, 02, 21)},
+     *  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ "name": "file3", "timestamp": new Date(2013, 02, 21)}
+     *  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;];
+     *  &nbsp;&nbsp;&nbsp;&nbsp;},
+     *  &nbsp;&nbsp;&nbsp;&nbsp;createRequest: function(svc:FTPService, params) {
+     *  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;svc.setOperation("list", "/");
+     *  &nbsp;&nbsp;&nbsp;&nbsp;},
+     *  &nbsp;&nbsp;&nbsp;&nbsp;parseResponse : function(svc:FTPService, listOutput) {
+     *  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var x : Array = [];
+     *  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var resp : Array = listOutput;
+     *  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for(var i = 0; i &lt; resp.length; i++) {
+     *  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var f = resp[i];
+     *  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x.push( { "name": f['name'], "timestamp": f['timestamp'] } );
+     *  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+     *  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return x;
+     *  &nbsp;&nbsp;&nbsp;&nbsp;}
      *  });
      *  </pre>
      *
@@ -48646,8 +49204,8 @@ declare namespace dw {
      *  <li>The service is called in order to perform the operation:
      *
      *  <pre> var result : Result = myFTPService.call();
-     *  if(result.status == &apos;OK&apos;) {
-     *      // The result.object is the object returned by the &apos;after&apos; callback.
+     *  if(result.status == 'OK') {
+     *      // The result.object is the object returned by the 'after' callback.
      *  } else {
      *      // Handle the error. See result.error for more information.
      *  }
@@ -49023,16 +49581,16 @@ declare namespace dw {
      *  <td>Not normally implemented. Must return a <a href="class_dw_net_HTTPClient.html">HTTPClient</a></td>
      *  <td>Required unless execute is provided. The return value is expected to be either a String or array of
      *  <a href="class_dw_net_HTTPRequestPart.html">HTTPRequestPart</a>, which will be used as the request body</td>
-     *  <td>Not called unless a boolean &quot;executeOverride:true&quot; is set on the callback. This is a temporary limitation, a
+     *  <td>Not called unless a boolean "executeOverride:true" is set on the callback. This is a temporary limitation, a
      *  future release will always call this callback if it is present</td>
      *  <td>Required unless execute is provided.</td>
      *  </tr>
      *  <tr>
      *  <td>HTTPForm</td>
      *  <td>Not normally implemented. Must return a <a href="class_dw_net_HTTPClient.html">HTTPClient</a></td>
-     *  <td>Not normally implemented. Default behavior constructs an &quot;application/x-www-form-urlencoded&quot; request based on a
+     *  <td>Not normally implemented. Default behavior constructs an "application/x-www-form-urlencoded" request based on a
      *  Map given as an argument.</td>
-     *  <td>Not normally implemented. The same limitations as HTTP regarding the &quot;executeOverride&quot; flag apply here.</td>
+     *  <td>Not normally implemented. The same limitations as HTTP regarding the "executeOverride" flag apply here.</td>
      *  <td>Optional. Default behavior is to return the response body as a String.</td>
      *  </tr>
      *  <tr>
@@ -49056,7 +49614,7 @@ declare namespace dw {
      *  <td>GENERIC</td>
      *  <td>Optional.</td>
      *  <td>Optional.</td>
-     *  <td>Required. The GENERIC type allows any code to be wrapped in the service framework layer, and it&apos;s up to this
+     *  <td>Required. The GENERIC type allows any code to be wrapped in the service framework layer, and it's up to this
      *  execute method to define what that logic is.</td>
      *  <td>Optional.</td>
      *  </tr>
@@ -49492,35 +50050,35 @@ declare namespace dw {
      *  <li>The service is defined in the Business Manager and configured with necessary credentials.</li>
      *  <li>The service callback is configured once during cartridge initialization:
      *
-     *  <pre> ServiceRegistry.configure(&quot;MyFTPService&quot;, {
-     *  &#xA0;&#xA0;&#xA0;&#xA0;mockExec : function(svc:FTPService, params) {
-     *  &#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;return [
-     *  &#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;{ &quot;name&quot;: &quot;file1&quot;, &quot;timestamp&quot;: new Date(2011, 02, 21)},
-     *  &#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;{ &quot;name&quot;: &quot;file2&quot;, &quot;timestamp&quot;: new Date(2012, 02, 21)},
-     *  &#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;{ &quot;name&quot;: &quot;file3&quot;, &quot;timestamp&quot;: new Date(2013, 02, 21)}
-     *  &#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;];
-     *  &#xA0;&#xA0;&#xA0;&#xA0;},
-     *  &#xA0;&#xA0;&#xA0;&#xA0;createRequest: function(svc:FTPService, params) {
-     *  &#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;svc.setOperation(&quot;list&quot;, &quot;/&quot;);
-     *  &#xA0;&#xA0;&#xA0;&#xA0;},
-     *  &#xA0;&#xA0;&#xA0;&#xA0;parseResponse : function(svc:FTPService, listOutput) {
-     *  &#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;var x : Array = [];
-     *  &#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;var resp : Array = listOutput;
-     *  &#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;for(var i = 0; i &lt; resp.length; i++) {
-     *  &#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;var f = resp[i];
-     *  &#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;x.push( { &quot;name&quot;: f[&apos;name&apos;], &quot;timestamp&quot;: f[&apos;timestamp&apos;] } );
-     *  &#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;}
-     *  &#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;return x;
-     *  &#xA0;&#xA0;&#xA0;&#xA0;}
+     *  <pre> ServiceRegistry.configure("MyFTPService", {
+     *  &nbsp;&nbsp;&nbsp;&nbsp;mockExec : function(svc:FTPService, params) {
+     *  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return [
+     *  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ "name": "file1", "timestamp": new Date(2011, 02, 21)},
+     *  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ "name": "file2", "timestamp": new Date(2012, 02, 21)},
+     *  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ "name": "file3", "timestamp": new Date(2013, 02, 21)}
+     *  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;];
+     *  &nbsp;&nbsp;&nbsp;&nbsp;},
+     *  &nbsp;&nbsp;&nbsp;&nbsp;createRequest: function(svc:FTPService, params) {
+     *  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;svc.setOperation("list", "/");
+     *  &nbsp;&nbsp;&nbsp;&nbsp;},
+     *  &nbsp;&nbsp;&nbsp;&nbsp;parseResponse : function(svc:FTPService, listOutput) {
+     *  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var x : Array = [];
+     *  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var resp : Array = listOutput;
+     *  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for(var i = 0; i &lt; resp.length; i++) {
+     *  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var f = resp[i];
+     *  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x.push( { "name": f['name'], "timestamp": f['timestamp'] } );
+     *  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+     *  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return x;
+     *  &nbsp;&nbsp;&nbsp;&nbsp;}
      *  });
      *  </pre>
      *
      *  </li>
      *  <li>A new service instance is created and called in order to perform the operation:
      *
-     *  <pre> var result : Result = ServiceRegistry.get(&quot;MyFTPService&quot;).call();
-     *  if(result.status == &apos;OK&apos;) {
-     *      // The result.object is the object returned by the &apos;after&apos; callback.
+     *  <pre> var result : Result = ServiceRegistry.get("MyFTPService").call();
+     *  if(result.status == 'OK') {
+     *      // The result.object is the object returned by the 'after' callback.
      *  } else {
      *      // Handle the error. See result.error for more information.
      *  }
@@ -49589,8 +50147,8 @@ declare namespace dw {
      *  external system, include the scope reference when constructing the
      *  key. For example:
      *
-     *  </p><pre>    var cache = CacheMgr.getCache( &apos;SiteConfigurations&apos; );
-     *     cache.get( Site.current.ID + &quot;config&quot;, function loadSiteConfiguration() {return loadCfg( Site.current );} );
+     *  </p><pre>    var cache = CacheMgr.getCache( 'SiteConfigurations' );
+     *     cache.get( Site.current.ID + "config", function loadSiteConfiguration() {return loadCfg( Site.current );} );
      *  </pre>
      *
      *  <p>
@@ -49602,18 +50160,18 @@ declare namespace dw {
      *  cache. The storage allocated for entries is limited and clearing or
      *  invalidation might occur at any time. To maintain the cache size limits, the
      *  cache evicts entries that are less likely to be used again. For example, the
-     *  cache might evict an entry because it hasn&apos;t been used recently or very
-     *  often. Cache entries aren&apos;t synchronized between different application
+     *  cache might evict an entry because it hasn't been used recently or very
+     *  often. Cache entries aren't synchronized between different application
      *  servers.
      *
      *  </p><p>
      *  The cache returns immutable copies of the original objects put into the
      *  cache. Lists are converted to arrays during this process. Only JavaScript
      *  primitive values and tree-like object structures can be stored as entries.
-     *  Object structures can consist of arrays, lists, and native JavaScript
+     *  Object structures can consist of arrays, lists, and basic JavaScript
      *  objects. Script API classes are not supported, except <a href="class_dw_util_List.html">List</a>
      *  and its subclasses. <code>null</code> can be stored as a value.
-     *  <code>undefined</code> can&apos;t be stored.
+     *  <code>undefined</code> can't be stored.
      *
      *  </p><p>
      *  See <a href="class_dw_system_CacheMgr.html">CacheMgr</a> for details about how to configure a custom cache.</p>
@@ -49656,23 +50214,23 @@ declare namespace dw {
      *  <p>
      *  The CacheMgr can manage multiple custom caches that share one storage space. Each individual cache has a unique ID
      *  and an optional expiration time that specifies the maximum time (in seconds) an entry is stored in the cache. For
-     *  registering caches inside the cartridge root folder, a &apos;package.json&apos; file with a &apos;caches&apos; entry must exist. The
+     *  registering caches inside the cartridge root folder, a 'package.json' file with a 'caches' entry must exist. The
      *  registration of caches is independent of any site context.
      *
-     *  </p><pre> &quot;caches&quot;: &quot;./caches.json&quot;
+     *  </p><pre> "caches": "./caches.json"
      *  </pre>
      *
-     *  The caches entry links to a JSON file, with a path relative to the &apos;package.json&apos; file. This file lists all
+     *  The caches entry links to a JSON file, with a path relative to the 'package.json' file. This file lists all
      *  registered caches inside the caches property:
      *
      *  <pre> {
-     *    &quot;caches&quot;: [
+     *    "caches": [
      *      {
-     *        &quot;id&quot;: &quot;UnlimitedTestCache&quot;
+     *        "id": "UnlimitedTestCache"
      *      },
      *      {
-     *        &quot;id&quot;: &quot;TestCacheWithExpiration&quot;,
-     *        &quot;expireAfterSeconds&quot;: 10
+     *        "id": "TestCacheWithExpiration",
+     *        "expireAfterSeconds": 10
      *      }
      *    ]
      *  }
@@ -50032,7 +50590,7 @@ declare namespace dw {
     /**
      * OrganizationPreferences is a container for custom global (i.e.
      *  organization-level) attributes. The object corresponds with system object
-     *  definition &quot;OrganizationPreferences&quot;. It has no system attributes and exists
+     *  definition "OrganizationPreferences". It has no system attributes and exists
      *  only as a place for merchants to define custom attributes which need to be
      *  available to all of their sites.
      *  <p>
@@ -50041,7 +50599,7 @@ declare namespace dw {
      *  organization preference values by using the usual syntax for
      *  <a href="class_dw_object_ExtensibleObject.html">ExtensibleObject</a> instances. For example:
      *  </p><pre> var orgPrefs : OrganizationPreferences = dw.system.System.getPreferences();
-     *  var myOrgPrefValue : String = orgPrefs.getCustom()[&quot;myOrgPref&quot;];
+     *  var myOrgPrefValue : String = orgPrefs.getCustom()["myOrgPref"];
      *  </pre>
      *  <p>
      *  <b>Note:</b> this class allows access to sensitive security-related data.
@@ -50049,7 +50607,7 @@ declare namespace dw {
      *  </p><p>
      *  Commerce Cloud Digital defines many organization-level preferences, relating to
      *  locale, timezone, geolocations, etc, which can be managed within the
-     *  &quot;Global Preferences&quot; module of the Business Manager, but these preferences
+     *  "Global Preferences" module of the Business Manager, but these preferences
      *  are not accessible through this object.</p>
      */
     class OrganizationPreferences extends dw.object
@@ -50070,13 +50628,13 @@ declare namespace dw {
      *  handling exists for the pipeline, the exception will be propagated and can be handled by the script code.
      *  </p><p>
      *  If the pipeline finishes with an End node, the name of the end node can be obtained from the returned pipeline
-     *  dictionary under the key &apos;EndNodeName&apos;.
+     *  dictionary under the key 'EndNodeName'.
      *  </p><p>
      *  Example:
      *
-     *  </p><pre> let Pipeline = require(&apos;dw/system/Pipeline&apos;);
-     *  let pdict = Pipeline.execute(&apos;MyPipeline-Start&apos;, {
-     *      MyArgString:     &apos;someStringValue&apos;,
+     *  </p><pre> let Pipeline = require('dw/system/Pipeline');
+     *  let pdict = Pipeline.execute('MyPipeline-Start', {
+     *      MyArgString:     'someStringValue',
      *      MyArgNumber:     12345,
      *      MyArgBoolean:    true
      *  });
@@ -50106,7 +50664,7 @@ declare namespace dw {
     /**
      * The class provides access to the values in the pipeline dictionary. You use
      *  dynamic properties to access values, such as pdict.myvalue or
-     *  pdict[&apos;myvalue&apos;];
+     *  pdict['myvalue'];
      *  <p>
      *  The class is used in two different contexts, one where access is limited to
      *  the declared input/output values and second to a context with full access.
@@ -50254,6 +50812,10 @@ declare namespace dw {
        *  debug messages to a particular request.
        */
       readonly requestID: string;
+      /**
+       * Returns whether the request originated in SCAPI, identified by the presence of the "_sfdc_mercury" header.
+       */
+      readonly SCAPI: boolean;
       /**
        * The session associated with this request.
        */
@@ -50460,6 +51022,12 @@ declare namespace dw {
        */
       isIncludeRequest(): boolean;
       /**
+       * Returns whether the request originated in SCAPI, identified by the presence of the "_sfdc_mercury" header.
+       *
+       * @return true or false.
+       */
+      isSCAPI(): boolean;
+      /**
        * Sets the physical location for the current request and remembers the new
        *  value for the duration of the user session. So any subsequent calls to
        *  getGeolocation() will return this value
@@ -50480,24 +51048,24 @@ declare namespace dw {
      *  It contains the extension points (hook names), and the functions that are called by each extension point.
      *  A function must be defined inside a JavaScript source and must be exported.
      *  The script with the exported hook function must be located inside a site cartridge.
-     *  Inside the site cartridge a &apos;package.json&apos; file with a &apos;hooks&apos; entry must exist.
+     *  Inside the site cartridge a 'package.json' file with a 'hooks' entry must exist.
      *  <p>
-     *  </p><pre> &quot;hooks&quot;: &quot;./hooks.json&quot;
+     *  </p><pre> "hooks": "./hooks.json"
      *  </pre>
      *  <p></p>
-     *  The hooks entry links to a json file, relative to the &apos;package.json&apos; file.
+     *  The hooks entry links to a json file, relative to the 'package.json' file.
      *  This file lists all registered hooks inside the hooks property:
      *  <p>
-     *  </p><pre> &quot;hooks&quot;: [
-     *       {&quot;name&quot;: &quot;dw.system.request.onSession&quot;, &quot;script&quot;: &quot;./script.js&quot;},
-     *       {&quot;name&quot;: &quot;dw.system.request.onRequest&quot;, &quot;script&quot;: &quot;./script.js&quot;},
+     *  </p><pre> "hooks": [
+     *       {"name": "dw.system.request.onSession", "script": "./script.js"},
+     *       {"name": "dw.system.request.onRequest", "script": "./script.js"},
      *  ]
      *  </pre>
      *  <p></p>
-     *  A hook entry has a &apos;name&apos; and a &apos;script&apos; property.
+     *  A hook entry has a 'name' and a 'script' property.
      *  <ul>
-     *  <li>The &apos;name&apos; contains the extension point, the hook name.</li>
-     *  <li>The &apos;script&apos; contains the script relative to the hooks file, with the exported hook function.</li>
+     *  <li>The 'name' contains the extension point, the hook name.</li>
+     *  <li>The 'script' contains the script relative to the hooks file, with the exported hook function.</li>
      *  </ul>
      */
     class RequestHooks {
@@ -50530,7 +51098,7 @@ declare namespace dw {
 
     /**
      * Represents an HTTP response in Commerce Cloud Digital. An instance of this class is implicitly available within
-     *  Digital script under the variable &quot;response&quot;. The Response object can be used to set cookies and specific HTTP
+     *  Digital script under the variable "response". The Response object can be used to set cookies and specific HTTP
      *  headers, for directly accessing the output stream or for sending redirects.
      */
     class Response {
@@ -50648,6 +51216,10 @@ declare namespace dw {
        * An allowed header name constant for Retry-After
        */
       static readonly RETRY_AFTER = "Retry-After";
+      /**
+       * An allowed header name constant for service-worker-allowed
+       */
+      static readonly SERVICE_WORKER_ALLOWED = "service-worker-allowed";
       /**
        * An allowed header name constant for Vary
        */
@@ -50854,7 +51426,7 @@ declare namespace dw {
      *  The soft timeout logs out and clears all privacy data, but it is still possible to use the session ID
      *  to reopen the session. A hard timeout renders a session ID invalid after six hours, even if the session
      *  is still in use. The hard timeout prevents a session from being reopened. For example, if the session ID
-     *  is pasted into a URL after the hard timeout, the session doesn&apos;t reopen.
+     *  is pasted into a URL after the hard timeout, the session doesn't reopen.
      *  </li>
      *  </ul>
      *
@@ -51386,7 +51958,7 @@ declare namespace dw {
 
     /**
      * SitePreferences is a container for custom site-level attributes. The object
-     *  corresponds with system object type &quot;SitePreferences&quot;. It has no system
+     *  corresponds with system object type "SitePreferences". It has no system
      *  attributes and exists only as a place for merchants to define custom
      *  attributes which need to be available for each site.
      *  <p>
@@ -51397,7 +51969,7 @@ declare namespace dw {
      *  <a href="class_dw_object_ExtensibleObject.html">ExtensibleObject</a> instances. For example:
      *
      *  </p><pre> var sitePrefs : SitePreferences = dw.system.Site.getCurrent().getPreferences();
-     *  var mySitePrefValue : String = sitePrefs.getCustom()[&quot;mySitePref&quot;];
+     *  var mySitePrefValue : String = sitePrefs.getCustom()["mySitePref"];
      *  </pre>
      *  <p>
      *  <b>Note:</b> this class allows access to sensitive security-related data.
@@ -51405,7 +51977,7 @@ declare namespace dw {
      *  </p><p>
      *  Commerce Cloud Digital defines many site-level preferences, relating to
      *  baskets, timezone, locales, customers, etc, which can be managed within the
-     *  &quot;Site Preferences&quot; module of the Business Manager, but these preferences are
+     *  "Site Preferences" module of the Business Manager, but these preferences are
      *  not accessible through this object. (SourceCodeURLParameterName is the one
      *  exception to this rule.)</p>
      */
@@ -51739,7 +52311,7 @@ declare namespace dw {
 
     /**
      * Represents the Commerce Cloud Digital server instance. An application server instance is configured to be of one of three types,
-     *  &quot;development system&quot;, &quot;staging system&quot; or &quot;production system&quot;.
+     *  "development system", "staging system" or "production system".
      */
     class System {
       /**
@@ -51840,18 +52412,28 @@ declare namespace dw {
      * Represents the current transaction. A transaction provides a context for performing atomic changes to persistent
      *  business objects. Before a business object can be created, changed, or deleted, a transaction must be started using
      *  the <a href="class_dw_system_Transaction.html#dw_system_Transaction_begin_DetailAnchor">begin()</a> method. All changes on the touched business objects will only be made durable when the
-     *  transaction is committed with <a href="class_dw_system_Transaction.html#dw_system_Transaction_commit_DetailAnchor">commit()</a>. Without commit, the changes will be lost again after the request was
-     *  served. If a transaction is rolled back, all changes so far will be reverted and the business object will have their
-     *  previous state again. It is possible to begin a transaction multiple times in a nested way (like
-     *  begin-begin-commit-commit). In this case, in order to commit the changes the commit method must be called
-     *  symmetrically as often as begin. It is also possible to run multiple transactions within a single request, one after
-     *  another (like begin-commit-begin-commit). In case of any exception while working with business objects inside of a
-     *  transaction, the transaction cannot be committed anymore, but only be rolled back. Business code may try to take
-     *  appropriate actions if it expects business-related problems at commit (for example, constraint violations).
+     *  transaction is committed with <a href="class_dw_system_Transaction.html#dw_system_Transaction_commit_DetailAnchor">commit()</a>. If a transaction is rolled back, all changes so far will be reverted
+     *  and the business object will have their previous state again. It is possible to begin a transaction multiple times in
+     *  a nested way (like begin-begin-commit-commit). In this case, in order to commit the changes the commit method must be
+     *  called symmetrically as often as begin. It is also possible to run multiple transactions within a single request, one
+     *  after another (like begin-commit-begin-commit). In case of any exception while working with business objects inside
+     *  of a transaction, the transaction cannot be committed anymore, but only be rolled back. Business code may try to take
+     *  appropriate actions if it expects business-related problems at commit (for example, constraint violations). When a
+     *  transaction is still open at the end of a pipeline call, controller call, or job step, the remaining changes are
+     *  committed unless an exception is thrown.
+     *  <p>
+     *  The following best practices exist for using transactions:
+     *  </p><ul>
+     *  <li>Avoid long running transactions in jobs.</li>
+     *  <li>Use one transaction for changes that belong together and need a joint rollback. In most cases, one transaction
+     *  for all changes in a request is better than multiple transactions for each individual object.</li>
+     *  <li>Don’t begin and commit a huge number of small transactions in a loop.</li>
+     *  <li>Avoid changing the same objects in parallel transactions.</li>
+     *  </ul>
      *  <p>
      *  Example 1 - explicit control:
      *
-     *  </p><pre> var txn = require(&apos;dw/system/Transaction&apos;);
+     *  </p><pre> var txn = require('dw/system/Transaction');
      *  txn.begin();
      *  // work with business objects here
      *  txn.commit();
@@ -51859,7 +52441,7 @@ declare namespace dw {
      *  <p>
      *  Example 2 - implicit control:
      *
-     *  </p><pre> var txn = require(&apos;dw/system/Transaction&apos;);
+     *  </p><pre> var txn = require('dw/system/Transaction');
      *  txn.wrap(function(){
      *      // work with business objects here
      *  });
@@ -51915,21 +52497,21 @@ declare namespace dw {
     /**
      * This class provides support for rendering ISML templates. For more details about the ISML syntax, refer to the
      *  Commerce Cloud Digital developer documentation. Templates are stored as *.isml files. They are located in a
-     *  locale-specific folder under the &apos;/cartridge/templates&apos; folder, with &apos;/cartridge/template/default&apos; being the default
+     *  locale-specific folder under the '/cartridge/templates' folder, with '/cartridge/template/default' being the default
      *  locale. The template name arguments of the various render methods represent the template path (without file ending)
      *  within this folder structure.
      *  <p>
      *  Example for rendering a template with arguments from JavaScript code:
      *
-     *  </p><pre> let isml = require(&apos;dw/template/ISML&apos;);
-     *  isml.renderTemplate(&apos;helloworld&apos;, {
-     *      Message: &apos;Hello, World!&apos;
+     *  </p><pre> let isml = require('dw/template/ISML');
+     *  isml.renderTemplate('helloworld', {
+     *      Message: 'Hello, World!'
      *  });
      *  </pre>
      *
-     *  Example code for accessing the template arguments in the &apos;helloworld.isml&apos; template from the above code snippet:
+     *  Example code for accessing the template arguments in the 'helloworld.isml' template from the above code snippet:
      *
-     *  <pre> The message is: &lt;isprint value=&quot;${pdict.Message}&quot; /&gt;
+     *  <pre> The message is: &lt;isprint value="${pdict.Message}" /&gt;
      *  </pre>
      */
     class ISML {
@@ -51976,7 +52558,7 @@ declare namespace dw {
      *  The render() methods identify the template to render from:
      *  </p><ul>
      *  <li>a template file name, which is resolved in the Dynamic WebDAV file location for the current site.
-     *  Template file names must end with either &apos;.vm&apos; or &apos;.vs&apos;.</li>
+     *  Template file names must end with either '.vm' or '.vs'.</li>
      *  <li>a dw.io.File object, which can point to any file system location that is accessible from a script</li>
      *  <li>a string that holds the template content directly</li></ul>
      *  <b>Note:</b> Files included from an ISML template (either via <code>#parse</code> or <code>#include</code>) are always resolved
@@ -51992,8 +52574,8 @@ declare namespace dw {
      *  <br>
      *  To access localized strings, pass the <code>Resource</code> class:
      *  </p><pre><code>
-     *  var urlUtil = require(&apos;dw/web/URLUtils&apos;);
-     *  velocity.render(&quot;$url.abs(&apos;Foo-Bar&apos;,&apos;cgid&apos;,$res.msg(&apos;key&apos;)&quot;, {&apos;url&apos; : urlUtil, &apos;res&apos; : dw.web.Resource});
+     *  var urlUtil = require('dw/web/URLUtils');
+     *  velocity.render("$url.abs('Foo-Bar','cgid',$res.msg('key')", {'url' : urlUtil, 'res' : dw.web.Resource});
      *  </code></pre>
      *  The complete set of <a href="https://velocity.apache.org/tools/releases/2.0/generic.html" target="_blank">VelocityTools</a>
      *   are provided to the template. You can use the tools to escape dynamic data, format text, and for other common tasks.
@@ -52286,10 +52868,10 @@ declare namespace dw {
     }
 
     /**
-     * The Integer class is a helper class to represent an arbitray long integer number.
-     *  The Demandware framework doesn&apos;t use this class, but in some special cases
-     *  web services that declare a XML element wird &quot;xsd:integer&quot;, which is by definition
-     *  an arbitray long integer number, require the use of this class.
+     * The Integer class is a helper class to represent an arbitrary long integer number.
+     *  The Demandware framework doesn't use this class, but in some special cases
+     *  web services that declare a XML element with "xsd:integer", which is by definition
+     *  an arbitrary long integer number, require the use of this class.
      *
      *  The class is designed in a way that it can be used very similar to a
      *  desktop calculator. For example:
@@ -53282,6 +53864,11 @@ declare namespace dw {
        */
       constructor(value: number);
       /**
+       * Constructs a new decimal using the specified BigInt value.
+       * @param value the value to use.
+       */
+      constructor(value: BigInt);
+      /**
        * Constructs a new Decimal using the specified string representation of
        *  a number.
        * @param value the value to use.
@@ -54234,7 +54821,7 @@ declare namespace dw {
        *
        * @return a collection of the values contained in this map
        */
-      values(): dw.util.Collection<any>;
+      values(): dw.util.Collection<V>;
     }
 
     /**
@@ -54434,7 +55021,7 @@ declare namespace dw {
 
     /**
      * SecureEncoder contains many methods for manipulating untrusted data Strings
-     *  into RFC-Compliant Strings for a given context by encoding &quot;bad&quot; data into
+     *  into RFC-Compliant Strings for a given context by encoding "bad" data into
      *  the proper format.
      */
     class SecureEncoder {
@@ -54784,7 +55371,7 @@ declare namespace dw {
 
     /**
      * SecureFilter contains many methods for manipulating untrusted data Strings
-     *  into RFC-Compliant Strings for a given context by removing &quot;bad&quot; data from
+     *  into RFC-Compliant Strings for a given context by removing "bad" data from
      *  the untrusted data.
      */
     class SecureFilter {
@@ -55201,7 +55788,7 @@ declare namespace dw {
      * A map that further guarantees that it will be in ascending key order,
      *  sorted according to the natural ordering of its keys,
      *  or by a comparator provided at sorted map creation time. This order is reflected
-     *  when iterating over the sorted map&apos;s collection views (returned by the entrySet,
+     *  when iterating over the sorted map's collection views (returned by the entrySet,
      *  keySet and values methods).
      *  Note that sorting by natural order is only supported for Number,
      *  String, Date, Money and Quantity as key.
@@ -55673,16 +56260,16 @@ declare namespace dw {
      *  passed to the isml template via the <a href="class_dw_util_Template.html#dw_util_Template_render_Map_DetailAnchor">render(Map)</a>
      *  method. Substitution parameters can be accessed within the template through
      *
-     *  <pre>     &lt;isprint value=&quot;${param.parameter}&quot;&gt;
+     *  <pre>     &lt;isprint value="${param.parameter}"&gt;
      *  </pre>
      *
      *  or for backward compatibility through
      *
-     *  <pre>     &lt;isprint value=&quot;${pdict.parameter}&quot;&gt;
+     *  <pre>     &lt;isprint value="${pdict.parameter}"&gt;
      *  </pre>
      *
      *  The access through pdict only gives access to the parameter map provided at
-     *  rendering time and doesn&apos;t offer access to the system PipelineDictionary. The
+     *  rendering time and doesn't offer access to the system PipelineDictionary. The
      *  pdict access to the property map is only considered to ease the transition
      *  from SendMail pipelet API based templates. If the PipelineDictionary or
      *  properties of the PipelineDictionary are needed, they need to be included in
@@ -56251,16 +56838,16 @@ declare namespace dw {
      * Used to generate and validate CSRF tokens. CSRFProtection allows
      *  applications to protect themselves against CSRF attacks, using
      *  synchronizer tokens, a best practice. Once created, these tokens
-     *  are tied to a user&#x2019;s session and valid for 60 minutes.
+     *  are tied to a user’s session and valid for 60 minutes.
      *  <p>
      *  Usage:<br>
      *  Adding CSRF token to forms:
      *
      *  </p><pre> //CSRF token generation
-     *  &lt;form ... action=&quot;<protected location>&quot;&gt;
-     *    &lt;input name=&quot;foo&quot; value=&quot;bar&quot;&gt;
-     *    &lt;input name=&quot;${dw.web.CSRFProtection.getTokenName()}&quot;
-     *              value=&quot;${dw.web.CSRFProtection.generateToken()&quot;&gt;
+     *  &lt;form ... action="<protected location="">"&gt;
+     *    &lt;input name="foo" value="bar"&gt;
+     *    &lt;input name="${dw.web.CSRFProtection.getTokenName()}"
+     *              value="${dw.web.CSRFProtection.generateToken()"&gt;
      *  &lt;/form&gt;
      *  </protected></pre>
      *
@@ -56526,12 +57113,14 @@ declare namespace dw {
     }
 
     /**
-     * Represents an HTTP cookie used for storing information on a client browser.
-     *  Cookies are passed along in the HTTP request and can be retrieved by
-     *  calling dw.system.Request.getHttpCookies().
+     * Represents an HTTP cookie used for storing information on a client browser. Cookies are passed along in the HTTP
+     *  request and can be retrieved by calling dw.system.Request.getHttpCookies().
      *  <p>
-     *  <b>Note:</b> this class allows access to sensitive security-related data.
-     *  Pay special attention to PCI DSS v3. requirements 2, 4, and 12.
+     *  Cookies must comply with RFC6265. We recommend you use only printable ASCII characters without separators, such as a
+     *  comma or equal sign. If JSON is used as a cookie value, it must be encoded.
+     *  </p><p>
+     *  <b>Note:</b> this class allows access to sensitive security-related data. Pay special attention to PCI DSS v3.
+     *  requirements 2, 4, and 12.
      *  </p><p>
      *  See <a href="class_dw_system_Request.html#dw_system_Request_getHttpCookies_DetailAnchor">Request.getHttpCookies()</a>.</p>
      */
@@ -57561,8 +58150,8 @@ declare namespace dw {
      *  can contain other forms, also called sub-forms.
      *
      *  Access to the elements of a form is provided via an index based access or
-     *  via an associative array access. For example, the field &quot;firstname&quot; can be accessed
-     *  with the expression &quot;myform.firstname&quot;.
+     *  via an associative array access. For example, the field "firstname" can be accessed
+     *  with the expression "myform.firstname".
      */
     class FormGroup extends dw.web.FormElement {
       /**
@@ -57757,9 +58346,9 @@ declare namespace dw {
 
     /**
      * The Forms object provides access to all current forms in the session. The individual forms are retrieved as a dynamic
-     *  property, for example &apos;forms.searchform&apos;. It is typically retrieved from the session via
+     *  property, for example 'forms.searchform'. It is typically retrieved from the session via
      *  <a href="class_dw_system_Session.html#dw_system_Session_getForms_DetailAnchor">Session.getForms()</a>. But it is also available in the <a href="class_dw_system_PipelineDictionary.html">PipelineDictionary</a> and can be
-     *  accessed via &apos;pdict.CurrentForms&apos;.
+     *  accessed via 'pdict.CurrentForms'.
      *  <p>
      *  Note that values stored with a form on the session are deleted if the request locale is changed during the session.</p>
      */
@@ -58110,7 +58699,7 @@ declare namespace dw {
 
     /**
      * Iterator used in &lt;ISLOOP&gt; implementation. It defines properties used to determine loop status.
-     *  LoopIterator object is assigned to variable declared in &quot;status&quot; attribute of the &lt;ISLOOP&gt; tag.
+     *  LoopIterator object is assigned to variable declared in "status" attribute of the &lt;ISLOOP&gt; tag.
      */
     class LoopIterator<T> extends dw.util.Iterator<T> {
       /**
@@ -58225,14 +58814,14 @@ declare namespace dw {
      * Contains meta data about the page.
      *
      *  For each request an instance of this class will be placed in the pipeline
-     *  dictionary under the key &quot;CurrentPageMetaData&quot;.
+     *  dictionary under the key "CurrentPageMetaData".
      *  The information stored in CurrentPageMetaData can be referenced in templates
      *  and rendered in an HTML head section:
      *  for example:
      *  <pre> <code>
      *  &lt;head&gt;
      *  &lt;title&gt;${pdict.CurrentPageMetaData.title}&lt;/title&gt;
-     *  &lt;meta name=&quot;description&quot; content=&quot;${pdict.CurrentPageMetaData.description}&quot;/&gt;
+     *  &lt;meta name="description" content="${pdict.CurrentPageMetaData.description}"/&gt;
      *  .
      *  .
      *  .
@@ -58323,7 +58912,7 @@ declare namespace dw {
     /**
      * Page meta tags are used in HTML documents to provide structured data about a web
      *  page. They are usually part of the head section. Common tags are for example robots,
-     *  description or social tags like open graph (e.g. &apos;og:title&apos;). <p>
+     *  description or social tags like open graph (e.g. 'og:title'). <p>
      *
      *  Page meta tags can be obtained within:
      *
@@ -58618,8 +59207,8 @@ declare namespace dw {
      * Library class which provides methods for retrieving messages from properties
      *  resource bundles which contain locale-specific strings. When your program
      *  needs a locale-specific String, it loads it from the resource bundle that is
-     *  appropriate for the user&apos;s current locale. In this way, the program code is
-     *  largely independent of the user&apos;s locale.
+     *  appropriate for the user's current locale. In this way, the program code is
+     *  largely independent of the user's locale.
      *  <p>
      *  In Commerce Cloud Digital, resources are associated with the templates of a cartridge.
      *  These bundles consist of properties files with a common name defined in the
@@ -58803,9 +59392,9 @@ declare namespace dw {
      *  constructed Commerce Cloud Digital URL.  For example:
      *  <p>
      *  <code>
-     *   var urlAction : URLAction = new URLAction(&quot;SimplePipeline-Start&quot;, &quot;SampleSite&quot;);<br>
+     *   var urlAction : URLAction = new URLAction("SimplePipeline-Start", "SampleSite");<br>
      *   var url : URL = URLUtils.abs(false, urlAction1);<br>
-     *   // url.toString() equals &quot;http://&quot; + request.httpHost + &quot;/on/demandware.store/Sites-SampleSite-Site/default/SimplePipeline-Start&quot;<br>
+     *   // url.toString() equals "http://" + request.httpHost + "/on/demandware.store/Sites-SampleSite-Site/default/SimplePipeline-Start"<br>
      *  </code></p>
      */
     class URLAction {
@@ -58952,16 +59541,16 @@ declare namespace dw {
      *  URLs do not include a session ID anymore. The appendSID argument therefore does not have any effect.</p><p>
      *
      *  When creating a pipeline URL with one of the methods url(), http(), https() or abs() by default
-     *  the generated URL is a Commerce Cloud Digital URL (&quot;/on/demandware.store/...&quot;). If search friendly URLs are
+     *  the generated URL is a Commerce Cloud Digital URL ("/on/demandware.store/..."). If search friendly URLs are
      *  enabled (old or new) the methods generate search friendly URLs. Search friendly URLs are only generated for
      *  certain pipeline names. Here a list of these pipeline names:
      *  </p><ul>
-     *  <li>Product-Show with a &apos;pid&apos; parameter [productID] - search friendly URL for a product</li>
-     *  <li>Product-ShowInCategory with the &apos;cgid&apos; parameter [categoryID] and &apos;pid&apos; parameter [productID] - search friendly URL for a product shown in a specific category</li>
-     *  <li>Search-Show with a &apos;cgid&apos; parameter [categoryID] - search friendly URL for a category</li>
-     *  <li>Search-Show with a &apos;pid&apos; parameter [productID] - search friendly URL for a product</li>
-     *  <li>Search-ShowContent with a &apos;fdid&apos; parameter [folderID] - search friendly URL for a folder (ONLY works with new storefront URLs)</li>
-     *  <li>Page-Show with a &apos;cid&apos; parameter [contentID] - search friendly URL for a content page</li>
+     *  <li>Product-Show with a 'pid' parameter [productID] - search friendly URL for a product</li>
+     *  <li>Product-ShowInCategory with the 'cgid' parameter [categoryID] and 'pid' parameter [productID] - search friendly URL for a product shown in a specific category</li>
+     *  <li>Search-Show with a 'cgid' parameter [categoryID] - search friendly URL for a category</li>
+     *  <li>Search-Show with a 'pid' parameter [productID] - search friendly URL for a product</li>
+     *  <li>Search-ShowContent with a 'fdid' parameter [folderID] - search friendly URL for a folder (ONLY works with new storefront URLs)</li>
+     *  <li>Page-Show with a 'cid' parameter [contentID] - search friendly URL for a content page</li>
      *  </ul>
      *
      *  Parameter <code>transform</code>:<p>
@@ -59030,7 +59619,7 @@ declare namespace dw {
      *          itself through this service; that is, the overlaid image can itself
      *          be a transformed image.</p><p>
      *
-     *          If the overlaid image extends over the primary image&apos;s boundaries,
+     *          If the overlaid image extends over the primary image's boundaries,
      *          the overlaid image is cropped so that it fits directly over the
      *          primary image.
      *      </p></td>
@@ -59072,7 +59661,7 @@ declare namespace dw {
      *          conversion is performed.<p>
      *
      *          The source image file is references with attribute
-     *          <code>relPath</code>. Source image&apos;s format is recognized by the
+     *          <code>relPath</code>. Source image's format is recognized by the
      *          file extension which must be <code>tif</code>, <code>tiff</code>,
      *          <code>jpg</code>, <code>jpeg</code>, <code>png</code>, or
      *          <code>gif</code>.</p><p>
@@ -59090,8 +59679,8 @@ declare namespace dw {
      *          The <code>quality</code> parameter specifies a quality setting for <code>jpg</code> and <code>jp2</code> images,
      *          and specifies the compression level for <code>png</code> images.<p>
      *
-     *          For <code>jpg</code> and <code>jp2</code> images, you can set values from 1&#x2013;100 for the highest quality.
-     *          The default quality is 80. If you&apos;re not changing the default quality, you don&apos;t need to pass in a value.</p><p>
+     *          For <code>jpg</code> and <code>jp2</code> images, you can set values from 1–100 for the highest quality.
+     *          The default quality is 80. If you're not changing the default quality, you don't need to pass in a value.</p><p>
      *
      *          For <code>png</code> images, the quality setting has no effect on the appearance of the <code>png</code>, since the compression is always lossless.
      *          Instead you can use the quality setting to set the zlib compression level and filter-type for PNG images.
@@ -59135,7 +59724,7 @@ declare namespace dw {
      *
      *  Example:</p><p>
      *     The following code</p><p>
-     *     <code>var url = URLUtils.imageURL(&apos;/somepath/image.png&apos;, {scaleWidth: 100, format: &apos;jpg&apos;});</code></p><p>
+     *     <code>var url = URLUtils.imageURL('/somepath/image.png', {scaleWidth: 100, format: 'jpg'});</code></p><p>
      *     will produce an image transformation URL like</p><p>
      *     <code>http://&lt;image server host name&gt;/.../on/demandware.static/.../somepath/image.jpg?sw=100&amp;sfrm=png</code>.</p>
      */
@@ -60369,19 +60958,84 @@ declare namespace dw {
      *  For example, if your WSDL file is <code>MyWSDL.wsdl</code>, the property file name is <code>MyWSDL.wsdl.properties</code>.
      *  Supported properties include:
      *
-     *  </p><ul>
-     *  <li><code>namespace=true</code>: If the WSDL contains different types with the same name a compilation error may occur. Set this
-     *  flag to generate a namespace-aware <a href="class_dw_ws_Port.html">Port</a>, which will have classes separated into packages based on their associated
-     *  namespace. The default value is <code>false</code>.
-     *  </li><li><code>underscoreBinding=asCharInWord</code>: If you have elements in a WSDL schema that contain the underscore character,
-     *  code generation may fail. This property will resolve the problem. The default value is <code>asWordSeparator</code>.
-     *  </li><li><code>collectionType=indexed</code>: The generated API will use array types instead of List types for collections. This
-     *  results in code that is more compatible with older <code>webreferences</code>-based implementations. The default behavior is
-     *  to generate Lists.
-     *  </li><li><code>enableWrapperStyle=false</code>: The generated API will use &quot;bare&quot; methods when this is false. When this is true,
-     *  &quot;wrapped&quot; methods may be generated instead. The default value is true, but a false value is more compatible with older
-     *  <code>webreferences</code>-based implementations.
-     *  </li></ul>
+     *  <table>
+     *    <tbody><tr>
+     *      <th>Name</th>
+     *      <th>Type</th>
+     *      <th>Description</th>
+     *    </tr>
+     *    <tr>
+     *      <td><code>namespace</code></td>
+     *      <td><code>boolean</code></td>
+     *      <td>If the WSDL contains different types with the same name a compilation error may occur. Set this to <code>true</code> to
+     *      generate a namespace-aware <a href="class_dw_ws_Port.html">Port</a>, which will have classes separated into packages based on their associated namespace.
+     *      The default value is <code>false</code></td>
+     *    </tr>
+     *    <tr>
+     *      <td><code>underscoreBinding</code></td>
+     *      <td><code>string</code></td>
+     *      <td>If you have elements in a WSDL schema that contain the underscore character, code generation may fail. Set this property
+     *      to <code>asCharInWord</code> to resolve the problem. The default value is <code>asWordSeparator</code>.</td>
+     *    </tr>
+     *    <tr>
+     *      <td><code>collectionType</code></td>
+     *      <td><code>string</code></td>
+     *      <td>The generated API will use array types instead of List types for collections when this value is set to
+     *      <code>indexed</code>. This results in code that is more compatible with older <code>webreferences</code>-based
+     *      implementations. The default behavior is to generate Lists.</td>
+     *    </tr>
+     *    <tr>
+     *      <td><code>enableWrapperStyle</code></td>
+     *      <td><code>boolean</code></td>
+     *      <td>The generated API will use "bare" methods when this is <code>false</code>. When this is <code>true</code>,
+     *      "wrapped" methods may be generated instead. The default value is <code>true</code>, but a <code>false</code>
+     *      value is more  compatible with older <code>webreferences</code>-based implementations.</td>
+     *    </tr>
+     *  </tbody></table>
+     *
+     *  The messages sent to and from the remote server are logged at DEBUG level on sandboxes, and not logged at all on production.
+     *  The custom log category used is derived from the WSDL name and message type. For example, the custom log categories for the file
+     *  <code>MyWSDL.wsdl</code> are <code>webreferences2.MyWSDL.request</code> and <code>webreferences2.MyWSDL.response</code>. This
+     *  logging is controlled by the following in the WSDL properties:
+     *
+     *  <table>
+     *    <tbody><tr>
+     *      <th>Name</th>
+     *      <th>Type</th>
+     *      <th>Description</th>
+     *    </tr>
+     *    <tr>
+     *      <td><code>logging.enabled</code></td>
+     *      <td><code>boolean</code></td>
+     *      <td><code>true</code> to explicitly allow logging, <code>false</code> to disallow. Default is <code>true</code> on Sandboxes
+     *      and <code>false</code> on all other instance types</td>
+     *    </tr>
+     *    <tr>
+     *      <td><code>logging.pretty</code></td>
+     *      <td><code>boolean</code></td>
+     *      <td><code>true</code> to pretty-print the SOAP XML. Default is <code>false</code> to log the actual message body.</td>
+     *    </tr>
+     *    <tr>
+     *      <td><code>logging.verbose</code></td>
+     *      <td><code>boolean</code></td>
+     *      <td><code>true</code> to log HTTP headers and other message information. Default is <code>false</code> to only log the
+     *      message body</td>
+     *    </tr>
+     *    <tr>
+     *      <td><code>logging.filter.elements</code></td>
+     *      <td>comma-separated <code>string</code></td>
+     *      <td>List of element tag names containing sensitive information. These will be filtered out of the message. All properties with
+     *      this prefix will be used. For example <code>logging.filter.elements=Password,Token</code> is equivalent to two different properties
+     *      <code>logging.filter.elements.01=Token</code> and <code>logging.filter.elements.02=Token</code></td>
+     *    </tr>
+     *    <tr>
+     *      <td><code>logging.filter.headers</code></td>
+     *      <td>comma-separated <code>string</code></td>
+     *      <td>List of message header names containing sensitive information. These will be filtered out of the message. All properties with
+     *      this prefix will be used. For example <code>logging.filter.headers=Authorization,Token</code> is equivalent to two different properties
+     *      <code>logging.filter.headers.01=Authorization</code> and <code>logging.filter.headers.02=Token</code></td>
+     *    </tr>
+     *  </tbody></table></p>
      */
     class WebReference2 {
       /**
