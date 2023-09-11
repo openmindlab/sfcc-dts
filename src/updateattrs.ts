@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import arg from 'arg';
 import { log } from 'console';
 import fs from "fs";
 import path from "path";
@@ -20,15 +21,19 @@ import { generateCustomTypes } from './customtypes';
 
   log(`Welcome to ${pc.magenta('sfcc-dts')} custom attributes definition generator.\n`);
 
-  let defaultpath = './sites/site_template/meta/';
+  const args = arg({
+    '--metaPath': String,
+    '--attrsOutputPath': String
+  });
+  let defaultpath = args['--metaPath'] || './sites/site_template/meta/';
   let extensionspath;
+  const outpath = args['--attrsOutputPath'] || '@types/dw';
 
   if (fs.existsSync(defaultpath)) {
     log(`directory ${defaultpath} available`);
     extensionspath = defaultpath;
   }
   else {
-
     const response = await prompts([
       {
         type: 'text',
@@ -43,10 +48,10 @@ import { generateCustomTypes } from './customtypes';
 
   log(`Generating definitions for custom attributes`);
   if (extensionspath) {
-    await generateCustomTypes(extensionspath);
+    await generateCustomTypes(extensionspath, outpath);
   }
 
-  log(`Write @types/dw/index.d.ts`);
+  log(`Write ${outpath}/index.d.ts`);
   let references = '/// <reference path="../../node_modules/sfcc-dts/@types/sfcc/index.d.ts" />\n';
   if (extensionspath) {
     references += '/// <reference path="./attrs.d.ts" />\n';
@@ -55,7 +60,7 @@ import { generateCustomTypes } from './customtypes';
     references += '/// <reference path="../../node_modules/sfcc-dts/@types/sfcc/attrs.d.ts" />\n';
   }
 
-  fs.writeFileSync(path.join('@types/dw', 'index.d.ts'), references);
+  fs.writeFileSync(path.join(outpath, 'index.d.ts'), references);
 
   log(`\nDone!`);
 

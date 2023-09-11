@@ -47,7 +47,7 @@ interface ObjectTypeExtensions {
 
 
 
-export async function generateCustomTypes(extensionsfolder: string) {
+export async function generateCustomTypes(extensionsfolder: string, outpath?: string) {
 
   let typeExtensions: ObjectTypeExtensions[] = [];
   let folder = fs.readdirSync(extensionsfolder).filter(i => !fs.lstatSync(path.join(extensionsfolder, i)).isDirectory() && i.endsWith('.xml'));
@@ -68,7 +68,6 @@ export async function generateCustomTypes(extensionsfolder: string) {
   });
 
   let attrspath = path.join(__dirname, '../@types/sfcc/attrs.txt');
-  console.log('path is ' + attrspath);
   let customObjList = new Set(fs.readFileSync(attrspath, 'utf8').split('\n'));
 
   let customattrsrc = Object.keys(uniquetypes).map((k: string) => {
@@ -83,7 +82,7 @@ export async function generateCustomTypes(extensionsfolder: string) {
  */
 declare class ${typename}CustomAttributes {
 
-  ${i.attributedefinitions.map(at => mapAttribute(at)).join('\n')}
+  ${i.attributedefinitions.map(at => mapAttribute(at)).join('\r\n')}
 }`
   }).join('\n');
 
@@ -104,7 +103,7 @@ declare class ${typename}CustomAttributes {
 
 
   let out = customattrsrc;
-  let outpath = path.join('@types/dw', "attrs.d.ts");
+  const outfile = path.join(outpath || '@types/dw', "attrs.d.ts");
 
   let prettierconfig = {} as any;
   if (fs.existsSync('.prettierrc')) {
@@ -121,10 +120,10 @@ declare class ${typename}CustomAttributes {
   try {
     out = prettier.format(customattrsrc, prettierconfig)
   } catch (e) {
-    console.error(chalk.red(`Prettier format failed, check generated file at ${outpath}\n${e}`));
+    console.error(chalk.red(`Prettier format failed, check generated file at ${outfile}\n${e}`));
   }
 
-  fs.writeFileSync(outpath, out);
+  fs.writeFileSync(outfile, out);
 }
 
 
@@ -212,11 +211,17 @@ function toConstant(val: string) {
 }
 
 function mapAttribute(at: Attributedefinition) {
-
+  const charsNeedingQuotes = [' ', '.', '-'];
+  let needQuotes = false;
+  charsNeedingQuotes.forEach((charNeedingQuotes) => {
+    needQuotes = needQuotes || at.attributeid.indexOf(charNeedingQuotes) > -1;
+  });
+  const description = at.description && typeof at.description === 'string' ? at.description.replace(new RegExp(String.fromCharCode(13), 'g'), '') : null;
+  const displayName = at.displayname && typeof at.displayname === 'string' ? at.displayname.replace(new RegExp(String.fromCharCode(13), 'g'), '') : null;
   return `/**
-  * ${at.description || at.displayname || ''}
+  * ${description || displayName || ''}
   */
- ${at.attributeid.indexOf('-') > -1 ? "'" + at.attributeid + "'" : at.attributeid}: ${remapType(at)};
+ ${needQuotes ? "'" + at.attributeid + "'" : at.attributeid}: ${remapType(at)};
 
  `;
 }
