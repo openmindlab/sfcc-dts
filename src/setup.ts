@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import arg from 'arg';
 import { execSync } from "child_process";
 import { parse, stringify } from 'comment-json';
 import { log } from 'console';
@@ -20,25 +21,37 @@ import { generateCustomTypes } from './customtypes';
                                                                     `;
   log(pc.magenta(banner));
 
-  log(`Welcome to ${pc.magenta('sfcc-dts')} interactive project setup wizard.\n`);
-  const response = await prompts([{
-    type: 'text',
-    name: 'cartridgeroot',
-    message: 'Directory containing your cartridges?',
-    initial: './cartridges/',
-    validate: value => !fs.existsSync(value) ? `Directory ${value} does not exists` : true
-  }
-    , {
-    type: 'text',
-    name: 'meta',
-    message: 'Directory containing system-objecttype-extensions.xml?',
-    initial: './sites/site_template/meta/',
-    validate: value => !fs.existsSync(value) ? `directory ${value} not found` : true
-  }
-  ]);
+  const args = arg({
+    '--cartridgePath': String,
+    '--metaPath': String,
+    '--attrsOutputPath': String
+  });
 
-  let cartridgeroot = response.cartridgeroot;
-  let extensions = response.meta;
+  log(`Welcome to ${pc.magenta('sfcc-dts')} interactive project setup wizard.\n`);
+  let cartridgeroot = args['--cartridgePath'];
+  let extensions = args['--metaPath'];
+  const outpath = args['--attrsOutputPath'] || '@types/dw';
+
+  if (!cartridgeroot || !fs.existsSync(cartridgeroot)) {
+    const response = await prompts({
+      type: 'text',
+      name: 'cartridgeroot',
+      message: 'Directory containing your cartridges?',
+      initial: './cartridges/',
+      validate: value => !fs.existsSync(value) ? `Directory ${value} does not exists` : true
+    });
+    cartridgeroot = response.cartridgeroot;
+  }
+  if (!extensions || !fs.existsSync(extensions)) {
+    const response = await prompts({
+      type: 'text',
+          name: 'meta',
+        message: 'Directory containing system-objecttype-extensions.xml?',
+        initial: './sites/site_template/meta/',
+        validate: value => !fs.existsSync(value) ? `directory ${value} not found` : true
+    });
+    extensions = response.meta;
+  }
   log(`Ready to go, will setup the project using cartridges in ${cartridgeroot} and custom attributes definition in ${extensions}\n`);
 
   let tsconfig: any = {}
@@ -121,21 +134,17 @@ import { generateCustomTypes } from './customtypes';
     execSync('npm uninstall --save dw-api', { stdio: 'inherit' });
   }
 
-  if (!fs.existsSync('@types')) {
-    log(`Creating @types folder`);
-    fs.mkdirSync('@types');
-  }
-  if (!fs.existsSync('@types/dw')) {
-    log(`Creating @types/dw folder`);
-    fs.mkdirSync(path.join('@types', 'dw'));
+  if (!fs.existsSync(outpath)) {
+    log(`Creating ${outpath} folder`);
+    fs.mkdirSync(outpath, {recursive: true});
   }
 
   log(`Generating definitions for custom attributes`);
   if (extensions) {
-    await generateCustomTypes(extensions);
+    await generateCustomTypes(extensions, outpath);
   }
 
-  log(`Write @types/dw/index.d.ts`);
+  log(`Write ${outpath}/index.d.ts`);
   let references = '/// <reference path="../../node_modules/sfcc-dts/@types/sfcc/index.d.ts" />\n';
   if (extensions) {
     references += '/// <reference path="./attrs.d.ts" />\n';
@@ -144,7 +153,7 @@ import { generateCustomTypes } from './customtypes';
     references += '/// <reference path="../../node_modules/sfcc-dts/@types/sfcc/attrs.d.ts" />\n';
   }
 
-  fs.writeFileSync(path.join('@types/dw', 'index.d.ts'), references);
+  fs.writeFileSync(path.join(outpath, 'index.d.ts'), references);
 
   log(`\nDone!`);
 
