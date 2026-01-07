@@ -1,15 +1,25 @@
-import { ClassDef, ConstructorDef, ConstantDef, PropertyDef, MethodDef, CustomAttr } from './models';
+import {
+  ClassDef,
+  ConstructorDef,
+  ConstantDef,
+  PropertyDef,
+  MethodDef,
+  CustomAttr,
+} from "./models";
 
 import fs from "fs";
 import path from "path";
-import prettier from "prettier";
+import { format } from "prettier";
 import jsonmergepatch from "json-merge-patch";
-import propertiesReader from 'properties-reader';
+import propertiesReader from "properties-reader";
 
 const basePathGenerated = path.join(process.cwd(), "./@types", "sfcc");
-const sfccApi: any = jsonmergepatch.apply(JSON.parse(fs.readFileSync("./api/sfcc-api.json", "utf8")), JSON.parse(fs.readFileSync("./api/patches.json", "utf8")));
+const sfccApi: any = jsonmergepatch.apply(
+  JSON.parse(fs.readFileSync("./api/sfcc-api.json", "utf8")),
+  JSON.parse(fs.readFileSync("./api/patches.json", "utf8"))
+);
 
-var genericsremap = propertiesReader('./api/generics.properties');
+var genericsremap = propertiesReader("./api/generics.properties");
 
 const config: any = {
   typesMapping: {
@@ -19,7 +29,7 @@ const config: any = {
     Object: "any",
     arguments: "IArguments",
     Array: "Array",
-    Module: "NodeModule"
+    Module: "NodeModule",
   },
   generics: [
     "dw.util.Collection",
@@ -38,20 +48,20 @@ const config: any = {
     "dw.object.Extensible",
     "dw.object.ExtensibleObject",
     "dw.object.SimpleExtensible",
-    "dw.svc.Result"
+    "dw.svc.Result",
   ],
   maps: [
     "dw.util.Map",
     "dw.util.HashMap",
     "dw.util.LinkedHashMap",
     "dw.util.MapEntry",
-    "dw.util.SortedMap"
+    "dw.util.SortedMap",
   ],
   extensible: [
     "dw.object.Extensible",
     "dw.object.ExtensibleObject",
     "dw.object.SimpleExtensible",
-    "dw.object.CustomObject"
+    "dw.object.CustomObject",
   ],
   argsMapping: {
     function: "fn",
@@ -68,19 +78,19 @@ const config: any = {
 
 const checkIsCollection = (fullclassname: string) => {
   return config.generics.includes(fullclassname);
-}
+};
 
 const checkIsMap = (fullclassname: string) => {
   return config.maps.includes(fullclassname);
-}
+};
 
 const sanitizeType = (type: string, generics: string, isGeneric: boolean) => {
   var sanitizedType = (sfccApi.mapping[type] || type).replace("TopLevel.", "");
   let mapped = config.typesMapping[sanitizedType] || sanitizedType;
   if (generics) {
-    return `${mapped}<${generics}>`
+    return `${mapped}<${generics}>`;
   }
-  let result = isGeneric && mapped === 'any' ? 'T' : mapped;
+  let result = isGeneric && mapped === "any" ? "T" : mapped;
   if (isGeneric && checkIsCollection(result)) {
     return `${result}<T>`;
   }
@@ -94,8 +104,6 @@ const sanitizeType = (type: string, generics: string, isGeneric: boolean) => {
 };
 
 const sanitizeArg = (arg: string) => config.argsMapping[arg] || arg;
-
-
 
 const sanitizeValue = (obj: any) => {
   switch (obj.class.name) {
@@ -117,7 +125,7 @@ const standardDefinition = (element: string): boolean => {
   //   return true;
   // }
   // return false;
-  if (element === 'Iterator' || element === 'Iterable') {
+  if (element === "Iterator" || element === "Iterable") {
     return true;
   }
   // if (element === 'module') {
@@ -133,12 +141,16 @@ const standardDefinition = (element: string): boolean => {
 
 const doc = (obj: any) => {
   if (!obj.description) {
-    return '';
+    return "";
   }
   let description = obj.description;
 
   if (obj.args) {
-    description += '\n' + obj.args.map((param: any) => `@param ${param.name} ${param.description || ''}`).join("\n");
+    description +=
+      "\n" +
+      obj.args
+        .map((param: any) => `@param ${param.name} ${param.description || ""}`)
+        .join("\n");
   }
 
   if (obj.class && obj.class.description) {
@@ -146,7 +158,7 @@ const doc = (obj: any) => {
   }
   return `/**\n${description
     .split("\n")
-    .map((line: string) => ` * ${line.replace('*/', '*\\/')}`)
+    .map((line: string) => ` * ${line.replace("*/", "*\\/")}`)
     .join("\n")}\n*/\n`;
 };
 
@@ -162,11 +174,14 @@ function filterComponent<T>(key: string, prop: string) {
         config.exclusions[key][prop] &&
         config.exclusions[key][prop].includes((element as any).name)
       ));
-};
+}
 
-const filterConstants = (key: string) => filterComponent<ConstantDef>(key, "constants");
-const filterProperties = (key: string) => filterComponent<PropertyDef>(key, "properties");
-const filterMethods = (key: string) => filterComponent<MethodDef>(key, "methods");
+const filterConstants = (key: string) =>
+  filterComponent<ConstantDef>(key, "constants");
+const filterProperties = (key: string) =>
+  filterComponent<PropertyDef>(key, "properties");
+const filterMethods = (key: string) =>
+  filterComponent<MethodDef>(key, "methods");
 
 const generateExportFileForClass = (theClass: ClassDef) => {
   var packageTokens = theClass.fullClassName.split(".");
@@ -174,8 +189,8 @@ const generateExportFileForClass = (theClass: ClassDef) => {
     packageTokens.shift();
   }
   var className = packageTokens.pop();
-  if (theClass.fullClassName === 'TopLevel.Module') {
-    theClass.fullClassName = 'TopLevel.NodeModule'; // hardcoded remapping to extend existing standard declaration
+  if (theClass.fullClassName === "TopLevel.Module") {
+    theClass.fullClassName = "TopLevel.NodeModule"; // hardcoded remapping to extend existing standard declaration
   }
 
   var foldersPath = path.join.apply(
@@ -190,7 +205,8 @@ const generateExportFileForClass = (theClass: ClassDef) => {
   var sourcePath = path.join(foldersPath, className + ".d.ts");
   fs.writeFileSync(
     sourcePath,
-    `/// <reference path="${packageTokens.length == 0 ? "./" : packageTokens.map(() => "../").join("")
+    `/// <reference path="${
+      packageTokens.length == 0 ? "./" : packageTokens.map(() => "../").join("")
     }index.d.ts" />\nexport = ${theClass.fullClassName.replace(
       "TopLevel.",
       ""
@@ -198,7 +214,10 @@ const generateExportFileForClass = (theClass: ClassDef) => {
   );
 };
 
-const generateCodeForClass = (theClass: ClassDef, customAttrTypes: Set<CustomAttr>) => {
+const generateCodeForClass = (
+  theClass: ClassDef,
+  customAttrTypes: Set<CustomAttr>
+) => {
   var source = "";
   var packageTokens = theClass.fullClassName.split(".");
   var isTopLevel = false;
@@ -226,37 +245,48 @@ const generateCodeForClass = (theClass: ClassDef, customAttrTypes: Set<CustomAtt
     }
 
     // hardcoded remapping to extend existing standard declaration
-    source += `${isTopLevel ? 'declare ' : ''}class ${className === 'Module' ? 'NodeModule' : className}${isGeneric ? '<T>' : isMap ? '<K, V>' : ''} `;
+    source += `${isTopLevel ? "declare " : ""}class ${className === "Module" ? "NodeModule" : className}${isGeneric ? "<T>" : isMap ? "<K, V>" : ""} `;
     if (theClass.hierarchy.length > 1) {
       let hierarchyClass = theClass.hierarchy.pop().name;
       let generics = null;
 
       // if (theClass.hierarchy.find((h: any) => h.name === 'dw.object.ExtensibleObject')) {
-      if (hierarchyClass === 'dw.object.ExtensibleObject' || hierarchyClass === 'dw.object.Extensible') {
-        generics = className + 'CustomAttributes';
+      if (
+        hierarchyClass === "dw.object.ExtensibleObject" ||
+        hierarchyClass === "dw.object.Extensible"
+      ) {
+        generics = className + "CustomAttributes";
         customAttrTypes.add({ name: className });
-      } else if (theClass.hierarchy.find((h: any) => h.name === 'dw.object.ExtensibleObject' || h.name === 'dw.object.Extensible')) {
+      } else if (
+        theClass.hierarchy.find(
+          (h: any) =>
+            h.name === "dw.object.ExtensibleObject" ||
+            h.name === "dw.object.Extensible"
+        )
+      ) {
         // extends an extensible class, eg. ProductLineItem -> LineItem -> ExtensibleObject
         customAttrTypes.add({ name: className, extends: hierarchyClass });
 
         if (!theClass.properties.custom) {
           theClass.properties.custom = {
-            "name": "custom",
-            "class": {
-              "name": className + 'CustomAttributes'
+            name: "custom",
+            class: {
+              name: className + "CustomAttributes",
             },
-            "static": false,
-            "readonly": true,
-            "description": "The custom attributes for this object. The returned object is\n used for retrieving and storing attribute values. See\n CustomAttributes for a detailed example of the syntax for\n working with custom attributes.",
-            "deprecated": false
+            static: false,
+            readonly: true,
+            description:
+              "The custom attributes for this object. The returned object is\n used for retrieving and storing attribute values. See\n CustomAttributes for a detailed example of the syntax for\n working with custom attributes.",
+            deprecated: false,
           };
           theClass.methods.getCustom = {
-            "name": "getCustom",
-            "args": [],
-            "class": {
-              "name": className + 'CustomAttributes'
+            name: "getCustom",
+            args: [],
+            class: {
+              name: className + "CustomAttributes",
             },
-            "description": "Returns the custom attributes for this extensible object."
+            description:
+              "Returns the custom attributes for this extensible object.",
           };
         }
       }
@@ -272,52 +302,58 @@ const generateCodeForClass = (theClass: ClassDef, customAttrTypes: Set<CustomAtt
     .sort((a, b) => a.name.localeCompare(b.name))
     .reduce(
       (constantSource: string, constant: ConstantDef) =>
-        `${constantSource}${doc(constant)}${isGlobal ? 'declare ' : ''}${isStatic}${readonly}${constant.name
-        }${!constant.value ? ": " + sanitizeType(constant.class.name, constant.class.generics, isGeneric && !isStatic) : ""}${constant.value ? " = " + sanitizeValue(constant) : ""
+        `${constantSource}${doc(constant)}${isGlobal ? "declare " : ""}${isStatic}${readonly}${
+          constant.name
+        }${!constant.value ? ": " + sanitizeType(constant.class.name, constant.class.generics, isGeneric && !isStatic) : ""}${
+          constant.value ? " = " + sanitizeValue(constant) : ""
         };\n`,
       ""
     );
   source += "\n";
 
-
   let properties: PropertyDef[] = Object.values(theClass.properties);
-  properties = properties.filter(prop => !constants.find(co => co.name == prop.name)); // properties my duplicate constants
+  properties = properties.filter(
+    (prop) => !constants.find((co) => co.name == prop.name)
+  ); // properties my duplicate constants
   source += properties
     .filter(filterProperties(className))
     .sort((a, b) => a.name.localeCompare(b.name))
-    .reduce(
-      (propSource: string, property: PropertyDef) => {
+    .reduce((propSource: string, property: PropertyDef) => {
+      let returnType = sanitizeType(
+        property.class.name,
+        property.class.generics,
+        isGeneric && !property.static
+      );
 
-        let returnType = sanitizeType(property.class.name, property.class.generics, isGeneric && !property.static);
+      if (!isGeneric) {
+        returnType = checkGenerics(returnType, theClass, property);
+      }
 
-        if (!isGeneric) {
-          returnType = checkGenerics(returnType, theClass, property);
+      if (
+        !config.extensible.includes(theClass.fullClassName) &&
+        property.name === "custom" &&
+        returnType === "dw.object.CustomAttributes"
+      ) {
+        returnType = className + "CustomAttributes";
+        if (!Array.from(customAttrTypes).find((a) => a.name === className)) {
+          customAttrTypes.add({ name: className });
         }
+      }
 
-        if (!config.extensible.includes(theClass.fullClassName) && property.name === 'custom' && returnType === 'dw.object.CustomAttributes') {
-          returnType = className + 'CustomAttributes';
-          if (!Array.from(customAttrTypes).find(a => a.name === className)) {
-            customAttrTypes.add({ name: className });
-          }
-        }
-
-        return `${propSource}${doc(property)}${isGlobal ? 'declare ' : ''}${property.static ? isStatic : ""}${property.readonly ? readonly : ""}${property.name}: ${returnType};\n`
-      },
-      ""
-    );
+      return `${propSource}${doc(property)}${isGlobal ? "declare " : ""}${property.static ? isStatic : ""}${property.readonly ? readonly : ""}${property.name}: ${returnType};\n`;
+    }, "");
   source += "\n";
 
   if (!isInterface) {
-
     let constructors: ConstructorDef[] = Object.values(theClass.constructors);
 
-    source += constructors
-      .reduce(
-        (constructorSource: string, constructor: ConstructorDef) =>
-          `${constructorSource}${doc(constructor)}constructor(${constructor.args.map((m: any) => formatArgument(m, isGeneric)).join(", ")
-          });\n`,
-        ""
-      );
+    source += constructors.reduce(
+      (constructorSource: string, constructor: ConstructorDef) =>
+        `${constructorSource}${doc(constructor)}constructor(${constructor.args
+          .map((m: any) => formatArgument(m, isGeneric))
+          .join(", ")});\n`,
+      ""
+    );
     if (Object.keys(theClass.constructors).length === 0 && !isGlobal) {
       source += "private constructor();\n";
     }
@@ -328,26 +364,32 @@ const generateCodeForClass = (theClass: ClassDef, customAttrTypes: Set<CustomAtt
   source += methods
     .filter(filterMethods(className))
     .sort((a, b) => a.name.localeCompare(b.name))
-    .reduce(
-      (methodSource: string, method: MethodDef) => {
-        let returnType = sanitizeType(method.class.name, method.class.generics, isGeneric);
+    .reduce((methodSource: string, method: MethodDef) => {
+      let returnType = sanitizeType(
+        method.class.name,
+        method.class.generics,
+        isGeneric
+      );
 
-        if (!isGeneric) {
-          returnType = checkGenerics(returnType, theClass, method);
+      if (!isGeneric) {
+        returnType = checkGenerics(returnType, theClass, method);
+      }
+
+      if (
+        !config.extensible.includes(theClass.fullClassName) &&
+        method.name === "getCustom" &&
+        returnType === "dw.object.CustomAttributes"
+      ) {
+        returnType = className + "CustomAttributes";
+        if (!Array.from(customAttrTypes).find((a) => a.name === className)) {
+          customAttrTypes.add({ name: className });
         }
+      }
 
-        if (!config.extensible.includes(theClass.fullClassName) && method.name === 'getCustom' && returnType === 'dw.object.CustomAttributes') {
-          returnType = className + 'CustomAttributes';
-          if (!Array.from(customAttrTypes).find(a => a.name === className)) {
-            customAttrTypes.add({ name: className });
-          }
-        }
-
-        return `${methodSource}${doc(method)}${isGlobal ? "declare function " : ""}${method.static && !isGlobal ? isStatic : ""
-          }${method.name.replace('@@iterator', '[Symbol.iterator]')}(${method.args.map((m: any) => formatArgument(m, isGeneric)).join(", ")}): ${returnType};\n`
-      },
-      ""
-    );
+      return `${methodSource}${doc(method)}${isGlobal ? "declare function " : ""}${
+        method.static && !isGlobal ? isStatic : ""
+      }${method.name.replace("@@iterator", "[Symbol.iterator]")}(${method.args.map((m: any) => formatArgument(m, isGeneric)).join(", ")}): ${returnType};\n`;
+    }, "");
   source += "\n";
 
   if (!isGlobal) {
@@ -361,7 +403,10 @@ const generateCodeForClass = (theClass: ClassDef, customAttrTypes: Set<CustomAtt
 
 const generateCode = (pkg: any, customAttrTypes: Set<CustomAttr>) =>
   Object.keys(pkg).reduce((source: string, key: string) => {
-    if (!config.exclusions.classes[key] && !(pkg[key].package === 'TopLevel' && standardDefinition(key))) {
+    if (
+      !config.exclusions.classes[key] &&
+      !(pkg[key].package === "TopLevel" && standardDefinition(key))
+    ) {
       if (pkg[key].fullClassName && !config.exclusions.classes[key]) {
         source += generateCodeForClass(pkg[key], customAttrTypes) + "\n";
       } else {
@@ -386,48 +431,58 @@ source += generateCode(sfccApi.api.dw, customAttrTypes);
 source += "}\n";
 //source += "}\n";
 
-let formatted = source;
-try {
-  formatted = prettier.format(source, { parser: "typescript" });
-}
-catch (e) {
-  console.error(e);
-}
-fs.writeFileSync(
-  path.join(basePathGenerated, "index.d.ts"),
-  formatted
-);
-
-let customattrsrc = Array.from(customAttrTypes).map(i => `
+let customattrsrc = Array.from(customAttrTypes)
+  .map(
+    (i) => `
 /**
  * Custom attributes for ${i.name} object.
  */
-declare class ${i.name}CustomAttributes ${i.extends ? 'extends ' + i.extends.substring(i.extends.lastIndexOf('.') + 1, i.extends.length) + 'CustomAttributes' : ''}{
+declare class ${i.name}CustomAttributes ${i.extends ? "extends " + i.extends.substring(i.extends.lastIndexOf(".") + 1, i.extends.length) + "CustomAttributes" : ""}{
   /**
    * Returns the custom attribute with this name. Throws an exception if attribute is not defined
    */
   [name: string]: any;
-}`).join('\n');
+}`
+  )
+  .join("\n");
 
-fs.writeFileSync(
-  path.join(basePathGenerated, "attrs.d.ts"),
-  prettier.format(customattrsrc, { parser: "typescript" })
-);
+(async () => {
+  let formatted = source;
+  try {
+    formatted = await format(source, { parser: "typescript" });
+  } catch (e) {
+    console.error(e);
+  }
+  fs.writeFileSync(path.join(basePathGenerated, "index.d.ts"), formatted);
 
-fs.writeFileSync(
-  path.join(basePathGenerated, "attrs.txt"),
-  Array.from(new Set(Array.from(customAttrTypes).map(cu => cu.name))).sort().join('\n')
-);
+  let formattedAttrs = customattrsrc;
+  try {
+    formattedAttrs = await format(customattrsrc, { parser: "typescript" });
+  } catch (e) {
+    console.error(e);
+  }
+
+  fs.writeFileSync(path.join(basePathGenerated, "attrs.d.ts"), formattedAttrs);
+
+  fs.writeFileSync(
+    path.join(basePathGenerated, "attrs.txt"),
+    Array.from(new Set(Array.from(customAttrTypes).map((cu) => cu.name)))
+      .sort()
+      .join("\n")
+  );
+})();
 
 function checkGenerics(returnType: string, theClass: any, member: any) {
-  if (returnType.indexOf('<any') > -1) {
-    let propkey = member.type === 'property' ? `${theClass.fullClassName}.get${member.name.charAt(0).toUpperCase()}${member.name.substring(1)}` : `${theClass.fullClassName}.${member.name}`;
+  if (returnType.indexOf("<any") > -1) {
+    let propkey =
+      member.type === "property"
+        ? `${theClass.fullClassName}.get${member.name.charAt(0).toUpperCase()}${member.name.substring(1)}`
+        : `${theClass.fullClassName}.${member.name}`;
     // @ts-ignore
     returnType = genericsremap.get(propkey) || returnType;
-    if (returnType.indexOf('<any') > -1) {
+    if (returnType.indexOf("<any") > -1) {
       console.log(`Unmapped generics: ${propkey}=${returnType}`);
     }
   }
   return returnType;
 }
-

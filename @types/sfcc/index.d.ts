@@ -1597,7 +1597,7 @@ declare namespace dw {
        */
       static removeAlert(
         alertDescriptorID: string,
-        contextObject: dw.object.PersistentObject
+        contextObject: dw.object.PersistentObject,
       ): void;
       /**
        * Removes the alert for the given alert description and context object ID.
@@ -1606,7 +1606,7 @@ declare namespace dw {
        */
       static removeAlert(
         alertDescriptorID: string,
-        contextObjectID: string
+        contextObjectID: string,
       ): void;
       /**
        * Re-evaluates the process function, and creates or removes the respective alert.
@@ -2224,7 +2224,7 @@ declare namespace dw {
        */
       static applyBonusPromotions(
         lineItemCtnr: dw.order.LineItemCtnr,
-        promotions: dw.util.Collection<any>
+        promotions: dw.util.Collection<any>,
       ): boolean;
       /**
        * Applies the applicable order promotions in the specified collection to the
@@ -2242,7 +2242,7 @@ declare namespace dw {
        */
       static applyOrderPromotions(
         lineItemCtnr: dw.order.LineItemCtnr,
-        promotions: dw.util.Collection<any>
+        promotions: dw.util.Collection<any>,
       ): boolean;
       /**
        * Applies all applicable product promotions in the specified collection to the
@@ -2260,7 +2260,7 @@ declare namespace dw {
        */
       static applyProductPromotions(
         lineItemCtnr: dw.order.LineItemCtnr,
-        promotions: dw.util.Collection<any>
+        promotions: dw.util.Collection<any>,
       ): boolean;
       /**
        * Applies all applicable shipping promotions in the specified collection to
@@ -2275,7 +2275,7 @@ declare namespace dw {
        */
       static applyShippingPromotions(
         lineItemCtnr: dw.order.LineItemCtnr,
-        promotions: dw.util.Collection<any>
+        promotions: dw.util.Collection<any>,
       ): boolean;
       /**
        * Returns the enabled promotions of active campaigns applicable for the
@@ -2294,7 +2294,7 @@ declare namespace dw {
        * @return List of active promotions
        */
       static getApplicableConditionalPromotions(
-        product: dw.catalog.Product
+        product: dw.catalog.Product,
       ): dw.util.Collection<dw.campaign.Promotion>;
       /**
        * Returns the enabled promotions of active campaigns applicable for the
@@ -2315,7 +2315,7 @@ declare namespace dw {
        * @return A list of promotions
        */
       static getApplicablePromotions(
-        product: dw.catalog.Product
+        product: dw.catalog.Product,
       ): dw.util.Collection<dw.campaign.Promotion>;
       /**
        * Returns the enabled promotions of active campaigns applicable for the
@@ -2328,7 +2328,7 @@ declare namespace dw {
        * @return list of all applicable promotion for the given basket or order
        */
       static getApplicablePromotions(
-        lineItemCtnr: dw.order.LineItemCtnr
+        lineItemCtnr: dw.order.LineItemCtnr,
       ): dw.util.Collection<dw.campaign.Promotion>;
       /**
        * Returns the enabled promotions of active campaigns applicable for the
@@ -2362,7 +2362,7 @@ declare namespace dw {
        * @return A list of promotions
        */
       static getConditionalPromotions(
-        product: dw.catalog.Product
+        product: dw.catalog.Product,
       ): dw.util.Collection<dw.campaign.Promotion>;
       /**
        * Returns the promotion associated with the specified coupon code.
@@ -2376,7 +2376,7 @@ declare namespace dw {
        * @return The associated promotion or null
        */
       static getPromotionByCouponCode(
-        couponCode: string
+        couponCode: string,
       ): dw.campaign.Promotion;
       /**
        * Returns the promotion identified by the specified ID.
@@ -2402,7 +2402,7 @@ declare namespace dw {
        * @return List of promotions
        */
       static getPromotions(
-        product: dw.catalog.Product
+        product: dw.catalog.Product,
       ): dw.util.Collection<dw.campaign.Promotion>;
     }
 
@@ -2642,7 +2642,7 @@ declare namespace dw {
        */
       static getRedemptions(
         couponID: string,
-        couponCode: string
+        couponCode: string,
       ): dw.util.Collection<dw.campaign.CouponRedemption>;
       /**
        * Mask customer email address in coupon redemptions for the given siteID and email address
@@ -2949,7 +2949,7 @@ declare namespace dw {
        * @return Collection of approaching shipping discounts ordered by the condition threshold of the promotion ascending.
        */
       getApproachingShippingDiscounts(
-        shipment: dw.order.Shipment
+        shipment: dw.order.Shipment,
       ): dw.util.Collection<dw.campaign.ApproachingDiscount>;
       /**
        * Get the collection of shipping discounts that the passed shipment
@@ -2973,7 +2973,7 @@ declare namespace dw {
        */
       getApproachingShippingDiscounts(
         shipment: dw.order.Shipment,
-        shippingMethod: dw.order.ShippingMethod
+        shippingMethod: dw.order.ShippingMethod,
       ): dw.util.Collection<dw.campaign.ApproachingDiscount>;
       /**
        * Get the collection of shipping discounts that the passed shipment
@@ -2997,7 +2997,7 @@ declare namespace dw {
        */
       getApproachingShippingDiscounts(
         shipment: dw.order.Shipment,
-        shippingMethods: dw.util.Collection<any>
+        shippingMethods: dw.util.Collection<any>,
       ): dw.util.Collection<dw.campaign.ApproachingDiscount>;
       /**
        * Returns all bonus discounts contained in the discount plan.
@@ -3029,7 +3029,7 @@ declare namespace dw {
        * @return Discounts associated with specified product line item
        */
       getProductDiscounts(
-        productLineItem: dw.order.ProductLineItem
+        productLineItem: dw.order.ProductLineItem,
       ): dw.util.Collection<dw.campaign.Discount>;
       /**
        * Returns the product-shipping discounts associated with the specified
@@ -3039,7 +3039,7 @@ declare namespace dw {
        * @return Product-shipping discounts associated with specified product line item
        */
       getProductShippingDiscounts(
-        productLineItem: dw.order.ProductLineItem
+        productLineItem: dw.order.ProductLineItem,
       ): dw.util.Collection<dw.campaign.Discount>;
       /**
        * Returns the percentage, amount and fix price discounts associated with
@@ -3049,7 +3049,7 @@ declare namespace dw {
        * @return Discounts associated with specified shipment
        */
       getShippingDiscounts(
-        shipment: dw.order.Shipment
+        shipment: dw.order.Shipment,
       ): dw.util.Collection<dw.campaign.Discount>;
       /**
        * Removes the specified discount from the discount plan.
@@ -3592,7 +3592,7 @@ declare namespace dw {
        */
       getPromotionalPrice(
         product: dw.catalog.Product,
-        optionModel: dw.catalog.ProductOptionModel
+        optionModel: dw.catalog.ProductOptionModel,
       ): dw.value.Money;
       /**
        * Returns the promotion class indicating the general type of the promotion.
@@ -3847,7 +3847,7 @@ declare namespace dw {
        * @return PromotionPlan with active customer promotions
        */
       static getActiveCustomerPromotions(
-        ignoreCouponCondition: boolean
+        ignoreCouponCondition: boolean,
       ): dw.campaign.PromotionPlan;
       /**
        * Returns all promotions assigned to the passed campaign, which are active
@@ -3868,7 +3868,7 @@ declare namespace dw {
       static getActiveCustomerPromotionsForCampaign(
         campaign: dw.campaign.Campaign,
         from: Date,
-        to: Date
+        to: Date,
       ): dw.campaign.PromotionPlan;
       /**
        * Returns all promotions scheduled for now, and applicable for the
@@ -3901,7 +3901,7 @@ declare namespace dw {
       static getActivePromotionsForCampaign(
         campaign: dw.campaign.Campaign,
         from: Date,
-        to: Date
+        to: Date,
       ): dw.campaign.PromotionPlan;
       /**
        * Returns the campaign identified by the specified ID.
@@ -3930,7 +3930,7 @@ declare namespace dw {
        * @return Discount plan with applicable discounts
        */
       static getDiscounts(
-        lineItemCtnr: dw.order.LineItemCtnr
+        lineItemCtnr: dw.order.LineItemCtnr,
       ): dw.campaign.DiscountPlan;
       /**
        * Returns the discounts applicable for the current customer, active
@@ -3950,7 +3950,7 @@ declare namespace dw {
        */
       static getDiscounts(
         lineItemCtnr: dw.order.LineItemCtnr,
-        promotionPlan: dw.campaign.PromotionPlan
+        promotionPlan: dw.campaign.PromotionPlan,
       ): dw.campaign.DiscountPlan;
       /**
        * Returns the promotion identified by the specified ID. The same logical
@@ -3981,7 +3981,7 @@ declare namespace dw {
        * @return PromotionPlan with active promotions
        */
       static getUpcomingCustomerPromotions(
-        previewTime: number
+        previewTime: number,
       ): dw.campaign.PromotionPlan;
       /**
        * Returns all promotions currently inactive, but scheduled
@@ -3995,7 +3995,7 @@ declare namespace dw {
        * @return PromotionPlan with active promotions
        */
       static getUpcomingPromotions(
-        previewTime: number
+        previewTime: number,
       ): dw.campaign.PromotionPlan;
     }
 
@@ -4081,7 +4081,7 @@ declare namespace dw {
        * @return The sorted collection of order promotions associated with the specified payment card.
        */
       getPaymentCardPromotions(
-        paymentCard: dw.order.PaymentCard
+        paymentCard: dw.order.PaymentCard,
       ): dw.util.Collection<dw.campaign.Promotion>;
       /**
        * Returns the order promotions explicitly associated to the specified
@@ -4093,7 +4093,7 @@ declare namespace dw {
        * @return The sorted collection of order promotions associated with the specified payment method.
        */
       getPaymentMethodPromotions(
-        paymentMethod: dw.order.PaymentMethod
+        paymentMethod: dw.order.PaymentMethod,
       ): dw.util.Collection<dw.campaign.Promotion>;
       /**
        * Returns all product promotions contained in this plan.
@@ -4116,7 +4116,7 @@ declare namespace dw {
        * @return The sorted collection of promotions related to specified discounted product.
        */
       getProductPromotions(
-        product: dw.catalog.Product
+        product: dw.catalog.Product,
       ): dw.util.Collection<dw.campaign.Promotion>;
       /**
        * Returns the product promotions for which the specified product is a
@@ -4134,7 +4134,7 @@ declare namespace dw {
        * @return Product promotions related to the specified discounted product.
        */
       getProductPromotionsForDiscountedProduct(
-        product: dw.catalog.Product
+        product: dw.catalog.Product,
       ): dw.util.Collection<dw.campaign.Promotion>;
       /**
        * Returns the product promotions for which the specified product is a
@@ -4151,7 +4151,7 @@ declare namespace dw {
        * @return Product promotions related to the specified qualifying product.
        */
       getProductPromotionsForQualifyingProduct(
-        product: dw.catalog.Product
+        product: dw.catalog.Product,
       ): dw.util.Collection<dw.campaign.Promotion>;
       /**
        * Returns all promotions contained in this plan sorted by exclusivity.
@@ -4167,7 +4167,7 @@ declare namespace dw {
        * @return The sorted collection of promotions contained in the promotion plan.
        */
       getPromotions(
-        sortOrder: number
+        sortOrder: number,
       ): dw.util.Collection<dw.campaign.Promotion>;
       /**
        * Returns the promotions related to the specified product.
@@ -4181,7 +4181,7 @@ declare namespace dw {
        * @return The sorted collection of promotions related to the specified discounted product.
        */
       getPromotions(
-        product: dw.catalog.Product
+        product: dw.catalog.Product,
       ): dw.util.Collection<dw.campaign.Promotion>;
       /**
        * Returns all shipping promotions contained in this plan.
@@ -4200,7 +4200,7 @@ declare namespace dw {
        * @return The sorted collection of shipping promotions with specified method as discounted method.
        */
       getShippingPromotions(
-        shippingMethod: dw.order.ShippingMethod
+        shippingMethod: dw.order.ShippingMethod,
       ): dw.util.Collection<dw.campaign.Promotion>;
       /**
        * Remove promotion from promotion plan.
@@ -4866,7 +4866,7 @@ declare namespace dw {
        * @return the sorted collection of recommendations, never null but possibly empty.
        */
       getAllRecommendations(
-        type: number
+        type: number,
       ): dw.util.Collection<dw.catalog.Recommendation>;
       /**
        * Returns a collection of category assignments of the category.
@@ -4938,7 +4938,7 @@ declare namespace dw {
        * @return a collection of CategoryLink objects, possibly empty but not null.
        */
       getIncomingCategoryLinks(
-        type: number
+        type: number,
       ): dw.util.Collection<dw.catalog.CategoryLink>;
       /**
        * Returns a collection of category assignments of the category where the
@@ -5044,7 +5044,7 @@ declare namespace dw {
        * @return the sorted collection of recommendations, never null but possibly empty.
        */
       getOrderableRecommendations(
-        type: number
+        type: number,
       ): dw.util.Collection<dw.catalog.Recommendation>;
       /**
        * Returns the collection of CategoryLink objects for which this category
@@ -5067,7 +5067,7 @@ declare namespace dw {
        * @return a collection of CategoryLink objects, possibly empty but not null.
        */
       getOutgoingCategoryLinks(
-        type: number
+        type: number,
       ): dw.util.Collection<dw.catalog.CategoryLink>;
       /**
        * Returns the page description of this category for the default locale or null if not defined.
@@ -5134,7 +5134,7 @@ declare namespace dw {
        * @return the sorted collection of recommendations, never null but possibly empty.
        */
       getRecommendations(
-        type: number
+        type: number,
       ): dw.util.Collection<dw.catalog.Recommendation>;
       /**
        * Returns the search placement of the category or null of no search placement is defined.
@@ -5546,7 +5546,7 @@ declare namespace dw {
        */
       static assignPriceBookToSite(
         priceBook: dw.catalog.PriceBook,
-        siteId: string
+        siteId: string,
       ): boolean;
       /**
        * Returns all price books defined for the organization.
@@ -5591,7 +5591,7 @@ declare namespace dw {
        * @return true if price book is unassigned from all sites. Throws an exception if price book doesn't exist
        */
       static unassignPriceBookFromAllSites(
-        priceBook: dw.catalog.PriceBook
+        priceBook: dw.catalog.PriceBook,
       ): boolean;
       /**
        * Unassign a price book from a site. This requires a transaction, see
@@ -5602,7 +5602,7 @@ declare namespace dw {
        */
       static unassignPriceBookFromSite(
         priceBook: dw.catalog.PriceBook,
-        siteId: string
+        siteId: string,
       ): boolean;
     }
 
@@ -6092,7 +6092,7 @@ declare namespace dw {
        * @return a collection of all incoming ProductLinks of a specific type.
        */
       getAllIncomingProductLinks(
-        type: number
+        type: number,
       ): dw.util.Collection<dw.catalog.ProductLink>;
       /**
        * Returns all outgoing ProductLinks.
@@ -6106,7 +6106,7 @@ declare namespace dw {
        * @return a collection of all outgoing ProductLinks of a specific type.
        */
       getAllProductLinks(
-        type: number
+        type: number,
       ): dw.util.Collection<dw.catalog.ProductLink>;
       /**
        * Returns the outgoing recommendations for this product which belong to the
@@ -6116,7 +6116,7 @@ declare namespace dw {
        * @return the sorted collection of recommendations, never null but possibly empty.
        */
       getAllRecommendations(
-        catalog: dw.catalog.Catalog
+        catalog: dw.catalog.Catalog,
       ): dw.util.Collection<dw.catalog.Recommendation>;
       /**
        * Returns the outgoing recommendations for this product which are of the
@@ -6128,7 +6128,7 @@ declare namespace dw {
        */
       getAllRecommendations(
         catalog: dw.catalog.Catalog,
-        type: number
+        type: number,
       ): dw.util.Collection<dw.catalog.Recommendation>;
       /**
        * Returns this product's ProductAttributeModel, which makes access to the
@@ -6158,7 +6158,7 @@ declare namespace dw {
        * @return the availability model of the given inventory list for a product.
        */
       getAvailabilityModel(
-        list: dw.catalog.ProductInventoryList
+        list: dw.catalog.ProductInventoryList,
       ): dw.catalog.ProductAvailabilityModel;
       /**
        * Identifies if the product is available.
@@ -6179,7 +6179,7 @@ declare namespace dw {
        * @return The quantity of the product within the bundle or 0 if the product is not part of the bundle.
        */
       getBundledProductQuantity(
-        aProduct: dw.catalog.Product
+        aProduct: dw.catalog.Product,
       ): dw.value.Quantity;
       /**
        * Returns a collection containing all products that participate in the
@@ -6208,7 +6208,7 @@ declare namespace dw {
        * @return The category assignment for a specific category.
        */
       getCategoryAssignment(
-        category: dw.catalog.Category
+        category: dw.catalog.Category,
       ): dw.catalog.CategoryAssignment;
       /**
        * Returns a collection of category assignments for this product in
@@ -6292,7 +6292,7 @@ declare namespace dw {
        * @return a collection of incoming ProductLinks, where the source product is a site product of a specific type.
        */
       getIncomingProductLinks(
-        type: number
+        type: number,
       ): dw.util.Collection<dw.catalog.ProductLink>;
       /**
        * Returns the product's long description in the current locale.
@@ -6378,7 +6378,7 @@ declare namespace dw {
        * @return the sorted collection of recommendations, never null but possibly empty.
        */
       getOrderableRecommendations(
-        type: number
+        type: number,
       ): dw.util.Collection<dw.catalog.Recommendation>;
       /**
        * Returns product's page description in the default locale.
@@ -6443,7 +6443,7 @@ declare namespace dw {
        * @return the price model based on the specified optionModel.
        */
       getPriceModel(
-        optionModel: dw.catalog.ProductOptionModel
+        optionModel: dw.catalog.ProductOptionModel,
       ): dw.catalog.ProductPriceModel;
       /**
        * Returns the primary category of the product within the current site catalog.
@@ -6510,7 +6510,7 @@ declare namespace dw {
        * @return the sorted collection of recommendations, never null but possibly empty.
        */
       getRecommendations(
-        type: number
+        type: number,
       ): dw.util.Collection<dw.catalog.Recommendation>;
       /**
        * Returns, whether the product is currently searchable.
@@ -7664,7 +7664,7 @@ declare namespace dw {
        * @return a sorted collection of ObjectAttributeDefinition instances.
        */
       getAttributeDefinitions(
-        group: dw.object.ObjectAttributeGroup
+        group: dw.object.ObjectAttributeGroup,
       ): dw.util.Collection<dw.object.ObjectAttributeDefinition>;
       /**
        * Returns the attribute group with the given id from the product attribute
@@ -7769,7 +7769,7 @@ declare namespace dw {
        * @return a sorted collection of visible ObjectAttributeDefinition instances.
        */
       getVisibleAttributeDefinitions(
-        group: dw.object.ObjectAttributeGroup
+        group: dw.object.ObjectAttributeGroup,
       ): dw.util.Collection<dw.object.ObjectAttributeDefinition>;
       /**
        * Returns a sorted collection of visible attribute groups of this model.
@@ -8092,7 +8092,7 @@ declare namespace dw {
        * @return an instance of ProductAvailabilityLevels, which encapsulates the number of items for each relevant availability-status.
        */
       getAvailabilityLevels(
-        quantity: number
+        quantity: number,
       ): dw.catalog.ProductAvailabilityLevels;
       /**
        * Returns the availability-status for the minimum-orderable-quantity (MOQ) of
@@ -8801,7 +8801,7 @@ declare namespace dw {
        * @return Iterator of all products assigned to specified catalog.
        */
       static queryProductsInCatalog(
-        catalog: dw.catalog.Catalog
+        catalog: dw.catalog.Catalog,
       ): dw.util.SeekableIterator<dw.catalog.Product>;
       /**
        * Returns all products assigned to the the specified catalog.
@@ -8814,7 +8814,7 @@ declare namespace dw {
        * @return Iterator of all products assigned to specified catalog sorted by product ID.
        */
       static queryProductsInCatalogSorted(
-        catalog: dw.catalog.Catalog
+        catalog: dw.catalog.Catalog,
       ): dw.util.SeekableIterator<dw.catalog.Product>;
     }
 
@@ -8939,7 +8939,7 @@ declare namespace dw {
        */
       getOptionValue(
         option: dw.catalog.ProductOption,
-        valueID: string
+        valueID: string,
       ): dw.catalog.ProductOptionValue;
       /**
        * Returns a collection of product option values for the
@@ -8948,7 +8948,7 @@ declare namespace dw {
        * @return a collection of product option values for the specified product option.
        */
       getOptionValues(
-        option: dw.catalog.ProductOption
+        option: dw.catalog.ProductOption,
       ): dw.util.Collection<dw.catalog.ProductOptionValue>;
       /**
        * Returns the effective price of the specified option value.
@@ -8964,7 +8964,7 @@ declare namespace dw {
        * @return a selected value for the specified product option.
        */
       getSelectedOptionValue(
-        option: dw.catalog.ProductOption
+        option: dw.catalog.ProductOption,
       ): dw.catalog.ProductOptionValue;
       /**
        * Returns true if the specified option value is the one currently selected,
@@ -8975,7 +8975,7 @@ declare namespace dw {
        */
       isSelectedOptionValue(
         option: dw.catalog.ProductOption,
-        value: dw.catalog.ProductOptionValue
+        value: dw.catalog.ProductOptionValue,
       ): boolean;
       /**
        * Updates the selection of the specified option based on the specified value.
@@ -8984,7 +8984,7 @@ declare namespace dw {
        */
       setSelectedOptionValue(
         option: dw.catalog.ProductOption,
-        value: dw.catalog.ProductOptionValue
+        value: dw.catalog.ProductOptionValue,
       ): void;
       /**
        * Returns a URL that can be used to select one or more option values. The
@@ -9015,7 +9015,7 @@ declare namespace dw {
       urlSelectOptionValue(
         action: string,
         option: dw.catalog.ProductOption,
-        value: dw.catalog.ProductOptionValue
+        value: dw.catalog.ProductOptionValue,
       ): string;
     }
 
@@ -9618,7 +9618,7 @@ declare namespace dw {
        */
       getPriceBookPrice(
         priceBookID: string,
-        quantity: dw.value.Quantity
+        quantity: dw.value.Quantity,
       ): dw.value.Money;
       /**
        * This method acts similarly to getPriceBookPrice(String) but
@@ -9639,7 +9639,7 @@ declare namespace dw {
        */
       getPriceBookPriceInfo(
         priceBookID: string,
-        quantity: dw.value.Quantity
+        quantity: dw.value.Quantity,
       ): dw.catalog.ProductPriceInfo;
       /**
        * Returns the active price per unit of the product in the specified price book for
@@ -9683,7 +9683,7 @@ declare namespace dw {
        */
       getPriceBookPricePerUnit(
         priceBookID: string,
-        quantity: dw.value.Quantity
+        quantity: dw.value.Quantity,
       ): dw.value.Money;
       /**
        * Returns the active price info of a product, calculated based on base price
@@ -9742,7 +9742,7 @@ declare namespace dw {
        */
       getPricePercentage(
         basePrice: dw.value.Money,
-        comparePrice: dw.value.Money
+        comparePrice: dw.value.Money,
       ): number;
       /**
        * Returns the sales price per unit of a product, calculated based on base price
@@ -10305,7 +10305,7 @@ declare namespace dw {
        * @return a list containing all distinct ProductVariationAttributeValues.
        */
       getRepresentedVariationValues(
-        va: any
+        va: any,
       ): dw.util.List<dw.catalog.ProductVariationAttributeValue>;
       /**
        * Convenience method to check whether this ProductSearchHit represents
@@ -10711,7 +10711,7 @@ declare namespace dw {
        * @return the underlying ProductSearchHit for a product, or null if no ProductSearchHit found for this product.
        */
       getProductSearchHit(
-        product: dw.catalog.Product
+        product: dw.catalog.Product,
       ): dw.catalog.ProductSearchHit;
       /**
        * Returns the product search hits in the search result.
@@ -11023,7 +11023,7 @@ declare namespace dw {
        * @param storeInventoryFilter The StoreInventoryFilter instance to filter the search result by one or more inventory IDs with semantic key and semantic value support.
        */
       setStoreInventoryFilter(
-        storeInventoryFilter: dw.catalog.StoreInventoryFilter
+        storeInventoryFilter: dw.catalog.StoreInventoryFilter,
       ): void;
       /**
        * Constructs a URL that you can use to execute a query for a specific
@@ -11060,7 +11060,7 @@ declare namespace dw {
       static urlForProduct(
         action: string,
         cgid: string,
-        pid: string
+        pid: string,
       ): dw.web.URL;
       /**
        * Constructs a URL that you can use to execute a query for a specific
@@ -11074,7 +11074,7 @@ declare namespace dw {
       static urlForProduct(
         url: dw.web.URL,
         cgid: string,
-        pid: string
+        pid: string,
       ): dw.web.URL;
       /**
        * Constructs a URL that you can use to execute a query for a specific
@@ -11090,7 +11090,7 @@ declare namespace dw {
       static urlForRefine(
         action: string,
         attributeID: string,
-        value: string
+        value: string,
       ): dw.web.URL;
       /**
        * Constructs a URL that you can use to execute a query for a specific
@@ -11105,7 +11105,7 @@ declare namespace dw {
       static urlForRefine(
         url: dw.web.URL,
         attributeID: string,
-        value: string
+        value: string,
       ): dw.web.URL;
       /**
        * Constructs a URL that you can use to re-execute the query with a
@@ -11160,7 +11160,7 @@ declare namespace dw {
        */
       urlRefinePromotion(
         url: dw.web.URL,
-        refinePromotionID: string
+        refinePromotionID: string,
       ): dw.web.URL;
       /**
        * Constructs a URL that you can use to re-execute the query with a promotion refinement. The generated URL will be
@@ -11233,7 +11233,7 @@ declare namespace dw {
        */
       urlSortingOption(
         action: string,
-        option: dw.catalog.SortingOption
+        option: dw.catalog.SortingOption,
       ): dw.web.URL;
       /**
        * Constructs a URL that you can use to re-execute the query but sort
@@ -11246,7 +11246,7 @@ declare namespace dw {
        */
       urlSortingOption(
         url: dw.web.URL,
-        option: dw.catalog.SortingOption
+        option: dw.catalog.SortingOption,
       ): dw.web.URL;
       /**
        * Constructs a URL that you can use to re-execute the query but sort the
@@ -11274,8 +11274,9 @@ declare namespace dw {
     /**
      * This class provides an interface to refinement options for the product search.
      */
-    class ProductSearchRefinementDefinition extends dw.catalog
-      .SearchRefinementDefinition {
+    class ProductSearchRefinementDefinition
+      extends dw.catalog.SearchRefinementDefinition
+    {
       /**
        * Identifies if this is a category refinement.
        */
@@ -11326,8 +11327,9 @@ declare namespace dw {
     /**
      * Represents the value of a product search refinement.
      */
-    class ProductSearchRefinementValue extends dw.catalog
-      .SearchRefinementValue {
+    class ProductSearchRefinementValue
+      extends dw.catalog.SearchRefinementValue
+    {
       /**
        * The lower bound for price refinements.  For example, 50.00
        *  for a range of $50.00 - $99.99.
@@ -11482,7 +11484,7 @@ declare namespace dw {
        * @return The collection of ProductSearchRefinementValue instances, sorted according to the settings of the refinement definition.
        */
       getAllRefinementValues(
-        definition: dw.catalog.ProductSearchRefinementDefinition
+        definition: dw.catalog.ProductSearchRefinementDefinition,
       ): dw.util.Collection<dw.catalog.ProductSearchRefinementValue>;
       /**
        * Returns the appropriate category refinement definition based on the search
@@ -11504,7 +11506,7 @@ declare namespace dw {
        * @return The refinement values for all child categories of the given category.
        */
       getNextLevelCategoryRefinementValues(
-        category: dw.catalog.Category
+        category: dw.catalog.Category,
       ): dw.util.Collection<dw.catalog.ProductSearchRefinementValue>;
       /**
        * Returns the appropriate price refinement definition based on the search
@@ -11545,7 +11547,7 @@ declare namespace dw {
        */
       getRefinementValue(
         definition: dw.catalog.ProductSearchRefinementDefinition,
-        value: string
+        value: string,
       ): dw.catalog.ProductSearchRefinementValue;
       /**
        * Returns the refinement value (incl. product hit count) for the given
@@ -11556,7 +11558,7 @@ declare namespace dw {
        */
       getRefinementValue(
         name: string,
-        value: string
+        value: string,
       ): dw.catalog.ProductSearchRefinementValue;
       /**
        * Returns a collection of refinement values for the given refinement
@@ -11566,7 +11568,7 @@ declare namespace dw {
        * @return The collection of refinement values sorted according to the settings of the definition.
        */
       getRefinementValues(
-        definition: dw.catalog.ProductSearchRefinementDefinition
+        definition: dw.catalog.ProductSearchRefinementDefinition,
       ): dw.util.Collection<dw.catalog.ProductSearchRefinementValue>;
     }
 
@@ -11859,7 +11861,7 @@ declare namespace dw {
        * @return the sorted collection of ObjectAttributeValueDefinition instances representing the value definitions defined for the specified attribute. The collection is sorted by the explicit sort order defined for the values.
        */
       getAllValues(
-        attribute: dw.object.ObjectAttributeDefinition
+        attribute: dw.object.ObjectAttributeDefinition,
       ): dw.util.Collection<dw.catalog.ProductVariationAttributeValue>;
       /**
        * Returns the values for the specified attribute. Only values that actually
@@ -11872,7 +11874,7 @@ declare namespace dw {
        * @return the sorted collection of ProductVariationAttributeValue instances representing the values defined for the specified attribute. The collection is sorted by the explicit sort order defined for the values.
        */
       getAllValues(
-        attribute: dw.catalog.ProductVariationAttribute
+        attribute: dw.catalog.ProductVariationAttribute,
       ): dw.util.Collection<dw.catalog.ProductVariationAttributeValue>;
       /**
        * Returns the object attribute definitions corresponding with the product
@@ -11916,7 +11918,7 @@ declare namespace dw {
        * @return a sorted collection of ObjectAttributeDefinitionValue instances calculated based on the currently selected variation values.
        */
       getFilteredValues(
-        attribute: dw.object.ObjectAttributeDefinition
+        attribute: dw.object.ObjectAttributeDefinition,
       ): dw.util.Collection<dw.catalog.ProductVariationAttributeValue>;
       /**
        * Returns a collection of the value definitions defined for the specified
@@ -11946,7 +11948,7 @@ declare namespace dw {
        * @return a sorted and filtered collection of product variation attribute values. The collection is sorted by the explicit sort order defined for the values.
        */
       getFilteredValues(
-        attribute: dw.catalog.ProductVariationAttribute
+        attribute: dw.catalog.ProductVariationAttribute,
       ): dw.util.Collection<dw.catalog.ProductVariationAttributeValue>;
       /**
        * Returns an HTML representation of the variation attribute id. This method
@@ -11966,7 +11968,7 @@ declare namespace dw {
        */
       getHtmlName(
         prefix: string,
-        attribute: dw.object.ObjectAttributeDefinition
+        attribute: dw.object.ObjectAttributeDefinition,
       ): string;
       /**
        * Returns an HTML representation of the product variation attribute id.
@@ -11982,7 +11984,7 @@ declare namespace dw {
        */
       getHtmlName(
         prefix: string,
-        attribute: dw.catalog.ProductVariationAttribute
+        attribute: dw.catalog.ProductVariationAttribute,
       ): string;
       /**
        * The method returns the first image appropriate for the currently selected attribute values.
@@ -12000,7 +12002,7 @@ declare namespace dw {
       getImage(
         viewtype: string,
         attribute: dw.catalog.ProductVariationAttribute,
-        value: dw.catalog.ProductVariationAttributeValue
+        value: dw.catalog.ProductVariationAttributeValue,
       ): dw.content.MediaFile;
       /**
        * The method returns an image appropriate for the current selected variation values
@@ -12062,7 +12064,7 @@ declare namespace dw {
        * @return the product variation attribute, or null.
        */
       getProductVariationAttribute(
-        id: string
+        id: string,
       ): dw.catalog.ProductVariationAttribute;
       /**
        * Returns a collection of product variation attributes of the variation.
@@ -12077,7 +12079,7 @@ declare namespace dw {
        * @return the selected value for the specified attribute or null.
        */
       getSelectedValue(
-        attribute: dw.object.ObjectAttributeDefinition
+        attribute: dw.object.ObjectAttributeDefinition,
       ): dw.object.ObjectAttributeValueDefinition;
       /**
        * Returns the selected value for the specified product variation attribute. If no value is
@@ -12086,7 +12088,7 @@ declare namespace dw {
        * @return the selected product variation attribute value for the specified attribute or null.
        */
       getSelectedValue(
-        attribute: dw.catalog.ProductVariationAttribute
+        attribute: dw.catalog.ProductVariationAttribute,
       ): dw.catalog.ProductVariationAttributeValue;
       /**
        * Returns the variant currently selected for this variation model.
@@ -12122,7 +12124,7 @@ declare namespace dw {
        * @return the collection of variants that match the specified filter conditions.
        */
       getVariants(
-        filter: dw.util.HashMap<any, any>
+        filter: dw.util.HashMap<any, any>,
       ): dw.util.Collection<dw.catalog.Variant>;
       /**
        * Returns the collection of variation groups of this variation model.
@@ -12148,7 +12150,7 @@ declare namespace dw {
        */
       getVariationValue(
         variantOrVariationGroup: dw.catalog.Product,
-        attribute: dw.catalog.ProductVariationAttribute
+        attribute: dw.catalog.ProductVariationAttribute,
       ): dw.catalog.ProductVariationAttributeValue;
       /**
        * Returns true if any variant is available with the specified value of the
@@ -12171,7 +12173,7 @@ declare namespace dw {
        */
       hasOrderableVariants(
         attribute: dw.catalog.ProductVariationAttribute,
-        value: dw.catalog.ProductVariationAttributeValue
+        value: dw.catalog.ProductVariationAttributeValue,
       ): boolean;
       /**
        * Identifies if the specified variation value is the one currently
@@ -12182,7 +12184,7 @@ declare namespace dw {
        */
       isSelectedAttributeValue(
         attribute: dw.object.ObjectAttributeDefinition,
-        value: dw.object.ObjectAttributeValueDefinition
+        value: dw.object.ObjectAttributeValueDefinition,
       ): boolean;
       /**
        * Identifies if the specified product variation attribute value is the one
@@ -12193,7 +12195,7 @@ declare namespace dw {
        */
       isSelectedAttributeValue(
         attribute: dw.catalog.ProductVariationAttribute,
-        value: dw.catalog.ProductVariationAttributeValue
+        value: dw.catalog.ProductVariationAttributeValue,
       ): boolean;
       /**
        * Applies a selected attribute value to this model instance.
@@ -12220,7 +12222,7 @@ declare namespace dw {
        */
       setSelectedAttributeValue(
         variationAttributeID: string,
-        variationAttributeValueID: string
+        variationAttributeValueID: string,
       ): void;
       /**
        * Constructs a URL to select a set of variation attribute values. The
@@ -12262,7 +12264,7 @@ declare namespace dw {
       urlSelectVariationValue(
         action: string,
         attribute: dw.object.ObjectAttributeDefinition,
-        value: dw.object.ObjectAttributeValueDefinition
+        value: dw.object.ObjectAttributeValueDefinition,
       ): string;
       /**
        * Generates a URL for selecting a value for a given variation attribute.
@@ -12284,7 +12286,7 @@ declare namespace dw {
       urlSelectVariationValue(
         action: string,
         attribute: dw.catalog.ProductVariationAttribute,
-        value: dw.catalog.ProductVariationAttributeValue
+        value: dw.catalog.ProductVariationAttributeValue,
       ): string;
       /**
        * Constructs an URL to unselect the value of the specified variation
@@ -12298,7 +12300,7 @@ declare namespace dw {
        */
       urlUnselectVariationValue(
         action: string,
-        attribute: dw.object.ObjectAttributeDefinition
+        attribute: dw.object.ObjectAttributeDefinition,
       ): string;
       /**
        * Generates a URL for unselecting a value for a given variation attribute.
@@ -12317,7 +12319,7 @@ declare namespace dw {
        */
       urlUnselectVariationValue(
         action: string,
-        attribute: dw.catalog.ProductVariationAttribute
+        attribute: dw.catalog.ProductVariationAttribute,
       ): string;
     }
 
@@ -12562,7 +12564,7 @@ declare namespace dw {
        * @return A list of values currently selected for the refinement attribute.
        */
       getRefinementValues(
-        attributeID: string
+        attributeID: string,
       ): dw.util.Collection<dw.catalog.SearchRefinementValue>;
       /**
        * Returns the search phrase used in this search.
@@ -12636,7 +12638,7 @@ declare namespace dw {
       isRefinementByValueRange(
         attributeID: string,
         minValue: string,
-        maxValue: string
+        maxValue: string,
       ): boolean;
       /**
        * Removes a refinement. The method can be called to remove previously added
@@ -12664,7 +12666,7 @@ declare namespace dw {
       setRefinementValueRange(
         attributeID: string,
         minValue: string,
-        maxValue: string
+        maxValue: string,
       ): void;
       /**
        * Sets refinement values for an attribute. The method can be called to set
@@ -12738,7 +12740,7 @@ declare namespace dw {
       urlRefineAttribute(
         action: string,
         attributeID: string,
-        value: string
+        value: string,
       ): dw.web.URL;
       /**
        * Constructs an URL that you can use to re-execute the query with an
@@ -12753,7 +12755,7 @@ declare namespace dw {
       urlRefineAttribute(
         url: dw.web.URL,
         attributeID: string,
-        value: string
+        value: string,
       ): dw.web.URL;
       /**
        * Constructs an URL that you can use to re-execute the query with an
@@ -12768,7 +12770,7 @@ declare namespace dw {
       urlRefineAttributeValue(
         action: string,
         attributeID: string,
-        value: string
+        value: string,
       ): dw.web.URL;
       /**
        * Constructs an URL that you can use to re-execute the query with an
@@ -12786,7 +12788,7 @@ declare namespace dw {
       urlRefineAttributeValue(
         url: dw.web.URL,
         attributeID: string,
-        value: string
+        value: string,
       ): dw.web.URL;
       /**
        * Constructs an URL that you can use to re-execute the query with an additional refinement value range for a given refinement attribute. The
@@ -12803,7 +12805,7 @@ declare namespace dw {
         action: string,
         attributeID: string,
         minValue: string,
-        maxValue: string
+        maxValue: string,
       ): dw.web.URL;
       /**
        * Constructs an URL that you can use to re-execute the query without the
@@ -12836,7 +12838,7 @@ declare namespace dw {
       urlRelaxAttributeValue(
         action: string,
         attributeID: string,
-        value: string
+        value: string,
       ): dw.web.URL;
       /**
        * Constructs an URL that you can use to re-execute the query without the
@@ -12851,7 +12853,7 @@ declare namespace dw {
       urlRelaxAttributeValue(
         url: dw.web.URL,
         attributeID: string,
-        value: string
+        value: string,
       ): dw.web.URL;
       /**
        * Constructs an URL that you can use to re-execute the query with a
@@ -13503,7 +13505,7 @@ declare namespace dw {
        */
       constructor(
         semanticURLParameter: string,
-        storeFilterValues: dw.util.List<any>
+        storeFilterValues: dw.util.List<any>,
       );
 
       /**
@@ -13657,7 +13659,7 @@ declare namespace dw {
         latitude: number,
         longitude: number,
         distanceUnit: string,
-        maxDistance: number
+        maxDistance: number,
       ): dw.util.LinkedHashMap<Store, number>;
       /**
        * Search for stores by country/postal code and optionally by additional
@@ -13697,7 +13699,7 @@ declare namespace dw {
         countryCode: string,
         postalCode: string,
         distanceUnit: string,
-        maxDistance: number
+        maxDistance: number,
       ): dw.util.LinkedHashMap<Store, number>;
       /**
        * Set the store id for the current session. The store id is also saved on the cookie with the cookie name
@@ -13990,7 +13992,7 @@ declare namespace dw {
        * @return Product links of specified type of the variant, variation group or master
        */
       getAllProductLinks(
-        type: number
+        type: number,
       ): dw.util.Collection<dw.catalog.ProductLink>;
       /**
        * Returns the brand of the product variant.
@@ -14517,7 +14519,7 @@ declare namespace dw {
        * @return Product links of specified type of the variation group or master
        */
       getAllProductLinks(
-        type: number
+        type: number,
       ): dw.util.Collection<dw.catalog.ProductLink>;
       /**
        * Returns the brand of the product variation group.
@@ -15027,7 +15029,7 @@ declare namespace dw {
        */
       static getContent(
         library: dw.content.Library,
-        id: string
+        id: string,
       ): dw.content.Content;
       /**
        * Returns the folder identified by the specified id within the current
@@ -15044,7 +15046,7 @@ declare namespace dw {
        */
       static getFolder(
         library: dw.content.Library,
-        id: string
+        id: string,
       ): dw.content.Folder;
       /**
        * Returns the content library specified by the given id. If PRIVATE_LIBRARY is used, then the current
@@ -15309,7 +15311,7 @@ declare namespace dw {
       static urlForRefine(
         action: string,
         name: string,
-        value: string
+        value: string,
       ): dw.web.URL;
       /**
        * Returns an URL that you can use to execute a query for a specific
@@ -15322,7 +15324,7 @@ declare namespace dw {
       static urlForRefine(
         url: dw.web.URL,
         name: string,
-        value: string
+        value: string,
       ): dw.web.URL;
       /**
        * Returns an URL that you can use to re-execute the query using the
@@ -15359,8 +15361,9 @@ declare namespace dw {
     /**
      * This class provides an interface to refinement options for content search.
      */
-    class ContentSearchRefinementDefinition extends dw.catalog
-      .SearchRefinementDefinition {
+    class ContentSearchRefinementDefinition
+      extends dw.catalog.SearchRefinementDefinition
+    {
       /**
        * The custom attributes for this object. The returned object is
        *  used for retrieving and storing attribute values. See
@@ -15391,8 +15394,9 @@ declare namespace dw {
     /**
      * Represents the value of a content search refinement.
      */
-    class ContentSearchRefinementValue extends dw.catalog
-      .SearchRefinementValue {
+    class ContentSearchRefinementValue
+      extends dw.catalog.SearchRefinementValue
+    {
       private constructor();
     }
 
@@ -15490,7 +15494,7 @@ declare namespace dw {
        * @return The collection of ContentSearchRefinementValue instances sorted according to the settings of the definition.
        */
       getAllRefinementValues(
-        definition: dw.content.ContentSearchRefinementDefinition
+        definition: dw.content.ContentSearchRefinementDefinition,
       ): dw.util.Collection<dw.content.ContentSearchRefinementValue>;
       /**
        * Returns the number of search hits for the passed folder object.
@@ -15524,7 +15528,7 @@ declare namespace dw {
        * @return The refinement values for all child folders of the given folder.
        */
       getNextLevelFolderRefinementValues(
-        folder: dw.content.Folder
+        folder: dw.content.Folder,
       ): dw.util.Collection<dw.content.ContentSearchRefinementValue>;
       /**
        * Returns a sorted list of refinement definitions that are appropriate for
@@ -15547,7 +15551,7 @@ declare namespace dw {
        */
       getRefinementValue(
         definition: dw.content.ContentSearchRefinementDefinition,
-        value: string
+        value: string,
       ): dw.content.ContentSearchRefinementValue;
       /**
        * Returns the refinement value (incl. content hit count) for the given
@@ -15558,7 +15562,7 @@ declare namespace dw {
        */
       getRefinementValue(
         name: string,
-        value: string
+        value: string,
       ): dw.content.ContentSearchRefinementValue;
       /**
        * Returns a collection of refinement values for the given refinement
@@ -15568,7 +15572,7 @@ declare namespace dw {
        * @return The collection of refinement values sorted according to the settings of the definition.
        */
       getRefinementValues(
-        definition: dw.content.ContentSearchRefinementDefinition
+        definition: dw.content.ContentSearchRefinementDefinition,
       ): dw.util.Collection<dw.content.ContentSearchRefinementValue>;
     }
 
@@ -16320,7 +16324,7 @@ declare namespace dw {
        * @return The X509Certificate
        */
       static getCertificate(
-        certificateRef: dw.crypto.CertificateRef
+        certificateRef: dw.crypto.CertificateRef,
       ): dw.crypto.X509Certificate;
       /**
        * Gets the public certificate from the given private key reference.
@@ -16328,7 +16332,7 @@ declare namespace dw {
        * @return The X509Certificate
        */
       static getCertificate(
-        keyRef: dw.crypto.KeyRef
+        keyRef: dw.crypto.KeyRef,
       ): dw.crypto.X509Certificate;
       /**
        * Encode the certificate to the base64-encoded DER format.
@@ -16336,7 +16340,7 @@ declare namespace dw {
        * @return base64-encoded DER certificate
        */
       static getEncodedCertificate(
-        certificateRef: dw.crypto.CertificateRef
+        certificateRef: dw.crypto.CertificateRef,
       ): string;
       /**
        * Gets the public key from the given certificate reference.
@@ -16346,7 +16350,7 @@ declare namespace dw {
        * @return The encoded public key
        */
       static getEncodedPublicKey(
-        certificateRef: dw.crypto.CertificateRef
+        certificateRef: dw.crypto.CertificateRef,
       ): string;
       /**
        * Parse the certificate from the base64-encoded DER format.
@@ -16354,7 +16358,7 @@ declare namespace dw {
        * @return Reference to the parsed certificate
        */
       static parseEncodedCertificate(
-        certificate: string
+        certificate: string,
       ): dw.crypto.CertificateRef;
       /**
        * Parse the public key from the given key in X.509 SubjectPublicKeyInfo format.
@@ -16367,7 +16371,7 @@ declare namespace dw {
        */
       static parseEncodedPublicKey(
         algorithm: string,
-        encodedKey: string
+        encodedKey: string,
       ): dw.crypto.CertificateRef;
       /**
        * Parse the public key from the given base64-encoded JWK string.
@@ -16434,7 +16438,7 @@ declare namespace dw {
         key: string,
         transformation: string,
         saltOrIV: string,
-        iterations: number
+        iterations: number,
       ): string;
       /**
        * Alternative method to decrypt(String, String, String, String, Number), which allows
@@ -16455,7 +16459,7 @@ declare namespace dw {
         privateKey: dw.crypto.KeyRef,
         transformation: string,
         saltOrIV: string,
-        iterations: number
+        iterations: number,
       ): string;
       /**
        * Decrypts the passed Base-64 encoded message using the passed key and
@@ -16475,7 +16479,7 @@ declare namespace dw {
         key: string,
         transformation: string,
         saltOrIV: string,
-        iterations: number
+        iterations: number,
       ): string;
       /**
        * Alternative method to decrypt_3(String, String, String, String, Number), which allows
@@ -16496,7 +16500,7 @@ declare namespace dw {
         privateKey: dw.crypto.KeyRef,
         transformation: string,
         saltOrIV: string,
-        iterations: number
+        iterations: number,
       ): string;
       /**
        * Lower-level decryption API. Decrypts the passed bytes using the specified
@@ -16523,7 +16527,7 @@ declare namespace dw {
         key: string,
         transformation: string,
         saltOrIV: string,
-        iterations: number
+        iterations: number,
       ): dw.util.Bytes;
       /**
        * Alternative method to decryptBytes(Bytes, String, String, String, Number), which allows
@@ -16540,7 +16544,7 @@ declare namespace dw {
         privateKey: dw.crypto.KeyRef,
         transformation: string,
         saltOrIV: string,
-        iterations: number
+        iterations: number,
       ): dw.util.Bytes;
       /**
        * Lower-level decryption API. Decrypts the passed bytes using the specified
@@ -16567,7 +16571,7 @@ declare namespace dw {
         key: string,
         transformation: string,
         saltOrIV: string,
-        iterations: number
+        iterations: number,
       ): dw.util.Bytes;
       /**
        * Alternative method to decryptBytes_3(Bytes, String, String, String, Number), which allows
@@ -16584,7 +16588,7 @@ declare namespace dw {
         privateKey: dw.crypto.KeyRef,
         transformation: string,
         saltOrIV: string,
-        iterations: number
+        iterations: number,
       ): dw.util.Bytes;
       /**
        * Encrypt the passed message by using the specified key and applying the
@@ -16682,7 +16686,7 @@ declare namespace dw {
         key: string,
         transformation: string,
         saltOrIV: string,
-        iterations: number
+        iterations: number,
       ): string;
       /**
        * Alternative method to
@@ -16730,7 +16734,7 @@ declare namespace dw {
         publicKey: dw.crypto.CertificateRef,
         transformation: string,
         saltOrIV: string,
-        iterations: number
+        iterations: number,
       ): string;
       /**
        * Encrypt the passed message by using the specified key and applying the
@@ -16828,7 +16832,7 @@ declare namespace dw {
         key: string,
         transformation: string,
         saltOrIV: string,
-        iterations: number
+        iterations: number,
       ): string;
       /**
        * Alternative method to
@@ -16876,7 +16880,7 @@ declare namespace dw {
         publicKey: dw.crypto.CertificateRef,
         transformation: string,
         saltOrIV: string,
-        iterations: number
+        iterations: number,
       ): string;
       /**
        * Lower-level encryption API. Encrypts the passed bytes by using the
@@ -16904,7 +16908,7 @@ declare namespace dw {
         key: string,
         transformation: string,
         saltOrIV: string,
-        iterations: number
+        iterations: number,
       ): dw.util.Bytes;
       /**
        * Alternative method to encryptBytes(Bytes, String, String, String, Number), which allows
@@ -16925,7 +16929,7 @@ declare namespace dw {
         publicKey: dw.crypto.CertificateRef,
         transformation: string,
         saltOrIV: string,
-        iterations: number
+        iterations: number,
       ): dw.util.Bytes;
       /**
        * Lower-level encryption API. Encrypts the passed bytes by using the
@@ -16953,7 +16957,7 @@ declare namespace dw {
         key: string,
         transformation: string,
         saltOrIV: string,
-        iterations: number
+        iterations: number,
       ): dw.util.Bytes;
       /**
        * Alternative method to encryptBytes_3(Bytes, String, String, String, Number), which allows
@@ -16974,7 +16978,7 @@ declare namespace dw {
         publicKey: dw.crypto.CertificateRef,
         transformation: string,
         saltOrIV: string,
-        iterations: number
+        iterations: number,
       ): dw.util.Bytes;
     }
 
@@ -17808,7 +17812,7 @@ declare namespace dw {
       sign(
         contentToSign: string,
         privateKey: string,
-        digestAlgorithm: string
+        digestAlgorithm: string,
       ): string;
       /**
        * Signs a string and returns a string
@@ -17820,7 +17824,7 @@ declare namespace dw {
       sign(
         contentToSign: string,
         privateKey: dw.crypto.KeyRef,
-        digestAlgorithm: string
+        digestAlgorithm: string,
       ): string;
       /**
        * Signs bytes and returns bytes
@@ -17832,7 +17836,7 @@ declare namespace dw {
       signBytes(
         contentToSign: dw.util.Bytes,
         privateKey: string,
-        digestAlgorithm: string
+        digestAlgorithm: string,
       ): dw.util.Bytes;
       /**
        * Signs bytes and returns bytes
@@ -17844,7 +17848,7 @@ declare namespace dw {
       signBytes(
         contentToSign: dw.util.Bytes,
         privateKey: dw.crypto.KeyRef,
-        digestAlgorithm: string
+        digestAlgorithm: string,
       ): dw.util.Bytes;
       /**
        * Verifies a signature supplied as bytes
@@ -17858,7 +17862,7 @@ declare namespace dw {
         signature: dw.util.Bytes,
         contentToVerify: dw.util.Bytes,
         publicKey: string,
-        digestAlgorithm: string
+        digestAlgorithm: string,
       ): boolean;
       /**
        * Verifies a signature supplied as bytes
@@ -17872,7 +17876,7 @@ declare namespace dw {
         signature: dw.util.Bytes,
         contentToVerify: dw.util.Bytes,
         certificate: dw.crypto.CertificateRef,
-        digestAlgorithm: string
+        digestAlgorithm: string,
       ): boolean;
       /**
        * Verifies a signature supplied as string
@@ -17886,7 +17890,7 @@ declare namespace dw {
         signature: string,
         contentToVerify: string,
         publicKey: string,
-        digestAlgorithm: string
+        digestAlgorithm: string,
       ): boolean;
       /**
        * Verifies a signature supplied as string
@@ -17900,7 +17904,7 @@ declare namespace dw {
         signature: string,
         contentToVerify: string,
         certificate: dw.crypto.CertificateRef,
-        digestAlgorithm: string
+        digestAlgorithm: string,
       ): boolean;
     }
 
@@ -17938,7 +17942,7 @@ declare namespace dw {
         key: string,
         transformation: string,
         saltOrIV: string,
-        iterations: number
+        iterations: number,
       ): string;
       /**
        * Alternative method to decrypt(String, String, String, String, Number), which allows using a key in the
@@ -17956,7 +17960,7 @@ declare namespace dw {
         privateKey: dw.crypto.KeyRef,
         transformation: string,
         saltOrIV: string,
-        iterations: number
+        iterations: number,
       ): string;
       /**
        * Decrypts the message using the given parameters. See
@@ -17973,7 +17977,7 @@ declare namespace dw {
         key: string,
         transformation: string,
         saltOrIV: string,
-        iterations: number
+        iterations: number,
       ): string;
       /**
        * Alternative method to decrypt_3(String, String, String, String, Number), which allows using a key in the
@@ -17991,7 +17995,7 @@ declare namespace dw {
         privateKey: dw.crypto.KeyRef,
         transformation: string,
         saltOrIV: string,
-        iterations: number
+        iterations: number,
       ): string;
       /**
        * Lower-level decryption API. Decrypts the passed bytes using the specified
@@ -18010,7 +18014,7 @@ declare namespace dw {
         key: string,
         transformation: string,
         saltOrIV: string,
-        iterations: number
+        iterations: number,
       ): dw.util.Bytes;
       /**
        * Alternative method to decryptBytes(Bytes, String, String, String, Number), which allows to use a key in
@@ -18028,7 +18032,7 @@ declare namespace dw {
         privateKey: dw.crypto.KeyRef,
         transformation: string,
         saltOrIV: string,
-        iterations: number
+        iterations: number,
       ): dw.util.Bytes;
       /**
        * Lower-level decryption API. Decrypts the passed bytes using the specified
@@ -18047,7 +18051,7 @@ declare namespace dw {
         key: string,
         transformation: string,
         saltOrIV: string,
-        iterations: number
+        iterations: number,
       ): dw.util.Bytes;
       /**
        * Alternative method to decryptBytes_3(Bytes, String, String, String, Number), which allows to use a key in
@@ -18065,7 +18069,7 @@ declare namespace dw {
         privateKey: dw.crypto.KeyRef,
         transformation: string,
         saltOrIV: string,
-        iterations: number
+        iterations: number,
       ): dw.util.Bytes;
       /**
        * Encrypt the passed message by using the specified key and applying the
@@ -18084,7 +18088,7 @@ declare namespace dw {
         key: string,
         transformation: string,
         saltOrIV: string,
-        iterations: number
+        iterations: number,
       ): string;
       /**
        * Encrypt the passed message by using the specified key and applying the
@@ -18103,7 +18107,7 @@ declare namespace dw {
         publicKey: dw.crypto.CertificateRef,
         transformation: string,
         saltOrIV: string,
-        iterations: number
+        iterations: number,
       ): string;
       /**
        * Encrypt the passed message by using the specified key and applying the
@@ -18122,7 +18126,7 @@ declare namespace dw {
         key: string,
         transformation: string,
         saltOrIV: string,
-        iterations: number
+        iterations: number,
       ): string;
       /**
        * Encrypt the passed message by using the specified key and applying the
@@ -18141,7 +18145,7 @@ declare namespace dw {
         publicKey: dw.crypto.CertificateRef,
         transformation: string,
         saltOrIV: string,
-        iterations: number
+        iterations: number,
       ): string;
       /**
        * Lower-level encryption API. Encrypts the passed bytes by using the specified key and applying the transformations
@@ -18159,7 +18163,7 @@ declare namespace dw {
         key: string,
         transformation: string,
         saltOrIV: string,
-        iterations: number
+        iterations: number,
       ): dw.util.Bytes;
       /**
        * Alternative method to encryptBytes(Bytes, String, String, String, Number), which allows
@@ -18176,7 +18180,7 @@ declare namespace dw {
         publicKey: dw.crypto.CertificateRef,
         transformation: string,
         saltOrIV: string,
-        iterations: number
+        iterations: number,
       ): dw.util.Bytes;
       /**
        * Lower-level encryption API. Encrypts the passed bytes by using the specified key and applying the transformations
@@ -18194,7 +18198,7 @@ declare namespace dw {
         key: string,
         transformation: string,
         saltOrIV: string,
-        iterations: number
+        iterations: number,
       ): dw.util.Bytes;
       /**
        * Alternative method to encryptBytes_3(Bytes, String, String, String, Number), which allows
@@ -18211,7 +18215,7 @@ declare namespace dw {
         publicKey: dw.crypto.CertificateRef,
         transformation: string,
         saltOrIV: string,
-        iterations: number
+        iterations: number,
       ): dw.util.Bytes;
     }
 
@@ -18432,7 +18436,7 @@ declare namespace dw {
       sign(
         contentToSign: string,
         privateKey: string,
-        digestAlgorithm: string
+        digestAlgorithm: string,
       ): string;
       /**
        * Signs a string and returns a string
@@ -18444,7 +18448,7 @@ declare namespace dw {
       sign(
         contentToSign: string,
         privateKey: dw.crypto.KeyRef,
-        digestAlgorithm: string
+        digestAlgorithm: string,
       ): string;
       /**
        * Signs bytes and returns bytes
@@ -18456,7 +18460,7 @@ declare namespace dw {
       signBytes(
         contentToSign: dw.util.Bytes,
         privateKey: string,
-        digestAlgorithm: string
+        digestAlgorithm: string,
       ): dw.util.Bytes;
       /**
        * Signs bytes and returns bytes
@@ -18468,7 +18472,7 @@ declare namespace dw {
       signBytes(
         contentToSign: dw.util.Bytes,
         privateKey: dw.crypto.KeyRef,
-        digestAlgorithm: string
+        digestAlgorithm: string,
       ): dw.util.Bytes;
       /**
        * Verifies a signature supplied as bytes
@@ -18482,7 +18486,7 @@ declare namespace dw {
         signature: dw.util.Bytes,
         contentToVerify: dw.util.Bytes,
         publicKey: string,
-        digestAlgorithm: string
+        digestAlgorithm: string,
       ): boolean;
       /**
        * Verifies a signature supplied as bytes
@@ -18496,7 +18500,7 @@ declare namespace dw {
         signature: dw.util.Bytes,
         contentToVerify: dw.util.Bytes,
         certificate: dw.crypto.CertificateRef,
-        digestAlgorithm: string
+        digestAlgorithm: string,
       ): boolean;
       /**
        * Verifies a signature supplied as string
@@ -18510,7 +18514,7 @@ declare namespace dw {
         signature: string,
         contentToVerify: string,
         publicKey: string,
-        digestAlgorithm: string
+        digestAlgorithm: string,
       ): boolean;
       /**
        * Verifies a signature supplied as string
@@ -18524,7 +18528,7 @@ declare namespace dw {
         signature: string,
         contentToVerify: string,
         certificate: dw.crypto.CertificateRef,
-        digestAlgorithm: string
+        digestAlgorithm: string,
       ): boolean;
     }
 
@@ -18731,7 +18735,7 @@ declare namespace dw {
        * @return the login status (OK if successful, error code otherwise).
        */
       static loginOnBehalfOfCustomer(
-        customer: dw.customer.Customer
+        customer: dw.customer.Customer,
       ): dw.system.Status;
       /**
        * Performs a logout of the agent user and the current customer which are attached to the current session.
@@ -19124,7 +19128,7 @@ declare namespace dw {
       setPassword(
         newPassword: string,
         oldPassword: string,
-        verifyOldPassword: boolean
+        verifyOldPassword: boolean,
       ): dw.system.Status;
       /**
        * Sets the answer to the password question for the customer.
@@ -19146,7 +19150,7 @@ declare namespace dw {
        */
       setPasswordWithToken(
         token: string,
-        newPassword: string
+        newPassword: string,
       ): dw.system.Status;
     }
 
@@ -19242,7 +19246,7 @@ declare namespace dw {
        */
       createExternalProfile(
         authenticationProviderId: string,
-        externalId: string
+        externalId: string,
       ): dw.customer.ExternalProfile;
       /**
        * Returns the active data for this customer.
@@ -19284,7 +19288,7 @@ declare namespace dw {
        */
       getExternalProfile(
         authenticationProviderId: string,
-        externalId: string
+        externalId: string,
       ): dw.customer.ExternalProfile;
       /**
        * Returns a collection of any external profiles the customer may have
@@ -19324,7 +19328,7 @@ declare namespace dw {
        * @return the product lists of the specified type.
        */
       getProductLists(
-        type: number
+        type: number,
       ): dw.util.Collection<dw.customer.ProductList>;
       /**
        * Returns the customer profile.
@@ -20257,7 +20261,7 @@ declare namespace dw {
        */
       static authenticateCustomer(
         login: string,
-        password: string
+        password: string,
       ): dw.customer.AuthenticationStatus;
       /**
        * Creates a new Customer using the supplied login, password. The system automatically assigns a customer number based on
@@ -20295,7 +20299,7 @@ declare namespace dw {
        */
       static createCustomer(
         login: string,
-        password: string
+        password: string,
       ): dw.customer.Customer;
       /**
        * Creates a new Customer using the supplied login, password, and a customerNo. If the customerNo is not specified,
@@ -20339,7 +20343,7 @@ declare namespace dw {
       static createCustomer(
         login: string,
         password: string,
-        customerNo: string
+        customerNo: string,
       ): dw.customer.Customer;
       /**
        * Given an authentication provider Id and an external Id: creates a Customer record in the system if one does not
@@ -20350,7 +20354,7 @@ declare namespace dw {
        */
       static createExternallyAuthenticatedCustomer(
         authenticationProviderId: string,
-        externalId: string
+        externalId: string,
       ): dw.customer.Customer;
       /**
        * Returns the meta data for profiles.
@@ -20364,7 +20368,7 @@ declare namespace dw {
        * @return The customer if found, null otherwise
        */
       static getCustomerByCustomerNumber(
-        customerNumber: string
+        customerNumber: string,
       ): dw.customer.Customer;
       /**
        * Returns the customer for the specified login name. If no customer with this login name exists, null is returned.
@@ -20413,7 +20417,7 @@ declare namespace dw {
        */
       static getExternallyAuthenticatedCustomerProfile(
         authenticationProviderId: string,
-        externalId: string
+        externalId: string,
       ): dw.customer.Profile;
       /**
        * Returns an instance of CustomerPasswordConstraints
@@ -20470,7 +20474,7 @@ declare namespace dw {
       static loginCustomer(
         login: string,
         password: string,
-        rememberMe: boolean
+        rememberMe: boolean,
       ): dw.customer.Customer;
       /**
        * This method logs in the authenticated customer (from a previous authenticateCustomer() call). If a different customer is currently authenticated in the session, then this
@@ -20486,7 +20490,7 @@ declare namespace dw {
        */
       static loginCustomer(
         authStatus: dw.customer.AuthenticationStatus,
-        rememberMe: boolean
+        rememberMe: boolean,
       ): dw.customer.Customer;
       /**
        * Logs in externally authenticated customer if it has already been created in the system and the profile is not disabled or locked
@@ -20498,7 +20502,7 @@ declare namespace dw {
       static loginExternallyAuthenticatedCustomer(
         authenticationProviderId: string,
         externalId: string,
-        rememberMe: boolean
+        rememberMe: boolean,
       ): dw.customer.Customer;
       /**
        * Logs out the customer currently logged into the storefront. The boolean value "RememberMe" indicates, if the customer would like to be remembered on the current
@@ -20718,7 +20722,7 @@ declare namespace dw {
        */
       static queryProfiles(
         queryAttributes: dw.util.Map<any, any>,
-        sortString: string
+        sortString: string,
       ): dw.util.SeekableIterator<dw.customer.Profile>;
       /**
        * Logs out the supplied customer and deletes the customer record. The customer must be a registered customer and the customer must currently be logged in. The customer must be
@@ -20912,7 +20916,7 @@ declare namespace dw {
        */
       static searchProfiles(
         queryAttributes: dw.util.Map<any, any>,
-        sortString: string
+        sortString: string,
       ): dw.util.SeekableIterator<dw.customer.Profile>;
     }
 
@@ -21486,7 +21490,7 @@ declare namespace dw {
        * @return the created item.
        */
       createProductItem(
-        product: dw.catalog.Product
+        product: dw.catalog.Product,
       ): dw.customer.ProductListItem;
       /**
        * Create a ProductListRegistrant and assign it to the registrant attribute
@@ -21826,7 +21830,7 @@ declare namespace dw {
        */
       createPurchase(
         quantity: number,
-        purchaserName: string
+        purchaserName: string,
       ): dw.customer.ProductListItemPurchase;
       /**
        * Returns the unique system generated ID of the object.
@@ -21940,7 +21944,7 @@ declare namespace dw {
        * @param productOptionModel The object to store.
        */
       setProductOptionModel(
-        productOptionModel: dw.catalog.ProductOptionModel
+        productOptionModel: dw.catalog.ProductOptionModel,
       ): void;
       /**
        * Typically used to determine if the item is visible to other customers.
@@ -22037,7 +22041,7 @@ declare namespace dw {
        */
       static createProductList(
         customer: dw.customer.Customer,
-        type: number
+        type: number,
       ): dw.customer.ProductList;
       /**
        * Gets the product list by its ID.
@@ -22054,7 +22058,7 @@ declare namespace dw {
        */
       static getProductList(
         profile: dw.customer.Profile,
-        type: number
+        type: number,
       ): dw.customer.ProductList;
       /**
        * Retrieve all product lists of the specified type owned by the
@@ -22065,7 +22069,7 @@ declare namespace dw {
        */
       static getProductLists(
         customer: dw.customer.Customer,
-        type: number
+        type: number,
       ): dw.util.Collection<dw.customer.ProductList>;
       /**
        * Retrieve all the product lists of the specified type and event type
@@ -22078,7 +22082,7 @@ declare namespace dw {
       static getProductLists(
         customer: dw.customer.Customer,
         type: number,
-        eventType: string
+        eventType: string,
       ): dw.util.Collection<dw.customer.ProductList>;
       /**
        * Returns the collection of product lists that have the specified address
@@ -22087,7 +22091,7 @@ declare namespace dw {
        * @return the unsorted collection of ProductList instances using this address.
        */
       static getProductLists(
-        customerAddress: dw.customer.CustomerAddress
+        customerAddress: dw.customer.CustomerAddress,
       ): dw.util.Collection<dw.customer.ProductList>;
       /**
        * Searches for product list instances.
@@ -22145,7 +22149,7 @@ declare namespace dw {
        */
       static queryProductLists(
         queryAttributes: dw.util.Map<any, any>,
-        sortString: string
+        sortString: string,
       ): dw.util.SeekableIterator<dw.customer.ProductList>;
       /**
        * Searches for product list instances.
@@ -22798,7 +22802,7 @@ declare namespace dw {
        * @return the new payment instrument object.
        */
       createPaymentInstrument(
-        paymentMethodId: string
+        paymentMethodId: string,
       ): dw.customer.CustomerPaymentInstrument;
       /**
        * Returns a collection of all payment instruments associated with the
@@ -22818,14 +22822,14 @@ declare namespace dw {
        * @return Collection of payment instruments for a payment method.
        */
       getPaymentInstruments(
-        paymentMethodID: string
+        paymentMethodID: string,
       ): dw.util.Collection<dw.order.PaymentInstrument>;
       /**
        * Removes a payment instrument associated with the customer.
        * @param instrument the instrument associated with this customer
        */
       removePaymentInstrument(
-        instrument: dw.customer.CustomerPaymentInstrument
+        instrument: dw.customer.CustomerPaymentInstrument,
       ): void;
     }
 
@@ -23042,7 +23046,7 @@ declare namespace dw {
          */
         static obtainUserInfo(
           oauthProviderId: string,
-          accessToken: string
+          accessToken: string,
         ): dw.customer.oauth.OAuthUserInfoResponse;
       }
 
@@ -23220,7 +23224,7 @@ declare namespace dw {
          * @param assignmentQualifiers A map which contains the assignment qualifiers to save in the Shopper Context.
          */
         setAssignmentQualifiers(
-          assignmentQualifiers: dw.util.Map<any, any>
+          assignmentQualifiers: dw.util.Map<any, any>,
         ): void;
         /**
          * Sets the IP address of the client in the Shopper Context. The client IP evaluates to a geolocation. If the client
@@ -23476,7 +23480,7 @@ declare namespace dw {
          */
         static setShopperContext(
           shopperContext: dw.customer.shoppercontext.ShopperContext,
-          evaluateContextWithClientIP: boolean
+          evaluateContextWithClientIP: boolean,
         ): void;
       }
     }
@@ -24206,7 +24210,7 @@ declare namespace dw {
        */
       static getCustomEditor(
         customEditorTypeID: string,
-        configuration: dw.util.Map<any, any>
+        configuration: dw.util.Map<any, any>,
       ): dw.experience.CustomEditor;
       /**
        * Returns the page identified by the specified id.
@@ -24224,7 +24228,7 @@ declare namespace dw {
       static getPage(
         category: dw.catalog.Category,
         pageMustBeVisible: boolean,
-        aspectTypeID: string
+        aspectTypeID: string,
       ): dw.experience.Page;
       /**
        * Get the dynamic page for the given category (including bottom up traversal of the category tree) and aspect type.
@@ -24236,7 +24240,7 @@ declare namespace dw {
       static getPageByCategory(
         category: dw.catalog.Category,
         pageMustBeVisible: boolean,
-        aspectTypeID: string
+        aspectTypeID: string,
       ): dw.experience.Page;
       /**
        * Get the dynamic page for the given product and aspect type.
@@ -24252,7 +24256,7 @@ declare namespace dw {
       static getPageByProduct(
         product: dw.catalog.Product,
         pageMustBeVisible: boolean,
-        aspectTypeID: string
+        aspectTypeID: string,
       ): dw.experience.Page;
       /**
        * Render a page. All of this is going to happen in two layers of remote includes, therefore pagecaching of page rendering
@@ -24323,7 +24327,7 @@ declare namespace dw {
       static renderPage(
         pageID: string,
         aspectAttributes: dw.util.Map<any, any>,
-        parameters: string
+        parameters: string,
       ): string;
       /**
        * Renders a region by triggering rendering of all visible components within
@@ -24362,7 +24366,7 @@ declare namespace dw {
        */
       static renderRegion(
         region: dw.experience.Region,
-        regionRenderSettings: dw.experience.RegionRenderSettings
+        regionRenderSettings: dw.experience.RegionRenderSettings,
       ): string;
       /**
        * Renders a region by triggering rendering of all visible components within
@@ -24504,7 +24508,7 @@ declare namespace dw {
       static serializePage(
         pageID: string,
         aspectAttributes: dw.util.Map<any, any>,
-        parameters: string
+        parameters: string,
       ): string;
     }
 
@@ -24749,7 +24753,7 @@ declare namespace dw {
        * @return the component render settings or default component render settings if none were found for the given component
        */
       getComponentRenderSettings(
-        component: dw.experience.Component
+        component: dw.experience.Component,
       ): dw.experience.ComponentRenderSettings;
       /**
        * Returns the default component render settings. These will be used during rendering of the components contained in
@@ -24780,7 +24784,7 @@ declare namespace dw {
        */
       setComponentRenderSettings(
         component: dw.experience.Component,
-        componentRenderSettings: dw.experience.ComponentRenderSettings
+        componentRenderSettings: dw.experience.ComponentRenderSettings,
       ): dw.experience.RegionRenderSettings;
       /**
        * Sets the default component render settings. These will be used during rendering of the components contained in
@@ -24789,7 +24793,7 @@ declare namespace dw {
        * @return this
        */
       setDefaultComponentRenderSettings(
-        defaultComponentRenderSettings: dw.experience.ComponentRenderSettings
+        defaultComponentRenderSettings: dw.experience.ComponentRenderSettings,
       ): dw.experience.RegionRenderSettings;
       /**
        * Sets the tag name of the region wrapper element. Must not be empty.
@@ -25211,7 +25215,7 @@ declare namespace dw {
          */
         authorizeOrderPayment(
           order: dw.order.Order,
-          event: any
+          event: any,
         ): dw.system.Status;
         /**
          * Called after the Apple Pay payment sheet was canceled. There is no Apple Pay JS event object for this case. The
@@ -25228,7 +25232,7 @@ declare namespace dw {
          * @return a non-null result ends the hook execution
          */
         cancel(
-          basket: dw.order.Basket
+          basket: dw.order.Basket,
         ): dw.extensions.applepay.ApplePayHookResult;
         /**
          * Called after handling the given ApplePayPaymentAuthorizedEvent for the given basket. Customer
@@ -25274,7 +25278,7 @@ declare namespace dw {
          */
         failOrder(
           order: dw.order.Order,
-          status: dw.system.Status
+          status: dw.system.Status,
         ): dw.extensions.applepay.ApplePayHookResult;
         /**
          * Called to get the Apple Pay JS PaymentRequest for the given basket. You can set properties in the
@@ -25297,7 +25301,7 @@ declare namespace dw {
          */
         getRequest(
           basket: dw.order.Basket,
-          request: any
+          request: any,
         ): dw.extensions.applepay.ApplePayHookResult;
         /**
          * Called after handling the given ApplePayPaymentMethodSelectedEvent for the given basket. This Apple
@@ -25329,7 +25333,7 @@ declare namespace dw {
         paymentMethodSelected(
           basket: dw.order.Basket,
           event: any,
-          response: any
+          response: any,
         ): dw.extensions.applepay.ApplePayHookResult;
         /**
          * Called after payment has been authorized and the given Apple Pay order is ready to be placed. The purpose of this
@@ -25356,7 +25360,7 @@ declare namespace dw {
          * @return a non-null result ends the hook execution
          */
         placeOrder(
-          order: dw.order.Order
+          order: dw.order.Order,
         ): dw.extensions.applepay.ApplePayHookResult;
         /**
          * Called to prepare the given basket for an Apple Pay checkout. This hook will be executed after the user
@@ -25386,7 +25390,7 @@ declare namespace dw {
          */
         prepareBasket(
           basket: dw.order.Basket,
-          parameters: any
+          parameters: any,
         ): dw.extensions.applepay.ApplePayHookResult;
         /**
          * Called after handling the given ApplePayShippingContactSelectedEvent for the given basket. Basket
@@ -25421,7 +25425,7 @@ declare namespace dw {
         shippingContactSelected(
           basket: dw.order.Basket,
           event: any,
-          response: any
+          response: any,
         ): dw.extensions.applepay.ApplePayHookResult;
         /**
          * Called after handling the given ApplePayShippingMethodSelectedEvent for the given basket. The given
@@ -25456,7 +25460,7 @@ declare namespace dw {
           basket: dw.order.Basket,
           shippingMethod: dw.order.ShippingMethod,
           event: any,
-          response: any
+          response: any,
         ): dw.extensions.applepay.ApplePayHookResult;
       }
     }
@@ -25515,7 +25519,7 @@ declare namespace dw {
         transformProduct(
           product: dw.catalog.Product,
           facebookProduct: dw.extensions.facebook.FacebookProduct,
-          feedId: string
+          feedId: string,
         ): dw.system.Status;
       }
 
@@ -26211,7 +26215,7 @@ declare namespace dw {
           order: dw.order.Order,
           payment: dw.order.OrderPaymentInstrument,
           custom: any,
-          status: dw.system.Status
+          status: dw.system.Status,
         ): dw.system.Status;
         /**
          * Called when a request is to be made to authorize payment for the given order.
@@ -26226,7 +26230,7 @@ declare namespace dw {
         beforeAuthorization(
           order: dw.order.Order,
           payment: dw.order.OrderPaymentInstrument,
-          custom: any
+          custom: any,
         ): dw.system.Status;
       }
     }
@@ -26375,7 +26379,7 @@ declare namespace dw {
          * @return a non-null result ends the hook execution
          */
         abort(
-          basket: dw.order.Basket
+          basket: dw.order.Basket,
         ): dw.extensions.paymentrequest.PaymentRequestHookResult;
         /**
          * Called after the shopper accepts the Payment Request payment for the given order. Basket customer information,
@@ -26401,7 +26405,7 @@ declare namespace dw {
          */
         authorizeOrderPayment(
           order: dw.order.Order,
-          response: any
+          response: any,
         ): dw.system.Status;
         /**
          * Called to get the PaymentRequest constructor parameters for the given basket. You can
@@ -26431,7 +26435,7 @@ declare namespace dw {
          */
         getPaymentRequest(
           basket: dw.order.Basket,
-          parameters: any
+          parameters: any,
         ): dw.extensions.paymentrequest.PaymentRequestHookResult;
         /**
          * Called after payment has been authorized and the given Payment Request order is ready to be placed. The purpose of
@@ -26457,7 +26461,7 @@ declare namespace dw {
          * @return a non-null result ends the hook execution
          */
         placeOrder(
-          order: dw.order.Order
+          order: dw.order.Order,
         ): dw.extensions.paymentrequest.PaymentRequestHookResult;
         /**
          * Called after handling the Payment Request shippingaddresschange event for the given basket. Basket
@@ -26480,7 +26484,7 @@ declare namespace dw {
          */
         shippingAddressChange(
           basket: dw.order.Basket,
-          details: any
+          details: any,
         ): dw.extensions.paymentrequest.PaymentRequestHookResult;
         /**
          * Called after handling the Payment Request shippingoptionchange event for the given basket. The given
@@ -26504,7 +26508,7 @@ declare namespace dw {
         shippingOptionChange(
           basket: dw.order.Basket,
           shippingMethod: dw.order.ShippingMethod,
-          details: any
+          details: any,
         ): dw.extensions.paymentrequest.PaymentRequestHookResult;
       }
     }
@@ -26516,8 +26520,9 @@ declare namespace dw {
        *  documentation for how to gain access and configure it for use on your sites.
        *  </p>
        */
-      class SalesforceBancontactPaymentDetails extends dw.extensions.payments
-        .SalesforcePaymentDetails {
+      class SalesforceBancontactPaymentDetails
+        extends dw.extensions.payments.SalesforcePaymentDetails
+      {
         /**
          * The bank name, or null if not known.
          */
@@ -26549,8 +26554,9 @@ declare namespace dw {
        *  documentation for how to gain access and configure it for use on your sites.
        *  </p>
        */
-      class SalesforceCardPaymentDetails extends dw.extensions.payments
-        .SalesforcePaymentDetails {
+      class SalesforceCardPaymentDetails
+        extends dw.extensions.payments.SalesforcePaymentDetails
+      {
         /**
          * The card brand, or null if not known.
          */
@@ -26592,8 +26598,9 @@ declare namespace dw {
        *  documentation for how to gain access and configure it for use on your sites.
        *  </p>
        */
-      class SalesforceEpsPaymentDetails extends dw.extensions.payments
-        .SalesforcePaymentDetails {
+      class SalesforceEpsPaymentDetails
+        extends dw.extensions.payments.SalesforcePaymentDetails
+      {
         /**
          * The bank used for the payment, or null if not known.
          */
@@ -26615,8 +26622,9 @@ declare namespace dw {
        *  documentation for how to gain access and configure it for use on your sites.
        *  </p>
        */
-      class SalesforceIdealPaymentDetails extends dw.extensions.payments
-        .SalesforcePaymentDetails {
+      class SalesforceIdealPaymentDetails
+        extends dw.extensions.payments.SalesforcePaymentDetails
+      {
         /**
          * The bank used for the payment, or null if not known.
          */
@@ -26638,8 +26646,9 @@ declare namespace dw {
        *  documentation for how to gain access and configure it for use on your sites.
        *  </p>
        */
-      class SalesforceKlarnaPaymentDetails extends dw.extensions.payments
-        .SalesforcePaymentDetails {
+      class SalesforceKlarnaPaymentDetails
+        extends dw.extensions.payments.SalesforcePaymentDetails
+      {
         /**
          * The payment method category used for the payment, or null if not known.
          */
@@ -26733,7 +26742,7 @@ declare namespace dw {
          * @return The payment details
          */
         getPaymentDetails(
-          paymentInstrument: dw.order.OrderPaymentInstrument
+          paymentInstrument: dw.order.OrderPaymentInstrument,
         ): dw.extensions.payments.SalesforcePaymentDetails;
         /**
          * Returns the payment instrument for this PayPal order in the given basket, or null if the given
@@ -26742,7 +26751,7 @@ declare namespace dw {
          * @return basket payment instrument
          */
         getPaymentInstrument(
-          basket: dw.order.Basket
+          basket: dw.order.Basket,
         ): dw.order.OrderPaymentInstrument;
         /**
          * Returns the payment instrument for this PayPal order in the given order, or null if the given
@@ -26751,7 +26760,7 @@ declare namespace dw {
          * @return order payment instrument
          */
         getPaymentInstrument(
-          order: dw.order.Order
+          order: dw.order.Order,
         ): dw.order.OrderPaymentInstrument;
         /**
          * Returns the shipping address for this PayPal order, or null if not known.
@@ -26909,8 +26918,9 @@ declare namespace dw {
        *  documentation for how to gain access and configure it for use on your sites.
        *  </p>
        */
-      class SalesforcePayPalPaymentDetails extends dw.extensions.payments
-        .SalesforcePaymentDetails {
+      class SalesforcePayPalPaymentDetails
+        extends dw.extensions.payments.SalesforcePaymentDetails
+      {
         /**
          * The ID of the capture against the PayPal order, or null if not known.
          */
@@ -27047,7 +27057,7 @@ declare namespace dw {
          * @return basket payment instrument
          */
         getPaymentInstrument(
-          basket: dw.order.Basket
+          basket: dw.order.Basket,
         ): dw.order.OrderPaymentInstrument;
         /**
          * Returns the payment instrument for this payment intent in the given order, or null if the given
@@ -27056,7 +27066,7 @@ declare namespace dw {
          * @return order payment instrument
          */
         getPaymentInstrument(
-          order: dw.order.Order
+          order: dw.order.Order,
         ): dw.order.OrderPaymentInstrument;
         /**
          * Returns the payment method for this payment intent, or null if none has been established.
@@ -27250,7 +27260,7 @@ declare namespace dw {
          * @return The payment details
          */
         getPaymentDetails(
-          paymentInstrument: dw.order.OrderPaymentInstrument
+          paymentInstrument: dw.order.OrderPaymentInstrument,
         ): dw.extensions.payments.SalesforcePaymentDetails;
         /**
          * Returns the payment method category of this payment method, or null if none is available. Available
@@ -27540,7 +27550,7 @@ declare namespace dw {
          */
         static calculatePaymentRequestOptions(
           basket: dw.order.Basket,
-          options: any
+          options: any,
         ): any;
         /**
          * Returns a JS object containing the payment request options to use when a Buy Now button is tapped, in the
@@ -27934,7 +27944,7 @@ declare namespace dw {
          */
         static attachPaymentMethod(
           paymentMethod: dw.extensions.payments.SalesforcePaymentMethod,
-          customer: dw.customer.Customer
+          customer: dw.customer.Customer,
         ): void;
         /**
          * Cancels the given payment intent. If a payment authorization has been made for the payment intent, the
@@ -27952,7 +27962,7 @@ declare namespace dw {
          */
         static cancelPaymentIntent(
           paymentIntent: dw.extensions.payments.SalesforcePaymentIntent,
-          paymentIntentProperties: any
+          paymentIntentProperties: any,
         ): dw.system.Status;
         /**
          * Captures funds for the given payment intent.
@@ -27968,7 +27978,7 @@ declare namespace dw {
          */
         static capturePaymentIntent(
           paymentIntent: dw.extensions.payments.SalesforcePaymentIntent,
-          amount: dw.value.Money
+          amount: dw.value.Money,
         ): dw.system.Status;
         /**
          * Confirms a new payment intent using the given payment method, and associates it with the given order.
@@ -28008,7 +28018,7 @@ declare namespace dw {
         static confirmPaymentIntent(
           order: dw.order.Order,
           paymentMethod: dw.extensions.payments.SalesforcePaymentMethod,
-          paymentIntentProperties: any
+          paymentIntentProperties: any,
         ): dw.system.Status;
         /**
          * Creates a payment intent using the given information, and associates it with the given basket.
@@ -28052,7 +28062,7 @@ declare namespace dw {
           zoneId: string,
           amount: dw.value.Money,
           stripeCustomerRequired: boolean,
-          paymentIntentProperties: any
+          paymentIntentProperties: any,
         ): dw.system.Status;
         /**
          * Detaches the given payment method from its associated customer. Once detached the payment method remains
@@ -28061,7 +28071,7 @@ declare namespace dw {
          * @param paymentMethod payment method to detach from customer
          */
         static detachPaymentMethod(
-          paymentMethod: dw.extensions.payments.SalesforcePaymentMethod
+          paymentMethod: dw.extensions.payments.SalesforcePaymentMethod,
         ): void;
         /**
          * Returns a collection containing the payment methods attached to the given customer. The collection will be empty
@@ -28071,7 +28081,7 @@ declare namespace dw {
          * @return collection of attached payment methods
          */
         static getAttachedPaymentMethods(
-          customer: dw.customer.Customer
+          customer: dw.customer.Customer,
         ): dw.util.Collection<dw.extensions.payments.SalesforcePaymentMethod>;
         /**
          * Returns a collection containing the payment methods for the given customer set up for future off session reuse.
@@ -28081,7 +28091,7 @@ declare namespace dw {
          * @return collection of off session payment methods
          */
         static getOffSessionPaymentMethods(
-          customer: dw.customer.Customer
+          customer: dw.customer.Customer,
         ): dw.util.Collection<any>;
         /**
          * Returns the details to the Salesforce Payments payment associated with the given payment instrument, or
@@ -28090,7 +28100,7 @@ declare namespace dw {
          * @return The payment details
          */
         static getPaymentDetails(
-          paymentInstrument: dw.order.OrderPaymentInstrument
+          paymentInstrument: dw.order.OrderPaymentInstrument,
         ): dw.extensions.payments.SalesforcePaymentDetails;
         /**
          * Returns the payment intent for the given basket, or null if the given basket has none.
@@ -28098,7 +28108,7 @@ declare namespace dw {
          * @return The payment intent
          */
         static getPaymentIntent(
-          basket: dw.order.Basket
+          basket: dw.order.Basket,
         ): dw.extensions.payments.SalesforcePaymentIntent;
         /**
          * Returns the payment intent for the given order, or null if the given order has none.
@@ -28106,7 +28116,7 @@ declare namespace dw {
          * @return The payment intent
          */
         static getPaymentIntent(
-          order: dw.order.Order
+          order: dw.order.Order,
         ): dw.extensions.payments.SalesforcePaymentIntent;
         /**
          * Returns a payments site configuration object for the current site.
@@ -28120,7 +28130,7 @@ declare namespace dw {
          * @return The PayPal order
          */
         static getPayPalOrder(
-          basket: dw.order.Basket
+          basket: dw.order.Basket,
         ): dw.extensions.payments.SalesforcePayPalOrder;
         /**
          * Returns the PayPal order for the given order, or null if the given order has none.
@@ -28128,7 +28138,7 @@ declare namespace dw {
          * @return The PayPal order
          */
         static getPayPalOrder(
-          order: dw.order.Order
+          order: dw.order.Order,
         ): dw.extensions.payments.SalesforcePayPalOrder;
         /**
          * Returns a collection containing the payment methods saved to be presented to the given customer for reuse in
@@ -28138,7 +28148,7 @@ declare namespace dw {
          * @return collection of saved payment methods
          */
         static getSavedPaymentMethods(
-          customer: dw.customer.Customer
+          customer: dw.customer.Customer,
         ): dw.util.Collection<dw.extensions.payments.SalesforcePaymentMethod>;
         /**
          * Handles the account registration of the shopper who placed the given order. Use this method to ensure the
@@ -28169,7 +28179,7 @@ declare namespace dw {
         static refundPaymentIntent(
           paymentIntent: dw.extensions.payments.SalesforcePaymentIntent,
           amount: dw.value.Money,
-          refundProperties: any
+          refundProperties: any,
         ): dw.system.Status;
         /**
          * Removes the given saved payment method so that it is no longer presented to the given customer for reuse in
@@ -28177,7 +28187,7 @@ declare namespace dw {
          * @param paymentMethod payment method to detach from customer
          */
         static removeSavedPaymentMethod(
-          paymentMethod: dw.extensions.payments.SalesforcePaymentMethod
+          paymentMethod: dw.extensions.payments.SalesforcePaymentMethod,
         ): void;
         /**
          * Saves the given payment method to be presented to the given customer for reuse in subsequent checkouts. This
@@ -28187,7 +28197,7 @@ declare namespace dw {
          */
         static savePaymentMethod(
           customer: dw.customer.Customer,
-          paymentMethod: dw.extensions.payments.SalesforcePaymentMethod
+          paymentMethod: dw.extensions.payments.SalesforcePaymentMethod,
         ): void;
         /**
          * Sets the details to the Salesforce Payments payment associated with the given payment instrument.
@@ -28196,7 +28206,7 @@ declare namespace dw {
          */
         static setPaymentDetails(
           paymentInstrument: dw.order.OrderPaymentInstrument,
-          paymentDetails: dw.extensions.payments.SalesforcePaymentDetails
+          paymentDetails: dw.extensions.payments.SalesforcePaymentDetails,
         ): void;
         /**
          * Updates the provided information in the given payment intent.
@@ -28233,7 +28243,7 @@ declare namespace dw {
           shipment: dw.order.Shipment,
           amount: dw.value.Money,
           orderNo: string,
-          paymentIntentProperties: any
+          paymentIntentProperties: any,
         ): dw.system.Status;
       }
 
@@ -28291,8 +28301,9 @@ declare namespace dw {
        *  documentation for how to gain access and configure it for use on your sites.
        *  </p>
        */
-      class SalesforceSepaDebitPaymentDetails extends dw.extensions.payments
-        .SalesforcePaymentDetails {
+      class SalesforceSepaDebitPaymentDetails
+        extends dw.extensions.payments.SalesforcePaymentDetails
+      {
         /**
          * The last 4 digits of the account number, or null if not known.
          */
@@ -28314,8 +28325,9 @@ declare namespace dw {
        *  documentation for how to gain access and configure it for use on your sites.
        *  </p>
        */
-      class SalesforceVenmoPaymentDetails extends dw.extensions.payments
-        .SalesforcePaymentDetails {
+      class SalesforceVenmoPaymentDetails
+        extends dw.extensions.payments.SalesforcePaymentDetails
+      {
         /**
          * The ID of the capture against the PayPal Venmo order, or null if not known.
          */
@@ -28433,7 +28445,7 @@ declare namespace dw {
          */
         transformAvailability(
           product: dw.catalog.Product,
-          pinterestAvailability: dw.extensions.pinterest.PinterestAvailability
+          pinterestAvailability: dw.extensions.pinterest.PinterestAvailability,
         ): dw.system.Status;
         /**
          * Called after default transformation of given Demandware product to Pinterest product as part of the catalog feed
@@ -28444,7 +28456,7 @@ declare namespace dw {
          */
         transformProduct(
           product: dw.catalog.Product,
-          pinterestProduct: dw.extensions.pinterest.PinterestProduct
+          pinterestProduct: dw.extensions.pinterest.PinterestProduct,
         ): dw.system.Status;
       }
 
@@ -28623,7 +28635,7 @@ declare namespace dw {
          * @return a non-null Status ends the hook execution
          */
         getStatus(
-          order: dw.extensions.pinterest.PinterestOrder
+          order: dw.extensions.pinterest.PinterestOrder,
         ): dw.system.Status;
       }
 
@@ -29011,7 +29023,7 @@ declare namespace dw {
         ioreader: dw.io.Reader,
         separator: string,
         quote: string,
-        skip: number
+        skip: number,
       );
 
       /**
@@ -30860,7 +30872,7 @@ declare namespace dw {
         prefix: string,
         namespaceURI: string,
         localName: string,
-        value: string
+        value: string,
       ): void;
       /**
        * Writes an attribute to the output stream.
@@ -30871,7 +30883,7 @@ declare namespace dw {
       writeAttribute(
         namespaceURI: string,
         localName: string,
-        value: string
+        value: string,
       ): void;
       /**
        * Writes a CData section.
@@ -30914,7 +30926,7 @@ declare namespace dw {
       writeEmptyElement(
         prefix: string,
         localName: string,
-        namespaceURI: string
+        namespaceURI: string,
       ): void;
       /**
        * Writes an empty element tag to the output.
@@ -31005,7 +31017,7 @@ declare namespace dw {
       writeStartElement(
         prefix: string,
         localName: string,
-        namespaceURI: string
+        namespaceURI: string,
       ): void;
     }
   }
@@ -31245,7 +31257,7 @@ declare namespace dw {
         host: string,
         port: number,
         user: string,
-        password: string
+        password: string,
       ): boolean;
       /**
        * Deletes the remote file on the server identified by the path parameter.
@@ -31314,7 +31326,7 @@ declare namespace dw {
         path: string,
         encoding: string,
         file: dw.io.File,
-        maxGetSize: number
+        maxGetSize: number,
       ): boolean;
       /**
        * Reads the content of a remote file and creates a local copy in the given file. Copies at most MAX_GET_FILE_SIZE
@@ -31467,7 +31479,7 @@ declare namespace dw {
         name: string,
         size: number,
         directory: boolean,
-        timestamp: Date
+        timestamp: Date,
       );
 
       /**
@@ -31775,7 +31787,7 @@ declare namespace dw {
         url: string,
         async: boolean,
         user: string,
-        password: string
+        password: string,
       ): void;
       /**
        * Opens the specified URL with the in parameter method specified Http method with given credentials [user,
@@ -31836,7 +31848,7 @@ declare namespace dw {
       sendAndReceiveToFile(
         text: string,
         encoding: string,
-        outFile: dw.io.File
+        outFile: dw.io.File,
       ): boolean;
       /**
        * This method performs the actual HTTP communication. The bytes are sent as a request body. If the bytes are null no
@@ -31852,7 +31864,7 @@ declare namespace dw {
        */
       sendBytesAndReceiveToFile(
         body: dw.util.Bytes,
-        outFile: dw.io.File
+        outFile: dw.io.File,
       ): boolean;
       /**
        * Sends a multipart HTTP request. This method should only be called if the connection to the remote URL was opened
@@ -32201,7 +32213,7 @@ declare namespace dw {
         data: dw.util.Bytes,
         contentType: string,
         encoding: string,
-        fileName: string
+        fileName: string,
       );
       /**
        * Construct a part representing a name/File pair.
@@ -32220,7 +32232,7 @@ declare namespace dw {
         name: string,
         file: dw.io.File,
         contentType: string,
-        encoding: string
+        encoding: string,
       );
       /**
        * Construct a part representing a name/File pair.
@@ -32241,7 +32253,7 @@ declare namespace dw {
         file: dw.io.File,
         contentType: string,
         encoding: string,
-        fileName: string
+        fileName: string,
       );
 
       /**
@@ -32457,7 +32469,7 @@ declare namespace dw {
       setContent(
         content: string,
         mimeType: string,
-        encoding: string
+        encoding: string,
       ): dw.net.Mail;
       /**
        * Mandatory Uses MimeEncodedText to set the
@@ -32633,7 +32645,7 @@ declare namespace dw {
         host: string,
         port: number,
         user: string,
-        password: string
+        password: string,
       ): boolean;
       /**
        * Deletes the remote file on the server identified by the path parameter.
@@ -32830,7 +32842,7 @@ declare namespace dw {
         name: string,
         size: number,
         directory: boolean,
-        mtime: number
+        mtime: number,
       );
 
       /**
@@ -33030,7 +33042,7 @@ declare namespace dw {
         origin: string,
         destination: string,
         overwrite: boolean,
-        shallow: boolean
+        shallow: boolean,
       ): boolean;
       /**
        * Deletes a file or directory from the remote server that can be found
@@ -33123,7 +33135,7 @@ declare namespace dw {
         path: string,
         file: dw.io.File,
         encoding: string,
-        maxFileSize: number
+        maxFileSize: number,
       ): boolean;
       /**
        * Returns a HashMap of all response headers.
@@ -33550,7 +33562,7 @@ declare namespace dw {
        */
       static createCustomObject(
         type: string,
-        keyValue: string
+        keyValue: string,
       ): dw.object.CustomObject;
       /**
        * Returns a new custom object instance of the specified type, using the
@@ -33562,7 +33574,7 @@ declare namespace dw {
        */
       static createCustomObject(
         type: string,
-        keyValue: number
+        keyValue: number,
       ): dw.object.CustomObject;
       /**
        * Returns the meta data for the given type.
@@ -33578,7 +33590,7 @@ declare namespace dw {
        * @param type The name of the custom object type.
        */
       static getAllCustomObjects(
-        type: string
+        type: string,
       ): dw.util.SeekableIterator<dw.object.CustomObject>;
       /**
        * Returns a custom object based on it's type and unique key.
@@ -33588,7 +33600,7 @@ declare namespace dw {
        */
       static getCustomObject(
         type: string,
-        keyValue: string
+        keyValue: string,
       ): dw.object.CustomObject;
       /**
        * Returns a custom object based on it's type and unique key.
@@ -33598,7 +33610,7 @@ declare namespace dw {
        */
       static getCustomObject(
         type: string,
-        keyValue: number
+        keyValue: number,
       ): dw.object.CustomObject;
       /**
        * Searches for a single custom object instance.
@@ -33845,7 +33857,7 @@ declare namespace dw {
       static queryCustomObjects(
         type: string,
         queryAttributes: dw.util.Map<any, any>,
-        sortString: string
+        sortString: string,
       ): dw.util.SeekableIterator<dw.object.CustomObject>;
       /**
        * Removes a given custom object.
@@ -34438,7 +34450,7 @@ declare namespace dw {
        * @return The matching attribute definition or null in case no such definition exists.
        */
       getCustomAttributeDefinition(
-        name: string
+        name: string,
       ): dw.object.ObjectAttributeDefinition;
       /**
        * Returns the display name of the definition, which can be used in the
@@ -34462,7 +34474,7 @@ declare namespace dw {
        * @return The matching attribute definition or null in case no such definition exists.
        */
       getSystemAttributeDefinition(
-        name: string
+        name: string,
       ): dw.object.ObjectAttributeDefinition;
       /**
        * Identifies if this object definition is for a system type or a custom
@@ -34592,7 +34604,7 @@ declare namespace dw {
        * @return SeekableIterator containing all system objects of a specific type.
        */
       static getAllSystemObjects(
-        type: string
+        type: string,
       ): dw.util.SeekableIterator<dw.object.PersistentObject>;
       /**
        * Searches for a single system object instance. The following system object types are supported:
@@ -34899,7 +34911,7 @@ declare namespace dw {
       static querySystemObjects(
         type: string,
         queryAttributes: dw.util.Map<any, any>,
-        sortString: string
+        sortString: string,
       ): dw.util.SeekableIterator<dw.object.PersistentObject>;
     }
   }
@@ -35228,7 +35240,7 @@ declare namespace dw {
        */
       addItems(
         totalAmount: dw.value.Money,
-        orderItems: dw.util.List<any>
+        orderItems: dw.util.List<any>,
       ): void;
       /**
        * Creates a new Invoice based on this Appeasement. The appeasement-number
@@ -35876,7 +35888,7 @@ declare namespace dw {
        */
       reserveInventory(
         reservationDurationInMinutes: number,
-        removeIfNotAvailable: boolean
+        removeIfNotAvailable: boolean,
       ): dw.system.Status;
       /**
        * Set the type of the business this order has been placed in.
@@ -37173,7 +37185,7 @@ declare namespace dw {
        */
       static createGiftCertificate(
         amount: number,
-        code: string
+        code: string,
       ): dw.order.GiftCertificate;
       /**
        * Creates a Gift Certificate. The system will assign a code to the new Gift Certificate.
@@ -37188,7 +37200,7 @@ declare namespace dw {
        * @return the Gift Certificate identified by the specified code or null.
        */
       static getGiftCertificate(
-        giftCertificateCode: string
+        giftCertificateCode: string,
       ): dw.order.GiftCertificate;
       /**
        * Returns the Gift Certificate identified by the specified
@@ -37197,7 +37209,7 @@ declare namespace dw {
        * @return the Gift Certificate identified by the specified code or null.
        */
       static getGiftCertificateByCode(
-        giftCertificateCode: string
+        giftCertificateCode: string,
       ): dw.order.GiftCertificate;
       /**
        * Returns the Gift Certificate identified by the specified merchant ID.
@@ -37205,7 +37217,7 @@ declare namespace dw {
        * @return the Gift Certificate identified by the specified merchant ID or null.
        */
       static getGiftCertificateByMerchantID(
-        merchantID: string
+        merchantID: string,
       ): dw.order.GiftCertificate;
       /**
        * Redeems an amount from a Gift Certificate. The Gift Certificate ID
@@ -37219,7 +37231,7 @@ declare namespace dw {
        * @return the status of the redemption operation.
        */
       static redeemGiftCertificate(
-        paymentInstrument: dw.order.OrderPaymentInstrument
+        paymentInstrument: dw.order.OrderPaymentInstrument,
       ): dw.system.Status;
     }
 
@@ -37488,7 +37500,7 @@ declare namespace dw {
        */
       addCaptureTransaction(
         instrument: dw.order.OrderPaymentInstrument,
-        capturedAmount: dw.value.Money
+        capturedAmount: dw.value.Money,
       ): dw.order.PaymentTransaction;
       /**
        * Calling this method registers an amount refunded for a given
@@ -37504,7 +37516,7 @@ declare namespace dw {
        */
       addRefundTransaction(
         instrument: dw.order.OrderPaymentInstrument,
-        refundedAmount: dw.value.Money
+        refundedAmount: dw.value.Money,
       ): dw.order.PaymentTransaction;
       /**
        * Returns the sum of the captured amounts. The captured amounts are
@@ -38382,7 +38394,7 @@ declare namespace dw {
         bonusDiscountLineItem: dw.order.BonusDiscountLineItem,
         product: dw.catalog.Product,
         optionModel: dw.catalog.ProductOptionModel,
-        shipment: dw.order.Shipment
+        shipment: dw.order.Shipment,
       ): dw.order.ProductLineItem;
       /**
        * Creates a new CouponLineItem for this container based on the supplied coupon code.
@@ -38435,7 +38447,7 @@ declare namespace dw {
        */
       createCouponLineItem(
         couponCode: string,
-        campaignBased: boolean
+        campaignBased: boolean,
       ): dw.order.CouponLineItem;
       /**
        * Creates a coupon line item that is not based on the B2C Commerce campaign system and associates it with the
@@ -38458,7 +38470,7 @@ declare namespace dw {
        */
       createGiftCertificateLineItem(
         amount: number,
-        recipientEmail: string
+        recipientEmail: string,
       ): dw.order.GiftCertificateLineItem;
       /**
        * Creates an OrderPaymentInstrument representing a Gift Certificate. The amount is set on a PaymentTransaction that
@@ -38470,7 +38482,7 @@ declare namespace dw {
        */
       createGiftCertificatePaymentInstrument(
         giftCertificateCode: string,
-        amount: dw.value.Money
+        amount: dw.value.Money,
       ): dw.order.OrderPaymentInstrument;
       /**
        * Creates a payment instrument using the specified payment method id and amount. The amount is set on the
@@ -38481,7 +38493,7 @@ declare namespace dw {
        */
       createPaymentInstrument(
         paymentMethodId: string,
-        amount: dw.value.Money
+        amount: dw.value.Money,
       ): dw.order.OrderPaymentInstrument;
       /**
        * Creates a payment instrument using the specified wallet payment instrument and amount. The amount is set on the
@@ -38493,7 +38505,7 @@ declare namespace dw {
        */
       createPaymentInstrumentFromWallet(
         walletPaymentInstrument: dw.customer.CustomerPaymentInstrument,
-        amount: dw.value.Money
+        amount: dw.value.Money,
       ): dw.order.OrderPaymentInstrument;
       /**
        * Creates an order price adjustment.
@@ -38521,7 +38533,7 @@ declare namespace dw {
        */
       createPriceAdjustment(
         promotionID: string,
-        discount: dw.campaign.Discount
+        discount: dw.campaign.Discount,
       ): dw.order.PriceAdjustment;
       /**
        * Creates a new product line item in the container and assigns it to the specified shipment.
@@ -38544,7 +38556,7 @@ declare namespace dw {
       createProductLineItem(
         productID: string,
         quantity: dw.value.Quantity,
-        shipment: dw.order.Shipment
+        shipment: dw.order.Shipment,
       ): dw.order.ProductLineItem;
       /**
        * Creates a new product line item in the container and assigns it to the specified shipment.
@@ -38564,7 +38576,7 @@ declare namespace dw {
        */
       createProductLineItem(
         productID: string,
-        shipment: dw.order.Shipment
+        shipment: dw.order.Shipment,
       ): dw.order.ProductLineItem;
       /**
        * Creates a new product line item in the basket and assigns it to the specified shipment.
@@ -38591,7 +38603,7 @@ declare namespace dw {
        */
       createProductLineItem(
         productListItem: dw.customer.ProductListItem,
-        shipment: dw.order.Shipment
+        shipment: dw.order.Shipment,
       ): dw.order.ProductLineItem;
       /**
        * Creates a new product line item in the container and assigns it to the specified shipment. An option model can be
@@ -38604,7 +38616,7 @@ declare namespace dw {
       createProductLineItem(
         product: dw.catalog.Product,
         optionModel: dw.catalog.ProductOptionModel,
-        shipment: dw.order.Shipment
+        shipment: dw.order.Shipment,
       ): dw.order.ProductLineItem;
       /**
        * Creates a standard shipment for the line item container. The specified ID must not yet be in use for another
@@ -38622,7 +38634,7 @@ declare namespace dw {
        * @return The new price adjustment
        */
       createShippingPriceAdjustment(
-        promotionID: string
+        promotionID: string,
       ): dw.order.PriceAdjustment;
       /**
        * Returns the adjusted total gross price (including tax) in purchase currency. Adjusted merchandize prices
@@ -38655,7 +38667,7 @@ declare namespace dw {
        * @return a price representing the adjusted merchandize total controlled by the applyOrderLevelAdjustments parameter.
        */
       getAdjustedMerchandizeTotalPrice(
-        applyOrderLevelAdjustments: boolean
+        applyOrderLevelAdjustments: boolean,
       ): dw.value.Money;
       /**
        * Returns the subtotal tax in purchase currency. Adjusted merchandize prices represent the sum of product prices
@@ -38725,7 +38737,7 @@ declare namespace dw {
        * @return An unsorted collection of all ProductLineItem instances which have the specified product ID.
        */
       getAllProductLineItems(
-        productID: string
+        productID: string,
       ): dw.util.Collection<dw.order.ProductLineItem>;
       /**
        * Returns a hash mapping all products in the line item container to their total quantities. The total product
@@ -38864,7 +38876,7 @@ declare namespace dw {
        * @return A collection of all GiftCertificateLineItems of the container.
        */
       getGiftCertificateLineItems(
-        giftCertificateId: string
+        giftCertificateId: string,
       ): dw.util.Collection<dw.order.GiftCertificateLineItem>;
       /**
        * Returns an unsorted collection of the PaymentInstrument instances that represent GiftCertificates in this
@@ -38880,7 +38892,7 @@ declare namespace dw {
        * @return an unsorted collection containing all PaymentInstruments of type PaymentInstrument.METHOD_GIFT_CERTIFICATE where the specified code is the same code on the payment instrument.
        */
       getGiftCertificatePaymentInstruments(
-        giftCertificateCode: string
+        giftCertificateCode: string,
       ): dw.util.Collection<dw.order.PaymentInstrument>;
       /**
        * Returns the total gross price of all gift certificates in the cart. Should usually be equal to total net price.
@@ -38963,7 +38975,7 @@ declare namespace dw {
        * @return an unsorted collection of OrderPaymentInstrument instances based on the payment method.
        */
       getPaymentInstruments(
-        paymentMethodID: string
+        paymentMethodID: string,
       ): dw.util.Collection<dw.order.OrderPaymentInstrument>;
       /**
        * Returns the price adjustment associated to the specified promotion ID.
@@ -38971,7 +38983,7 @@ declare namespace dw {
        * @return The price adjustment associated with the specified promotion ID or null if none was found.
        */
       getPriceAdjustmentByPromotionID(
-        promotionID: string
+        promotionID: string,
       ): dw.order.PriceAdjustment;
       /**
        * Returns the collection of price adjustments that have been applied to the totals such as promotion on the
@@ -38998,7 +39010,7 @@ declare namespace dw {
        * @return A sorted collection of ProductLineItem instances which have the specified product ID and are not dependent on other product line items.
        */
       getProductLineItems(
-        productID: string
+        productID: string,
       ): dw.util.Collection<dw.order.ProductLineItem>;
       /**
        * Returns a hash map of all products in the line item container and their total quantities. The total product
@@ -39027,7 +39039,7 @@ declare namespace dw {
        * @return A map of products and their total quantities.
        */
       getProductQuantities(
-        includeBonusProducts: boolean
+        includeBonusProducts: boolean,
       ): dw.util.HashMap<dw.catalog.Product, dw.value.Quantity>;
       /**
        * Returns the total quantity of all product line items. Not included are bundled line items and option line items.
@@ -39056,7 +39068,7 @@ declare namespace dw {
        * @return The price adjustment associated with the specified promotion ID or null if none was found.
        */
       getShippingPriceAdjustmentByPromotionID(
-        promotionID: string
+        promotionID: string,
       ): dw.order.PriceAdjustment;
       /**
        * Returns the of shipping price adjustments applied to the shipping total of the container. Note that the
@@ -39148,7 +39160,7 @@ declare namespace dw {
        * @param bonusDiscountLineItem The bonus discount line item to remove, must not be null.
        */
       removeBonusDiscountLineItem(
-        bonusDiscountLineItem: dw.order.BonusDiscountLineItem
+        bonusDiscountLineItem: dw.order.BonusDiscountLineItem,
       ): void;
       /**
        * Removes the specified coupon line item from the line item container.
@@ -39160,7 +39172,7 @@ declare namespace dw {
        * @param giftCertificateLineItem The gift certificate line item to remove
        */
       removeGiftCertificateLineItem(
-        giftCertificateLineItem: dw.order.GiftCertificateLineItem
+        giftCertificateLineItem: dw.order.GiftCertificateLineItem,
       ): void;
       /**
        * Removes a note from this line item container and deletes it.
@@ -39193,7 +39205,7 @@ declare namespace dw {
        * @param priceAdjustment The price adjustment line item to remove, must not be null.
        */
       removeShippingPriceAdjustment(
-        priceAdjustment: dw.order.PriceAdjustment
+        priceAdjustment: dw.order.PriceAdjustment,
       ): void;
       /**
        * Sets the email address of the customer associated with this container.
@@ -39797,7 +39809,7 @@ declare namespace dw {
        */
       createReturnCase(
         returnCaseNumber: string,
-        isRMA: boolean
+        isRMA: boolean,
       ): dw.order.ReturnCase;
       /**
        * Creates a new ReturnCase associated with this order
@@ -40101,7 +40113,7 @@ declare namespace dw {
        */
       getOrderExportXML(
         encryptionAlgorithm: string,
-        encryptionKey: string
+        encryptionKey: string,
       ): string;
       /**
        * Returns the order export XML as String object, with payment instrument data re-encrypted using the given
@@ -40122,7 +40134,7 @@ declare namespace dw {
       getOrderExportXML(
         encryptionAlgorithm: string,
         encryptionKey: string,
-        encryptUsingEKID: boolean
+        encryptUsingEKID: boolean,
       ): string;
       /**
        * Returns the order export XML as String object, with payment instrument data re-encrypted using the given
@@ -40141,7 +40153,7 @@ declare namespace dw {
        */
       getOrderExportXML(
         encryptionAlgorithm: string,
-        encryptionKey: string
+        encryptionKey: string,
       ): string;
       /**
        * Returns the OrderItem for the itemID.
@@ -40396,7 +40408,7 @@ declare namespace dw {
        * @return the shipping order item associated with the given shippingOrderItemID
        */
       getShippingOrderItem(
-        shippingOrderItemID: string
+        shippingOrderItemID: string,
       ): dw.order.ShippingOrderItem;
       /**
        * Returns the collection of ShippingOrderItems associated with this order.
@@ -41305,7 +41317,7 @@ declare namespace dw {
        * @return collection of the shipping order items created for this item
        */
       getShippingOrderItems(
-        includeCancelled: boolean
+        includeCancelled: boolean,
       ): dw.util.Collection<dw.order.ShippingOrderItem>;
       /**
        * Returns a collection of all split OrderItems associated with this item. Inverse relation to getSplitSourceItem().
@@ -41574,7 +41586,7 @@ declare namespace dw {
        */
       static createOrder(
         basket: dw.order.Basket,
-        orderNo: string
+        orderNo: string,
       ): dw.order.Order;
       /**
        * Creates an order number.
@@ -41670,7 +41682,7 @@ declare namespace dw {
        */
       static failOrder(
         order: dw.order.Order,
-        reopenBasketIfPossible: boolean
+        reopenBasketIfPossible: boolean,
       ): dw.system.Status;
       /**
        * Returns the order with the specified order number. Order access in the storefront can be limited; see
@@ -42031,7 +42043,7 @@ declare namespace dw {
        */
       static queryOrders(
         queryAttributes: dw.util.Map<any, any>,
-        sortString: string
+        sortString: string,
       ): dw.util.SeekableIterator<dw.order.Order>;
       /**
        * Searches for a single order instance. Order access in the storefront can be limited; see the class description.
@@ -42329,7 +42341,7 @@ declare namespace dw {
        */
       static searchOrders(
         queryAttributes: dw.util.Map<any, any>,
-        sortString: string
+        sortString: string,
       ): dw.util.SeekableIterator<dw.order.Order>;
       /**
        * This method is used to turn a CANCELLED order into an OPEN order.
@@ -42724,7 +42736,7 @@ declare namespace dw {
       isApplicable(
         customer: dw.customer.Customer,
         countryCode: string,
-        paymentAmount: number
+        paymentAmount: number,
       ): boolean;
       /**
        * Verify the card against the provided values. This method is equivalent to
@@ -42745,7 +42757,7 @@ declare namespace dw {
       verify(
         expiresMonth: number,
         expiresYear: number,
-        cardNumber: string
+        cardNumber: string,
       ): dw.system.Status;
       /**
        * Verify the card against the provided values. If the verification fails the resulting
@@ -42768,7 +42780,7 @@ declare namespace dw {
         expiresMonth: number,
         expiresYear: number,
         cardNumber: string,
-        csc: string
+        csc: string,
       ): dw.system.Status;
     }
 
@@ -43342,7 +43354,7 @@ declare namespace dw {
        */
       getEncryptedBankAccountDriversLicense(
         algorithm: string,
-        publicKey: string
+        publicKey: string,
       ): string;
       /**
        * Encrypts the bank account number of this object with the given algorithm and the given public key. Returned is
@@ -43356,7 +43368,7 @@ declare namespace dw {
        */
       getEncryptedBankAccountNumber(
         algorithm: string,
-        publicKey: string
+        publicKey: string,
       ): string;
       /**
        * Encrypts the credit card number of this object with the given algorithm and the given public key. Returned is the
@@ -43373,7 +43385,7 @@ declare namespace dw {
        */
       getEncryptedCreditCardNumber(
         algorithm: string,
-        publicKey: string
+        publicKey: string,
       ): string;
       /**
        * Encrypts the credit card number of this object with the given algorithm and the public key taken from a
@@ -43390,7 +43402,7 @@ declare namespace dw {
        */
       getEncryptedCreditCardNumber(
         algorithm: string,
-        certificateRef: dw.crypto.CertificateRef
+        certificateRef: dw.crypto.CertificateRef,
       ): string;
       /**
        * Returns the Gift Certificate code for this Payment Instrument.
@@ -43704,7 +43716,7 @@ declare namespace dw {
       getApplicablePaymentCards(
         customer: dw.customer.Customer,
         countryCode: string,
-        paymentAmount: number
+        paymentAmount: number,
       ): dw.util.List<dw.order.PaymentCard>;
       /**
        * Returns the description of the payment method.
@@ -43772,7 +43784,7 @@ declare namespace dw {
       isApplicable(
         customer: dw.customer.Customer,
         countryCode: string,
-        paymentAmount: number
+        paymentAmount: number,
       ): boolean;
     }
 
@@ -43839,7 +43851,7 @@ declare namespace dw {
       static getApplicablePaymentMethods(
         customer: dw.customer.Customer,
         countryCode: string,
-        paymentAmount: number
+        paymentAmount: number,
       ): dw.util.List<dw.order.PaymentMethod>;
       /**
        * Returns the payment card for the specified cardType or null if no such
@@ -44892,7 +44904,7 @@ declare namespace dw {
        */
       createPriceAdjustment(
         promotionID: string,
-        discount: dw.campaign.Discount
+        discount: dw.campaign.Discount,
       ): dw.order.PriceAdjustment;
       /**
        * Creates the dependent shipping line item for this line item.
@@ -45102,7 +45114,7 @@ declare namespace dw {
        * @return The price adjustment associated with the promotion ID or null
        */
       getPriceAdjustmentByPromotionID(
-        promotionID: string
+        promotionID: string,
       ): dw.order.PriceAdjustment;
       /**
        * Returns the price adjustment associated to the specified promotion ID and coupon code combination.
@@ -45112,7 +45124,7 @@ declare namespace dw {
        */
       getPriceAdjustmentByPromotionIDAndCouponCode(
         promotionID: string,
-        couponCode: string
+        couponCode: string,
       ): dw.order.PriceAdjustment;
       /**
        * Returns an iterator of price adjustments that have been applied to this
@@ -45130,7 +45142,7 @@ declare namespace dw {
        * @return The collection of price adjustments associated with the promotion ID or null if the promotionID was null. If there are no price adjustments for the passed promotion, the collection will be empty.
        */
       getPriceAdjustmentsByPromotionID(
-        promotionID: string
+        promotionID: string,
       ): dw.util.Collection<dw.order.PriceAdjustment>;
       /**
        * Returns the product associated with the product line item.
@@ -45324,7 +45336,7 @@ declare namespace dw {
        * @param priceAdjustmentLineItem The price adjustment to remove
        */
       removePriceAdjustment(
-        priceAdjustmentLineItem: dw.order.PriceAdjustment
+        priceAdjustmentLineItem: dw.order.PriceAdjustment,
       ): void;
       /**
        * Removes the dependent shipping line item for this line item.
@@ -45446,7 +45458,7 @@ declare namespace dw {
        * @param productInventoryList ProductInventoryList instance or null
        */
       setProductInventoryList(
-        productInventoryList: dw.catalog.ProductInventoryList
+        productInventoryList: dw.catalog.ProductInventoryList,
       ): void;
       /**
        * Sets the ID of the inventory list the product line item is associated with.
@@ -45807,7 +45819,7 @@ declare namespace dw {
        * @return Product shipping cost
        */
       getShippingCost(
-        shippingMethod: dw.order.ShippingMethod
+        shippingMethod: dw.order.ShippingMethod,
       ): dw.order.ProductShippingCost;
       /**
        * Returns the active shipping methods for which either any fixed-price or
@@ -46548,7 +46560,7 @@ declare namespace dw {
        */
       addTaxItem(
         amount: dw.util.Decimal,
-        taxGroup: dw.order.TaxGroup
+        taxGroup: dw.order.TaxGroup,
       ): dw.order.TaxItem;
       /**
        * Apply a rate of (factor / divisor) to the prices in this item, with the option to half round up or half round down to the
@@ -46575,7 +46587,7 @@ declare namespace dw {
       applyPriceRate(
         factor: dw.util.Decimal,
         divisor: dw.util.Decimal,
-        roundUp: boolean
+        roundUp: boolean,
       ): void;
       /**
        * Price of a single unit before discount application.
@@ -46904,7 +46916,7 @@ declare namespace dw {
        * @return The new price adjustment line item.
        */
       createShippingPriceAdjustment(
-        promotionID: string
+        promotionID: string,
       ): dw.order.PriceAdjustment;
       /**
        * Returns the adjusted total gross price, including tax, in the purchase currency. The adjusted total gross price
@@ -46935,7 +46947,7 @@ declare namespace dw {
        * @return Adjusted net or gross product total price
        */
       getAdjustedMerchandizeTotalPrice(
-        applyOrderLevelAdjustments: boolean
+        applyOrderLevelAdjustments: boolean,
       ): dw.value.Money;
       /**
        * Returns the total adjusted product tax in the purchase currency. The total adjusted product tax represents the
@@ -47106,7 +47118,7 @@ declare namespace dw {
        * @return The price adjustment associated with the given promotion ID
        */
       getShippingPriceAdjustmentByPromotionID(
-        promotionID: string
+        promotionID: string,
       ): dw.order.PriceAdjustment;
       /**
        * Returns a collection of price adjustments that have been applied to the shipping costs of the shipment, for
@@ -47203,7 +47215,7 @@ declare namespace dw {
        * @param priceAdjustment The price adjustment line item to remove
        */
       removeShippingPriceAdjustment(
-        priceAdjustment: dw.order.PriceAdjustment
+        priceAdjustment: dw.order.PriceAdjustment,
       ): void;
       /**
        * Controls if this line item is a gift or not.
@@ -47324,7 +47336,7 @@ declare namespace dw {
        * @return Applicable shipping methods for the shipment
        */
       getApplicableShippingMethods(
-        shippingAddressObj: any
+        shippingAddressObj: any,
       ): dw.util.Collection<dw.order.ShippingMethod>;
       /**
        * Returns the active inapplicable shipping methods for the shipment related
@@ -47365,7 +47377,7 @@ declare namespace dw {
        * @return Inapplicable shipping methods for the shipment
        */
       getInapplicableShippingMethods(
-        shippingAddressObj: any
+        shippingAddressObj: any,
       ): dw.util.Collection<dw.order.ShippingMethod>;
       /**
        * Returns the shipping cost object for the related shipment and
@@ -47378,7 +47390,7 @@ declare namespace dw {
        * @return Product shipping cost
        */
       getShippingCost(
-        shippingMethod: dw.order.ShippingMethod
+        shippingMethod: dw.order.ShippingMethod,
       ): dw.order.ShipmentShippingCost;
     }
 
@@ -47453,7 +47465,7 @@ declare namespace dw {
        * @return The new price adjustment line item.
        */
       createShippingPriceAdjustment(
-        promotionID: string
+        promotionID: string,
       ): dw.order.PriceAdjustment;
       /**
        * Creates a shipping price adjustment to be applied to the shipping line item.
@@ -47475,7 +47487,7 @@ declare namespace dw {
        */
       createShippingPriceAdjustment(
         promotionID: string,
-        discount: dw.campaign.Discount
+        discount: dw.campaign.Discount,
       ): dw.order.PriceAdjustment;
       /**
        * Returns the price of this shipping line item including tax after
@@ -47544,7 +47556,7 @@ declare namespace dw {
        * @param priceAdjustment The price adjustment line item to remove
        */
       removeShippingPriceAdjustment(
-        priceAdjustment: dw.order.PriceAdjustment
+        priceAdjustment: dw.order.PriceAdjustment,
       ): void;
     }
 
@@ -47898,7 +47910,7 @@ declare namespace dw {
        * @return Shipping model for specified product
        */
       static getProductShippingModel(
-        product: dw.catalog.Product
+        product: dw.catalog.Product,
       ): dw.order.ProductShippingModel;
       /**
        * Returns the shipping model for the specified shipment.
@@ -47906,7 +47918,7 @@ declare namespace dw {
        * @return Shipping model for specified product
        */
       static getShipmentShippingModel(
-        shipment: dw.order.Shipment
+        shipment: dw.order.Shipment,
       ): dw.order.ShipmentShippingModel;
       /**
        * Returns the shipping cost amount for the specified shipping method and
@@ -47919,7 +47931,7 @@ declare namespace dw {
        */
       static getShippingCost(
         shippingMethod: dw.order.ShippingMethod,
-        orderValue: dw.value.Money
+        orderValue: dw.value.Money,
       ): dw.value.Money;
     }
 
@@ -48164,7 +48176,7 @@ declare namespace dw {
        */
       createShippingOrderItem(
         orderItem: dw.order.OrderItem,
-        quantity: dw.value.Quantity
+        quantity: dw.value.Quantity,
       ): dw.order.ShippingOrderItem;
       /**
        * Create a ShippingOrderItem in the shipping order with
@@ -48185,7 +48197,7 @@ declare namespace dw {
       createShippingOrderItem(
         orderItem: dw.order.OrderItem,
         quantity: dw.value.Quantity,
-        splitIfPartial: boolean
+        splitIfPartial: boolean,
       ): dw.order.ShippingOrderItem;
       /**
        * Returns the custom attributes for this extensible object.
@@ -48399,7 +48411,7 @@ declare namespace dw {
        */
       addTrackingRef(
         trackingInfoID: string,
-        quantity: dw.value.Quantity
+        quantity: dw.value.Quantity,
       ): dw.order.TrackingRef;
       /**
        * Apply a rate of (factor / divisor) to the prices in this item, with the option to half round up or half round down to the
@@ -48426,7 +48438,7 @@ declare namespace dw {
       applyPriceRate(
         factor: dw.util.Decimal,
         divisor: dw.util.Decimal,
-        roundUp: boolean
+        roundUp: boolean,
       ): void;
       /**
        * Price of a single unit before discount application.
@@ -48534,7 +48546,7 @@ declare namespace dw {
        */
       split(
         quantity: dw.value.Quantity,
-        splitOrderItem: boolean
+        splitOrderItem: boolean,
       ): dw.order.ShippingOrderItem;
     }
 
@@ -48656,7 +48668,7 @@ declare namespace dw {
         taxType: string,
         caption: string,
         description: string,
-        taxRate: dw.util.Decimal
+        taxRate: dw.util.Decimal,
       ): dw.order.TaxGroup;
       /**
        * Gets the caption.
@@ -49056,7 +49068,7 @@ declare namespace dw {
          */
         mergeBasket(
           source: dw.order.Basket,
-          currentBasket: dw.order.Basket
+          currentBasket: dw.order.Basket,
         ): dw.system.Status;
       }
 
@@ -49125,7 +49137,7 @@ declare namespace dw {
          * @param lineItemCtnr the line item container to be (re)calculated.
          */
         calculateShipping(
-          lineItemCtnr: dw.order.LineItemCtnr
+          lineItemCtnr: dw.order.LineItemCtnr,
         ): dw.system.Status;
         /**
          * The function is called by extension point extensionPointCalculateTax. It provides a single place
@@ -49268,7 +49280,7 @@ declare namespace dw {
          */
         authorize(
           order: dw.order.Order,
-          paymentDetails: dw.order.OrderPaymentInstrument
+          paymentDetails: dw.order.OrderPaymentInstrument,
         ): dw.system.Status;
         /**
          * The function is called by extension point
@@ -49291,7 +49303,7 @@ declare namespace dw {
         authorizeCreditCard(
           order: dw.order.Order,
           paymentDetails: dw.order.OrderPaymentInstrument,
-          cvn: string
+          cvn: string,
         ): dw.system.Status;
         /**
          * The function is called by extension point extensionPointCapture. Custom payment capture - modify the order as needed.
@@ -49609,7 +49621,7 @@ declare namespace dw {
          */
         addReturnItem(
           retrn: dw.order.Return,
-          inputData: dw.order.ReturnItem
+          inputData: dw.order.ReturnItem,
         ): dw.system.Status;
         /**
          * Called after method changeStatus(Return, ReturnWO) returns
@@ -49636,7 +49648,7 @@ declare namespace dw {
          */
         changeStatus(
           retrn: dw.order.Return,
-          inputData: dw.order.Return
+          inputData: dw.order.Return,
         ): dw.system.Status;
         /**
          * This hook is responsible for creating a new Return,
@@ -49777,7 +49789,7 @@ declare namespace dw {
          * @return the resulting status
          */
         afterStatusChange(
-          shippingOrder: dw.order.ShippingOrder
+          shippingOrder: dw.order.ShippingOrder,
         ): dw.system.Status;
         /**
          * Change the status of a shipping order.
@@ -49797,7 +49809,7 @@ declare namespace dw {
          */
         changeStatus(
           shippingOrder: dw.order.ShippingOrder,
-          updateData: dw.order.ShippingOrder
+          updateData: dw.order.ShippingOrder,
         ): dw.system.Status;
         /**
          * Called during shipping order creation for an order.
@@ -49829,7 +49841,7 @@ declare namespace dw {
          * @return the resulting status
          */
         notifyStatusChange(
-          shippingOrder: dw.order.ShippingOrder
+          shippingOrder: dw.order.ShippingOrder,
         ): dw.system.Status;
         /**
          * Called before shipping order creation for an order takes place. Typically
@@ -49860,7 +49872,7 @@ declare namespace dw {
          * @return the shipping order to update
          */
         resolveShippingOrder(
-          updateData: dw.order.ShippingOrder
+          updateData: dw.order.ShippingOrder,
         ): dw.order.ShippingOrder;
         /**
          * Change the status of a shipping order to cancelled.
@@ -49880,7 +49892,7 @@ declare namespace dw {
          * @return the changed order or {code}null{code}
          */
         setShippingOrderCancelled(
-          updateData: dw.order.ShippingOrder
+          updateData: dw.order.ShippingOrder,
         ): dw.order.Order;
         /**
          * Change the status of a shipping order to shipped.
@@ -49900,7 +49912,7 @@ declare namespace dw {
          * @return the changed order or {code}null{code}
          */
         setShippingOrderShipped(
-          updateData: dw.order.ShippingOrder
+          updateData: dw.order.ShippingOrder,
         ): dw.order.Order;
         /**
          * Change the status of a shipping order to warehouse.
@@ -49920,7 +49932,7 @@ declare namespace dw {
          * @return the changed order or {code}null{code}
          */
         setShippingOrderWarehouse(
-          updateData: dw.order.ShippingOrder
+          updateData: dw.order.ShippingOrder,
         ): dw.order.Order;
         /**
          * Updates the status of a shipping order item.
@@ -49939,7 +49951,7 @@ declare namespace dw {
          */
         updateShippingOrderItem(
           shippingOrder: dw.order.ShippingOrder,
-          updateItem: dw.order.ShippingOrderItem
+          updateItem: dw.order.ShippingOrderItem,
         ): dw.system.Status;
       }
     }
@@ -50221,7 +50233,7 @@ declare namespace dw {
         svc: any,
         namespace: string,
         name: string,
-        xml: string
+        xml: string,
       ): void;
       /**
        * Creates a new SOAPHeaderElement with the name and namespace and places
@@ -50237,7 +50249,7 @@ declare namespace dw {
         namespace: string,
         name: string,
         xml: string,
-        mustUnderstand: boolean
+        mustUnderstand: boolean,
       ): void;
       /**
        * Creates a new SOAPHeaderElement with the name and namespace and places
@@ -50255,7 +50267,7 @@ declare namespace dw {
         name: string,
         xml: string,
         mustUnderstand: boolean,
-        actor: string
+        actor: string,
       ): void;
       /**
        * Creates a new SOAPHeaderElement with the name and namespace and places
@@ -50269,7 +50281,7 @@ declare namespace dw {
         svc: any,
         namespace: string,
         name: string,
-        xml: any
+        xml: any,
       ): void;
       /**
        * Creates a new SOAPHeaderElement with the name and namespace and places
@@ -50285,7 +50297,7 @@ declare namespace dw {
         namespace: string,
         name: string,
         xml: any,
-        mustUnderstand: boolean
+        mustUnderstand: boolean,
       ): void;
       /**
        * Creates a new SOAPHeaderElement with the name and namespace and places
@@ -50313,7 +50325,7 @@ declare namespace dw {
         name: string,
         xml: any,
         mustUnderstand: boolean,
-        actor: string
+        actor: string,
       ): void;
       /**
        * Sets an HTTP request header property using the specified key and value.
@@ -50332,7 +50344,7 @@ declare namespace dw {
       static setWSSecurityConfig(
         svc: any,
         requestConfigMap: any,
-        responseConfigMap: any
+        responseConfigMap: any,
       ): void;
     }
 
@@ -52501,7 +52513,7 @@ declare namespace dw {
        */
       getEncryptedPassword(
         algorithm: string,
-        publicKey: dw.crypto.CertificateRef
+        publicKey: dw.crypto.CertificateRef,
       ): string;
       /**
        * Returns the unique Credential ID.
@@ -52775,7 +52787,7 @@ declare namespace dw {
        */
       static configure(
         serviceID: string,
-        configObj: any
+        configObj: any,
       ): dw.svc.ServiceDefinition;
       /**
        * Constructs a new instance of the given service.
@@ -53440,7 +53452,7 @@ declare namespace dw {
        * @return A new RESTSuccessResponse object.
        */
       static createEmptySuccess(
-        statusCode: number
+        statusCode: number,
       ): dw.system.RESTSuccessResponse;
       /**
        * Constructs a new RESTErrorResponse object. This method should be used when you have just the statusCode
@@ -53471,7 +53483,7 @@ declare namespace dw {
        */
       static createError(
         statusCode: number,
-        type: string
+        type: string,
       ): dw.system.RESTErrorResponse;
       /**
        * Constructs a new RESTErrorResponse object. This method should be used when you want to omit 'detail' of
@@ -53484,7 +53496,7 @@ declare namespace dw {
       static createError(
         statusCode: number,
         type: string,
-        title: string
+        title: string,
       ): dw.system.RESTErrorResponse;
       /**
        * Constructs a new RESTErrorResponse object. This method can be used to construct error responses with
@@ -53500,7 +53512,7 @@ declare namespace dw {
         statusCode: number,
         type: string,
         title: string,
-        detail: string
+        detail: string,
       ): dw.system.RESTErrorResponse;
       /**
        * Constructs a new RemoteInclude object specific for the SCAPI include path.
@@ -53546,7 +53558,7 @@ declare namespace dw {
        */
       static createSuccess(
         body: any,
-        statusCode: number
+        statusCode: number,
       ): dw.system.RESTSuccessResponse;
       /**
        * Constructs a new RESTSuccessResponse object. HTTP status code of the response will be defaulted to 200.
@@ -55760,7 +55772,7 @@ declare namespace dw {
       static render(
         templateContent: string,
         args: any,
-        writer: dw.io.Writer
+        writer: dw.io.Writer,
       ): void;
       /**
        * Renders a template file to the response writer.
@@ -55777,7 +55789,7 @@ declare namespace dw {
       static renderTemplate(
         templateFileName: string,
         args: any,
-        writer: dw.io.Writer
+        writer: dw.io.Writer,
       ): void;
       /**
        * Renders a template file to the response writer.
@@ -55794,7 +55806,7 @@ declare namespace dw {
       static renderTemplate(
         templateFile: dw.io.File,
         args: any,
-        writer: dw.io.Writer
+        writer: dw.io.Writer,
       ): void;
     }
   }
@@ -56714,7 +56726,7 @@ declare namespace dw {
         month: number,
         date: number,
         hourOfDay: number,
-        minute: number
+        minute: number,
       ): void;
       /**
        * Sets the values for the calendar fields YEAR, MONTH,
@@ -56732,7 +56744,7 @@ declare namespace dw {
         date: number,
         hourOfDay: number,
         minute: number,
-        second: number
+        second: number,
       ): void;
       /**
        * Sets what the first day of the week is.
@@ -57328,7 +57340,7 @@ declare namespace dw {
         city: string,
         postalCode: string,
         latitude: number,
-        longitude: number
+        longitude: number,
       );
 
       /**
@@ -57699,7 +57711,7 @@ declare namespace dw {
       sort(
         comparator:
           | dw.util.PropertyComparator
-          | ((a: object, b: object) => number)
+          | ((a: object, b: object) => number),
       ): void;
       /**
        * Returns a list containing the elements in this list identified
@@ -58066,7 +58078,7 @@ declare namespace dw {
        */
       static get(
         mappingName: string,
-        key: dw.util.MappingKey
+        key: dw.util.MappingKey,
       ): dw.util.Map<string, any>;
       /**
        * Gets the first string value of a mapping by name and key. Ordering is determined by the input CSV file. Throws an
@@ -58088,7 +58100,7 @@ declare namespace dw {
        * @return the seekable iterator
        */
       static keyIterator(
-        mappingName: string
+        mappingName: string,
       ): dw.util.SeekableIterator<dw.util.MappingKey>;
     }
 
@@ -58149,7 +58161,7 @@ declare namespace dw {
       constructor(
         propertyName: string,
         sortOrder: boolean,
-        nullGreater: boolean
+        nullGreater: boolean,
       );
 
       /**
@@ -59221,7 +59233,7 @@ declare namespace dw {
       static formatCalendar(
         calendar: dw.util.Calendar,
         locale: string,
-        pattern: number
+        pattern: number,
       ): string;
       /**
        * Formats a date with the default date format of the current site.
@@ -59290,7 +59302,7 @@ declare namespace dw {
       static formatNumber(
         number: number,
         format: string,
-        locale: string
+        locale: string,
       ): string;
       /**
        * Returns a formatted string using the specified number and format. The format is
@@ -59318,7 +59330,7 @@ declare namespace dw {
       static formatNumber(
         number: number,
         format: string,
-        locale: string
+        locale: string,
       ): string;
       /**
        * Return a string in which specified number of characters in the suffix is not changed
@@ -59331,7 +59343,7 @@ declare namespace dw {
       static garble(
         str: string,
         replaceChar: string,
-        suffixLength: number
+        suffixLength: number,
       ): string;
       /**
        * Returns the string with leading white space removed.
@@ -59396,7 +59408,7 @@ declare namespace dw {
         str: string,
         maxLength: number,
         mode: string,
-        suffix: string
+        suffix: string,
       ): string;
     }
 
@@ -61127,7 +61139,7 @@ declare namespace dw {
       setOptions(
         optionValues: dw.util.Map<any, any>,
         begin: number,
-        end: number
+        end: number,
       ): void;
       /**
        * The method can be called to update an option list based on the
@@ -61142,7 +61154,7 @@ declare namespace dw {
       setOptions(
         optionValues: dw.util.Iterator<any>,
         begin: number,
-        end: number
+        end: number,
       ): void;
       /**
        * The method can be called to update an option list based on the
@@ -61839,7 +61851,7 @@ declare namespace dw {
        * @return a LinkedHashMap where the keys are the actual file names and the values are references to the File, or null if this is not a multipart request
        */
       processMultipart(
-        callback: Function
+        callback: Function,
       ): dw.util.LinkedHashMap<string, dw.io.File>;
     }
 
@@ -62417,7 +62429,7 @@ declare namespace dw {
       static msg(
         key: string,
         bundleName: string,
-        defaultMessage: string
+        defaultMessage: string,
       ): string;
       /**
        * Returns the message from the specified properties resource bundle, with
@@ -62575,7 +62587,7 @@ declare namespace dw {
         action: string,
         siteName: string,
         locale: string,
-        hostName: string
+        hostName: string,
       );
     }
 
@@ -62953,7 +62965,7 @@ declare namespace dw {
         context: string,
         contextID: string,
         relPath: string,
-        transform: any
+        transform: any,
       ): dw.web.URL;
       /**
        * Similar to absStatic( String ) this method returns a static URL for a resource
@@ -62990,7 +63002,7 @@ declare namespace dw {
       static absStatic(
         context: string,
         contextID: string,
-        relPath: string
+        relPath: string,
       ): dw.web.URL;
       /**
        * The method returns a static URL for a resource in the current site. Site
@@ -63118,7 +63130,7 @@ declare namespace dw {
         context: string,
         contextID: string,
         relPath: string,
-        transform: any
+        transform: any,
       ): dw.web.URL;
       /**
        * Similar to httpStatic( String, String, String ) this method returns a static URL for a resource
@@ -63142,7 +63154,7 @@ declare namespace dw {
         context: string,
         contextID: string,
         relPath: string,
-        transform: any
+        transform: any,
       ): dw.web.URL;
       /**
        * Similar to httpStatic( String ) this method returns a static URL for a resource
@@ -63172,7 +63184,7 @@ declare namespace dw {
       static httpImage(
         host: string,
         relPath: string,
-        transform: any
+        transform: any,
       ): dw.web.URL;
       /**
        * Return an absolute URL with HTTPS protocol. If an HTTPS host is configured in the preferences
@@ -63258,7 +63270,7 @@ declare namespace dw {
         context: string,
         contextID: string,
         relPath: string,
-        transform: any
+        transform: any,
       ): dw.web.URL;
       /**
        * Similar to httpsStatic( String, String, String ) this method returns a static URL for a resource
@@ -63282,7 +63294,7 @@ declare namespace dw {
         context: string,
         contextID: string,
         relPath: string,
-        transform: any
+        transform: any,
       ): dw.web.URL;
       /**
        * Similar to httpsStatic( String ) this method returns a static URL for a resource
@@ -63312,7 +63324,7 @@ declare namespace dw {
       static httpsImage(
         host: string,
         relPath: string,
-        transform: any
+        transform: any,
       ): dw.web.URL;
       /**
        * Returns the absolute URL to the static location of the specified context. The context
@@ -63339,7 +63351,7 @@ declare namespace dw {
       static httpsStatic(
         context: string,
         contextID: string,
-        relPath: string
+        relPath: string,
       ): dw.web.URL;
       /**
        * Returns the absolute URL to the static location of the specified context. The context
@@ -63373,7 +63385,7 @@ declare namespace dw {
         host: string,
         context: string,
         contextID: string,
-        relPath: string
+        relPath: string,
       ): dw.web.URL;
       /**
        * The method returns a static URL for a resource in the current site. Site
@@ -63438,7 +63450,7 @@ declare namespace dw {
       static httpStatic(
         context: string,
         contextID: string,
-        relPath: string
+        relPath: string,
       ): dw.web.URL;
       /**
        * Returns the absolute URL to the static location of the specified context. The context
@@ -63472,7 +63484,7 @@ declare namespace dw {
         host: string,
         context: string,
         contextID: string,
-        relPath: string
+        relPath: string,
       ): dw.web.URL;
       /**
        * The method returns a static URL for a resource in the current site. Site
@@ -63550,7 +63562,7 @@ declare namespace dw {
         context: string,
         contextID: string,
         relPath: string,
-        transform: any
+        transform: any,
       ): dw.web.URL;
       /**
        * Similar to staticURL( String ) this method returns a static URL for a resource
@@ -63621,7 +63633,7 @@ declare namespace dw {
       static staticURL(
         context: string,
         contextID: string,
-        relPath: string
+        relPath: string,
       ): dw.web.URL;
       /**
        * The method returns a static URL for a resource in the current site. Site
@@ -63946,7 +63958,7 @@ declare namespace dw {
         port: any,
         xml: any,
         mustUnderstand: boolean,
-        actor: string
+        actor: string,
       ): void;
       /**
        * Adds a header element to the SOAP Header. Each header element should be XML and
@@ -63960,7 +63972,7 @@ declare namespace dw {
         port: any,
         xml: string,
         mustUnderstand: boolean,
-        actor: string
+        actor: string,
       ): void;
       /**
        * Removes all SOAP header elements from the port's request context.
@@ -64035,7 +64047,7 @@ declare namespace dw {
        */
       static setConnectionTimeout(
         timeoutInMilliseconds: number,
-        port: any
+        port: any,
       ): void;
       /**
        * Sets an HTTP request header property using the specified key and value.
@@ -64070,7 +64082,7 @@ declare namespace dw {
       static setUserNamePassword(
         userName: string,
         password: string,
-        port: any
+        port: any,
       ): void;
       /**
        * Set the WS-Security configuration for the request and response based on the
@@ -64082,7 +64094,7 @@ declare namespace dw {
       static setWSSecurityConfig(
         port: any,
         requestConfigMap: any,
-        responseConfigMap: any
+        responseConfigMap: any,
       ): void;
     }
 
