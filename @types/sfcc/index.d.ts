@@ -14,14 +14,6 @@ declare const PIPELET_NEXT: number;
  */
 declare const slotcontent: any;
 /**
- * Provides access to WSDL definition files in a Cartridge's webreferences
- *  folder. For example, webreferences.mywebservice loads the
- *  mywebservice.wsdl file and returns an instance of dw.rpc.WebReference.
- *  The WebReference instance enables you to access the actual web service
- *  via the WebReference.getDefaultService() method.
- */
-declare const webreferences: any;
-/**
  * Provides access to WSDL definition files in a Cartridge's webreferences2
  *  folder. For example, webreferences2.mywebservice loads the
  *  mywebservice.wsdl file and returns an instance of dw.ws.WebReference2.
@@ -248,18 +240,17 @@ declare class Fault extends Error {
  *  iterators and it allows you to define an iterative algorithm by writing a
  *  single function which can maintain its own state. A function becomes a
  *  generator if it contains one or more <b>yield</b> statements.
- *
+ *  <p>
  *  When a generator function is called, the body of the function does not
  *  execute straight away; instead, it returns a generator-iterator object.
  *  Each call to the generator-iterator's next() method will execute the
  *  body of the function up to the next <b>yield</b> statement and return its result.
  *  When either the end of the function or a return statement is reached,
  *  a StopIteration exception is thrown.
- *
+ *  </p><p>
  *  For example, the following fib() function is a Fibonacci number generator,
  *  that returns the generator when it encounters the <b>yield</b> statement:
- *  <pre> <code>
- *  function fib() {
+ *  </p><pre> function fib() {
  *     var fibNum = 0, j = 1;
  *     while (true) {
  *        <b><i>yield</i></b> fibNum;
@@ -267,19 +258,14 @@ declare class Fault extends Error {
  *        fibNum = j;
  *        j += t;
  *     }
- *  }
- *  </code>
- *  </pre>
+ *  }</pre>
  *
  *  To use the generator, simply call the next() method to access the values
  *  returned by the function:
- *  <pre> <code>
- *   var gen = fib();
+ *  <pre>  var gen = fib();
  *   for (var i = 0; i &lt; 10; i++) {
  *     document.write(<b><i>gen.next()</i></b> " ");
- *   }
- *  </code>
- *  </pre>
+ *   }</pre>
  */
 declare class Generator {
   constructor();
@@ -372,41 +358,36 @@ declare class InternalError extends Error {
 }
 
 /**
- * CommonJS modules are JavaScript files that are loaded using the <a href="class_TopLevel_global.html#TopLevel_global_require_String_DetailAnchor"> require(String)</a>
+ * CommonJS modules are JavaScript files that are loaded using the <a href="class_TopLevel_global.html#TopLevel_global_require_String_DetailAnchor">require(String)</a>
  *  function. This function returns a module object, which wraps the script code from the file. Within a module
- *  implementation, the module object can be accessed via the <a href="class_TopLevel_global.html#TopLevel_global_module_DetailAnchor"> module</a> variable.
+ *  implementation, the module object can be accessed via the <a href="class_TopLevel_global.html#TopLevel_global_module_DetailAnchor">module</a> variable.
  *  <p>
- *  A module has a unique absolute id. The same module may be resolved by <a href="class_TopLevel_global.html#TopLevel_global_require_String_DetailAnchor"> require(String)</a>
+ *  A module has a unique absolute id. The same module may be resolved by <a href="class_TopLevel_global.html#TopLevel_global_require_String_DetailAnchor">require(String)</a>
  *  for different path arguments, like relative paths (starting with "./" or "../"), or absolute paths. See the
  *  documentation of require for more details about the lookup procedure.
- *  </p>
- *  <p>
+ *  </p><p>
  *  Every module object has an <a href="class_TopLevel_Module.html#TopLevel_Module_exports_DetailAnchor">exports</a> property which can be used by the module implementation to expose its
  *  public functions or properties. Only functions and properties that are explicitly exported are accessible from other
- *  modules, all others are private and not visible. For convenience, the global <a href="class_TopLevel_global.html#TopLevel_global_exports_DetailAnchor"> exports</a> variable
- *  is by default also initialized with the <a href="class_TopLevel_Module.html#TopLevel_Module_exports_DetailAnchor"> module.exports</a> property of the current module.
- *  </p>
+ *  modules, all others are private and not visible. For convenience, the global <a href="class_TopLevel_global.html#TopLevel_global_exports_DetailAnchor">exports</a> variable
+ *  is by default also initialized with the <a href="class_TopLevel_Module.html#TopLevel_Module_exports_DetailAnchor">module.exports</a> property of the current module.
  *  In the most simple case, module elements can be exposed by adding them to the exports object, like:
  *
- *  <pre> // Greeting.js
+ *  </p><pre> // Greeting.js
  *  exports.sayHello = function() {
  *      return 'Hello World!';
- *  };
- *  </pre>
+ *  };</pre>
  *
  *  This is equivalent to:
  *
  *  <pre> // Greeting.js
  *  module.exports.sayHello = function() {
  *      return 'Hello World!';
- *  };
- *  </pre>
+ *  };</pre>
  *
  *  With the above implementation, a caller (for example another module in the same directory) could call the module
  *  function like this:
  *
- *  <pre> var message = require('./Greeting').sayHello();
- *  </pre>
+ *  <pre> var message = require('./Greeting').sayHello();</pre>
  *
  *  It is also possible to replace the whole module exports object with a completely different value, for example with a
  *  function:
@@ -414,13 +395,11 @@ declare class InternalError extends Error {
  *  <pre> // Greeting.js
  *  module.exports = function sayHello() {
  *      return 'Hi!';
- *  }
- *  </pre>
+ *  }</pre>
  *
  *  Now the result of require would be a function, which can be invoked directly like:
  *
- *  <pre> var message = require('./Greeting')();
- *  </pre>
+ *  <pre> var message = require('./Greeting')();</pre>
  *
  *  This construction can be used for exporting constructor functions, so that a module becomes something like a class:
  *
@@ -434,14 +413,12 @@ declare class InternalError extends Error {
  *      return this.message;
  *  }
  *
- *  module.exports = Greeting;
- *  </pre>
+ *  module.exports = Greeting;</pre>
  *
  *  which would be used like:
  *
  *  <pre> var Greeting = require('./Greeting');
- *  var m = new Greeting().getMessage();
- *  </pre>
+ *  var m = new Greeting().getMessage();</pre>
  */
 declare class NodeModule {
   /**
@@ -705,21 +682,17 @@ declare class SystemError extends Error {
  *
  *  var xmlString = product.toXMLString();
  *
- *  fileWriter.write(xmlString);
- *  </pre>
+ *  fileWriter.write(xmlString);</pre>
  *
  *  <p>
  *
  *  The code above will write the following to file:
  *
- *  </p><p>
- *
  *  </p><pre> &lt;product id="p42"&gt;
  *    &lt;name&gt;a product&lt;/name&gt;
  *    &lt;shortdesc&gt;a fine product&lt;/shortdesc&gt;
  *    &lt;longdesc&gt;this is a fine product&lt;/longdesc&gt;
- *  &lt;/product&gt;
- *  </pre>
+ *  &lt;/product&gt;</pre>
  *
  *  <p>
  *
@@ -1143,7 +1116,7 @@ declare class XML {
    */
   static settings(): any;
   /**
-   * Returns returns an XMLList containing all XML properties of
+   * Returns an XMLList containing all XML properties of
    *  this XML object that represent XML text nodes.
    *
    * @return an XMLList containing all XML properties of this XML object that represent XML text nodes.
@@ -2726,7 +2699,7 @@ declare namespace dw {
     class CouponStatusCodes {
       /**
        * Coupon is currently applied in basket = Coupon code is valid for redemption and
-       *  Coupon is assigned to one or multiple applicable! promotions.
+       *  Coupon is assigned to one or multiple applicable promotions.
        */
       static readonly APPLIED = "APPLIED";
       /**
@@ -3781,7 +3754,8 @@ declare namespace dw {
      *  set of active customer promotions before calculating applicable discounts
      *  from it. For example, you might want to add promotions to the
      *  plan or remove promotions from it.
-     *  You want to use method <a href="class_dw_campaign_PromotionMgr.html#dw_campaign_PromotionMgr_getActiveCustomerPromotions_DetailAnchor">getActiveCustomerPromotions()</a>, which
+     *  You want to use method <a href="class_dw_campaign_PromotionMgr.html#dw_campaign_PromotionMgr_getActiveCustomerPromotions_DetailAnchor">getActiveCustomerPromotions()</a> and
+     *  <a href="class_dw_campaign_PromotionMgr.html#dw_campaign_PromotionMgr_getActiveCustomerPromotions_Boolean_DetailAnchor">getActiveCustomerPromotions(Boolean)</a>, which
      *  identifies all active customer promotions and returns an instance of
      *  <a href="class_dw_campaign_PromotionPlan.html">PromotionPlan</a>. You can add promotions to the promotion plan
      *  or remove promotions from the plan. The customized promotion plan can then be
@@ -3861,6 +3835,20 @@ declare namespace dw {
        * @return PromotionPlan with active customer promotions
        */
       static getActiveCustomerPromotions(): dw.campaign.PromotionPlan;
+      /**
+       * Returns all promotions scheduled for now and applicable for the
+       *  session currency, current customer, source code, or presented coupons.
+       *
+       *  The active promotions are returned in an instance of
+       *  PromotionPlan. The promotion plan contains all
+       *  promotions assigned to any customer group of the current customer, the
+       *  current source code, or coupons in the current session basket.
+       * @param ignoreCouponCondition true if coupon condition will be ignored when get active promotions.
+       * @return PromotionPlan with active customer promotions
+       */
+      static getActiveCustomerPromotions(
+        ignoreCouponCondition: boolean
+      ): dw.campaign.PromotionPlan;
       /**
        * Returns all promotions assigned to the passed campaign, which are active
        *  at some point within the specified date range, and are applicable for the
@@ -5543,9 +5531,8 @@ declare namespace dw {
       static applicablePriceBooks: dw.util.Collection<dw.catalog.PriceBook>;
       /**
        * All price books assigned to the current site.
-       *
-       *  Please note that this doesn't include parent price books not assigned
-       *  to the site, but considered by the price lookup.
+       *  Please note that this doesn't include parent price books not assigned to the site, but considered by the price
+       *  lookup.
        */
       static readonly sitePriceBooks: dw.util.Collection<dw.catalog.PriceBook>;
 
@@ -5574,27 +5561,24 @@ declare namespace dw {
        */
       static getApplicablePriceBooks(): dw.util.Collection<dw.catalog.PriceBook>;
       /**
-       * Returns the price book of the current organization matching the
-       *  specified ID.
+       * Returns the price book of the current organization matching the specified ID.
        * @param priceBookID The price book id.
        * @return Price book or null of not found
        */
       static getPriceBook(priceBookID: string): dw.catalog.PriceBook;
       /**
        * Returns all price books assigned to the current site.
-       *
-       *  Please note that this doesn't include parent price books not assigned
-       *  to the site, but considered by the price lookup.
+       *  Please note that this doesn't include parent price books not assigned to the site, but considered by the price
+       *  lookup.
        *
        * @return All price books assigned to the current site.
        */
       static getSitePriceBooks(): dw.util.Collection<dw.catalog.PriceBook>;
       /**
-       * Sets one or more price books to be considered by the product price lookup. The information is
-       *  stored in the user session. If no price book is set in the user session, all active and valid price books assigned to
-       *  the site are used for the price lookup. If price books are set, only those price books are considered by the price
-       *  lookup. Note that the system does not assure that a price book set by this API is assigned to the current
-       *  site.
+       * Sets one or more price books to be considered by the product price lookup. The information is stored in the user
+       *  session. If no price book is set in the user session, all active and valid price books assigned to the site are
+       *  used for the price lookup. If price books are set, only those price books are considered by the price lookup.
+       *  Note that the system does not assure that a price book set by this API is assigned to the current site.
        * @param priceBooks The price books that are set in the session as applicable price books.
        */
       static setApplicablePriceBooks(
@@ -10306,7 +10290,7 @@ declare namespace dw {
       getRepresentedProducts(): dw.util.List<dw.catalog.Product>;
       /**
        * This method is only applicable if this ProductSearchHit represents a
-       *  product variation (see getRepresentedProducts). It returns the
+       *  product variation (see getRepresentedProducts()). It returns the
        *  distinct value set for the specified variation attribute for all variants
        *  represented by this ProductSearchHit. The values are returned in the same
        *  order as they are defined for the variation.
@@ -10343,9 +10327,22 @@ declare namespace dw {
        */
       static readonly CATEGORYID_PARAMETER = "cgid";
       /**
+       * URL Parameter for the inventory list IDs
+       */
+      static readonly INVENTORY_LIST_IDS_PARAMETER = "ilids";
+      /**
+       * The maximum number of inventory list IDs that can be passed to setInventoryListIDs(List)
+       */
+      static readonly MAXIMUM_INVENTORY_LIST_IDS = 10;
+      /**
        * The maximum number of product IDs that can be passed to setProductIDs(List)
        */
       static readonly MAXIMUM_PRODUCT_IDS = 30;
+      /**
+       * The maximum number of store inventory values for a store inventory filter that can be passed to
+       *  setStoreInventoryFilter(StoreInventoryFilter)
+       */
+      static readonly MAXIMUM_STORE_INVENTORY_FILTER_VALUES = 10;
       /**
        * URL Parameter for the maximum price
        */
@@ -10440,6 +10437,10 @@ declare namespace dw {
        */
       readonly effectiveSortingRule: dw.catalog.SortingRule;
       /**
+       * Returns a list of inventory IDs that were specified in the search query or an empty list if no inventory ID set.
+       */
+      readonly inventoryIDs: dw.util.List<any>;
+      /**
        * Get the flag indicating whether unorderable products should be excluded
        *  when the next call to getProducts() is made. If this value has not been
        *  previously set, then the value returned will be based on the value of the
@@ -10485,7 +10486,7 @@ declare namespace dw {
        *  Note that method does also return search hits representing products that
        *  were removed or went offline since the last index update, i.e. you must
        *  implement appropriate checks before accessing the product related to the
-       *  search hit instance (see ProductSearchHit.getProduct)
+       *  search hit instance (see ProductSearchHit.getProduct())
        */
       readonly productSearchHits: dw.util.Iterator<dw.catalog.ProductSearchHit>;
       /**
@@ -10558,6 +10559,10 @@ declare namespace dw {
        */
       sortingRule: dw.catalog.SortingRule;
       /**
+       * Returns the StoreInventoryFilter, which was specified for this search.
+       */
+      storeInventoryFilter: dw.catalog.StoreInventoryFilter;
+      /**
        * The suggested search phrase with the highest accuracy provided
        *  for the current search phrase.
        */
@@ -10629,6 +10634,12 @@ declare namespace dw {
        * @return a SortingRule or null.
        */
       getEffectiveSortingRule(): dw.catalog.SortingRule;
+      /**
+       * Returns a list of inventory IDs that were specified in the search query or an empty list if no inventory ID set.
+       *
+       * @return the list of inventory IDs that were specified in the search query or an empty list if no inventory ID set.
+       */
+      getInventoryIDs(): dw.util.List<any>;
       /**
        * Get the flag indicating whether unorderable products should be excluded
        *  when the next call to getProducts() is made. If this value has not been
@@ -10707,7 +10718,7 @@ declare namespace dw {
        *  Note that method does also return search hits representing products that
        *  were removed or went offline since the last index update, i.e. you must
        *  implement appropriate checks before accessing the product related to the
-       *  search hit instance (see ProductSearchHit.getProduct)
+       *  search hit instance (see ProductSearchHit.getProduct())
        *
        * @return Products hits in search result
        */
@@ -10774,6 +10785,12 @@ declare namespace dw {
        * @return a SortingRule or null.
        */
       getSortingRule(): dw.catalog.SortingRule;
+      /**
+       * Returns the StoreInventoryFilter, which was specified for this search.
+       *
+       * @return the StoreInventoryFilter, which was specified for this search.
+       */
+      getStoreInventoryFilter(): dw.catalog.StoreInventoryFilter;
       /**
        * Returns the suggested search phrase with the highest accuracy provided
        *  for the current search phrase.
@@ -10864,10 +10881,19 @@ declare namespace dw {
        */
       isVisualSearch(): boolean;
       /**
-       * Execute the search.
+       * Execute the search based on the configured search term, category and filter conditions (price, attribute,
+       *  promotion, product type) and return the execution status. The execution of an empty ProductSearchModel without
+       *  any search term or filter criteria will not be supported and the search status SearchStatus.EMPTY_QUERY
+       *  will be returned. A usage of the internal category id 'root' as category filter is not recommended, could cause
+       *  performance issues and will be potentially deprecated in a future release. A successful execution will be
+       *  indicated by SearchStatus.SUCCESSFUL or SearchStatus.LIMITED. For other possible search
+       *  statuses see SearchStatus. The sorted and grouped search result of a successful execution can be fetched
+       *  via getProductSearchHits() and the refinement options based on the search result can be obtained via
+       *  getRefinements() and SearchModel.getRefinementValues(String).
        *
+       * @return the searchStatus object with search status code and description of search result.
        */
-      search(): void;
+      search(): dw.system.SearchStatus;
       /**
        * Specifies the category id used for the search query.
        * @param categoryID the category id for the search query.
@@ -10878,6 +10904,13 @@ declare namespace dw {
        * @param trackingEmptySearches true, no-hits search should be tracked, false, otherwise.
        */
       setEnableTrackingEmptySearches(trackingEmptySearches: boolean): void;
+      /**
+       * Specifies multiple inventory list IDs used for the search query. The method supports up to
+       *  MAXIMUM_INVENTORY_LIST_IDS inventory IDs. If more than MAXIMUM_INVENTORY_LIST_IDS inventory IDs
+       *  used the method throws an IllegalArgumentException.
+       * @param inventoryListIDs the inventory IDs for the search query.
+       */
+      setInventoryListIDs(inventoryListIDs: dw.util.List<any>): void;
       /**
        * Set a flag indicating whether unorderable products should be excluded
        *  when the next call to getProducts() is made. This method overrides the
@@ -10970,6 +11003,28 @@ declare namespace dw {
        * @param rule the SortingRule to use to sort the products
        */
       setSortingRule(rule: dw.catalog.SortingRule): void;
+      /**
+       * Filters the search result by one or more inventory list IDs provided by the class StoreInventoryFilter
+       *  which supports a semantic URL parameter like zip, city, store ... and a list of StoreInventoryFilterValue
+       *  which maps the semantic inventory list id value like Burlington, Boston, ... to a real inventory list id like
+       *  'Burlington -> inventory1', 'Boston -> inventory2'. The search will filter the result by the real inventory list
+       *  id(s) but will use the semantic URL parameter and semantic inventory list id values for URL generation via all
+       *  URLRefine and URLRelax methods e.g. for urlRefineCategory(URL, String), urlRelaxPrice(URL),
+       *  SearchModel.urlRefineAttribute(String, String, String).
+       *
+       *  Example custom URL: city=Burlington|Boston
+       *
+       *   var storeFilter = new dw.catalog.StoreInventoryFilter("city",
+       *      new dw.util.ArrayList(
+       *          new dw.catalog.StoreInventoryFilterValue("Burlington","inventory_store_store9"),
+       *          new dw.catalog.StoreInventoryFilterValue("Boston","inventory_store_store8")
+       *  ));
+       *  searchModel.setStoreInventoryFilter(filter)
+       * @param storeInventoryFilter The StoreInventoryFilter instance to filter the search result by one or more inventory IDs with semantic key and semantic value support.
+       */
+      setStoreInventoryFilter(
+        storeInventoryFilter: dw.catalog.StoreInventoryFilter
+      ): void;
       /**
        * Constructs a URL that you can use to execute a query for a specific
        *  Category.
@@ -12594,8 +12649,9 @@ declare namespace dw {
       /**
        * Execute the search.
        *
+       * @return the searchStatus object with search status code and description of search result.
        */
-      search(): void;
+      search(): dw.system.SearchStatus;
       /**
        * Sets a refinement value range for an attribute. The method can be called to set
        *  an additional range query parameter specified as name-range-value pair. The values
@@ -13408,6 +13464,109 @@ declare namespace dw {
        * @return collection of the stores
        */
       getStores(): dw.util.Collection<dw.catalog.Store>;
+    }
+
+    /**
+     * <p>
+     *  This class represents a store inventory filter, which can be used at
+     *  <a href="class_dw_catalog_ProductSearchModel.html#dw_catalog_ProductSearchModel_setStoreInventoryFilter_StoreInventoryFilter_DetailAnchor">ProductSearchModel.setStoreInventoryFilter(StoreInventoryFilter)</a> to filter the search result by one or more
+     *  store inventories. Compared to the default parameter 'ilids' (Inventory List IDs) see
+     *  (<a href="class_dw_catalog_ProductSearchModel.html#dw_catalog_ProductSearchModel_INVENTORY_LIST_IDS_PARAMETER_DetailAnchor">ProductSearchModel.INVENTORY_LIST_IDS_PARAMETER</a> the store inventory filter allows a customization of the
+     *  parameter name and the inventory list ID parameter values for the URL generations via all URLRefine and URLRelax
+     *  methods e.g. for <a href="class_dw_catalog_ProductSearchModel.html#dw_catalog_ProductSearchModel_urlRefineCategory_String_String_DetailAnchor">ProductSearchModel.urlRefineCategory(String, String)</a>,
+     *  <a href="class_dw_catalog_ProductSearchModel.html#dw_catalog_ProductSearchModel_urlRelaxPrice_URL_DetailAnchor">ProductSearchModel.urlRelaxPrice(URL)</a>,
+     *  <a href="class_dw_catalog_SearchModel.html#dw_catalog_SearchModel_urlRefineAttribute_String_String_String_DetailAnchor">SearchModel.urlRefineAttribute(String, String, String)</a>.
+     *  </p><p>
+     *  Example custom URL: city=Burlington|Boston
+     *  </p><p>
+     *  </p><pre> new dw.catalog.StoreInventoryFilter( "city",
+     *      new dw.util.ArrayList( new dw.catalog.StoreInventoryFilterValue( "Burlington", "inventory_store_store9" ),
+     *          new dw.catalog.StoreInventoryFilterValue( "Boston", "inventory_store_store8" ) ) );</pre>
+     */
+    class StoreInventoryFilter {
+      /**
+       * The semantic URL parameter of this StoreInventoryFilter.
+       */
+      readonly semanticURLParameter: string;
+      /**
+       * A list of StoreInventoryFilterValue instances used by this StoreInventoryFilter.
+       */
+      readonly storeInventoryFilterValues: dw.util.List<any>;
+
+      /**
+       * Creates a new StoreInventoryFilter instance for the given semantic URL parameter and a list of
+       *  StoreInventoryFilterValue instances. The semantic URL parameter e.g. city, zip, store and the semantic
+       *  store inventory values from the storeFilterValues will be used for URL generation. The mapped inventory list IDs
+       *  from the storeFilterValues will be used for filtering. on the mapped
+       * @param semanticURLParameter The semantic URL parameter which should be used for URL generation instead of 'ilids' (Inventory List IDs)
+       * @param storeFilterValues A list of StoreInventoryFilterValue instances containing the store inventory values and the related real inventory list ID.
+       */
+      constructor(
+        semanticURLParameter: string,
+        storeFilterValues: dw.util.List<any>
+      );
+
+      /**
+       * Returns the semantic URL parameter of this StoreInventoryFilter.
+       *
+       * @return the semantic URL parameter of this StoreInventoryFilter.
+       */
+      getSemanticURLParameter(): string;
+      /**
+       * Returns a list of StoreInventoryFilterValue instances used by this StoreInventoryFilter.
+       *
+       * @return a list of StoreInventoryFilterValue instances used by this StoreInventoryFilter.
+       */
+      getStoreInventoryFilterValues(): dw.util.List<any>;
+    }
+
+    /**
+     * <p>
+     *  This class represents a store inventory filter value, which can be used for a <a href="class_dw_catalog_StoreInventoryFilter.html">StoreInventoryFilter</a> to filter
+     *  the search result by one or more store inventory list IDs via
+     *  <a href="class_dw_catalog_ProductSearchModel.html#dw_catalog_ProductSearchModel_setStoreInventoryFilter_StoreInventoryFilter_DetailAnchor">ProductSearchModel.setStoreInventoryFilter(StoreInventoryFilter)</a>. Compared to
+     *  <a href="class_dw_catalog_ProductSearchModel.html#dw_catalog_ProductSearchModel_setInventoryListIDs_List_DetailAnchor">ProductSearchModel.setInventoryListIDs(List)</a> the store inventory filter allows a customization of the
+     *  inventory parameter name and the inventory list ID values for URL generations. A StoreInventoryFilterValue provides
+     *  the mapping between a semantic value e.g. store1,store2 or Burlington,Boston to the related real inventory list ID.
+     *  </p><p>
+     *  Example custom URL: city=Burlington|Boston
+     *  </p><p>
+     *  </p><pre> new dw.catalog.StoreInventoryFilter("city",
+     *      new dw.util.ArrayList(
+     *          new dw.catalog.StoreInventoryFilterValue("Burlington","inventory_store_store9"),
+     *          new dw.catalog.StoreInventoryFilterValue("Boston","inventory_store_store8")
+     *  ));
+     *  </pre>
+     */
+    class StoreInventoryFilterValue {
+      /**
+       * The real inventory list ID of this store inventory filter value.
+       */
+      readonly inventoryListID: string;
+      /**
+       * The semantic inventory ID of this store inventory filter value.
+       */
+      readonly semanticInventoryID: string;
+
+      /**
+       * Creates a new StoreInventoryFilterValue instance for the semantic inventory ID and real inventory list ID.
+       * @param semanticInventoryListID The semantic inventory list ID of this store inventory filter value.
+       * @param inventoryListID The real inventory list ID to filter the search result on.
+       */
+      constructor(semanticInventoryListID: string, inventoryListID: string);
+
+      /**
+       * Returns the real inventory list ID of this store inventory filter value.
+       *
+       * @return the real inventory list ID of this store inventory filter value.
+       */
+      getInventoryListID(): string;
+      /**
+       * Returns the semantic inventory ID of this store inventory filter value.
+       *
+       * @return the semantic inventory ID of this store inventory filter value.
+       */
+      getSemanticInventoryID(): string;
     }
 
     /**
@@ -15081,8 +15240,9 @@ declare namespace dw {
       /**
        * Execute the search.
        *
+       * @return the searchStatus object with search status code and description of search result.
        */
-      search(): void;
+      search(): dw.system.SearchStatus;
       /**
        * Sets the contentID used in this search.
        * @param contentID the contentID used in this search.
@@ -15766,6 +15926,10 @@ declare namespace dw {
      *  &nbsp;&nbsp;&nbsp;<code>&lt;img src="/on/demandware.static/&lt;current site&gt;/&lt;library&gt;/default/v1178201405900/demo/content/bullet.gif"&gt;</code>
      *
      *  </p></ul>
+     *
+     *  <p>
+     *  Note: The comma symbol <code>,</code> is not supported in parameter values for the link functions.
+     *  </p>
      */
     class MarkupText {
       /**
@@ -15812,9 +15976,9 @@ declare namespace dw {
      *  Digital.</p><p>
      *
      *  Image transformation parameters are specified as JavaScript object literal. They
-     *  are translated into URL parameters. See <a href="https://documentation.b2c.commercecloud.salesforce.com/DOC1/topic/com.demandware.dochelp/content/b2c_commerce/topics/image_management/b2c_creating_image_transformation_urls.html">Create Image Transformation URLs.</a></p><p>
+     *  are translated into URL parameters. See <a href="https://help.salesforce.com/s/articleView?id=cc.b2c_creating_image_transformation_urls.htm" target="_top">Create Image Transformation URLs.</a></p><p>
      *
-     *  <table>
+     *  </p><table>
      *  <tbody><tr>
      *      <th>Type of transformation</th>
      *      <th>Parameters</th>
@@ -15972,7 +16136,7 @@ declare namespace dw {
      *  </tr>
      *  </tbody></table>
      *
-     *  Example:</p><p>
+     *  Example:<p>
      *     The following code</p><p>
      *     <code>var url = product.getImage('thumbnail', 0).getImageURL({scaleWidth: 100, format: 'jpg'});</code></p><p>
      *     will produce an image transformation URL like</p><p>
@@ -16130,27 +16294,95 @@ declare namespace dw {
 
   namespace crypto {
     /**
-     * This class is used as a reference to a certificate in the keystore
-     *  which can be managed in the Business Manager.
+     * This class is used as a reference to a certificate or public key.
      *  <p>
      *  <b>Note:</b> this class handles sensitive security-related data.
      *  Pay special attention to PCI DSS v3. requirements 2, 4, and 12.</p>
      */
     class CertificateRef {
       /**
-       * Creates a CertificateRef from the passed alias. No check
-       *  is made whether the alias is actually referring to a certificate in the keystore,
-       *  this check is made when the CertificateRef is used.
-       * @param alias an alias that should refer to a certificate in the keystore.
-       */
-      constructor(alias: string);
-
-      /**
        * Returns the string representation of this CertificateRef.
        *
        * @return The string representation of this CertificateRef.
        */
       toString(): string;
+    }
+
+    /**
+     * Utilities for managing certificates and keys.
+     */
+    class CertificateUtils {
+      constructor();
+
+      /**
+       * Gets the certificate from the given certificate reference.
+       * @param certificateRef the certificate reference
+       * @return The X509Certificate
+       */
+      static getCertificate(
+        certificateRef: dw.crypto.CertificateRef
+      ): dw.crypto.X509Certificate;
+      /**
+       * Gets the public certificate from the given private key reference.
+       * @param keyRef the key reference
+       * @return The X509Certificate
+       */
+      static getCertificate(
+        keyRef: dw.crypto.KeyRef
+      ): dw.crypto.X509Certificate;
+      /**
+       * Encode the certificate to the base64-encoded DER format.
+       * @param certificateRef the certificate to encode
+       * @return base64-encoded DER certificate
+       */
+      static getEncodedCertificate(
+        certificateRef: dw.crypto.CertificateRef
+      ): string;
+      /**
+       * Gets the public key from the given certificate reference.
+       *
+       *  It is exported in the standard X.509 SubjectPublicKeyInfo format and base64-encoded.
+       * @param certificateRef the certificate reference with the public key to encode
+       * @return The encoded public key
+       */
+      static getEncodedPublicKey(
+        certificateRef: dw.crypto.CertificateRef
+      ): string;
+      /**
+       * Parse the certificate from the base64-encoded DER format.
+       * @param certificate The encoded certificate
+       * @return Reference to the parsed certificate
+       */
+      static parseEncodedCertificate(
+        certificate: string
+      ): dw.crypto.CertificateRef;
+      /**
+       * Parse the public key from the given key in X.509 SubjectPublicKeyInfo format.
+       *
+       *  The resulting reference contains only the public key. It can be used for cryptographic operations, but not
+       *  anything that requires the full certificate.
+       * @param algorithm The public key algorithm, either EC or RSA
+       * @param encodedKey The encoded key
+       * @return Reference to the public key
+       */
+      static parseEncodedPublicKey(
+        algorithm: string,
+        encodedKey: string
+      ): dw.crypto.CertificateRef;
+      /**
+       * Parse the public key from the given base64-encoded JWK string.
+       *
+       *  This returns the public key portion of the JWK, not the x5c certificate chain.
+       *
+       *  Only RSA and EC keys are supported.
+       *
+       *
+       *  The resulting reference contains only the public key. It can be used for cryptographic operations, but not
+       *  anything that requires the full certificate.
+       * @param jwk Encoded JWK
+       * @return Reference to the public key
+       */
+      static parsePublicKeyFromJWK(jwk: string): dw.crypto.CertificateRef;
     }
 
     /**
@@ -16374,6 +16606,7 @@ declare namespace dw {
        *  is not secret, the secrecy is inherent to guarding the key. A significant
        *  problem with symmetric ciphers is that it is difficult to transfer the keys
        *  themselves securely. Symmetric algorithms include password-based algorithms.
+       *
        *  AES with key length of 256 bits is the preferred choice for symmetric encryption going forward.
        *  Please consider switching to it if you are using any other scheme or if using AES with a
        *  shorter key length. The rest of the symmetric algorithms will be deprecated in the future.
@@ -16389,51 +16622,54 @@ declare namespace dw {
        *  send data encrypted with the public key, but only the holder of the
        *  corresponding private key can decrypt it.
        *
-       *   Key pairs for asymmetric ciphers can be generated with an arbitrary tool.
-       *   One of the most popular options is the open source tool OpenSSL.
-       *   OpenSSL has a command-line syntax and is available on major platforms.
-       *   The following steps are involved in creating an RSA key pair:
+       *  Key pairs for asymmetric ciphers can be generated with an arbitrary tool.
+       *  One of the most popular options is the open source tool OpenSSL.
+       *  OpenSSL has a command-line syntax and is available on major platforms.
        *
-       *   1. openssl genrsa -out rsaprivatekey.pem 2048
-       *   2. openssl rsa -in rsaprivatekey.pem -out publickey.pem -pubout
-       *   3. openssl pkcs8 -topk8 -in rsaprivatekey.pem -out privatekey.pem -nocrypt
+       *  The following steps are involved in creating an RSA key pair:
        *
-       *   1. Generates an RSA private key with keylength of 2048 bits. Store this key in a safe place.
-       *   2. Generates a public key from the private key. You use the public key to encrypt messages with Cipher.encrypt. OpenSSL saves the key PEM-encoded; this means the key is saved with a base64 encoding. After you removed the header and footer lines you can pass the content directly to the API method.
-       *   3. Generates a private key in PKCS#8 format. You use that key to decrypt messages with Cipher.decrypt. OpenSSL saves the key PEM-encoded; this means the key is saved with a base64 encoding. After you removed the header and footer lines you can pass the content directly to the API method.
+       *  Generate an RSA private key with keylength of 2048 bits. Store this key in a safe place.
+       *  openssl genrsa -out rsaprivatekey.pem 2048
+       *  Generate a public key from the private key. You use the public key to encrypt messages with Cipher.encrypt. OpenSSL saves the key PEM-encoded; this means the key is saved with a base64 encoding. After you removed the header and footer lines you can pass the content directly to the API method.
+       *  openssl rsa -in rsaprivatekey.pem -out publickey.pem -pubout
+       *  Generate a private key in PKCS#8 format. You use that key to decrypt messages with Cipher.decrypt. OpenSSL saves the key PEM-encoded; this means the key is saved with a base64 encoding. After you removed the header and footer lines you can pass the content directly to the API method.
+       *  openssl pkcs8 -topk8 -in rsaprivatekey.pem -out privatekey.pem -nocrypt
+       *
+       *
        *  Modes
-       *   The following modes of operation are block cipher operations that
-       *      are used with some algorithms.
+       *  The following modes of operation are block cipher operations that
+       *  are used with some algorithms.
        *
-       *           "NONE" no mode
-       *           "CBC" Cipher Block Chaining (defined in FIPS PUB 81)
-       *           "CTR" Counter mode or Segmented Integer Counter mode (defined in FIPS PUB 81)
-       *           "CTS" CipherText Streaming mode
-       *           "CFB" Cipher Feedback Mode,  can be referred to with key
-       *           length referenced as "CFB8","CFB16","CFB24".."CFB64" (defined in FIPS PUB 81)
-       *           "ECB" Electronic Cook book  as defined in: The National
-       *           Institute of Standards and Technology (NIST) Federal Information
-       *           Processing Standard (FIPS) PUB 81, "DES Modes of Operation,"
-       *           U.S. Department of Commerce, Dec 1980.
-       *           "OFB" Output Feedback Mode, can be referred to with key
-       *           length referenced as "OFB8","OFB16","OFB24".."OFB64" (defined in FIPS PUB 81)
-       *           "PCBC" Propagating Cipher Block Chaining (defined in Kerberos V4)
+       *  "NONE" no mode
+       *  "CBC" Cipher Block Chaining (defined in FIPS PUB 81)
+       *  "CTR" Counter mode or Segmented Integer Counter mode (defined in FIPS PUB 81)
+       *  "CTS" CipherText Streaming mode
+       *  "CFB" Cipher Feedback Mode,  can be referred to with key
+       *  length referenced as "CFB8","CFB16","CFB24".."CFB64" (defined in FIPS PUB 81)
+       *  "ECB" Electronic Cook book  as defined in: The National
+       *  Institute of Standards and Technology (NIST) Federal Information
+       *  Processing Standard (FIPS) PUB 81, "DES Modes of Operation,"
+       *  U.S. Department of Commerce, Dec 1980.
+       *  "OFB" Output Feedback Mode, can be referred to with key
+       *  length referenced as "OFB8","OFB16","OFB24".."OFB64" (defined in FIPS PUB 81)
+       *  "PCBC" Propagating Cipher Block Chaining (defined in Kerberos V4)
        *
-       * Paddings
        *
-       *           "NoPadding": No padding.
-       *           OAEPWith<digest>And<mgf>Padding: Optimal Asymmetric Encryption
-       *           Padding scheme defined in PKCS#1, where <digest> should be replaced
-       *           by the message digest and <mgf> by the mask generation function.
-       *           Examples: OAEPWITHSHA-256ANDMGF1PADDING,
-       *           OAEPWITHSHA-384ANDMGF1PADDING, OAEPWITHSHA-512ANDMGF1PADDING
-       *           ISO10126PADDING: the ISO10126-2:1991 DEA padding scheme
-       *           PKCS1Padding: Public Key Cryptography Standard #1, a standard
-       *           for padding from RSA Laboratories that can encrypt messages up
-       *           to 11 bytes smaller than the modulus size in bytes.
-       *           PKCS5Padding: Public Key Cryptography Standard #1, a standard
-       *           for padding from RSA Laboratories, "PKCS#5: Password-Based Encryption Standard," version 1.5, November 1993.
-       *           SSL3Padding: The padding scheme defined in the SSL Protocol Version 3.0, November 18, 1996, section 5.2.3.2 (CBC block cipher)
+       *  Paddings
+       *
+       *  "NoPadding": No padding.
+       *  OAEPWith<digest>And<mgf>Padding: Optimal Asymmetric Encryption
+       *  Padding scheme defined in PKCS#1, where <digest> should be replaced
+       *  by the message digest and <mgf> by the mask generation function.
+       *
+       *  Examples: OAEPWITHSHA-256ANDMGF1PADDING, OAEPWITHSHA-384ANDMGF1PADDING, OAEPWITHSHA-512ANDMGF1PADDING
+       *  ISO10126PADDING: the ISO10126-2:1991 DEA padding scheme
+       *  PKCS1Padding: Public Key Cryptography Standard #1, a standard
+       *  for padding from RSA Laboratories that can encrypt messages up
+       *  to 11 bytes smaller than the modulus size in bytes.
+       *  PKCS5Padding: Public Key Cryptography Standard #1, a standard
+       *  for padding from RSA Laboratories, "PKCS#5: Password-Based Encryption Standard," version 1.5, November 1993.
+       *  SSL3Padding: The padding scheme defined in the SSL Protocol Version 3.0, November 18, 1996, section 5.2.3.2 (CBC block cipher)
        * @param message A string to encrypt (will be first converted with UTF-8 encoding into a byte stream)
        * @param key A string ready for use with the algorithm. The key's format depends on the algorithm specified and the keys are assumed to be correctly formulated for the algorithm used, for example that the lengths are correct. Keys are not checked for validity. The cryptographic algorithms can be partitioned into symmetric and asymmetric (or public key/private key). Symmetric algorithms include password-based algorithms. Symmetric keys are usually a base64-encoded array of bytes. Asymmetric keys are "key pairs" with a public key and a private key. To encrypt using asymmetric algorithms, provide the public key. To decrypt using asymmetric algorithms, provide the private key from the same pair in PKCS#8 format, base64-encoded. See class documentation on how to generate a key pair. If the cryptographic algorithm is symmetric (for example, AES) or asymmetric (for example, RSA), the key needs to be passed as a base64-encoded string. The only exception is the symmetric cryptographic algorithms Password Based Encryption (PBE). With PBE the key needs to be passed as plain string (without any encoding).
        * @param transformation The transformation has to be in "algorithm/mode/padding" format. Symmetric or "secret key" algorithms use the same key to encrypt and to decrypt the data. Asymmetric or "public key" cryptography uses a public/private key pair, and then publishes the public key. Only the holder of the private key will be able to decrypt. The public key and private key are also known as a "key pair". Supported Symmetric transformations include:  "AES" or Rijndael, Advanced Encryption Standard as specified by NIST AES with key length of 256 is the preferred choice for symmetric encryption Keysizes: 128, 192, or 256 Modes: "ECB","CBC","PCBC","CTR","CTS","CFB","CFB8","CFB16","CFB24".."CFB64", "OFB","OFB8","OFB16","OFB24".."OFB64" Padding: "PKCS5Padding"   Note that ARCFOUR, Blowfish, DES, RC2, DESede, DESedeWrap, PBEWithMD5AndDES, PBEWithMD5AndTripleDES1, PBEWithSHA1AndDESede and PBEWithSHA1AndRC2_40 transformations have been deprecated. Also, PKCS5Padding is the only supported Padding. NOPADDING and ISO10126PADDING have been deprecated. Supported Asymmetric transformations include:  "RSA" Mode: "ECB" Padding: "OAEPWITHSHA-256ANDMGF1PADDING", "OAEPWITHSHA-384ANDMGF1PADDING", "OAEPWITHSHA-512ANDMGF1PADDING"   Note that for RSA the key length should be at least 2048 bits. Also, the following Padding options have been deprecated: NOPADDING, PKCS1PADDING, OAEPWITHMD5ANDMGF1PADDING, OAEPWITHSHA1ANDMGF1PADDING and OAEPWITHSHA-1ANDMGF1PADDING.
@@ -16456,7 +16692,6 @@ declare namespace dw {
        *  Note: Only asymmetric (public/private key pair) algorithms can be used
        *  with this method, since only those keys can be added to a keystore.
        *
-       *
        *  For asymmetric algorithms a private/public key pair is required.
        *  Commerce Cloud Digital only allows you to add private keys in the format *.p12 and *.pfx.
        *  You can assign private keys an extra password in Business Manager. Public keys
@@ -16466,11 +16701,12 @@ declare namespace dw {
        *  Key pairs for asymmetric ciphers can be generated with an arbitrary tool.
        *  One of the most popular options is the open source tool OpenSSL.
        *  OpenSSL has a command-line syntax and is available on major platforms.
+       *
        *  The following steps are involved in creating an RSA key pair:
        *
-       *  1. Generate a public and a non-protected private key ( *.crt and *.key ).< br/>
+       *  Generate a public and a non-protected private key ( *.crt and *.key ).
        *  openssl req -x509 -newkey rsa:2048 -keyout nopass.key -out nopass.crt -days 365 -nodes
-       *  2. Generate a keystore that contains the public and private keys ( *.p12 ). < br/>
+       *  Generate a keystore that contains the public and private keys ( *.p12 ).
        *  openssl pkcs12 -export -out nopass.p12 -inkey nopass.key -in nopass.crt
        *
        *  To import a private or public key into the Digital keystore, navigate to
@@ -16478,13 +16714,12 @@ declare namespace dw {
        *  Use a .p12 file to import a private key and a *.crt to import a public key.
        *
        *  Typical usage:
-       *
        *   var plain : String = "some_plain_text";
        *  var publicKeyRef = new CertificateRef("rsa-certificate-2048");
        *  var cipher : Cipher = new Cipher();
        *  var encrypted : String = cipher.encrypt(plain, publicKeyRef, "RSA", null, 0);
        * @param message (see encrypt(String, String, String, String, Number))
-       * @param publicKey A reference to a public key in the key store.
+       * @param publicKey A reference to a public key.
        * @param transformation (see encrypt(String, String, String, String, Number))
        * @param saltOrIV (see encrypt(String, String, String, String, Number))
        * @param iterations (see encrypt(String, String, String, String, Number))
@@ -16532,55 +16767,59 @@ declare namespace dw {
        *  send data encrypted with the public key, but only the holder of the
        *  corresponding private key can decrypt it.
        *
-       *   Key pairs for asymmetric ciphers can be generated with an arbitrary tool.
-       *   One of the most popular options is the open source tool OpenSSL.
-       *   OpenSSL has a command-line syntax and is available on major platforms.
-       *   The following steps are involved in creating an RSA key pair:
+       *  Key pairs for asymmetric ciphers can be generated with an arbitrary tool.
+       *  One of the most popular options is the open source tool OpenSSL.
+       *  OpenSSL has a command-line syntax and is available on major platforms.
        *
-       *   1. openssl genrsa -out rsaprivatekey.pem 2048
-       *   2. openssl rsa -in rsaprivatekey.pem -out publickey.pem -pubout
-       *   3. openssl pkcs8 -topk8 -in rsaprivatekey.pem -out privatekey.pem -nocrypt
+       *  The following steps are involved in creating an RSA key pair:
        *
-       *   1. Generates an RSA private key with keylength of 2048 bits. Store this key in a safe place.
-       *   2. Generates a public key from the private key. You use the public key to encrypt messages with Cipher.encrypt. OpenSSL saves the key PEM-encoded; this means the key is saved with a base64 encoding. After you removed the header and footer lines you can pass the content directly to the API method.
-       *   3. Generates a private key in PKCS#8 format. You use that key to decrypt messages with Cipher.decrypt. OpenSSL saves the key PEM-encoded; this means the key is saved with a base64 encoding. After you removed the header and footer lines you can pass the content directly to the API method.
+       *  Generate an RSA private key with keylength of 2048 bits. Store this key in a safe place.
+       *  openssl genrsa -out rsaprivatekey.pem 2048
+       *  Generate a public key from the private key. You use the public key to encrypt messages with Cipher.encrypt. OpenSSL saves the key PEM-encoded; this means the key is saved with a base64 encoding. After you removed the header and footer lines you can pass the content directly to the API method.
+       *  openssl rsa -in rsaprivatekey.pem -out publickey.pem -pubout
+       *  Generate a private key in PKCS#8 format. You use that key to decrypt messages with Cipher.decrypt. OpenSSL saves the key PEM-encoded; this means the key is saved with a base64 encoding. After you removed the header and footer lines you can pass the content directly to the API method.
+       *  openssl pkcs8 -topk8 -in rsaprivatekey.pem -out privatekey.pem -nocrypt
+       *
+       *
        *  Modes
-       *   The following modes of operation are block cipher operations that
-       *      are used with some algorithms.
+       *  The following modes of operation are block cipher operations that
+       *  are used with some algorithms.
        *
-       *           "NONE" no mode
-       *           "CBC" Cipher Block Chaining (defined in FIPS PUB 81)
-       *           "CTR" Counter mode or Segmented Integer Counter mode (defined in FIPS PUB 81)
-       *           "CTS" CipherText Streaming mode
-       *           "CFB" Cipher Feedback Mode,  can be referred to with key
-       *           length referenced as "CFB8","CFB16","CFB24".."CFB64" (defined in FIPS PUB 81)
-       *           "ECB" Electronic Cook book  as defined in: The National
-       *           Institute of Standards and Technology (NIST) Federal Information
-       *           Processing Standard (FIPS) PUB 81, "DES Modes of Operation,"
-       *           U.S. Department of Commerce, Dec 1980.
-       *           "OFB" Output Feedback Mode, can be referred to with key
-       *           length referenced as "OFB8","OFB16","OFB24".."OFB64" (defined in FIPS PUB 81)
-       *           "PCBC" Propagating Cipher Block Chaining (defined in Kerberos V4)
+       *  "NONE" no mode
+       *  "CBC" Cipher Block Chaining (defined in FIPS PUB 81)
+       *  "CTR" Counter mode or Segmented Integer Counter mode (defined in FIPS PUB 81)
+       *  "CTS" CipherText Streaming mode
+       *  "CFB" Cipher Feedback Mode,  can be referred to with key
+       *  length referenced as "CFB8","CFB16","CFB24".."CFB64" (defined in FIPS PUB 81)
+       *  "ECB" Electronic Cook book  as defined in: The National
+       *  Institute of Standards and Technology (NIST) Federal Information
+       *  Processing Standard (FIPS) PUB 81, "DES Modes of Operation,"
+       *  U.S. Department of Commerce, Dec 1980.
+       *  "GCM" Galois/Counter Mode (defined in NIST SP 800-38D)
+       *  "OFB" Output Feedback Mode, can be referred to with key
+       *  length referenced as "OFB8","OFB16","OFB24".."OFB64" (defined in FIPS PUB 81)
+       *  "PCBC" Propagating Cipher Block Chaining (defined in Kerberos V4)
        *
-       * Paddings
        *
-       *           "NoPadding": No padding.
-       *           OAEPWith<digest>And<mgf>Padding: Optimal Asymmetric Encryption
-       *           Padding scheme defined in PKCS#1, where <digest> should be replaced
-       *           by the message digest and <mgf> by the mask generation function.
-       *           Examples: OAEPWITHSHA-256ANDMGF1PADDING,
-       *           OAEPWITHSHA-384ANDMGF1PADDING, OAEPWITHSHA-512ANDMGF1PADDING
-       *           ISO10126PADDING: the ISO10126-2:1991 DEA padding scheme
-       *           PKCS1Padding: Public Key Cryptography Standard #1, a standard
-       *           for padding from RSA Laboratories that can encrypt messages up
-       *           to 11 bytes smaller than the modulus size in bytes.
-       *           PKCS5Padding: Public Key Cryptography Standard #1, a standard
-       *           for padding from RSA Laboratories, "PKCS#5: Password-Based Encryption Standard," version 1.5, November 1993.
-       *           SSL3Padding: The padding scheme defined in the SSL Protocol Version 3.0, November 18, 1996, section 5.2.3.2 (CBC block cipher)
+       *  Paddings
+       *
+       *  "NoPadding": No padding.
+       *  OAEPWith<digest>And<mgf>Padding: Optimal Asymmetric Encryption
+       *  Padding scheme defined in PKCS#1, where <digest> should be replaced
+       *  by the message digest and <mgf> by the mask generation function.
+       *
+       *  Examples: OAEPWITHSHA-256ANDMGF1PADDING, OAEPWITHSHA-384ANDMGF1PADDING, OAEPWITHSHA-512ANDMGF1PADDING
+       *  ISO10126PADDING: the ISO10126-2:1991 DEA padding scheme
+       *  PKCS1Padding: Public Key Cryptography Standard #1, a standard
+       *  for padding from RSA Laboratories that can encrypt messages up
+       *  to 11 bytes smaller than the modulus size in bytes.
+       *  PKCS5Padding: Public Key Cryptography Standard #1, a standard
+       *  for padding from RSA Laboratories, "PKCS#5: Password-Based Encryption Standard," version 1.5, November 1993.
+       *  SSL3Padding: The padding scheme defined in the SSL Protocol Version 3.0, November 18, 1996, section 5.2.3.2 (CBC block cipher)
        * @param message A string to encrypt (will be first converted with UTF-8 encoding into a byte stream)
        * @param key A string ready for use with the algorithm. The key's format depends on the algorithm specified and the keys are assumed to be correctly formulated for the algorithm used, for example that the lengths are correct. Keys are not checked for validity. The cryptographic algorithms can be partitioned into symmetric and asymmetric (or public key/private key). Symmetric algorithms include password-based algorithms. Symmetric keys are usually a base64-encoded array of bytes. Asymmetric keys are "key pairs" with a public key and a private key. To encrypt using asymmetric algorithms, provide the public key. To decrypt using asymmetric algorithms, provide the private key from the same pair in PKCS#8 format, base64-encoded. See class documentation on how to generate a key pair. If the cryptographic algorithm is symmetric (for example, AES) or asymmetric (for example, RSA), the key needs to be passed as a base64-encoded string. The only exception is the symmetric cryptographic algorithms Password Based Encryption (PBE). With PBE the key needs to be passed as plain string (without any encoding).
-       * @param transformation The transformation has to be in "algorithm/mode/padding" format. Symmetric or "secret key" algorithms use the same key to encrypt and to decrypt the data. Asymmetric or "public key" cryptography uses a public/private key pair, and then publishes the public key. Only the holder of the private key will be able to decrypt. The public key and private key are also known as a "key pair". Supported Symmetric transformations include:  "AES" or Rijndael, Advanced Encryption Standard as specified by NIST AES with key length of 256 is the preferred choice for symmetric encryption Keysizes: 128, 192, or 256 Modes: "ECB","CBC","PCBC","CTR","CTS","CFB","CFB8","CFB16","CFB24".."CFB64", "OFB","OFB8","OFB16","OFB24".."OFB64" Padding: "PKCS5Padding"   Note that ARCFOUR, Blowfish, DES, RC2, DESede, DESedeWrap, PBEWithMD5AndDES, PBEWithMD5AndTripleDES1, PBEWithSHA1AndDESede and PBEWithSHA1AndRC2_40 transformations have been deprecated. Also, PKCS5Padding is the only supported Padding. NOPADDING and ISO10126PADDING have been deprecated. Supported Asymmetric transformations include:  "RSA" Mode: "ECB" Padding: "OAEPWITHSHA-256ANDMGF1PADDING", "OAEPWITHSHA-384ANDMGF1PADDING", "OAEPWITHSHA-512ANDMGF1PADDING"   Note that for RSA the key length should be at least 2048 bits. Also, the following Padding options have been deprecated: NOPADDING, PKCS1PADDING, OAEPWITHMD5ANDMGF1PADDING, OAEPWITHSHA1ANDMGF1PADDING and OAEPWITHSHA-1ANDMGF1PADDING.
-       * @param saltOrIV Initialization value appropriate for the algorithm, this might be a Binary Salt or AlgorithmParameter or InitializationVector. (As binary values cannot be passed, the equivalent Base64 String should be passed for any binary salt value). Should be appropriate for the algorithm being used. The same value used to Encrypt needs to be supplied to the Decrypt function for many algorithms to successfully decrypt the data, so it is best practice to specify an appropriate value. Requirements for the size and generation of DES initialization vectors (IV) are derived from FIPS 74 and FIPS 81 from the National Institute of Standards and Technology. CBC mode requires an IV with length 64 bits; CFB uses 48-64 bits; OFB uses 64 bits. If the IV is to be used with DES in the OFB mode, then it is not acceptable for the IV to remain fixed for multiple encryptions, if the same key is used for those encryptions. For Block Encryption algorithms this is the encoded Base64 String equivalent to the a random number to use as a "salt" to use with the algorithm. The algorithm must contain a Feedback Mode other than ECB. This must be a binary value that is exactly the same size as the algorithm block size. RC5 uses an optional 8-byte initialization vector (IV), but only in feedback mode (see CFB above). For Password Based Encryption algorithms, the salt is the encoded Base64 String equivalent to a random number value to transform the password into a key. PBE derives an encryption key from a password. In order to make the task of getting from password to key very time-consuming for an attacker, most PBE implementations will mix in a random number, known as a salt, to create the key. The salt value and the iteration count are then combined into a PBEParameterSpecification to initialize the cipher.  The PKCS#5 spec from RSA Labs defines the parameters for password-based encryption (PBE). The RSA algorithm requires a salt with length as defined in PKCS#1. DSA has a specific initialization that uses three integers to build a DSAParameterSpec (a prime, a sub-prime and a base). To use this algorithm you should use the JCE or another provider to supply a DSAParameterSpec and then supply the Base64 equivalent string as the "salt". Please see the documentation from the provider for additional restrictions.
+       * @param transformation The transformation has to be in "algorithm/mode/padding" format. Symmetric or "secret key" algorithms use the same key to encrypt and to decrypt the data. Asymmetric or "public key" cryptography uses a public/private key pair, and then publishes the public key. Only the holder of the private key will be able to decrypt. The public key and private key are also known as a "key pair". Supported Symmetric transformations include:  "AES" or Rijndael, Advanced Encryption Standard as specified by NIST AES with key length of 256 is the preferred choice for symmetric encryption Keysizes: 128, 192, or 256 Modes: "GCM","ECB","CBC","PCBC","CTR","CTS","CFB","CFB8","CFB16","CFB24".."CFB64", "OFB","OFB8","OFB16","OFB24".."OFB64" Padding: "PKCS5Padding" or "NoPadding" (GCM only)   Note that ARCFOUR, Blowfish, DES, RC2, DESede, DESedeWrap, PBEWithMD5AndDES, PBEWithMD5AndTripleDES1, PBEWithSHA1AndDESede and PBEWithSHA1AndRC2_40 transformations have been deprecated. PKCS5Padding is the only supported Padding for most modes. NOPADDING is only supported for GCM, and ISO10126PADDING has been deprecated. Supported Asymmetric transformations include:  "RSA" Mode: "ECB" Padding: "OAEPWITHSHA-256ANDMGF1PADDING", "OAEPWITHSHA-384ANDMGF1PADDING", "OAEPWITHSHA-512ANDMGF1PADDING"   Note that for RSA the key length should be at least 2048 bits. Also, the following Padding options have been deprecated: NOPADDING, PKCS1PADDING, OAEPWITHMD5ANDMGF1PADDING, OAEPWITHSHA1ANDMGF1PADDING and OAEPWITHSHA-1ANDMGF1PADDING.
+       * @param saltOrIV Initialization value appropriate for the algorithm, this might be a Binary Salt or AlgorithmParameter or InitializationVector. (As binary values cannot be passed, the equivalent Base64 String should be passed for any binary salt value). Should be appropriate for the algorithm being used. The same value used to Encrypt needs to be supplied to the Decrypt function for many algorithms to successfully decrypt the data, so it is best practice to specify an appropriate value. Requirements for the size and generation of DES initialization vectors (IV) are derived from FIPS 74 and FIPS 81 from the National Institute of Standards and Technology. CBC mode requires an IV with length 64 bits; CFB uses 48-64 bits; OFB uses 64 bits; GCM uses 96 bits. If the IV is to be used with DES in the OFB mode, then it is not acceptable for the IV to remain fixed for multiple encryptions, if the same key is used for those encryptions. For Block Encryption algorithms this is the encoded Base64 String equivalent to the a random number to use as a "salt" to use with the algorithm. The algorithm must contain a Feedback Mode other than ECB. This must be a binary value that is exactly the same size as the algorithm block size. RC5 uses an optional 8-byte initialization vector (IV), but only in feedback mode (see CFB above). For Password Based Encryption algorithms, the salt is the encoded Base64 String equivalent to a random number value to transform the password into a key. PBE derives an encryption key from a password. In order to make the task of getting from password to key very time-consuming for an attacker, most PBE implementations will mix in a random number, known as a salt, to create the key. The salt value and the iteration count are then combined into a PBEParameterSpecification to initialize the cipher.  The PKCS#5 spec from RSA Labs defines the parameters for password-based encryption (PBE). The RSA algorithm requires a salt with length as defined in PKCS#1. DSA has a specific initialization that uses three integers to build a DSAParameterSpec (a prime, a sub-prime and a base). To use this algorithm you should use the JCE or another provider to supply a DSAParameterSpec and then supply the Base64 equivalent string as the "salt". Please see the documentation from the provider for additional restrictions. For GCM the base64-encoded initialization vector may be optionally suffixed with a vertical pipe followed by the number of bits in the tag length. If not present then the tag length will be 128 bits. This syntax is only supported for the GCM mode.
        * @param iterations The number of passes to make when turning a passphrase into a key. This is only applicable for some types of algorithm. Password Based Encryption (PBE) algorithms use this parameter, and Block Encryption algorithms do not. If this value is relevant to the algorithm it would be best practice to supply it, as the same value would be needed to decrypt the data.
        * @return the encrypted message encoded as a String using base 64 encoding.
        */
@@ -16599,7 +16838,6 @@ declare namespace dw {
        *  Note: Only asymmetric (public/private key pair) algorithms can be used
        *  with this method, since only those keys can be added to a keystore.
        *
-       *
        *  For asymmetric algorithms a private/public key pair is required.
        *  Commerce Cloud Digital only allows you to add private keys in the format *.p12 and *.pfx.
        *  You can assign private keys an extra password in Business Manager. Public keys
@@ -16609,11 +16847,12 @@ declare namespace dw {
        *  Key pairs for asymmetric ciphers can be generated with an arbitrary tool.
        *  One of the most popular options is the open source tool OpenSSL.
        *  OpenSSL has a command-line syntax and is available on major platforms.
+       *
        *  The following steps are involved in creating an RSA key pair:
        *
-       *  1. Generate a public and a non-protected private key ( *.crt and *.key ).< br/>
+       *  Generate a public and a non-protected private key ( *.crt and *.key ).
        *  openssl req -x509 -newkey rsa:2048 -keyout nopass.key -out nopass.crt -days 365 -nodes
-       *  2. Generate a keystore that contains the public and private keys ( *.p12 ). < br/>
+       *  Generate a keystore that contains the public and private keys ( *.p12 ).
        *  openssl pkcs12 -export -out nopass.p12 -inkey nopass.key -in nopass.crt
        *
        *  To import a private or public key into the Digital keystore, navigate to
@@ -16621,13 +16860,12 @@ declare namespace dw {
        *  Use a .p12 file to import a private key and a *.crt to import a public key.
        *
        *  Typical usage:
-       *
        *   var plain : String = "some_plain_text";
        *  var publicKeyRef = new CertificateRef("rsa-certificate-2048");
        *  var cipher : Cipher = new Cipher();
        *  var encrypted : String = cipher.encrypt(plain, publicKeyRef, "RSA", null, 0);
        * @param message (see encrypt_3(String, String, String, String, Number))
-       * @param publicKey A reference to a public key in the key store.
+       * @param publicKey A reference to a public key.
        * @param transformation (see encrypt_3(String, String, String, String, Number))
        * @param saltOrIV (see encrypt_3(String, String, String, String, Number))
        * @param iterations (see encrypt_3(String, String, String, String, Number))
@@ -16676,7 +16914,7 @@ declare namespace dw {
        *  Note: Only asymmetric (public/private key pair) algorithms can be used
        *  with this method, since only those keys can be added to a keystore.
        * @param messageBytes (see encryptBytes(Bytes, String, String, String, Number))
-       * @param publicKey A reference to a public key in the key store.
+       * @param publicKey A reference to a public key.
        * @param transformation (see encryptBytes(Bytes, String, String, String, Number))
        * @param saltOrIV (see encryptBytes(Bytes, String, String, String, Number))
        * @param iterations (see encryptBytes(Bytes, String, String, String, Number))
@@ -16725,7 +16963,7 @@ declare namespace dw {
        *  Note: Only asymmetric (public/private key pair) algorithms can be used
        *  with this method, since only those keys can be added to a keystore.
        * @param messageBytes (see encryptBytes_3(Bytes, String, String, String, Number))
-       * @param publicKey A reference to a public key in the key store.
+       * @param publicKey A reference to a public key.
        * @param transformation (see encryptBytes_3(Bytes, String, String, String, Number))
        * @param saltOrIV (see encryptBytes_3(Bytes, String, String, String, Number))
        * @param iterations (see encryptBytes_3(Bytes, String, String, String, Number))
@@ -16747,12 +16985,12 @@ declare namespace dw {
       private constructor();
 
       /**
-       * Decode the given string which represents a sequence of characters encoded
-       *  in base-64 to a byte array. Characters not in the base-64 alphabet are
+       * Decode the given string which represents a sequence of characters encoded in base-64 to a byte array. This
+       *  operation supports both the base-64 and base-64 for URL formats. Characters not in the base-64 alphabet are
        *  ignored. An exception is thrown if a null value is passed.
        *
-       *  Note: This decoding operation is limited to the maximum number of bytes
-       *  that a Bytes object can hold. See Bytes.
+       *  Note: This decoding operation is limited to the maximum number of bytes that a Bytes object can hold. See
+       *  Bytes.
        * @param string A string consisting of characters in base-64 alphabet to decode.
        * @return The decoded array of bytes.
        */
@@ -16799,6 +17037,13 @@ declare namespace dw {
        */
       static toBase64(bytes: dw.util.Bytes): string;
       /**
+       * Convert the given byte array to a string encoded in base-64 for URLs.  This method does not chunk the data by
+       *  adding line breaks and it does not add any padding.  An exception is thrown if a null value is passed.
+       * @param bytes The array of bytes to encode.
+       * @return The encoded string containing only Base64URL characters.
+       */
+      static toBase64URL(bytes: dw.util.Bytes): string;
+      /**
        * Converts an array of bytes into a string representing the hexadecimal
        *  values of each byte in order. The returned string will be double the
        *  length of the passed array, as it takes two characters to represent any
@@ -16827,6 +17072,384 @@ declare namespace dw {
        * @return The encoded string.
        */
       static toURI(string: string, encoding: string): string;
+    }
+
+    /**
+     * This class represents a JSON Web Encryption (JWE) object.
+     *  <p>
+     *  <b>Note:</b> this class handles sensitive security-related data.
+     *  Pay special attention to PCI DSS v3 requirements 2, 4, and 12.</p>
+     */
+    class JWE {
+      /**
+       * Get the algorithm (alg) from the header.
+       */
+      readonly algorithm: string;
+      /**
+       * Get the encryption method (enc) from the header.
+       */
+      readonly encryptionMethod: string;
+      /**
+       * Get a copy of the JWE headers as a Map.
+       */
+      readonly headerMap: dw.util.Map<any, any>;
+      /**
+       * Get the key id (kid) from the header.
+       */
+      readonly keyID: string;
+      /**
+       * Get the decrypted payload.
+       */
+      readonly payload: string;
+
+      /**
+       * Construct a new JWE for encryption.
+       * @param header JWE header. This must include a valid algorithm (alg) and encryption method (enc). See decrypt(KeyRef) for a list of supported algorithms.
+       * @param payload Content that will be encrypted.
+       */
+      constructor(header: dw.crypto.JWEHeader, payload: string);
+      /**
+       * Construct a new JWE for encryption.
+       * @param header JWE header. This must include a valid algorithm (alg) and encryption method (enc). See decrypt(KeyRef) for a list of supported algorithms.
+       * @param payload Content that will be encrypted.
+       */
+      constructor(header: dw.crypto.JWEHeader, payload: dw.util.Bytes);
+
+      /**
+       * Decrypt the payload of this JWE object.
+       *
+       *  Elliptic Curve (EC) and RSA keys are both supported.
+       *
+       *  Supported EC key management algorithms:
+       *
+       *      ECDH-ES
+       *      ECDH-ES+A128KW
+       *      ECDH-ES+A192KW
+       *      ECDH-ES+A256KW
+       *
+       *  Supported EC curves:
+       *
+       *      P-256
+       *      P-384
+       *      P-521
+       *
+       *  Supported RSA key management algorithms:
+       *
+       *      RSA-OAEP-256
+       *      RSA-OAEP-384
+       *      RSA-OAEP-512
+       *
+       *  Supported content encryption algorithms:
+       *
+       *      A128CBC-HS256
+       *      A128CBC-HS384
+       *      A128CBC-HS512
+       *      A128GCM
+       *      A192GCM
+       *      A256GCM
+       * @param privateKey Reference to private RSA or EC key to use for decryption.
+       */
+      decrypt(privateKey: dw.crypto.KeyRef): void;
+      /**
+       * Encrypt the payload of this JWE object.
+       *
+       *  Elliptic Curve (EC) and RSA keys are both supported.
+       *
+       *  See decrypt(KeyRef) for the list of supported algorithms and encryption methods.
+       * @param publicKey Reference to public RSA or EC key to use for decryption.
+       */
+      encrypt(publicKey: dw.crypto.CertificateRef): void;
+      /**
+       * Get the algorithm (alg) from the header.
+       *
+       * @return Value of the algorithm or null if missing.
+       */
+      getAlgorithm(): string;
+      /**
+       * Get the encryption method (enc) from the header.
+       *
+       * @return Value of the encryption method or null if missing.
+       */
+      getEncryptionMethod(): string;
+      /**
+       * Get a copy of the JWE headers as a Map.
+       *
+       * @return Copy of the JWE headers.
+       */
+      getHeaderMap(): dw.util.Map<any, any>;
+      /**
+       * Get the key id (kid) from the header.
+       *
+       * @return Value of the key id or null if missing.
+       */
+      getKeyID(): string;
+      /**
+       * Get the decrypted payload.
+       *
+       * @return Payload or null if the payload is encrypted.
+       */
+      getPayload(): string;
+      /**
+       * Parse a JSON Web Encryption (JWE) object from its compact serialization format.
+       * @param jwe JWE in compact serialization format.
+       * @return JWE object.
+       */
+      static parse(jwe: string): dw.crypto.JWE;
+      /**
+       * Get this JWE in compact serialization form.
+       *
+       * @return Compact serialized object.
+       */
+      serialize(): string;
+    }
+
+    /**
+     * This class represents an immutable header of a JWE (JSON Web Encryption) object.
+     */
+    class JWEHeader {
+      /**
+       * Get the value of the algorithm parameter (alg).
+       */
+      readonly algorithm: string;
+      /**
+       * Get the value of the encryption algorithm parameter (enc).
+       */
+      readonly encryptionAlgorithm: string;
+
+      private constructor();
+
+      /**
+       * Get the value of the algorithm parameter (alg).
+       *
+       * @return Algorithm parameter from this header.
+       */
+      getAlgorithm(): string;
+      /**
+       * Get the value of the encryption algorithm parameter (enc).
+       *
+       * @return Encryption algorithm parameter from this header.
+       */
+      getEncryptionAlgorithm(): string;
+      /**
+       * Convert the given Map or JavaScript object into a JWE header.
+       *
+       *  All keys correspond to JWE parameters. The algorithm (alg) and encryption method
+       *  (enc) parameters are required. See JWE.decrypt(KeyRef) for supported values.
+       * @param map Map or object data to convert.
+       * @return JWE Header.
+       */
+      static parse(map: any): dw.crypto.JWEHeader;
+      /**
+       * Parse the given string as a Base64URL-encoded JWE header.
+       *
+       *  The algorithm (alg) and encryption method (enc) parameters are required. See
+       *  JWE.decrypt(KeyRef) for supported values.
+       * @param base64encoded Base64URL string to parse.
+       * @return JWE Header.
+       */
+      static parseEncoded(base64encoded: string): dw.crypto.JWEHeader;
+      /**
+       * Parse the given string as a JWE header.
+       *
+       *  The algorithm (alg) and encryption method (enc) parameters are required. See
+       *  JWE.decrypt(KeyRef) for supported values.
+       * @param json JSON string to parse.
+       * @return JWE Header.
+       */
+      static parseJSON(json: string): dw.crypto.JWEHeader;
+      /**
+       * Get a copy of these headers as a Map.
+       *
+       * @return Copy of the JWE headers.
+       */
+      toMap(): dw.util.Map<any, any>;
+      /**
+       * Get the content of the headers as a JSON String.
+       *
+       * @return JSON String.
+       */
+      toString(): string;
+    }
+
+    /**
+     * This class represents a JSON Web Signature (JWS) object.
+     *  <p>
+     *  <b>Note:</b> this class handles sensitive security-related data.
+     *  Pay special attention to PCI DSS v3 requirements 2, 4, and 12.</p>
+     */
+    class JWS {
+      /**
+       * Get the algorithm (alg) from the header.
+       */
+      readonly algorithm: string;
+      /**
+       * Get a copy of the JWS header.
+       */
+      readonly header: dw.crypto.JWSHeader;
+      /**
+       * Get a copy of the JWS header as a Map.
+       */
+      readonly headerMap: dw.util.Map<any, any>;
+      /**
+       * Get the payload from this object.
+       *
+       *  This is available even if the signature has not been verified.
+       */
+      readonly payload: string;
+
+      /**
+       * Construct a new JWS for signing.
+       * @param header JWS header. This must include a valid algorithm (alg). See verify(CertificateRef) for a list of supported algorithms.
+       * @param payload Content that will be signed.
+       */
+      constructor(header: dw.crypto.JWSHeader, payload: string);
+      /**
+       * Construct a new JWS for signing.
+       * @param header JWS header. This must include a valid algorithm (alg). See verify(CertificateRef) for a list of supported algorithms.
+       * @param payload Content that will be signed.
+       */
+      constructor(header: dw.crypto.JWSHeader, payload: dw.util.Bytes);
+
+      /**
+       * Get the algorithm (alg) from the header.
+       *
+       * @return Value of the algorithm or null if missing.
+       */
+      getAlgorithm(): string;
+      /**
+       * Get a copy of the JWS header.
+       *
+       * @return Copy of the JWS header.
+       */
+      getHeader(): dw.crypto.JWSHeader;
+      /**
+       * Get a copy of the JWS header as a Map.
+       *
+       * @return Copy of the JWS header.
+       */
+      getHeaderMap(): dw.util.Map<any, any>;
+      /**
+       * Get the payload from this object.
+       *
+       *  This is available even if the signature has not been verified.
+       *
+       * @return UTF-8 encoded payload.
+       */
+      getPayload(): string;
+      /**
+       * Parse a JSON Web Signature (JWS) object from its compact serialization format.
+       * @param jws JWS in compact serialization format.
+       * @return JWS object.
+       */
+      static parse(jws: string): dw.crypto.JWS;
+      /**
+       * Parse a JSON Web Signature (JWS) object from its compact serialization format.
+       * @param jws JWS without a payload in compact serialization format.
+       * @param payload Detached payload
+       * @return JWS object.
+       */
+      static parse(jws: string, payload: string): dw.crypto.JWS;
+      /**
+       * Parse a JSON Web Signature (JWS) object from its compact serialization format.
+       * @param jws JWS without a payload in compact serialization format.
+       * @param payload Detached payload
+       * @return JWS object.
+       */
+      static parse(jws: string, payload: dw.util.Bytes): dw.crypto.JWS;
+      /**
+       * Get this JWS in compact serialization form.
+       * @param detachPayload true for a detached payload compliant with RFC-7797, or false to serialize the payload too.
+       * @return Compact serialized object.
+       */
+      serialize(detachPayload: boolean): string;
+      /**
+       * Sign the payload using the given private key.
+       *
+       *  The key type and size must match the algorithm given in the JWS header.
+       * @param keyRef Reference to the private key.
+       */
+      sign(keyRef: dw.crypto.KeyRef): void;
+      /**
+       * Verifies the signature of the payload.
+       *
+       *  If the x5c header parameter is present, then that certificate chain will be used to verify the
+       *  signature and the given certificateRef must be its root certificate. If this parameter is not
+       *  present then the given certificateRef will be used to directly verify the signature.
+       *
+       *  The following algorithms are supported:
+       *
+       *      ES256
+       *      ES256K
+       *      ES384
+       *      ES512
+       *      RS256
+       *      RS384
+       *      RS512
+       *      PS256
+       *      PS384
+       *      PS512
+       * @param certificateRef Reference to the certificate to use for verification.
+       * @return a boolean indicating success (true) or failure (false).
+       */
+      verify(certificateRef: dw.crypto.CertificateRef): boolean;
+    }
+
+    /**
+     * This class represents an immutable header of a JWS (JSON Web Signature) object.
+     */
+    class JWSHeader {
+      /**
+       * Get the value of the algorithm parameter (alg).
+       */
+      readonly algorithm: string;
+
+      private constructor();
+
+      /**
+       * Get the value of the algorithm parameter (alg).
+       *
+       * @return Algorithm parameter from this header.
+       */
+      getAlgorithm(): string;
+      /**
+       * Convert the given Map or JavaScript object into a JWS header.
+       *
+       *  All keys correspond to JWS parameters. The algorithm parameter (alg) is required. See
+       *  JWS.verify(CertificateRef) for supported values.
+       * @param map Map or object data to convert.
+       * @return JWS Header.
+       */
+      static parse(map: any): dw.crypto.JWSHeader;
+      /**
+       * Parse the given string as a Base64URL-encoded JWS header.
+       *
+       *  The algorithm parameter (alg) is required. See JWS.verify(CertificateRef) for supported
+       *  values.
+       * @param base64encoded Base64URL string to parse.
+       * @return JWS Header.
+       */
+      static parseEncoded(base64encoded: string): dw.crypto.JWSHeader;
+      /**
+       * Parse the given string as a JWS header.
+       *
+       *  The algorithm parameter (alg) is required. See JWS.verify(CertificateRef) for supported
+       *  values.
+       * @param json JSON string to parse.
+       * @return JWS Header.
+       */
+      static parseJSON(json: string): dw.crypto.JWSHeader;
+      /**
+       * Get a copy of these headers as a Map.
+       *
+       * @return Copy of the JWS headers.
+       */
+      toMap(): dw.util.Map<any, any>;
+      /**
+       * Get the content of the headers as a JSON String.
+       *
+       * @return JSON String.
+       */
+      toString(): string;
     }
 
     /**
@@ -17096,8 +17719,8 @@ declare namespace dw {
       nextBytes(numBits: number): dw.util.Bytes;
       /**
        * Returns the next pseudorandom, uniformly distributed int value from this random number generator's sequence. The general
-       *  contract of nextInt is that one int value is pseudorandomly generated and returned. All 232
-       *   possible int values are produced with (approximately) equal probability.
+       *  contract of nextInt is that one int value is pseudorandomly generated and returned. All 2^32
+       *  possible int values are produced with (approximately) equal probability.
        *
        * @return the next pseudorandom, uniformly distributed int value from this random number generator's sequence
        */
@@ -17139,15 +17762,24 @@ declare namespace dw {
      *   <li>SHA256withRSA/PSS</li>
      *   <li>SHA384withRSA/PSS</li>
      *   <li>SHA512withRSA/PSS</li>
+     *   <li>SHA256withECDSA</li>
+     *   <li>SHA384withECDSA</li>
+     *   <li>SHA512withECDSA</li>
      *  </ul>
      *  <p></p>
      *
      *  <p>Key size generally ranges between 512 and 65536 bits (the latter of which is unnecessarily large).<br>
      *  Default key size for RSA is 1024. SHA384withRSA and SHA512withRSA require a key with length of at least 1024 bits.<br>
+     *  For ECDSA, the following key sizes are supported:
+     *  </p><ul>
+     *   <li>SHA256withECDSA: 256-bit key (NIST P-256)</li>
+     *   <li>SHA384withECDSA: 384-bit key (NIST P-384)</li>
+     *   <li>SHA512withECDSA: 521-bit key (NIST P-521)</li>
+     *  </ul>
      *  When choosing a key size - beware of the tradeoff between security and processing time:<br>
      *  The longer the key, the harder to break it but also it takes more time for the two sides to sign and verify the signature.<br>
      *  An exception will be thrown for keys shorter than 2048 bits in this version of the API.
-     *  </p><p>
+     *  <p>
      *  <b>Note:</b> this class handles sensitive security-related data.
      *  Pay special attention to PCI DSS v3. requirements 2, 4, 12, and other relevant requirements.
      *  </p>
@@ -17232,7 +17864,7 @@ declare namespace dw {
        * Verifies a signature supplied as bytes
        * @param signature signature to check as bytes
        * @param contentToVerify as bytes
-       * @param certificate a reference to a trusted certificate entry in the keystore
+       * @param certificate a reference to a trusted certificate
        * @param digestAlgorithm must be one of the currently supported ones
        * @return a boolean indicating success (true) or failure (false)
        */
@@ -17260,7 +17892,7 @@ declare namespace dw {
        * Verifies a signature supplied as string
        * @param signature base64 encoded signature
        * @param contentToVerify base64 encoded content to verify
-       * @param certificate a reference to a trusted certificate entry in the keystore
+       * @param certificate a reference to a trusted certificate
        * @param digestAlgorithm must be one of the currently supported ones
        * @return a boolean indicating success (true) or failure (false)
        */
@@ -17313,7 +17945,7 @@ declare namespace dw {
        *  keystore for the decryption. See Cipher.decrypt(String, KeyRef, String, String, Number) for full
        *  documentation.
        * @param base64Msg the base64 encoded data to decrypt
-       * @param privateKey No Comment In JavaDoc
+       * @param privateKey A reference to a private key in the key store.
        * @param transformation Transformation in "algorithm/mode/padding" format.
        * @param saltOrIV Initialization value appropriate for the algorithm.
        * @param iterations The number of passes to make when turning a passphrase into a key, if applicable
@@ -17348,7 +17980,7 @@ declare namespace dw {
        *  keystore for the decryption. See Cipher.decrypt_3(String, KeyRef, String, String, Number) for full
        *  documentation.
        * @param base64Msg the base64 encoded data to decrypt
-       * @param privateKey No Comment In JavaDoc
+       * @param privateKey A reference to a private key in the key store.
        * @param transformation Transformation in "algorithm/mode/padding" format.
        * @param saltOrIV Initialization value appropriate for the algorithm.
        * @param iterations The number of passes to make when turning a passphrase into a key, if applicable
@@ -17385,7 +18017,7 @@ declare namespace dw {
        *  the keystore for the decryption. See Cipher.decryptBytes(Bytes, KeyRef, String, String, Number) for full
        *  documentation.
        * @param encryptedBytes The bytes to decrypt.
-       * @param privateKey No Comment In JavaDoc
+       * @param privateKey A reference to a private key in the key store.
        * @param transformation The transformation used to originally encrypt.
        * @param saltOrIV the salt or IV to use.
        * @param iterations the iterations to use.
@@ -17422,7 +18054,7 @@ declare namespace dw {
        *  the keystore for the decryption. See Cipher.decryptBytes_3(Bytes, KeyRef, String, String, Number) for full
        *  documentation.
        * @param encryptedBytes The bytes to decrypt.
-       * @param privateKey No Comment In JavaDoc
+       * @param privateKey A reference to a private key in the key store.
        * @param transformation The transformation used to originally encrypt.
        * @param saltOrIV the salt or IV to use.
        * @param iterations the iterations to use.
@@ -17460,7 +18092,7 @@ declare namespace dw {
        *
        *  See Cipher.encrypt(String, CertificateRef, String, String, Number) for full documentation.
        * @param message Message to encrypt (this will be converted to UTF-8 first)
-       * @param publicKey A reference to a public key in the key store
+       * @param publicKey A reference to a public key
        * @param transformation Transformation in "algorithm/mode/padding" format
        * @param saltOrIV Initialization value appropriate for the algorithm
        * @param iterations The number of passes to make when turning a passphrase into a key, if applicable
@@ -17498,7 +18130,7 @@ declare namespace dw {
        *
        *  See Cipher.encrypt_3(String, CertificateRef, String, String, Number) for full documentation.
        * @param message Message to encrypt (this will be converted to UTF-8 first)
-       * @param publicKey A reference to a public key in the key store
+       * @param publicKey A reference to a public key
        * @param transformation Transformation in "algorithm/mode/padding" format
        * @param saltOrIV Initialization value appropriate for the algorithm
        * @param iterations The number of passes to make when turning a passphrase into a key, if applicable
@@ -17533,7 +18165,7 @@ declare namespace dw {
        * Alternative method to encryptBytes(Bytes, String, String, String, Number), which allows
        *  to use a key in the keystore for the encryption. See Cipher.encryptBytes(Bytes, CertificateRef, String, String, Number) for full documentation.
        * @param messageBytes The bytes to encrypt.
-       * @param publicKey A reference to a public key in the key store.
+       * @param publicKey A reference to a public key.
        * @param transformation Transformation in "algorithm/mode/padding" format.
        * @param saltOrIV Initialization value appropriate for the algorithm.
        * @param iterations The number of passes to make when turning a passphrase into a key.
@@ -17568,7 +18200,7 @@ declare namespace dw {
        * Alternative method to encryptBytes_3(Bytes, String, String, String, Number), which allows
        *  to use a key in the keystore for the encryption. See Cipher.encryptBytes_3(Bytes, CertificateRef, String, String, Number) for full documentation.
        * @param messageBytes The bytes to encrypt.
-       * @param publicKey A reference to a public key in the key store.
+       * @param publicKey A reference to a public key.
        * @param transformation Transformation in "algorithm/mode/padding" format.
        * @param saltOrIV Initialization value appropriate for the algorithm.
        * @param iterations The number of passes to make when turning a passphrase into a key.
@@ -17856,7 +18488,7 @@ declare namespace dw {
        * Verifies a signature supplied as bytes
        * @param signature signature to check as bytes
        * @param contentToVerify as bytes
-       * @param certificate a reference to a trusted certificate entry in the keystore
+       * @param certificate a reference to a trusted certificate
        * @param digestAlgorithm must be one of the currently supported ones
        * @return a boolean indicating success (true) or failure (false)
        */
@@ -17884,7 +18516,7 @@ declare namespace dw {
        * Verifies a signature supplied as string
        * @param signature base64 encoded signature
        * @param contentToVerify base64 encoded content to verify
-       * @param certificate a reference to a trusted certificate entry in the keystore
+       * @param certificate a reference to a trusted certificate
        * @param digestAlgorithm must be one of the currently supported ones
        * @return a boolean indicating success (true) or failure (false)
        */
@@ -17894,6 +18526,92 @@ declare namespace dw {
         certificate: dw.crypto.CertificateRef,
         digestAlgorithm: string
       ): boolean;
+    }
+
+    /**
+     * Represents an X.509 public key certificate as defined in RFC 5280.
+     *  <p>
+     *  It provides access to the standard fields of an X.509 certificate including version, serial number, validity period,
+     *  distinguished names, and signature algorithm.</p>
+     */
+    class X509Certificate extends dw.crypto.CertificateRef {
+      /**
+       * The X.500 distinguished name of the entity that signed this certificate.
+       */
+      readonly issuerDN: string;
+      /**
+       * The end date of the certificate validity period.
+       */
+      readonly notAfter: Date;
+      /**
+       * The start date of the certificate validity period.
+       */
+      readonly notBefore: Date;
+      /**
+       * The certificate serial number in string format. The serial number is a unique positive integer assigned
+       *  by the CA to each certificate.
+       */
+      readonly serialNumber: string;
+      /**
+       * The algorithm used to sign this certificate. The name follows the format defined in RFC 5280 (e.g.,
+       *  "SHA256withRSA", "SHA384withECDSA").
+       */
+      readonly sigAlgName: string;
+      /**
+       * The X.500 distinguished name of the entity this certificate belongs to.
+       */
+      readonly subjectDN: string;
+      /**
+       * The X.509 certificate version number.
+       */
+      readonly version: number;
+
+      private constructor();
+
+      /**
+       * Returns the X.500 distinguished name of the entity that signed this certificate.
+       *
+       * @return the issuer's X.500 distinguished name
+       */
+      getIssuerDN(): string;
+      /**
+       * Returns the end date of the certificate validity period.
+       *
+       * @return the date after which this certificate is not valid
+       */
+      getNotAfter(): Date;
+      /**
+       * Returns the start date of the certificate validity period.
+       *
+       * @return the date before which this certificate is not valid
+       */
+      getNotBefore(): Date;
+      /**
+       * Returns the certificate serial number in string format. The serial number is a unique positive integer assigned
+       *  by the CA to each certificate.
+       *
+       * @return the certificate serial number as a string
+       */
+      getSerialNumber(): string;
+      /**
+       * Returns the algorithm used to sign this certificate. The name follows the format defined in RFC 5280 (e.g.,
+       *  "SHA256withRSA", "SHA384withECDSA").
+       *
+       * @return the signature algorithm name
+       */
+      getSigAlgName(): string;
+      /**
+       * Returns the X.500 distinguished name of the entity this certificate belongs to.
+       *
+       * @return the subject's X.500 distinguished name
+       */
+      getSubjectDN(): string;
+      /**
+       * Returns the X.509 certificate version number.
+       *
+       * @return certificate version (typically 1, 2, or 3)
+       */
+      getVersion(): number;
     }
   }
 
@@ -19567,6 +20285,10 @@ declare namespace dw {
        *
        *
        * Note: a storefront can be customized to provide further constraints on characters in a login name, but it cannot remove any constraints described above.
+       *
+       * If customers are created using this Script API call then any updated to the customer records should be done through Script API calls as well.
+       *  The customer records created with Script API call should not be updated with OCAPI calls as the email validation is handled
+       *  differently in these calls and may result in InvalidEmailException.
        * @param login The unique login name associated with the new customer and its profile, must not be null. If login is already in use, an exception will be thrown.
        * @param password Customer plain customer password, which is encrypted before it is stored at the profile, must not be null.
        * @return customer The new customer object.
@@ -19605,6 +20327,10 @@ declare namespace dw {
        *
        *  A valid CustomerNo is between 1 and 100 characters in length (not counting leading or trailing whitespace). Commerce Cloud Digital recommends that a CustomerNo only
        *  contain characters valid for URLs.
+       *
+       *  If customers are created using this Script API call then any updated to the customer records should be done through Script API calls as well.
+       *  The customer records created with Script API call should not be updated with OCAPI calls as the email validation is handled
+       *  differently in these calls and may result in InvalidEmailException.
        * @param login The unique login name associated with the new customer and its profile, must not be null. If login is already in use, an exception will be thrown.
        * @param password Customer plain customer password, which is encrypted before it is stored at the profile, must not be null.
        * @param customerNo The unique customerNo can be null, the system will then automatically assign a new value. If provided explicitly, the system will make sure that no other customer uses the same value and will throw an exception otherwise.
@@ -19839,7 +20565,7 @@ declare namespace dw {
        *  Date yyyy-MM-dd e.g. 2007-05-31 (Default TimeZone = UTC)
        *  DateTime yyyy-MM-dd'T'hh:mm:ss+Z e.g. 2007-05-31T00:00+Z (Z TimeZone = UTC) or 2007-05-31T00:00:00
        *  Boolean true, false
-       *  Email '[email protected]', '*@demandware.com'
+       *  Email 'search@demandware.com', '*@demandware.com'
        *  Set of String 'String', 'Str*', 'Strin?'
        *  Set of Integer 1, 3E4
        *  Set of Number 1.0, 3.99E5
@@ -19880,7 +20606,6 @@ declare namespace dw {
        *  '1' and so on, e.g.
        *  querySystemObjects("sample", "age = {0} or creationDate >= {1}", 18, date)
        *
-       *
        *  If there is more than one object matching the specified query criteria, the
        *  result is not deterministic. In order to retrieve a single object from a sorted result
        *  set it is recommended to use the following code:
@@ -19888,9 +20613,13 @@ declare namespace dw {
        *  The method first() returns only the next element and closes the
        *  iterator.
        *
-       *  This method will be deprecated in a future release. We recommend to use methods searchProfile(String, Object...),
-       *  searchProfiles(Map, String) and searchProfiles(String, String, Object...)
-       *  to search for customers, and to use method processProfiles(Function, String, Object...) to search and process customers in jobs.
+       *
+       *  This method is deprecated and will be removed in a future release.
+       *  One of the following methods should be used instead:
+       *  searchProfile(String, Object...),
+       *  searchProfiles(Map, String) and
+       *  searchProfiles(String, String, Object...) to search for customers and
+       *  processProfiles(Function, String, Object...) to search and process customers in jobs.
        * @param queryString the query string to use when searching for a profile.
        * @param args the query string arguments.
        * @return the profile which was found when executing the queryString.
@@ -19907,9 +20636,13 @@ declare namespace dw {
        *
        *  For a description of this query language, see the queryProfile(String, Object...) method.
        *
-       *  This method will be deprecated in a future release. We recommend to use methods searchProfile(String, Object...),
-       *  searchProfiles(Map, String) and searchProfiles(String, String, Object...)
-       *  to search for customers, and to use method processProfiles(Function, String, Object...) to search and process customers in jobs.
+       *
+       *  This method is deprecated and will be removed in a future release.
+       *  One of the following methods should be used instead:
+       *  searchProfile(String, Object...),
+       *  searchProfiles(Map, String) and
+       *  searchProfiles(String, String, Object...) to search for customers and
+       *  processProfiles(Function, String, Object...) to search and process customers in jobs.
        * @param queryString the actual query.
        * @param sortString an optional sorting or null if no sorting is necessary.
        * @param args optional parameters for the query string.
@@ -19944,7 +20677,7 @@ declare namespace dw {
        *  Date yyyy-MM-dd e.g. 2007-05-31 (Default TimeZone = UTC)
        *  DateTime yyyy-MM-dd'T'hh:mm:ss+Z e.g. 2007-05-31T00:00+Z (Z TimeZone = UTC) or 2007-05-31T00:00:00
        *  Boolean true, false
-       *  Email '[email protected]', '*@demandware.com'
+       *  Email 'search@demandware.com', '*@demandware.com'
        *  Set of String 'String', 'Str*', 'Strin?'
        *  Set of Integer 1, 3E4
        *  Set of Number 1.0, 3.99E5
@@ -19972,9 +20705,13 @@ declare namespace dw {
        *  if not all of its elements are being retrieved. This will ensure the proper cleanup of system resources.
        *  See SeekableIterator.close()
        *
-       *  This method will be deprecated in a future release. We recommend to use methods searchProfile(String, Object...),
-       *  searchProfiles(Map, String) and searchProfiles(String, String, Object...)
-       *  to search for customers, and to use method processProfiles(Function, String, Object...) to search and process customers in jobs.
+       *
+       *  This method is deprecated and will be removed in a future release.
+       *  One of the following methods should be used instead:
+       *  searchProfile(String, Object...),
+       *  searchProfiles(Map, String) and
+       *  searchProfiles(String, String, Object...) to search for customers and
+       *  processProfiles(Function, String, Object...) to search and process customers in jobs.
        * @param queryAttributes key-value pairs that define the query.
        * @param sortString an optional sorting or null if no sorting is necessary.
        * @return SeekableIterator containing the result set of the query.
@@ -20018,7 +20755,7 @@ declare namespace dw {
        *  Date yyyy-MM-dd e.g. 2007-05-31 (Default TimeZone = UTC)
        *  DateTime yyyy-MM-dd'T'hh:mm:ss+Z e.g. 2007-05-31T00:00+Z (Z TimeZone = UTC) or 2007-05-31T00:00:00
        *  Boolean true, false
-       *  Email '[email protected]', '*@demandware.com'
+       *  Email 'search@demandware.com', '*@demandware.com'
        *  Set of String 'String', 'Str*', 'Strin?'
        *  Set of Integer 1, 3E4
        *  Set of Number 1.0, 3.99E5
@@ -20131,7 +20868,7 @@ declare namespace dw {
        *  Date yyyy-MM-dd e.g. 2007-05-31 (Default TimeZone = UTC)
        *  DateTime yyyy-MM-dd'T'hh:mm:ss+Z e.g. 2007-05-31T00:00+Z (Z TimeZone = UTC) or 2007-05-31T00:00:00
        *  Boolean true, false
-       *  Email '[email protected]', '*@demandware.com'
+       *  Email 'search@demandware.com', '*@demandware.com'
        *  Set of String 'String', 'Str*', 'Strin?'
        *  Set of Integer 1, 3E4
        *  Set of Number 1.0, 3.99E5
@@ -21376,7 +22113,7 @@ declare namespace dw {
        *  Date yyyy-MM-dd e.g. 2007-05-31 (Default TimeZone = UTC)
        *  DateTime yyyy-MM-dd'T'hh:mm:ss+Z e.g. 2007-05-31T00:00+Z (Z TimeZone = UTC) or 2007-05-31T00:00:00
        *  Boolean true, false
-       *  Email '[email protected]', '*@demandware.com'
+       *  Email 'search@demandware.com', '*@demandware.com'
        *  Set of String 'String', 'Str*', 'Strin?'
        *  Set of Integer 1, 3E4
        *  Set of Number 1.0, 3.99E5
@@ -21428,7 +22165,7 @@ declare namespace dw {
        *  Date yyyy-MM-dd e.g. 2007-05-31 (Default TimeZone = UTC)
        *  DateTime yyyy-MM-dd'T'hh:mm:ss+Z e.g. 2007-05-31T00:00+Z (Z TimeZone = UTC) or 2007-05-31T00:00:00
        *  Boolean true, false
-       *  Email '[email protected]', '*@demandware.com'
+       *  Email 'search@demandware.com', '*@demandware.com'
        *  Set of String 'String', 'Str*', 'Strin?'
        *  Set of Integer 1, 3E4
        *  Set of Number 1.0, 3.99E5
@@ -22214,27 +22951,29 @@ declare namespace dw {
        *  OAuth providers to support the Authorization Code Flow.<br>
        *  The way to use is:
        *  <ul>
-       *   <li>call <a href="class_dw_customer_oauth_OAuthLoginFlowMgr.html#dw_customer_oauth_OAuthLoginFlowMgr_initiateOAuthLogin_String_DetailAnchor">initiateOAuthLogin(String)</a></li>
-       *   <li>redirect the user to the returned link</li>
-       *   <li>when the user authenticates there the server will call back to
-       *   a URL configured on the provider's web site</li>
-       *   <li>when processing the request made from the provider's web site
-       *   you have two choices - either call the <a href="class_dw_customer_oauth_OAuthLoginFlowMgr.html#dw_customer_oauth_OAuthLoginFlowMgr_obtainAccessToken_DetailAnchor">obtainAccessToken()</a>
-       *   and <a href="class_dw_customer_oauth_OAuthLoginFlowMgr.html#dw_customer_oauth_OAuthLoginFlowMgr_obtainUserInfo_String_String_DetailAnchor">obtainUserInfo(String, String)</a>
-       *   methods one after another separately (gives you more flexibility),
-       *   or call the <a href="class_dw_customer_oauth_OAuthLoginFlowMgr.html#dw_customer_oauth_OAuthLoginFlowMgr_finalizeOAuthLogin_DetailAnchor">finalizeOAuthLogin()</a> method which internally
-       *   calls the other two (simpler to use).
-       *  </li></ul> Sample code for using it:
-       *    <pre><code>
-       *     var finalizedResponse : OAuthFinalizedResponse = OAuthLoginFlowMgr.finalizeOAuthLogin();
-       *     var userInfo = finalizedResponse.userInfoResponse.userInfo;
-       *    </code></pre>
-       *    or:<pre><code>
-       *     var accessTokenResponse : OAuthAccessTokenResponse = OAuthLoginFlowMgr.obtainAccessToken();
-       *     var userInfoResponse : OAuthUserInfoResponse = OAuthLoginFlowMgr
-       *         .obtainUserInfo(accessTokenResponse.oauthProviderId, accessTokenResponse.accessToken);
-       *     var userInfo = userInfoResponse.userInfo;
-       *    </code></pre>
+       *  <li>call <a href="class_dw_customer_oauth_OAuthLoginFlowMgr.html#dw_customer_oauth_OAuthLoginFlowMgr_initiateOAuthLogin_String_DetailAnchor">initiateOAuthLogin(String)</a></li>
+       *  <li>redirect the user to the returned link</li>
+       *  <li>when the user authenticates there the server will call back to
+       *  a URL configured on the provider's web site</li>
+       *  <li>when processing the request made from the provider's web site
+       *  you have two choices - either call the <a href="class_dw_customer_oauth_OAuthLoginFlowMgr.html#dw_customer_oauth_OAuthLoginFlowMgr_obtainAccessToken_DetailAnchor">obtainAccessToken()</a>
+       *  and <a href="class_dw_customer_oauth_OAuthLoginFlowMgr.html#dw_customer_oauth_OAuthLoginFlowMgr_obtainUserInfo_String_String_DetailAnchor">obtainUserInfo(String, String)</a>
+       *  methods one after another separately (gives you more flexibility),
+       *  or call the <a href="class_dw_customer_oauth_OAuthLoginFlowMgr.html#dw_customer_oauth_OAuthLoginFlowMgr_finalizeOAuthLogin_DetailAnchor">finalizeOAuthLogin()</a> method which internally
+       *  calls the other two (simpler to use).</li>
+       *  </ul>
+       *  Sample code for using it:
+       *  <pre><code>
+       *  var finalizedResponse : OAuthFinalizedResponse = OAuthLoginFlowMgr.finalizeOAuthLogin();
+       *  var userInfo = finalizedResponse.userInfoResponse.userInfo;
+       *  </code></pre>
+       *  or:
+       *  <pre><code>
+       *  var accessTokenResponse : OAuthAccessTokenResponse = OAuthLoginFlowMgr.obtainAccessToken();
+       *  var userInfoResponse : OAuthUserInfoResponse = OAuthLoginFlowMgr.obtainUserInfo(
+       *      accessTokenResponse.oauthProviderId, accessTokenResponse.accessToken);
+       *  var userInfo = userInfoResponse.userInfo;
+       *  </code></pre>
        */
       class OAuthLoginFlowMgr {
         constructor();
@@ -22345,6 +23084,400 @@ declare namespace dw {
          * @return the user info
          */
         getUserInfo(): string;
+      }
+    }
+
+    namespace shoppercontext {
+      /**
+       * The class represents Shopper Context. It is used to manage personalized shopping experiences on your storefront.
+       *  <p>
+       *  Shopper Context is used to personalize shopper experiences with context values such as custom session attributes,
+       *  assignment qualifiers, geolocation, clientIP address, effective date time, source code, coupon code and customer
+       *  groups.
+       *  </p>
+       *  <p>
+       *  When Shopper Context is set for a shopper, the context is applied in the next request and can activate promotions or
+       *  price books assigned to customer groups, source codes, or stores (via assignments).
+       *  </p>
+       */
+      class ShopperContext {
+        /**
+         * The assignment qualifiers from the Shopper Context. Assignment qualifiers are set when using the
+         *  assignment framework to trigger pricing and promotion experiences for Products, Product Search, Basket, Shipping
+         *  methods etc.
+         */
+        assignmentQualifiers: dw.util.Map<any, any>;
+        /**
+         * The IP address of the client from the Shopper Context.
+         */
+        clientIP: string;
+        /**
+         * The Coupon codes from the Shopper Context.
+         */
+        couponCodes: dw.util.Set<any>;
+        /**
+         * Returns customer group IDs from the Shopper Context to apply. The customer group IDs set in Shopper Context
+         *  evaluate to customer groups that trigger the promotions (campaign assignment) assigned to the customer groups.
+         */
+        customerGroupIDs: dw.util.Set<any>;
+        /**
+         * The custom qualifiers from the Shopper Context. Custom qualifiers contain the custom session attributes
+         *  set in the Shopper Context.
+         */
+        customQualifiers: dw.util.Map<any, any>;
+        /**
+         * The effective date time from the Shopper Context. With the effective date time you can retrieve
+         *  promotions that are active at a particular time. For example, "Shop the Future" use cases.
+         */
+        effectiveDateTime: Date;
+        /**
+         * The geographic location from the Shopper Context.
+         */
+        geolocation: dw.util.Geolocation;
+        /**
+         * The source code from the Shopper Context. The source code set in Shopper Context evaluates to source code
+         *  group that triggers the promotion (campaign assignment) and Price books (assigned to Source code group).
+         */
+        sourceCode: string;
+
+        /**
+         * Constructor for ShopperContext.
+         *
+         *  This constructor is used to create an empty object. The object will be empty and must be populated with the
+         *  appropriate setter methods. For example:
+         *
+         *  ShopperContext context = new ShopperContext();
+         *  context.setSourceCode( "sourcecode" );
+         *
+         */
+        constructor();
+
+        /**
+         * Returns the assignment qualifiers from the Shopper Context. Assignment qualifiers are set when using the
+         *  assignment framework to trigger pricing and promotion experiences for Products, Product Search, Basket, Shipping
+         *  methods etc.
+         *
+         * @return A map of assignment qualifiers set in the Shopper Context.
+         */
+        getAssignmentQualifiers(): dw.util.Map<any, any>;
+        /**
+         * Returns the IP address of the client from the Shopper Context.
+         *
+         * @return The IP address of the client set in the Shopper Context.
+         */
+        getClientIP(): string;
+        /**
+         * Returns the Coupon codes from the Shopper Context.
+         *
+         * @return The Coupon codes set in the Shopper Context.
+         */
+        getCouponCodes(): dw.util.Set<any>;
+        /**
+         * Returns customer group IDs from the Shopper Context to apply. The customer group IDs set in Shopper Context
+         *  evaluate to customer groups that trigger the promotions (campaign assignment) assigned to the customer groups.
+         *
+         * @return The customer group IDs for the Shopper Context to apply.
+         */
+        getCustomerGroupIDs(): dw.util.Set<any>;
+        /**
+         * Returns the custom qualifiers from the Shopper Context. Custom qualifiers contain the custom session attributes
+         *  set in the Shopper Context.
+         *
+         * @return A map containing the custom qualifiers set in the Shopper Context.
+         */
+        getCustomQualifiers(): dw.util.Map<any, any>;
+        /**
+         * Returns the effective date time from the Shopper Context. With the effective date time you can retrieve
+         *  promotions that are active at a particular time. For example, "Shop the Future" use cases.
+         *
+         * @return The effective date time in UTC for the Shopper Context to apply.
+         */
+        getEffectiveDateTime(): Date;
+        /**
+         * Returns the geographic location from the Shopper Context.
+         *
+         * @return The geographic location set in the Shopper Context.
+         */
+        getGeolocation(): dw.util.Geolocation;
+        /**
+         * Returns the source code from the Shopper Context. The source code set in Shopper Context evaluates to source code
+         *  group that triggers the promotion (campaign assignment) and Price books (assigned to Source code group).
+         *
+         * @return The source code for the Shopper Context to apply.
+         */
+        getSourceCode(): string;
+        /**
+         * Sets the assignment qualifiers in the Shopper Context. Assignment qualifiers are set when using the assignment
+         *  framework to trigger pricing and promotion experiences for Products, Product Search, Basket, Shipping methods
+         *  etc.
+         *
+         *  Example: Assignment qualifier for store can be set as follows:
+         *
+         *   var assignmentQualifiers = new dw.util.HashMap();
+         *   assignmentQualifiers.put( "storeId", "Boston" );
+         *   ShopperContext context = new ShopperContext();
+         *   context.setAssignmentQualifiers( customQualifiers );
+         * @param assignmentQualifiers A map which contains the assignment qualifiers to save in the Shopper Context.
+         */
+        setAssignmentQualifiers(
+          assignmentQualifiers: dw.util.Map<any, any>
+        ): void;
+        /**
+         * Sets the IP address of the client in the Shopper Context. The client IP evaluates to a geolocation. If the client
+         *  IP address is not a valid IPv4/IPv6 address an error is thrown.
+         * @param clientIP The IP Address of the client to set in the Shopper Context.
+         */
+        setClientIP(clientIP: string): void;
+        /**
+         * Sets the Coupon codes in the Shopper Context. When you set coupon codes, it is saved as context for subsequent
+         *  requests and can then trigger promotions via the campaign which are tied to the coupon. A maximum of 5 coupon
+         *  codes can be set in the ShopperContext.
+         * @param couponCodes The set of coupon codes to set in the Shopper Context. A maximum of 5 coupon codes per ShopperContext are allowed.
+         */
+        setCouponCodes(couponCodes: dw.util.Set<any>): void;
+        /**
+         * Sets the customer group IDs for the Shopper Context to apply. Set the customer group IDs to evaluate customer
+         *  groups that trigger the promotions (campaign assignment) assigned to the customer groups.
+         * @param customerGroupIDs The customer group IDs for the Shopper Context to apply.
+         */
+        setCustomerGroupIDs(customerGroupIDs: dw.util.Set<any>): void;
+        /**
+         * Sets the session custom attributes as custom qualifiers in the Shopper Context. Custom qualifiers are set when
+         *  you want to trigger pricing and promotion experiences using a dynamic session-based customer groups.
+         *
+         *  Example: A session custom attribute 'device_type' can be saved as follows:
+         *
+         *   var customQualifiers = new dw.util.HashMap();
+         *   customQualifiers.put( "deviceType", "iPad" );
+         *   ShopperContext context = new ShopperContext();
+         *   context.setCustomQualifiers( customQualifiers );
+         * @param customQualifiers A map which contains the custom session attributes to save in the Shopper Context.
+         */
+        setCustomQualifiers(customQualifiers: dw.util.Map<any, any>): void;
+        /**
+         * Sets the effective date time for the context to apply. With the effective date time you can retrieve promotions
+         *  that are active at a particular time. For example, "Shop the Future" use cases.
+         * @param effectiveDateTime The effective date time to set in the Shopper Context.
+         */
+        setEffectiveDateTime(effectiveDateTime: Date): void;
+        /**
+         * Sets the geographic location of the client in the Shopper Context. When you set a geolocation, it is saved as
+         *  context for subsequent requests. This overrides any context previously saved using clientIP in the Shopper
+         *  Context.
+         * @param geolocation The geographic location of the client to set in the Shopper Context.
+         */
+        setGeolocation(geolocation: dw.util.Geolocation): void;
+        /**
+         * Sets the source code for the Shopper Context to apply. Set the source code to evaluate source code group that
+         *  triggers the promotion (campaign assignment) and Price books (assigned to Source code group).
+         * @param sourceCode The source code to set in the Shopper Context.
+         */
+        setSourceCode(sourceCode: string): void;
+      }
+
+      /**
+       * Helper class containing error codes to indicate why a Shopper Context cannot be accessed, set or modified.
+       */
+      class ShopperContextErrorCodes {
+        /**
+         * Indicates that the assignment qualifiers limit exceeded
+         */
+        static readonly ASSIGNMENT_QUALIFIERS_LIMIT_EXCEEDED =
+          "ASSIGNMENT_QUALIFIERS_LIMIT_EXCEEDED";
+        /**
+         * Indicates that the coupon codes limit exceeded
+         */
+        static readonly COUPON_CODES_LIMIT_EXCEEDED =
+          "COUPON_CODES_LIMIT_EXCEEDED";
+        /**
+         * Indicates that the custom qualifiers limit exceeded
+         */
+        static readonly CUSTOM_QUALIFIERS_LIMIT_EXCEEDED =
+          "CUSTOM_QUALIFIERS_LIMIT_EXCEEDED";
+        /**
+         * Indicates that the feature toggle 'ShopperContextEnabled' is not enabled.
+         */
+        static readonly FEATURE_DISABLED = "FEATURE_DISABLED";
+        /**
+         * Indicates that an internal error occurred while setting, retrieving or deleting the shopper context
+         */
+        static readonly INTERNAL_ERROR = "INTERNAL_ERROR";
+        /**
+         * Indicates an invalid argument was provided
+         */
+        static readonly INVALID_ARGUMENT = "INVALID_ARGUMENT";
+        /**
+         * Indicates that the request type is invalid. Request must be a SCAPI request, or a hybrid storefront request, or
+         *  an ocapi request using a SLAS token.
+         */
+        static readonly INVALID_REQUEST_TYPE = "INVALID_REQUEST_TYPE";
+        /**
+         * Indicates that the quota limit for the shopper context has been reached.
+         */
+        static readonly QUOTA_LIMIT_EXCEEDED = "QUOTA_LIMIT_EXCEEDED";
+
+        constructor();
+      }
+
+      /**
+       * This exception could be thrown by
+       *  <a href="class_dw_customer_shoppercontext_ShopperContextMgr.html#dw_customer_shoppercontext_ShopperContextMgr_setShopperContext_ShopperContext_Boolean_DetailAnchor">ShopperContextMgr.setShopperContext(ShopperContext, Boolean)</a>,
+       *  <a href="class_dw_customer_shoppercontext_ShopperContextMgr.html#dw_customer_shoppercontext_ShopperContextMgr_getShopperContext_DetailAnchor">ShopperContextMgr.getShopperContext()</a> and
+       *  <a href="class_dw_customer_shoppercontext_ShopperContextMgr.html#dw_customer_shoppercontext_ShopperContextMgr_removeShopperContext_DetailAnchor">ShopperContextMgr.removeShopperContext()</a> when an error occurs.
+       *  <p>
+       *  'errorCode' property is set to one of the following values:
+       *  </p><ul>
+       *  <li><a href="class_dw_customer_shoppercontext_ShopperContextErrorCodes.html#dw_customer_shoppercontext_ShopperContextErrorCodes_FEATURE_DISABLED_DetailAnchor">ShopperContextErrorCodes.FEATURE_DISABLED</a> = Indicates that the Shopper Context
+       *  Feature is not enabled.</li>
+       *  <li><a href="class_dw_customer_shoppercontext_ShopperContextErrorCodes.html#dw_customer_shoppercontext_ShopperContextErrorCodes_CUSTOM_QUALIFIERS_LIMIT_EXCEEDED_DetailAnchor">ShopperContextErrorCodes.CUSTOM_QUALIFIERS_LIMIT_EXCEEDED</a> = Indicates that the
+       *  number of custom qualifiers in <a href="class_dw_customer_shoppercontext_ShopperContext.html">ShopperContext</a> has exceeded the allowed limit.</li>
+       *  <li><a href="class_dw_customer_shoppercontext_ShopperContextErrorCodes.html#dw_customer_shoppercontext_ShopperContextErrorCodes_ASSIGNMENT_QUALIFIERS_LIMIT_EXCEEDED_DetailAnchor">ShopperContextErrorCodes.ASSIGNMENT_QUALIFIERS_LIMIT_EXCEEDED</a> = Indicates that
+       *  the number of assignment qualifiers in <a href="class_dw_customer_shoppercontext_ShopperContext.html">ShopperContext</a> has exceeded the allowed
+       *  limit.</li>
+       *  <li><a href="class_dw_customer_shoppercontext_ShopperContextErrorCodes.html#dw_customer_shoppercontext_ShopperContextErrorCodes_QUOTA_LIMIT_EXCEEDED_DetailAnchor">ShopperContextErrorCodes.QUOTA_LIMIT_EXCEEDED</a> = Indicates that the quota limit
+       *  for the Shopper Context has been reached.
+       *  <p>
+       *  For more information on shopper context quota limits please refer to:
+       *  <a href="https://developer.salesforce.com/docs/commerce/commerce-api/guide/shopper-context-api.html#constraints" target="_top">Shopper Context Quota Limits</a>
+       *  </p>
+       *  </li>
+       *  <li><a href="class_dw_customer_shoppercontext_ShopperContextErrorCodes.html#dw_customer_shoppercontext_ShopperContextErrorCodes_INTERNAL_ERROR_DetailAnchor">ShopperContextErrorCodes.INTERNAL_ERROR</a> = Indicates that an error occurred
+       *  while setting, retrieving or deleting the shopper context.</li>
+       *  <li><a href="class_dw_customer_shoppercontext_ShopperContextErrorCodes.html#dw_customer_shoppercontext_ShopperContextErrorCodes_INVALID_ARGUMENT_DetailAnchor">ShopperContextErrorCodes.INVALID_ARGUMENT</a> = Indicates that an invalid client
+       *  IP address was set in the Shopper Context.</li>
+       *  <li><a href="class_dw_customer_shoppercontext_ShopperContextErrorCodes.html#dw_customer_shoppercontext_ShopperContextErrorCodes_INVALID_REQUEST_TYPE_DetailAnchor">ShopperContextErrorCodes.INVALID_REQUEST_TYPE</a> = Indicates that the request
+       *  type is invalid. Request must be a SCAPI request, or a hybrid storefront request, or an OCAPI request using a SLAS
+       *  token.</li>
+       *  </ul>
+       */
+      class ShopperContextException extends APIException {
+        /**
+         * Indicates reason why the following methods failed:
+         *  ShopperContextMgr.setShopperContext(ShopperContext, Boolean) or
+         *  ShopperContextMgr.getShopperContext() or
+         *  ShopperContextMgr.removeShopperContext() failed.
+         */
+        readonly errorCode: string;
+
+        private constructor();
+      }
+
+      /**
+       * <p>
+       *  Provides static helper methods for managing Shopper Context.
+       *  </p>
+       *  <p>
+       *  Shopper Context is used to personalize shopper experiences with context values such as custom session attributes,
+       *  assignment qualifiers, geolocation, effective datetime, source code and more. When Shopper Context is set for a
+       *  shopper, it can activate promotions or price books assigned to customer groups, source codes, or stores (via
+       *  assignments) in the subsequent requests, not the current request.
+       *  </p>
+       *  <p>
+       *  Shopper Context is used to personalize the shopper experience in case of Composable/Headless or Hybrid storefront
+       *  implementations that use Shopper Login and API Access Service (SLAS).
+       *  </p>
+       *  <p>
+       *  NOTE: This script API is not intended to be used for standard server-side storefront implementations. Only for
+       *  Composable/Headless or Hybrid storefront implementations.
+       *  </p>
+       *  <p>
+       *  Unlike <a href="class_dw_customer_CustomerContextMgr.html">CustomerContextMgr</a> which is used to set just Effective Time for which the customer is
+       *  shopping at, Shopper Context API provides a way to set many types of contexts such as custom session attributes,
+       *  assignment qualifiers, geolocation, effective datetime, source code etc.
+       *  </p>
+       *  <p>
+       *  The following feature toggles and site preferences must be enabled in order to use this script API:
+       *  </p><ul>
+       *  <li>Enable Shopper Context Feature</li>
+       *  <li>Hybrid Auth Settings' site preference - only in case of Hybrid storefront implementations</li>
+       *  </ul>
+       *  <p></p>
+       *  <p>
+       *  For more details on Shopper Context please refer to: <a href="https://developer.salesforce.com/docs/commerce/commerce-api/references/shopper-context?meta=Summary" target="_top">Shopper Context
+       *  API Overview</a>
+       *  </p>
+       *  <p>
+       *  For more details on Hybrid Authentication for Hybrid storefronts please refer to:
+       *  <a href="https://developer.salesforce.com/docs/commerce/commerce-api/guide/hybrid-auth.html" target="_top">Hybrid
+       *  Authentication</a>
+       *  </p>
+       *  <p>
+       *  <a href="class_dw_customer_shoppercontext_ShopperContextMgr.html">ShopperContextMgr</a> is used to create, access and delete Shopper Context.
+       *  </p><ul>
+       *  <li>To add Shopper Context, use methods <a href="class_dw_customer_shoppercontext_ShopperContextMgr.html#dw_customer_shoppercontext_ShopperContextMgr_setShopperContext_ShopperContext_Boolean_DetailAnchor">setShopperContext(ShopperContext, Boolean)</a>.
+       *  </li><li>To access Shopper Context, use method <a href="class_dw_customer_shoppercontext_ShopperContextMgr.html#dw_customer_shoppercontext_ShopperContextMgr_getShopperContext_DetailAnchor">getShopperContext()</a>.
+       *  </li><li>To delete Shopper Context, use methods <a href="class_dw_customer_shoppercontext_ShopperContextMgr.html#dw_customer_shoppercontext_ShopperContextMgr_removeShopperContext_DetailAnchor">removeShopperContext()</a>.
+       *  </li><li>To fetch Geolocation based on clientIP already set in Shopper Context, use method <a href="class_dw_customer_shoppercontext_ShopperContextMgr.html#dw_customer_shoppercontext_ShopperContextMgr_getGeolocation_DetailAnchor">getGeolocation()</a>
+       *  </li></ul>
+       *  <p></p>
+       */
+      class ShopperContextMgr {
+        /**
+         * Gets the Geolocation object for the clientIP set in
+         *  ShopperContext or null if no shopperContext is found, or no clientIP was set
+         *  or Geolocation for the clientIP was not found.
+         *
+         *  The method throws an exception if the call fails.
+         */
+        static readonly geolocation: dw.util.Geolocation;
+        /**
+         * The ShopperContext if it exists for the customer. Returns null if it
+         *  does not exist.
+         */
+        static shopperContext: dw.customer.shoppercontext.ShopperContext;
+
+        private constructor();
+
+        /**
+         * Gets the Geolocation object for the clientIP set in
+         *  ShopperContext or null if no shopperContext is found, or no clientIP was set
+         *  or Geolocation for the clientIP was not found.
+         *
+         *  The method throws an exception if the call fails.
+         *
+         */
+        static getGeolocation(): dw.util.Geolocation;
+        /**
+         * Returns the ShopperContext if it exists for the customer. Returns null if it
+         *  does not exist.
+         *
+         * @return The Shopper Context or null.
+         */
+        static getShopperContext(): dw.customer.shoppercontext.ShopperContext;
+        /**
+         * Removes the ShopperContext for the customer.
+         *
+         *  The method throws an exception if the deletion of Shopper Context fails.
+         *
+         */
+        static removeShopperContext(): void;
+        /**
+         * Sets new ShopperContext for the customer or overwrites the existing context.
+         *
+         *
+         *  Note: This method does not save the attributes from the given Shopper Context such as - custom session
+         *  attributes, source code, effective date time etc., - in the current session object. These attributes are read
+         *  from Shopper Context and stored in the corresponding session attributes during subsequent requests and not in the
+         *  current request. Hence, promotions, price books etc., are triggered in subsequent requests.
+         *
+         *  If clientIP is set in ShopperContext, the geolocation information
+         *  is retrieved and set in x-geolocation header.
+         *
+         *  And if the parameter evaluateContextWithClientIP is set to true, the clientIP will be
+         *  saved to the Shopper Context.
+         *
+         *  If parameter evaluateContextWithClientIP is set to false, the clientIP will not be
+         *  saved to the Shopper Context.
+         *
+         *  If the geoLocation attribute is set, it overrides any geolocation context set by
+         *  clientIP.
+         * @param shopperContext The new Shopper Context to set. See documentation for ShopperContext
+         * @param evaluateContextWithClientIP The boolean to determine if Shopper Context should be evaluated with clientIP address.
+         */
+        static setShopperContext(
+          shopperContext: dw.customer.shoppercontext.ShopperContext,
+          evaluateContextWithClientIP: boolean
+        ): void;
       }
     }
   }
@@ -22837,21 +23970,21 @@ declare namespace dw {
        *  Use hasVisibilityRules() prior to calling this method in order to check for the existence of visibility rules. If there are
        *  visibility rules then do not apply pagecaching. Otherwise the visibility decision making would end up in the pagecache and any subsequent
        *  call would just return from the pagecache instead of performing the isVisible() check again as desired.
-       *     ...
-       *    var page = PageMgr.getPage(pageID);
-       *    if(page.hasVisibilityRules())
-       *    {
-       *       // pagecaching is NOT ok here
-       *       if(page.isVisible())
-       *       {
+       *   ...
+       *  var page = PageMgr.getPage(pageID);
+       *  if (page.hasVisibilityRules())
+       *  {
+       *      // pagecaching is NOT ok here
+       *      if (page.isVisible())
+       *      {
        *          response.writer.print(PageMgr.renderPage(pageID, {});
-       *       }
-       *    }
-       *    else
-       *    {
-       *        // pagecaching is ok here, but requires a pagecache refresh if merchants start adding visibility rules to the page
-       *    }
-       *    ...
+       *      }
+       *  }
+       *  else
+       *  {
+       *      // pagecaching is ok here, but requires a pagecache refresh if merchants start adding visibility rules to the page
+       *  }
+       *  ...
        */
       readonly visible: boolean;
 
@@ -22999,21 +24132,21 @@ declare namespace dw {
        *  Use hasVisibilityRules() prior to calling this method in order to check for the existence of visibility rules. If there are
        *  visibility rules then do not apply pagecaching. Otherwise the visibility decision making would end up in the pagecache and any subsequent
        *  call would just return from the pagecache instead of performing the isVisible() check again as desired.
-       *     ...
-       *    var page = PageMgr.getPage(pageID);
-       *    if(page.hasVisibilityRules())
-       *    {
-       *       // pagecaching is NOT ok here
-       *       if(page.isVisible())
-       *       {
+       *   ...
+       *  var page = PageMgr.getPage(pageID);
+       *  if (page.hasVisibilityRules())
+       *  {
+       *      // pagecaching is NOT ok here
+       *      if (page.isVisible())
+       *      {
        *          response.writer.print(PageMgr.renderPage(pageID, {});
-       *       }
-       *    }
-       *    else
-       *    {
-       *        // pagecaching is ok here, but requires a pagecache refresh if merchants start adding visibility rules to the page
-       *    }
-       *    ...
+       *      }
+       *  }
+       *  else
+       *  {
+       *      // pagecaching is ok here, but requires a pagecache refresh if merchants start adding visibility rules to the page
+       *  }
+       *  ...
        *
        * @return true if the page is currently visible (published, visible in the current locale, and visibility rules apply), otherwise false (unpublished and/or visibility rules don't apply)
        */
@@ -23125,7 +24258,8 @@ declare namespace dw {
        * Render a page. All of this is going to happen in two layers of remote includes, therefore pagecaching of page rendering
        *  is separated from the pagecache lifecycle of the caller. The first one is going to be returned by this method.
        *
-       *      layer 1 - determines visibility fingerprint for the page and all its nested components driven by its visibility rules. This remote include will not be pagecached. It will then delegate to layer 2.
+       *      layer 1 - determines visibility fingerprint for the page and all its nested components driven by its visibility rules. This remote include will only be pagecached for a fixed duration if neither the page nor any of its
+       *                       nested components carries a visibility rule (configurable in Business Manager via the site's page caching settings). It will then delegate to layer 2.
        *      layer 2 - does the actual rendering of the page by invoking its render function. This remote include will factor the previously determined visibility fingerprint in to the pagecache key, in case you decide to use pagecaching.
        *
        *
@@ -23207,8 +24341,7 @@ declare namespace dw {
        *  which attributes the wrapper element contains. A sample output could look like this if
        *  RegionRenderSettings are applied with customized tag names and attributes
        *  for the region and component wrapper elements.
-       *
-       *  <p class="myRegionCssClass">
+       *   <p class="myRegionCssClass">
        *      <span class="myComponentCssClass myComponentCssClass1" data-foo="bar">
        *          ...
        *      </span>
@@ -23243,8 +24376,7 @@ declare namespace dw {
        *  own wrapper element.
        *  The following sample shows how this would look like for a 'pictures' region
        *  that contains two components of type 'assets.image'.
-       *
-       *  <div class="experience-region experience-pictures">
+       *   <div class="experience-region experience-pictures">
        *      <div class="experience-component experience-assets-image">
        *          ...
        *      </div>
@@ -23305,7 +24437,8 @@ declare namespace dw {
        *  All of this is going to happen in two layers of remote includes, therefore pagecaching of page serialization
        *  is separated from the pagecache lifecycle of the caller. The first one is going to be returned by this method.
        *
-       *      layer 1 - determines visibility fingerprint for the page and all its nested components driven by its visibility rules. This remote include will not be pagecached. It will then delegate to layer 2.
+       *      layer 1 - determines visibility fingerprint for the page and all its nested components driven by its visibility rules. This remote include will only be pagecached for a fixed duration if neither the page nor any of its
+       *                       nested components carries a visibility rule (configurable in Business Manager via the site's page caching settings). It will then delegate to layer 2.
        *      layer 2 - does the actual rendering of the page by invoking its render function. This remote include will factor the previously determined visibility fingerprint in to the pagecache key, in case you decide to use pagecaching.
        *
        *
@@ -24136,7 +25269,7 @@ declare namespace dw {
          *  for how to indicate error statuses with detail information to be provided to Apple Pay. If the returned result includes
          *  a redirect URL, the shopper browser will be navigated to that URL if the Apple Pay payment sheet is canceled.
          * @param order the order created for a failed Apple Pay checkout
-         * @param status status code returned by the {@value #extensionPointPaymentAuthorizedAuthorizeOrderPayment} hook
+         * @param status status code returned by the extensionPointPaymentAuthorizedAuthorizeOrderPayment hook
          * @return ApplePayHookResult containing a status code to be provided to Apple Pay. A non-null result ends the hook execution
          */
         failOrder(
@@ -25055,7 +26188,7 @@ declare namespace dw {
         static readonly extensionPointAfterAuthorization =
           "dw.extensions.paymentapi.afterAuthorization";
         /**
-         * The extension point name .
+         * The extension point name dw.extensions.paymentapi.beforeAuthorization.
          */
         static readonly extensionPointBeforeAuthorization =
           "dw.extensions.paymentapi.beforeAuthorization";
@@ -25210,12 +26343,12 @@ declare namespace dw {
         static readonly extensionPointPaymentAcceptedAuthorizeOrderPayment =
           "dw.extensions.paymentrequest.paymentAccepted.authorizeOrderPayment";
         /**
-         * The extension point name .
+         * The extension point name dw.extensions.paymentrequest.paymentAccepted.placeOrder.
          */
         static readonly extensionPointPaymentAcceptedPlaceOrder =
           "dw.extensions.paymentrequest.paymentAccepted.placeOrder";
         /**
-         * The extension point name .
+         * The extension point name dw.extensions.paymentrequest.shippingAddressChange.
          */
         static readonly extensionPointShippingAddressChange =
           "dw.extensions.paymentrequest.shippingAddressChange";
@@ -25379,6 +26512,151 @@ declare namespace dw {
     namespace payments {
       /**
        * <p>
+       *  Details to a Salesforce Payments payment of type <a href="class_dw_extensions_payments_SalesforcePaymentMethod.html#dw_extensions_payments_SalesforcePaymentMethod_TYPE_BANCONTACT_DetailAnchor">SalesforcePaymentMethod.TYPE_BANCONTACT</a>. See Salesforce Payments
+       *  documentation for how to gain access and configure it for use on your sites.
+       *  </p>
+       */
+      class SalesforceBancontactPaymentDetails extends dw.extensions.payments
+        .SalesforcePaymentDetails {
+        /**
+         * The bank name, or null if not known.
+         */
+        readonly bankName: string;
+        /**
+         * The last 4 digits of the account number, or null if not known.
+         */
+        readonly last4: string;
+
+        private constructor();
+
+        /**
+         * Returns the bank name, or null if not known.
+         *
+         * @return bank name
+         */
+        getBankName(): string;
+        /**
+         * Returns the last 4 digits of the account number, or null if not known.
+         *
+         * @return last 4 digits of the account number
+         */
+        getLast4(): string;
+      }
+
+      /**
+       * <p>
+       *  Details to a Salesforce Payments payment of type <a href="class_dw_extensions_payments_SalesforcePaymentMethod.html#dw_extensions_payments_SalesforcePaymentMethod_TYPE_CARD_DetailAnchor">SalesforcePaymentMethod.TYPE_CARD</a>. See Salesforce Payments
+       *  documentation for how to gain access and configure it for use on your sites.
+       *  </p>
+       */
+      class SalesforceCardPaymentDetails extends dw.extensions.payments
+        .SalesforcePaymentDetails {
+        /**
+         * The card brand, or null if not known.
+         */
+        readonly brand: string;
+        /**
+         * The last 4 digits of the card number, or null if not known.
+         */
+        readonly last4: string;
+        /**
+         * The type of wallet used to make the card payment, or null if not known.
+         */
+        readonly walletType: string;
+
+        private constructor();
+
+        /**
+         * Returns the card brand, or null if not known.
+         *
+         * @return card brand
+         */
+        getBrand(): string;
+        /**
+         * Returns the last 4 digits of the card number, or null if not known.
+         *
+         * @return last 4 digits of the card number
+         */
+        getLast4(): string;
+        /**
+         * Returns the type of wallet used to make the card payment, or null if not known.
+         *
+         * @return wallet type
+         */
+        getWalletType(): string;
+      }
+
+      /**
+       * <p>
+       *  Details to a Salesforce Payments payment of type <a href="class_dw_extensions_payments_SalesforcePaymentMethod.html#dw_extensions_payments_SalesforcePaymentMethod_TYPE_EPS_DetailAnchor">SalesforcePaymentMethod.TYPE_EPS</a>. See Salesforce Payments
+       *  documentation for how to gain access and configure it for use on your sites.
+       *  </p>
+       */
+      class SalesforceEpsPaymentDetails extends dw.extensions.payments
+        .SalesforcePaymentDetails {
+        /**
+         * The bank used for the payment, or null if not known.
+         */
+        readonly bank: string;
+
+        private constructor();
+
+        /**
+         * Returns the bank used for the payment, or null if not known.
+         *
+         * @return bank
+         */
+        getBank(): string;
+      }
+
+      /**
+       * <p>
+       *  Details to a Salesforce Payments payment of type <a href="class_dw_extensions_payments_SalesforcePaymentMethod.html#dw_extensions_payments_SalesforcePaymentMethod_TYPE_IDEAL_DetailAnchor">SalesforcePaymentMethod.TYPE_IDEAL</a>. See Salesforce Payments
+       *  documentation for how to gain access and configure it for use on your sites.
+       *  </p>
+       */
+      class SalesforceIdealPaymentDetails extends dw.extensions.payments
+        .SalesforcePaymentDetails {
+        /**
+         * The bank used for the payment, or null if not known.
+         */
+        readonly bank: string;
+
+        private constructor();
+
+        /**
+         * Returns the bank used for the payment, or null if not known.
+         *
+         * @return bank
+         */
+        getBank(): string;
+      }
+
+      /**
+       * <p>
+       *  Details to a Salesforce Payments payment of type <a href="class_dw_extensions_payments_SalesforcePaymentMethod.html#dw_extensions_payments_SalesforcePaymentMethod_TYPE_KLARNA_DetailAnchor">SalesforcePaymentMethod.TYPE_KLARNA</a>. See Salesforce Payments
+       *  documentation for how to gain access and configure it for use on your sites.
+       *  </p>
+       */
+      class SalesforceKlarnaPaymentDetails extends dw.extensions.payments
+        .SalesforcePaymentDetails {
+        /**
+         * The payment method category used for the payment, or null if not known.
+         */
+        readonly paymentMethodCategory: string;
+
+        private constructor();
+
+        /**
+         * Returns the payment method category used for the payment, or null if not known.
+         *
+         * @return payment method category
+         */
+        getPaymentMethodCategory(): string;
+      }
+
+      /**
+       * <p>
        *  Salesforce Payments representation of a PayPal order object. See Salesforce Payments documentation for how
        *  to gain access and configure it for use on your sites.
        *  </p>
@@ -25389,6 +26667,15 @@ declare namespace dw {
        *  </p>
        */
       class SalesforcePayPalOrder {
+        /**
+         * Represents the PayPal funding source.
+         */
+        static readonly TYPE_PAYPAL = "paypal";
+        /**
+         * Represents the Venmo funding source.
+         */
+        static readonly TYPE_VENMO = "venmo";
+
         /**
          * The amount of this PayPal order.
          */
@@ -25441,6 +26728,14 @@ declare namespace dw {
          */
         getPayer(): dw.extensions.payments.SalesforcePayPalOrderPayer;
         /**
+         * Returns the details to the Salesforce Payments payment for this PayPal order, using the given payment instrument.
+         * @param paymentInstrument payment instrument
+         * @return The payment details
+         */
+        getPaymentDetails(
+          paymentInstrument: dw.order.OrderPaymentInstrument
+        ): dw.extensions.payments.SalesforcePaymentDetails;
+        /**
          * Returns the payment instrument for this PayPal order in the given basket, or null if the given
          *  basket has none.
          * @param basket basket
@@ -25450,7 +26745,7 @@ declare namespace dw {
           basket: dw.order.Basket
         ): dw.order.OrderPaymentInstrument;
         /**
-         * Returns the payment instrument for this payment intent in the given order, or null if the given
+         * Returns the payment instrument for this PayPal order in the given order, or null if the given
          *  order has none.
          * @param order order
          * @return order payment instrument
@@ -25610,6 +26905,65 @@ declare namespace dw {
 
       /**
        * <p>
+       *  Details to a Salesforce Payments payment of type <a href="class_dw_extensions_payments_SalesforcePayPalOrder.html#dw_extensions_payments_SalesforcePayPalOrder_TYPE_PAYPAL_DetailAnchor">SalesforcePayPalOrder.TYPE_PAYPAL</a>. See Salesforce Payments
+       *  documentation for how to gain access and configure it for use on your sites.
+       *  </p>
+       */
+      class SalesforcePayPalPaymentDetails extends dw.extensions.payments
+        .SalesforcePaymentDetails {
+        /**
+         * The ID of the capture against the PayPal order, or null if not known.
+         */
+        readonly captureID: string;
+        /**
+         * The email address of the payer for the PayPal order, or null if not known.
+         */
+        readonly payerEmailAddress: string;
+
+        private constructor();
+
+        /**
+         * Returns the ID of the capture against the PayPal order, or null if not known.
+         *
+         * @return PayPal order capture ID
+         */
+        getCaptureID(): string;
+        /**
+         * Returns the email address of the payer for the PayPal order, or null if not known.
+         *
+         * @return payer email address
+         */
+        getPayerEmailAddress(): string;
+      }
+
+      /**
+       * <p>
+       *  Base class details to a Salesforce Payments payment. See Salesforce Payments documentation for how to gain access and
+       *  configure it for use on your sites.
+       *  </p>
+       *  <p>
+       *  Some payment types like <a href="class_dw_extensions_payments_SalesforcePaymentMethod.html#dw_extensions_payments_SalesforcePaymentMethod_TYPE_CARD_DetailAnchor">SalesforcePaymentMethod.TYPE_CARD</a> contain additional details like the card brand, or
+       *  the last 4 digits of the card number. Details to those payments will be of a specific subclass of this class like
+       *  <a href="class_dw_extensions_payments_SalesforceCardPaymentDetails.html">SalesforceCardPaymentDetails</a>. Other payment types have no additional information so their details are
+       *  represented by an object of this base type.
+       *  </p>
+       */
+      class SalesforcePaymentDetails {
+        /**
+         * The payment type.
+         */
+        readonly type: string;
+
+        /**
+         * Returns the payment type.
+         *
+         * @return payment type
+         */
+        getType(): string;
+      }
+
+      /**
+       * <p>
        *  Salesforce Payments representation of a payment intent object. See Salesforce Payments documentation for how
        *  to gain access and configure it for use on your sites.
        *  </p>
@@ -25622,9 +26976,27 @@ declare namespace dw {
        */
       class SalesforcePaymentIntent {
         /**
+         * Represents the payment method setup future usage is off session.
+         */
+        static readonly SETUP_FUTURE_USAGE_OFF_SESSION = "off_session";
+        /**
+         * Represents the payment method setup future usage is on session.
+         */
+        static readonly SETUP_FUTURE_USAGE_ON_SESSION = "on_session";
+
+        /**
          * The amount of this payment intent.
          */
         readonly amount: dw.value.Money;
+        /**
+         * Returns true if this payment intent has a status which indicates it can be canceled,
+         *  or false if its status does not indicate it can be canceled.
+         */
+        readonly cancelable: boolean;
+        /**
+         * The client secret of this payment intent.
+         */
+        readonly clientSecret: string;
         /**
          * Returns true if this payment intent has been confirmed, or false if not.
          */
@@ -25637,6 +27009,16 @@ declare namespace dw {
          * The payment method for this payment intent, or null if none has been established.
          */
         readonly paymentMethod: dw.extensions.payments.SalesforcePaymentMethod;
+        /**
+         * Returns true if this payment intent has a status and other state which indicate it can be refunded,
+         *  or false if it cannot be refunded.
+         */
+        readonly refundable: boolean;
+        /**
+         * Returns SETUP_FUTURE_USAGE_OFF_SESSION or SETUP_FUTURE_USAGE_ON_SESSION to indicate how the payment
+         *  intent can be used in the future or returns null if future usage is not set up.
+         */
+        readonly setupFutureUsage: string;
 
         private constructor();
 
@@ -25646,6 +27028,12 @@ declare namespace dw {
          * @return payment intent amount
          */
         getAmount(): dw.value.Money;
+        /**
+         * Returns the client secret of this payment intent.
+         *
+         * @return payment intent client secret
+         */
+        getClientSecret(): string;
         /**
          * Returns the identifier of this payment intent.
          *
@@ -25677,11 +27065,32 @@ declare namespace dw {
          */
         getPaymentMethod(): dw.extensions.payments.SalesforcePaymentMethod;
         /**
+         * Returns SETUP_FUTURE_USAGE_OFF_SESSION or SETUP_FUTURE_USAGE_ON_SESSION to indicate how the payment
+         *  intent can be used in the future or returns null if future usage is not set up.
+         *
+         * @return setup future usage or null if future usage is not set up
+         */
+        getSetupFutureUsage(): string;
+        /**
+         * Returns true if this payment intent has a status which indicates it can be canceled,
+         *  or false if its status does not indicate it can be canceled.
+         *
+         * @return true if this payment intent has a status which indicates it can be canceled
+         */
+        isCancelable(): boolean;
+        /**
          * Returns true if this payment intent has been confirmed, or false if not.
          *
          * @return true if this payment intent has been confirmed
          */
         isConfirmed(): boolean;
+        /**
+         * Returns true if this payment intent has a status and other state which indicate it can be refunded,
+         *  or false if it cannot be refunded.
+         *
+         * @return true if this payment intent has a status and other state which indicate it can be refunded
+         */
+        isRefundable(): boolean;
       }
 
       /**
@@ -25697,6 +27106,10 @@ declare namespace dw {
        *  </p>
        */
       class SalesforcePaymentMethod {
+        /**
+         * Represents the Afterpay Clearpay payment method.
+         */
+        static readonly TYPE_AFTERPAY_CLEARPAY = "afterpay_clearpay";
         /**
          * Represents the Bancontact payment method.
          */
@@ -25831,6 +27244,15 @@ declare namespace dw {
          */
         getLast4(): string;
         /**
+         * Returns the details to the Salesforce Payments payment for this payment method, using the given payment
+         *  instrument.
+         * @param paymentInstrument payment instrument
+         * @return The payment details
+         */
+        getPaymentDetails(
+          paymentInstrument: dw.order.OrderPaymentInstrument
+        ): dw.extensions.payments.SalesforcePaymentDetails;
+        /**
          * Returns the payment method category of this payment method, or null if none is available. Available
          *  on TYPE_KLARNA type methods.
          *
@@ -25862,6 +27284,11 @@ declare namespace dw {
        */
       class SalesforcePaymentRequest {
         /**
+         * Element for the Stripe Afterpay/Clearpay message "afterpayClearpayMessage".
+         */
+        static readonly ELEMENT_AFTERPAY_CLEARPAY_MESSAGE =
+          "afterpayClearpayMessage";
+        /**
          * Element for the Stripe credit card CVC field "cardCvc".
          */
         static readonly ELEMENT_CARD_CVC = "cardCvc";
@@ -25889,6 +27316,15 @@ declare namespace dw {
          * Element for the Stripe payment request button "paymentRequestButton".
          */
         static readonly ELEMENT_PAYMENT_REQUEST_BUTTON = "paymentRequestButton";
+        /**
+         * Element type name for Afterpay.
+         */
+        static readonly ELEMENT_TYPE_AFTERPAY_CLEARPAY = "afterpay_clearpay";
+        /**
+         * Element type name for Afterpay/Clearpay message.
+         */
+        static readonly ELEMENT_TYPE_AFTERPAY_CLEARPAY_MESSAGE =
+          "afterpayclearpaymessage";
         /**
          * Element type name for Apple Pay payment request buttons.
          */
@@ -25922,9 +27358,21 @@ declare namespace dw {
          */
         static readonly ELEMENT_TYPE_PAYPAL_EXPRESS = "paypalexpress";
         /**
+         * Element type name for the PayPal messages component.
+         */
+        static readonly ELEMENT_TYPE_PAYPAL_MESSAGE = "paypalmessage";
+        /**
          * Element type name for SEPA debit.
          */
         static readonly ELEMENT_TYPE_SEPA_DEBIT = "sepa_debit";
+        /**
+         * Element type name for Venmo in multi-step checkout.
+         */
+        static readonly ELEMENT_TYPE_VENMO = "venmo";
+        /**
+         * Element type name for Venmo in express checkout.
+         */
+        static readonly ELEMENT_TYPE_VENMO_EXPRESS = "venmoexpress";
         /**
          * PayPal application context shipping_preference value "GET_FROM_FILE", to use the
          *  customer-provided shipping address on the PayPal site.
@@ -25963,6 +27411,11 @@ declare namespace dw {
          * A JS object containing the billing details to use when a Stripe PaymentMethod is created.
          */
         billingDetails: any;
+        /**
+         * Returns true if the credit card payment should be automatically captured at the time of the sale, or
+         *  false if the credit card payment should be captured later.
+         */
+        cardCaptureAutomatic: boolean;
         /**
          * Returns a set containing the element types to be explicitly excluded from mounted components. See the element
          *  type constants in this class for the full list of supported element types.
@@ -26166,6 +27619,13 @@ declare namespace dw {
          */
         getBillingDetails(): any;
         /**
+         * Returns true if the credit card payment should be automatically captured at the time of the sale, or
+         *  false if the credit card payment should be captured later.
+         *
+         * @return true if the credit card payment should be automatically captured at the time of the sale, false if the credit card payment should be captured later.
+         */
+        getCardCaptureAutomatic(): boolean;
+        /**
          * Returns a set containing the element types to be explicitly excluded from mounted components. See the element
          *  type constants in this class for the full list of supported element types.
          *
@@ -26255,7 +27715,7 @@ declare namespace dw {
          *         line1: 'Opernring 2',
          *         postal_code: '1010'
          *     },
-         *     email: '[email protected]',
+         *     email: 'jhummel@salesforce.com',
          *     name: 'Johann Hummel'
          * });
          *
@@ -26265,6 +27725,11 @@ declare namespace dw {
          * @param billingDetails JS object containing the billing details
          */
         setBillingDetails(billingDetails: any): void;
+        /**
+         * Sets if the credit card payment should be automatically captured at the time of the sale.
+         * @param cardCaptureAutomatic true if the credit card payment should be automatically captured at the time of the sale, or false if the credit card payment should be captured later.
+         */
+        setCardCaptureAutomatic(cardCaptureAutomatic: boolean): void;
         /**
          * Sets the payment request options to use when a Buy Now button is tapped. For convenience this method accepts a
          *  JS object to set all options at once. The following example shows how to set options including currency,
@@ -26422,6 +27887,37 @@ declare namespace dw {
        */
       class SalesforcePaymentsMgr {
         /**
+         * Cancellation reason indicating customer abandoned payment.
+         */
+        static readonly CANCELLATION_REASON_ABANDONED = "abandoned";
+        /**
+         * Cancellation reason indicating payment intent was a duplicate.
+         */
+        static readonly CANCELLATION_REASON_DUPLICATE = "duplicate";
+        /**
+         * Cancellation reason indicating payment was fraudulent.
+         */
+        static readonly CANCELLATION_REASON_FRAUDULENT = "fraudulent";
+        /**
+         * Cancellation reason indicating customer action or request.
+         */
+        static readonly CANCELLATION_REASON_REQUESTED_BY_CUSTOMER =
+          "requested_by_customer";
+        /**
+         * Refund reason indicating payment intent was a duplicate.
+         */
+        static readonly REFUND_REASON_DUPLICATE = "duplicate";
+        /**
+         * Refund reason indicating payment was fraudulent.
+         */
+        static readonly REFUND_REASON_FRAUDULENT = "fraudulent";
+        /**
+         * Refund reason indicating customer action or request.
+         */
+        static readonly REFUND_REASON_REQUESTED_BY_CUSTOMER =
+          "requested_by_customer";
+
+        /**
          * A payments site configuration object for the current site.
          */
         static readonly paymentsSiteConfig: dw.extensions.payments.SalesforcePaymentsSiteConfiguration;
@@ -26441,6 +27937,124 @@ declare namespace dw {
           customer: dw.customer.Customer
         ): void;
         /**
+         * Cancels the given payment intent. If a payment authorization has been made for the payment intent, the
+         *  authorization is removed.
+         *
+         *  The payment intent must be in a status that supports cancel. See the Stripe documentation for more details.
+         *
+         *
+         *  The following Payment Intent property is supported:
+         *
+         *  cancellationReason - optional payment intent cancellation reason
+         * @param paymentIntent payment intent to capture
+         * @param paymentIntentProperties additional properties to pass to the create Payment Intent API
+         * @return Status 'OK' or 'ERROR'. Status detail 'paymentintent' contains the payment intent, if it is available in the Stripe response. Status detail 'error' contains the Stripe error information, if it is available in the response.
+         */
+        static cancelPaymentIntent(
+          paymentIntent: dw.extensions.payments.SalesforcePaymentIntent,
+          paymentIntentProperties: any
+        ): dw.system.Status;
+        /**
+         * Captures funds for the given payment intent.
+         *
+         *  The payment intent must be in a status that supports capture. See the Stripe documentation for more details.
+         *
+         *
+         *  If amount is not specified, the default is the full amount available to capture. If specified, the
+         *  amount must be less than or equal to the amount available to capture.
+         * @param paymentIntent payment intent to capture
+         * @param amount optional amount to capture, defaults to amount available to capture
+         * @return Status 'OK' or 'ERROR'. Status detail 'error' contains the Stripe error information, if it is available in the response.
+         */
+        static capturePaymentIntent(
+          paymentIntent: dw.extensions.payments.SalesforcePaymentIntent,
+          amount: dw.value.Money
+        ): dw.system.Status;
+        /**
+         * Confirms a new payment intent using the given payment method, and associates it with the given order.
+         *
+         *
+         *  The order must be prepared to contain products, shipments, and any other necessary data, and must be calculated
+         *  to reflect the correct total amounts. If the order is not for the same Customer as the given
+         *  payment method, an error is thrown.
+         *
+         *
+         *  The specified payment method must be set up for off session future use or an error is thrown. iDeal and
+         *  Bancontact implement reuse differently than other payment methods, but they can't be reused themselves.
+         *
+         *
+         *  The following Payment Intent properties are supported:
+         *
+         *  statementDescriptor - optional statement descriptor
+         *  cardCaptureAutomatic - optional true if the credit card payment should be
+         *  automatically captured at the time of the sale, or false if the credit card payment should be
+         *  captured later
+         *
+         *
+         *
+         *  If cardCaptureAutomatic is provided it is used to determine card capture timing, and otherwise the
+         *  default card capture timing set for the site is used.
+         *
+         *
+         *  If statementDescriptor is provided it is used as the complete description that appears on your
+         *  customers' statements for the payment, and if not a default statement descriptor is used. If a default statement
+         *  descriptor is set for the site it is used as the default, and otherwise the default statement descriptor for the
+         *  account will apply.
+         * @param order order to pay using Salesforce Payments
+         * @param paymentMethod payment method to use to pay
+         * @param paymentIntentProperties additional properties to pass to the create Payment Intent API
+         * @return Status 'OK' or 'ERROR'. Status detail 'paymentintent' contains the payment intent, if it is available in the Stripe response. Status detail 'error' contains the Stripe error information, if it is available in the response.
+         */
+        static confirmPaymentIntent(
+          order: dw.order.Order,
+          paymentMethod: dw.extensions.payments.SalesforcePaymentMethod,
+          paymentIntentProperties: any
+        ): dw.system.Status;
+        /**
+         * Creates a payment intent using the given information, and associates it with the given basket.
+         *
+         *
+         *  The following Payment Intent properties are supported:
+         *
+         *  type - required payment method type, such as SalesforcePaymentMethod.TYPE_CARD
+         *  statementDescriptor - optional statement descriptor
+         *  cardCaptureAutomatic - optional true if the credit card payment should be
+         *  automatically captured at the time of the sale, or false if the credit card payment should be
+         *  captured later
+         *
+         *
+         *
+         *  The stripeCustomerRequired must be set to true if the payment will be set up for future
+         *  usage, whether on session or off session. If true then if a Stripe Customer is associated with the
+         *  shopper then it will be used, and otherwise a new Stripe Customer will be created. The new Stripe Customer will
+         *  be associated with the shopper if logged into a registered customer account for the site.
+         *
+         *
+         *  If cardCaptureAutomatic is provided it is used to determine card capture timing, and otherwise the
+         *  default card capture timing set for the site is used.
+         *
+         *
+         *  If statementDescriptor is provided it is used as the complete description that appears on your
+         *  customers' statements for the payment, and if not a default statement descriptor is used. If a default statement
+         *  descriptor is set for the site it is used as the default, and otherwise the default statement descriptor for the
+         *  account will apply.
+         * @param basket basket to checkout and pay using Salesforce Payments
+         * @param shipment shipment to use for shipping information in the payment intent
+         * @param zoneId id of the payment zone
+         * @param amount payment amount
+         * @param stripeCustomerRequired true if a Stripe Customer must be associated with the payment intent, and would be created if it doesn't already exist, or false if a Stripe Customer does not have to be associated with the payment intent
+         * @param paymentIntentProperties properties to pass to the create Payment Intent API
+         * @return Status 'OK' or 'ERROR'. Status detail 'paymentintent' contains the payment intent, if it is available in the Stripe response. Status detail 'error' contains the Stripe error information, if it is available in the response.
+         */
+        static createPaymentIntent(
+          basket: dw.order.Basket,
+          shipment: dw.order.Shipment,
+          zoneId: string,
+          amount: dw.value.Money,
+          stripeCustomerRequired: boolean,
+          paymentIntentProperties: any
+        ): dw.system.Status;
+        /**
          * Detaches the given payment method from its associated customer. Once detached the payment method remains
          *  associated with payment intents in the payment account, but is no longer saved for use by the customer in future
          *  orders.
@@ -26459,6 +28073,25 @@ declare namespace dw {
         static getAttachedPaymentMethods(
           customer: dw.customer.Customer
         ): dw.util.Collection<dw.extensions.payments.SalesforcePaymentMethod>;
+        /**
+         * Returns a collection containing the payment methods for the given customer set up for future off session reuse.
+         *  The collection will be empty if there are no off session payment methods for the customer, or there was an
+         *  error retrieving the off session payment methods.
+         * @param customer customer whose off session payment methods to get
+         * @return collection of off session payment methods
+         */
+        static getOffSessionPaymentMethods(
+          customer: dw.customer.Customer
+        ): dw.util.Collection<any>;
+        /**
+         * Returns the details to the Salesforce Payments payment associated with the given payment instrument, or
+         *  null if the given payment instrument has none.
+         * @param paymentInstrument payment instrument
+         * @return The payment details
+         */
+        static getPaymentDetails(
+          paymentInstrument: dw.order.OrderPaymentInstrument
+        ): dw.extensions.payments.SalesforcePaymentDetails;
         /**
          * Returns the payment intent for the given basket, or null if the given basket has none.
          * @param basket basket to checkout and pay using Salesforce Payments
@@ -26501,8 +28134,8 @@ declare namespace dw {
          * Returns a collection containing the payment methods saved to be presented to the given customer for reuse in
          *  checkouts. The collection will be empty if there are no payment methods saved for the customer, or there was an
          *  error retrieving the saved payment methods.
-         * @param customer customer whose payment methods to get
-         * @return collection of attached payment methods
+         * @param customer customer whose saved payment methods to get
+         * @return collection of saved payment methods
          */
         static getSavedPaymentMethods(
           customer: dw.customer.Customer
@@ -26513,6 +28146,31 @@ declare namespace dw {
          * @param order order paid using Salesforce Payments
          */
         static onCustomerRegistered(order: dw.order.Order): void;
+        /**
+         * Refunds previously captured funds for the given payment intent.
+         *
+         *  The payment intent must be in a state that supports refund. This includes its status as well as any previous
+         *  refunds. See the Stripe documentation for more details.
+         *
+         *
+         *  The following Payment Intent property is supported:
+         *
+         *  reason - optional payment intent refund reason
+         *
+         *
+         *
+         *  If amount is not specified, the default is the full amount available to refund. If specified, the
+         *  amount must be less than or equal to the amount available to refund.
+         * @param paymentIntent payment intent to refund
+         * @param amount optional amount to refund, defaults to amount previously captured
+         * @param refundProperties additional properties to pass to the refund API
+         * @return Status 'OK' or 'ERROR'. Status detail 'error' contains the Stripe error information, if it is available in the response.
+         */
+        static refundPaymentIntent(
+          paymentIntent: dw.extensions.payments.SalesforcePaymentIntent,
+          amount: dw.value.Money,
+          refundProperties: any
+        ): dw.system.Status;
         /**
          * Removes the given saved payment method so that it is no longer presented to the given customer for reuse in
          *  checkouts. The payment method remains in the payment account, but is no longer saved for use by the customer.
@@ -26531,6 +28189,52 @@ declare namespace dw {
           customer: dw.customer.Customer,
           paymentMethod: dw.extensions.payments.SalesforcePaymentMethod
         ): void;
+        /**
+         * Sets the details to the Salesforce Payments payment associated with the given payment instrument.
+         * @param paymentInstrument payment instrument
+         * @param paymentDetails payment details
+         */
+        static setPaymentDetails(
+          paymentInstrument: dw.order.OrderPaymentInstrument,
+          paymentDetails: dw.extensions.payments.SalesforcePaymentDetails
+        ): void;
+        /**
+         * Updates the provided information in the given payment intent.
+         *
+         *  The payment intent must be in a status that supports update. See the Stripe documentation for more details.
+         *
+         *
+         *  The following Payment Intent properties are supported:
+         *
+         *  statementDescriptor - optional statement descriptor
+         *  cardCaptureAutomatic - optional true if the credit card payment should be
+         *  automatically captured at the time of the sale, or false if the credit card payment should be
+         *  captured later
+         *
+         *
+         *
+         *  If cardCaptureAutomatic is provided it is used to determine card capture timing, and otherwise the
+         *  default card capture timing set for the site is used.
+         *
+         *
+         *  If statementDescriptor is provided it is used as the complete description that appears on your
+         *  customers' statements for the payment, and if not a default statement descriptor is used. If a default statement
+         *  descriptor is set for the site it is used as the default, and otherwise the default statement descriptor for the
+         *  account will apply.
+         * @param paymentIntent payment intent to update
+         * @param shipment optional shipment to use to update shipping information in the payment intent
+         * @param amount optional new payment amount
+         * @param orderNo optional order no of Order to associate with the payment intent in metadata
+         * @param paymentIntentProperties optional additional properties to pass to the update Payment Intent API
+         * @return Status 'OK' or 'ERROR'. Status detail 'paymentintent' contains the payment intent, if it is available in the Stripe response. Status detail 'error' contains the Stripe error information, if it is available in the response.
+         */
+        static updatePaymentIntent(
+          paymentIntent: dw.extensions.payments.SalesforcePaymentIntent,
+          shipment: dw.order.Shipment,
+          amount: dw.value.Money,
+          orderNo: string,
+          paymentIntentProperties: any
+        ): dw.system.Status;
       }
 
       /**
@@ -26579,6 +28283,62 @@ declare namespace dw {
          * @return true if Multi-Step Checkout is enabled for the site, or false if not
          */
         isMultiStepCheckoutEnabled(): boolean;
+      }
+
+      /**
+       * <p>
+       *  Details to a Salesforce Payments payment of type <a href="class_dw_extensions_payments_SalesforcePaymentMethod.html#dw_extensions_payments_SalesforcePaymentMethod_TYPE_SEPA_DEBIT_DetailAnchor">SalesforcePaymentMethod.TYPE_SEPA_DEBIT</a>. See Salesforce Payments
+       *  documentation for how to gain access and configure it for use on your sites.
+       *  </p>
+       */
+      class SalesforceSepaDebitPaymentDetails extends dw.extensions.payments
+        .SalesforcePaymentDetails {
+        /**
+         * The last 4 digits of the account number, or null if not known.
+         */
+        readonly last4: string;
+
+        private constructor();
+
+        /**
+         * Returns the last 4 digits of the account number, or null if not known.
+         *
+         * @return last 4 digits of the account number
+         */
+        getLast4(): string;
+      }
+
+      /**
+       * <p>
+       *  Details to a Salesforce Payments payment of type <a href="class_dw_extensions_payments_SalesforcePayPalOrder.html#dw_extensions_payments_SalesforcePayPalOrder_TYPE_VENMO_DetailAnchor">SalesforcePayPalOrder.TYPE_VENMO</a>. See Salesforce Payments
+       *  documentation for how to gain access and configure it for use on your sites.
+       *  </p>
+       */
+      class SalesforceVenmoPaymentDetails extends dw.extensions.payments
+        .SalesforcePaymentDetails {
+        /**
+         * The ID of the capture against the PayPal Venmo order, or null if not known.
+         */
+        readonly captureID: string;
+        /**
+         * The email address of the payer for the PayPal Venmo order, or null if not known.
+         */
+        readonly payerEmailAddress: string;
+
+        private constructor();
+
+        /**
+         * Returns the ID of the capture against the PayPal Venmo order, or null if not known.
+         *
+         * @return PayPal order capture ID
+         */
+        getCaptureID(): string;
+        /**
+         * Returns the email address of the payer for the PayPal Venmo order, or null if not known.
+         *
+         * @return payer email address
+         */
+        getPayerEmailAddress(): string;
       }
     }
 
@@ -27518,7 +29278,7 @@ declare namespace dw {
       gunzip(root: dw.io.File): void;
       /**
        * GZip this instance into a new gzip file. If you're zipping a file, then a single entry, the instance,
-       *  is included in the output gzip file. Note that a new File is created. GZipping directories is not suppported.
+       *  is included in the output gzip file. Note that a new File is created. GZipping directories is not supported.
        *  This file is never modified.
        * @param outputZipFile the zip file created.
        */
@@ -29461,7 +31221,7 @@ declare namespace dw {
       /**
        * Connects and logs on to an FTP server and returns a boolean indicating success or failure.
        * @param host Name of the FTP sever
-       * @param user User name for the login
+       * @param user Username for the login
        * @param password Password for the login
        * @return true when connection is successful, false otherwise.
        */
@@ -29477,7 +31237,7 @@ declare namespace dw {
        * Connects and logs on to an FTP server and returns a boolean indicating success or failure.
        * @param host Name of the FTP sever
        * @param port Port for FTP server
-       * @param user User name for the login
+       * @param user Username for the login
        * @param password Password for the login
        * @return true when connection is successful, false otherwise.
        */
@@ -29502,7 +31262,7 @@ declare namespace dw {
        * Reads the content of a remote file and returns it as a string using "ISO-8859-1" encoding to read it. Read at
        *  most MAX_GET_STRING_SIZE bytes.
        * @param path remote path of the file to be read.
-       * @return the contents of the file or null if an error occured while reading the file.
+       * @return the contents of the file or null if an error occurred while reading the file.
        */
       get(path: string): string;
       /**
@@ -29743,9 +31503,17 @@ declare namespace dw {
      *  store via Business Manager. <b>Note:</b> when this class is used with sensitive data, be careful in persisting
      *  sensitive information.
      *
+     *  Key selection for mutual TLS:
+     *  <ol>
+     *      <li>Check if there is an explicit identity requested <a href="class_dw_net_HTTPClient.html#dw_net_HTTPClient_setIdentity_KeyRef_DetailAnchor">setIdentity(KeyRef)</a>  </li>
+     *      <li>Else, Check if there is a mapping for hostname in the keystore</li>
+     *      <li>Deprecated: Select an arbitrary private key from the keystore</li>
+     *  </ol>
+     *
+     *
      *  <pre> <code>
-     *  var httpClient : HTTPClient = new HTTPClient();
-     *  var message : String;
+     *  var httpClient = new HTTPClient();
+     *  var message;
      *  httpClient.open('GET', 'http://www.myinstance.com/feed.xml');
      *  httpClient.setTimeout(3000);
      *  httpClient.send();
@@ -29756,7 +31524,7 @@ declare namespace dw {
      *  else
      *  {
      *      // error handling
-     *      message="An error occurred with status code "+httpClient.statusCode;
+     *      message = "An error occurred with status code "+httpClient.statusCode;
      *  }
      *  </code>
      *  </pre>
@@ -29804,9 +31572,17 @@ declare namespace dw {
        */
       readonly errorText: string;
       /**
+       * Determines whether host name verification is enabled.
+       */
+      hostNameVerification: boolean;
+      /**
        * Gets the identity used for mutual TLS (mTLS).
        */
       identity: dw.crypto.KeyRef;
+      /**
+       * Gets the logging configuration for this HTTP client.
+       */
+      loggingConfig: dw.net.HTTPClientLoggingConfig;
       /**
        * All response headers as a map in which each entry represents an individual header. The key of the entry
        *  holds the header name and the entry value holds a list of all header values.
@@ -29829,17 +31605,47 @@ declare namespace dw {
        */
       timeout: number;
 
+      /**
+       * Constructs the HTTPClient instance with the default configuration.
+       *
+       */
       constructor();
+      /**
+       * Constructs the HTTPClient instance with the given configuration.
+       *
+       *  There is one supported configuration option. Unknown options are ignored.
+       *
+       *      Supported configuration
+       *
+       *          Name
+       *          Type
+       *          Description
+       *
+       *
+       *          allowHTTP2
+       *          boolean
+       *          Allow connections over HTTP/2. This will still allow HTTP/1.1 if that is what the remote server
+       *          supports. It will also cause all request and response headers to be case-insensitive.
+       *          The default value is false.
+       *
+       *
+       *
+       *
+       *  Sample usage:
+       *   var httpClient = new HTTPClient( { allowHTTP2: true } )
+       * @param configMap A Map containing configuration options.
+       */
+      constructor(configMap: any);
 
       /**
        * Calling this method enables caching for GET requests.
        *
        *  It basically means that a response is cached, and before making a request the HTTP client looks into the cache to
        *  determine whether the response is already available. Only responses with a status code of 2xx, with a content
-       *  length, with a size less then 50k, and which are not intended to be immediately written to a file are cached.
+       *  length, with a size less than 50k, and which are not intended to be immediately written to a file are cached.
        *
        *  The provided parameter defines the TTL (time to live) for the cached content. A value of 0 disables caching. The
-       *  URL and the user name are used as cache keys. The total size of the cacheable content and the number of cached
+       *  URL and the username are used as cache keys. The total size of the cacheable content and the number of cached
        *  items is limited and automatically managed by the system. Cache control information send by the remote server is
        *  ignored. Caching HTTP responses should be done very carefully. It is important to ensure that the response really
        *  depends only on the URL and doesn't contain any remote state information or time information which is independent
@@ -29880,11 +31686,23 @@ declare namespace dw {
        */
       getErrorText(): string;
       /**
+       * Determines whether host name verification is enabled.
+       *
+       * @return true if verification is enabled, false otherwise
+       */
+      getHostNameVerification(): boolean;
+      /**
        * Gets the identity used for mutual TLS (mTLS).
        *
        * @return Reference to the private key, or null if not configured
        */
       getIdentity(): dw.crypto.KeyRef;
+      /**
+       * Gets the logging configuration for this HTTP client.
+       *
+       * @return the current logging configuration
+       */
+      getLoggingConfig(): dw.net.HTTPClientLoggingConfig;
       /**
        * Returns a specific response header from the last HTTP operation. The method returns null if the specific header
        *  was not returned.
@@ -29976,13 +31794,13 @@ declare namespace dw {
       send(): void;
       /**
        * This method performs the actual HTTP communication. The text is sent as a request body. If the text is null no
-       *  data will be send to the HTTP server.
+       *  data will be sent to the HTTP server.
        * @param text text String to be sent as request body.
        */
       send(text: string): void;
       /**
        * This method performs the actual HTTP communication. The text is sent as a request body. If the text is null no
-       *  data will be send to the HTTP server.
+       *  data will be sent to the HTTP server.
        * @param text text String to be sent as request body.
        * @param encoding character encoding name.
        */
@@ -29994,7 +31812,7 @@ declare namespace dw {
        */
       send(file: dw.io.File): void;
       /**
-       * This method performs the actual HTTP communication. If the file is null no data will be send to the HTTP server.
+       * This method performs the actual HTTP communication. If the file is null no data will be sent to the HTTP server.
        *  If this method is used with a GET then the file parameter will contain the contents retrieved. When using this
        *  method with a PUT/POST then the contents of the file parameter will be sent to the server.
        * @param file local file used to read from or write to, depending on the method used.
@@ -30002,14 +31820,14 @@ declare namespace dw {
        */
       sendAndReceiveToFile(file: dw.io.File): boolean;
       /**
-       * This method performs the actual HTTP communication. If the text is null no data will be send to the HTTP server.
+       * This method performs the actual HTTP communication. If the text is null no data will be sent to the HTTP server.
        * @param text text String to be sent.
        * @param outFile local file to write to.
        * @return true if the returned code was a positive status code
        */
       sendAndReceiveToFile(text: string, outFile: dw.io.File): boolean;
       /**
-       * This method performs the actual HTTP communication. If the text is null no data will be send to the HTTP server.
+       * This method performs the actual HTTP communication. If the text is null no data will be sent to the HTTP server.
        * @param text text String to be sent.
        * @param encoding character encoding name.
        * @param outFile local file to write to.
@@ -30051,6 +31869,12 @@ declare namespace dw {
        */
       setAllowRedirect(allowRedirect: boolean): void;
       /**
+       * Sets whether certificate host name verification is enabled.
+       *  The default value is true. Set it to false to disable host name verification.
+       * @param enable true to enable host name verification or false to disable it.
+       */
+      setHostNameVerification(enable: boolean): void;
+      /**
        * Sets the identity (private key) to use when mutual TLS (mTLS) is configured.
        *
        *  If this is not set and mTLS is used then the private key will be chosen from the key store based on the host
@@ -30059,6 +31883,11 @@ declare namespace dw {
        * @param keyRef Reference to the private key
        */
       setIdentity(keyRef: dw.crypto.KeyRef): void;
+      /**
+       * Sets the logging configuration for this HTTP client.
+       * @param config the logging configuration to use
+       */
+      setLoggingConfig(config: dw.net.HTTPClientLoggingConfig): void;
       /**
        * Sets a request header for the next HTTP operation.
        * @param key the request header.
@@ -30085,6 +31914,201 @@ declare namespace dw {
        * @param timeoutMillis timeout, in milliseconds, up to a maximum of 2 or 15 minutes, depending on the context.
        */
       setTimeout(timeoutMillis: number): void;
+    }
+
+    /**
+     * Script API for configuring HTTP client logging and sensitive data redaction.
+     *  <p>
+     *  This class provides a customer-facing interface for configuring HTTP client logging behavior, including
+     *  enabling/disabling logging, setting log levels, and defining sensitive fields that should be redacted from HTTP
+     *  request and response bodies.
+     *  </p><p>
+     *  <b>Security Note:</b> This class handles sensitive security-related data and logging
+     *  configuration. Pay special attention to PCI DSS requirements when configuring sensitive field redaction to ensure
+     *  proper data protection.
+     *  Sensitive Fields of appropriate types MUST be set else logging will be skipped.
+     *  </p><p>
+     *  <b>Usage Example:</b>
+     *  </p><pre> var config = new dw.net.HTTPClientLoggingConfig();
+     *  // Enable logging and set level
+     *  config.setEnabled(true);
+     *  config.setLevel("INFO");
+     *  // Configure sensitive JSON fields
+     *  config.setSensitiveJsonFields(["password", "creditCard", "ssn"]);
+     *  // Configure sensitive XML fields
+     *  config.setSensitiveXmlFields(["password", "creditCard", "ssn"]);
+     *  // Configure sensitive headers
+     *  config.setSensitiveHeaders(["authorization", "x-api-key", "cookie"]);
+     *  // Configure sensitive body fields (for form data)
+     *  config.setSensitiveBodyFields(["password", "creditCard", "ssn"]);
+     *  // Configure text patterns for plain text/HTML content
+     *  config.setSensitiveTextPatterns([["password\\s*=\\s*[^\\s&amp;]+"]]);
+     *  </pre>
+     *  <p>
+     *  <b>Content Type Support:</b>
+     *  </p><ul>
+     *    <li><b>JSON:</b> Use setSensitiveJsonFields() to specify field names to redact</li>
+     *    <li><b>XML:</b> Use setSensitiveXmlFields() to specify element/attribute names to redact</li>
+     *    <li><b>Form Data:</b> Use setSensitiveBodyFields() to specify parameter names to redact</li>
+     *    <li><b>Plain Text/HTML:</b> Use setSensitiveTextPatterns() to specify regex patterns</li>
+     *    <li><b>Binary/Multipart:</b> Entire body is automatically treated as sensitive</li>
+     *  </ul>
+     */
+    class HTTPClientLoggingConfig {
+      /**
+       * Gets whether HTTP client logging is enabled.
+       */
+      enabled: boolean;
+      /**
+       * Gets the current log level for HTTP client logging.
+       */
+      level: string;
+      /**
+       * Gets the sensitive body fields configured for form data redaction.
+       */
+      sensitiveBodyFields: string;
+      /**
+       * Gets the sensitive headers configured for redaction.
+       */
+      sensitiveHeaders: string;
+      /**
+       * Gets the sensitive JSON fields configured for redaction.
+       */
+      sensitiveJsonFields: string;
+      /**
+       * Gets the sensitive XML fields configured for redaction.
+       */
+      sensitiveXmlFields: string;
+
+      /**
+       * Creates a new HTTPClientLoggingConfig instance.
+       *
+       *  The public constructor should only be called from JavaScript, but cfgAPI uses this constructor for creating the
+       *  Service instance -> so fill the factory here
+       *
+       */
+      constructor();
+
+      /**
+       * Gets the current log level for HTTP client logging.
+       *
+       * @return the log level as a string (DEBUG, INFO, WARN, ERROR)
+       */
+      getLevel(): string;
+      /**
+       * Gets the sensitive body fields configured for form data redaction.
+       *
+       * @return an array of field names that will be redacted from form data
+       */
+      getSensitiveBodyFields(): String[];
+      /**
+       * Gets the sensitive headers configured for redaction.
+       *
+       * @return an array of header names that will be redacted
+       */
+      getSensitiveHeaders(): String[];
+      /**
+       * Gets the sensitive JSON fields configured for redaction.
+       *
+       * @return an array of field names that will be redacted from JSON content
+       */
+      getSensitiveJsonFields(): String[];
+      /**
+       * Gets the sensitive XML fields configured for redaction.
+       *
+       * @return an array of field names that will be redacted from XML content
+       */
+      getSensitiveXmlFields(): String[];
+      /**
+       * Gets whether HTTP client logging is enabled.
+       *
+       * @return true if logging is enabled, false otherwise
+       */
+      isEnabled(): boolean;
+      /**
+       * Sets whether HTTP client logging is enabled.
+       *
+       *  When enabled, HTTP requests and responses will be logged according to the configured log level and sensitive
+       *  field redaction settings. When disabled, no HTTP logging will occur.
+       * @param enabled true to enable logging, false to disable
+       */
+      setEnabled(enabled: boolean): void;
+      /**
+       * Sets the log level for HTTP client logging.
+       *
+       *  The log level determines the verbosity of HTTP logging output. Available levels:
+       *
+       *    DEBUG: Most verbose, includes detailed request/response information
+       *    INFO: Standard level, includes basic request/response details
+       *    WARN: Only logs warnings and errors
+       *    ERROR: Only logs errors
+       * @param level the log level (DEBUG, INFO, WARN, ERROR). Case-insensitive.
+       */
+      setLevel(level: string): void;
+      /**
+       * Sets the sensitive body fields that should be redacted from HTTP form data.
+       *
+       *  When HTTP requests or responses contain form data (application/x-www-form-urlencoded), any parameters matching
+       *  the specified field names will be redacted with "****FILTERED****" in the logs.
+       *  Sensitive Field MUST be set else logging will be skipped for form body type
+       *  Setting with empty array will use default values ["name", "email", "email_address", "ssn", "first_name", "last_name"]
+       *
+       *  Example:
+       *   config.setSensitiveBodyFields(["fname", "creditCard", "ssn_last_4"]);
+       * @param fields an array of field names to redact from form data
+       */
+      setSensitiveBodyFields(...fields: string[]): void;
+      /**
+       * Sets the sensitive headers that should be redacted from HTTP requests/responses.
+       *
+       *  Any HTTP headers matching the specified names will be redacted with "****FILTERED****" in the logs. This is useful for
+       *  protecting sensitive authentication tokens, API keys, and session information.
+       *  Sensitive Headers MUST be set else logging will be skipped for headers
+       *  Setting the sensitive headers with empty array will use default values ["authorization", "cookie"]
+       *
+       *  Example:
+       *   config.setSensitiveHeaders([ "x-api-key", "x-auth-token"]);
+       *  config.setSensiviteHeaders([]);
+       * @param headers an array of header names to redact
+       */
+      setSensitiveHeaders(...headers: string[]): void;
+      /**
+       * Sets the sensitive JSON fields that should be redacted from HTTP request/response bodies.
+       *
+       *  When HTTP requests or responses contain JSON content, any fields matching the specified names will be redacted
+       *  with "****FILTERED****" in the logs.
+       *  Sensitive Field MUST be set else logging will be skipped for JSON body type
+       *  Setting with empty array will use default values ["name", "email", "email_address", "ssn", "first_name", "last_name", "password"]
+       *
+       *  Example:
+       *   config.setSensitiveJsonFields(["password", "creditCard", "ssn"]);
+       * @param fields an array of field names to redact from JSON content
+       */
+      setSensitiveJsonFields(...fields: string[]): void;
+      /**
+       * Sets the sensitive text patterns that should be redacted from HTTP request/response bodies.
+       *
+       *  When HTTP requests or responses contain text content, any text matching the specified regex patterns will be
+       *  redacted with "****FILTERED****" in the logs.
+       *
+       *  Example:
+       *   config.setSensitiveTextPatterns(["password", "credit.*card", "\\d{3}-\\d{2}-\\d{4}"]);
+       * @param patterns an array of regex patterns to match and redact from text content
+       */
+      setSensitiveTextPatterns(...patterns: string[]): void;
+      /**
+       * Sets the sensitive XML fields that should be redacted from HTTP request/response bodies.
+       *
+       *  When HTTP requests or responses contain XML content, any elements or attributes matching the specified names will
+       *  be redacted with "****FILTERED****" in the logs.
+       *  Sensitive Field MUST be set else logging will be skipped for XML body type
+       *  Setting with empty array will use default values ["name", "email", "email_address", "ssn", "first_name", "last_name", "password"]
+       *
+       *  Example:
+       *   config.setSensitiveXmlFields(["password", "creditCard", "ssn"]);
+       * @param fields an array of element/attribute names to redact from XML content
+       */
+      setSensitiveXmlFields(...fields: string[]): void;
     }
 
     /**
@@ -30311,6 +32335,10 @@ declare namespace dw {
        */
       from: string;
       /**
+       * Gets the replyTo address List.
+       */
+      readonly replyTo: dw.util.List<any>;
+      /**
        * Gets the subject of the email.
        */
       subject: string;
@@ -30321,6 +32349,12 @@ declare namespace dw {
 
       constructor();
 
+      /**
+       * Adds a file attachment to the email. This method is restricted to Job context only.
+       * @param file The file to be attached to the email. Must not be null and must exist.
+       * @return this Mail object
+       */
+      addAttachment(file: dw.io.File): dw.net.Mail;
       /**
        * Adds an address to the bcc List. Address must conform to the RFC822 standard.
        * @param bcc new bcc address to add to bcc address List.
@@ -30333,6 +32367,12 @@ declare namespace dw {
        * @return this Mail object.
        */
       addCc(cc: string): dw.net.Mail;
+      /**
+       * Adds an address to the replyTo List. Address must conform to the RFC822 standard.
+       * @param replyTo new replyTo address to add to replyTo address List.
+       * @return this Mail object.
+       */
+      addReplyTo(replyTo: string): dw.net.Mail;
       /**
        * Adds an address to the to address List. The address must conform to the RFC822 standard.
        * @param to email address to add to the to address List.
@@ -30358,6 +32398,12 @@ declare namespace dw {
        * @return the from address for this mail or null if no from address is set yet.
        */
       getFrom(): string;
+      /**
+       * Gets the replyTo address List.
+       *
+       * @return replyTo address List or empty List if no replyTo addresses are set.
+       */
+      getReplyTo(): dw.util.List<any>;
       /**
        * Gets the subject of the email.
        *
@@ -30428,6 +32474,19 @@ declare namespace dw {
        */
       setFrom(from: string): dw.net.Mail;
       /**
+       * Sets the List-Unsubscribe header value to work with List-Unsubscribe-Post to allow integration with an
+       *  externally-managed mailing list.
+       * @param listUnsubscribe The List-Unsubscribe header value, e.g., "<https://example.com/unsubscribe>"
+       * @return this Mail object
+       */
+      setListUnsubscribe(listUnsubscribe: string): dw.net.Mail;
+      /**
+       * Sets the List-Unsubscribe-Post header value. This header supports one-click unsubscribe functionality.
+       * @param listUnsubscribePost The List-Unsubscribe-Post header value, typically "List-Unsubscribe=One-Click"
+       * @return this Mail object
+       */
+      setListUnsubscribePost(listUnsubscribePost: string): dw.net.Mail;
+      /**
        * Mandatory sets the subject for the email. If the subject is not set
        *  or set to null at the time send() is invoked and
        *  IllegalArgumentException is thrown.
@@ -30442,6 +32501,18 @@ declare namespace dw {
        * @return this Mail object
        */
       setTo(to: dw.util.List<any>): dw.net.Mail;
+      /**
+       * Validates the address that is sent as parameter.
+       *  This validation includes:
+       *
+       *      The format must match RFC822
+       *      The address must be 7-bit ASCII
+       *      The top-level domain must be IANA-registered
+       *      Sample domains such as example.com are not allowed
+       * @param address Email address to be validated
+       * @return true if valid, false otherwise
+       */
+      static validateAddress(address: string): boolean;
     }
 
     /**
@@ -30464,9 +32535,27 @@ declare namespace dw {
      *  The default connection timeout depends on the script context timeout and will be set to a maximum of 30 seconds
      *  (default script context timeout is 10 seconds within storefront requests and 15 minutes within jobs).
      *  </p><p>
-     *  <b>IMPORTANT NOTE:</b> Before you can make an outbound SFTP connection, the SFTP server IP address must be enabled
+     *  <b>IMPORTANT NOTE:</b> Before you can make an outbound SFTP connection to a port other than 22, the SFTP server IP address must be enabled
      *  for outbound traffic at the Commerce Cloud Digital firewall for your POD. Please file a support request to request a new firewall
-     *  rule.</p>
+     *  rule.
+     *  </p><p>
+     *  SSH Version 2 is supported with the following algorithms:
+     *  </p><table>
+     *      <tbody><tr><th>Type</th><th>Algorithms</th></tr>
+     *      <tr><td>Host Key</td><td>ssh-ed25519, ecdsa-sha2-nistp256, ecdsa-sha2-nistp384, ecdsa-sha2-nistp521,
+     *                  rsa-sha2-512, rsa-sha2-256, ssh-rsa, ssh-dss</td></tr>
+     *      <tr><td>Key Exchange (KEX)</td><td>curve25519-sha256, curve25519-sha256@libssh.org, ecdh-sha2-nistp256,
+     *              ecdh-sha2-nistp384, ecdh-sha2-nistp521, diffie-hellman-group-exchange-sha256,
+     *              diffie-hellman-group16-sha512, diffie-hellman-group18-sha512, diffie-hellman-group14-sha256,
+     *              diffie-hellman-group14-sha1, diffie-hellman-group-exchange-sha1, diffie-hellman-group1-sha1</td></tr>
+     *      <tr><td>Cipher</td><td>aes128-ctr, aes192-ctr, aes256-ctr, aes128-gcm@openssh.com,
+     *              aes256-gcm@openssh.com, aes128-cbc, 3des-ctr, 3des-cbc, blowfish-cbc, aes192-cbc,
+     *              aes256-cbc</td></tr>
+     *      <tr><td>Message Authentication Code (MAC)</td><td>hmac-sha2-256-etm@openssh.com, hmac-sha2-512-etm@openssh.com,
+     *              hmac-sha1-etm@openssh.com, hmac-sha2-256, hmac-sha2-512, hmac-sha1, hmac-md5, hmac-sha1-96,
+     *              hmac-md5-96</td></tr>
+     *      <tr><td>Public Key Authentication</td><td>rsa-sha2-512, rsa-sha2-256, ssh-rsa</td></tr>
+     *  </tbody></table>
      */
     class SFTPClient {
       /**
@@ -30487,6 +32576,12 @@ declare namespace dw {
        */
       readonly errorMessage: string;
       /**
+       * Gets the identity (private key) used for the connection.
+       *
+       *  The key is only associated to this instance of the SFTP client.
+       */
+      identity: dw.crypto.KeyRef;
+      /**
        * The timeout for this client, in milliseconds.
        */
       timeout: number;
@@ -30503,7 +32598,7 @@ declare namespace dw {
        *  This method associates the key to the host used in the subsequent connect method, and must be called prior to connect.
        *  The key is not persisted, and is only associated to this instance of the SFTP client.
        *
-       *  Multiple keys may added, and the validation will succeed if the remote host matches any of them.
+       *  Multiple keys may be added, and the validation will succeed if the remote host matches any of them.
        *
        *  The default behavior is to persist and trust an unknown host key if there are no known host keys available.
        *  If addKnownHostKey is later used to trust specific a specific key or keys, then any previously persisted keys
@@ -30521,7 +32616,7 @@ declare namespace dw {
       /**
        * Connects and logs on to a SFTP server and returns a boolean indicating success or failure.
        * @param host Name of the SFTP sever
-       * @param user User name for the login
+       * @param user Username for the login
        * @param password Password for the login
        * @return true when connection is successful, false otherwise.
        */
@@ -30530,7 +32625,7 @@ declare namespace dw {
        * Connects and logs on to a SFTP server and returns a boolean indicating success or failure.
        * @param host Name of the SFTP sever
        * @param port Port for SFTP server
-       * @param user User name for the login
+       * @param user Username for the login
        * @param password Password for the login
        * @return true when connection is successful, false otherwise.
        */
@@ -30577,7 +32672,7 @@ declare namespace dw {
        */
       get(path: string, encoding: string, file: dw.io.File): boolean;
       /**
-       * Reads the content of a remote file and creates a local copy in the given file. Copies at most "MAX_GET_FILE_SIZE
+       * Reads the content of a remote file and creates a local copy in the given file. Copies at most MAX_GET_FILE_SIZE
        *  bytes. The SFTP transfer is done in binary mode.
        * @param path the remote path of the file to be read.
        * @param file the local file name
@@ -30602,6 +32697,14 @@ declare namespace dw {
        * @return the remote file information or null if not present.
        */
       getFileInfo(path: string): dw.net.SFTPFileInfo;
+      /**
+       * Gets the identity (private key) used for the connection.
+       *
+       *  The key is only associated to this instance of the SFTP client.
+       *
+       * @return Reference to the private key, or null if not configured
+       */
+      getIdentity(): dw.crypto.KeyRef;
       /**
        * Returns the timeout for this client, in milliseconds.
        *
@@ -30643,7 +32746,7 @@ declare namespace dw {
        *  please use method putBinary(String,File) instead.
        *
        *  NOTE: If the remote file already exists, it is overwritten.
-       * @param path the the path on the remote SFTP server, where the file will be stored.
+       * @param path the path on the remote SFTP server, where the file will be stored.
        * @param content the content to put.
        * @param encoding the encoding to use.
        * @return true or false indicating success or failure.
@@ -30774,7 +32877,7 @@ declare namespace dw {
      *  else
      *  {
      *      // error handling
-     *      message="An error occured with status code "+webdavClient.statusCode;
+     *      message="An error occurred with status code "+webdavClient.statusCode;
      *  }
      *
      *  var data : XML = new XML(getString);
@@ -31500,69 +33603,76 @@ declare namespace dw {
       /**
        * Searches for a single custom object instance.
        *
-       *  The search can be configured using a simple query language, which
-       *  provides most common filter and operator functionality.
+       *  The search can be configured using a simple query language, which provides most common filter and operator
+       *  functionality.
        *
-       *  The identifier for an attribute  to use in a query condition is always the
-       *  ID of the  attribute as defined in the type definition. For custom defined attributes
-       *  the prefix custom is required in the search term (e.g. custom.color = {1}),
-       *  while for system attributes no prefix is used (e.g. name = {4}).
+       *  The identifier for an attribute to use in a query condition is always the ID of the attribute as defined
+       *  in the type definition. For custom defined attributes the prefix custom is required in the search term (e.g.
+       *  custom.color = {1}), while for system attributes no prefix is used (e.g. name = {4}).
        *
        *  Supported attribute value types with sample expression values:
+       *
        *  String 'String', 'Str*', 'Strin?'
        *  Integer 1, 3E4
        *  Number 1.0, 3.99E5
        *  Date yyyy-MM-dd e.g. 2007-05-31 (Default TimeZone = UTC)
-       *  DateTime yyyy-MM-dd'T'hh:mm:ss+Z e.g. 2007-05-31T00:00+Z (Z TimeZone = UTC) or 2007-05-31T00:00:00
+       *  DateTime
+       *  yyyy-MM-dd'T'hh:mm:ss+Z e.g. 2007-05-31T00:00+Z (Z TimeZone = UTC) or 2007-05-31T00:00:00
        *  Boolean true, false
-       *  Email '[email protected]', '*@demandware.com'
+       *  Email 'search@demandware.com', '*@demandware.com'
        *  Set of String 'String', 'Str*', 'Strin?'
        *  Set of Integer 1, 3E4
        *  Set of Number 1.0, 3.99E5
        *  Enum of String 'String', 'Str*', 'Strin?'
        *  Enum of Integer 1, 3E4
+       *
+       *
        *  The following types of attributes are not queryable:
+       *
+       *
        *  Image
        *  HTML
        *  Text
        *  Quantity
        *  Password
-       *  Note, that some system attributes are not queryable by default regardless of the
-       *  actual value type code.
        *
+       *
+       *  Note, that some system attributes are not queryable by default regardless of the actual value type code.
        *
        *  The following operators are supported in a condition:
+       *
        *  = Equals - All types; supports NULL value (thumbnail = NULL)
        *  != Not equals - All types; supports NULL value (thumbnail != NULL)
-       *  < Less than  - Integer, Number and Date types only
+       *  < Less than - Integer, Number and Date types only
        *  > Greater than - Integer, Number and Date types only
        *  <= Less or equals than - Integer, Number and Date types only
-       *  >= Greater or equals than  - Integer, Number and Date types only
-       *  LIKE Like - String types and Email only; use if leading or trailing
-       *  wildcards will be used to support substring search(custom.country LIKE 'US*')
-       *  ILIKE Caseindependent Like - String types and Email only, use to support
-       *  case insensitive query (custom.country ILIKE 'usa'), does also support wildcards for
-       *  substring matching
+       *  >= Greater or equals than - Integer, Number and Date types only
+       *  LIKE Like - String types and Email only; use if leading or trailing wildcards will be used to
+       *  support substring search(custom.country LIKE 'US*')
+       *  ILIKE Case-independent Like - String types and Email only, use to support case insensitive query
+       *  (custom.country ILIKE 'usa'), does also support wildcards for substring matching
        *
-       *  Conditions can be combined using logical expressions 'AND', 'OR' and 'NOT'
-       *  and nested using parenthesis e.g.
+       *
+       *  Conditions can be combined using logical expressions 'AND', 'OR' and 'NOT' and nested using parenthesis e.g.
        *  gender = {1} AND (age >= {2} OR (NOT profession LIKE {3})).
        *
-       *
-       *  The query language provides a placeholder syntax to pass objects as
-       *  additional search parameters. Each passed object is related to a
-       *  placeholder in the query string. The placeholder must be an Integer that
-       *  is surrounded by braces. The first Integer value must be '0', the second
-       *  '1' and so on, e.g.
+       *  The query language provides a placeholder syntax to pass objects as additional search parameters. Each passed
+       *  object is related to a placeholder in the query string. The placeholder must be an Integer that is surrounded by
+       *  braces. The first Integer value must be '0', the second '1' and so on, e.g.
        *  querySystemObjects("sample", "age = {0} or creationDate >= {1}", 18, date)
        *
+       *  If there is more than one object matching the specified query criteria, the result is not deterministic. In order
+       *  to retrieve a single object from a sorted result set it is recommended to use the following code:
+       *  queryCustomObjects("", "custom.myAttr asc", null).first(). The method first() returns
+       *  only the next element and closes the iterator.
        *
-       *  If there is more than one object matching the specified query criteria, the
-       *  result is not deterministic. In order to retrieve a single object from a sorted result
-       *  set it is recommended to use the following code:
-       *  queryCustomObjects("", "custom.myAttr asc", null).first().
-       *  The method first() returns only the next element and closes the
-       *  iterator.
+       *  This method does not consider locale specific attributes. It returns all objects by checking the default
+       *  non-localizable attributes. Any locale specific filtering after fetching the objects must be done by other custom
+       *  code.
+       *  Example:
+       *
+       *  Get the custom objects using this method with non-localized attributes query.
+       *  Access the obj.getCustom("myattr"). It returns the localized value of the attribute.
        * @param type the custom object type for the query.
        * @param queryString the actual query.
        * @param args optional parameters for the queryString.
@@ -31576,77 +33686,85 @@ declare namespace dw {
       /**
        * Searches for custom object instances.
        *
-       *  The search can be configured using a simple query language, which
-       *  provides most common filter and operator functionality.
+       *  The search can be configured using a simple query language, which provides most common filter and operator
+       *  functionality.
        *
-       *  The identifier for an attribute  to use in a query condition is always the
-       *  ID of the  attribute as defined in the type definition. For custom defined attributes
-       *  the prefix custom is required in the search term (e.g. custom.color = {1}),
-       *  while for system attributes no prefix is used (e.g. name = {4}).
+       *  The identifier for an attribute to use in a query condition is always the ID of the attribute as defined
+       *  in the type definition. For custom defined attributes the prefix custom is required in the search term (e.g.
+       *  custom.color = {1}), while for system attributes no prefix is used (e.g. name = {4}).
        *
        *  Supported attribute value types with sample expression values:
+       *
        *  String 'String', 'Str*', 'Strin?'
        *  Integer 1, 3E4
        *  Number 1.0, 3.99E5
        *  Date yyyy-MM-dd e.g. 2007-05-31 (Default TimeZone = UTC)
-       *  DateTime yyyy-MM-dd'T'hh:mm:ss+Z e.g. 2007-05-31T00:00+Z (Z TimeZone = UTC) or 2007-05-31T00:00:00
+       *  DateTime
+       *  yyyy-MM-dd'T'hh:mm:ss+Z e.g. 2007-05-31T00:00+Z (Z TimeZone = UTC) or 2007-05-31T00:00:00
        *  Boolean true, false
-       *  Email '[email protected]', '*@demandware.com'
+       *  Email 'search@demandware.com', '*@demandware.com'
        *  Set of String 'String', 'Str*', 'Strin?'
        *  Set of Integer 1, 3E4
        *  Set of Number 1.0, 3.99E5
        *  Enum of String 'String', 'Str*', 'Strin?'
        *  Enum of Integer 1, 3E4
+       *
+       *
        *  The following types of attributes are not queryable:
+       *
+       *
        *  Image
        *  HTML
        *  Text
        *  Quantity
        *  Password
-       *  Note, that some system attributes are not queryable by default regardless of the
-       *  actual value type code.
        *
+       *
+       *  Note, that some system attributes are not queryable by default regardless of the actual value type code.
        *
        *  The following operators are supported in a condition:
+       *
        *  = Equals - All types; supports NULL value (thumbnail = NULL)
        *  != Not equals - All types; supports NULL value (thumbnail != NULL)
-       *  < Less than  - Integer, Number and Date types only
+       *  < Less than - Integer, Number and Date types only
        *  > Greater than - Integer, Number and Date types only
        *  <= Less or equals than - Integer, Number and Date types only
-       *  >= Greater or equals than  - Integer, Number and Date types only
-       *  LIKE Like - String types and Email only; use if leading or trailing
-       *  wildcards will be used to support substring search(custom.country LIKE 'US*')
-       *  ILIKE Caseindependent Like - String types and Email only, use to support
-       *  case insensitive query (custom.country ILIKE 'usa'), does also support wildcards for
-       *  substring matching
+       *  >= Greater or equals than - Integer, Number and Date types only
+       *  LIKE Like - String types and Email only; use if leading or trailing wildcards will be used to
+       *  support substring search(custom.country LIKE 'US*')
+       *  ILIKE Caseindependent Like - String types and Email only, use to support case insensitive query
+       *  (custom.country ILIKE 'usa'), does also support wildcards for substring matching
        *
-       *  Conditions can be combined using logical expressions 'AND', 'OR' and 'NOT'
-       *  and nested using parenthesis e.g.
+       *
+       *  Conditions can be combined using logical expressions 'AND', 'OR' and 'NOT' and nested using parenthesis e.g.
        *  gender = {1} AND (age >= {2} OR (NOT profession LIKE {3})).
        *
-       *
-       *  The query language provides a placeholder syntax to pass objects as
-       *  additional search parameters. Each passed object is related to a
-       *  placeholder in the query string. The placeholder must be an Integer that
-       *  is surrounded by braces. The first Integer value must be '0', the second
-       *  '1' and so on, e.g.
+       *  The query language provides a placeholder syntax to pass objects as additional search parameters. Each passed
+       *  object is related to a placeholder in the query string. The placeholder must be an Integer that is surrounded by
+       *  braces. The first Integer value must be '0', the second '1' and so on, e.g.
        *  querySystemObjects("sample", "age = {0} or creationDate >= {1}", 18, date)
        *
-       *
-       *  The sorting parameter is optional and may contain a comma separated list of
-       *  attribute names to sort by. Each sort attribute name may be followed by an
-       *  optional sort direction specifier ('asc' | 'desc'). Default sorting directions is
-       *  ascending, if no direction was specified.
+       *  The sorting parameter is optional and may contain a comma separated list of attribute names to sort by.
+       *  Each sort attribute name may be followed by an optional sort direction specifier ('asc' | 'desc'). Default
+       *  sorting directions is ascending, if no direction was specified.
        *  Example: age desc, name
-       *  Please note that specifying a localized custom attribute as the sorting attribute is
-       *  currently not supported.
+       *  Please note that specifying a localized custom attribute as the sorting attribute is currently not supported.
        *
-       *  Sometimes it is desired to get all instances of specified type with a special sorting condition.
-       *  This can be easily done by providing the 'type' of the custom object and the 'sortString' in combination with
-       *  an empty 'queryString', e.g. queryCustomObjects("sample", "", "custom.myAttr asc")
+       *  Sometimes it is desired to get all instances of specified type with a special sorting condition. This can be
+       *  easily done by providing the 'type' of the custom object and the 'sortString' in combination with an empty
+       *  'queryString', e.g. queryCustomObjects("sample", "", "custom.myAttr asc")
        *
-       *  It is strongly recommended to call close() on the returned SeekableIterator
-       *  if not all of its elements are being retrieved. This will ensure the proper cleanup of system resources.
+       *  It is strongly recommended to call close() on the returned SeekableIterator if not all of its
+       *  elements are being retrieved. This will ensure the proper cleanup of system resources.
+       *
+       *
+       *  This method does not consider locale specific attributes. It returns all objects by checking the default
+       *  non-localizable attributes. Any locale specific filtering after fetching the objects must be done by other custom
+       *  code.
+       *  Example:
+       *
+       *  Get the custom objects using this method with non-localized attributes query.
+       *  Access the obj.getCustom("myattr"). It returns the localized value of the attribute.
        * @param type the custom object type for the query.
        * @param queryString the actual query.
        * @param sortString an optional sorting or null if no sorting is necessary.
@@ -31662,53 +33780,63 @@ declare namespace dw {
       /**
        * Searches for custom object instances.
        *
-       *  The search can be configured with a map, which key-value pairs are
-       *  converted into a query expression. The key-value pairs are turned into a
-       *  sequence of '=' or 'like' conditions, which are combined with AND
-       *  statements.
+       *  The search can be configured with a map, which key-value pairs are converted into a query expression. The
+       *  key-value pairs are turned into a sequence of '=' or 'like' conditions, which are combined with AND statements.
        *
        *  Example:
-       *  A map with the key/value pairs: 'name'/'tom*', 'age'/66
-       *  will be converted as follows: "name like 'tom*' and age = 66"
+       *  A map with the key/value pairs: 'name'/'tom*', 'age'/66 will be converted as follows:
+       *  "name like 'tom*' and age = 66"
        *
-       *  The identifier for an attribute  to use in a query condition is always the
-       *  ID of the  attribute as defined in the type definition. For custom defined attributes
-       *  the prefix custom is required in the search term (e.g. custom.color = {1}),
-       *  while for system attributes no prefix is used (e.g. name = {4}).
+       *  The identifier for an attribute to use in a query condition is always the ID of the attribute as defined
+       *  in the type definition. For custom defined attributes the prefix custom is required in the search term (e.g.
+       *  custom.color = {1}), while for system attributes no prefix is used (e.g. name = {4}).
        *
        *  Supported attribute value types with sample expression values:
+       *
        *  String 'String', 'Str*', 'Strin?'
        *  Integer 1, 3E4
        *  Number 1.0, 3.99E5
        *  Date yyyy-MM-dd e.g. 2007-05-31 (Default TimeZone = UTC)
-       *  DateTime yyyy-MM-dd'T'hh:mm:ss+Z e.g. 2007-05-31T00:00+Z (Z TimeZone = UTC) or 2007-05-31T00:00:00
+       *  DateTime
+       *  yyyy-MM-dd'T'hh:mm:ss+Z e.g. 2007-05-31T00:00+Z (Z TimeZone = UTC) or 2007-05-31T00:00:00
        *  Boolean true, false
-       *  Email '[email protected]', '*@demandware.com'
+       *  Email 'search@demandware.com', '*@demandware.com'
        *  Set of String 'String', 'Str*', 'Strin?'
        *  Set of Integer 1, 3E4
        *  Set of Number 1.0, 3.99E5
        *  Enum of String 'String', 'Str*', 'Strin?'
        *  Enum of Integer 1, 3E4
+       *
+       *
        *  The following types of attributes are not queryable:
+       *
+       *
        *  Image
        *  HTML
        *  Text
        *  Quantity
        *  Password
-       *  Note, that some system attributes are not queryable by default regardless of the
-       *  actual value type code.
        *
        *
-       *  The sorting parameter is optional and may contain a comma separated list of
-       *  attribute names to sort by. Each sort attribute name may be followed by an
-       *  optional sort direction specifier ('asc' | 'desc'). Default sorting directions is
-       *  ascending, if no direction was specified.
+       *  Note, that some system attributes are not queryable by default regardless of the actual value type code.
+       *
+       *  The sorting parameter is optional and may contain a comma separated list of attribute names to sort by.
+       *  Each sort attribute name may be followed by an optional sort direction specifier ('asc' | 'desc'). Default
+       *  sorting directions is ascending, if no direction was specified.
        *  Example: age desc, name
-       *  Please note that specifying a localized custom attribute as the sorting attribute is
-       *  currently not supported.
+       *  Please note that specifying a localized custom attribute as the sorting attribute is currently not supported.
        *
-       *  It is strongly recommended to call close() on the returned SeekableIterator
-       *  if not all of its elements are being retrieved. This will ensure the proper cleanup of system resources.
+       *  It is strongly recommended to call close() on the returned SeekableIterator if not all of its
+       *  elements are being retrieved. This will ensure the proper cleanup of system resources.
+       *
+       *
+       *  This method does not consider locale specific attributes. It returns all objects by checking the default
+       *  non-localizable attributes. Any locale specific filtering after fetching the objects must be done by other custom
+       *  code.
+       *  Example:
+       *
+       *  Get the custom objects using this method with non-localized attributes query.
+       *  Access the obj.getCustom("myattr"). It returns the localized value of the attribute.
        * @param type the custom object type for the query.
        * @param queryAttributes key-value pairs, which define the query.
        * @param sortString an optional sorting or null if no sorting is necessary.
@@ -32407,7 +34535,7 @@ declare namespace dw {
     }
 
     /**
-     * Manager class which provides methods for querying for system objects with
+     * Manager class which provides methods for querying of system objects with
      *  meta data using the Commerce Cloud Digital query language. See individual API methods for
      *  details on the query language.
      *  <p>
@@ -32415,10 +34543,25 @@ declare namespace dw {
      *  <a href="class_dw_catalog_ProductMgr.html">ProductMgr</a>, etc provide more specific and fine-grained
      *  querying methods that can not be achieved using the general query language.
      *  </p><p>
+     *  </p><p>The following system object types are supported:</p>
+     *  <ul>
+     *  <li>GiftCertificate</li>
+     *  <li>SourceCodeGroup</li>
+     *  <li>Store</li>
+     *  <li>ProductList</li>
+     *  </ul>
+     *  <p>Support for the following system object types is deprecated:</p>
+     *  <ul>
+     *  <li>Order</li>
+     *  <li>Profile</li>
+     *  </ul>
+     *  <p>Use the search methods from <a href="class_dw_customer_CustomerMgr.html">CustomerMgr</a> and <a href="class_dw_order_OrderMgr.html">OrderMgr</a>,
+     *  respectively for querying these types.</p>
+     *
      *  To search for custom objects, use <a href="class_dw_object_CustomObjectMgr.html">CustomObjectMgr</a>.
      *  <b>Note:</b> this class allows access to sensitive information through
      *  operations that retrieve the Profile and Order objects.
-     *  Pay attention to appropriate legal and regulatory requirements related to this data.</p>
+     *  Pay attention to appropriate legal and regulatory requirements related to this data.
      */
     class SystemObjectMgr {
       private constructor();
@@ -32452,8 +34595,8 @@ declare namespace dw {
         type: string
       ): dw.util.SeekableIterator<dw.object.PersistentObject>;
       /**
-       * Searches for a single system object instance. The following system
-       *  object types are supported:
+       * Searches for a single system object instance. The following system object types are supported:
+       *
        *  GiftCertificate
        *  Order
        *  Profile
@@ -32461,74 +34604,92 @@ declare namespace dw {
        *  Store
        *  ProductList
        *
+       *
+       *
        *  The method throws an exception in case of another system type.
        *
-       *  The search can be configured using a simple query language, which
-       *  provides most common filter and operator functionality.
        *
-       *  The identifier for an attribute  to use in a query condition is always the
-       *  ID of the  attribute as defined in the type definition. For custom defined attributes
-       *  the prefix custom is required in the search term (e.g. custom.color = {1}),
-       *  while for system attributes no prefix is used (e.g. name = {4}).
+       *  The search can be configured using a simple query language, which provides most common filter and operator
+       *  functionality.
+       *
+       *
+       *  The identifier for an attribute to use in a query condition is always the ID of the attribute as defined
+       *  in the type definition. For custom defined attributes the prefix custom is required in the search term (e.g.
+       *  custom.color = {1}), while for system attributes no prefix is used (e.g. name = {4}).
+       *
        *
        *  Supported attribute value types with sample expression values:
+       *
        *  String 'String', 'Str*', 'Strin?'
        *  Integer 1, 3E4
        *  Number 1.0, 3.99E5
        *  Date yyyy-MM-dd e.g. 2007-05-31 (Default TimeZone = UTC)
-       *  DateTime yyyy-MM-dd'T'hh:mm:ss+Z e.g. 2007-05-31T00:00+Z (Z TimeZone = UTC) or 2007-05-31T00:00:00
+       *  DateTime
+       *  yyyy-MM-dd'T'hh:mm:ss+Z e.g. 2007-05-31T00:00+Z (Z TimeZone = UTC) or 2007-05-31T00:00:00
        *  Boolean true, false
-       *  Email '[email protected]', '*@demandware.com'
+       *  Email 'search@demandware.com', '*@demandware.com'
        *  Set of String 'String', 'Str*', 'Strin?'
        *  Set of Integer 1, 3E4
        *  Set of Number 1.0, 3.99E5
        *  Enum of String 'String', 'Str*', 'Strin?'
        *  Enum of Integer 1, 3E4
+       *
+       *
        *  The following types of attributes are not queryable:
+       *
+       *
        *  Image
        *  HTML
        *  Text
        *  Quantity
        *  Password
-       *  Note, that some system attributes are not queryable by default regardless of the
-       *  actual value type code.
+       *
+       *
+       *  Note, that some system attributes are not queryable by default regardless of the actual value type code.
        *
        *
        *  The following operators are supported in a condition:
+       *
        *  = Equals - All types; supports NULL value (thumbnail = NULL)
        *  != Not equals - All types; supports NULL value (thumbnail != NULL)
-       *  < Less than  - Integer, Number and Date types only
+       *  < Less than - Integer, Number and Date types only
        *  > Greater than - Integer, Number and Date types only
        *  <= Less or equals than - Integer, Number and Date types only
-       *  >= Greater or equals than  - Integer, Number and Date types only
-       *  LIKE Like - String types and Email only; use if leading or trailing
-       *  wildcards will be used to support substring search(custom.country LIKE 'US*')
-       *  ILIKE Caseindependent Like - String types and Email only, use to support
-       *  case insensitive query (custom.country ILIKE 'usa'), does also support wildcards for
-       *  substring matching
+       *  >= Greater or equals than - Integer, Number and Date types only
+       *  LIKE Like - String types and Email only; use if leading or trailing wildcards will be used to
+       *  support substring search(custom.country LIKE 'US*')
+       *  ILIKE Caseindependent Like - String types and Email only, use to support case insensitive query
+       *  (custom.country ILIKE 'usa'), does also support wildcards for substring matching
        *
-       *  Conditions can be combined using logical expressions 'AND', 'OR' and 'NOT'
-       *  and nested using parenthesis e.g.
+       *
+       *
+       *  Conditions can be combined using logical expressions 'AND', 'OR' and 'NOT' and nested using parenthesis e.g.
        *  gender = {1} AND (age >= {2} OR (NOT profession LIKE {3})).
        *
        *
-       *  The query language provides a placeholder syntax to pass objects as
-       *  additional search parameters. Each passed object is related to a
-       *  placeholder in the query string. The placeholder must be an Integer that
-       *  is surrounded by braces. The first Integer value must be '0', the second
-       *  '1' and so on, e.g.
+       *  The query language provides a placeholder syntax to pass objects as additional search parameters. Each passed
+       *  object is related to a placeholder in the query string. The placeholder must be an Integer that is surrounded by
+       *  braces. The first Integer value must be '0', the second '1' and so on, e.g.
        *  querySystemObjects("sample", "age = {0} or creationDate >= {1}", 18, date)
        *
        *
-       *  If there is more than one object matching the specified query criteria, the
-       *  result is not deterministic. In order to retrieve a single object from a sorted result
-       *  set it is recommended to use the following code:
-       *  querySystemObjects("", "custom.myAttr asc", null).first().
-       *  The method first() returns only the next element and closes the
-       *  iterator.
+       *  If there is more than one object matching the specified query criteria, the result is not deterministic. In order
+       *  to retrieve a single object from a sorted result set it is recommended to use the following code:
+       *  querySystemObjects("", "custom.myAttr asc", null).first(). The method first() returns
+       *  only the next element and closes the iterator.
        *
-       *  It is strongly recommended to call close() on the returned SeekableIterator
-       *  if not all of its elements are being processed. This will enable the cleanup of system resources.
+       *
+       *  It is strongly recommended to call close() on the returned SeekableIterator if not all of its
+       *  elements are being processed. This will enable the cleanup of system resources.
+       *
+       *
+       *  This method does not consider locale specific attributes. It returns all objects by checking the default
+       *  non-localizable attributes. Any locale specific filtering after fetching the objects must be done by other custom
+       *  code.
+       *  Example: For store objects, such a locale specific filtering can be:
+       *
+       *  Get the store objects using this method with non-localized attributes query.
+       *  Access the store.getCustom("myattr"). It returns the localized value of the attribute.
        * @param type the system object type for the query.
        * @param queryString the actual query.
        * @param args optional parameters for the queryString.
@@ -32540,8 +34701,8 @@ declare namespace dw {
         ...args: any[]
       ): dw.object.PersistentObject;
       /**
-       * Searches for system object instances. The following system object types
-       *  are supported:
+       * Searches for system object instances. The following system object types are supported:
+       *
        *  GiftCertificate
        *  Order
        *  Profile
@@ -32549,79 +34710,98 @@ declare namespace dw {
        *  Store
        *  ProductList
        *
+       *
+       *
        *  The method throws an exception in case of another system type.
        *
-       *  The search can be configured using a simple query language, which
-       *  provides most common filter and operator functionality.
        *
-       *  The identifier for an attribute  to use in a query condition is always the
-       *  ID of the  attribute as defined in the type definition. For custom defined attributes
-       *  the prefix custom is required in the search term (e.g. custom.color = {1}),
-       *  while for system attributes no prefix is used (e.g. name = {4}).
+       *  The search can be configured using a simple query language, which provides most common filter and operator
+       *  functionality.
+       *
+       *
+       *  The identifier for an attribute to use in a query condition is always the ID of the attribute as defined
+       *  in the type definition. For custom defined attributes the prefix custom is required in the search term (e.g.
+       *  custom.color = {1}), while for system attributes no prefix is used (e.g. name = {4}).
+       *
        *
        *  Supported attribute value types with sample expression values:
+       *
        *  String 'String', 'Str*', 'Strin?'
        *  Integer 1, 3E4
        *  Number 1.0, 3.99E5
        *  Date yyyy-MM-dd e.g. 2007-05-31 (Default TimeZone = UTC)
-       *  DateTime yyyy-MM-dd'T'hh:mm:ss+Z e.g. 2007-05-31T00:00+Z (Z TimeZone = UTC) or 2007-05-31T00:00:00
+       *  DateTime
+       *  yyyy-MM-dd'T'hh:mm:ss+Z e.g. 2007-05-31T00:00+Z (Z TimeZone = UTC) or 2007-05-31T00:00:00
        *  Boolean true, false
-       *  Email '[email protected]', '*@demandware.com'
+       *  Email 'search@demandware.com', '*@demandware.com'
        *  Set of String 'String', 'Str*', 'Strin?'
        *  Set of Integer 1, 3E4
        *  Set of Number 1.0, 3.99E5
        *  Enum of String 'String', 'Str*', 'Strin?'
        *  Enum of Integer 1, 3E4
+       *
+       *
        *  The following types of attributes are not queryable:
+       *
+       *
        *  Image
        *  HTML
        *  Text
        *  Quantity
        *  Password
-       *  Note, that some system attributes are not queryable by default regardless of the
-       *  actual value type code.
+       *
+       *
+       *  Note, that some system attributes are not queryable by default regardless of the actual value type code.
        *
        *
        *  The following operators are supported in a condition:
+       *
        *  = Equals - All types; supports NULL value (thumbnail = NULL)
        *  != Not equals - All types; supports NULL value (thumbnail != NULL)
-       *  < Less than  - Integer, Number and Date types only
+       *  < Less than - Integer, Number and Date types only
        *  > Greater than - Integer, Number and Date types only
        *  <= Less or equals than - Integer, Number and Date types only
-       *  >= Greater or equals than  - Integer, Number and Date types only
-       *  LIKE Like - String types and Email only; use if leading or trailing
-       *  wildcards will be used to support substring search(custom.country LIKE 'US*')
-       *  ILIKE Caseindependent Like - String types and Email only, use to support
-       *  case insensitive query (custom.country ILIKE 'usa'), does also support wildcards for
-       *  substring matching
+       *  >= Greater or equals than - Integer, Number and Date types only
+       *  LIKE Like - String types and Email only; use if leading or trailing wildcards will be used to
+       *  support substring search(custom.country LIKE 'US*')
+       *  ILIKE Caseindependent Like - String types and Email only, use to support case insensitive query
+       *  (custom.country ILIKE 'usa'), does also support wildcards for substring matching
        *
-       *  Conditions can be combined using logical expressions 'AND', 'OR' and 'NOT'
-       *  and nested using parenthesis e.g.
+       *
+       *
+       *  Conditions can be combined using logical expressions 'AND', 'OR' and 'NOT' and nested using parenthesis e.g.
        *  gender = {1} AND (age >= {2} OR (NOT profession LIKE {3})).
        *
        *
-       *  The query language provides a placeholder syntax to pass objects as
-       *  additional search parameters. Each passed object is related to a
-       *  placeholder in the query string. The placeholder must be an Integer that
-       *  is surrounded by braces. The first Integer value must be '0', the second
-       *  '1' and so on, e.g.
+       *  The query language provides a placeholder syntax to pass objects as additional search parameters. Each passed
+       *  object is related to a placeholder in the query string. The placeholder must be an Integer that is surrounded by
+       *  braces. The first Integer value must be '0', the second '1' and so on, e.g.
        *  querySystemObjects("sample", "age = {0} or creationDate >= {1}", 18, date)
        *
        *
-       *  The sorting parameter is optional and may contain a comma separated list of
-       *  attribute names to sort by. Each sort attribute name may be followed by an
-       *  optional sort direction specifier ('asc' | 'desc'). Default sorting directions is
-       *  ascending, if no direction was specified.
+       *  The sorting parameter is optional and may contain a comma separated list of attribute names to sort by.
+       *  Each sort attribute name may be followed by an optional sort direction specifier ('asc' | 'desc'). Default
+       *  sorting directions is ascending, if no direction was specified.
        *  Example: age desc, name
-       *  Please note that specifying a localized custom attribute as the sorting attribute is
-       *  currently not supported.
+       *  Please note that specifying a localized custom attribute as the sorting attribute is currently not supported.
        *
-       *  Sometimes it is desired to get all instances of specified type with a special sorting condition.
-       *  This can be easily done by providing the 'type' of the system object and the 'sortString' in combination with
-       *  an empty 'queryString', e.g. querySystemObjects("sample", "", "ID asc")
        *
-       *  It is strongly recommended to call close() on the returned SeekableIterator
-       *  if not all of its elements are being retrieved. This will ensure the proper cleanup of system resources.
+       *  Sometimes it is desired to get all instances of specified type with a special sorting condition. This can be
+       *  easily done by providing the 'type' of the system object and the 'sortString' in combination with an empty
+       *  'queryString', e.g. querySystemObjects("sample", "", "ID asc")
+       *
+       *
+       *  It is strongly recommended to call close() on the returned SeekableIterator if not all of its
+       *  elements are being retrieved. This will ensure the proper cleanup of system resources.
+       *
+       *
+       *  This method does not consider locale specific attributes. It returns all objects by checking the default
+       *  non-localizable attributes. Any locale specific filtering after fetching the objects must be done by other custom
+       *  code.
+       *  Example: For store objects, such a locale specific filtering can be:
+       *
+       *  Get the store objects using this method with non-localized attributes query.
+       *  Access the store.getCustom("myattr"). It returns the localized value of the attribute.
        * @param type the system object type for the query.
        * @param queryString the actual query.
        * @param sortString an optional sorting or null if no sorting is necessary.
@@ -32635,8 +34815,8 @@ declare namespace dw {
         ...args: any[]
       ): dw.util.SeekableIterator<dw.object.PersistentObject>;
       /**
-       * Searches for system object instances. The following system object types
-       *  are supported:
+       * Searches for system object instances. The following system object types are supported:
+       *
        *  GiftCertificate
        *  Order
        *  Profile
@@ -32644,55 +34824,73 @@ declare namespace dw {
        *  Store
        *  ProductList
        *
+       *
+       *
        *  The method throws an exception in case of another system type.
        *
-       *  The search can be configured with a map, which key-value pairs are
-       *  converted into a query expression. The key-value pairs are turned into a
-       *  sequence of '=' or 'like' conditions, which are combined with AND
-       *  statements.
+       *
+       *  The search can be configured with a map, which key-value pairs are converted into a query expression. The
+       *  key-value pairs are turned into a sequence of '=' or 'like' conditions, which are combined with AND statements.
+       *
        *
        *  Example:
-       *  A map with the key/value pairs: 'name'/'tom*', 'age'/66
-       *  will be converted as follows: "name like 'tom*' and age = 66"
+       *  A map with the key/value pairs: 'name'/'tom*', 'age'/66 will be converted as follows:
+       *  "name like 'tom*' and age = 66"
        *
-       *  The identifier for an attribute  to use in a query condition is always the
-       *  ID of the  attribute as defined in the type definition. For custom defined attributes
-       *  the prefix custom is required in the search term (e.g. custom.color = {1}),
-       *  while for system attributes no prefix is used (e.g. name = {4}).
+       *
+       *  The identifier for an attribute to use in a query condition is always the ID of the attribute as defined
+       *  in the type definition. For custom defined attributes the prefix custom is required in the search term (e.g.
+       *  custom.color = {1}), while for system attributes no prefix is used (e.g. name = {4}).
+       *
        *
        *  Supported attribute value types with sample expression values:
+       *
        *  String 'String', 'Str*', 'Strin?'
        *  Integer 1, 3E4
        *  Number 1.0, 3.99E5
        *  Date yyyy-MM-dd e.g. 2007-05-31 (Default TimeZone = UTC)
-       *  DateTime yyyy-MM-dd'T'hh:mm:ss+Z e.g. 2007-05-31T00:00+Z (Z TimeZone = UTC) or 2007-05-31T00:00:00
+       *  DateTime
+       *  yyyy-MM-dd'T'hh:mm:ss+Z e.g. 2007-05-31T00:00+Z (Z TimeZone = UTC) or 2007-05-31T00:00:00
        *  Boolean true, false
-       *  Email '[email protected]', '*@demandware.com'
+       *  Email 'search@demandware.com', '*@demandware.com'
        *  Set of String 'String', 'Str*', 'Strin?'
        *  Set of Integer 1, 3E4
        *  Set of Number 1.0, 3.99E5
        *  Enum of String 'String', 'Str*', 'Strin?'
        *  Enum of Integer 1, 3E4
+       *
+       *
        *  The following types of attributes are not queryable:
+       *
+       *
        *  Image
        *  HTML
        *  Text
        *  Quantity
        *  Password
-       *  Note, that some system attributes are not queryable by default regardless of the
-       *  actual value type code.
        *
        *
-       *  The sorting parameter is optional and may contain a comma separated list of
-       *  attribute names to sort by. Each sort attribute name may be followed by an
-       *  optional sort direction specifier ('asc' | 'desc'). Default sorting directions is
-       *  ascending, if no direction was specified.
+       *  Note, that some system attributes are not queryable by default regardless of the actual value type code.
+       *
+       *
+       *  The sorting parameter is optional and may contain a comma separated list of attribute names to sort by.
+       *  Each sort attribute name may be followed by an optional sort direction specifier ('asc' | 'desc'). Default
+       *  sorting directions is ascending, if no direction was specified.
        *  Example: age desc, name
-       *  Please note that specifying a localized custom attribute as the sorting attribute is
-       *  currently not supported.
+       *  Please note that specifying a localized custom attribute as the sorting attribute is currently not supported.
        *
-       *  It is strongly recommended to call close() on the returned SeekableIterator
-       *  if not all of its elements are being retrieved. This will ensure the proper cleanup of system resources.
+       *
+       *  It is strongly recommended to call close() on the returned SeekableIterator if not all of its
+       *  elements are being retrieved. This will ensure the proper cleanup of system resources.
+       *
+       *
+       *  This method does not consider locale specific attributes. It returns all objects by checking the default
+       *  non-localizable attributes. Any locale specific filtering after fetching the objects must be done by other custom
+       *  code.
+       *  Example: For store objects, such a locale specific filtering can be:
+       *
+       *  Get the store objects using this method with non-localized attributes query.
+       *  Access the store.getCustom("myattr"). It returns the localized value of the attribute.
        * @param type the system object type for the query.
        * @param queryAttributes key-value pairs, which define the query.
        * @param sortString an optional sorting or null if no sorting is necessary.
@@ -32816,13 +35014,14 @@ declare namespace dw {
      *  <ul>
      *  <li>
      *  The object has been created from an Order accessible using <a href="class_dw_order_AbstractItemCtnr.html#dw_order_AbstractItemCtnr_getOrder_DetailAnchor">getOrder()</a></li>
-     *  <li>Contains a collection of <a href="class_dw_order_AbstractItemCtnr.html#dw_order_AbstractItemCtnr_getItems_DetailAnchor"> items</a>, each item related to exactly one <a href="class_dw_order_OrderItem.html">OrderItem</a> which in turn represents
+     *  <li>Contains a collection of <a href="class_dw_order_AbstractItemCtnr.html#dw_order_AbstractItemCtnr_getItems_DetailAnchor">items</a>, each item related to exactly one <a href="class_dw_order_OrderItem.html">OrderItem</a> which in turn represents
      *  an extension to one of the order <a href="class_dw_order_ProductLineItem.html">ProductLineItem</a> or one <a href="class_dw_order_ShippingLineItem.html">ShippingLineItem</a>.
      *  Example: an <a href="class_dw_order_Invoice.html">Invoice</a> has <a href="class_dw_order_InvoiceItem.html">InvoiceItem</a>s</li>
      *  <li>
      *  The items hold various prices which are summed, resulting in a
-     *  <a href="class_dw_order_AbstractItemCtnr.html#dw_order_AbstractItemCtnr_getProductSubtotal_DetailAnchor"> product-subtotal</a>, a
-     *  <a href="class_dw_order_AbstractItemCtnr.html#dw_order_AbstractItemCtnr_getServiceSubtotal_DetailAnchor"> service-subtotal</a> and a <a href="class_dw_order_AbstractItemCtnr.html#dw_order_AbstractItemCtnr_getGrandTotal_DetailAnchor"> grand-total</a>, each represented by a <a href="class_dw_order_SumItem.html">SumItem</a>.</li>
+     *  <a href="class_dw_order_AbstractItemCtnr.html#dw_order_AbstractItemCtnr_getProductSubtotal_DetailAnchor">product-subtotal</a>, a
+     *  <a href="class_dw_order_AbstractItemCtnr.html#dw_order_AbstractItemCtnr_getServiceSubtotal_DetailAnchor">service-subtotal</a> and a <a href="class_dw_order_AbstractItemCtnr.html#dw_order_AbstractItemCtnr_getGrandTotal_DetailAnchor">grand-total</a>,
+     *  each represented by a <a href="class_dw_order_SumItem.html">SumItem</a>.</li>
      *  <li>The object is customizable using custom properties</li>
      *  </ul>
      */
@@ -33242,6 +35441,20 @@ declare namespace dw {
        *  accessibility in BasketMgr.createBasketFromOrder(Order)).
        */
       readonly orderNoBeingEdited: string;
+      /**
+       * Use this method to check if the Basket was calculated with grouped taxation calculation.
+       *
+       *  If the tax is rounded on group level, the tax is applied to the summed-up tax basis for each tax rate.
+       */
+      readonly taxRoundedAtGroup: boolean;
+      /**
+       * Returns if the basket is temporary.
+       *
+       *  Temporary baskets are separate from shopper storefront and agent baskets, and are intended for use to perform
+       *  calculations or create an order without disturbing a shopper's open storefront basket. A temporary basket can be
+       *  created with BasketMgr.createTemporaryBasket().
+       */
+      readonly temporary: boolean;
 
       private constructor();
 
@@ -33295,7 +35508,30 @@ declare namespace dw {
        */
       isAgentBasket(): boolean;
       /**
-       * Releases all inventory previously reserved for this basket.
+       * Use this method to check if the Basket was calculated with grouped taxation calculation.
+       *
+       *  If the tax is rounded on group level, the tax is applied to the summed-up tax basis for each tax rate.
+       *
+       * @return true if the Basket was calculated with grouped taxation
+       */
+      isTaxRoundedAtGroup(): boolean;
+      /**
+       * Returns if the basket is temporary.
+       *
+       *  Temporary baskets are separate from shopper storefront and agent baskets, and are intended for use to perform
+       *  calculations or create an order without disturbing a shopper's open storefront basket. A temporary basket can be
+       *  created with BasketMgr.createTemporaryBasket().
+       *
+       * @return true if the basket is temporary otherwise false
+       */
+      isTemporary(): boolean;
+      /**
+       * Release all inventory previously reserved for this basket. This is not needed for a normal workflow.
+       *  You can call dw.order.Basket.reserveInventory() one time after every basket change.
+       *  For performance and scaling reasons, avoid calling dw.order.Basket.releaseInventory()
+       *  before dw.order.Basket.reserveInventory(). The reserveInventory function works in
+       *  an optimized way to release inventory reservations that are no longer relevant.
+       *
        *
        *  The method implements its own transaction handling. Calling the method from inside a transaction is disallowed
        *  and results in an exception being thrown. This behavior differs when calling the method from an OCAPI
@@ -33308,7 +35544,44 @@ declare namespace dw {
       releaseInventory(): dw.system.Status;
       /**
        * Reserves inventory for all items in this basket for 10 minutes. Any reservations created by previous calls of
-       *  this method will be reset to 10 minutes.
+       *  this method are replaced.
+       *
+       *
+       *  Sample workflow for subsequent basket reservations:
+       *
+       *
+       *  1. Request: Add item to basket and reserve the basket.
+       *
+       *
+       *      transaction.begin()
+       *     basket.createProductLineItem("sku1",2,basket.defaultShipment)
+       *     basket.commit()
+       *     basket.reserveInventory()
+       *     // The reservation {sku1:2} is complete.
+       *
+       *
+       *
+       *  2. Request: Add item to basket.
+       *
+       *
+       *      transaction.begin()
+       *     basket.createProductLineItem("sku2",2,basket.defaultShipment)
+       *     basket.commit()
+       *     basket.reserveInventory()
+       *     // The reservation {sku1:2, sku2:2} is complete. The previous reservation was overwritten.
+       *
+       *
+       *
+       *  3. Request: Remove item from basket.
+       *
+       *
+       *      transaction.begin()
+       *     basket.removeProductLineItem(item1)
+       *     basket.commit()
+       *     basket.reserveInventory()
+       *     // The reservation {sku2:2} is complete. The previous reservation was
+       *     // overwritten and a quantity of 2 is released for sku1.
+       *
        *
        *
        *  The method can be used to reserve basket items before checkout to ensure that inventory is still available at the
@@ -33375,8 +35648,45 @@ declare namespace dw {
        */
       reserveInventory(): dw.system.Status;
       /**
-       * Reserves inventory for all items in this basket for a specified amount of minutes. Any reservations created by
-       *  previous calls of this method will be reset to that amount of minutes.
+       * Reserve inventory for all items in this basket for 10 minutes. Any reservations created by previous calls of
+       *  this method are replaced.
+       *
+       *
+       *  Sample workflow for subsequent basket reservations:
+       *
+       *
+       *  1. Request: Add item to basket and reserve the basket.
+       *
+       *
+       *      transaction.begin()
+       *     basket.createProductLineItem("sku1",2,basket.defaultShipment)
+       *     basket.commit()
+       *     basket.reserveInventory()
+       *     // The reservation {sku1:2} is complete.
+       *
+       *
+       *
+       *  2. Request: Add item to basket.
+       *
+       *
+       *      transaction.begin()
+       *     basket.createProductLineItem("sku2",2,basket.defaultShipment)
+       *     basket.commit()
+       *     basket.reserveInventory()
+       *     // The reservation {sku1:2, sku2:2} is complete. The previous reservation was overwritten.
+       *
+       *
+       *
+       *  3. Request: Remove item from basket.
+       *
+       *
+       *      transaction.begin()
+       *     basket.removeProductLineItem(item1)
+       *     basket.commit()
+       *     basket.reserveInventory()
+       *     // The reservation {sku2:2} is complete. The previous reservation was
+       *     // overwritten and a quantity of 2 is released for sku1.
+       *
        *
        *
        *  The method can be used to reserve basket items before checkout to ensure that inventory is still available at the
@@ -33446,8 +35756,45 @@ declare namespace dw {
        */
       reserveInventory(reservationDurationInMinutes: number): dw.system.Status;
       /**
-       * Reserves inventory for all items in this basket for a specified amount of minutes. Any reservations created by
-       *  previous calls of this method will be reset to that amount of minutes.
+       * Reserve inventory for all items in this basket for 10 minutes. Any reservations created by previous calls of
+       *  this method are replaced.
+       *
+       *
+       *  Sample workflow for subsequent basket reservations:
+       *
+       *
+       *  1. Request: Add item to basket and reserve the basket.
+       *
+       *
+       *      transaction.begin()
+       *     basket.createProductLineItem("sku1",2,basket.defaultShipment)
+       *     basket.commit()
+       *     basket.reserveInventory()
+       *     // The reservation {sku1:2} is complete
+       *
+       *
+       *
+       *  2. Request: Add item to basket.
+       *
+       *
+       *      transaction.begin()
+       *     basket.createProductLineItem("sku2",2,basket.defaultShipment)
+       *     basket.commit()
+       *     basket.reserveInventory()
+       *     // The reservation {sku1:2, sku2:2} is complete. The previous reservation was overwritten.
+       *
+       *
+       *
+       *  3. Request: Remove item from basket.
+       *
+       *
+       *      transaction.begin()
+       *     basket.removeProductLineItem(item1)
+       *     basket.commit()
+       *     basket.reserveInventory()
+       *     // The reservation {sku2:2} is complete. The previous reservation was
+       *     // overwritten and a quantity of 2 is released for sku1.
+       *
        *
        *
        *  The method can be used to reserve basket items before checkout to ensure that inventory is still available at the
@@ -33545,14 +35892,22 @@ declare namespace dw {
        *  LineItemCtnr.CHANNEL_TYPE_DSS, LineItemCtnr.CHANNEL_TYPE_STORE,
        *  LineItemCtnr.CHANNEL_TYPE_PINTEREST, LineItemCtnr.CHANNEL_TYPE_TWITTER,
        *  LineItemCtnr.CHANNEL_TYPE_FACEBOOKADS, LineItemCtnr.CHANNEL_TYPE_SUBSCRIPTIONS,
-       *  LineItemCtnr.CHANNEL_TYPE_ONLINERESERVATION, LineItemCtnr.CHANNEL_TYPE_INSTAGRAMCOMMERCE.
-       *
-       *  The value for LineItemCtnr.CHANNEL_TYPE_CUSTOMERSERVICECENTER is also available, but it can not be set by the scripting API, it is set only internally.
+       *  LineItemCtnr.CHANNEL_TYPE_ONLINERESERVATION,
+       *  LineItemCtnr.CHANNEL_TYPE_INSTAGRAMCOMMERCE, LineItemCtnr.CHANNEL_TYPE_GOOGLE,
+       *  LineItemCtnr.CHANNEL_TYPE_YOUTUBE, LineItemCtnr.CHANNEL_TYPE_TIKTOK,
+       *  LineItemCtnr.CHANNEL_TYPE_SNAPCHAT, LineItemCtnr.CHANNEL_TYPE_WHATSAPP The
+       *  value for LineItemCtnr.CHANNEL_TYPE_CUSTOMERSERVICECENTER is also available, but it can not be
+       *  set by the scripting API, it is set only internally.
        * @param aType the channel type to set for this basket
        */
       setChannelType(aType: number): void;
       /**
        * Sets the customer number of the customer associated with this container.
+       *
+       *  Note this method has little effect as it only sets the customer number and it does not re-link the basket with
+       *  a customer profile object, nor is the number copied into the Order should one be created from
+       *  the basket. Use Order.setCustomer(Customer) instead for a registered customer. For a
+       *  guest customer the customerNo is usually generated during order creation and the attribute is set at order level.
        * @param customerNo the customer number of the customer associated with this container.
        */
       setCustomerNo(customerNo: string): void;
@@ -33588,7 +35943,8 @@ declare namespace dw {
      */
     class BasketMgr {
       /**
-       * Retrieve all open baskets for the logged in customer.
+       * Retrieve all open baskets for the logged in customer including the temporary baskets.
+       *
        *
        *  Restricted to agent scenario use cases: The returned list contains all agent baskets created with
        *  createAgentBasket() and the current storefront basket which can also be retrieved with
@@ -33608,8 +35964,17 @@ declare namespace dw {
        *  valid for the configured basket lifetime.
        *
        *
+       *  In hybrid storefront scenarios (Phased Launch sites that utilize SFRA/SiteGenesis for some part while also
+       *  utilizing PWA Kit or other custom headless solution for another part of the same site), this method must
+       *  NOT be used. Instead, retrieve baskets via GET baskets/{basketId} or
+       *  GET customers/{customerId}/baskets. Do not use getCurrentOrNewBasket() for basket creation
+       *  in any scenario.
+       *
+       *
        *  The current basket, if one exists, is usually updated by the method. In particular the last-modified date is
-       *  updated. The lifetime of a basket can be extended in 2 ways:
+       *  updated. No update is done when method getCurrentBasket() is used within a read-only hook
+       *  implementation (such as a beforeGet or a modifyResponse hook). The lifetime of a basket can be extended
+       *  in 2 ways:
        *
        *  The basket is modified in some way, e.g. a product is added resulting in the basket total being newly
        *  calculated. This results in the basket lifetime being reset.
@@ -33618,14 +35983,21 @@ declare namespace dw {
        *
        *
        *
-       *  Personal data held inside the basket such as addresses, email addresses and payment settings is associated with
-       *  the customer to whom the basket belongs. If the basket being updated belongs to a different customer this data is
-       *  removed. This happens when a registered customer logs in after having previously created a basket as an anonymous
-       *  customer. After the customer logs out, the previous basket is stored (where applicable) and the method returns
-       *  null. Personal data is also cleared when the session times out for an anonymous customer.
+       *  What happens when a customer logs in? Personal data held inside the basket such as addresses, email addresses and
+       *  payment settings is associated with the customer to whom the basket belongs. If the basket being updated belongs
+       *  to a different customer this data is removed. This happens when a guest customer that has a basket logs in and
+       *  hence identifies as a registered customer. In this case the basket which was previously created by the guest
+       *  customer gets transferred to the (now logged in) registered customer. Should the registered customer already have
+       *  a basket, this basket is effectively invalidated, but made available using getStoredBasket() allowing
+       *  the script to merge content from it if desired.
        *
        *
-       *  The following personal data is cleared.
+       *  What happens when a customer logs out or when the customer session times out? After the customer logs out, a
+       *  basket belonging to the registered customer (now logged out) is stored (where applicable) and this method
+       *  returns null. Personal data is also cleared when the session times out for a guest customer.
+       *
+       *
+       *  The following personal data is cleared:
        *
        *  product line items that were added from a wish list
        *  shipping method
@@ -33659,20 +36031,36 @@ declare namespace dw {
       /**
        * This method returns the current valid basket of the session customer or creates a new one if no current valid
        *  basket exists. See getCurrentBasket() for more details.
+       *
+       *
+       *  In hybrid storefront scenarios (Phased Launch sites that utilize SFRA/SiteGenesis for some part while also
+       *  utilizing PWA Kit or other custom headless solution for another part of the same site), this method must
+       *  NOT be used. For these scenarios, create baskets via POST baskets REST calls.
        */
       static readonly currentOrNewBasket: dw.order.Basket;
       /**
        * This method returns the stored basket of the session customer or null if none is found. A stored
        *  basket is returned in the following situation:
        *
-       *  During one visit, a customer-X logs in and receives a basket-A.
-       *  In a later visit, a second basket-B is created for an anonymous customer who then logs in as customer-X.
+       *  During one visit, a customer-Q logs in and creates a basket-A by adding products to it.
+       *  During a subsequent visit, a second basket-B is created for a guest customer who then logs in as
+       *  customer-Q.
        *
-       *  In this case basket-B is reassigned to him and basket-A is accessible as the stored basket. Now it is possible to
-       *  merge the information from the stored basket to the active basket.
+       *  In this case, basket-B is reassigned to customer-Q and basket-A is accessible as the stored basket using this
+       *  method. It is now possible to merge the information from the stored basket (basket-A) to the active basket
+       *  (basket-B). If this method returns null in the previous scenario, verify that:
        *
-       *  A stored basket will exist only if the corresponding setting is selected in the Business Manager site
-       *  preferences' baskets section. A basket is valid for the configured basket lifetime.
+       *  The session handling between the two visits is correct - the first visit and second visit must be in
+       *  different sessions. Furthermore, the second session must contain both basket creations: as guest and the customer
+       *  login.
+       *  The stored basket is not expired.
+       *  Basket persistence settings are configured correctly in the Business Manager.
+       *
+       *
+       *
+       *  A stored basket exists only if the corresponding setting is selected in Business Manager. preferences' baskets
+       *  section. A basket is valid for the configured basket lifetime.
+       *
        *
        *  Typical usage:
        *
@@ -33681,8 +36069,19 @@ declare namespace dw {
        *  if (storedBasket) {
        *      // transfer all the data needed from the stored to the active basket
        *  }
+       *
+       *
+       *  A exhaustive example on how to use this method in the context of the Merge Basket functionality can be found
+       *  here: Merge Basket utility
+       *  functions using Script API
        */
       static readonly storedBasket: dw.order.Basket;
+      /**
+       * Retrieve all open temporary baskets for the logged in customer.
+       *
+       *  Please notice that baskets are invalidated after a certain amount of time and may not be returned anymore.
+       */
+      static readonly temporaryBaskets: dw.util.List<any>;
 
       private constructor();
 
@@ -33702,19 +36101,30 @@ declare namespace dw {
       /**
        * Creates a Basket from an existing Order for the purposes of changing an Order. When an Order is later created
        *  from the Basket, the original Order is changed to status Order.ORDER_STATUS_REPLACED. Restricted
-       *  to agent scenario use cases: In case a storefront customer is using it the created storefront basket cannot be
-       *  retrieved via
+       *  to agent scenario use cases.
+       *
+       *
+       *  In case a storefront customer is using it the created storefront basket cannot be retrieved via
        *
        *  getCurrentBasket() (ScriptAPI),
-       *  GET /baskets/ (OCAPI) or
-       *  GetBasket (Pipelet).
+       *  GET /baskets/<basketid> (REST APIs) or
+       *  DELETE /baskets/<basketid> (REST APIs) or
+       *  GetBasket (Pipelet) or
+       *  Basket-related CSC Operations from BM (these also use OCAPI REST API).
        *
        *  Baskets containing an "orderNumberBeingEdited" are explicitly excluded from the list of baskets that can be
-       *  retrieved. Responsible for this behaviour (this kind of basket cannot be used as general purpose shopping
-       *  baskets) - see Basket.getOrderNoBeingEdited() / Basket.getOrderBeingEdited().
+       *  retrieved. Responsible for this behavior (this kind of basket cannot be used as general purpose shopping baskets)
+       *  - see Basket.getOrderNoBeingEdited() / Basket.getOrderBeingEdited().
+       *
        *
        *  In case a Business Manager user is logged in into the session the basket will be marked as an agent basket. See
        *  Basket.isAgentBasket().
+       *
+       *
+       *  Any inventory reservation associated with the order will be canceled either early when
+       *  Basket.reserveInventory() is called for the new basket or (later) when a new replacement order
+       *  is created from the basket. Consider reserving the basket following its creation.
+       *
        *
        *  The method only succeeds for an Order
        *
@@ -33732,6 +36142,7 @@ declare namespace dw {
        *  Code OrderProcessStatusCodes.ORDER_ALREADY_CANCELLED - the Order was cancelled.
        *  Code OrderProcessStatusCodes.ORDER_ALREADY_EXPORTED - the Order has already been
        *  exported.
+       *
        *
        *
        *  Usage:
@@ -33753,7 +36164,19 @@ declare namespace dw {
        */
       static createBasketFromOrder(order: dw.order.Order): dw.order.Basket;
       /**
-       * Remove a customer basket.
+       * Creates a new temporary basket for the current session customer. Temporary baskets are separate from shopper
+       *  storefront and agent baskets, and are intended for use to perform calculations or create an order without
+       *  disturbing a shopper's open storefront basket. Temporary baskets are automatically deleted after a time duration
+       *  of 15 minutes.
+       *
+       *  By default only 4 open temporary baskets are allowed per customer. If this is exceeded a
+       *  CreateTemporaryBasketLimitExceededException will be thrown.
+       *
+       * @return the newly created basket for the current session customer
+       */
+      static createTemporaryBasket(): dw.order.Basket;
+      /**
+       * Remove a customer basket including a temporary basket.
        *
        *  This method will result in an exception if called by a user without permission Create_Order_On_Behalf_Of or if no
        *  customer is logged in the session.
@@ -33761,7 +36184,13 @@ declare namespace dw {
        */
       static deleteBasket(basket: dw.order.Basket): void;
       /**
-       * This method returns a valid basket of the session customer or null if none is found.
+       * Remove a customer temporary basket.
+       * @param basket the temporary basket to be removed
+       */
+      static deleteTemporaryBasket(basket: dw.order.Basket): void;
+      /**
+       * This method returns a valid basket of the session customer or null if none is found. This method can
+       *  also be used to get a temporary basket for the session customer.
        *
        *  If the basket does not belong to the session customer, the method returns null.
        *
@@ -33780,7 +36209,8 @@ declare namespace dw {
        */
       static getBasket(uuid: string): dw.order.Basket;
       /**
-       * Retrieve all open baskets for the logged in customer.
+       * Retrieve all open baskets for the logged in customer including the temporary baskets.
+       *
        *
        *  Restricted to agent scenario use cases: The returned list contains all agent baskets created with
        *  createAgentBasket() and the current storefront basket which can also be retrieved with
@@ -33802,8 +36232,17 @@ declare namespace dw {
        *  valid for the configured basket lifetime.
        *
        *
+       *  In hybrid storefront scenarios (Phased Launch sites that utilize SFRA/SiteGenesis for some part while also
+       *  utilizing PWA Kit or other custom headless solution for another part of the same site), this method must
+       *  NOT be used. Instead, retrieve baskets via GET baskets/{basketId} or
+       *  GET customers/{customerId}/baskets. Do not use getCurrentOrNewBasket() for basket creation
+       *  in any scenario.
+       *
+       *
        *  The current basket, if one exists, is usually updated by the method. In particular the last-modified date is
-       *  updated. The lifetime of a basket can be extended in 2 ways:
+       *  updated. No update is done when method getCurrentBasket() is used within a read-only hook
+       *  implementation (such as a beforeGet or a modifyResponse hook). The lifetime of a basket can be extended
+       *  in 2 ways:
        *
        *  The basket is modified in some way, e.g. a product is added resulting in the basket total being newly
        *  calculated. This results in the basket lifetime being reset.
@@ -33812,14 +36251,21 @@ declare namespace dw {
        *
        *
        *
-       *  Personal data held inside the basket such as addresses, email addresses and payment settings is associated with
-       *  the customer to whom the basket belongs. If the basket being updated belongs to a different customer this data is
-       *  removed. This happens when a registered customer logs in after having previously created a basket as an anonymous
-       *  customer. After the customer logs out, the previous basket is stored (where applicable) and the method returns
-       *  null. Personal data is also cleared when the session times out for an anonymous customer.
+       *  What happens when a customer logs in? Personal data held inside the basket such as addresses, email addresses and
+       *  payment settings is associated with the customer to whom the basket belongs. If the basket being updated belongs
+       *  to a different customer this data is removed. This happens when a guest customer that has a basket logs in and
+       *  hence identifies as a registered customer. In this case the basket which was previously created by the guest
+       *  customer gets transferred to the (now logged in) registered customer. Should the registered customer already have
+       *  a basket, this basket is effectively invalidated, but made available using getStoredBasket() allowing
+       *  the script to merge content from it if desired.
        *
        *
-       *  The following personal data is cleared.
+       *  What happens when a customer logs out or when the customer session times out? After the customer logs out, a
+       *  basket belonging to the registered customer (now logged out) is stored (where applicable) and this method
+       *  returns null. Personal data is also cleared when the session times out for a guest customer.
+       *
+       *
+       *  The following personal data is cleared:
        *
        *  product line items that were added from a wish list
        *  shipping method
@@ -33856,6 +36302,11 @@ declare namespace dw {
        * This method returns the current valid basket of the session customer or creates a new one if no current valid
        *  basket exists. See getCurrentBasket() for more details.
        *
+       *
+       *  In hybrid storefront scenarios (Phased Launch sites that utilize SFRA/SiteGenesis for some part while also
+       *  utilizing PWA Kit or other custom headless solution for another part of the same site), this method must
+       *  NOT be used. For these scenarios, create baskets via POST baskets REST calls.
+       *
        * @return the basket, existing or newly created
        */
       static getCurrentOrNewBasket(): dw.order.Basket;
@@ -33863,14 +36314,25 @@ declare namespace dw {
        * This method returns the stored basket of the session customer or null if none is found. A stored
        *  basket is returned in the following situation:
        *
-       *  During one visit, a customer-X logs in and receives a basket-A.
-       *  In a later visit, a second basket-B is created for an anonymous customer who then logs in as customer-X.
+       *  During one visit, a customer-Q logs in and creates a basket-A by adding products to it.
+       *  During a subsequent visit, a second basket-B is created for a guest customer who then logs in as
+       *  customer-Q.
        *
-       *  In this case basket-B is reassigned to him and basket-A is accessible as the stored basket. Now it is possible to
-       *  merge the information from the stored basket to the active basket.
+       *  In this case, basket-B is reassigned to customer-Q and basket-A is accessible as the stored basket using this
+       *  method. It is now possible to merge the information from the stored basket (basket-A) to the active basket
+       *  (basket-B). If this method returns null in the previous scenario, verify that:
        *
-       *  A stored basket will exist only if the corresponding setting is selected in the Business Manager site
-       *  preferences' baskets section. A basket is valid for the configured basket lifetime.
+       *  The session handling between the two visits is correct - the first visit and second visit must be in
+       *  different sessions. Furthermore, the second session must contain both basket creations: as guest and the customer
+       *  login.
+       *  The stored basket is not expired.
+       *  Basket persistence settings are configured correctly in the Business Manager.
+       *
+       *
+       *
+       *  A stored basket exists only if the corresponding setting is selected in Business Manager. preferences' baskets
+       *  section. A basket is valid for the configured basket lifetime.
+       *
        *
        *  Typical usage:
        *
@@ -33880,9 +36342,39 @@ declare namespace dw {
        *      // transfer all the data needed from the stored to the active basket
        *  }
        *
+       *
+       *  A exhaustive example on how to use this method in the context of the Merge Basket functionality can be found
+       *  here: Merge Basket utility
+       *  functions using Script API
+       *
        * @return the stored basket or null if no valid stored basket exists.
        */
       static getStoredBasket(): dw.order.Basket;
+      /**
+       * This method returns a valid temporary basket of the session customer or null if none is found.
+       *
+       *  If the basket does not belong to the session customer, the method returns null.
+       *
+       *
+       *  If the basket is not a temporary basket, the method returns null.
+       *
+       *
+       *  The basket, if accessible, is usually updated in the same way as getCurrentBasket().
+       *
+       *  If the session currency no longer matches the basket currency, the basket currency should be updated with
+       *  Basket.updateCurrency().
+       * @param uuid the id of the requested temporary basket.
+       * @return the temporary basket or null
+       */
+      static getTemporaryBasket(uuid: string): dw.order.Basket;
+      /**
+       * Retrieve all open temporary baskets for the logged in customer.
+       *
+       *  Please notice that baskets are invalidated after a certain amount of time and may not be returned anymore.
+       *
+       * @return all open temporary baskets
+       */
+      static getTemporaryBaskets(): dw.util.List<any>;
     }
 
     /**
@@ -34231,6 +36723,14 @@ declare namespace dw {
      *  to indicate no Order could be created from the Basket.
      */
     class CreateOrderException extends APIException {
+      private constructor();
+    }
+
+    /**
+     * This exception is thrown by <a href="class_dw_order_BasketMgr.html#dw_order_BasketMgr_createTemporaryBasket_DetailAnchor">BasketMgr.createTemporaryBasket()</a> to indicate that the open temporary basket
+     *  limit for the current session customer is already reached, and therefore no new temporary basket could be created.
+     */
+    class CreateTemporaryBasketLimitExceededException extends APIException {
       private constructor();
     }
 
@@ -35398,8 +37898,9 @@ declare namespace dw {
        *  not affected by the previous value of this attribute.
        *
        *  The value used as a basis depends on the type of line item this is and on the promotion preferences for the
-       *  current site. If you tax products, shipping, and discounts based on price (default), then the tax basis will simply be equal to
-       *  getPrice(). If you tax products and shipping only based on adjusted price, then the tax basis depends upon line item type as follows:
+       *  current site. If you tax products, shipping, and discounts based on price (default), then the tax basis will
+       *  simply be equal to getPrice(). If you tax products and shipping only based on adjusted price, then the
+       *  tax basis depends upon line item type as follows:
        *
        *  ProductLineItem: basis equals ProductLineItem.getProratedPrice().
        *  ShippingLineItem: basis equals ShippingLineItem.getAdjustedPrice().
@@ -35494,6 +37995,10 @@ declare namespace dw {
        */
       static readonly CHANNEL_TYPE_FACEBOOKADS = 8;
       /**
+       * constant for Channel Type Google
+       */
+      static readonly CHANNEL_TYPE_GOOGLE = 13;
+      /**
        * constant for Channel Type Instagram Commerce
        */
       static readonly CHANNEL_TYPE_INSTAGRAMCOMMERCE = 12;
@@ -35510,6 +38015,10 @@ declare namespace dw {
        */
       static readonly CHANNEL_TYPE_PINTEREST = 6;
       /**
+       * constant for Channel Type Snapchat
+       */
+      static readonly CHANNEL_TYPE_SNAPCHAT = 15;
+      /**
        * constant for Channel Type Store
        */
       static readonly CHANNEL_TYPE_STORE = 5;
@@ -35522,9 +38031,21 @@ declare namespace dw {
        */
       static readonly CHANNEL_TYPE_SUBSCRIPTIONS = 9;
       /**
+       * constant for Channel Type TikTok
+       */
+      static readonly CHANNEL_TYPE_TIKTOK = 14;
+      /**
        * constant for Channel Type Twitter
        */
       static readonly CHANNEL_TYPE_TWITTER = 7;
+      /**
+       * constant for Channel Type WhatsApp
+       */
+      static readonly CHANNEL_TYPE_WHATSAPP = 16;
+      /**
+       * constant for Channel Type YouTube
+       */
+      static readonly CHANNEL_TYPE_YOUTUBE = 17;
 
       /**
        * The adjusted total gross price (including tax) in purchase currency. Adjusted merchandize prices
@@ -35632,8 +38153,10 @@ declare namespace dw {
        *  Possible values are CHANNEL_TYPE_STOREFRONT, CHANNEL_TYPE_CALLCENTER,
        *  CHANNEL_TYPE_MARKETPLACE, CHANNEL_TYPE_DSS, CHANNEL_TYPE_STORE,
        *  CHANNEL_TYPE_PINTEREST, CHANNEL_TYPE_TWITTER, CHANNEL_TYPE_FACEBOOKADS,
-       *  CHANNEL_TYPE_SUBSCRIPTIONS, CHANNEL_TYPE_ONLINERESERVATION or
-       *  CHANNEL_TYPE_CUSTOMERSERVICECENTER.
+       *  CHANNEL_TYPE_SUBSCRIPTIONS, CHANNEL_TYPE_ONLINERESERVATION,
+       *  CHANNEL_TYPE_CUSTOMERSERVICECENTER, CHANNEL_TYPE_INSTAGRAMCOMMERCE,
+       *  CHANNEL_TYPE_GOOGLE, CHANNEL_TYPE_YOUTUBE, CHANNEL_TYPE_TIKTOK,
+       *  CHANNEL_TYPE_SNAPCHAT, CHANNEL_TYPE_WHATSAPP
        */
       readonly channelType: dw.value.EnumValue;
       /**
@@ -35675,6 +38198,12 @@ declare namespace dw {
        *  including any associated objects like line items.
        */
       readonly etag: string;
+      /**
+       * Use this method to check whether the LineItemCtnr is calculated based on external tax tables.
+       *
+       *  Note: a basket can only be created in EXTERNAL tax mode using SCAPI.
+       */
+      readonly externallyTaxed: boolean;
       /**
        * All gift certificate line items of the container.
        */
@@ -35797,6 +38326,17 @@ declare namespace dw {
        *  applied.
        */
       readonly shippingTotalTax: dw.value.Money;
+      /**
+       * Use this method to check if the LineItemCtnr was calculated with grouped taxation calculation.
+       *
+       *  If the tax is rounded on group level, the tax is applied to the summed-up tax basis for each tax rate.
+       */
+      readonly taxRoundedAtGroup: boolean;
+      /**
+       * This method returns a SortedMap in which the keys are Decimal tax rates and the values
+       *  are Money total tax for the tax rate. The map is unmodifiable.
+       */
+      readonly taxTotalsPerTaxRate: dw.util.SortedMap<any, any>;
       /**
        * The grand total price gross of tax for LineItemCtnr, in purchase currency. Total prices represent the sum
        *  of product prices, services prices and adjustments.
@@ -36243,8 +38783,10 @@ declare namespace dw {
        *  Possible values are CHANNEL_TYPE_STOREFRONT, CHANNEL_TYPE_CALLCENTER,
        *  CHANNEL_TYPE_MARKETPLACE, CHANNEL_TYPE_DSS, CHANNEL_TYPE_STORE,
        *  CHANNEL_TYPE_PINTEREST, CHANNEL_TYPE_TWITTER, CHANNEL_TYPE_FACEBOOKADS,
-       *  CHANNEL_TYPE_SUBSCRIPTIONS, CHANNEL_TYPE_ONLINERESERVATION or
-       *  CHANNEL_TYPE_CUSTOMERSERVICECENTER.
+       *  CHANNEL_TYPE_SUBSCRIPTIONS, CHANNEL_TYPE_ONLINERESERVATION,
+       *  CHANNEL_TYPE_CUSTOMERSERVICECENTER, CHANNEL_TYPE_INSTAGRAMCOMMERCE,
+       *  CHANNEL_TYPE_GOOGLE, CHANNEL_TYPE_YOUTUBE, CHANNEL_TYPE_TIKTOK,
+       *  CHANNEL_TYPE_SNAPCHAT, CHANNEL_TYPE_WHATSAPP
        *
        * @return the sales channel this order has been placed in or null, if the order channel is not set
        */
@@ -36553,6 +39095,13 @@ declare namespace dw {
        */
       getShippingTotalTax(): dw.value.Money;
       /**
+       * This method returns a SortedMap in which the keys are Decimal tax rates and the values
+       *  are Money total tax for the tax rate. The map is unmodifiable.
+       *
+       * @return sorted map of tax rate against total tax
+       */
+      getTaxTotalsPerTaxRate(): dw.util.SortedMap<any, any>;
+      /**
        * Returns the grand total price gross of tax for LineItemCtnr, in purchase currency. Total prices represent the sum
        *  of product prices, services prices and adjustments.
        *
@@ -36573,6 +39122,22 @@ declare namespace dw {
        * @return the grand total tax.
        */
       getTotalTax(): dw.value.Money;
+      /**
+       * Use this method to check whether the LineItemCtnr is calculated based on external tax tables.
+       *
+       *  Note: a basket can only be created in EXTERNAL tax mode using SCAPI.
+       *
+       * @return true if the LineItemCtnr was calculated based on external tax tables.
+       */
+      isExternallyTaxed(): boolean;
+      /**
+       * Use this method to check if the LineItemCtnr was calculated with grouped taxation calculation.
+       *
+       *  If the tax is rounded on group level, the tax is applied to the summed-up tax basis for each tax rate.
+       *
+       * @return true if the LineItemCtnr was calculated with grouped taxation
+       */
+      isTaxRoundedAtGroup(): boolean;
       /**
        * Removes the all Payment Instruments from this container and deletes the Payment Instruments.
        *
@@ -37174,6 +39739,12 @@ declare namespace dw {
        *  Every status change will trigger a change in the order journal which is the base for GMV calculations.
        */
       status: dw.value.EnumValue;
+      /**
+       * Use this method to check if the Order was created with grouped taxation calculation.
+       *
+       *  If the tax is rounded on group level, the tax is applied to the summed-up tax basis for each tax rate.
+       */
+      readonly taxRoundedAtGroup: boolean;
 
       private constructor();
 
@@ -37245,10 +39816,10 @@ declare namespace dw {
        */
       createReturnCase(isRMA: boolean): dw.order.ReturnCase;
       /**
-       * Returns the  order item with the given status which wraps a new
-       *   service item which is created and added to the order.
+       * Returns the order item with the given status which wraps a new
+       *  service item which is created and added to the order.
        * @param ID the ID of the new service item. This ID will be returned when ShippingLineItem.getID() is called.
-       * @param status the status of the order item, use one of  OrderItem.STATUS_NEW  OrderItem.STATUS_OPEN  OrderItem.STATUS_SHIPPED   Order post-processing APIs (gillian) are now inactive by default and will throw an exception if accessed. Activation needs preliminary approval by Product Management. Please contact support in this case. Existing customers using these APIs are not affected by this change and can use the APIs until further notice.
+       * @param status the status of the order item, use one of  OrderItem.STATUS_NEW OrderItem.STATUS_OPEN OrderItem.STATUS_SHIPPED   Order post-processing APIs (gillian) are now inactive by default and will throw an exception if accessed. Activation needs preliminary approval by Product Management. Please contact support in this case. Existing customers using these APIs are not affected by this change and can use the APIs until further notice.
        * @return the created order item
        */
       createServiceItem(ID: string, status: string): dw.order.OrderItem;
@@ -37564,7 +40135,7 @@ declare namespace dw {
        *
        *   var orderXMLAsString : String = order.getOrderExportXML( "RSA/ECB/PKCS1Padding", "[key]" );
        *  var orderXML : XML = new XML( orderXMLAsString );
-       * @param encryptionAlgorithm The encryption algorithm used for the re-encryption of the payment instrument data (credit card number, bank account number, bank account driver's license number). Must be one of the following:  ENCRYPTION_ALGORITHM_RSA_ECB_OAEPWITHSHA56ANDMGF1PADDING – The current and preferred algorithm.  ENCRYPTION_ALGORITHM_RSA_ECB_PKCS1PADDING – This algorithm is outdated/deprecated and will be removed in a future release. Please do not use anymore.
+       * @param encryptionAlgorithm The encryption algorithm used for the re-encryption of the payment instrument data (credit card number, bank account number, bank account driver's license number). Must be one of the following:  ENCRYPTION_ALGORITHM_RSA_ECB_OAEPWITHSHA56ANDMGF1PADDING – The current and preferred algorithm. ENCRYPTION_ALGORITHM_RSA_ECB_PKCS1PADDING – This algorithm is outdated/deprecated and will be removed in a future release. Please do not use anymore.
        * @param encryptionKey The Base64 encoded form of the public key used for the re-encryption of the payment instrument data. Must be a valid, non-blank key.
        * @return the order export XML
        */
@@ -37924,6 +40495,14 @@ declare namespace dw {
        */
       isImported(): boolean;
       /**
+       * Use this method to check if the Order was created with grouped taxation calculation.
+       *
+       *  If the tax is rounded on group level, the tax is applied to the summed-up tax basis for each tax rate.
+       *
+       * @return true if the Order was created with grouped taxation
+       */
+      isTaxRoundedAtGroup(): boolean;
+      /**
        * Ensures that the order is authorized.
        *
        *  Checks if the order is authorized by calling the hook
@@ -37983,8 +40562,13 @@ declare namespace dw {
        */
       setCustomer(customer: dw.customer.Customer): void;
       /**
-       * Sets the customer number of the customer associated with this container.
-       * @param customerNo the customer number of the customer associated with this container.
+       * Sets the customer number associated with this order.
+       *
+       *  Note it is recommended to use (setCustomer(Customer)) instead of this method. This method
+       *  only sets the customer number and should be used with care as it does not re-link the order with a customer
+       *  profile object which can lead to an inconsistency! Ensure that the customer number used is not already taken
+       *  by a different customer profile.
+       * @param customerNo the customer number associated with this order.
        */
       setCustomerNo(customerNo: string): void;
       /**
@@ -38039,7 +40623,7 @@ declare namespace dw {
       /**
        * Sets the order status.
        *
-       *  Use this method when using Order Post Processing such as the creation of  shipping
+       *  Use this method when using Order Post Processing such as the creation of shipping
        *  orders. The only supported values are ORDER_STATUS_OPEN, ORDER_STATUS_CANCELLED. Setting the
        *  status will adjust the order item status when applicable (item status not SHIPPED or CANCELLED). Note that the
        *  order status and the status of the items are directly related and dependent on one another.
@@ -38055,7 +40639,7 @@ declare namespace dw {
        *  an exception if accessed. Activation needs preliminary approval by Product Management.
        *  Please contact support in this case. Existing customers using these APIs are not
        *  affected by this change and can use the APIs until further notice.
-       * @param status the status to be set, use one of:  ORDER_STATUS_OPEN  ORDER_STATUS_CANCELLED
+       * @param status the status to be set, use one of:  ORDER_STATUS_OPEN ORDER_STATUS_CANCELLED
        */
       setOrderStatus(status: number): void;
       /**
@@ -38109,9 +40693,11 @@ declare namespace dw {
        *
        *  This adds a history entry to the order. Focus of history entries are changes through business logic, both custom
        *  and internal logic. Tracked order changes are read-only and can be accessed in the Business Manager order
-       *  history. The following attributes of the created  history entry are initialized:
+       *  history. The following attributes of the created history entry are initialized:
+       *
        *  Note.getCreatedBy() gets the current user assigned
        *  Note.getCreationDate() gets the current date assigned
+       *
        *
        *
        *  This feature is intended to track important changes in custom order flow which should become visible in Business
@@ -38435,27 +41021,28 @@ declare namespace dw {
 
     /**
      * Defines <i>extensions</i> to <a href="class_dw_order_ProductLineItem.html">ProductLineItem</a>s and
-     *  <a href="class_dw_order_ShippingLineItem.html">ShippingLineItem</a>s belonging to an <a href="class_dw_order_Order.html"> order</a>.
+     *  <a href="class_dw_order_ShippingLineItem.html">ShippingLineItem</a>s belonging to an <a href="class_dw_order_Order.html">order</a>.
      *
      *  <p>
      *  The order-item can be accessed using
      *  <a href="class_dw_order_ProductLineItem.html#dw_order_ProductLineItem_getOrderItem_DetailAnchor">ProductLineItem.getOrderItem()</a> or
      *  <a href="class_dw_order_ShippingLineItem.html#dw_order_ShippingLineItem_getOrderItem_DetailAnchor">ShippingLineItem.getOrderItem()</a> - these methods return null
-     *  if the item is associated with a <a href="class_dw_order_Basket.html"> basket</a> rather than
-     *  an <a href="class_dw_order_Order.html"> order</a>. Alternative access is available using
+     *  if the item is associated with a <a href="class_dw_order_Basket.html">basket</a> rather than
+     *  an <a href="class_dw_order_Order.html">order</a>. Alternative access is available using
      *  <a href="class_dw_order_Order.html#dw_order_Order_getOrderItem_String_DetailAnchor">Order.getOrderItem(String)</a> by passing the
-     *  <a href="class_dw_order_OrderItem.html#dw_order_OrderItem_getItemID_DetailAnchor"> itemID</a> used to identify the
+     *  <a href="class_dw_order_OrderItem.html#dw_order_OrderItem_getItemID_DetailAnchor">itemID</a> used to identify the
      *  order-item in for example export files. The
      *  associated order-item can also be accessed from
-     *  <a href="class_dw_order_InvoiceItem.html"> invoice-items</a>,
-     *  <a href="class_dw_order_ShippingOrderItem.html"> shipping-order-items</a>,
-     *  <a href="class_dw_order_ReturnItem.html"> return-items</a> and <a href="class_dw_order_ReturnCaseItem.html"> return-case-items</a> using <a href="class_dw_order_AbstractItem.html#dw_order_AbstractItem_getOrderItem_DetailAnchor">AbstractItem.getOrderItem()</a>.
+     *  <a href="class_dw_order_InvoiceItem.html">invoice-items</a>,
+     *  <a href="class_dw_order_ShippingOrderItem.html">shipping-order-items</a>,
+     *  <a href="class_dw_order_ReturnItem.html">return-items</a> and <a href="class_dw_order_ReturnCaseItem.html">return-case-items</a>
+     *  using <a href="class_dw_order_AbstractItem.html#dw_order_AbstractItem_getOrderItem_DetailAnchor">AbstractItem.getOrderItem()</a>.
      *
      *  </p><p>
-     *  The order-item provides an item-level <a href="class_dw_order_OrderItem.html#dw_order_OrderItem_getStatus_DetailAnchor"> status</a> and
-     *  <a href="class_dw_order_OrderItem.html#dw_order_OrderItem_getType_DetailAnchor"> type</a>, methods for accessing and creating associated items,
-     *  and methods used to <a href="class_dw_order_OrderItem.html#dw_order_OrderItem_allocateInventory_Boolean_DetailAnchor"> allocate
-     *  inventory</a> for <a href="class_dw_order_ShippingOrder.html"> shipping-order</a> creation.
+     *  The order-item provides an item-level <a href="class_dw_order_OrderItem.html#dw_order_OrderItem_getStatus_DetailAnchor">status</a> and
+     *  <a href="class_dw_order_OrderItem.html#dw_order_OrderItem_getType_DetailAnchor">type</a>, methods for accessing and creating associated items,
+     *  and methods used to <a href="class_dw_order_OrderItem.html#dw_order_OrderItem_allocateInventory_Boolean_DetailAnchor">allocate
+     *  inventory</a> for <a href="class_dw_order_ShippingOrder.html">shipping-order</a> creation.
      *  </p><p>
      *  Order post-processing APIs (gillian) are now inactive by default and will throw
      *  an exception if accessed. Activation needs preliminary approval by Product Management.
@@ -38619,7 +41206,7 @@ declare namespace dw {
        *  Attempts to allocate inventory for the item and returns the quantity that could be allocated or null
        *  if no allocation was possible.
        *
-       *  All  option product line items are allocated with
+       *  All option product line items are allocated with
        *  their parent. Note that for items with option product line items no partial allocation is possible. That means
        *  the partialAllocation parameter will in this case always be considered as false
        * @param partialAllocation true accept a partial allocation as a result. Partial allocation is only possible when no option product line items are included, false only full allocation will be used, partial allocation will be released automatically
@@ -38814,7 +41401,7 @@ declare namespace dw {
      *  access to order' is logged as an error.</li>
      *  </ul>
      *  In addition, the storefront should ensure the shopper is properly authenticated and authorized to read
-     *  or modify the content of an order object. For more information, see <a href="https://documentation.b2c.commercecloud.salesforce.com/DOC1/index.jsp?topic=%2Fcom.demandware.dochelp%2Fcontent%2Fb2c_commerce%2Ftopics%2Fb2c_security_best_practices%2Fb2c_developer_authentication_and_authorization.html">Access Control</a>.
+     *  or modify the content of an order object. For more information, see <a href="https://help.salesforce.com/s/articleView?id=cc.b2c_developer_authentication_and_authorization.htm" target="_top">Access Control</a>.
      *  <ul>
      *  </ul>
      *  Don’t use dw.order.OrderMgr.searchOrder methods or <a href="class_dw_order_OrderMgr.html#dw_order_OrderMgr_processOrders_Function_String_Object_DetailAnchor">processOrders(Function, String, Object...)</a>
@@ -39195,7 +41782,7 @@ declare namespace dw {
        *  DateTime
        *  yyyy-MM-dd'T'hh:mm:ss+Z e.g. 2007-05-31T00:00+Z (Z TimeZone = UTC) or 2007-05-31T00:00:00
        *  Boolean true, false
-       *  Email '[email protected]', '*@demandware.com'
+       *  Email 'search@demandware.com', '*@demandware.com'
        *  Set of String 'String', 'Str*', 'Strin?'
        *  Set of Integer 1, 3E4
        *  Set of Number 1.0, 3.99E5
@@ -39245,9 +41832,13 @@ declare namespace dw {
        *  If there is more than one object matching the specified query criteria, the result is not deterministic. In order
        *  to retrieve a single object from a sorted result set, it is recommended to use the following code:
        *  queryOrders("", "custom.myAttr asc", null).first(). The method first() returns only the
-       *  next element and closes the iterator. This method will be deprecated in a future release. We recommend to use
-       *  methods searchOrder(String, Object...), searchOrders(Map, String), and
-       *  searchOrders(String, String, Object...) to search for orders, and to use method
+       *  next element and closes the iterator.
+       *
+       *
+       *  This method is deprecated and will be removed in a future release.
+       *  One of the following methods should be used instead:
+       *  searchOrder(String, Object...), searchOrders(Map, String), and
+       *  searchOrders(String, String, Object...) to search for orders and
        *  processOrders(Function, String, Object...) to search for and process orders in jobs.
        * @param queryString the query string that is used to locate the order.
        * @param args one or more arguments to apply.
@@ -39277,7 +41868,7 @@ declare namespace dw {
        *  DateTime
        *  yyyy-MM-dd'T'hh:mm:ss+Z e.g. 2007-05-31T00:00+Z (Z TimeZone = UTC) or 2007-05-31T00:00:00
        *  Boolean true, false
-       *  Email '[email protected]', '*@demandware.com'
+       *  Email 'search@demandware.com', '*@demandware.com'
        *  Set of String 'String', 'Str*', 'Strin?'
        *  Set of Integer 1, 3E4
        *  Set of Number 1.0, 3.99E5
@@ -39345,9 +41936,10 @@ declare namespace dw {
        *  resources.
        *
        *
-       *  This method will be deprecated in a future release. We recommend to use methods
+       *  This method is deprecated and will be removed in a future release.
+       *  One of the following methods should be used instead:
        *  searchOrder(String, Object...), searchOrders(Map, String), and
-       *  searchOrders(String, String, Object...) to search for orders, and to use the method
+       *  searchOrders(String, String, Object...) to search for orders, and
        *  processOrders(Function, String, Object...) to search for and process orders in jobs.
        * @param queryString the actual query.
        * @param sortString an optional sorting, or null if no sorting is necessary.
@@ -39390,7 +41982,7 @@ declare namespace dw {
        *  DateTime
        *  yyyy-MM-dd'T'hh:mm:ss+Z e.g. 2007-05-31T00:00+Z (Z TimeZone = UTC) or 2007-05-31T00:00:00
        *  Boolean true, false
-       *  Email '[email protected]', '*@demandware.com'
+       *  Email 'search@demandware.com', '*@demandware.com'
        *  Set of String 'String', 'Str*', 'Strin?'
        *  Set of Integer 1, 3E4
        *  Set of Number 1.0, 3.99E5
@@ -39428,9 +42020,10 @@ declare namespace dw {
        *  resources.
        *
        *
-       *  This method will be deprecated in a future release. We recommend to use methods
+       *  This method is deprecated and will be removed in a future release.
+       *  One of the following methods should be used instead:
        *  searchOrder(String, Object...), searchOrders(Map, String), and
-       *  searchOrders(String, String, Object...) to search for orders, and to use method
+       *  searchOrders(String, String, Object...) to search for orders and
        *  processOrders(Function, String, Object...) to search for and process orders in jobs.
        * @param queryAttributes a set of key-value pairs that define the query.
        * @param sortString an optional sorting, or null if no sorting is necessary.
@@ -39462,7 +42055,7 @@ declare namespace dw {
        *  DateTime
        *  yyyy-MM-dd'T'hh:mm:ss+Z e.g. 2007-05-31T00:00+Z (Z TimeZone = UTC) or 2007-05-31T00:00:00
        *  Boolean true, false
-       *  Email '[email protected]', '*@demandware.com'
+       *  Email 'search@demandware.com', '*@demandware.com'
        *  Set of String 'String', 'Str*', 'Strin?'
        *  Set of Integer 1, 3E4
        *  Set of Number 1.0, 3.99E5
@@ -39556,7 +42149,7 @@ declare namespace dw {
        *  DateTime
        *  yyyy-MM-dd'T'hh:mm:ss+Z e.g. 2007-05-31T00:00+Z (Z TimeZone = UTC) or 2007-05-31T00:00:00
        *  Boolean true, false
-       *  Email '[email protected]', '*@demandware.com'
+       *  Email 'search@demandware.com', '*@demandware.com'
        *  Set of String 'String', 'Str*', 'Strin?'
        *  Set of Integer 1, 3E4
        *  Set of Number 1.0, 3.99E5
@@ -39678,7 +42271,7 @@ declare namespace dw {
        *  DateTime
        *  yyyy-MM-dd'T'hh:mm:ss+Z e.g. 2007-05-31T00:00+Z (Z TimeZone = UTC) or 2007-05-31T00:00:00
        *  Boolean true, false
-       *  Email '[email protected]', '*@demandware.com'
+       *  Email 'search@demandware.com', '*@demandware.com'
        *  Set of String 'String', 'Str*', 'Strin?'
        *  Set of Integer 1, 3E4
        *  Set of Number 1.0, 3.99E5
@@ -40743,7 +43336,7 @@ declare namespace dw {
        *
        *  If account information has been masked due to the data retention security policy for the site, the returned value
        *  is the Base64 encoded representation of the encrypted form of the masked number.
-       * @param algorithm The algorithm to be used for the encryption of this credit card number. Must be a valid, non-null algorithm. Currently, only the following algorithms are supported:  ENCRYPTION_ALGORITHM_RSA – outdated, please do not use anymore  ENCRYPTION_ALGORITHM_RSA_ECB_OAEPWITHSHA56ANDMGF1PADDING – the current algorithm
+       * @param algorithm The algorithm to be used for the encryption of this credit card number. Must be a valid, non-null algorithm. Currently, only the following algorithms are supported:  ENCRYPTION_ALGORITHM_RSA – outdated, please do not use anymore ENCRYPTION_ALGORITHM_RSA_ECB_OAEPWITHSHA56ANDMGF1PADDING – the current algorithm
        * @param publicKey A Base64 encoded form of the public key to be used to encrypt this bank account driver's license number. Must be a valid, non-blank key.
        * @return the Base64 encoded representation of the bank account driver's license.
        */
@@ -40757,7 +43350,7 @@ declare namespace dw {
        *
        *  If account information has been masked due to the data retention security policy for the site, the returned value
        *  is the Base64 encoded representation of the encrypted form of the masked number.
-       * @param algorithm The algorithm to be used for the encryption of this credit card number. Must be a valid, non-null algorithm. Currently, only the following algorithms are supported:  ENCRYPTION_ALGORITHM_RSA – outdated, please do not use anymore  ENCRYPTION_ALGORITHM_RSA_ECB_OAEPWITHSHA56ANDMGF1PADDING – the current algorithm
+       * @param algorithm The algorithm to be used for the encryption of this credit card number. Must be a valid, non-null algorithm. Currently, only the following algorithms are supported:  ENCRYPTION_ALGORITHM_RSA – outdated, please do not use anymore ENCRYPTION_ALGORITHM_RSA_ECB_OAEPWITHSHA56ANDMGF1PADDING – the current algorithm
        * @param publicKey A Base64 encoded form of the public key to be used to encrypt this credit card number. Must be a valid, non-blank key.
        * @return the Base64 encoded representation of the bank account number.
        */
@@ -40774,7 +43367,7 @@ declare namespace dw {
        *
        *  If account information has been masked due to the data retention security policy for the site, the returned value
        *  is the Base64 encoded representation of the encrypted form of the masked number.
-       * @param algorithm The algorithm to be used for the encryption of this credit card number. Must be a valid, non-null algorithm. Currently, only the following algorithms are supported:  ENCRYPTION_ALGORITHM_RSA – outdated, please do not use anymore  ENCRYPTION_ALGORITHM_RSA_ECB_OAEPWITHSHA56ANDMGF1PADDING – the current algorithm
+       * @param algorithm The algorithm to be used for the encryption of this credit card number. Must be a valid, non-null algorithm. Currently, only the following algorithms are supported:  ENCRYPTION_ALGORITHM_RSA – outdated, please do not use anymore ENCRYPTION_ALGORITHM_RSA_ECB_OAEPWITHSHA56ANDMGF1PADDING – the current algorithm
        * @param publicKey A Base64 encoded form of the public key to be used to encrypt this credit card number. Must be a valid, non-blank key.
        * @return the Base64 encoded representation of the credit card number.
        */
@@ -40791,7 +43384,7 @@ declare namespace dw {
        *
        *  If account information has been masked due to the data retention security policy for the site, the returned value
        *  is the Base64 encoded representation of the encrypted form of the masked number.
-       * @param algorithm The algorithm to be used for the encryption of this credit card number. Must be a valid, non-null algorithm. Currently, only the following algorithms are supported:  ENCRYPTION_ALGORITHM_RSA – outdated, please do not use anymore  ENCRYPTION_ALGORITHM_RSA_ECB_OAEPWITHSHA56ANDMGF1PADDING – the current algorithm
+       * @param algorithm The algorithm to be used for the encryption of this credit card number. Must be a valid, non-null algorithm. Currently, only the following algorithms are supported:  ENCRYPTION_ALGORITHM_RSA – outdated, please do not use anymore ENCRYPTION_ALGORITHM_RSA_ECB_OAEPWITHSHA56ANDMGF1PADDING – the current algorithm
        * @param certificateRef A reference to a trusted certificate entry containing the public key in the keystore. Must be non-null.
        * @return the Base64 encoded representation of the credit card number.
        */
@@ -42119,7 +44712,7 @@ declare namespace dw {
        */
       readonly optionValueID: string;
       /**
-       * The  order-item extension for this item, or null. An order-item
+       * The order-item extension for this item, or null. An order-item
        *  extension will only exist for a ProductLineItem which belongs to an Order.
        *
        *  Order post-processing APIs (gillian) are now inactive by default and will throw
@@ -42464,7 +45057,7 @@ declare namespace dw {
        */
       getOptionValueID(): string;
       /**
-       * Returns the  order-item extension for this item, or null. An order-item
+       * Returns the order-item extension for this item, or null. An order-item
        *  extension will only exist for a ProductLineItem which belongs to an Order.
        *
        *  Order post-processing APIs (gillian) are now inactive by default and will throw
@@ -42899,8 +45492,7 @@ declare namespace dw {
        */
       setStepQuantityValue(quantityValue: number): void;
       /**
-       * Determines and sets the price of a option line item based on the
-       *  selected option value the line item represents.
+       * Determines and sets the price of a option line item based on the selected option value this line item represents.
        *
        */
       updateOptionPrice(): void;
@@ -43949,7 +46541,7 @@ declare namespace dw {
       private constructor();
 
       /**
-       * Create a new  tax-item and add to this item.
+       * Create a new tax-item and add to this item.
        * @param amount amount to assign to the tax-item
        * @param taxGroup the TaxGroup to which the item belongs
        * @return the new tax-item
@@ -44834,7 +47426,7 @@ declare namespace dw {
        */
       readonly ID: string;
       /**
-       * The  order-item extension for this item, or null.
+       * The order-item extension for this item, or null.
        *  An order-item extension will only exist for a ShippingLineItem which
        *  belongs to an Order.
        *
@@ -44927,7 +47519,7 @@ declare namespace dw {
        */
       getID(): string;
       /**
-       * Returns the  order-item extension for this item, or null.
+       * Returns the order-item extension for this item, or null.
        *  An order-item extension will only exist for a ShippingLineItem which
        *  belongs to an Order.
        *
@@ -45791,7 +48383,7 @@ declare namespace dw {
 
       /**
        * A shipping order item can be assigned
-       *  to one or many  tracking infos with
+       *  to one or many tracking infos with
        *  different quantities. For example an item with quantity 3 may have been
        *  shipped in 2 packages, each represented by its own
        *  tracking info - 2
@@ -45949,24 +48541,25 @@ declare namespace dw {
     /**
      * Container used to represent an subtotal or grandtotal item which contains various prices and a tax breakdown
      *  held in a collection of tax-items.
-     *  <p>Usage example:
-     *  <code>
-     *  <br>var invoice : Invoice = ...;
-     *  <br>var productNet = invoice.productSubTotal.netPrice;
-     *  <br>var serviceNet = invoice.serviceSubTotal.netPrice;
-     *  <br>var grandNet   = invoice.grandTotal.netPrice;
-     *  <br>var grandTax   = invoice.grandTotal.tax;
-     *  <br>var grandGross = invoice.grandTotal.grossPrice;
-     *  <br>
-     *  <br> # tax breakdown
-     *  <br>for each(taxItem : TaxItem in invoice.grandTotal.taxItems) {
-     *  <br>  var tax : Money         = taxItem.amount;
-     *  <br>  var taxGroup : TaxGroup = taxItem.taxGroup;
-     *  <br>  var rate : Double       = taxGroup.rate;
-     *  <br>  var caption :String     = taxGroup.caption;
-     *  <br>  var taxType :String     = taxGroup.taxType;
-     *  <br>}
-     *  </code></p>
+     *  <p>
+     *  <b>Usage example:</b>
+     *  </p><pre> var invoice : Invoice = ...;
+     *  var productNet = invoice.productSubTotal.netPrice;
+     *  var serviceNet = invoice.serviceSubTotal.netPrice;
+     *  var grandNet   = invoice.grandTotal.netPrice;
+     *  var grandTax   = invoice.grandTotal.tax;
+     *  var grandGross = invoice.grandTotal.grossPrice;
+     *
+     *  # tax breakdown
+     *  for each(taxItem : TaxItem in invoice.grandTotal.taxItems) {
+     *    var tax : Money         = taxItem.amount;
+     *    var taxGroup : TaxGroup = taxItem.taxGroup;
+     *    var rate : Double       = taxGroup.rate;
+     *    var caption :String     = taxGroup.caption;
+     *    var taxType :String     = taxGroup.taxType;
+     *  }
+     *  </pre>
+     *  <p></p>
      */
     class SumItem {
       /**
@@ -46027,8 +48620,8 @@ declare namespace dw {
     }
 
     /**
-     * Contains the formal definition of a tax including a type (it's just the key),
-     *  a <a href="class_dw_order_TaxGroup.html#dw_order_TaxGroup_getRate_DetailAnchor"> percentage value</a> if provided, a <a href="class_dw_order_TaxGroup.html#dw_order_TaxGroup_getCaption_DetailAnchor"> caption</a> and a <a href="class_dw_order_TaxGroup.html#dw_order_TaxGroup_getDescription_DetailAnchor"> description</a>.
+     * Contains the formal definition of a tax including a type (it's just the key), a <a href="class_dw_order_TaxGroup.html#dw_order_TaxGroup_getRate_DetailAnchor">percentage value</a>
+     *  if provided, a <a href="class_dw_order_TaxGroup.html#dw_order_TaxGroup_getCaption_DetailAnchor">caption</a> and a <a href="class_dw_order_TaxGroup.html#dw_order_TaxGroup_getDescription_DetailAnchor">description</a>.
      */
     class TaxGroup {
       /**
@@ -46100,7 +48693,7 @@ declare namespace dw {
        */
       readonly amount: dw.value.Money;
       /**
-       * The  tax group.
+       * The tax group.
        */
       readonly taxGroup: dw.order.TaxGroup;
 
@@ -46113,7 +48706,7 @@ declare namespace dw {
        */
       getAmount(): dw.value.Money;
       /**
-       * Returns the  tax group.
+       * Returns the tax group.
        *
        * @return the tax rate
        */
@@ -46134,26 +48727,22 @@ declare namespace dw {
       static readonly TAX_POLICY_NET = 1;
 
       /**
-       * The ID of the tax class that represents items with a custom tax rate.
-       *  The standard order calculation process assumes that such line items
-       *  are initialized with a tax rate and a being ignored during the tax rate
+       * The ID of the tax class that represents items with a custom tax rate. The standard order calculation
+       *  process assumes that such line items are initialized with a tax rate and a being ignored during the tax rate
        *  lookup sequence of the calculation process.
        *
-       *  Note that this tax class does not appear in the Business Manager
-       *  tax module.
+       *  Note that this tax class does not appear in the Business Manager tax module.
        */
       static readonly customRateTaxClassID: string;
       /**
-       * The ID of the default tax class defined for the site.
-       *  This class might be used in case a product or service does not define
-       *  a tax class.
+       * The ID of the default tax class defined for the site. This class might be used in case a product or
+       *  service does not define a tax class.
        *  If no default tax class is defined, the method returns null.
        */
       static readonly defaultTaxClassID: string;
       /**
-       * The ID of the default tax jurisdiction defined for the site.
-       *  This jurisdiction might be used in case no jurisdiction is defined for
-       *  a specific address.
+       * The ID of the default tax jurisdiction defined for the site. This jurisdiction might be used in case no
+       *  jurisdiction is defined for a specific address.
        *  If no default tax jurisdiction is defined, this method returns null.
        */
       static readonly defaultTaxJurisdictionID: string;
@@ -46162,40 +48751,58 @@ declare namespace dw {
        */
       static readonly taxationPolicy: number;
       /**
-       * The ID of the tax class that represents tax exempt items.
-       *  The tax manager will return a tax rate of 0.0 for this tax class.
+       * The ID of the tax class that represents tax exempt items. The tax manager will return a tax rate of 0.0
+       *  for this tax class.
        *
-       *  Note that this tax class does not appear in the Business Manager
-       *  tax module.
+       *  Note that this tax class does not appear in the Business Manager tax module.
        */
       static readonly taxExemptTaxClassID: string;
 
       private constructor();
 
       /**
-       * Returns the ID of the tax class that represents items with a custom tax rate.
-       *  The standard order calculation process assumes that such line items
-       *  are initialized with a tax rate and a being ignored during the tax rate
+       * Applies externally set tax rates to the given Basket. Only use when
+       *  LineItemCtnr.isExternallyTaxed() returns true. Note: a basket can only be created in EXTERNAL
+       *  tax mode using SCAPI.
+       *
+       *  Typical usage in tax calculation:
+       *
+       *      var TaxMgr = require('dw/order/TaxMgr');
+       *
+       *     calculateTaxes: function () {
+       *        Basket basket = BasketMgr.getCurrentBasket();
+       *        if ( basket.isExternallyTaxed() )
+       *        {
+       *           TaxMgr.applyExternalTaxation( basket );
+       *        }
+       *        else
+       *        {
+       *           // calculation with tax tables or customization
+       *        }
+       *     }
+       * @param basket apply external taxation to this basket
+       */
+      static applyExternalTax(basket: dw.order.Basket): void;
+      /**
+       * Returns the ID of the tax class that represents items with a custom tax rate. The standard order calculation
+       *  process assumes that such line items are initialized with a tax rate and a being ignored during the tax rate
        *  lookup sequence of the calculation process.
        *
-       *  Note that this tax class does not appear in the Business Manager
-       *  tax module.
+       *  Note that this tax class does not appear in the Business Manager tax module.
        *
        */
       static getCustomRateTaxClassID(): string;
       /**
-       * Returns the ID of the default tax class defined for the site.
-       *  This class might be used in case a product or service does not define
-       *  a tax class.
+       * Returns the ID of the default tax class defined for the site. This class might be used in case a product or
+       *  service does not define a tax class.
        *  If no default tax class is defined, the method returns null.
        *
        * @return the ID of the default tax class defined for the site or null.
        */
       static getDefaultTaxClassID(): string;
       /**
-       * Returns the ID of the default tax jurisdiction defined for the site.
-       *  This jurisdiction might be used in case no jurisdiction is defined for
-       *  a specific address.
+       * Returns the ID of the default tax jurisdiction defined for the site. This jurisdiction might be used in case no
+       *  jurisdiction is defined for a specific address.
        *  If no default tax jurisdiction is defined, this method returns null.
        *
        * @return the ID of the default tax jurisdiction defined for the site or null.
@@ -46208,29 +48815,24 @@ declare namespace dw {
        */
       static getTaxationPolicy(): number;
       /**
-       * Returns the ID of the tax class that represents tax exempt items.
-       *  The tax manager will return a tax rate of 0.0 for this tax class.
+       * Returns the ID of the tax class that represents tax exempt items. The tax manager will return a tax rate of 0.0
+       *  for this tax class.
        *
-       *  Note that this tax class does not appear in the Business Manager
-       *  tax module.
+       *  Note that this tax class does not appear in the Business Manager tax module.
        *
        */
       static getTaxExemptTaxClassID(): string;
       /**
-       * Returns the ID of the tax jurisdiction for the specified
-       *  address.
-       *  If no tax jurisdiction defined for the site matches the specified
-       *  address, this method returns null.
+       * Returns the ID of the tax jurisdiction for the specified address. If no tax jurisdiction defined for the site
+       *  matches the specified address, this method returns null.
        * @param location The shipping location
        * @return the ID of the tax jurisdiction for the specified address or null.
        */
       static getTaxJurisdictionID(location: dw.order.ShippingLocation): string;
       /**
-       * Returns the tax rate defined for the specified combination of tax class
-       *  and tax jurisdiction.
+       * Returns the tax rate defined for the specified combination of tax class and tax jurisdiction.
        *  Method returns null if no tax rate is defined.
-       *  Method returns 0.0 of 'nontaxable' tax rate is specified (see
-       *  method 'getNontaxableTaxClassID'.
+       *  Method returns 0.0 of 'nontaxable' tax rate is specified (see method 'getNontaxableTaxClassID'.
        * @param taxClassID ID of the tax class
        * @param taxJurisdictionID ID of tax jusrisdiction
        * @return the tax rate defined for the specified combination of tax class and tax jurisdiction.
@@ -46410,6 +49012,55 @@ declare namespace dw {
 
     namespace hooks {
       /**
+       * This interface represents all script hooks that can be registered to merge baskets. It contains the extension points
+       *  (hook names), and the functions that are called by each extension point. A function must be defined inside a
+       *  JavaScript source and must be exported. The script with the exported hook function must be located inside a site
+       *  cartridge. Inside the site cartridge a 'package.json' file with a 'hooks' entry must exist.
+       *
+       *  <pre> "hooks": "./hooks.json"</pre>
+       *
+       *  The hooks entry links to a json file, relative to the 'package.json' file. This file lists all registered hooks
+       *  inside the hooks property:
+       *
+       *  <pre> "hooks": [
+       *       {"name": "dw.order.mergeBasket", "script": "./mergeBasket.js"}
+       *  ]</pre>
+       *
+       *  A hook entry has a 'name' and a 'script' property.
+       *  <ul>
+       *  <li>The 'name' contains the extension point, the hook name.</li>
+       *  <li>The 'script' contains the script relative to the hooks file, with the exported hook function.</li>
+       *  </ul>
+       */
+      class BasketMergeHooks {
+        /**
+         * The extension point name dw.order.mergeBasket.
+         */
+        static readonly extensionPointMerge = "dw.order.mergeBasket";
+
+        private constructor();
+
+        /**
+         * Merges contents from a source basket (usually a former registered shopper's basket) to a destination basket
+         *  (usually a former guest shopper basket that was transferred to the registered shopper upon login).
+         *
+         *  In case of no implementation is registered, the default implementation is invoked.
+         *
+         *  This method is automatically called for the following scenarios:
+         *
+         *  After a successful call to the transfer Rest API with query parameter merge=true, whereby the guest and
+         *  registered users, both had an active basket attached. In this scenario the registered shopper's basket will be
+         *  the source of the merge and the transferred guest shopper's basket will be the destination.
+         * @param source the basket from which data should be merged into the destination, can be null e.g. in case the former guest shopper did not create a basket
+         * @param currentBasket the destination basket to merge data into
+         */
+        mergeBasket(
+          source: dw.order.Basket,
+          currentBasket: dw.order.Basket
+        ): dw.system.Status;
+      }
+
+      /**
        * This interface represents all script hooks that can be registered to customize the order and basket calculation
        *  functionality. It contains the extension points (hook names), and the functions that are called by each extension
        *  point. A function must be defined inside a JavaScript source and must be exported. The script with the exported hook
@@ -46520,14 +49171,11 @@ declare namespace dw {
          *
          *  By default order numbers are generated by using OrderMgr.createOrderSequenceNo(). Use this hook
          *  to customize the order number generation. E.g. a prefix or suffix could be added.
-         *
-         *          exports.createOrderNo = function(){
-         *             var orderSeqNo = OrderMgr.createOrderSequenceNo();
-         *             var prefix = Site.getCurrent().getSiteId();
-         *             return prefix + "_"+orderSeqNo;
-         *         };
-         *
-         *
+         *   exports.createOrderNo = function(){
+         *      var orderSeqNo = OrderMgr.createOrderSequenceNo();
+         *      var prefix = Site.getCurrent().getSiteId();
+         *      return prefix + "_"+orderSeqNo;
+         *  };
          *
          *  If the method returns null or an blank string order number generation will fall
          *  back to OrderMgr.createOrderSequenceNo().
@@ -47002,7 +49650,7 @@ declare namespace dw {
          *  ReturnCase using
          *  Order.getReturnCase(String).
          *
-         *  In both cases use  this
+         *  In both cases use this
          *  method to create the Return based on the inputData.
          *
          *  Additional functionality like creating history entry, handling the return
@@ -47414,7 +50062,7 @@ declare namespace dw {
      *      }
      *
      *  }
-     *  </code> </pre><br>
+     *  </code></pre><br>
      */
     class SOAPUtil {
       /**
@@ -47705,7 +50353,7 @@ declare namespace dw {
      *      var webref : WebReference = webreferences.myWSDLname;
      *   // get service stub
      *      var stub : Stub = webref.defaultService;
-     *  </code> </pre>
+     *  </code></pre>
      */
     class Stub {
       /**
@@ -47961,7 +50609,7 @@ declare namespace dw {
      *  </p><p>
      *  Please note that all provided methods are operating in appservers shared file system. These modifications are visible
      *  via "Custom Sitemaps" tab under <i>Merchant Tools</i> =&gt; <i>SEO</i> =&gt; <i>Sitemaps - Custom Sitemaps</i> in
-     *  Business Manager. To publish all changes, the system job "Create Sitemap Schedule" must be executed afterwards.</p>
+     *  Business Manager. To publish all changes, execute job under Merchant Tools =&gt; SEO =&gt; Sitemaps =&gt; Job.</p>
      */
     class SitemapMgr {
       /**
@@ -47983,8 +50631,7 @@ declare namespace dw {
        *  custom sitemap directory is considered by the system job "Create Sitemap Schedule".
        *
        *  The files are added to the directory which is accessible via "Custom Sitemaps" tab under Merchant Tools =>
-       *  SEO => Sitemaps - Custom Sitemaps in Business Manager. To publish that change, the system job
-       *  "Create Sitemap Schedule" must be executed afterwards.
+       *  SEO => Sitemaps - Custom Sitemaps in Business Manager. To publish that change, execute job under Merchant Tools => SEO => Sitemaps => Job.
        * @param hostName The hostName to copy the File to. The hostName must be configured in sites alias file.
        * @param file The File to copy.
        */
@@ -47993,8 +50640,7 @@ declare namespace dw {
        * Deletes the given custom sitemap file from the appservers shared file system.
        *
        *  The file is deleted from the directory which is accessible via "Custom Sitemaps" tab under Merchant Tools
-       *  => SEO => Sitemaps - Custom Sitemaps in Business Manager. To publish that change, the system job
-       *  "Create Sitemap Schedule" must be executed afterwards.
+       *  => SEO => Sitemaps - Custom Sitemaps in Business Manager. To publish that change, execute job under Merchant Tools => SEO => Sitemaps => Job.
        * @param sitemapFile - The sitemapFile to delete.
        */
       static deleteCustomSitemapFile(sitemapFile: dw.sitemap.SitemapFile): void;
@@ -48002,8 +50648,7 @@ declare namespace dw {
        * Deletes all custom sitemap files for the given hostname from the appservers shared file system.
        *
        *  The files are deleted from the directory which is accessible via "Custom Sitemaps" tab under Merchant
-       *  Tools => SEO => Sitemaps - Custom Sitemaps in Business Manager. To publish that change,
-       *  the system job "Create Sitemap Schedule" must be executed afterwards.
+       *  Tools => SEO => Sitemaps - Custom Sitemaps in Business Manager. To publish that change, execute job under Merchant Tools => SEO => Sitemaps => Job.
        * @param hostName The hostName to delete the custom sitemap files for.
        */
       static deleteCustomSitemapFiles(hostName: string): void;
@@ -48011,8 +50656,7 @@ declare namespace dw {
        * Deletes all custom sitemap files for all hostnames from the appservers shared file system.
        *
        *  The files are deleted from the directory which is accessible via "Custom Sitemaps" tab under Merchant
-       *  Tools => SEO => Sitemaps - Custom Sitemaps in Business Manager. To publish that change,
-       *  the system job "Create Sitemap Schedule" must be executed afterwards.
+       *  Tools => SEO => Sitemaps - Custom Sitemaps in Business Manager. To publish that change, execute job under Merchant Tools => SEO => Sitemaps => Job.
        *
        */
       static deleteCustomSitemapFiles(): void;
@@ -48871,7 +51515,7 @@ declare namespace dw {
     /**
      * Represents an HTTP Form POST Service.
      *  <p>
-     *  All arguments passed to the <a href="class_dw_svc_Service.html#dw_svc_Service_call_Object_DetailAnchor"> call</a> method will be URL-encoded and set as name/value
+     *  All arguments passed to the <a href="class_dw_svc_Service.html#dw_svc_Service_call_Object_DetailAnchor">call</a> method will be URL-encoded and set as name/value
      *  pairs in the HTTP request body. The HTTP request will be a POST with a content-type of
      *  <code>application/x-www-form-urlencoded</code>.</p>
      */
@@ -48913,6 +51557,10 @@ declare namespace dw {
        * The request body encoding to declare.
        */
       encoding: string;
+      /**
+       * Determines whether host name verification is enabled.
+       */
+      hostNameVerification: boolean;
       /**
        * Gets the identity used for mutual TLS (mTLS).
        */
@@ -48965,6 +51613,12 @@ declare namespace dw {
        */
       getEncoding(): string;
       /**
+       * Determines whether host name verification is enabled.
+       *
+       * @return true if verification is enabled, false otherwise
+       */
+      getHostNameVerification(): boolean;
+      /**
        * Gets the identity used for mutual TLS (mTLS).
        *
        * @return Reference to the private key, or null if not configured
@@ -49013,6 +51667,13 @@ declare namespace dw {
        * @return this HTTP Service.
        */
       setEncoding(encoding: string): dw.svc.HTTPService;
+      /**
+       * Sets whether certificate host name verification is enabled.
+       *  The default value is true. Set it to false to disable host name verification.
+       * @param enable true to enable host name verification or false to disable it.
+       * @return this HTTP Service.
+       */
+      setHostNameVerification(enable: boolean): dw.svc.HTTPService;
       /**
        * Sets the identity (private key) to use when mutual TLS (mTLS) is configured.
        *
@@ -49226,11 +51887,11 @@ declare namespace dw {
 
       /**
        * Constructs and configures a service with a callback.
-       * @param serviceId Unique Service ID.
+       * @param serviceID Unique Service ID.
        * @param configObj Configuration callback. See ServiceCallback for a description of available callback methods.
        * @return Associated Service, which can be used for further protocol-specific configuration.
        */
-      static createService(serviceId: string, configObj: any): dw.svc.Service;
+      static createService(serviceID: string, configObj: any): dw.svc.Service;
     }
 
     /**
@@ -49548,7 +52209,8 @@ declare namespace dw {
      *  These methods are called in sequence when a service is called:
      *  </p><ol>
      *  <li><a href="class_dw_svc_ServiceCallback.html#dw_svc_ServiceCallback_initServiceClient_Service_DetailAnchor">initServiceClient(Service)</a> -- Creates the underlying client that will be used to make the call. This is
-     *  intended for SOAP Services. Other client types will be created automatically.
+     *  intended for SOAP Services and optionally for setting configuration options on the HTTP client. Other client types
+     *  will be created automatically.
      *  </li><li><a href="class_dw_svc_ServiceCallback.html#dw_svc_ServiceCallback_createRequest_Service_Object_DetailAnchor">createRequest(Service, Object...)</a> -- Given arguments to the <a href="class_dw_svc_Service.html#dw_svc_Service_call_Object_DetailAnchor">Service.call(Object...)</a>, configure
      *  the actual service request. This may include setting request headers, defining the message body, etc.
      *  </li><li><a href="class_dw_svc_ServiceCallback.html#dw_svc_ServiceCallback_execute_Service_Object_DetailAnchor">execute(Service, Object)</a> -- Perform the actual request. At this point the client has been configured
@@ -49566,7 +52228,7 @@ declare namespace dw {
      *  done on Production environments.
      *  </p><p>
      *  There are some special considerations for the combination of service type and callback:
-     *  <table>
+     *  </p><table>
      *  <tbody><tr><th>
      *  </th></tr><tr>
      *  <td>Service Type</td>
@@ -49578,7 +52240,8 @@ declare namespace dw {
      *
      *  <tr>
      *  <td>HTTP</td>
-     *  <td>Not normally implemented. Must return a <a href="class_dw_net_HTTPClient.html">HTTPClient</a></td>
+     *  <td>This is only required to use non-default options. It must return either a <a href="class_dw_net_HTTPClient.html">HTTPClient</a> or a Map
+     *  containing the <a href="class_dw_net_HTTPClient.html#dw_net_HTTPClient_HTTPClient_Object_DetailAnchor">HTTPClient.HTTPClient(Object)</a> options.</td>
      *  <td>Required unless execute is provided. The return value is expected to be either a String or array of
      *  <a href="class_dw_net_HTTPRequestPart.html">HTTPRequestPart</a>, which will be used as the request body</td>
      *  <td>Not called unless a boolean "executeOverride:true" is set on the callback. This is a temporary limitation, a
@@ -49618,7 +52281,7 @@ declare namespace dw {
      *  execute method to define what that logic is.</td>
      *  <td>Optional.</td>
      *  </tr>
-     *  </tbody></table></p>
+     *  </tbody></table>
      */
     class ServiceCallback {
       /**
@@ -49694,8 +52357,17 @@ declare namespace dw {
        *
        *  This does not normally need to be implemented, except in the case of SOAP services.
        *
-       *  Example declaration:
-       *   initServiceClient: function( svc:SOAPService ) {
+       *  It may also be used for HTTP services to override the default configuration.
+       *
+       *
+       *  Example SOAP service:
+       *   initServiceClient: function( svc ) {
+       *      return webreferences2.MyWSDL.getDefaultService();
+       *  }
+       *
+       *  Example configuration override for an HTTP service:
+       *   initServiceClient: function( svc ) {
+       *      return { allowHTTP2: true };
        *  }
        * @param service the Service object.
        * @return Client object
@@ -50115,7 +52787,7 @@ declare namespace dw {
        * Gets a Service Definition.
        *
        *  This Service Definition is shared across all Service instances returned by get(String).
-       * @param serviceID Unique Service Id
+       * @param serviceID Unique Service ID.
        * @return ServiceDefinition
        */
       static getDefinition(serviceID: string): dw.svc.ServiceDefinition;
@@ -50696,6 +53368,313 @@ declare namespace dw {
     }
 
     /**
+     * This class represents a REST error response that is compliant with
+     *  <a href="https://www.rfc-editor.org/rfc/rfc9457">RFC 9457</a>. It can only be instantiated using the
+     *  <code>createError</code> methods in <a href="class_dw_system_RESTResponseMgr.html">RESTResponseMgr</a>.
+     *  <p>
+     *  Here is an example:
+     *
+     *  </p><pre> <code>
+     *  var error = RESTResponseMgr.createError(400);
+     *  error.custom.foo = "bar";
+     *  error.render();
+     *  </code>
+     *  </pre>
+     *
+     *  The above script would result in an HTTP response with status code 400 and the following body:
+     *
+     *  <pre> <code>
+     *  {
+     *      "type": "https://api.commercecloud.salesforce.com/documentation/error/v1/custom-errors/bad-request",
+     *      "c_foo": "bar"
+     *  }
+     *  </code>
+     *  </pre>
+     *
+     *  NOTE:
+     *  <ul>
+     *  <li>Custom attributes are rendered with "c_" prefix as shown in the example above.</li>
+     *  <li>Rendering works as described in <a href="class_TopLevel_JSON.html#TopLevel_JSON_stringify_Object_DetailAnchor">JSON.stringify(Object)</a>.</li>
+     *  </ul>
+     */
+    class RESTErrorResponse {
+      /**
+       * All the custom attributes associated with the error response object. The attributes are stored for the
+       *  lifetime of the error response object.
+       */
+      readonly custom: RESTErrorResponseCustomAttributes;
+
+      private constructor();
+
+      /**
+       * Returns all the custom attributes associated with the error response object. The attributes are stored for the
+       *  lifetime of the error response object.
+       *
+       * @return All the custom attributes associated with the error response object.
+       */
+      getCustom(): RESTErrorResponseCustomAttributes;
+      /**
+       * Sends the RESTErrorResponse object as an HTTP error response to the client, adhering to
+       *  RFC 9457. This method sets the "Content-Type" header to
+       *  "application/problem+json", HTTP Status Code to statusCode attribute and constructs the body from type, title,
+       *  detail and custom attributes of the object. Custom attributes are rendered with "c_" prefix to the attribute
+       *  name.
+       *
+       */
+      render(): void;
+    }
+
+    /**
+     * This class provides helper methods for creating REST error and success responses. It is mainly intended to be used to
+     *  build Custom REST APIs. But, any controller implementation planning to provide REST-like responses can use these
+     *  methods. If these methods are being used in the controllers, note that a few defaults like URL prefix for
+     *  <code>type</code> in <code>createError</code> methods will correspond to Custom REST APIs.
+     */
+    class RESTResponseMgr {
+      constructor();
+
+      /**
+       * Constructs a new RESTSuccessResponse object. This method is to be used in scenarios where response body
+       *  is not expected (e.g. statusCode is 204).
+       * @param statusCode The http status code of the response. The statusCode parameter should conform to RFC standards for a success.
+       * @return A new RESTSuccessResponse object.
+       */
+      static createEmptySuccess(
+        statusCode: number
+      ): dw.system.RESTSuccessResponse;
+      /**
+       * Constructs a new RESTErrorResponse object. This method should be used when you have just the statusCode
+       *  of the error and want the type of error to be inferred.
+       *
+       *  'type' of the error is inferred from the status code as follows:
+       *
+       *  400 - bad-request
+       *  401 - unauthorized
+       *  403 - forbidden
+       *  404 - resource-not-found
+       *  409 - conflict
+       *  412 - precondition-failed
+       *  429 - too-many-requests
+       *  500 - internal-server-error
+       *  default - about:blank
+       * @param statusCode The error code of the response. The statusCode parameter should conform to RFC standards for an error.
+       * @return A new RESTErrorResponse object.
+       */
+      static createError(statusCode: number): dw.system.RESTErrorResponse;
+      /**
+       * Constructs a new RESTErrorResponse object. This method should be used when you want to omit 'title' and
+       *  'detail' of the error. With this method, custom error codes and types apart from the standard ones can be
+       *  constructed.
+       * @param statusCode The error code of the response. The statusCode parameter should conform to RFC standards for an error.
+       * @param type Type of the error according to RFC 9457. We enforce the following restrictions on top of the RFC:  If the provided type is not an absolute URL, it will be prepended with https://api.commercecloud.salesforce.com/documentation/error/v1/custom-errors/. Custom error types are not allowed to have SYSTEM error type prefix: https://api.commercecloud.salesforce.com/documentation/error/v1/errors/.
+       * @return A new RESTErrorResponse object.
+       */
+      static createError(
+        statusCode: number,
+        type: string
+      ): dw.system.RESTErrorResponse;
+      /**
+       * Constructs a new RESTErrorResponse object. This method should be used when you want to omit 'detail' of
+       *  the error but want to have valid 'statusCode', 'type' and 'title'.
+       * @param statusCode The error code of the response. The statusCode parameter should conform to RFC standards for an error.
+       * @param type Type of the error according to RFC 9457. We enforce the following restrictions on top of the RFC:  If the provided type is not an absolute URL, it will be prepended with https://api.commercecloud.salesforce.com/documentation/error/v1/custom-errors/. Custom error types are not allowed to have SYSTEM error type prefix: https://api.commercecloud.salesforce.com/documentation/error/v1/errors/.
+       * @param title Human-readable summary of the error type.
+       * @return A new RESTErrorResponse object.
+       */
+      static createError(
+        statusCode: number,
+        type: string,
+        title: string
+      ): dw.system.RESTErrorResponse;
+      /**
+       * Constructs a new RESTErrorResponse object. This method can be used to construct error responses with
+       *  valid 'statusCode', 'type', 'title' and 'detail'. If you want to omit title or detail, you can pass in
+       *  null.
+       * @param statusCode The error code of the response. The statusCode parameter should conform to RFC standards for an error.
+       * @param type Type of the error according to RFC 9457. We enforce the following restrictions on top of the RFC:  If the provided type is not an absolute URL, it will be prepended with https://api.commercecloud.salesforce.com/documentation/error/v1/custom-errors/. Custom error types are not allowed to have SYSTEM error type prefix: https://api.commercecloud.salesforce.com/documentation/error/v1/errors/.
+       * @param title Human-readable summary of the error type.
+       * @param detail Human-readable explanation of the specific occurrence of the error.
+       * @return A new RESTErrorResponse object.
+       */
+      static createError(
+        statusCode: number,
+        type: string,
+        title: string,
+        detail: string
+      ): dw.system.RESTErrorResponse;
+      /**
+       * Constructs a new RemoteInclude object specific for the SCAPI include path.
+       *  Usage:
+       *  SCAPI remote include URL have following form:
+       *  BASE_PATH/{apiFamily}/{apiName}/{apiVersion}/organizations/ORG_ID/{resourcePath}[?params]
+       *  For the given SCAPI resource path:
+       *  BASE_PATH/product/shopper-products/v1/organizations/ORG_ID/categories/root?siteId=YourShopHere
+       *  RemoteInclude object can be constructed in a script like following:
+       *   let include = dw.system.RESTResponseMgr.createScapiRemoteInclude("product", "shopper-products", "v1", "categories/root",
+       *      dw.web.URLParameter("siteId", "YourShopHere"));
+       *
+       *  Please notice that 'BASE_PATH' and 'ORG_ID' are automatically resolved.
+       * @param apiFamily an API Family name. Example: 'product'.
+       * @param apiName an API Name. Example: 'shopper-products'.
+       * @param apiVersion an API Version. Example: 'v1'.
+       * @param resourcePath a Resource path. Example: 'categories/root'
+       * @param params a query parameters (optional)
+       * @return a new instance of RemoteInclude.
+       */
+      static createScapiRemoteInclude(
+        apiFamily: string,
+        apiName: string,
+        apiVersion: string,
+        resourcePath: string,
+        ...params: dw.web.URLParameter[]
+      ): dw.system.RemoteInclude;
+      /**
+       * Constructs a new RemoteInclude object specific for the Storefront Controller include path.
+       * @param action a container to specify target controller. Hostnames in URL actions are ignored.
+       * @param params a query parameters (optional).
+       * @return a new instance of RemoteInclude.
+       */
+      static createStorefrontControllerRemoteInclude(
+        action: dw.web.URLAction,
+        ...params: dw.web.URLParameter[]
+      ): dw.system.RemoteInclude;
+      /**
+       * Constructs a new RESTSuccessResponse object.
+       * @param body The body of the successful response. This should always be a valid JavaScript JSON object.
+       * @param statusCode The http status code of the response. The statusCode parameter should conform to RFC standards for a success.
+       * @return A new RESTSuccessResponse object.
+       */
+      static createSuccess(
+        body: any,
+        statusCode: number
+      ): dw.system.RESTSuccessResponse;
+      /**
+       * Constructs a new RESTSuccessResponse object. HTTP status code of the response will be defaulted to 200.
+       * @param body The body of the successful response. This should always be a valid JavaScript JSON object.
+       * @return A new RESTSuccessResponse object.
+       */
+      static createSuccess(body: any): dw.system.RESTSuccessResponse;
+    }
+
+    /**
+     * This class represents a REST success response that is compliant with the RFC standards. It can only be instantiated
+     *  using the <code>createSuccess</code> methods in <a href="class_dw_system_RESTResponseMgr.html">RESTResponseMgr</a>.
+     *  <p>
+     *  Here is an example: <br>
+     *  <code>
+     *  var body = {"hello": "world"} <br>
+     *  var success = RESTResponseMgr.createSuccess(body); <br>
+     *  success.render(); <br>
+     *  </code> <br>
+     *  The above script would result in an HTTP response with status code 200 and the following body:<br>
+     *  <code>
+     *  {<br>
+     *   "hello": "world" <br>
+     *  } <br>
+     *  </code> <br></p>
+     */
+    class RESTSuccessResponse {
+      private constructor();
+
+      /**
+       * Sends the RESTSuccessResponse object as an HTTP response to the client. This sets the "Content-Type"
+       *  header to "application/json" and expects the body to be a valid JavaScript JSON object.
+       *
+       */
+      render(): void;
+    }
+
+    /**
+     * The class represents a remote include value that can be assigned to JSON Object properties.
+     *  <p>
+     *  <b>Important notes:</b>
+     *  </p><ul>
+     *  <li>Authentication and authorization checks are performed only for the top
+     *  level request, but NOT for remote include requests.</li>
+     *  <li>The <code>RestResponseMgr</code> method <code>createScapiRemoteInclude()</code> allows only SCAPI URLs.</li>
+     *  <li>The <code>RestResponseMgr</code> method <code>createStorefrontControllerRemoteInclude()</code> allows only Controller URLs.</li>
+     *  <li>Correct rendering of RemoteInclude-containing objects is only performed
+     *  when processed by <code>dw.system.RESTSuccessResponse.render()</code> method. Please check the provided examples.</li>
+     *  </ul>
+     *  <p></p>
+     *  <p>
+     *  <b>Example 1. Specify remote include properties.</b><br>
+     *  </p><pre> function specifyRemoteIncludeProperties() {
+     *     var includeValue0 = dw.system.RESTResponseMgr.createScapiRemoteInclude("custom", "sample", "v1", "resource/path/0", dw.web.URLParameter("siteId", "TestWapi"));
+     *     var includeValue1 = dw.system.RESTResponseMgr.createScapiRemoteInclude("custom", "sample", "v1", "resource/path/1", dw.web.URLParameter("siteId", "TestWapi"));
+     *     var greeting = { "hello": "world", "includeProperty0": includeValue0, "includeProperty1": includeValue1 };
+     *
+     *     dw.system.RESTResponseMgr.createSuccess(greeting).render();
+     *  }
+     *  </pre>
+     *  <p></p>
+     *  <p>
+     *  <b>Example 2. Specify array of remote include properties.</b><br>
+     *  </p><pre> function specifyArrayOfRemoteIncludes() {
+     *    var includeValue0 = dw.system.RESTResponseMgr.createScapiRemoteInclude("custom", "sample", "v1", "resource/path/0", dw.web.URLParameter("siteId", "TestWapi"));
+     *    var includeValue1 = dw.system.RESTResponseMgr.createScapiRemoteInclude("custom", "sample", "v1", "resource/path/1", dw.web.URLParameter("siteId", "TestWapi"));
+     *    var greeting = { "hello": "world", "includeArray": [includeValue0, includeValue1] };
+     *
+     *    dw.system.RESTResponseMgr.createSuccess(greeting).render();
+     *  }
+     *  </pre>
+     *  <p></p>
+     *  <p>
+     *  <b>Example 3. Storefront controller remote include.</b><br>
+     *  </p><pre> function storefrontRemoteInclude()
+     *  {
+     *      let remoteInclude = dw.system.RESTResponseMgr.createStorefrontControllerRemoteInclude(new URLAction("Category-Show", "Sites-MyShop-Site", dw.web.URLParameter("cid", "root")));
+     *      let json = {
+     *          status: "JSONOK",
+     *          include: remoteInclude
+     *      };
+     *      dw.system.RESTResponseMgr.createSuccess(json).render();
+     *  }
+     *  </pre>
+     *  <p></p>
+     *  <p>
+     *  <b>Error handling:</b><br>
+     *  <b>SCAPI:</b><br>
+     *  </p><ul>
+     *  <li>In case of 404 response received on included resource, an empty JSON object '{}' will be supplied in final JSON.</li>
+     *  <li>In case of 201..299, 3xx, 4xx (excluding 404), 5xx response from included resource, final response status will be 500 'Internal Server Error'</li>
+     *  </ul>
+     *  <b>Controllers:</b><br>
+     *  <ul>
+     *  <li>In case of any non 200 response from the included resource an empty string will be included.</li>
+     *  <li>Note: In case your response format is JSON be aware that this can result in invalid JSON.</li>
+     *  </ul>
+     *  <p></p>
+     */
+    class RemoteInclude {
+      /**
+       * The URL string value specified for the current instance.
+       */
+      readonly url: string;
+      readonly value: string;
+
+      private constructor();
+
+      /**
+       * Returns the URL string value specified for the current instance.
+       *
+       */
+      getUrl(): string;
+      /**
+       * Returns the URL string value specified for the current instance, same as
+       *  getUrl().
+       *
+       */
+      toString(): string;
+      /**
+       * Returns the URL string value specified for the current instance, same as
+       *  getUrl().
+       *
+       */
+      valueOf(): any;
+    }
+
+    /**
      * Represents a request in Commerce Cloud Digital. Each pipeline dictionary contains a CurrentRequest object, which is of
      *  type dw.system.Request. Most requests are HTTP requests, so you can use this object to get information about the HTTP
      *  request, such as the HTTP headers. You can also get a list of cookies, if any, associated with the request. If the
@@ -50703,8 +53682,8 @@ declare namespace dw {
      */
     class Request {
       /**
-       * The client id of the current OCAPI request. If this is not an OCAPI request 'null' is returned. For
-       *  client ids owned by Commerce Cloud Digital an alias is returned.
+       * The client id of the current SCAPI or OCAPI request. If the request is not a SCAPI request or not an
+       *  OCAPI request 'null' is returned. For client ids owned by Commerce Cloud Digital an alias is returned.
        */
       readonly clientId: string;
       /**
@@ -50772,7 +53751,7 @@ declare namespace dw {
       readonly httpRemoteAddress: string;
       /**
        * Identifies if this request is an HTTP request. The method returns true, if the current processing is related to a
-       *  HTTP request. For example during a job execution this flag is false.
+       *  HTTP request.
        */
       readonly httpRequest: boolean;
       /**
@@ -50813,9 +53792,42 @@ declare namespace dw {
        */
       readonly requestID: string;
       /**
-       * Returns whether the request originated in SCAPI, identified by the presence of the "_sfdc_mercury" header.
+       * Returns whether the request originated in SCAPI.
        */
       readonly SCAPI: boolean;
+      /**
+       * A map containing all path parameters of current SCAPI request in the following way:
+       *
+       *  keys: path parameter names from path pattern
+       *  values: corresponding path parameter values from current request
+       *
+       *
+       *  Returns null if isSCAPI() returns false i.e. if the request is not a SCAPI request.
+       *
+       *
+       *  For example:
+       *
+       *  Current request: /product/shopper-products/v1/organizations/sfcc_org/products/apple-ipod-shuffle
+       *  Path pattern: /product/shopper-products/v1/organizations/{organizationId}/products/{id}
+       *  Result: Map with 2 key:value pairs: organizationId:sfcc_org and id:apple-ipod-shuffle.
+       */
+      readonly SCAPIPathParameters: dw.util.Map<any, any>;
+      /**
+       * The SCAPI path pattern in the following way:
+       *
+       *
+       *  The first three segments /api-family/api-name/version with concrete values.
+       *  The /organizations part with the path parameter name organizationId in curly brackets.
+       *  The actual resource path additional path parameter names in curly brackets.
+       *
+       *
+       *  Returns null if isSCAPI() returns false i.e. if the request is not a SCAPI request.
+       *
+       *
+       *  For example, in the context of a request to get a single product from shopper-products API, this method would
+       *  return /product/shopper-products/v1/organizations/{organizationId}/products/{id}
+       */
+      readonly SCAPIPathPattern: string;
       /**
        * The session associated with this request.
        */
@@ -50848,8 +53860,8 @@ declare namespace dw {
        */
       addHttpCookie(cookie: dw.web.Cookie): void;
       /**
-       * Returns the client id of the current OCAPI request. If this is not an OCAPI request 'null' is returned. For
-       *  client ids owned by Commerce Cloud Digital an alias is returned.
+       * Returns the client id of the current SCAPI or OCAPI request. If the request is not a SCAPI request or not an
+       *  OCAPI request 'null' is returned. For client ids owned by Commerce Cloud Digital an alias is returned.
        *
        * @return a client id or alias in case of an OCAPI request, otherwise null.
        */
@@ -50986,6 +53998,43 @@ declare namespace dw {
        */
       getRequestID(): string;
       /**
+       * Returns a map containing all path parameters of current SCAPI request in the following way:
+       *
+       *  keys: path parameter names from path pattern
+       *  values: corresponding path parameter values from current request
+       *
+       *
+       *  Returns null if isSCAPI() returns false i.e. if the request is not a SCAPI request.
+       *
+       *
+       *  For example:
+       *
+       *  Current request: /product/shopper-products/v1/organizations/sfcc_org/products/apple-ipod-shuffle
+       *  Path pattern: /product/shopper-products/v1/organizations/{organizationId}/products/{id}
+       *  Result: Map with 2 key:value pairs: organizationId:sfcc_org and id:apple-ipod-shuffle.
+       *
+       * @return the path parameter map or null
+       */
+      getSCAPIPathParameters(): dw.util.Map<any, any>;
+      /**
+       * Returns the SCAPI path pattern in the following way:
+       *
+       *
+       *  The first three segments /api-family/api-name/version with concrete values.
+       *  The /organizations part with the path parameter name organizationId in curly brackets.
+       *  The actual resource path additional path parameter names in curly brackets.
+       *
+       *
+       *  Returns null if isSCAPI() returns false i.e. if the request is not a SCAPI request.
+       *
+       *
+       *  For example, in the context of a request to get a single product from shopper-products API, this method would
+       *  return /product/shopper-products/v1/organizations/{organizationId}/products/{id}
+       *
+       * @return the path pattern or null.
+       */
+      getSCAPIPathPattern(): string;
+      /**
        * Returns the session associated with this request.
        *
        * @return the session associated with this request.
@@ -51005,7 +54054,7 @@ declare namespace dw {
       getTriggeredFormAction(): dw.web.FormAction;
       /**
        * Identifies if this request is an HTTP request. The method returns true, if the current processing is related to a
-       *  HTTP request. For example during a job execution this flag is false.
+       *  HTTP request.
        *
        * @return true if the current processing is related to a HTTP request, false otherwise.
        */
@@ -51022,7 +54071,7 @@ declare namespace dw {
        */
       isIncludeRequest(): boolean;
       /**
-       * Returns whether the request originated in SCAPI, identified by the presence of the "_sfdc_mercury" header.
+       * Returns whether the request originated in SCAPI.
        *
        * @return true or false.
        */
@@ -51192,6 +54241,10 @@ declare namespace dw {
        */
       static readonly CROSS_ORIGIN_RESOURCE_POLICY =
         "Cross-Origin-Resource-Policy";
+      /**
+       * An allowed header name constant for Link
+       */
+      static readonly LINK = "Link";
       /**
        * An allowed header name constant for Location
        */
@@ -51393,6 +54446,88 @@ declare namespace dw {
     }
 
     /**
+     * A SearchStatus is used for communicating a Search API status back to a client. A status consists of status code and
+     *  description. More information about search API call can be fetched by using SearchStatus class method getStatusCode
+     *  and getDescription, which can be used by clients to perform different operations.
+     */
+    class SearchStatus {
+      /**
+       * EMPTY_QUERY search result status code 6, this indicates that search has been made with empty query.
+       */
+      static readonly EMPTY_QUERY = 6;
+      /**
+       * ERROR search result status code 9, this indicates that internal server error has been occurred.
+       */
+      static readonly ERROR = 9;
+      /**
+       * LIMITED search result status code 2, this indicates that limitations on search result have been applied and
+       *  full search result is not returned.
+       */
+      static readonly LIMITED = 2;
+      /**
+       * NO_CATALOG search result status code 4, this indicates that there is no catalog associated for search query.
+       */
+      static readonly NO_CATALOG = 4;
+      /**
+       * NO_CATEGORY search result status code 5, this indicates that there is no category associated for search query.
+       */
+      static readonly NO_CATEGORY = 5;
+      /**
+       * NO_INDEX search result status code 8, this indicates that there is no active search index available.
+       */
+      static readonly NO_INDEX = 8;
+      /**
+       * NOT_EXECUTED search result status code 0, this indicates that search API call has not been made on SearchModel.
+       */
+      static readonly NOT_EXECUTED = 0;
+      /**
+       * OFFLINE_CATEGORY search result status code 7, this indicates that the category associated with search query
+       *  is offline.
+       */
+      static readonly OFFLINE_CATEGORY = 7;
+      /**
+       * ROOT_SEARCH search result status code 3, this indicates that search result is returned for ROOT search.
+       */
+      static readonly ROOT_SEARCH = 3;
+      /**
+       * SUCCESSFUL search result status code 1, this indicates that search API call is executed without any issue.
+       */
+      static readonly SUCCESSFUL = 1;
+
+      /**
+       * Returns status code description of search result, it provides more details about search API call status.
+       */
+      readonly description: string;
+      /**
+       * Returns status code of search result, by default it will return 0 which means that search has not been executed
+       *  on SearchModel.
+       */
+      readonly statusCode: number;
+
+      private constructor();
+
+      /**
+       * Returns status code description of search result, it provides more details about search API call status.
+       *
+       * @return search status description
+       */
+      getDescription(): string;
+      /**
+       * Returns status code of search result, by default it will return 0 which means that search has not been executed
+       *  on SearchModel.
+       *
+       * @return search status code
+       */
+      getStatusCode(): number;
+      /**
+       * Returns string values of status code and description.
+       *
+       * @return search status string
+       */
+      toString(): string;
+    }
+
+    /**
      * Represents a session in B2C Commerce. The session has some well-defined
      *  attributes like the current authenticated customer or the click stream, but also
      *  supports storing custom values in the session.
@@ -51538,6 +54673,22 @@ declare namespace dw {
 
       private constructor();
 
+      /**
+       * Generates a new guest session signature.
+       *
+       *  This is intended for guest authentication with the Shopper Login and API Access Service (SLAS).
+       *
+       * @return A new signed session token.
+       */
+      generateGuestSessionSignature(): string;
+      /**
+       * Generates a new registered session signature.
+       *
+       *  This is intended for use with registered session-bridge call of Shopper Login and API Access Service (SLAS).
+       *
+       * @return A new signed session token for registered dwsid.
+       */
+      generateRegisteredSessionSignature(): string;
       /**
        * Returns the current click stream if this is an HTTP session, null otherwise.
        *
@@ -52868,113 +56019,111 @@ declare namespace dw {
     }
 
     /**
-     * The Integer class is a helper class to represent an arbitrary long integer number.
+     * The BigInteger class is a helper class to represent an arbitrary long integer number.
      *  The Demandware framework doesn't use this class, but in some special cases
-     *  web services that declare a XML element with "xsd:integer", which is by definition
+     *  web services that declare an XML element with "xsd:integer", which is by definition
      *  an arbitrary long integer number, require the use of this class.
-     *
+     *  <p>
      *  The class is designed in a way that it can be used very similar to a
      *  desktop calculator. For example:
      *
-     *  <code>
-     *  var i = new Integer( 10 );
-     *  var result = d.add( 2 ).sub( 3 ).get();
-     *  </code>
+     *  </p><pre> var i = new BigInteger( 10 );
+     *  var result = d.add( 2 ).sub( 3 ).get();</pre>
      *
      *  The above code will return 9 as result.
      */
     class BigInteger {
       /**
-       * Constructs a new Integer with the value 0.
+       * Constructs a new BigInteger with the value 0.
        *
        */
       constructor();
       /**
-       * Constructs a new Integer using the specified Number value.
+       * Constructs a new BigInteger using the specified Number value.
        * @param value the value to use.
        */
       constructor(value: number);
       /**
-       * Constructs a new Integer using the specified string representation of
+       * Constructs a new BigInteger using the specified string representation of
        *  a number.
        * @param value the value to use.
        */
       constructor(value: string);
 
       /**
-       * Returns a new Integer with the absolute value of this Integer.
+       * Returns a new BigInteger with the absolute value of this BigInteger.
        *
-       * @return the new Integer
+       * @return the new BigInteger
        */
       abs(): dw.util.BigInteger;
       /**
-       * Adds a Number value to this Integer and returns the new Integer.
-       * @param value the value to add to this Integer.
-       * @return the new Integer with the value added.
+       * Adds a Number value to this BigInteger and returns the new BigInteger.
+       * @param value the value to add to this BigInteger.
+       * @return the new BigInteger with the value added.
        */
       add(value: number): dw.util.BigInteger;
       /**
-       * Adds an Integer value to this Integer and returns the new Integer.
-       * @param value the value to add to this Integer.
-       * @return the new Integer with the value added.
+       * Adds an BigInteger value to this BigInteger and returns the new BigInteger.
+       * @param value the value to add to this BigInteger.
+       * @return the new BigInteger with the value added.
        */
       add(value: dw.util.BigInteger): dw.util.BigInteger;
       /**
-       * Divides this Integer by the specified Integer and returns the new Integer.
-       * @param value the value to use to divide this Integer.
-       * @return the new Integer.
+       * Divides this BigInteger by the specified BigInteger and returns the new BigInteger.
+       * @param value the value to use to divide this BigInteger.
+       * @return the new BigInteger.
        */
       divide(value: number): dw.util.BigInteger;
       /**
-       * Divides this Integer by the specified Integer and returns the new Integer.
-       * @param value the value to use to divide this Integer.
-       * @return the new Integer.
+       * Divides this BigInteger by the specified BigInteger and returns the new BigInteger.
+       * @param value the value to use to divide this BigInteger.
+       * @return the new BigInteger.
        */
       divide(value: dw.util.BigInteger): dw.util.BigInteger;
       /**
-       * Compares two Integer values whether they are equivalent.
-       * @param other the object to compare against this Integer.
+       * Compares two BigInteger values whether they are equivalent.
+       * @param other the object to compare against this BigInteger.
        */
       equals(other: any): boolean;
       /**
-       * Returns the value of the Integer as a Number.
+       * Returns the value of the BigInteger as a Number.
        *
-       * @return the value of the Integer.
+       * @return the value of the BigInteger.
        */
       get(): number;
       /**
-       * Calculates the hash code for this Integer;
+       * Calculates the hash code for this BigInteger;
        *
        */
       hashCode(): number;
       /**
-       * Multiples the specified Number value with this Integer and returns the new Integer.
-       * @param value the value to multiply with this Integer.
-       * @return the new Integer.
+       * Multiples the specified Number value with this BigInteger and returns the new BigInteger.
+       * @param value the value to multiply with this BigInteger.
+       * @return the new BigInteger.
        */
       multiply(value: number): dw.util.BigInteger;
       /**
-       * Multiples the specified Integer value with this Integer and returns the new Integer.
-       * @param value the value to multiply with this Integer.
-       * @return the new Integer.
+       * Multiples the specified BigInteger value with this BigInteger and returns the new BigInteger.
+       * @param value the value to multiply with this BigInteger.
+       * @return the new BigInteger.
        */
       multiply(value: dw.util.BigInteger): dw.util.BigInteger;
       /**
-       * Returns a new Integer with the negated value of this Integer.
+       * Returns a new BigInteger with the negated value of this BigInteger.
        *
-       * @return the new Integer
+       * @return the new BigInteger
        */
       negate(): dw.util.BigInteger;
       /**
-       * Subtracts the specified Number value from this Integer and returns the new Integer.
-       * @param value the value to add to this Integer.
-       * @return the new Integer with the value subtraced.
+       * Subtracts the specified Number value from this BigInteger and returns the new BigInteger.
+       * @param value the value to add to this BigInteger.
+       * @return the new BigInteger with the value subtracted.
        */
       subtract(value: number): dw.util.BigInteger;
       /**
-       * Subtracts the specified Integer value from this Integer and returns the new Integer.
-       * @param value the value to add to this Integer.
-       * @return the new Integer with the value subtraced.
+       * Subtracts the specified BigInteger value from this BigInteger and returns the new BigInteger.
+       * @param value the value to add to this BigInteger.
+       * @return the new BigInteger with the value subtracted.
        */
       subtract(value: dw.util.BigInteger): dw.util.BigInteger;
       /**
@@ -52985,14 +56134,12 @@ declare namespace dw {
       toString(): string;
       /**
        * The valueOf() method is called by the ECMAScript interpret to return
-       *  the "natural" value of an object. The Inetger object returns its
+       *  the "natural" value of an object. The BigInteger object returns its
        *  current value as number. With this behavior script snippets can
        *  be written like:
        *
-       *
-       *  var i = new Integer( 10 );
+       *   var i = new BigInteger( 10 );
        *  var x = 1 + d.add( 2 );
-       *
        *
        *  where x will be at the end 13.
        *
@@ -53838,19 +56985,17 @@ declare namespace dw {
 
     /**
      * The Decimal class is a helper class to perform decimal arithmetic in
-     *  scripts and to represent a decimal number with arbitray length. The decimal
+     *  scripts and to represent a decimal number with arbitrary length. The decimal
      *  class avoids arithmetic errors, which are typical for calculating with
      *  floating numbers, that are based on a binary mantissa.
-     *
+     *  <p>
      *  The class is designed in a way that it can be used very similar to a
      *  desktop calculator.
      *
-     *  <code>
-     *  var d = new Decimal( 10.0 );
-     *  var result = d.add( 2.0 ).sub( 3.0 ).get();
-     *  </code>
-     *
-     *  The above code will return 9 as result.
+     *  </p><pre> var d = new Decimal( 10.0 );
+     *  var result = d.add( 2.0 ).sub( 3.0 ).get();</pre>
+     *  <p>
+     *  The above code will return 9 as result.</p>
      */
     class Decimal {
       /**
@@ -54088,7 +57233,7 @@ declare namespace dw {
        * Select a new FilteringCollection instance by passing a
        *  predefined qualifier as an argument to this method. See
        *  FilteringCollection.
-       * @param qualifier - possible qualifiers are documented in the method returning the FilteringCollection
+       * @param qualifier possible qualifiers are documented in the method returning the FilteringCollection
        * @return a new FilteringCollection instance
        */
       select(qualifier: T): dw.util.FilteringCollection<T>;
@@ -54096,7 +57241,7 @@ declare namespace dw {
        * Select a new FilteringCollection instance by passing a
        *  predefined orderBy as an argument to this method. See
        *  FilteringCollection.
-       * @param orderBy - possible orderBys are documented in the method returning the FilteringCollection
+       * @param orderBy possible orderBys are documented in the method returning the FilteringCollection
        * @return a new FilteringCollection instance
        */
       sort(orderBy: T): dw.util.FilteringCollection<T>;
@@ -54112,7 +57257,8 @@ declare namespace dw {
      *  GetNearestStores pipelet) which uses a static set of store locations loaded
      *  into the system by the merchant.
      *  </p><p>
-     *  This product includes GeoLite2 data created by MaxMind, available from <a href="http://www.maxmind.com">http://www.maxmind.com</a>.</p>
+     *  This product includes GeoLite2 data created by MaxMind, available from
+     *  <a href="http://www.maxmind.com">http://www.maxmind.com</a>.</p>
      */
     class Geolocation {
       /**
@@ -56844,12 +59990,12 @@ declare namespace dw {
      *  Adding CSRF token to forms:
      *
      *  </p><pre> //CSRF token generation
-     *  &lt;form ... action="<protected location="">"&gt;
+     *  &lt;form ... action="&lt;protected location&gt;"&gt;
      *    &lt;input name="foo" value="bar"&gt;
      *    &lt;input name="${dw.web.CSRFProtection.getTokenName()}"
      *              value="${dw.web.CSRFProtection.generateToken()"&gt;
      *  &lt;/form&gt;
-     *  </protected></pre>
+     *  </pre>
      *
      *  Then, in scripts call:
      *
@@ -56911,7 +60057,7 @@ declare namespace dw {
        *  the method Session.isTrackingAllowed() returns true
        *  or if the above method returns false but the preference 'ClickstreamHonorDNT' is set to false.
        *
-       *  When clickstream tracking is not enabled the getFirst method still operates as expected
+       *  When clickstream tracking is not enabled the getFirst() method still operates as expected
        *  but the rest of the clicks are not collected.
        */
       readonly enabled: boolean;
@@ -56966,7 +60112,7 @@ declare namespace dw {
        *  the method Session.isTrackingAllowed() returns true
        *  or if the above method returns false but the preference 'ClickstreamHonorDNT' is set to false.
        *
-       *  When clickstream tracking is not enabled the getFirst method still operates as expected
+       *  When clickstream tracking is not enabled the getFirst() method still operates as expected
        *  but the rest of the clicks are not collected.
        *
        * @return whether clickstream tracking is enabled
@@ -59321,7 +62467,6 @@ declare namespace dw {
        *
        *  the URL is a pipeline URL
        *  the URL is for Business Manager
-       *  CSRF validation is not disabled
        *
        *
        *  If a CSRF token already exists in the URL, it will be replaced with a newly generated one.
@@ -59561,9 +62706,9 @@ declare namespace dw {
      *  The to-be-transformed image needs to be hosted on Digital.</p><p>
      *
      *  Image transformation parameters are specified as JavaScript object literal. They
-     *  are translated into URL parameters. See <a href="https://documentation.b2c.commercecloud.salesforce.com/DOC1/topic/com.demandware.dochelp/content/b2c_commerce/topics/image_management/b2c_creating_image_transformation_urls.html">Create Image Transformation URLs.</a></p><p>
+     *  are translated into URL parameters. See <a href="https://help.salesforce.com/s/articleView?id=cc.b2c_creating_image_transformation_urls.htm" target="_top">Create Image Transformation URLs.</a></p><p>
      *
-     *  <table>
+     *  </p><table>
      *  <tbody><tr>
      *      <th>Type of transformation</th>
      *      <th>Parameters</th>
@@ -59722,7 +62867,7 @@ declare namespace dw {
      *  </tr>
      *  </tbody></table>
      *
-     *  Example:</p><p>
+     *  Example:<p>
      *     The following code</p><p>
      *     <code>var url = URLUtils.imageURL('/somepath/image.png', {scaleWidth: 100, format: 'jpg'});</code></p><p>
      *     will produce an image transformation URL like</p><p>
@@ -59884,7 +63029,7 @@ declare namespace dw {
        * Generates a hostname-only url if an alias is set, or an url to the Home-Show
        *    pipeline in the default format using the protocol of the incoming request.
        *
-       * @return a hostname-only url if an alias is set, or an url to the Home-Show pipeline in the default format using the protocol of the incoming request.
+       * @return a hostname-only url if an alias is set, or an url to the Home-Show pipeline in the default format using the protocol of the incoming request. Uses the default locale of the site making the request.
        */
       static home(): dw.web.URL;
       /**
@@ -60673,9 +63818,13 @@ declare namespace dw {
       static readonly WS_ENC_PROP_KEYSTORE_PW =
         "__EncryptionPropKeystorePassword";
       /**
-       * WS-Security Encryption: The encryption/decryption keystore type ( jks or pkcs12 ),
-       *                          default is jks.
-       *  Note: The keystore file has the basename of the WSDL file and the
+       * WS-Security Encryption: The signature keystore type ( jks, pkcs12, or managed ).
+       *
+       *  The default is jks.
+       *
+       *  The "managed" type will resolve aliases against the names of certificates and keys in Business Manager.
+       *
+       *  Note: For non-managed types, the keystore file has the basename of the WSDL file and the
        *  file extension based on the keystore type (e.g. MyService.jks).
        *  The keystore file has to be placed in the same cartridge directory
        *  as the WSDL file.
@@ -60744,8 +63893,13 @@ declare namespace dw {
       static readonly WS_SIG_PROP_KEYSTORE_PW =
         "__SignaturePropKeystorePassword";
       /**
-       * WS-Security: The signature keystore type ( jks or pkcs12 ), default is jks.
-       *  Note: The keystore file has the basename of the WSDL file and the
+       * WS-Security: The signature keystore type ( jks, pkcs12, or managed ).
+       *
+       *  The default is jks.
+       *
+       *  The "managed" type will resolve aliases against the names of certificates and keys in Business Manager.
+       *
+       *  Note: For non-managed types, the keystore file has the basename of the WSDL file and the
        *  file extension based on the keystore type (e.g. MyService.jks).
        *  The keystore file has to be placed in the same cartridge directory
        *  as the WSDL file.
@@ -60940,13 +64094,11 @@ declare namespace dw {
      *  </p><p>
      *  To create an instance of a WebReference2, you put a web service WSDL file in the <code>webreferences2</code>
      *  directory and reference the WSDL file in a B2C Commerce Script. You then request the service <a href="class_dw_ws_Port.html">Port</a>
-     *  using one the the get service methods. For example, if your WSDL file is <code>MyWSDL.wsdl</code>,
+     *  using one of the get service methods. For example, if your WSDL file is <code>MyWSDL.wsdl</code>,
      *  here is how you create an instance of WebReference2 and access the <a href="class_dw_ws_Port.html">Port</a>:
      *  <br>
-     *  </p><pre> <code>
-     *  var webref : WebReference2 = webreferences2.MyWSDL;
+     *  </p><pre> var webref : WebReference2 = webreferences2.MyWSDL;
      *  var port : Port = webref.getDefaultService();
-     *  </code>
      *  </pre>
      *
      *  Note that all script classes representing your WSDL file are placed in the <code>webreferences2</code>
@@ -60958,7 +64110,8 @@ declare namespace dw {
      *  For example, if your WSDL file is <code>MyWSDL.wsdl</code>, the property file name is <code>MyWSDL.wsdl.properties</code>.
      *  Supported properties include:
      *
-     *  <table>
+     *  </p><table>
+     *    <caption>Supported properties with description</caption>
      *    <tbody><tr>
      *      <th>Name</th>
      *      <th>Type</th>
@@ -60999,6 +64152,7 @@ declare namespace dw {
      *  logging is controlled by the following in the WSDL properties:
      *
      *  <table>
+     *    <caption>Supported logging properties with description</caption>
      *    <tbody><tr>
      *      <th>Name</th>
      *      <th>Type</th>
@@ -61009,6 +64163,12 @@ declare namespace dw {
      *      <td><code>boolean</code></td>
      *      <td><code>true</code> to explicitly allow logging, <code>false</code> to disallow. Default is <code>true</code> on Sandboxes
      *      and <code>false</code> on all other instance types</td>
+     *    </tr>
+     *    <tr>
+     *      <td><code>logging.level</code></td>
+     *      <td><code>string</code></td>
+     *      <td>The logging level to use (<code>TRACE</code>, <code>DEBUG</code>, <code>INFO</code>, <code>WARN</code>, <code>ERROR</code>).
+     *      Default is <code>DEBUG</code>.</td>
      *    </tr>
      *    <tr>
      *      <td><code>logging.pretty</code></td>
@@ -61035,7 +64195,7 @@ declare namespace dw {
      *      this prefix will be used. For example <code>logging.filter.headers=Authorization,Token</code> is equivalent to two different properties
      *      <code>logging.filter.headers.01=Authorization</code> and <code>logging.filter.headers.02=Token</code></td>
      *    </tr>
-     *  </tbody></table></p>
+     *  </tbody></table>
      */
     class WebReference2 {
       /**

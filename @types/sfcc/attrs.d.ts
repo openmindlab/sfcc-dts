@@ -739,6 +739,16 @@ declare class OrganizationPreferencesCustomAttributes {
 }
 
 /**
+ * Custom attributes for RESTErrorResponse object.
+ */
+declare class RESTErrorResponseCustomAttributes {
+  /**
+   * Returns the custom attribute with this name. Throws an exception if attribute is not defined
+   */
+  [name: string]: any;
+}
+
+/**
  * Custom attributes for Request object.
  */
 declare class RequestCustomAttributes {

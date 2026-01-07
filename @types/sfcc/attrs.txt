@@ -52,6 +52,7 @@ ProductSearchRefinementDefinition
 ProductShippingLineItem
 Profile
 Promotion
+RESTErrorResponse
 Recommendation
 Request
 Return
