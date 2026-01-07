@@ -37,7 +37,7 @@
     "@types/xml2js": "0.4.14",
     "create-symlink": "1.0.0",
     "ts-node": "10.9.1",
-    "typescript": "4.7.4"
+    "typescript": "5.9.3"
   },
   "files": [
     "dist/**/*",
@@ -53,7 +53,7 @@
     "postversion": "git push && git push --tags",
     "prepare": "npm run build",
     "format": "prettier --write \"src/**/*.{ts,js}\"",
-    "test": "npm run build && TS_NODE_TRANSPILE_ONLY=1 node --require ts-node/register --test src/tsplugin.test.ts",
+    "test": "npm run build && TS_NODE_TRANSPILE_ONLY=1 node --require ts-node/register --test src/*.test.ts",
     "scrape": "node dist/scrape.js",
     "generate": "node dist/generate.js",
     "makepatch": "node dist/makepatch.js",
