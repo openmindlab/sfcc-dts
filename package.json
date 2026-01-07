@@ -53,6 +53,7 @@
     "postversion": "git push && git push --tags",
     "prepare": "npm run build",
     "format": "prettier --write \"src/**/*.{ts,js}\"",
+    "test": "npm run build && TS_NODE_TRANSPILE_ONLY=1 node --require ts-node/register --test src/tsplugin.test.ts",
     "scrape": "node dist/scrape.js",
     "generate": "node dist/generate.js",
     "makepatch": "node dist/makepatch.js",
