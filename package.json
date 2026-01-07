@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "axios": "0.27.2",
-    "cheerio": "^1.0.0-rc.3",
+    "cheerio": "1.1.2",
     "cli-progress": "3.11.2",
     "colorize-template": "1.0.0",
     "comment-json": "4.2.3",
@@ -29,7 +29,6 @@
     "xml2js": "0.4.23"
   },
   "devDependencies": {
-    "@types/cheerio": "0.22.31",
     "@types/cli-progress": "3.11.0",
     "@types/json-merge-patch": "0.0.8",
     "@types/node": "18.7.9",
@@ -50,9 +49,6 @@
     "LICENSE",
     "CHANGELOG.md"
   ],
-  "engines": {
-    "node": ">=16.0.0"
-  },
   "scripts": {
     "build": "tsc",
     "postversion": "git push && git push --tags",

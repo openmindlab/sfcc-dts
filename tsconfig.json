@@ -4,6 +4,7 @@
     "noImplicitAny": true,
     "target": "ESNext",
     "lib": ["es5", "es6", "dom"],
+    "skipLibCheck": true,
     "module": "commonjs",
     "removeComments": false,
     "alwaysStrict": true,

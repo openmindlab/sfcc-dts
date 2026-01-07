@@ -1,5 +1,5 @@
 import axios from "axios";
-import cheerio from "cheerio";
+import { load, CheerioAPI } from "cheerio";
 import cliProgress from "cli-progress";
 import fs from "fs";
 import https from "https";
@@ -85,7 +85,7 @@ const finish = (api: any) => {
   );
 };
 
-const mapDetail = ($: cheerio.Root, el: cheerio.Element) => {
+const mapDetail = ($: CheerioAPI, el: any) => {
   let detailSignature = $(el).find(".detailSignature").text().trim();
   let parsedPropertyText =
     /^(?:\n|\s)*(static)?(?:public[\s\t])?(?:\n|\s)*([^\s\t]+)\(([^\)]*)\)(?:\n|\t|\s|:)*([^\s\t]+)?/.exec(
@@ -101,7 +101,8 @@ const mapDetail = ($: cheerio.Root, el: cheerio.Element) => {
   let returnDesc = $(el)
     .find(".parameters")
     .filter(
-      (i, el) => $(el).find(".parameterTitle").text().indexOf("Returns:") >= 0
+      (i: number, el: any) =>
+        $(el).find(".parameterTitle").text().indexOf("Returns:") >= 0
     )
     .find(".parameterDesc")
     .text()
@@ -109,7 +110,7 @@ const mapDetail = ($: cheerio.Root, el: cheerio.Element) => {
   let paramsDoc = $(el)
     .find(".parameters")
     .filter(
-      (i, el) =>
+      (i: number, el: any) =>
         $(el).find(".parameterTitle").text().indexOf("Parameters:") >= 0
     )
     .find(".parameterDetail");
@@ -126,7 +127,8 @@ const mapDetail = ($: cheerio.Root, el: cheerio.Element) => {
           name: argName,
           description: paramsDoc
             .filter(
-              (i, el) => $(el).find(".parameterName").text().trim() == argName
+              (i: number, el: any) =>
+                $(el).find(".parameterName").text().trim() == argName
             )
             .find(".parameterDesc")
             .text()
@@ -157,9 +159,9 @@ const mapDetail = ($: cheerio.Root, el: cheerio.Element) => {
   });
 
   let response = await instance.get(baseUrl + "classList.html");
-  let $ = cheerio.load(response.data);
+  let $ = load(response.data);
   let classLinks = $("a[href^=class_]")
-    .map((i, el) => $(el).attr("href"))
+    .map((i: number, el: any) => $(el).attr("href"))
     .toArray();
 
   console.log(`Scraping ${classLinks.length} classes`);
@@ -170,9 +172,9 @@ const mapDetail = ($: cheerio.Root, el: cheerio.Element) => {
     const classLink = classLinks[j];
     try {
       let classPage = await instance.get(baseUrl + classLink);
-      let $ = cheerio.load(classPage.data);
+      let $ = load(classPage.data);
       let deprecated = $(".classSumary .parameters .parameterTitle").filter(
-        (i, el) => $(el).text().indexOf("Deprecated") >= 0
+        (i: number, el: any) => $(el).text().indexOf("Deprecated") >= 0
       );
       let $class = $("div[id^=class_]");
 
@@ -194,11 +196,11 @@ const mapDetail = ($: cheerio.Root, el: cheerio.Element) => {
           let methods = arrayToObj(
             $(".section")
               .filter(
-                (i, el) =>
+                (i: number, el: any) =>
                   $(el).find(".header").text().indexOf("Method Detail") >= 0
               )
               .find(".detailItem")
-              .map((i, el) => {
+              .map((i: number, el: any) => {
                 return mapDetail($, el);
               })
               .get()
@@ -209,7 +211,7 @@ const mapDetail = ($: cheerio.Root, el: cheerio.Element) => {
             package: packageName,
             description: $(".classSummaryDetail .description").html().trim(),
             hierarchy: $(".hierarchy a[href]")
-              .map((i, el) => ({
+              .map((i: number, el: any) => ({
                 name: $(el).text().trim(),
                 // link: $(el).attr("href"),
               }))
@@ -217,10 +219,11 @@ const mapDetail = ($: cheerio.Root, el: cheerio.Element) => {
             constants: arrayToObj(
               $(".section")
                 .filter(
-                  (i, el) => $(el).find(".header").text().trim() === "Constants"
+                  (i: number, el: any) =>
+                    $(el).find(".header").text().trim() === "Constants"
                 )
                 .find(".summaryItem")
-                .map((i, el) => {
+                .map((i: number, el: any) => {
                   let description: string = $(el).find(".description").text();
                   let propertyText = $(el)
                     .text()
@@ -251,11 +254,11 @@ const mapDetail = ($: cheerio.Root, el: cheerio.Element) => {
             properties: arrayToObj(
               $(".section")
                 .filter(
-                  (i, el) =>
+                  (i: number, el: any) =>
                     $(el).find(".header").text().trim() === "Properties"
                 )
                 .find(".summaryItem")
-                .map((i, el) => {
+                .map((i: number, el: any) => {
                   let propertyEL = $(el);
                   if (propertyEL.find(".description")) {
                     propertyEL = propertyEL.clone();
@@ -299,7 +302,7 @@ const mapDetail = ($: cheerio.Root, el: cheerio.Element) => {
             constructors: arrayToObj(
               $(".section")
                 .filter(
-                  (i, el) =>
+                  (i: number, el: any) =>
                     $(el)
                       .find(".header")
                       .text()
@@ -311,7 +314,7 @@ const mapDetail = ($: cheerio.Root, el: cheerio.Element) => {
                       .indexOf("This class does not have a constructor") < 0
                 )
                 .find(".detailItem")
-                .map((i, el) => {
+                .map((i: number, el: any) => {
                   return mapDetail($, el);
                 })
                 .get()
