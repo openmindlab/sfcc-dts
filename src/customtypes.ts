@@ -51,7 +51,7 @@ export async function generateCustomTypes(extensionsfolder: string) {
     .filter(
       (i) =>
         !fs.lstatSync(path.join(extensionsfolder, i)).isDirectory() &&
-        i.endsWith(".xml")
+        i.endsWith(".xml"),
     );
   for (let j = 0; j < folder.length; j++) {
     let extensions = path.join(extensionsfolder, folder[j]);
@@ -63,7 +63,7 @@ export async function generateCustomTypes(extensionsfolder: string) {
       (te) =>
         te.typeid &&
         te.attributedefinitions &&
-        te.attributedefinitions.length > 0
+        te.attributedefinitions.length > 0,
     )
     .sort((a, b) => a.typeid.localeCompare(b.typeid));
 
@@ -89,7 +89,7 @@ export async function generateCustomTypes(extensionsfolder: string) {
       customObjList.delete(typename);
 
       i.attributedefinitions = i.attributedefinitions.sort((a, b) =>
-        a.attributeid.localeCompare(b.attributeid)
+        a.attributeid.localeCompare(b.attributeid),
       );
       return `
 /**
@@ -137,8 +137,8 @@ declare class ${typename}CustomAttributes {
   } catch (e) {
     console.error(
       chalk.red(
-        `Prettier format failed, check generated file at ${outpath}\n${e}`
-      )
+        `Prettier format failed, check generated file at ${outpath}\n${e}`,
+      ),
     );
   }
 
@@ -217,7 +217,9 @@ const site = {
     out = await format(customattrsrc, prettierconfig);
   } catch (e) {
     console.error(
-      chalk.red(`Prettier format failed, check generated file at ${dest}\n${e}`)
+      chalk.red(
+        `Prettier format failed, check generated file at ${dest}\n${e}`,
+      ),
     );
   }
 

@@ -1,4 +1,3 @@
-
 export type ClassDef = {
   fullClassName: string;
   package: string;
@@ -16,21 +15,20 @@ export type ClassDef = {
   methods: {
     [name: string]: MethodDef;
   };
-}
+};
 
 export type HierarchyClass = {
   name: string;
-}
+};
 
 export type ConstantDef = {
   name: string;
   value: string;
   description: string;
   deprecated: boolean;
-  type: 'constant';
+  type: "constant";
   class: ClassType;
-}
-
+};
 
 export type PropertyDef = {
   name: string;
@@ -39,7 +37,7 @@ export type PropertyDef = {
   static?: boolean;
   readonly?: boolean;
   deprecated?: boolean;
-}
+};
 
 export type ConstructorDef = {
   name: string;
@@ -47,20 +45,20 @@ export type ConstructorDef = {
   deprecated: boolean;
   class: ClassType;
   args: MethodArg[];
-}
+};
 
 export type MethodArg = {
   name: string;
   description: string;
   class: ClassType;
   multiple: boolean;
-}
+};
 
 export type ClassType = {
   name: string;
   description?: string;
   generics?: string;
-}
+};
 
 export type MethodDef = {
   name: string;
@@ -68,9 +66,9 @@ export type MethodDef = {
   class: ClassType;
   args: MethodArg[];
   static?: boolean;
-}
+};
 
 export type CustomAttr = {
   name: string;
   extends?: string;
-}
+};

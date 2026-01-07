@@ -1,15 +1,14 @@
 #!/usr/bin/env node
 import { execSync } from "child_process";
-import { parse, stringify } from 'comment-json';
-import { log } from 'console';
+import { parse, stringify } from "comment-json";
+import { log } from "console";
 import fs from "fs";
 import path from "path";
 import pc from "picocolors";
 import prompts from "prompts";
-import { generateCustomTypes } from './customtypes';
+import { generateCustomTypes } from "./customtypes";
 
 (async () => {
-
   const banner = `
                 _|_|                                        _|    _|                
     _|_|_|    _|        _|_|_|    _|_|_|                _|_|_|  _|_|_|_|    _|_|_|  
@@ -20,33 +19,40 @@ import { generateCustomTypes } from './customtypes';
                                                                     `;
   log(pc.magenta(banner));
 
-  log(`Welcome to ${pc.magenta('sfcc-dts')} interactive project setup wizard.\n`);
-  const response = await prompts([{
-    type: 'text',
-    name: 'cartridgeroot',
-    message: 'Directory containing your cartridges?',
-    initial: './cartridges/',
-    validate: value => !fs.existsSync(value) ? `Directory ${value} does not exists` : true
-  }
-    , {
-    type: 'text',
-    name: 'meta',
-    message: 'Directory containing system-objecttype-extensions.xml?',
-    initial: './sites/site_template/meta/',
-    validate: value => !fs.existsSync(value) ? `directory ${value} not found` : true
-  }
+  log(
+    `Welcome to ${pc.magenta("sfcc-dts")} interactive project setup wizard.\n`,
+  );
+  const response = await prompts([
+    {
+      type: "text",
+      name: "cartridgeroot",
+      message: "Directory containing your cartridges?",
+      initial: "./cartridges/",
+      validate: (value) =>
+        !fs.existsSync(value) ? `Directory ${value} does not exists` : true,
+    },
+    {
+      type: "text",
+      name: "meta",
+      message: "Directory containing system-objecttype-extensions.xml?",
+      initial: "./sites/site_template/meta/",
+      validate: (value) =>
+        !fs.existsSync(value) ? `directory ${value} not found` : true,
+    },
   ]);
 
   let cartridgeroot = response.cartridgeroot;
   let extensions = response.meta;
-  log(`Ready to go, will setup the project using cartridges in ${cartridgeroot} and custom attributes definition in ${extensions}\n`);
+  log(
+    `Ready to go, will setup the project using cartridges in ${cartridgeroot} and custom attributes definition in ${extensions}\n`,
+  );
 
-  let tsconfig: any = {}
-  if (fs.existsSync('tsconfig.json')) {
-    log('Checking existing tsconfig.json');
-    tsconfig = parse(fs.readFileSync('tsconfig.json', 'utf8'));
+  let tsconfig: any = {};
+  if (fs.existsSync("tsconfig.json")) {
+    log("Checking existing tsconfig.json");
+    tsconfig = parse(fs.readFileSync("tsconfig.json", "utf8"));
   } else {
-    log('Creating new tsconfig.json');
+    log("Creating new tsconfig.json");
   }
 
   if (!tsconfig.compilerOptions) {
@@ -57,23 +63,26 @@ import { generateCustomTypes } from './customtypes';
     tsconfig.compilerOptions.plugins = [];
   }
 
-  if (tsconfig.compilerOptions.plugins.filter((i: any) => i.name === 'sfcc-dts').length === 0) {
-    log('Adding sfcc-dts typescript plugin');
-    tsconfig.compilerOptions.plugins.push({ "name": "sfcc-dts" });
+  if (
+    tsconfig.compilerOptions.plugins.filter((i: any) => i.name === "sfcc-dts")
+      .length === 0
+  ) {
+    log("Adding sfcc-dts typescript plugin");
+    tsconfig.compilerOptions.plugins.push({ name: "sfcc-dts" });
   }
 
   let requiredoptions: any = {
-    "module": "commonjs",
-    "target": "es5",
-    "noEmit": false,
-    "allowJs": true,
-    "checkJs": true,
-    "esModuleInterop": true,
-    "moduleResolution": "node"
-  }
+    module: "commonjs",
+    target: "es5",
+    noEmit: false,
+    allowJs: true,
+    checkJs: true,
+    esModuleInterop: true,
+    moduleResolution: "node",
+  };
 
-  Object.keys(requiredoptions).forEach(i => {
-    if (tsconfig.compilerOptions.module !== 'commonjs') {
+  Object.keys(requiredoptions).forEach((i) => {
+    if (tsconfig.compilerOptions.module !== "commonjs") {
       log(`Setting compiler option ${i} to ${requiredoptions[i]}`);
       tsconfig.compilerOptions[i] = requiredoptions[i];
     }
@@ -83,51 +92,88 @@ import { generateCustomTypes } from './customtypes';
     tsconfig.compilerOptions.paths = {};
   }
 
-  if (!tsconfig.compilerOptions.paths['dw/*'] || tsconfig.compilerOptions.paths['dw/*'].length !== 1 || tsconfig.compilerOptions.paths['dw/*'][0] !== "./node_modules/sfcc-dts/@types/sfcc/dw/*") {
+  if (
+    !tsconfig.compilerOptions.paths["dw/*"] ||
+    tsconfig.compilerOptions.paths["dw/*"].length !== 1 ||
+    tsconfig.compilerOptions.paths["dw/*"][0] !==
+      "./node_modules/sfcc-dts/@types/sfcc/dw/*"
+  ) {
     log(`Adding dw/* path`);
-    tsconfig.compilerOptions.paths['dw/*'] = ["./node_modules/sfcc-dts/@types/sfcc/dw/*"];
+    tsconfig.compilerOptions.paths["dw/*"] = [
+      "./node_modules/sfcc-dts/@types/sfcc/dw/*",
+    ];
   }
-  if (!tsconfig.compilerOptions.paths['server'] || tsconfig.compilerOptions.paths['server'].length !== 1 || tsconfig.compilerOptions.paths['server'][0] !== `${cartridgeroot}/modules/server`) {
+  if (
+    !tsconfig.compilerOptions.paths["server"] ||
+    tsconfig.compilerOptions.paths["server"].length !== 1 ||
+    tsconfig.compilerOptions.paths["server"][0] !==
+      `${cartridgeroot}/modules/server`
+  ) {
     log(`Adding server path`);
-    tsconfig.compilerOptions.paths['server'] = [`${path.join(cartridgeroot, 'modules/server')}`];
-    tsconfig.compilerOptions.paths['server/*'] = [`${path.join(cartridgeroot, 'modules/server/*')}`];
+    tsconfig.compilerOptions.paths["server"] = [
+      `${path.join(cartridgeroot, "modules/server")}`,
+    ];
+    tsconfig.compilerOptions.paths["server/*"] = [
+      `${path.join(cartridgeroot, "modules/server/*")}`,
+    ];
   }
 
-  let cartridges = fs.readdirSync(cartridgeroot).filter(i => fs.lstatSync(path.join(cartridgeroot, i)).isDirectory() || fs.lstatSync(path.join(cartridgeroot, i)).isSymbolicLink()).filter(i => fs.existsSync(path.join(path.join(cartridgeroot, i), 'cartridge')));
+  let cartridges = fs
+    .readdirSync(cartridgeroot)
+    .filter(
+      (i) =>
+        fs.lstatSync(path.join(cartridgeroot, i)).isDirectory() ||
+        fs.lstatSync(path.join(cartridgeroot, i)).isSymbolicLink(),
+    )
+    .filter((i) =>
+      fs.existsSync(path.join(path.join(cartridgeroot, i), "cartridge")),
+    );
   log(`Adding cartridge path`);
-  tsconfig.compilerOptions.paths['~/*'] = cartridges.map(i => `${path.join(cartridgeroot, i)}/*`);
+  tsconfig.compilerOptions.paths["~/*"] = cartridges.map(
+    (i) => `${path.join(cartridgeroot, i)}/*`,
+  );
 
-  cartridges.forEach(i => {
-    tsconfig.compilerOptions.paths[`${i}/*`] = [`${path.join(cartridgeroot, i)}/*`]
+  cartridges.forEach((i) => {
+    tsconfig.compilerOptions.paths[`${i}/*`] = [
+      `${path.join(cartridgeroot, i)}/*`,
+    ];
   });
 
   // removing deprecated _star_ path
-  tsconfig.compilerOptions.paths['_star_/*'] = undefined;
+  tsconfig.compilerOptions.paths["_star_/*"] = undefined;
 
   log(`Write tscconfig.json`);
 
-  fs.writeFileSync('tsconfig.json', stringify(tsconfig, null, 2));
+  fs.writeFileSync("tsconfig.json", stringify(tsconfig, null, 2));
 
-  let packagejson : any = parse(fs.readFileSync('package.json', 'utf8'));
+  let packagejson: any = parse(fs.readFileSync("package.json", "utf8"));
 
-  if (!packagejson.devDependencies || !packagejson.devDependencies['sfcc-dts']) {
+  if (
+    !packagejson.devDependencies ||
+    !packagejson.devDependencies["sfcc-dts"]
+  ) {
     log(`Installing local copy of sfcc-dts`);
 
-    execSync('npm install --save-dev sfcc-dts@latest typescript@latest', { stdio: 'inherit' });
+    execSync("npm install --save-dev sfcc-dts@latest typescript@latest", {
+      stdio: "inherit",
+    });
   }
 
-  if ((packagejson.dependencies && packagejson.dependencies['dw-api']) || (packagejson.devDependencies && packagejson.devDependencies['dw-api'])) {
+  if (
+    (packagejson.dependencies && packagejson.dependencies["dw-api"]) ||
+    (packagejson.devDependencies && packagejson.devDependencies["dw-api"])
+  ) {
     log(`Uninstalling dw-api`);
-    execSync('npm uninstall --save dw-api', { stdio: 'inherit' });
+    execSync("npm uninstall --save dw-api", { stdio: "inherit" });
   }
 
-  if (!fs.existsSync('@types')) {
+  if (!fs.existsSync("@types")) {
     log(`Creating @types folder`);
-    fs.mkdirSync('@types');
+    fs.mkdirSync("@types");
   }
-  if (!fs.existsSync('@types/dw')) {
+  if (!fs.existsSync("@types/dw")) {
     log(`Creating @types/dw folder`);
-    fs.mkdirSync(path.join('@types', 'dw'));
+    fs.mkdirSync(path.join("@types", "dw"));
   }
 
   log(`Generating definitions for custom attributes`);
@@ -136,16 +182,16 @@ import { generateCustomTypes } from './customtypes';
   }
 
   log(`Write @types/dw/index.d.ts`);
-  let references = '/// <reference path="../../node_modules/sfcc-dts/@types/sfcc/index.d.ts" />\n';
+  let references =
+    '/// <reference path="../../node_modules/sfcc-dts/@types/sfcc/index.d.ts" />\n';
   if (extensions) {
     references += '/// <reference path="./attrs.d.ts" />\n';
-  }
-  else {
-    references += '/// <reference path="../../node_modules/sfcc-dts/@types/sfcc/attrs.d.ts" />\n';
+  } else {
+    references +=
+      '/// <reference path="../../node_modules/sfcc-dts/@types/sfcc/attrs.d.ts" />\n';
   }
 
-  fs.writeFileSync(path.join('@types/dw', 'index.d.ts'), references);
+  fs.writeFileSync(path.join("@types/dw", "index.d.ts"), references);
 
   log(`\nDone!`);
-
 })();

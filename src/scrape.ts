@@ -80,8 +80,8 @@ const finish = (api: any) => {
         interfaces: apiInterfaces,
       },
       null,
-      2
-    )
+      2,
+    ),
   );
 };
 
@@ -89,7 +89,7 @@ const mapDetail = ($: CheerioAPI, el: any) => {
   let detailSignature = $(el).find(".detailSignature").text().trim();
   let parsedPropertyText =
     /^(?:\n|\s)*(static)?(?:public[\s\t])?(?:\n|\s)*([^\s\t]+)\(([^\)]*)\)(?:\n|\t|\s|:)*([^\s\t]+)?/.exec(
-      detailSignature
+      detailSignature,
     );
   if (!parsedPropertyText) {
     console.log("cannot parse " + detailSignature);
@@ -102,7 +102,7 @@ const mapDetail = ($: CheerioAPI, el: any) => {
     .find(".parameters")
     .filter(
       (i: number, el: any) =>
-        $(el).find(".parameterTitle").text().indexOf("Returns:") >= 0
+        $(el).find(".parameterTitle").text().indexOf("Returns:") >= 0,
     )
     .find(".parameterDesc")
     .text()
@@ -111,7 +111,7 @@ const mapDetail = ($: CheerioAPI, el: any) => {
     .find(".parameters")
     .filter(
       (i: number, el: any) =>
-        $(el).find(".parameterTitle").text().indexOf("Parameters:") >= 0
+        $(el).find(".parameterTitle").text().indexOf("Parameters:") >= 0,
     )
     .find(".parameterDetail");
   return {
@@ -128,7 +128,7 @@ const mapDetail = ($: CheerioAPI, el: any) => {
           description: paramsDoc
             .filter(
               (i: number, el: any) =>
-                $(el).find(".parameterName").text().trim() == argName
+                $(el).find(".parameterName").text().trim() == argName,
             )
             .find(".parameterDesc")
             .text()
@@ -174,7 +174,7 @@ const mapDetail = ($: CheerioAPI, el: any) => {
       let classPage = await instance.get(baseUrl + classLink);
       let $ = load(classPage.data);
       let deprecated = $(".classSumary .parameters .parameterTitle").filter(
-        (i: number, el: any) => $(el).text().indexOf("Deprecated") >= 0
+        (i: number, el: any) => $(el).text().indexOf("Deprecated") >= 0,
       );
       let $class = $("div[id^=class_]");
 
@@ -197,13 +197,13 @@ const mapDetail = ($: CheerioAPI, el: any) => {
             $(".section")
               .filter(
                 (i: number, el: any) =>
-                  $(el).find(".header").text().indexOf("Method Detail") >= 0
+                  $(el).find(".header").text().indexOf("Method Detail") >= 0,
               )
               .find(".detailItem")
               .map((i: number, el: any) => {
                 return mapDetail($, el);
               })
-              .get()
+              .get(),
           );
 
           classes[className] = {
@@ -220,7 +220,7 @@ const mapDetail = ($: CheerioAPI, el: any) => {
               $(".section")
                 .filter(
                   (i: number, el: any) =>
-                    $(el).find(".header").text().trim() === "Constants"
+                    $(el).find(".header").text().trim() === "Constants",
                 )
                 .find(".summaryItem")
                 .map((i: number, el: any) => {
@@ -231,7 +231,7 @@ const mapDetail = ($: CheerioAPI, el: any) => {
                     .trim();
                   let parsedPropertyText =
                     /^(\n|\s)*([^\s\t]+)(\n|\t|\s|:)*([^\s\t]+)(\n|\t|\s)*(=(\n|\t|\s)*(("[^"]+")|([^\s\t\n]+)))?/.exec(
-                      propertyText
+                      propertyText,
                     );
                   return {
                     name: parsedPropertyText[2].trim(),
@@ -249,13 +249,13 @@ const mapDetail = ($: CheerioAPI, el: any) => {
                     type: "constant",
                   };
                 })
-                .get()
+                .get(),
             ),
             properties: arrayToObj(
               $(".section")
                 .filter(
                   (i: number, el: any) =>
-                    $(el).find(".header").text().trim() === "Properties"
+                    $(el).find(".header").text().trim() === "Properties",
                 )
                 .find(".summaryItem")
                 .map((i: number, el: any) => {
@@ -268,7 +268,7 @@ const mapDetail = ($: CheerioAPI, el: any) => {
 
                   let parsedPropertyText =
                     /^(\n|\s)*(static)?(\n|\s)*([^\s\t]+)(\n|\t|\s|:)*([^\s\t]+)/.exec(
-                      propertyText
+                      propertyText,
                     );
 
                   let name = parsedPropertyText[4].trim();
@@ -297,7 +297,7 @@ const mapDetail = ($: CheerioAPI, el: any) => {
                     type: "property",
                   };
                 })
-                .get()
+                .get(),
             ),
             constructors: arrayToObj(
               $(".section")
@@ -311,13 +311,13 @@ const mapDetail = ($: CheerioAPI, el: any) => {
                       .find(".summaryItem")
                       .eq(0)
                       .text()
-                      .indexOf("This class does not have a constructor") < 0
+                      .indexOf("This class does not have a constructor") < 0,
                 )
                 .find(".detailItem")
                 .map((i: number, el: any) => {
                   return mapDetail($, el);
                 })
-                .get()
+                .get(),
             ),
             methods: methods,
           };

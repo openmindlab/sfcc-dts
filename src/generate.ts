@@ -16,7 +16,7 @@ import propertiesReader from "properties-reader";
 const basePathGenerated = path.join(process.cwd(), "./@types", "sfcc");
 const sfccApi: any = jsonmergepatch.apply(
   JSON.parse(fs.readFileSync("./api/sfcc-api.json", "utf8")),
-  JSON.parse(fs.readFileSync("./api/patches.json", "utf8"))
+  JSON.parse(fs.readFileSync("./api/patches.json", "utf8")),
 );
 
 var genericsremap = propertiesReader("./api/generics.properties");
@@ -195,7 +195,7 @@ const generateExportFileForClass = (theClass: ClassDef) => {
 
   var foldersPath = path.join.apply(
     null,
-    [].concat(basePathGenerated, packageTokens)
+    [].concat(basePathGenerated, packageTokens),
   );
 
   fs.mkdirSync(foldersPath, {
@@ -209,14 +209,14 @@ const generateExportFileForClass = (theClass: ClassDef) => {
       packageTokens.length == 0 ? "./" : packageTokens.map(() => "../").join("")
     }index.d.ts" />\nexport = ${theClass.fullClassName.replace(
       "TopLevel.",
-      ""
-    )};`
+      "",
+    )};`,
   );
 };
 
 const generateCodeForClass = (
   theClass: ClassDef,
-  customAttrTypes: Set<CustomAttr>
+  customAttrTypes: Set<CustomAttr>,
 ) => {
   var source = "";
   var packageTokens = theClass.fullClassName.split(".");
@@ -261,7 +261,7 @@ const generateCodeForClass = (
         theClass.hierarchy.find(
           (h: any) =>
             h.name === "dw.object.ExtensibleObject" ||
-            h.name === "dw.object.Extensible"
+            h.name === "dw.object.Extensible",
         )
       ) {
         // extends an extensible class, eg. ProductLineItem -> LineItem -> ExtensibleObject
@@ -307,13 +307,13 @@ const generateCodeForClass = (
         }${!constant.value ? ": " + sanitizeType(constant.class.name, constant.class.generics, isGeneric && !isStatic) : ""}${
           constant.value ? " = " + sanitizeValue(constant) : ""
         };\n`,
-      ""
+      "",
     );
   source += "\n";
 
   let properties: PropertyDef[] = Object.values(theClass.properties);
   properties = properties.filter(
-    (prop) => !constants.find((co) => co.name == prop.name)
+    (prop) => !constants.find((co) => co.name == prop.name),
   ); // properties my duplicate constants
   source += properties
     .filter(filterProperties(className))
@@ -322,7 +322,7 @@ const generateCodeForClass = (
       let returnType = sanitizeType(
         property.class.name,
         property.class.generics,
-        isGeneric && !property.static
+        isGeneric && !property.static,
       );
 
       if (!isGeneric) {
@@ -352,7 +352,7 @@ const generateCodeForClass = (
         `${constructorSource}${doc(constructor)}constructor(${constructor.args
           .map((m: any) => formatArgument(m, isGeneric))
           .join(", ")});\n`,
-      ""
+      "",
     );
     if (Object.keys(theClass.constructors).length === 0 && !isGlobal) {
       source += "private constructor();\n";
@@ -368,7 +368,7 @@ const generateCodeForClass = (
       let returnType = sanitizeType(
         method.class.name,
         method.class.generics,
-        isGeneric
+        isGeneric,
       );
 
       if (!isGeneric) {
@@ -442,7 +442,7 @@ declare class ${i.name}CustomAttributes ${i.extends ? "extends " + i.extends.sub
    * Returns the custom attribute with this name. Throws an exception if attribute is not defined
    */
   [name: string]: any;
-}`
+}`,
   )
   .join("\n");
 
@@ -468,7 +468,7 @@ declare class ${i.name}CustomAttributes ${i.extends ? "extends " + i.extends.sub
     path.join(basePathGenerated, "attrs.txt"),
     Array.from(new Set(Array.from(customAttrTypes).map((cu) => cu.name)))
       .sort()
-      .join("\n")
+      .join("\n"),
   );
 })();
 

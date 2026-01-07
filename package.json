@@ -52,6 +52,7 @@
     "build": "tsc",
     "postversion": "git push && git push --tags",
     "prepare": "npm run build",
+    "format": "prettier --write \"src/**/*.{ts,js}\"",
     "scrape": "node dist/scrape.js",
     "generate": "node dist/generate.js",
     "makepatch": "node dist/makepatch.js",
